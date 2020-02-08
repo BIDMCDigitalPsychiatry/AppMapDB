@@ -10,7 +10,7 @@ const Content = () => {
     <DialogContent>
       <Typography variant='h6'>Welcome!</Typography>
       <Typography variant='body2' style={{ marginTop: 8 }}>
-        If you need help getting started, please take a minute to review the video below.
+        If you need help getting started, please take a minute to review the video below:
       </Typography>
 
       <div style={{ marginTop: 16 }}>

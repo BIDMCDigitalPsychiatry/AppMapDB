@@ -9,70 +9,29 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import { ViewModeButton } from '../ApplicationsList/table';
 import * as FilterDialog from '../../GenericDialog/Filter';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
+import Application, { Costs, Platforms, Functionalities, Features } from '../../../../database/models/Application';
 
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
 
-export const CenterRadio = () => center(<Icons.RadioButtonChecked color='action' fontSize='small' />);
-
-const Radios = () => {
-  return (
-    <Grid container>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-    </Grid>
-  );
+export const CenterRadio = ({ checked = false }) => {
+  const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;
+  return center(<Icon color='action' fontSize='small' />);
 };
 
-const Radios2 = () => {
-  return (
-    <Grid container>
-      <Grid item xs>
-        <CenterRadio />
+const buildRadios = (items, values, paddingRight = undefined) => (
+  <Grid container style={{ paddingRight }}>
+    {items.map((i, index) => (
+      <Grid item xs key={index}>
+        <CenterRadio checked={values.includes(i)} />
       </Grid>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
+    ))}
+  </Grid>
+);
 
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-    </Grid>
-  );
-};
-
-const Radios3 = () => {
-  return (
-    <Grid container>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-      <Grid item xs>
-        <CenterRadio />
-      </Grid>
-    </Grid>
-  );
-};
+const PlatformRadios = ({ platforms = [] }: Application) => buildRadios(Platforms, platforms);
+const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadios(Functionalities, functionalities);
+const CostRadios = ({ costs = [] }) => buildRadios(Costs, costs);
+const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
 
 const AppColumn = ({ name, company }) => {
   return (
@@ -84,14 +43,14 @@ const AppColumn = ({ name, company }) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs>
+      <Grid item zeroMinWidth xs>
         <Grid container style={{ padding: 4 }}>
           <Grid item xs={12}>
             <Typography noWrap variant='caption' color='textPrimary'>
               {name}
             </Typography>
           </Grid>
-          <Grid item xs={12} style={{ paddingLeft: 4 }}>
+          <Grid item xs style={{ paddingLeft: 4 }}>
             <Typography noWrap variant='caption' color='textSecondary'>
               by {company}
             </Typography>
@@ -106,10 +65,31 @@ const name = 'Applications';
 const defaultProps: GenericTableContainerProps = {
   name,
   columns: [
-    { name: 'app', header: 'Application', minWidth: 180, Cell: AppColumn },
+    { name: 'app', header: 'Application', minWidth: 300, Cell: AppColumn },
+    {
+      name: 'platforms',
+      width: 140,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Platforms
+              </Grid>
+            </Grid>
+            {Platforms.map(t => (
+              <Grid item xs key={t}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: PlatformRadios
+    },
     {
       name: 'functionality',
-      minWidth: 270,
+      width: 140,
       header: (
         <>
           <Grid container>
@@ -118,7 +98,7 @@ const defaultProps: GenericTableContainerProps = {
                 Functionality
               </Grid>
             </Grid>
-            {['iOS', 'Android', 'Offline', 'Accessibility'].map(t => (
+            {Functionalities.map(t => (
               <Grid item xs key={t}>
                 {center(t)}
               </Grid>
@@ -126,11 +106,11 @@ const defaultProps: GenericTableContainerProps = {
           </Grid>
         </>
       ),
-      Cell: Radios
+      Cell: FunctionalityRadios
     },
     {
       name: 'cost',
-      minWidth: 300,
+      width: 370,
       header: (
         <>
           <Grid container>
@@ -139,7 +119,7 @@ const defaultProps: GenericTableContainerProps = {
                 Cost
               </Grid>
             </Grid>
-            {['Totally Free', 'In-App Purchases', 'Subscription'].map(t => (
+            {Costs.map(t => (
               <Grid item xs key={t}>
                 {center(t)}
               </Grid>
@@ -147,20 +127,20 @@ const defaultProps: GenericTableContainerProps = {
           </Grid>
         </>
       ),
-      Cell: Radios2
+      Cell: CostRadios
     },
     {
       name: 'features',
-      minWidth: 380,
+      width: 830,
       header: (
         <>
-          <Grid container>
+          <Grid container style={{ paddingRight: 16 }}>
             <Grid item xs={12}>
               <Grid container justify='center'>
                 Features
               </Grid>
             </Grid>
-            {['Track Mood', 'Track Meds', 'Jourals', 'Peer Support', 'CBT'].map(t => (
+            {Features.map(t => (
               <Grid item xs key={t}>
                 {center(t)}
               </Grid>
@@ -168,21 +148,8 @@ const defaultProps: GenericTableContainerProps = {
           </Grid>
         </>
       ),
-      Cell: Radios3
+      Cell: FeaturesRadios
     }
-    /*{ name: 'ios', header: 'iOS' },
-    { name: 'android', header: 'Android' },
-    { name: 'offline', header: 'Offline Mode' },
-    { name: 'accessibility', header: 'Accessibility' },
-    { name: 'free', header: 'Free' },
-    { name: 'purchases', header: 'In App Purchases' },
-    { name: 'subscription', header: 'Subscription' },
-    { name: 'trackModd', header: 'Mood' },
-    { name: 'trackMedication', header: 'Medication' },
-    { name: 'journaling', header: 'Journaling' },
-    { name: 'peerSupport', header: 'Peer Support' },
-    { name: 'cbt', header: 'CBT' },
-    */
   ],
   toolbar: true,
   selector: selectors.from_database,

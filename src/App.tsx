@@ -9,12 +9,14 @@ import { persistStore } from 'redux-persist';
 import ViewPort from './components/layout/ViewPort';
 import AppRouter from './components/layout/AppRouter';
 import { theme } from './constants';
+import { asyncSeed } from './database/seed';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
 export const store = configureStore(history, initialState) as any; //Setup the global store object
 export const getState = store.getState;
 export const persistor = persistStore(store); //Setup the global persistor
+(window as any).seed = count => asyncSeed(count);
 
 function AppWrapper(props: any) {
   const { children } = props;
@@ -28,11 +30,6 @@ function AppWrapper(props: any) {
     </Provider>
   );
 }
-
-/**
- *The root application component
- * @function App
- */
 
 function App() {
   return (

@@ -30,7 +30,7 @@ const useStyles = makeStyles(({ shape }: any) =>
   })
 );
 
-export default function OutlinedDiv({ label = '', maxWidth = undefined, margin = undefined, children = undefined }) {
+export default function OutlinedDiv({ label = '', width = undefined, maxWidth = undefined, margin = undefined, children = undefined }) {
   const classes = useStyles({});
   const [labelWidth, setLabelWidth] = React.useState(0);
   const labelRef = React.useRef(null);
@@ -40,7 +40,7 @@ export default function OutlinedDiv({ label = '', maxWidth = undefined, margin =
   }, [label]);
 
   return (
-    <div className={classes.root} style={{ maxWidth, margin }}>
+    <div className={classes.root} style={{ width, maxWidth, margin }}>
       <InputLabel ref={labelRef} htmlFor={label} variant='outlined' className={classes.inputLabel} shrink>
         {label}
       </InputLabel>

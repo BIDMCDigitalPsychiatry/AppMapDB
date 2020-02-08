@@ -131,3 +131,9 @@ export function triggerResize() {
   window.dispatchEvent(new CustomEvent('resize')); //Makes the indicator start animating
   setTimeout(() => window.dispatchEvent(new CustomEvent('resize')), 200); //Ensures the animation resized correctly after the drawer finishes opening/closing
 }
+
+export function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}

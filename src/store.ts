@@ -4,6 +4,7 @@ import dialogReducer from './components/application/GenericDialog/reducers';
 import * as Popover from './components/application/Popover/PopoverStore';
 import * as Selector from './components/application/Selector/SelectorStore';
 import snackBarReducer from './components/application/SnackBar/reducers';
+import databaseReducer from './database/reducers';
 
 // The top-level state object
 export interface AppState {
@@ -14,6 +15,7 @@ export interface AppState {
   selector: any;
   popover: Popover.State;
   snackBar: any;
+  database: any;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
@@ -26,6 +28,7 @@ export const reducers = {
   table: Table.reducer,
   selector: Selector.reducer,
   snackBar: snackBarReducer,
+  database: databaseReducer
 };
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are

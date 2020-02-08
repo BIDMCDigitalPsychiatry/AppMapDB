@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
-import * as selectors from './selectors';
+import * as selectors from '../Applications/selectors';
 import { Grid, Typography } from '@material-ui/core';
 import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
@@ -8,56 +8,110 @@ import { useWidth, useViewMode } from '../../../layout/LayoutStore';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as FilterDialog from '../../GenericDialog/Filter';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
+import Application, { Features, ClinicalFoundations, Costs, Platforms, Privacies } from '../../../../database/models/Application';
+import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 
-function StyledRadio(props) {
-  return <Icons.RadioButtonChecked color='action' fontSize='small' style={{ height: 14 }} />;
+function StyledRadio({ checked = false }) {
+  const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;
+  return <Icon color='action' fontSize='small' style={{ height: 14 }} />;
 }
 
-const AppSummary = ({ name, company }) => {
+const AppSummary = ({ name, company, platforms = [], costs = [], privicies = [], features = [], clincialFoundation }: Application) => {
   return (
-    <Grid container justify='center' alignItems='center' spacing={4}>
-      <Grid item style={{ width: 200 }}>
-        <Grid container justify='center' alignItems='center'>
+    <Grid container justify='space-around' alignItems='center' spacing={2}>
+      <Grid item xs style={{ minWidth: 250 }}>
+        <Grid container justify='center'>
           <Grid item xs={12}>
-            <Typography noWrap variant='h6' align='center' color='textPrimary'>
+            <Typography align='center' variant='h6' color='textPrimary'>
               {name}
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Grid container justify='center' alignItems='center'>
-              <Grid item>
-                <img style={{ height: 132 }} src={logo} alt='logo' />
-              </Grid>
-            </Grid>
+            <Typography align='center' variant='body2' color='textPrimary'>
+              {company}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography align='center'>
+              <img style={{ height: 160 }} src={logo} alt='logo' />
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs>
-        <Grid container spacing={6}>
-          {[
-            { title: 'Platforms', labels: ['Android', 'iOS', 'Web Browser'] },
-            { title: 'Cost', labels: ['Free', 'Free w/in-app purchase', 'Subscription'] },
-            { title: 'Privacy', labels: ['Privacy Policy', 'Can Delete Data', 'Data Stored on Device'] },
-            { title: 'Clinical Foundation', labels: ['Efficacy Studies', 'Feasability Studies'] },
-            {
-              title: 'Features',
-              labels: ['Symptom Tracking', 'Chatbot/AI', 'Journaling', 'CBT', 'Mindfulness', 'Productivity']
-            }
-          ].map(g => (
-            <Grid item key={g.title}>
-              <Typography variant='body1'>{g.title}</Typography>
-              {g.labels.map(label => (
-                <Grid container key={label} spacing={1} style={{ marginLeft: 1 }}>
-                  <Grid item>
-                    <StyledRadio />
-                  </Grid>
-                  <Grid item>
-                    <Typography variant='body2'>{label}</Typography>
-                  </Grid>
+      <Grid item xs={9}>
+        <Grid container justify='center'>
+          <Grid item xs={3}>
+            <Grid container>
+              {[
+                { title: 'Platforms', items: Platforms, values: platforms },
+                { title: 'Cost', items: Costs, values: costs }
+              ].map(g => (
+                <Grid item xs={12} key={g.title}>
+                  <OutlinedDiv width={180} label={g.title}>
+                    {(g.items as []).map(item => (
+                      <Grid container key={item} spacing={1} style={{ marginLeft: 1 }}>
+                        <Grid item>
+                          <StyledRadio checked={g.values.includes(item)} />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant='body2'>{item}</Typography>
+                        </Grid>
+                      </Grid>
+                    ))}
+                  </OutlinedDiv>
                 </Grid>
               ))}
             </Grid>
-          ))}
+          </Grid>
+          <Grid item xs={3}>
+            <Grid container>
+              {[
+                {
+                  title: 'Features',
+                  items: Features,
+                  values: features
+                }
+              ].map(g => (
+                <Grid item key={g.title}>
+                  <OutlinedDiv width={180} label={g.title}>
+                    {(g.items as []).map(item => (
+                      <Grid container key={item} spacing={1} style={{ marginLeft: 1 }}>
+                        <Grid item>
+                          <StyledRadio checked={g.values.includes(item)} />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant='body2'>{item}</Typography>
+                        </Grid>
+                      </Grid>
+                    ))}
+                  </OutlinedDiv>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid item xs={3}>
+            <Grid container>
+              {[
+                { title: 'Privacy', items: Privacies, values: privicies },
+                { title: 'Clinical Foundation', items: ClinicalFoundations, values: [clincialFoundation] }
+              ].map(g => (
+                <Grid item xs={12} key={g.title}>
+                  <OutlinedDiv width={220} label={g.title}>
+                    {(g.items as []).map(item => (
+                      <Grid container key={item} spacing={1} style={{ marginLeft: 1 }}>
+                        <Grid item>
+                          <StyledRadio checked={g.values.includes(item)} />
+                        </Grid>
+                        <Grid item>
+                          <Typography variant='body2'>{item}</Typography>
+                        </Grid>
+                      </Grid>
+                    ))}
+                  </OutlinedDiv>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
@@ -67,13 +121,7 @@ const AppSummary = ({ name, company }) => {
 export const ViewModeButton = ({ mode = 'list' }) => {
   const [, setViewMode] = useViewMode() as any;
   const handleClick = React.useCallback(() => setViewMode(mode === 'list' ? 'table' : 'list'), [mode, setViewMode]);
-  return (
-    <DialogButton
-      Icon={mode === 'list' ? Icons.List : Icons.ViewList}
-      tooltip={`Switch to ${mode === 'list' ? 'Table' : 'List'} View`}
-      onClick={handleClick}
-    />
-  );
+  return <DialogButton Icon={mode === 'list' ? Icons.List : Icons.ViewList} tooltip={`Switch to ${mode === 'list' ? 'Table' : 'List'} View`} onClick={handleClick} />;
 };
 
 const name = 'Applications';
@@ -86,7 +134,7 @@ const defaultProps: GenericTableContainerProps = {
   search: true,
   includeHeaders: false,
   fixedRowCount: 0,
-  rowHeight: 200,
+  rowHeight: 280,
   buttons: [
     <DialogButton Module={FilterDialog} Icon={Icons.FilterList} tooltip='Filter' />,
     <ViewModeButton />,

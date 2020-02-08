@@ -3,6 +3,7 @@ import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../actions';
 import MultiChip from '../../DialogField/MultiChip';
 import Select from '../../DialogField/Select';
+import { Costs, Platforms, Features, Conditions, ClinicalFoundations, Privacies } from '../../../../database/models/Application';
 
 export const title = 'Filters';
 
@@ -35,41 +36,22 @@ export default function FilterDialog({ id = title, onClose, ...other }) {
         {
           id: 'Features',
           Field: MultiChip,
-          items: [
-            'Symptom Tracking',
-            'Chatbot/AI',
-            'Assessments/Screenings',
-            'CBT',
-            'Mindfulness',
-            'Journaling',
-            'Productivity',
-            'Peer Support',
-            'Physical Health'
-          ].map(label => ({ value: label, label }))
+          items: Features.map(label => ({ value: label, label }))
         },
         {
           id: 'Conditions',
           Field: MultiChip,
-          items: [
-            'Mood Disorders',
-            'Stress & Anxiety',
-            'Sleep',
-            'Phobias',
-            'OCD',
-            'Schizophrenia',
-            'Eating Disorders',
-            'Personality Disorders'
-          ].map(label => ({ value: label, label }))
+          items: Conditions.map(label => ({ value: label, label }))
         },
         {
           id: 'Platforms',
           Field: MultiChip,
-          items: ['Android', 'iOS', 'Web Browser'].map(label => ({ value: label, label }))
+          items: Platforms.map(label => ({ value: label, label }))
         },
         {
           id: 'Cost',
           Field: MultiChip,
-          items: ['Free', 'Free w/in-app purchase', 'Payment'].map(label => ({ value: label, label }))
+          items: Costs.map(label => ({ value: label, label }))
         },
         {
           xs: 5
@@ -78,7 +60,7 @@ export default function FilterDialog({ id = title, onClose, ...other }) {
           id: 'Clinical Foundation',
           Field: Select,
           xs: 7,
-          items: ['All', 'Supporting Studies', 'No Supporting Studies'].map(label => ({ value: label, label })),
+          items: ClinicalFoundations.map(label => ({ value: label, label })),
           initialValue: 'All'
         },
         {
@@ -88,7 +70,7 @@ export default function FilterDialog({ id = title, onClose, ...other }) {
           id: 'Privacy',
           Field: Select,
           xs: 7,
-          items: ['All', 'Has Privacy Policy', 'No Privacy Policy'].map(label => ({ value: label, label })),
+          items: Privacies.map(label => ({ value: label, label })),
           initialValue: 'All'
         }
       ]}

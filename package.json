@@ -34,7 +34,8 @@
     "react-scripts": "3.3.1",
     "redux-persist": "6.0.0",
     "redux-thunk": "2.3.0",
-    "typescript": "3.7.5"
+    "typescript": "3.7.5",
+    "nano": "8.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -46,7 +47,7 @@
     "extends": "react-app"
   },
   "prettier": {
-    "printWidth": 120,
+    "printWidth": 180,
     "tabWidth": 2,
     "tabs": false,
     "semi": true,
