@@ -1,7 +1,6 @@
 import * as Layout from './components/layout/LayoutStore';
 import * as Table from './components/application/GenericTable/TableStore';
 import dialogReducer from './components/application/GenericDialog/reducers';
-import * as Popover from './components/application/Popover/PopoverStore';
 import * as Selector from './components/application/Selector/SelectorStore';
 import snackBarReducer from './components/application/SnackBar/reducers';
 import databaseReducer from './database/reducers';
@@ -13,7 +12,6 @@ export interface AppState {
   dialog: any;
   table: Table.State;
   selector: any;
-  popover: Popover.State;
   snackBar: any;
   database: any;
 }
@@ -24,7 +22,6 @@ export interface AppState {
 export const reducers = {
   layout: Layout.reducer,
   dialog: dialogReducer,
-  popover: Popover.reducer,
   table: Table.reducer,
   selector: Selector.reducer,
   snackBar: snackBarReducer,

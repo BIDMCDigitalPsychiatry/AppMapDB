@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Reducer } from 'redux';
-import { spread } from '../../../helpers';
+import { spread, evalFunc } from '../../../helpers';
 import { AppState, AppThunkAction } from '../../../store';
 import { SortComparator } from './tablehelpers';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,7 @@ export interface Table {
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
   sortComparator?: SortComparator;
+  filters?: [];
 }
 
 export interface IRehydrate {
@@ -34,12 +35,33 @@ export const useTableUpdate = () => {
   return React.useCallback((t: Table) => dispatch(actionCreators.ATableUpdate(t)), [dispatch]);
 };
 
+export const useTableFilterUpdate = () => {
+  const dispatch = useDispatch();
+  return React.useCallback((id, filters) => dispatch(actionCreators.ATableFilterUpdate(id, filters)), [dispatch]);
+};
+
 export const useTable = name => useSelector((state: AppState) => state.table[name] || {});
+
+export function useTableFilterValues(name): any {
+  const { filters: values = {} } = useTable(name);
+  const tableFilterUpdate = useTableFilterUpdate();
+  const setValues = React.useCallback(
+    values => {
+      tableFilterUpdate(name, values);
+    },
+    [name, tableFilterUpdate]
+  );
+  return [values, setValues];
+}
 
 export const actionCreators = {
   ATableUpdate: (table: Table): AppThunkAction<KnownAction> => (dispatch, getState) => {
     dispatch({ type: 'TABLE_UPDATE', table });
   },
+  ATableFilterUpdate: (id: string, filters): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    var state = getState();
+    dispatch({ type: 'TABLE_UPDATE', table: { id, filters: evalFunc(filters, (state.table[id] || {}).filters || {}) } });
+  }
 };
 
 function setDefaults(state: State, tables: Table[]): State {
@@ -57,7 +79,7 @@ function updateState(state: State, table: Table) {
     //If table already exists, keep any other existing props
     newState[table.id] = {
       ...state[table.id],
-      ...table,
+      ...table
     };
   }
   return newState;

@@ -55,17 +55,7 @@ export const isDisabled = (f, values) => (typeof f.disabled === 'function' ? f.d
 export const isActive = ({ active }, values) => (typeof active === 'function' ? active(values) : active); //Active fields are hidden, but can be shown via other options changing in the dialog
 export const isHidden = ({ hidden }, values) => (typeof hidden === 'function' ? hidden(values) : hidden); //Hidden fields are hidden for the current dialog state, and can't be shown via other options
 
-export const bindField = ({
-  f,
-  values,
-  initialValues,
-  errors,
-  touched,
-  handleChange,
-  handleBlur,
-  submitting,
-  showErrors = false,
-}) => {
+export const bindField = ({ f, values, initialValues, errors, touched, handleChange, handleBlur, submitting, showErrors = false }) => {
   const { required, type, autoFocus, InputProps, min, max, tab, multiline, rows, getProps } = f; // Only pass necessary props to field
   const props = {
     autoFocus,
@@ -85,7 +75,7 @@ export const bindField = ({
     tab,
     multiline,
     rows,
-    ...(getProps && getProps(values)), // Allows the field to hook into the internal state values if needed
+    ...(getProps && getProps(values)) // Allows the field to hook into the internal state values if needed
   };
   Object.keys(props).forEach(key => props[key] === undefined && delete props[key]); // Filter out any undefined props so they don't override any previously specified values
   return props;
@@ -114,31 +104,51 @@ export const getDefaultValues = fields => {
       setMappedValue({
         field,
         value: field.initialValue,
-        prev: defaultValues,
+        prev: defaultValues
       });
   });
   return defaultValues;
 };
 
-export const useValues = ({ open, fields = [], InitialValues = {}, state = {} as any, setState, validate }) => {
+export const useValues = ({
+  open,
+  fields = [],
+  InitialValues = {},
+  state = {} as any,
+  setState,
+  validate,
+  externalValues = undefined, // Use with externalSetValues, for having an external state, such as redux
+  externalSetValues = undefined, //Use with externalValues, for having an external state, such as redux
+  onChange = undefined
+}) => {
   const { initialValues = {}, submitting, showErrors } = state;
   const defaultValues = getDefaultValues(fields); // Get any default values from the individual fields first
   var mergedInitialValues = merge(defaultValues, InitialValues); // Merge with any incoming initialValues from the properties
   mergedInitialValues = merge(mergedInitialValues, initialValues); // Merge any initial values from the external dialog state
-  const [values, setValues] = React.useState(mergedInitialValues);
+  const [internalValues, setInternalValues] = React.useState(mergedInitialValues);
+  const values = externalValues ? externalValues : internalValues;
+
+  const setValues = React.useCallback(
+    vals => {
+      externalSetValues ? externalSetValues(vals) : setInternalValues(vals);
+      onChange && onChange(vals);
+    },
+    [externalSetValues, setInternalValues, onChange]
+  );
+
   const [touched, setTouched] = React.useState({});
 
   const mergedInitialValuesStr = JSON.stringify(mergedInitialValues); // Use a string since the object references will change everytime
   const initializeValues = React.useCallback(() => {
     setTouched({});
     setValues(JSON.parse(mergedInitialValuesStr));
-  }, [mergedInitialValuesStr]);
+  }, [setValues, mergedInitialValuesStr]);
 
   React.useEffect(() => {
     // Re-initialize values when necessary
     open && setValues(JSON.parse(mergedInitialValuesStr));
     open && setTouched({});
-  }, [open, mergedInitialValuesStr]);
+  }, [open, mergedInitialValuesStr, setValues]);
 
   const internalErrors = open ? handleValidation({ values, fields, errors: state.errors }) : {}; // Perform standard field validations, required, email, etc
   const externalErrors = open && validate ? validate(values, state) : {}; // Add any external validations if specified
@@ -163,7 +173,7 @@ export const useValues = ({ open, fields = [], InitialValues = {}, state = {} as
       handleChange,
       handleBlur,
       submitting,
-      showErrors,
+      showErrors
     });
 
   return {
@@ -176,7 +186,7 @@ export const useValues = ({ open, fields = [], InitialValues = {}, state = {} as
     handleChange,
     handleBlur,
     mapField,
-    initializeValues,
+    initializeValues
   };
 };
 

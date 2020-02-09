@@ -30,52 +30,52 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
     button: {
       width: '100%',
-      maxWidth: '200px',
+      maxWidth: '200px'
     },
     dialog: {
       display: 'flex',
       flexDirection: 'column',
       outline: 'none',
-      border: `5px solid ${palette.primary}`,
+      border: `5px solid ${palette.primary}`
     },
     dialogHeader: {
-      background: palette.grey[100],
+      background: palette.grey[100]
     },
     capitalize: {
-      textTransform: 'capitalize',
+      textTransform: 'capitalize'
     },
-    dialogContent: {
-      padding: spacing(2),
+    content: {
+      padding: spacing(2)
     },
-    dialogActions: {
+    actions: {
       margin: 0,
       padding: spacing(1),
       paddingTop: spacing(0.5),
-      paddingBottom: spacing(0.5),
+      paddingBottom: spacing(0.5)
     },
-    dialogTitle: {
+    title: {
       background: palette.primary.main,
       color: palette.common.white,
       margin: 0,
       padding: 0,
       paddingLeft: spacing(2),
-      paddingRight: spacing(1),
+      paddingRight: spacing(1)
     },
     closeButton: {
-      color: 'inherit',
+      color: 'inherit'
     },
     deleteButton: {
       color: palette.common.white,
       background: palette.error.main,
       '&:hover': {
-        background: palette.error.dark,
-      },
+        background: palette.error.dark
+      }
     },
     deleteButtonEmpty: {
-      color: palette.error.main,
+      color: palette.error.main
     },
     formControl: {
-      marginTop: 8,
+      marginTop: 8
     },
     submitProgress: {
       color: palette.primary.light,
@@ -83,8 +83,8 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       top: '50%',
       left: '50%',
       marginTop: -(layout.progressSize / 2),
-      marginLeft: -(layout.progressSize / 2),
-    },
+      marginLeft: -(layout.progressSize / 2)
+    }
   })
 );
 
@@ -145,7 +145,7 @@ const GenericDialog = ({
     InitialValues,
     state,
     setState,
-    validate,
+    validate
   });
 
   React.useEffect(() => {
@@ -173,7 +173,7 @@ const GenericDialog = ({
   const contentProps = {
     fields,
     mapField,
-    values,
+    values
   };
 
   const inProgress = loading || submitting;
@@ -195,7 +195,7 @@ const GenericDialog = ({
     >
       {title !== null && (
         <>
-          <DialogTitle id={`${id}-dialog-title`} disableTypography className={classes.dialogTitle}>
+          <DialogTitle id={`${id}-dialog-title`} disableTypography className={classes.title}>
             <Grid container justify='space-between' alignItems='center'>
               <Grid item>
                 <Typography variant='h6' className={classes.capitalize}>
@@ -223,7 +223,7 @@ const GenericDialog = ({
           ) : Content ? (
             <Content {...contentProps} />
           ) : (
-            <DialogContent className={classes.dialogContent} dividers>
+            <DialogContent className={classes.content} dividers>
               {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
               <Collapse in={!confirmDelete}>
                 <Grid container alignItems='center' spacing={1}>
@@ -250,7 +250,7 @@ const GenericDialog = ({
         </>
       </ErrorGate>
       {!confirmDelete && (
-        <DialogActions className={classes.dialogActions}>
+        <DialogActions className={classes.actions}>
           {type === 'Edit' && onDelete !== undefined && (
             <Button disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
               {deleteLabel}

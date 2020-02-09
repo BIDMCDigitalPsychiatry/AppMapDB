@@ -5,8 +5,8 @@ import { Grid, Typography } from '@material-ui/core';
 import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
 import { useWidth, useViewMode } from '../../../layout/LayoutStore';
-import DialogButton from '../../GenericDialog/DialogButton';
-import * as FilterDialog from '../../GenericDialog/Filter';
+import DialogButton, { TableFilterDialogButton } from '../../GenericDialog/DialogButton';
+import * as FilterPopover from '../../GenericPopover/Filter';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
 import Application, { Features, ClinicalFoundations, Costs, Platforms, Privacies } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
@@ -136,7 +136,7 @@ const defaultProps: GenericTableContainerProps = {
   fixedRowCount: 0,
   rowHeight: 280,
   buttons: [
-    <DialogButton Module={FilterDialog} Icon={Icons.FilterList} tooltip='Filter' />,
+    <TableFilterDialogButton Module={FilterPopover} table={name} />,
     <ViewModeButton />,
     <DialogButton Module={GettingStartedDialog} Icon={Icons.Help} tooltip='Help Getting Started' />
   ]

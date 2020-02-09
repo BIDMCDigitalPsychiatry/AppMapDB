@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Grid from '@material-ui/core/Grid';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TableToolbar, { TableToolbarProps } from './TableToolbar';
 import { GenericTableProps } from './GenericTable';
 import TableTabSelector from './TableTabSelector';
-import IconButtonPopover from './IconButtonPopover';
 import { Paper, CircularProgress, useTheme } from '@material-ui/core';
 import { evalFunc } from '../../../helpers';
 import { useHeight, useAppBarHeight } from '../../layout/LayoutStore';
@@ -29,36 +27,9 @@ export interface GenericTableContainerProps extends TabSelectorProps, GenericTab
   back?: boolean;
   domainData?: boolean;
   domainLogs?: boolean;
-  rowactions?: any;
   dialogs?: any[];
   showScroll?: boolean;
 }
-
-const rowActionPopoverName = 'RowActionPopover'; //Name for the popover, used by cellRowActions and withComponentPopover
-
-const cellRowActions = (r: any, c: any) => {
-  const rowData = r && r.getRowData ? r.getRowData(r) : r; //Filter the row data if we specified a filter function. Be sure not to pass row data that is too large as this gets added to the redux store.  Be sure not to pass elements
-  if (r && !r.getRowData) {
-    console.error(
-      'This table uses a row action and does not have a getRowData function.  The entire row data is being passed.  This can be problematic as this data is stored in the redux store and can result in very large states.  Please ensure to write an appropriate getRowData function to filter the data as needed.'
-    );
-  }
-  return (
-    <IconButtonPopover
-      icon={<MoreVertIcon />}
-      tooltip='Actions'
-      name={rowActionPopoverName}
-      popoverProps={{ rowData: rowData }}
-    />
-  );
-};
-
-const addRowActionsColumn = (columns: any) => {
-  if (!columns.find(c => c.name === 'Actions')) {
-    columns = [...columns, { name: 'Actions', renderCell: cellRowActions, width: 88 }];
-  }
-  return columns;
-};
 
 const injectValues = (Component, { getValues }) => <Component {...getValues()} />;
 
@@ -74,7 +45,6 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     search,
     tabs,
     columns: Columns,
-    rowactions,
     renderIcon,
     showicon = false,
     loading,
@@ -87,7 +57,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
   const { layout } = useTheme();
   const layoutHeight = useHeight();
   const height = Height ? Height : layoutHeight;
-  const columns = rowactions ? addRowActionsColumn(evalFunc(Columns, props)) : evalFunc(Columns, props);
+  const columns = evalFunc(Columns, props);
 
   const applyCellRenderers = (columns: any) => {
     columns &&
@@ -149,14 +119,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
 
   const spinner = (
     <Paper elevation={0} style={{ height: calculatedheight }}>
-      <Grid
-        container
-        style={{ height: calculatedheight }}
-        direction='column'
-        alignItems='center'
-        justify='center'
-        spacing={0}
-      >
+      <Grid container style={{ height: calculatedheight }} direction='column' alignItems='center' justify='center' spacing={0}>
         <Grid item>
           <CircularProgress color='primary' size={calculatedheight / 6} thickness={3} />
         </Grid>
@@ -166,17 +129,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
 
   const table = (
     <React.Suspense fallback={spinner}>
-      {loading ? (
-        spinner
-      ) : (
-        <GenericTable
-          name={name}
-          height={calculatedheight}
-          columns={columns}
-          placeholder={!buttons && ' '}
-          {...tableProps}
-        />
-      )}
+      {loading ? spinner : <GenericTable name={name} height={calculatedheight} columns={columns} placeholder={!buttons && ' '} {...tableProps} />}
     </React.Suspense>
   );
 

@@ -2,7 +2,7 @@ import Application, { Costs, Privacies, ClinicalFoundations, Features, Functiona
 import { randomInt } from '../helpers';
 import { db } from './dbConfig';
 
-// Returns a random entry from an array.  If multiple is set to true, return an an array with a random number of ranom elements
+// Returns a random entry from an array.  If multiple is set to true, return an an array with a random number of random elements
 const getRandom = (array = [], multiple = false, min = 1) =>
   !multiple ? array[randomInt(0, array.length - 1)] : Array.from({ length: randomInt(min, array.length) }, () => getRandom(array));
 

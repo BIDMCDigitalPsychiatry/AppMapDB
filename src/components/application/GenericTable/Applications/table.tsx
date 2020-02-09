@@ -5,12 +5,13 @@ import { Grid, Typography } from '@material-ui/core';
 import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
 import { useWidth } from '../../../layout/LayoutStore';
-import DialogButton from '../../GenericDialog/DialogButton';
+import DialogButton, { TableFilterDialogButton } from '../../GenericDialog/DialogButton';
 import { ViewModeButton } from '../ApplicationsList/table';
-import * as FilterDialog from '../../GenericDialog/Filter';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
+import * as FilterPopover from '../../GenericPopover/Filter';
 import Application, { Costs, Platforms, Functionalities, Features } from '../../../../database/models/Application';
 
+export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
 
 export const CenterRadio = ({ checked = false }) => {
@@ -61,7 +62,7 @@ const AppColumn = ({ name, company }) => {
   );
 };
 
-const name = 'Applications';
+
 const defaultProps: GenericTableContainerProps = {
   name,
   columns: [
@@ -156,7 +157,7 @@ const defaultProps: GenericTableContainerProps = {
   footer: true,
   search: true,
   buttons: [
-    <DialogButton Module={FilterDialog} Icon={Icons.FilterList} tooltip='Filter' />,
+    <TableFilterDialogButton Module={FilterPopover} table={name} />,
     <ViewModeButton mode='table' />,
     <DialogButton Module={GettingStartedDialog} Icon={Icons.Help} tooltip='Help Getting Started' />
   ]

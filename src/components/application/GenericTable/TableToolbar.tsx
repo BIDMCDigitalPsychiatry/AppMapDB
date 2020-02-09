@@ -20,7 +20,7 @@ export interface TableToolbarProps {
   inputplaceholder?: string;
   width?: number;
   search?: boolean;
-  renderIcon?: (props: TableToolbarProps) => React.ReactNode;  
+  renderIcon?: (props: TableToolbarProps) => React.ReactNode;
   classes?: any;
 }
 
@@ -29,42 +29,42 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
     root: {},
     paper: {
       color: palette.common.white,
-      background: palette.primary.main,
+      background: palette.primary.main
     },
     formControl: {
       marginBottom: 4,
       paddingRight: spacing(1),
-      width: 208,
+      width: 208
     },
     searchIcon: {
-      color: palette.common.white,
+      color: palette.common.white
     },
     underline: {
       color: palette.common.white,
-      borderBottom: `2px solid ${palette.common.white}`,
+      borderBottom: `2px solid ${palette.common.white}`
     },
     title: {
       ...typography.h4,
       paddingLeft: spacing(0.5),
       color: palette.common.white,
       fontSize: typography.pxToRem(19),
-      fontWeight: '300',
+      fontWeight: '300'
     },
     titleicon: {
       height: 32,
       width: 32,
       color: palette.common.white,
-      marginTop: 3,
+      marginTop: 3
     },
     grid: {
       overflow: 'hidden',
       paddingRight: spacing(1),
       paddingLeft: spacing(1),
-      height: layout.tabletoolbarheight,
+      height: layout.tabletoolbarheight
     },
     hidden: {
-      display: 'none' as 'none',
-    },
+      display: 'none' as 'none'
+    }
   })
 );
 
@@ -72,20 +72,9 @@ function TableToolbar(props: TableToolbarProps) {
   const classes = useStyles({});
   const [searchOpen, setSearchOpen] = React.useState(false);
   const { layout } = useTheme();
-  const {
-    name,
-    buttons = [],
-    square,
-    title,
-    inputplaceholder,
-    icon,
-    renderIcon,
-    search,    
-    showicon = true,    
-  } = props;
+  const { name, buttons = [], square, title, inputplaceholder, icon, renderIcon, search, showicon = true } = props;
 
   const { searchtext = '' } = useTable(name);
-  
 
   React.useEffect(() => {
     if (searchtext !== null && searchtext !== undefined && searchtext !== '') {
@@ -105,7 +94,7 @@ function TableToolbar(props: TableToolbarProps) {
     value =>
       tableUpdate({
         id: name,
-        searchtext: value,
+        searchtext: value
       }),
     [name, tableUpdate]
   );
@@ -197,16 +186,15 @@ function TableToolbar(props: TableToolbarProps) {
 
   var Buttons = [searchbutton, ...evalFunc(buttons, props)].filter(b => b);
 
-  const buttonspacing = 8; //Grid spacing of each button
-  const buttonwidth = 64; //Width of each button
+  const buttonspacing = 0; //Grid spacing of each button
+  const buttonwidth = 42; //Width of each button
   const widths = {
     contentpadding: layout.contentpadding * 2, //Exterior padding
     headerpadding: 16, //Padding within the header
     iconwidth: 32, //Width of the title icon
     titlepadding: 8, //Padding between the icon and the title
     titleminwidth: 64, //Minimum width of the typography title - Don't display the title unless you can see more than 64 pixels
-    calculatedbuttonswidth:
-      Buttons.length * buttonwidth + buttonspacing * (Buttons.length > 0 ? Buttons.length - 1 : 0),
+    calculatedbuttonswidth: Buttons.length * buttonwidth + buttonspacing * (Buttons.length > 0 ? Buttons.length - 1 : 0)
   };
 
   const calculatedfullwidth = Object.keys(widths)

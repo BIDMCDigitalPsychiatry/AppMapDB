@@ -12,10 +12,14 @@ import {
   ListItemText,
   makeStyles,
   createStyles,
+  Badge,
+  withStyles
 } from '@material-ui/core';
-import { useDialogState } from './actions';
+import { useDialogState } from '../GenericDialog/actions';
 import EditIcon from '@material-ui/icons/Edit';
-import { checkEmpty, evalFunc } from '../../../helpers';
+import { checkEmpty, evalFunc, isEmpty } from '../../../helpers';
+import { useTableFilterValues } from '../GenericTable/TableStore';
+import * as Icons from '@material-ui/icons';
 
 export interface DialogModuleProps {
   default: any;
@@ -31,17 +35,38 @@ export const EditDialogButton = ({
   tooltip = 'Edit',
   mount = false, // Default to false, as most edit buttons are within the table rows, which get remounted in various scenaries (layout resizing etc)
   ...other
-}) => (
-  <DialogButton
-    variant={variant}
-    Icon={EditIcon}
-    type='Edit'
-    tooltip={tooltip}
-    placement={placement}
-    mount={mount}
-    {...other}
-  />
-);
+}) => <DialogButton variant={variant} Icon={EditIcon} type='Edit' tooltip={tooltip} placement={placement} mount={mount} {...other} />;
+
+const StyledBadge = withStyles(theme =>
+  createStyles({
+    badge: {
+      top: 7,
+      right: 6,
+      border: `1px solid ${theme.palette.background.paper}`
+    }
+  })
+)(Badge);
+
+export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList, tooltip = 'Filter Results' }) => {
+  const [values, setValues] = useTableFilterValues(table);
+  const { Features = [], Conditions = [], Platforms = [], Cost = [], Privacy = [], 'Clinical Foundation': ClinicalFoundation } = values as any;
+  const filterCount = [Features, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) + (isEmpty(ClinicalFoundation) ? 0 : 1);
+  const handleReset = React.useCallback(() => setValues({}), [setValues]);
+
+  return (
+    <StyledBadge badgeContent={filterCount} color='error' overlap='circle' anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+      <DialogButton
+        Module={Module}
+        Icon={Icon}
+        tooltip={filterCount === 0 ? tooltip : `${filterCount} Filters Active`}
+        table={table}
+        values={values}
+        setValues={setValues}
+        onReset={handleReset}
+      />
+    </StyledBadge>
+  );
+};
 
 // Pass a dialog via Module.  If dialog is mounted elsewhere, set mounted = false to prevent duplicate mounts
 export interface DialogButtonProps {
@@ -66,9 +91,9 @@ const useStyles = makeStyles(({ palette }: any) =>
       background: 'inherit',
       '&:hover': {
         color: palette.common.white,
-        background: palette.primary.main,
-      },
-    },
+        background: palette.primary.main
+      }
+    }
   })
 );
 
@@ -89,6 +114,10 @@ export default function DialogButton({
   mount = true,
   onClick = undefined,
   onClose = undefined,
+  onChange = undefined,
+  onReset = undefined,
+  values = undefined,
+  setValues = undefined,
   children,
   ...other
 }: DialogButtonProps & any) {
@@ -96,6 +125,7 @@ export default function DialogButton({
   const theme = useTheme();
   const id = Id ? Id : Module && Module.title;
   const [, setDialogState] = useDialogState(id);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
   const other_s = JSON.stringify(other);
   const handleUpdate = React.useCallback(() => {
@@ -103,16 +133,18 @@ export default function DialogButton({
       type,
       open: true,
       initialValues: evalFunc(initialValues),
-      ...JSON.parse(other_s),
+      ...JSON.parse(other_s)
     });
   }, [setDialogState, other_s, initialValues, type]);
 
   const handleClose = React.useCallback(() => {
+    setAnchorEl(null);
     onClose && onClose();
-  }, [onClose]);
+  }, [onClose, setAnchorEl]);
 
   const handleClick = React.useCallback(
     event => {
+      setAnchorEl(event.currentTarget);
       onClick && onClick(event);
       handleUpdate();
     },
@@ -122,7 +154,7 @@ export default function DialogButton({
   const shared = {
     disabled,
     onClick: handleClick,
-    size,
+    size
   };
 
   const wrapGrid = Content =>
@@ -136,7 +168,7 @@ export default function DialogButton({
 
   return wrapGrid(
     <>
-      {mount && Module && renderDialogModule({ ...Module, onClose: handleClose })}
+      {mount && Module && renderDialogModule({ ...Module, anchorEl, onClose: handleClose, onChange, onReset, values, setValues })}
       <Tooltip
         placement={placement}
         title={
@@ -163,7 +195,7 @@ export default function DialogButton({
               color='secondary'
               style={{
                 width: 48,
-                height: 48,
+                height: 48
               }}
               variant={variant}
               {...shared}
@@ -180,7 +212,7 @@ export default function DialogButton({
               variant='extended'
               color='primary'
               style={{
-                color: disabled ? theme.palette.primary.light : theme.palette.common.white,
+                color: disabled ? theme.palette.primary.light : theme.palette.common.white
               }}
               {...shared}
             >
