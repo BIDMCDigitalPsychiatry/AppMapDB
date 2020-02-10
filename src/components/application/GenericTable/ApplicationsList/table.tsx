@@ -163,5 +163,5 @@ const defaultProps: GenericTableContainerProps = {
 
 export const ApplicationsList = props => {
   const width = useWidth();
-  return <GenericTableContainer {...defaultProps} showScroll={width < 1375 ? true : false} {...props} />;
+  return <GenericTableContainer {...defaultProps} showScroll={width < 2000 ? true : false} {...props} />;
 };
