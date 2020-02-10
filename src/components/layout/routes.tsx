@@ -7,6 +7,7 @@ import { publicUrl } from '../../helpers';
 
 const Routes = () => (
   <Switch>
+    <Route exact path={'/'} component={Apps} />
     <Route exact path={publicUrl('/')} component={Apps} />
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Framework')} component={Framework} />

@@ -39,9 +39,12 @@
     "nano": "8.1.0",
     "decimal.js-light": "2.5.0"
   },
+  "devDependencies": {
+    "fs-extra": "8.0.1"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node copy404",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn build",
