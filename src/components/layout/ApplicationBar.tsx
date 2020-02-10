@@ -9,6 +9,7 @@ import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import * as RateAppDialog from '../application/GenericDialog/RateNewApp';
 import { useDialogState } from '../application/GenericDialog/actions';
 import { useAppBarHeightRef } from './hooks';
+import { publicUrl } from '../../helpers';
 
 const useStyles = makeStyles(({ breakpoints, palette, shadows, layout }: any) =>
   createStyles({
@@ -63,7 +64,7 @@ export default function ApplicationBar() {
       <Toolbar className={classes.toolbar}>
         <Grid container alignItems='center' spacing={1}>
           <Grid item>
-            <img className={classes.logo} src={logo} alt='logo' onClick={changeRoute('/')} />
+            <img className={classes.logo} src={logo} alt='logo' onClick={changeRoute(publicUrl('/'))} />
           </Grid>
           <Grid item xs>
             <ButtonGroup
@@ -75,25 +76,22 @@ export default function ApplicationBar() {
               style={{ marginBottom: 8 }}
             >
               <Button
-                className={pathname === '/Apps' || pathname === '/' ? classes.active : undefined}
-                onClick={changeRoute('/Apps')}
+                className={pathname === publicUrl('/Apps') || pathname === publicUrl('/') ? classes.active : undefined}
+                onClick={changeRoute(publicUrl('/Apps'))}
               >
                 <Typography variant='button' noWrap>
                   Apps
                 </Typography>
               </Button>
-              <Button
-                className={pathname === '/Framework' ? classes.active : undefined}
-                onClick={changeRoute('/Framework')}
-              >
+              <Button className={pathname === publicUrl('/Framework') ? classes.active : undefined} onClick={changeRoute(publicUrl('/Framework'))}>
                 <Typography variant='button' noWrap>{`Framework & Questions`}</Typography>
               </Button>
-              <Button className={pathname === '/Rating' ? classes.active : undefined} onClick={changeRoute('/Rating')}>
+              <Button className={pathname === publicUrl('/Rating') ? classes.active : undefined} onClick={changeRoute(publicUrl('/Rating'))}>
                 <Typography variant='button' noWrap>
                   Rating Process
                 </Typography>
               </Button>
-              <Button className={pathname === '/Rate' ? classes.active : undefined} onClick={handleRateApp}>
+              <Button className={pathname === publicUrl('/Rate') ? classes.active : undefined} onClick={handleRateApp}>
                 <Typography variant='button' noWrap>
                   Rate New App
                 </Typography>

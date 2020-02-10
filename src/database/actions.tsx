@@ -39,7 +39,10 @@ const useIndexAppRatings = () => {
 export const useAutoBuildIndex = () => {
   const [, buildIndex] = useIndexAppRatings();
   const ratingsCount = useRatingsLength();
-  React.useEffect(() => buildIndex(), [ratingsCount, buildIndex]);
+  React.useEffect(() => {
+    buildIndex();
+    // eslint-disable-next-line
+  }, [ratingsCount]); // Purposely leave buildIndex out of the dependency array
 };
 
 export const useDatabaseRow = (table, id) => {

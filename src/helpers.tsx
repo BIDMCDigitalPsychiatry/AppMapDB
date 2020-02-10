@@ -138,3 +138,5 @@ export function randomInt(min, max) {
 export function decimalsum(total: Decimal, amount: Decimal) {
   return total.add(amount);
 }
+
+export const publicUrl = path => process.env.PUBLIC_URL + path;
