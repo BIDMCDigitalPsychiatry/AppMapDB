@@ -16,7 +16,7 @@ export const initialState = (window as any).initialReduxState as AppState; // Ge
 export const store = configureStore(history, initialState) as any; //Setup the global store object
 export const getState = store.getState;
 export const persistor = persistStore(store); //Setup the global persistor
-(window as any).seed = count => asyncSeed(count);
+(window as any).seed = (count, force) => asyncSeed(count, force);
 
 function AppWrapper(props: any) {
   const { children } = props;

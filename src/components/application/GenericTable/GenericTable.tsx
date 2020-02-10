@@ -17,19 +17,19 @@ const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
   createStyles({
     placeholder: {
       padding: spacing(1),
-      background: palette.grey[50],
+      background: palette.grey[50]
     },
     footer: {
       paddingRight: spacing(1),
       background: palette.grey[200],
       border: 8,
       height: layout.tablefooterheight,
-      color: palette.text.hint,
+      color: palette.text.hint
     },
     paper: ({ rounded }: any) => ({
       borderBottomLeftRadius: rounded ? 4 : 0,
-      borderBottomRightRadius: rounded ? 4 : 0,
-    }),
+      borderBottomRightRadius: rounded ? 4 : 0
+    })
   })
 );
 

@@ -1,106 +1,51 @@
 import React from 'react';
-import * as LayoutStore from '../../../layout/LayoutStore';
-import GenericStepperDialog from '../GenericStepperDialog';
+import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../actions';
-import Check from '../../DialogField/Check';
-import Radio from '../../DialogField/Radio';
+import Rating from '../../DialogField/Rating';
 
-export const title = 'Rate an App';
+export const title = 'Rate Application';
 
-export interface ComponentProps {
-  id?: string;
-  onClose?: () => any;
-}
+export default function RateApp({ id = title, onClose, ...other }) {
+  const [, setDialogState] = useDialogState(id);
 
-function RateAppDialog({ id = title, onClose }: ComponentProps) {
-  const [{ type }, setDialogState] = useDialogState(id);
+  const handleSubmit = React.useCallback(
+    values => {
+      // TO DO: Insert into database
+      setDialogState(prev => ({ ...prev, open: false, submitting: false, errors: {} }));
+      onClose && onClose();
+    },
+    [setDialogState, onClose]
+  );
 
-  const processData = LayoutStore.useProcessData();
-
-  const handleProcessData = (values, Action) => {
-    processData({}); // To be completed
-    handleClose();
+  const handleValidation = (values, dialogState) => {
+    var errors = { ...dialogState.errors };
+    return errors;
   };
 
-  const handleSubmit = values => handleProcessData(values, type === 'Edit' ? 'u' : 'c');
-  const handleDelete = values => handleProcessData(values, 'd');
-
-  const handleClose = React.useCallback(() => {
-    setDialogState(prev => ({ ...prev, open: false, submitting: false, errors: {} }));
-    onClose && onClose();
-  }, [setDialogState, onClose]);
-
-  const steps = [
-    {
-      label: 'Application Link',
-      fields: [
-        {
-          id: 'link',
-          label: 'Enter link to app on app store or Google Play store',
-          required: true,
-        },
-      ],
-    },
-    {
-      label: 'Who is the App Developer',
-      fields: [
-        {
-          id: 'government',
-          label: 'Government?',
-          Field: Check,
-        },
-        {
-          id: 'profit',
-          label: 'For Profit Company?',
-          Field: Check,
-        },
-        {
-          id: 'academic',
-          label: 'Academic Institution?',
-          Field: Check,
-        },
-      ],
-    },
-    {
-      label: 'Is there a Privacy Policy?',
-      fields: [
-        {
-          id: 'privacy',
-          label: null,
-          Field: Radio,
-          xs: 2,
-          items: [
-            { value: 'Yes', label: 'Yes' },
-            { value: 'No', label: 'No' },
-          ],
-          initialValue: false,
-          required: true,
-        },
-        {
-          xs: 1,
-        },
-        {
-          id: 'policy',
-          label: 'Enter Privacy Policy',
-          multiline: true,
-          rows: 10,
-          xs: 9,
-          active: values => values.privacy === 'Yes',
-        },
-      ],
-    },
-  ];
-
   return (
-    <GenericStepperDialog
+    <GenericDialog
       id={id}
       title={title}
+      submitLabel='Submit'
       onSubmit={handleSubmit}
-      onDelete={handleDelete}
-      steps={steps}
       onClose={onClose}
+      validate={handleValidation}
+      initialValues={{}}
+      fields={[
+        { id: 'appId', hidden: true },
+        { id: 'name', label: 'Enter name of reviewer', xs: 8, initialValue: 'Anonymous', required: true },
+        { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true },
+        {
+          id: 'review',
+          label: 'Enter Review',
+          multiline: true,
+          rows: 10,
+          xs: 12,
+          required: true,
+          autoFocus: true
+        }
+      ]}
+      {...other}
     />
   );
 }
-
-export default RateAppDialog;

@@ -1,37 +1,56 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { InputLabel, makeStyles, createStyles } from '@material-ui/core';
+import { Grid, InputLabel, makeStyles, createStyles } from '@material-ui/core';
 import NotchedOutline from '@material-ui/core/OutlinedInput/NotchedOutline';
+import { isError } from '../../../helpers';
 
-const useStyles = makeStyles(({ shape }: any) =>
+const useStyles = makeStyles(({ palette, shape }: any) =>
   createStyles({
     root: {
       position: 'relative',
-      marginTop: 16,
-      marginBottom: 24,
-      width: '100%',
+      width: '100%'
     },
     container: {
-      position: 'relative',
+      position: 'relative'
     },
     content: {
-      padding: 16,
+      minHeight: 40,
+      paddingLeft: 16,
+      paddingRight: 16,
       paddingTop: 8,
       paddingBottom: 8,
       borderRadius: shape.borderRadius,
+      borderColor: palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)',
+      '&:hover': {
+        borderColor: palette.text.primary
+      }
     },
     inputLabel: {
       position: 'absolute',
       left: 0,
       top: 0,
       // slight alteration to spec spacing to match visual spec result
-      transform: 'translate(0, 24px) scale(1)',
+      transform: 'translate(0, 24px) scale(1)'
     },
+    notchedOutline: ({ error }: any) => ({
+      borderColor: isError(error) ? palette.error.main : 'inherit'
+    })
   })
 );
 
-export default function OutlinedDiv({ label = '', width = undefined, maxWidth = undefined, margin = undefined, children = undefined }) {
-  const classes = useStyles({});
+// Needs some work to handle focused state.  It should use FormControl and formControlState.
+export default function OutlinedDiv({
+  label = '',
+  error = undefined,
+  width = undefined,
+  maxWidth = undefined,
+  margin = undefined,
+  marginTop = undefined,
+  marginBottom = undefined,
+  height = undefined,
+  children = undefined
+}) {
+  const classes = useStyles({ error });
   const [labelWidth, setLabelWidth] = React.useState(0);
   const labelRef = React.useRef(null);
   React.useEffect(() => {
@@ -40,15 +59,17 @@ export default function OutlinedDiv({ label = '', width = undefined, maxWidth = 
   }, [label]);
 
   return (
-    <div className={classes.root} style={{ width, maxWidth, margin }}>
+    <div className={classes.root} style={{ width, maxWidth, margin, marginTop, marginBottom, height }}>
       <InputLabel ref={labelRef} htmlFor={label} variant='outlined' className={classes.inputLabel} shrink>
         {label}
       </InputLabel>
       <div className={classes.container}>
-        <div id={label} className={classes.content}>
-          {children}
-          <NotchedOutline notched labelWidth={labelWidth} />
-        </div>
+        <Grid container id={label} className={classes.content} alignItems='center'>
+          <Grid item xs={12}>
+            {children}
+          </Grid>
+          <NotchedOutline className={classes.notchedOutline} notched labelWidth={labelWidth} />
+        </Grid>
       </div>
     </div>
   );

@@ -13,7 +13,8 @@ import {
   makeStyles,
   createStyles,
   Badge,
-  withStyles
+  withStyles,
+  Link
 } from '@material-ui/core';
 import { useDialogState } from '../GenericDialog/actions';
 import EditIcon from '@material-ui/icons/Edit';
@@ -206,6 +207,14 @@ export default function DialogButton({
             <Button fullWidth={true} variant={variant} color={color as any} {...shared}>
               {children}
             </Button>
+          ) : variant === 'standard' ? (
+            <Button color={color as any} {...shared}>
+              {children}
+            </Button>
+          ) : variant === 'link' ? (
+            <Link color={color} variant='caption' style={{ cursor: 'pointer' }} {...shared}>
+              {children}
+            </Link>
           ) : (
             <Fab
               size={size}

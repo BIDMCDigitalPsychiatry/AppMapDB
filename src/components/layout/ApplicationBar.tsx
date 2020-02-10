@@ -6,7 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
 import { useLocation, useHistory } from 'react-router';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
-import * as RateAppDialog from '../application/GenericDialog/RateApp';
+import * as RateAppDialog from '../application/GenericDialog/RateNewApp';
 import { useDialogState } from '../application/GenericDialog/actions';
 import { useAppBarHeightRef } from './hooks';
 
@@ -95,7 +95,7 @@ export default function ApplicationBar() {
               </Button>
               <Button className={pathname === '/Rate' ? classes.active : undefined} onClick={handleRateApp}>
                 <Typography variant='button' noWrap>
-                  Rate an App
+                  Rate New App
                 </Typography>
               </Button>
             </ButtonGroup>

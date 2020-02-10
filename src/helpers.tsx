@@ -1,14 +1,11 @@
 import { AppState } from './store';
 import { theme } from './constants';
 import packageJson from '../package.json';
+import Decimal from 'decimal.js-light';
 
 export function hostAddress(append?) {
   return (
-    window.location.protocol +
-    '//' +
-    window.location.hostname +
-    (window.location.port ? ':' + window.location.port : '') +
-    (append !== undefined ? append : '')
+    window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '') + (append !== undefined ? append : '')
   );
 }
 
@@ -21,7 +18,7 @@ export const debugSettings = {
   logselectors: false,
   logform: true,
   logformupdates: true,
-  debugfieldonhover: false,
+  debugfieldonhover: false
 };
 
 export function printHeader() {
@@ -54,7 +51,7 @@ export function getLayoutHeight(state: AppState) {
 }
 
 export const setIfEmpty = value => (value === undefined || value === null ? '' : value);
-export const checkEmpty = value => value === undefined || value === null || value === '';
+export const checkEmpty = value => value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0);
 export const undefinedIfEmpty = value => (checkEmpty(value) ? undefined : value);
 export const isDefined = value => value !== undefined && value !== null;
 export const hasChanged = (current, initial) => JSON.stringify(current) !== JSON.stringify(initial);
@@ -136,4 +133,8 @@ export function randomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function decimalsum(total: Decimal, amount: Decimal) {
+  return total.add(amount);
 }

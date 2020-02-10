@@ -17,6 +17,7 @@ export default function MuliSelectCheck({
   disabled = false,
   size = 'small' as 'small',
   items = [],
+  disableCloseOnSelect = true,
   ...other
 }) {
   const handleChange = React.useCallback((e, value = []) => onChange && onChange({ target: { value: value.map(i => i.value) } }), [onChange]);
@@ -26,15 +27,26 @@ export default function MuliSelectCheck({
       size='small'
       multiple
       options={items}
-      disableCloseOnSelect
+      disableCloseOnSelect={disableCloseOnSelect}
       getOptionLabel={option => option.label}
       renderOption={(option, { selected }) => (
-        <React.Fragment>
+        <>
           <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
           {option.label}
-        </React.Fragment>
+        </>
       )}
-      renderInput={params => <Text {...params} label={label} placeholder={placeholder} fullWidth={fullWidth} />}
+      renderInput={params => (
+        <Text
+          {...params}
+          label={label}
+          placeholder={placeholder}
+          fullWidth={fullWidth}
+          InputLabelProps={{
+            shrink: true
+          }}
+          {...other}
+        />
+      )}
       disabled={disabled}
       value={items.filter(i => value.includes(i.value))}
       onChange={handleChange}

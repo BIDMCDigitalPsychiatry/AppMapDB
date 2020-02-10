@@ -1,18 +1,21 @@
 import Application, { Costs, Privacies, ClinicalFoundations, Features, Functionalities, Platforms, Conditions } from './models/Application';
 import { randomInt } from '../helpers';
-import { db } from './dbConfig';
+import DB from './dbConfig';
+import Rating from './models/Rating';
 
 // Returns a random entry from an array.  If multiple is set to true, return an an array with a random number of random elements
 const getRandom = (array = [], multiple = false, min = 1) =>
   !multiple ? array[randomInt(0, array.length - 1)] : Array.from({ length: randomInt(min, array.length) }, () => getRandom(array));
 
-export async function asyncSeed(count = 300) {
-  if (process.env.NODE_ENV === 'development') {
+export async function asyncSeed(count = 300, force = false) {
+  if (process.env.NODE_ENV === 'development' || force) {
     console.log(`Seeding database with ${count} records...`);
     var success = 0;
     var failed = 0;
+    var r_success = 0;
+    var r_failed = 0;
     for (var i = 0; i < count; i++) {
-      const response = await db.insert({
+      const response = await DB.applications.insert({
         name: `Test Application ${i + 1}`,
         company: getRandom(companies),
         platforms: getRandom(Platforms, true),
@@ -25,11 +28,25 @@ export async function asyncSeed(count = 300) {
       } as Application);
       if (response && response.ok === true) {
         success++;
+        for (var j = 0; j < randomInt(0, 5); j++) {
+          const r_response = await DB.ratings.insert({
+            appId: response.id,
+            name: 'Anonymous',
+            review: 'This is a test review.',
+            rating: randomInt(1, 5)
+          } as Rating);
+          if (r_response && r_response.ok === true) {
+            r_success++;
+          } else {
+            r_failed++;
+          }
+        }
       } else {
         failed++;
       }
     }
-    console.log(`Successfully seeded ${success} records. ${failed} records failed.`);
+    console.log(`Successfully seeded ${success} application records. ${failed} failed.`);
+    console.log(`Successfully seeded ${r_success} rating records. ${r_failed} failed.`);
   }
 }
 
@@ -41,33 +58,6 @@ const companies = [
   'A B SKF',
   'A B Volvo',
   'A R T International Inc.',
-  'A.O. Tatneft',
-  'ABB Ltd.',
-  'Abbey National plc',
-  'Aber Diamond Ltd.',
-  'Abitibi Consolidated Inc.',
-  'ABN Amro Holding N.V.',
-  'Acambis plc',
-  'Accelio Corp.',
-  'Acetex Corp.',
-  'Achieva Development Corp.',
-  'Acindar Industria Argentina de Aceros S.A.',
-  'ACLN Ltd.',
-  'ACS-Tech 80 Ltd.',
-  'ActFit.com Inc.',
-  'ActivCard S.A.',
-  'Active Assets & Associates Inc.',
-  'ADB Systems International Inc.',
-  'Adecco S.A.',
-  'Adrian Resources Ltd.',
-  'Advance Agro Public Co. Ltd.',
-  'Advanced Semiconductor Engineering, Inc.',
-  'Advantest Corp.',
-  'AdvantExcel.com Communications Corp.',
-  'AEGON N.V.',
-  'Aerco Ltd.',
-  'AES Drax Holdings Ltd.',
-  'AES Drax Power Finance Holdings Ltd.',
   'Aeterna Laboratories Inc.',
   'Agnico-Eagle Mines Ltd.',
   'Agrium Inc.',
@@ -76,43 +66,6 @@ const companies = [
   'Air Canada',
   'Akzo Nobel N.V.',
   'Aladdin Knowledge Systems Ltd.',
-  'Alberta Energy Co. Ltd.',
-  'Alcan Inc.',
-  'Alcatel',
-  'Alestra, S de R.L. de C.V.',
-  'Alfa Laval Special Finance AB',
-  'Algoma Steel Inc.',
-  'Alliance Atlantis Communications Corp.',
-  'Allianz Aktiengesellschaft',
-  'Allied Irish Banks plc',
-  'Allura International Inc.',
-  'Almaden Resource Corp.',
-  'Alstom',
-  'Altair International, Inc.',
-  'Altarex Corp.',
-  'Alto Palermo S.A.',
-  'Aluminum Corp of China Ltd.',
-  'Alvarion Ltd.',
-  'Amarin Corp plc',
-  'Amatek Industries Pty Ltd.',
-  'Amcor Ltd.',
-  'Amdocs Ltd.',
-  'Astris Energi Inc.',
-  'AT Plastics Inc.',
-  'AT&T Canada Inc.',
-  'ATI Technologies Inc.',
-  'Atlantic Caspian Resources plc',
-  'Atlantic Telecom Group plc',
-  'Atlas Pacific Ltd.',
-  'ATNA Resources Ltd.',
-  'Attunity Ltd.',
-  'Audiocodes Ltd.',
-  'Aurizon Mines Ltd.',
-  'Aurora Metals BVI Ltd.',
-  'Australia & New Zealand Banking Group Ltd.',
-  'Autonomy Corp plc',
-  'Avecia Group plc',
-  'Aventis',
   'BVR Systems Ltd.',
   'BVR Technologies Ltd.',
   'Cable and Wireless plc',
@@ -124,18 +77,6 @@ const companies = [
   'Crosswave Communications Inc.',
   'Crow Technologies 1977 Ltd.',
   'Crucell N.V.',
-  'Cryopack Industries Inc.',
-  'Cryptologic Inc.',
-  'Crystal Graphite Corp.',
-  'Electrochemical Industries 1952 Ltd.',
-  'Elephant & Castle Group, Inc.',
-  'Eletson Holdings Inc.',
-  'Elron Electronic Industries Ltd.',
-  'Elscint Ltd.',
-  'Elsevier N.V.',
-  'Eltek Ltd.',
-  'Embotelladora Andina S.A.',
-  'Embraer-Empresa Brasileira de Aeronautica S.A.',
   'Embratel Participacoes S.A.',
   'Emco Ltd.',
   'Empresa Electrica Pehuenche S.A.',
@@ -194,17 +135,6 @@ const companies = [
   'KPNQwest N.V.',
   'Kubota Corp.',
   'Kyocera Corp.',
-  'Lafarge',
-  'Laidlaw Inc.',
-  'Lanoptics Ltd.',
-  'Las Vegas from Home.com Entertainment Inc.',
-  'Lastminute.com plc',
-  'Latin American Export Bank',
-  'Leader Mining International Inc.',
-  'Leading Brands, Inc.',
-  'Legrand',
-  'Leica Geosystems Finance plc',
-  'Leitch Technology Corp.',
   'Levon Resources Ltd.',
   'Lihir Gold Ltd.',
   'Linea Aerea Nacional Chile S.A.- LanChile',
@@ -221,38 +151,6 @@ const companies = [
   'Logitech International S.A.',
   'London Electricity Group plc',
   'London Pacific Group Ltd.',
-  'Lorus Therapeutics Inc.',
-  'Lund Ventures Ltd.',
-  'Luxfer Holdings plc',
-  'Luxottica Group S.p.A.',
-  'Net Sat Servicos Ltda.',
-  'Netco Energy Inc.',
-  'Netease.com Inc.',
-  'Netia Holdings S.A.',
-  'Nettron.com Corp.',
-  'New China Homes, Ltd.',
-  'New Millennium Metals Corp.',
-  'New Skies Satellites N.V.',
-  'New Tel Ltd.',
-  'New York Broker Deutschland AG',
-  'NewKidCo International Inc.',
-  'News Corporation Ltd.',
-  'Nexen Inc.',
-  'Nexus Telocation Systems Ltd.',
-  'United Utilities plc',
-  'Universal Domains Inc.',
-  'UPM Kymmene Miramichi Inc.',
-  'UPM-Kymmene OYJ',
-  'Usinor Sacilor',
-  'UTi Worldwide Inc.',
-  'Van der Moolen Holding N.V.',
-  'Vancan Capital Corp.',
-  'Vannessa Ventures Ltd.',
-  'Vantico Group S.A.',
-  'Vasogen, Inc.',
-  'Venture Pacific Development Corp.',
-  'Verena Minerals Corp.',
-  'Veritas Holdings GmbH',
   'Vernalis Group plc',
   'Veronex Technologies Inc.',
   'Versatel Telecom International N.V.',

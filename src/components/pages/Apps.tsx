@@ -1,24 +1,35 @@
 import * as React from 'react';
 import * as Tables from '../application/GenericTable';
 import { useViewMode } from '../layout/LayoutStore';
-import { useDatabaseState } from '../../database/actions';
-import { db } from '../../database/dbConfig';
+import { useRatings, useApplications, useAutoBuildIndex } from '../../database/actions';
+import DB from '../../database/dbConfig';
 
 export default function Apps() {
   const [viewMode] = useViewMode() as any;
-  const [, setDatabase] = useDatabaseState();
+  const [, setApps] = useApplications();
+  const [, setRatings] = useRatings();
+
+  useAutoBuildIndex(); // Rebuild index as needed
 
   // Load data from the database
   React.useEffect(() => {
-    db.list({ include_docs: true }).then(body => {
+    DB.applications.list({ include_docs: true }).then(body => {
       const documents = body.rows.map(r => r.doc);
       var result = documents.reduce((f, c: any) => {
         f[c._id] = c;
         return f;
       }, {});
-      setDatabase(result);
+      setApps(result);
     });
-  }, [setDatabase]);
+    DB.ratings.list({ include_docs: true }).then(body => {
+      const documents = body.rows.map(r => r.doc);
+      var result = documents.reduce((f, c: any) => {
+        f[c._id] = c;
+        return f;
+      }, {});
+      setRatings(result);
+    });
+  }, [setRatings, setApps]);
 
   return viewMode === 'table' ? <Tables.Applications /> : <Tables.ApplicationsList />;
 }

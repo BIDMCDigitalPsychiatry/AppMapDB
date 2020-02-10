@@ -8,7 +8,7 @@ import * as TableStore from './TableStore';
 
 export type SortComparator = 'text';
 const sortComparators = {
-  text: desc,
+  text: desc
 };
 
 ///////////////////////////////////////////
@@ -22,8 +22,7 @@ export interface ColumnFilter {
 
 const isMatch = (obj, re) => {
   for (var attrname in obj) {
-    if (attrname.toLowerCase() === 'edit' || attrname.toLowerCase() === 'id' || attrname.toLowerCase() === 'action')
-      continue;
+    if (['_id', 'id', 'key', 'getValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
     if (obj[attrname])
       if (isNaN(obj[attrname])) {
         //only search non numeric values
@@ -58,13 +57,11 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
     table.columnfiltervalue != null &&
     table.columnfiltercolumn != null && {
       value: table && table.columnfiltervalue,
-      column: table && table.columnfiltercolumn,
+      column: table && table.columnfiltercolumn
     };
 
   const filtered = table_filter(data, columnfilter, searchtext);
-  return table && table.orderBy
-    ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator))
-    : filtered;
+  return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
 export const useTableFilter = (data: any, name: string) => {
@@ -76,25 +73,21 @@ export const useTableFilter = (data: any, name: string) => {
     table.columnfiltervalue != null &&
     table.columnfiltercolumn != null && {
       value: table && table.columnfiltervalue,
-      column: table && table.columnfiltercolumn,
+      column: table && table.columnfiltercolumn
     };
 
   const filtered = table_filter(data, columnfilter, searchtext);
-  return table && table.orderBy
-    ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator))
-    : filtered;
+  return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
 export const table_filter = (data, columnfilter: ColumnFilter, searchtext) => {
   var performcolumnfilter = false;
-  if (columnfilter)
-    if (columnfilter.column) if (columnfilter.value !== 'All' && columnfilter.value !== '') performcolumnfilter = true;
+  if (columnfilter) if (columnfilter.column) if (columnfilter.value !== 'All' && columnfilter.value !== '') performcolumnfilter = true;
 
   const performtextfilter = searchtext && searchtext !== '' ? true : false;
   const re = new RegExp(searchtext, 'gi');
 
-  if (performcolumnfilter && performtextfilter)
-    data = data.filter(x => isColumnExactMatch(x, columnfilter) && isMatch(x, re));
+  if (performcolumnfilter && performtextfilter) data = data.filter(x => isColumnExactMatch(x, columnfilter) && isMatch(x, re));
   else if (performcolumnfilter) data = data.filter(x => isColumnExactMatch(x, columnfilter));
   else if (performtextfilter) data = data.filter(x => isMatch(x, re));
 
