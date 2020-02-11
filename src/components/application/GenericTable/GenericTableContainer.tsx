@@ -45,12 +45,12 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     search,
     tabs,
     columns: Columns,
-    renderIcon,
     showicon = false,
     loading,
     buttons,
     dialogs = [],
     onChangeTab,
+    Icon,
     ...tableProps
   } = props;
 
@@ -84,9 +84,9 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
       title={title ? title : name ? name : ''}
       square={square}
       inputplaceholder={toolbarplaceholder}
-      renderIcon={renderIcon}
       showicon={showicon}
       buttons={evalFunc(buttons, props)}
+      Icon={Icon}
     />
   );
   var filterbar = tabs && <TableTabSelector name={name} tabs={tabs} onChange={handleTabChange} />;

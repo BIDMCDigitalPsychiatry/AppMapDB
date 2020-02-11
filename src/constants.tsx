@@ -12,26 +12,26 @@ export const theme = createMuiTheme({
     tabletoolbarheight: basetheme.spacing(5.5), // The height of the top bar on the table, also the height of the secondary tabselector
     tableRowHeight: basetheme.spacing(6), // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
-    progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
+    progressSize: 80 // size of the circulatr progress indicator shown when dialogs are submitting
   },
   overrides: {
     MuiTooltip: {
       // Name of the component ⚛️ / style sheet
       tooltip: {
         // Name of the rule
-        maxWidth: 700,
-      },
+        maxWidth: 700
+      }
     },
     MuiTypography: {
       // Name of the component ⚛️ / style sheet
       h6: {
-        lineHeight: 1.2,
+        lineHeight: 1.2
       },
       subtitle1: {
         // Name of the rule
-        lineHeight: 1.4,
+        lineHeight: 1.4
         //background: basetheme.palette.background.default,
-      },
+      }
     },
     MuiDialogTitle: {
       // Name of the component ⚛️ / style sheet
@@ -40,9 +40,9 @@ export const theme = createMuiTheme({
         paddingLeft: 16,
         paddingRight: 16,
         paddingTop: 12,
-        paddingBottom: 12,
+        paddingBottom: 12
         //background: basetheme.palette.background.default,
-      },
+      }
     },
     MuiDialogActions: {
       // Name of the component ⚛️ / style sheet
@@ -55,14 +55,14 @@ export const theme = createMuiTheme({
         justifyContent: 'flex-end',
         flex: '0 0 auto',
         margin: 0,
-        padding: '8px 4px',
+        padding: '8px 4px'
         //padding: 0,
-      },
+      }
     },
     MuiListItemIcon: {
       root: {
-        color: basetheme.palette.grey[100],
-      },
-    },
-  },
+        color: basetheme.palette.grey[100]
+      }
+    }
+  }
 } as Theme & any);

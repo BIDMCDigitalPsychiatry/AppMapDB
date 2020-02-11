@@ -75,30 +75,18 @@ const WholeNumberUpDown = ({
             {InputProps && InputProps.endAdornment}
             <Grid container style={{ width: 18, marginRight: -4 }}>
               <Grid item xs={12}>
-                <IconButton
-                  disabled={disabled}
-                  aria-label='up'
-                  style={{ marginTop: -2, marginBottom: -2 }}
-                  size='small'
-                  onClick={handleUp}
-                >
+                <IconButton disabled={disabled} aria-label='up' style={{ marginTop: -2, marginBottom: -2 }} size='small' onClick={handleUp}>
                   <Icons.ArrowDropUp fontSize='inherit' />
                 </IconButton>
               </Grid>
               <Grid item xs={12}>
-                <IconButton
-                  aria-label='down'
-                  style={{ marginTop: -2, marginBottom: -2 }}
-                  size='small'
-                  disabled={disabled}
-                  onClick={handleDown}
-                >
+                <IconButton aria-label='down' style={{ marginTop: -2, marginBottom: -2 }} size='small' disabled={disabled} onClick={handleDown}>
                   <Icons.ArrowDropDown fontSize='inherit' />
                 </IconButton>
               </Grid>
             </Grid>
           </>
-        ),
+        )
       }}
       {...other}
     />

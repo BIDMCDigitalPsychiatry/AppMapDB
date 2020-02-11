@@ -3,7 +3,6 @@ import { Grid, Paper, Input, Tooltip } from '@material-ui/core';
 import { FormControl, InputAdornment, IconButton, Typography } from '@material-ui/core';
 import { useTable, useTableUpdate } from './store';
 import { useWidth } from '../../layout/store';
-import { icons } from './constants';
 import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { evalFunc } from '../../../helpers';
@@ -14,13 +13,12 @@ export interface TableToolbarProps {
   buttons?: any[] | ((props?: GenericTableContainerProps & any) => any[]);
   square?: boolean;
   title?: string;
-  icon?: any;
   showicon?: boolean;
   viewportwidth?: any;
   inputplaceholder?: string;
   width?: number;
   search?: boolean;
-  renderIcon?: (props: TableToolbarProps) => React.ReactNode;
+  Icon?: any;
   classes?: any;
 }
 
@@ -72,7 +70,7 @@ function TableToolbar(props: TableToolbarProps) {
   const classes = useStyles({});
   const [searchOpen, setSearchOpen] = React.useState(false);
   const { layout } = useTheme();
-  const { name, buttons = [], square, title, inputplaceholder, icon, renderIcon, search, showicon = true } = props;
+  const { name, buttons = [], square, title, inputplaceholder, Icon, search, showicon = true } = props;
 
   const { searchtext = '' } = useTable(name);
 
@@ -205,6 +203,8 @@ function TableToolbar(props: TableToolbarProps) {
   const tabletitlevisible = width >= calculatedfullwidth;
   const tableiconvisible = width >= calculatedpartialwidth;
 
+  const IconComponent = Icon ?? Icons.List;
+
   return (
     <Paper className={classes.paper} square={square}>
       <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
@@ -212,23 +212,9 @@ function TableToolbar(props: TableToolbarProps) {
           <Grid container justify='flex-start' alignItems='center'>
             {tableiconvisible && showicon === true && (
               <Grid item>
-                {renderIcon ? (
-                  renderIcon(props)
-                ) : (
-                  <Tooltip title={title}>
-                    <div>
-                      {icon ? (
-                        icon
-                      ) : icons.find(x => x.name === name) ? (
-                        icons.find(x => x.name === name).icon(classes.titleicon)
-                      ) : icons.find(x => x.name === title) ? (
-                        icons.find(x => x.name === title).icon(classes.titleicon)
-                      ) : (
-                        <Icons.List className={classes.titleicon} />
-                      )}
-                    </div>
-                  </Tooltip>
-                )}
+                <Tooltip title={title}>
+                  <IconComponent className={classes.titleicon} />
+                </Tooltip>
               </Grid>
             )}
             {tabletitlevisible && (

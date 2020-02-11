@@ -7,7 +7,7 @@ const useIndexAppRatings = () => {
   const [ratings] = useRatings();
   const [applications] = useApplications();
   const [index, setIndex] = useTableState(tables.ix_app_ratings);
-  const buildIndex = React.useCallback(() => {    
+  const buildIndex = React.useCallback(() => {
     setIndex(
       Object.keys(applications).reduce((f, c: any) => {
         f[applications[c]._id] = Object.keys(ratings).filter(k => ratings[k].appId === applications[c]._id);

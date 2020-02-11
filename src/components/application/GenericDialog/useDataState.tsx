@@ -13,7 +13,7 @@ export default function useDataState({ pdi, state = {}, setState = undefined, on
         Action,
         Data,
         Snackbar: true,
-        ...other,
+        ...other
       };
     },
     [Model]
@@ -23,7 +23,7 @@ export default function useDataState({ pdi, state = {}, setState = undefined, on
     pdi: createPdi(pdi),
     trigger: pdi,
     state,
-    setState,
+    setState
   });
 
   const handleClose = React.useCallback(() => {

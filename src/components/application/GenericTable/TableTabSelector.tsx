@@ -12,9 +12,7 @@ export interface ComponentProps {
   classes?: any;
 }
 
-const TableTabSelector = ({ tabs, tab, orientation }: ComponentProps) => (
-  <TabSelector tab={tab} tabs={tabs} orientation={orientation} />
-);
+const TableTabSelector = ({ tabs, tab, orientation }: ComponentProps) => <TabSelector tab={tab} tabs={tabs} orientation={orientation} />;
 
 const mapStateToProps = (state: AppState, ownProp: ComponentProps): ComponentProps => {
   const storeTable = state.table[ownProp.name];
@@ -22,7 +20,7 @@ const mapStateToProps = (state: AppState, ownProp: ComponentProps): ComponentPro
     ...ownProp,
     name: ownProp.name,
     tab: ownProp.tab || (storeTable && storeTable.tab), //Use provide value, then store value or default to 'All' if neither are provided
-    orientation: state.layout.height > state.layout.width ? 'potrait' : 'landscape',
+    orientation: state.layout.height > state.layout.width ? 'potrait' : 'landscape'
   };
 };
 

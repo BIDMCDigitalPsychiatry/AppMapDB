@@ -21,15 +21,7 @@ const MultiChip = ({
   ...other
 }) => {
   const handleChange = React.useCallback(e => onChange && onChange(removeFormat(e)), [onChange, removeFormat]);
-  return (
-    <MultiChipSelect
-      value={addFormat(value, items)}
-      onChange={handleChange}
-      variant={variant}
-      items={items}
-      {...other}
-    />
-  );
+  return <MultiChipSelect value={addFormat(value, items)} onChange={handleChange} variant={variant} items={items} {...other} />;
 };
 
 export default MultiChip;

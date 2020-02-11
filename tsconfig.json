@@ -18,7 +18,7 @@
     "strictFunctionTypes": true,
     "noImplicitAny": false,
     "strictPropertyInitialization": false,
-    "strictNullChecks": false    
+    "strictNullChecks": false
   },
   "include": ["src"],
   "exclude": ["./node_modules/*", "node_modules", "**/*.spec.ts"]

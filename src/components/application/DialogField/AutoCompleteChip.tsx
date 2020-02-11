@@ -3,14 +3,7 @@ import { Chip } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Text from './Text';
 
-const AutoCompleteChip = ({
-  value = [],
-  items: options = [],
-  size = 'small' as 'small',
-  disabled,
-  onChange,
-  ...other
-}) => {
+const AutoCompleteChip = ({ value = [], items: options = [], size = 'small' as 'small', disabled, onChange, ...other }) => {
   const handleChange = React.useCallback(
     (event, value) => {
       onChange && onChange({ target: { value } });
@@ -27,9 +20,7 @@ const AutoCompleteChip = ({
       freeSolo
       onChange={handleChange}
       renderTags={(value: string[], getTagProps) =>
-        value.map((option: string, index: number) => (
-          <Chip disabled={disabled} size={size} label={option} {...getTagProps({ index })} />
-        ))
+        value.map((option: string, index: number) => <Chip disabled={disabled} size={size} label={option} {...getTagProps({ index })} />)
       }
       renderInput={params => <Text {...params} {...other} />}
     />

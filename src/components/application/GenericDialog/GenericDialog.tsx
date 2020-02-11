@@ -95,6 +95,7 @@ export interface FieldProps {
   Field?: Element;
   getValue?: (f: FieldProps, values: any) => any;
 }
+
 export interface ComponentProps {
   id: string;
   title: string;

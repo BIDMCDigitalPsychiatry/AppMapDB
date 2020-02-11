@@ -1,7 +1,7 @@
 {
   "short_name": "AppMap",
   "name": "BIDMC - Division of Digital Psychiatry",
-  "icons": [    
+  "icons": [
     {
       "src": "logo.png",
       "type": "image/png",

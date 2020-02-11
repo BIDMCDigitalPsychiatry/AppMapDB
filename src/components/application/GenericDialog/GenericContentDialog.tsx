@@ -22,54 +22,54 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
     button: {
       width: '100%',
-      maxWidth: '200px',
+      maxWidth: '200px'
     },
     dialog: {
       display: 'flex',
       flexDirection: 'column',
       outline: 'none',
-      border: `5px solid ${palette.primary}`,
+      border: `5px solid ${palette.primary}`
     },
     dialogHeader: {
-      background: palette.grey[100],
+      background: palette.grey[100]
     },
     capitalize: {
-      textTransform: 'capitalize',
+      textTransform: 'capitalize'
     },
     dialogContent: {
-      padding: spacing(2),
+      padding: spacing(2)
     },
     dialogActions: {
       margin: 0,
       padding: spacing(1),
       paddingTop: spacing(0.5),
-      paddingBottom: spacing(0.5),
+      paddingBottom: spacing(0.5)
     },
     dialogTitle: {
       margin: 0,
-      padding: 0,
+      padding: 0
     },
     dialogTitleGrid: {
       background: palette.primary.main,
       color: palette.common.white,
       paddingLeft: spacing(1.5),
-      paddingRight: spacing(0),
+      paddingRight: spacing(0)
     },
     closeButton: {
-      color: 'inherit',
+      color: 'inherit'
     },
     deleteButton: {
       color: palette.common.white,
       background: palette.error.main,
       '&:hover': {
-        background: palette.error.dark,
-      },
+        background: palette.error.dark
+      }
     },
     deleteButtonEmpty: {
-      color: palette.error.main,
+      color: palette.error.main
     },
     formControl: {
-      marginTop: 8,
+      marginTop: 8
     },
     submitProgress: {
       color: palette.primary.light,
@@ -77,8 +77,8 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       top: '50%',
       left: '50%',
       marginTop: -(layout.progressSize / 2),
-      marginLeft: -(layout.progressSize / 2),
-    },
+      marginLeft: -(layout.progressSize / 2)
+    }
   })
 );
 
@@ -160,7 +160,7 @@ const GenericDialogContent = ({
     InitialValues,
     state,
     setState,
-    validate,
+    validate
   });
 
   React.useEffect(() => {
@@ -193,7 +193,7 @@ const GenericDialogContent = ({
     fullWidth,
     minColumnWidth,
     maxColumnWidth,
-    Template,
+    Template
   };
 
   const inProgress = loading || submitting;

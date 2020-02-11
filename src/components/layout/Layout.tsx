@@ -7,26 +7,26 @@ import SnackBar from '../application/SnackBar/SnackBar';
 const useStyles = makeStyles(({ breakpoints, palette, mixins, layout }: any) =>
   createStyles({
     root: {
-      display: 'static',
+      display: 'static'
     },
     content: {
       flexGrow: 1,
       backgroundColor: palette.background.default,
       [breakpoints.down('sm')]: {
         marginLeft: 0,
-        flexShrink: 0,
-      },
+        flexShrink: 0
+      }
     },
     innerContent: {
-      padding: layout.contentpadding,
+      padding: layout.contentpadding
     },
     toolbar: {
       background: palette.white,
       height: layout.toolbarheight,
       [breakpoints.down('sm')]: {
-        height: 64,
-      },
-    },
+        height: 64
+      }
+    }
   })
 );
 

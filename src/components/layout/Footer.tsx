@@ -7,11 +7,11 @@ const useStyles = makeStyles(({ zIndex }: any) =>
     bottomAppBar: {
       top: 'auto',
       bottom: 0,
-      zIndex: zIndex.drawer + 1,
+      zIndex: zIndex.drawer + 1
     },
     bottomToolBar: {
-      minHeight: (theme as any).layout.footerheight,
-    },
+      minHeight: (theme as any).layout.footerheight
+    }
   } as any)
 );
 

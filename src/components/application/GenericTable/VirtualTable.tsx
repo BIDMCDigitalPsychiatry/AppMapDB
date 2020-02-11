@@ -178,14 +178,7 @@ export default function VirtualTable(props: VirtualTableProps) {
                 <>
                   <div style={{ width: width }}>
                     <Collapse className={classes.collapse} in={length > 0}>
-                      <Grid
-                        className={classes.selectedHeader}
-                        container
-                        direction='row'
-                        justify='space-between'
-                        alignItems='center'
-                        spacing={0}
-                      >
+                      <Grid className={classes.selectedHeader} container direction='row' justify='space-between' alignItems='center' spacing={0}>
                         <Grid item xs zeroMinWidth>
                           <Typography noWrap color='inherit' variant='h5'>
                             {itemtxt}
@@ -193,11 +186,7 @@ export default function VirtualTable(props: VirtualTableProps) {
                         </Grid>
                         <Grid item xs>
                           <Grid container justify='flex-end' alignItems='center' alignContent='center'>
-                            <Grid item>
-                              {length > 0 && MultiSelectToolbar && (
-                                <MultiSelectToolbar rowData={getRowData(selectedRowIds, data)} />
-                              )}
-                            </Grid>
+                            <Grid item>{length > 0 && MultiSelectToolbar && <MultiSelectToolbar rowData={getRowData(selectedRowIds, data)} />}</Grid>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -232,16 +221,11 @@ export default function VirtualTable(props: VirtualTableProps) {
                               header: (
                                 <Checkbox
                                   checkedIcon={<Icons.CheckBox className={classes.checkboxIcon} color='primary' />}
-                                  indeterminateIcon={
-                                    <Icons.IndeterminateCheckBox className={classes.checkboxIcon} color='primary' />
-                                  }
+                                  indeterminateIcon={<Icons.IndeterminateCheckBox className={classes.checkboxIcon} color='primary' />}
                                   checked={state.selectedRowIds.filter(rid => data.find(d => d.id === rid)).length > 0}
                                   onChange={e =>
                                     setState(prevState => {
-                                      if (
-                                        prevState.selectedRowIds.filter(rid => data.find(d => d.id === rid)).length ===
-                                        data.length
-                                      ) {
+                                      if (prevState.selectedRowIds.filter(rid => data.find(d => d.id === rid)).length === data.length) {
                                         // deselect all
                                         return { selectedRowIds: [] };
                                       } else {
@@ -253,8 +237,7 @@ export default function VirtualTable(props: VirtualTableProps) {
                                     })
                                   }
                                   {...(state.selectedRowIds.filter(rid => data.find(d => d.id === rid)).length > 0 &&
-                                    state.selectedRowIds.filter(rid => data.find(d => d.id === rid)).length !==
-                                      data.length && {
+                                    state.selectedRowIds.filter(rid => data.find(d => d.id === rid)).length !== data.length && {
                                       indeterminate: true,
                                       color: 'default'
                                     })}
@@ -263,9 +246,7 @@ export default function VirtualTable(props: VirtualTableProps) {
                               cell: rowData => (
                                 <Checkbox
                                   checkedIcon={<Icons.CheckBox className={classes.checkboxIcon} color='primary' />}
-                                  checked={state.selectedRowIds
-                                    .filter(rid => data.find(d => d.id === rid))
-                                    .some(id => rowData.id === id)}
+                                  checked={state.selectedRowIds.filter(rid => data.find(d => d.id === rid)).some(id => rowData.id === id)}
                                 />
                               ),
                               cellProps: {
@@ -277,16 +258,9 @@ export default function VirtualTable(props: VirtualTableProps) {
                           ]
                         : sortinjectedcolumns
                     }
-                    isCellSelected={
-                      select
-                        ? (column, rowData) => state.selectedRowIds.some(id => rowData && rowData.id === id)
-                        : undefined
-                    }
+                    isCellSelected={select ? (column, rowData) => state.selectedRowIds.some(id => rowData && rowData.id === id) : undefined}
                     isCellHovered={
-                      hover
-                        ? (column, rowData, hoveredColumn, hoveredRowData) =>
-                            rowData && rowData.id && rowData.id === hoveredRowData.id
-                        : undefined
+                      hover ? (column, rowData, hoveredColumn, hoveredRowData) => rowData && rowData.id && rowData.id === hoveredRowData.id : undefined
                     }
                     onCellClick={
                       select

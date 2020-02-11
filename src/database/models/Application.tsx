@@ -24,7 +24,7 @@ export type Feature =
   | 'Journaling'
   | 'Productivity'
   | 'Peer Support'
-  | 'Physical Health'  
+  | 'Physical Health'
   | 'Track Mood'
   | 'Track Medication'
   | 'Track Sleep'
@@ -50,7 +50,7 @@ export const Features = [
   'Journaling',
   'Productivity',
   'Peer Support',
-  'Physical Health',  
+  'Physical Health',
   'Track Mood',
   'Track Medication',
   'Track Sleep',

@@ -14,7 +14,7 @@ const ExtendedButton = ({
   disabled = false,
   setDisabledColor = true,
   fullWidth = false,
-  noGrid = true,
+  noGrid = true
 }) => {
   const theme = useTheme();
   const wrapGrid = Component =>
@@ -43,7 +43,7 @@ const ExtendedButton = ({
           onClick={onClick}
           style={{
             color: disabled && setDisabledColor ? theme.palette.primary.light : theme.palette.common.white,
-            width: fullWidth ? '100%' : undefined,
+            width: fullWidth ? '100%' : undefined
           }}
         >
           <Grid container justify='space-between' alignItems='center'>

@@ -16,15 +16,9 @@ const getColumnFields = (fields, columns, index) => {
 export const MapField = ({ Field, style, active, xs = 12, values, mapField, fullWidth, ...f }) => {
   const collapse = isActive({ active }, values);
 
-  const item = Field ? (
-    <Field {...mapField(f)} values={values} />
-  ) : checkEmpty(f.id) ? (
-    undefined
-  ) : (
-    <Text {...mapField(f)} />
-  );
+  const item = Field ? <Field {...mapField(f)} values={values} /> : checkEmpty(f.id) ? undefined : <Text {...mapField(f)} />;
 
-  const { id, container, object } = f; // InputProps causes circular reference error for some reason, so remove it before stringify  
+  const { id, container, object } = f; // InputProps causes circular reference error for some reason, so remove it before stringify
   const value = getValue(f, values);
 
   const wrappeditem = (
@@ -48,24 +42,11 @@ export const MapField = ({ Field, style, active, xs = 12, values, mapField, full
   );
 };
 
-const Fields = ({
-  fields,
-  mapField,
-  values,
-  fullWidth = false,
-  columns = 1,
-  minColumnWidth = 250,
-  maxColumnWidth = 250,
-}) =>
+const Fields = ({ fields, mapField, values, fullWidth = false, columns = 1, minColumnWidth = 250, maxColumnWidth = 250 }) =>
   columns > 1 ? (
     <Grid key='column-container' item xs={12} container spacing={2} justify='center'>
       {Array.from(Array(columns).keys()).map(i => (
-        <Grid
-          key={i}
-          item
-          xs={fullWidth ? 12 : true}
-          style={fullWidth ? {} : { minWidth: minColumnWidth, maxWidth: maxColumnWidth }}
-        >
+        <Grid key={i} item xs={fullWidth ? 12 : true} style={fullWidth ? {} : { minWidth: minColumnWidth, maxWidth: maxColumnWidth }}>
           <Grid container>
             <Fields
               fields={getColumnFields(fields, columns, i)}
@@ -81,9 +62,7 @@ const Fields = ({
       ))}
     </Grid>
   ) : (
-    fields
-      .filter(f => !isHidden(f, values))
-      .map((props, i) => <MapField key={i} values={values} mapField={mapField} fullWidth={fullWidth} {...props} />)
+    fields.filter(f => !isHidden(f, values)).map((props, i) => <MapField key={i} values={values} mapField={mapField} fullWidth={fullWidth} {...props} />)
   );
 
 export default Fields;

@@ -5,8 +5,8 @@ import { makeStyles, createStyles } from '@material-ui/core';
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     root: ({ disabled }: any) => ({
-      color: disabled ? palette.text.disabled : 'inherit',
-    }),
+      color: disabled ? palette.text.disabled : 'inherit'
+    })
   })
 );
 

@@ -23,13 +23,7 @@ interface ChipData {
   label: string;
 }
 
-export default function MultiChipSelect({
-  value,
-  onChange = undefined,
-  disabled = false,
-  size = 'small' as 'small',
-  ...other
-}) {
+export default function MultiChipSelect({ value, onChange = undefined, disabled = false, size = 'small' as 'small', ...other }) {
   const classes = useStyles({});
 
   const value_s = JSON.stringify(value);

@@ -12,7 +12,7 @@ export default function useFetchDataState({ pdi, trigger = undefined, state, set
         ...prev,
         loading: false,
         showErrors: true,
-        errors: { ...prev.errors, loading: error }, // Store the error in the dialog state under loading key
+        errors: { ...prev.errors, loading: error } // Store the error in the dialog state under loading key
       })),
     [setState]
   );

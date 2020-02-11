@@ -24,7 +24,7 @@ const useStyles = makeStyles(() =>
       overflow: 'hidden' as 'hidden',
       position: 'fixed' as 'fixed',
       width: 'calc(100vw)',
-      height: 'calc(100vh)',
+      height: 'calc(100vh)'
     },
     static: {
       flexGrow: 1,
@@ -32,8 +32,8 @@ const useStyles = makeStyles(() =>
       overflow: 'hidden' as 'hidden',
       position: 'fixed' as 'fixed',
       display: 'static' as 'static',
-      width: '100%',
-    },
+      width: '100%'
+    }
   })
 );
 
@@ -46,9 +46,7 @@ const ViewPort = ({ children }) => {
     <>
       <div className={classes.dimensions}>
         <ContainerDimensions>
-          {({ height, width }: any) => (
-            <ViewPortDimensions containerHeight={height} containerWidth={width} resizeViewPort={resizeViewPort} />
-          )}
+          {({ height, width }: any) => <ViewPortDimensions containerHeight={height} containerWidth={width} resizeViewPort={resizeViewPort} />}
         </ContainerDimensions>
       </div>
 

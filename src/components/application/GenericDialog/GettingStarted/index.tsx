@@ -21,16 +21,5 @@ const Content = () => {
 };
 
 export default function GettingStartedDialog({ id = title, onClose, ...other }) {
-  return (
-    <GenericDialog
-      id={id}
-      maxWidth='sm'
-      title={title}
-      onClose={onClose}
-      submitLabel={null}
-      cancelLabel='Close'
-      Content={Content}
-      {...other}
-    />
-  );
+  return <GenericDialog id={id} maxWidth='sm' title={title} onClose={onClose} submitLabel={null} cancelLabel='Close' Content={Content} {...other} />;
 }

@@ -11,7 +11,7 @@ const Text = ({ value = '', forceErrorMargin = false, error = undefined, initial
     variant='outlined'
     fullWidth
     InputLabelProps={{
-      shrink: true,
+      shrink: true
     }}
     {...other}
   />
