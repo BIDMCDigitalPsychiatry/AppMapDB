@@ -7,7 +7,7 @@ import { tableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import Decimal from 'decimal.js-light';
 
-const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value.includes(c)), true);
+const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
 export const from_database = (state: AppState, props: GenericTableContainerProps) => {
   const apps = state.database[tables.applications] ?? {};
