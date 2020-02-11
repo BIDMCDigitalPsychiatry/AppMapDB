@@ -160,9 +160,3 @@ export function uuid() {
     })
     .replace(/-/g, '');
 }
-
-export const _idField = {
-  id: '_id',
-  hidden: true,
-  initialValue: uuid()
-};

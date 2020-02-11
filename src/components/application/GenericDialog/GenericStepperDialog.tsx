@@ -8,17 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import {
-  IconButton,
-  Grid,
-  Tooltip,
-  Step,
-  MobileStepper,
-  Collapse,
-  Chip,
-  CircularProgress,
-  useTheme,
-} from '@material-ui/core';
+import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme } from '@material-ui/core';
 import { useDialogState } from './useDialogState';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
@@ -47,16 +37,16 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       display: 'flex',
       flexDirection: 'column',
       outline: 'none',
-      border: `5px solid ${palette.primary}`,
+      border: `5px solid ${palette.primary}`
     },
     capitalize: {
-      textTransform: 'capitalize',
+      textTransform: 'capitalize'
     },
     dialogActions: {
       margin: 0,
       padding: spacing(1),
       paddingTop: spacing(0.5),
-      paddingBottom: spacing(0.5),
+      paddingBottom: spacing(0.5)
     },
     dialogTitle: {
       background: palette.primary.main,
@@ -64,20 +54,20 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       margin: 0,
       padding: 0,
       paddingLeft: spacing(2),
-      paddingRight: spacing(1),
+      paddingRight: spacing(1)
     },
     closeButton: {
-      color: 'inherit',
+      color: 'inherit'
     },
     deleteButton: {
       color: palette.common.white,
       background: palette.error.main,
       '&:hover': {
-        background: palette.error.dark,
-      },
+        background: palette.error.dark
+      }
     },
     mobileStepper: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     submitProgress: {
       color: palette.primary.light,
@@ -85,8 +75,8 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       top: '50%',
       left: '50%',
       marginTop: -(layout.progressSize / 2),
-      marginLeft: -(layout.progressSize / 2),
-    },
+      marginLeft: -(layout.progressSize / 2)
+    }
   })
 );
 
@@ -147,7 +137,7 @@ const GenericStepperDialog = ({
     InitialValues,
     state,
     setState,
-    validate,
+    validate
   });
 
   // Re-initialize values when necessary
@@ -164,7 +154,7 @@ const GenericStepperDialog = ({
   const stepValidate = currentStep.validate;
 
   const activeErrorCount = currentStep.fields ? currentStep.fields.filter(f => isError(f, values, errors)).length : 0;
-  
+
   const values_s = JSON.stringify(values);
   const handleSubmit = React.useCallback(() => {
     if (activeErrorCount > 0) {
@@ -259,14 +249,7 @@ const GenericStepperDialog = ({
             {activeSteps.map(({ fields = [], label, onActivate, minWidth }, i) => (
               <Collapse key={i} in={activeStep === i}>
                 <Step key={label}>
-                  <OnActivate
-                    key={label}
-                    index={i}
-                    activeIndex={activeStep}
-                    onActivate={onActivate}
-                    values={values}
-                    setValues={setValues}
-                  >
+                  <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
                     <Grid container alignItems='center' spacing={1}>
                       <Fields fields={fields} mapField={mapField} values={values} />
                     </Grid>
@@ -302,13 +285,7 @@ const GenericStepperDialog = ({
             className={classes.mobileStepper}
             nextButton={
               activeStep === activeSteps.length - 1 ? (
-                <Button
-                  color='primary'
-                  size='small'
-                  variant='contained'
-                  disabled={!hasChanged || disabled}
-                  onClick={handleSubmit}
-                >
+                <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
                   Finish
                   <CheckIcon style={{ marginLeft: 4 }} />
                 </Button>
@@ -323,13 +300,7 @@ const GenericStepperDialog = ({
             }
             backButton={
               activeStep === 0 && type === 'Edit' && onDelete !== undefined ? (
-                <Button
-                  className={classes.deleteButton}
-                  size='small'
-                  variant='contained'
-                  onClick={handleConfirmDelete}
-                  disabled={disabled}
-                >
+                <Button className={classes.deleteButton} size='small' variant='contained' onClick={handleConfirmDelete} disabled={disabled}>
                   <DeleteIcon style={{ marginRight: 4 }} />
                   {deleteLabel}
                 </Button>

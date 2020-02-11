@@ -26,7 +26,7 @@ export const useProcessDataHandle = () => {
 };
 
 const processData = (
-  { Model: Table, Data, Action = 'c', Snackbar = undefined, onSuccess = undefined, onError = undefined }: ProcessDataInfo,
+  { Model: Table, Data, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined }: ProcessDataInfo,
   updateDatabase
 ) => async (dispatch: any, getState: any) => {
   const { _id } = Data;

@@ -17,7 +17,7 @@ import Rating from '../../DialogField/Rating';
 import Select from '../../DialogField/Select';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
-import { _idField } from '../../../../helpers';
+import { uuid } from '../../../../helpers';
 
 export const title = 'Rate New Application';
 
@@ -33,9 +33,16 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
 
   const handleProcessData = (values, Action) => {
     const application: Application = values[tables.applications];
+
+    if (Action === 'c') {
+      application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
+    }
+
     const rating: Application = { ...values[tables.ratings], appId: application._id }; // Inject appId for document linkage
+
     processData({ Model: tables.applications, Action, Data: application }); // Submit application row
     processData({ Model: tables.ratings, Action, Data: rating }); // Inject appId and submit rating row
+
     handleClose();
   };
 
@@ -51,7 +58,6 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
     {
       label: 'Select supported platforms',
       fields: [
-        _idField, // Include client generated key, so it can be injected into the rating on submit
         {
           id: 'name',
           label: 'Application Name',
@@ -69,19 +75,19 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           id: 'androidLink',
           label: 'Enter link to app on Google Play store',
           required: true,
-          active: values => Array.isArray(values.platforms) && values.platforms.includes('Android')
+          active: values => Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('Android')
         },
         {
           id: 'iosLink',
           label: 'Enter link to app on the Apple App store',
           required: true,
-          active: values => Array.isArray(values.platforms) && values.platforms.includes('iOS')
+          active: values => Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('iOS')
         },
         {
           id: 'webLink',
           label: 'Enter web link to app',
           required: true,
-          active: values => Array.isArray(values.platforms) && values.platforms.includes('Web')
+          active: values => Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('Web')
         }
       ].map(f => ({ ...f, container: tables.applications }))
     },
