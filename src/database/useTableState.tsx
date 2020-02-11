@@ -14,7 +14,7 @@ export const useTableLength = table => useSelector((state: AppState) => Object.k
 
 export const useDatabaseRow = (table, id) => {
   const dispatch = useDispatch();
-  const row = useSelector((state: AppState) => (state.database[table] || {})[id] || {});
+  const row = useSelector((state: AppState) => (state.database[table] ?? {})[id] || {});
   const updateRow = React.useCallback(payload => dispatch(updateDatabase(table, id, payload)), [table, id, dispatch]);
   return [row, updateRow];
 };

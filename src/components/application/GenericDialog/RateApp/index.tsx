@@ -2,19 +2,22 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import Rating from '../../DialogField/Rating';
+import { useProcessData } from '../../../../database/useProcessData';
+import { tables } from '../../../../database/dbConfig';
 
 export const title = 'Rate Application';
 
 export default function RateApp({ id = title, onClose, ...other }) {
   const [, setDialogState] = useDialogState(id);
+  const processData = useProcessData();
 
   const handleSubmit = React.useCallback(
     values => {
-      // TO DO: Insert into database
+      processData({ Model: tables.ratings, Data: values });
       setDialogState(prev => ({ ...prev, open: false, submitting: false, errors: {} }));
       onClose && onClose();
     },
-    [setDialogState, onClose]
+    [processData, setDialogState, onClose]
   );
 
   const handleValidation = (values, dialogState) => {
