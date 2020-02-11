@@ -29,12 +29,12 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           name: app.name,
           rating,
           company: app.company,
-          costs: app.costs.join(''),
-          platforms: app.platforms.join(' '), // for searching
-          features: app.features.join(' '), // for searching
-          functionalities: app.functionalities.join(' '),
-          conditions: app.conditions.join(' '),
-          privicies: app.privicies.join(' '),
+          costs: app.costs?.join(''),
+          platforms: app.platforms?.join(' '), // for searching
+          features: app.features?.join(' '), // for searching
+          functionalities: app.functionalities?.join(' '),
+          conditions: app.conditions?.join(' '),
+          privicies: app.privicies?.join(' '),
           clinicalFoundation: app.clincialFoundation,
           getValues: () => ({ ...app, rating, ratingIds })
         };

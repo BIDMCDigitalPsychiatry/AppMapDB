@@ -3,7 +3,7 @@ import GenericStepperDialog from '../GenericStepperDialog';
 import { useDialogState } from '../useDialogState';
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import Radio from '../../DialogField/Radio';
-import {
+import Application, {
   Platforms,
   DeveloperTypes,
   Features,
@@ -17,6 +17,7 @@ import Rating from '../../DialogField/Rating';
 import Select from '../../DialogField/Select';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
+import { _idField } from '../../../../helpers';
 
 export const title = 'Rate New Application';
 
@@ -31,7 +32,10 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
   const processData = useProcessData();
 
   const handleProcessData = (values, Action) => {
-    processData({ Model: tables.applications, Data: values, Action }); // To be completed
+    const application: Application = values[tables.applications];
+    const rating: Application = { ...values[tables.ratings], appId: application._id }; // Inject appId for document linkage
+    processData({ Model: tables.applications, Action, Data: application }); // Submit application row
+    processData({ Model: tables.ratings, Action, Data: rating }); // Inject appId and submit rating row
     handleClose();
   };
 
@@ -47,6 +51,12 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
     {
       label: 'Select supported platforms',
       fields: [
+        _idField, // Include client generated key, so it can be injected into the rating on submit
+        {
+          id: 'name',
+          label: 'Application Name',
+          required: true
+        },
         {
           id: 'platforms',
           label: 'Platforms',
@@ -73,7 +83,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           required: true,
           active: values => Array.isArray(values.platforms) && values.platforms.includes('Web')
         }
-      ]
+      ].map(f => ({ ...f, container: tables.applications }))
     },
     {
       label: 'Application costs and type of developer',
@@ -92,7 +102,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           Field: Radio,
           items: DeveloperTypes.map(dt => ({ value: dt, label: dt }))
         }
-      ]
+      ].map(f => ({ ...f, container: tables.applications }))
     },
     {
       label: 'Select available features',
@@ -103,7 +113,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           Field: MultiSelectCheck,
           items: Features.map(value => ({ value, label: value }))
         }
-      ]
+      ].map(f => ({ ...f, container: tables.applications }))
     },
     {
       label: 'Select clinical foundation conditions',
@@ -122,7 +132,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           Field: MultiSelectCheck,
           items: Conditions.map(value => ({ value, label: value }))
         }
-      ]
+      ].map(f => ({ ...f, container: tables.applications }))
     },
     {
       label: 'Select functionality and privacy options',
@@ -139,13 +149,13 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           Field: MultiSelectCheck,
           items: Privacies.map(value => ({ value, label: value }))
         }
-      ]
+      ].map(f => ({ ...f, container: tables.applications }))
     },
     {
       label: 'Enter rating and review',
       fields: [
-        { id: 'name', label: 'Enter name of reviewer', xs: 8, initialValue: 'Anonymous', required: true },
-        { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true },
+        { id: 'name', label: 'Enter name of reviewer', xs: 8, initialValue: 'Anonymous', required: true, container: tables.ratings },
+        { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true, container: tables.ratings },
         {
           id: 'review',
           label: 'Enter Review',
@@ -155,7 +165,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           required: true,
           autoFocus: true
         }
-      ]
+      ].map(f => ({ ...f, container: tables.ratings }))
     }
   ];
 
