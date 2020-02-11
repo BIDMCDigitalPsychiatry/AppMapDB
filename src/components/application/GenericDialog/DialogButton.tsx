@@ -16,10 +16,10 @@ import {
   withStyles,
   Link
 } from '@material-ui/core';
-import { useDialogState } from '../GenericDialog/actions';
+import { useDialogState } from './useDialogState';
 import EditIcon from '@material-ui/icons/Edit';
 import { checkEmpty, evalFunc, isEmpty } from '../../../helpers';
-import { useTableFilterValues } from '../GenericTable/TableStore';
+import { useTableFilterValues } from '../GenericTable/store';
 import * as Icons from '@material-ui/icons';
 
 export interface DialogModuleProps {

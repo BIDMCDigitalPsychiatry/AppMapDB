@@ -1,9 +1,9 @@
-import * as Layout from './components/layout/LayoutStore';
-import * as Table from './components/application/GenericTable/TableStore';
-import dialogReducer from './components/application/GenericDialog/reducers';
-import * as Selector from './components/application/Selector/SelectorStore';
-import snackBarReducer from './components/application/SnackBar/reducers';
-import databaseReducer from './database/reducers';
+import * as Layout from './components/layout/store';
+import * as Table from './components/application/GenericTable/store';
+import * as Dialog from './components/application/GenericDialog/store';
+import * as Selector from './components/application/Selector/store';
+import * as SnackBar from './components/application/SnackBar/store';
+import * as Database from './database/store';
 
 // The top-level state object
 export interface AppState {
@@ -21,15 +21,9 @@ export interface AppState {
 // acts on the corresponding AppState property type.
 export const reducers = {
   layout: Layout.reducer,
-  dialog: dialogReducer,
+  dialog: Dialog.reducer,
   table: Table.reducer,
   selector: Selector.reducer,
-  snackBar: snackBarReducer,
-  database: databaseReducer
+  snackBar: SnackBar.reducer,
+  database: Database.reducer
 };
-
-// This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are
-// correctly typed to match your store.
-export interface AppThunkAction<TAction> {
-  (dispatch: (action: TAction) => void, getState: () => AppState): void;
-}

@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Paper, Typography, createStyles, makeStyles } from '@material-ui/core';
-import { useTabSelector } from '../../application/Selector/SelectorStore';
+import useTabSelector from '../../application/Selector/useTabSelector';
 
 export interface ComponentProps {
   id?: string;
@@ -18,29 +18,29 @@ const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     root: ({ rounded }) => ({
       background: palette.grey[600],
-      borderRadius: rounded ? undefined : 0,
+      borderRadius: rounded ? undefined : 0
     }),
     tabs: ({ minHeight }: any) => ({
       minHeight,
-      borderRadius: 'inherit',
+      borderRadius: 'inherit'
     }),
     indicator: {
       background: palette.primary.main,
       height: '100%',
       zIndex: 0,
-      borderRadius: 'inherit',
+      borderRadius: 'inherit'
     },
     labelIcon: ({ minHeight }: any) => ({
       color: palette.common.white,
       zIndex: 1,
-      minHeight,
+      minHeight
     }),
     tabroot: ({ minHeight }: any) => ({
       padding: 0,
       color: palette.common.white,
       zIndex: 1,
       minWidth: 24,
-      minHeight,
+      minHeight
     }),
     wrapper: {
       display: 'inline-flex',
@@ -48,8 +48,8 @@ const useStyles = makeStyles(({ palette }: any) =>
       justifyContent: 'center',
       width: '100%',
       flexDirection: 'column',
-      borderRadius: 'inherit',
-    },
+      borderRadius: 'inherit'
+    }
   })
 );
 
@@ -87,14 +87,7 @@ const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, roun
 
   return (
     <Paper className={classes.root}>
-      <Tabs
-        variant='fullWidth'
-        className={classes.tabs}
-        scrollButtons='off'
-        value={value}
-        onChange={handleChange}
-        classes={{ indicator: classes.indicator }}
-      >
+      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons='off' value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
         {!tabs ? (
           <></>
         ) : (
@@ -105,7 +98,7 @@ const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, roun
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
                 wrapper: classes.wrapper,
-                wrapped: classes.labelIcon,
+                wrapped: classes.labelIcon
               }}
               icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
               value={t.id}

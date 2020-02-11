@@ -1,11 +1,11 @@
 import React from 'react';
-import * as LayoutStore from './LayoutStore';
 import { evalFunc } from '../../helpers';
+import { useProcessData } from '../../database/useProcessData';
 
 export default function useFetchData({ onSuccess = undefined, onError = undefined }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState({});
-  const processData = LayoutStore.useProcessData();
+  const processData = useProcessData();
   const [data, setData] = React.useState(undefined); // Holds the server information of the last server that was successfully pre-created
 
   const fetchData = React.useCallback(
@@ -22,7 +22,7 @@ export default function useFetchData({ onSuccess = undefined, onError = undefine
         onError: error => {
           setError(error);
           onError && onError(error);
-        },
+        }
       });
     },
     [processData, setData, setError, setLoading, onSuccess, onError]

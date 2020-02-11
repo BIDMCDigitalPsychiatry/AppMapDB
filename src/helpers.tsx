@@ -140,3 +140,13 @@ export function decimalsum(total: Decimal, amount: Decimal) {
 }
 
 export const publicUrl = path => process.env.PUBLIC_URL + path;
+
+export function updateState(state, { payload, id }) {
+  const data = evalFunc(payload, state[id]);
+  var newState = { ...state };
+  newState[id] = data;
+  if (state && state[id]) {
+    newState[id] = data;
+  }
+  return newState;
+}

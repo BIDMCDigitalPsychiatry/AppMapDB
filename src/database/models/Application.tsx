@@ -9,8 +9,8 @@ export const Costs: Cost[] = ['Totally Free', 'In-App Purchase', 'Payment', 'Sub
 export type ClinicalFoundation = 'No Supporting Studies' | 'Supporting Studies';
 export const ClinicalFoundations: ClinicalFoundation[] = ['No Supporting Studies', 'Supporting Studies'];
 
-export type Privacy = 'Has Privacy Policy' | 'Data Stored on Device' | 'Can Delete Data';
-export const Privacies: Privacy[] = ['Has Privacy Policy', 'Data Stored on Device', 'Can Delete Data'];
+export type Privacy = 'Has Privacy Policy' | 'Data Stored on Device' | 'Data Stored on Server' | 'Can Delete Data';
+export const Privacies: Privacy[] = ['Has Privacy Policy', 'Data Stored on Device', 'Data Stored on Server', 'Can Delete Data'];
 
 export type Functionality = 'Offline' | 'Accessibility';
 export const Functionalities: Functionality[] = ['Offline', 'Accessibility'];
@@ -24,27 +24,49 @@ export type Feature =
   | 'Journaling'
   | 'Productivity'
   | 'Peer Support'
-  | 'Physical Health';
-export const Features = ['Track Symptoms', 'Chatbot/AI', 'Assessments', 'CBT', 'Mindfulness', 'Journaling', 'Productivity', 'Peer Support', 'Physical Health'];
+  | 'Physical Health'  
+  | 'Track Mood'
+  | 'Track Medication'
+  | 'Track Sleep'
+  | 'Psychoeducation'
+  | 'Deep Breathing'
+  | 'ACT'
+  | 'DBT'
+  | 'Biodata'
+  | 'Coach/Therapist Connection'
+  | 'Goal Setting/Habits'
+  | 'Physical Health Excersizes'
+  | 'Picture Gallery/Hope Board'
+  | 'iCBT or Sleep Therapy'
+  | 'Bbot Interaction'
+  | 'Bio Feedback with Sense Data';
 
-/* More features in csv file
-'Sleep Tracking'
-'Track Mood'
-'Track Medication'
-'Track Sleep'
-'Psychoeducation'
-'Deep Breathing'
-'ACT'
-'DBT'
-'Bio Data'
-'Coach/Therapist Connection'
-'Goal Setting/Habits'
-'Physical Health Excersizes'
-'Picture Gallery/Hope Board'
-'iCBT or Sleep Therapy'
-'Bbot Interactin'
-'Bio Feedback with Sense Data'
-*/
+export const Features = [
+  'Track Symptoms',
+  'Chatbot/AI',
+  'Assessments',
+  'CBT',
+  'Mindfulness',
+  'Journaling',
+  'Productivity',
+  'Peer Support',
+  'Physical Health',  
+  'Track Mood',
+  'Track Medication',
+  'Track Sleep',
+  'Psychoeducation',
+  'Deep Breathing',
+  'ACT',
+  'DBT',
+  'Biodata',
+  'Coach/Therapist Connection',
+  'Goal Setting/Habits',
+  'Physical Health Excersizes',
+  'Picture Gallery/Hope Board',
+  'iCBT or Sleep Therapy',
+  'Bbot Interaction',
+  'Bio Feedback with Sense Data'
+];
 
 export type Condition = 'Mood Disorders' | 'Stress & Anxiety' | 'Sleep' | 'Phobias' | 'OCD' | 'Schizophrenia' | 'Eating Disorders' | 'Personality Disorders';
 export const Conditions: Condition[] = [

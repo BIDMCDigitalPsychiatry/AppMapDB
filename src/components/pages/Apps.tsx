@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as Tables from '../application/GenericTable';
-import { useViewMode } from '../layout/LayoutStore';
-import { useRatings, useApplications, useAutoBuildIndex } from '../../database/actions';
+import { useViewMode } from '../layout/store';
 import DB from '../../database/dbConfig';
+import { useApplications } from '../../database/useApplications';
+import { useRatings, useAutoBuildIndex } from '../../database/useRatings';
 
 export default function Apps() {
   const [viewMode] = useViewMode() as any;

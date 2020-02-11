@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as LayoutStore from './LayoutStore';
+import * as LayoutStore from './store';
 import ContainerDimensions from 'react-container-dimensions';
 import { makeStyles, createStyles, useTheme } from '@material-ui/core';
 

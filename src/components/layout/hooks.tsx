@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
-import { useResizeAppBar } from './LayoutStore';
+import { useResizeAppBar } from './store';
 
 export const useAppBarHeightRef = () => {
   let ref = React.useRef(null);

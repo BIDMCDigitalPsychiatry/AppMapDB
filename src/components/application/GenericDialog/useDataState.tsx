@@ -1,6 +1,6 @@
 import React from 'react';
-import { useProcessData } from '../../layout/LayoutStore';
 import useFetchDataState from './useFetchDataState';
+import { useProcessData } from '../../../database/useProcessData';
 
 export default function useDataState({ pdi, state = {}, setState = undefined, onClose = undefined }) {
   const processData = useProcessData();

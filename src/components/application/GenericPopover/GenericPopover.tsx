@@ -16,7 +16,7 @@ import {
   Collapse,
   CardHeader
 } from '@material-ui/core';
-import { useDialogState } from '../GenericDialog/actions';
+import { useDialogState } from '../GenericDialog/useDialogState';
 import { useValues, FieldProps } from '../GenericDialog/helpers';
 import ErrorGate from '../GenericDialog/ErrorGate';
 import * as Icons from '@material-ui/icons';

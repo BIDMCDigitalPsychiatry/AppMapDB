@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { IconButton, Grid, Tooltip, CircularProgress, useTheme, Collapse } from '@material-ui/core';
-import { useDialogState } from './actions';
+import { useDialogState } from './useDialogState';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 import { useValues } from './helpers';

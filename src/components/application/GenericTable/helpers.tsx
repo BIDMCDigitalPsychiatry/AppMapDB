@@ -1,6 +1,7 @@
 ﻿import { AppState } from '../../../store';
 import { GenericTableContainerProps } from './GenericTableContainer';
-import * as TableStore from './TableStore';
+import * as TableStore from './store';
+import { spread } from '../../../helpers';
 
 ///////////////////////////////////////////
 /////////////// Table Sorters  ////////////
@@ -117,4 +118,26 @@ function stableSort(array, cmp) {
 function getSorting(order, orderBy, sortComparator) {
   const cmp = sortComparators[sortComparator];
   return cmp && order === 'desc' ? (a, b) => -cmp(a, b, orderBy) : (a, b) => cmp(a, b, orderBy);
+}
+
+export function setDefaults(state: TableStore.State, tables: TableStore.Table[]): TableStore.State {
+  //If default table doesnt exist in state, then populate the values, then combine state with upated state
+  return tables
+    .filter(t => !state[t.id])
+    .map(t => updateState(state, t))
+    .reduce(spread, { ...state });
+}
+
+// Store helpers
+export function updateState(state: TableStore.State, table: TableStore.Table) {
+  var newState = { ...state };
+  newState[table.id] = table;
+  if (state && state[table.id]) {
+    //If table already exists, keep any other existing props
+    newState[table.id] = {
+      ...state[table.id],
+      ...table
+    };
+  }
+  return newState;
 }

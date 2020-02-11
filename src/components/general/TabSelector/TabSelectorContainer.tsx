@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { useTabSelector } from '../../application/Selector/SelectorStore';
 import { TabSelectorItem } from './TabSelector';
+import useTabSelector from '../../application/Selector/useTabSelector';
 
 export interface ComponentProps {
   id: string;
@@ -13,8 +13,8 @@ const useStyles = makeStyles(({ palette, layout }: any) =>
   createStyles({
     root: {},
     tablecontainer: {
-      paddingTop: layout.contentrowspacing,
-    },
+      paddingTop: layout.contentrowspacing
+    }
   })
 );
 

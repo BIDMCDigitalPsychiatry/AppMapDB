@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from '@material-ui/core';
-import * as LayoutStore from '../../layout/LayoutStore';
+import * as LayoutStore from '../../layout/store';
 
 const DialogTableContent = ({
   Table,

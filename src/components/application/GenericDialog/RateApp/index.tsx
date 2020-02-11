@@ -1,6 +1,6 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { useDialogState } from '../actions';
+import { useDialogState } from '../useDialogState';
 import Rating from '../../DialogField/Rating';
 
 export const title = 'Rate Application';

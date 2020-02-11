@@ -1,7 +1,6 @@
 import React from 'react';
-import * as LayoutStore from '../../../layout/LayoutStore';
 import GenericStepperDialog from '../GenericStepperDialog';
-import { useDialogState } from '../actions';
+import { useDialogState } from '../useDialogState';
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import Radio from '../../DialogField/Radio';
 import {
@@ -16,6 +15,8 @@ import {
 } from '../../../../database/models/Application';
 import Rating from '../../DialogField/Rating';
 import Select from '../../DialogField/Select';
+import { tables } from '../../../../database/dbConfig';
+import { useProcessData } from '../../../../database/useProcessData';
 
 export const title = 'Rate New Application';
 
@@ -27,10 +28,10 @@ export interface ComponentProps {
 export default function RateNewAppDialog({ id = title, onClose }: ComponentProps) {
   const [{ type }, setDialogState] = useDialogState(id);
 
-  const processData = LayoutStore.useProcessData();
+  const processData = useProcessData();
 
   const handleProcessData = (values, Action) => {
-    processData({}); // To be completed
+    processData({ Model: tables.applications, Data: values, Action }); // To be completed
     handleClose();
   };
 

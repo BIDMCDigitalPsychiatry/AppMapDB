@@ -5,8 +5,8 @@ import MuiTable from 'mui-virtualized-table';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Component from '@reactions/component';
 import classNames from 'classnames';
-import * as TableStore from './TableStore';
-import { SortComparator } from './tablehelpers';
+import * as TableStore from './store';
+import { SortComparator } from './helpers';
 import { evalFunc } from '../../../helpers';
 
 export interface VirtualTableProps {

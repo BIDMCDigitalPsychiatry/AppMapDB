@@ -3,7 +3,7 @@ import { GenericTableContainerProps } from '../GenericTableContainer';
 import Application from '../../../../database/models/Application';
 import { name } from './table';
 import { isEmpty, decimalsum } from '../../../../helpers';
-import { tableFilter } from '../tablehelpers';
+import { tableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import Decimal from 'decimal.js-light';
 

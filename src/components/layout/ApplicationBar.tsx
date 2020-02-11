@@ -7,7 +7,7 @@ import logo from '../../images/logo.png';
 import { useLocation, useHistory } from 'react-router';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import * as RateAppDialog from '../application/GenericDialog/RateNewApp';
-import { useDialogState } from '../application/GenericDialog/actions';
+import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useAppBarHeightRef } from './hooks';
 import { publicUrl } from '../../helpers';
 

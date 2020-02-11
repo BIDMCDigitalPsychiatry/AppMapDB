@@ -5,16 +5,16 @@ export interface SnackBarState {
 }
 const initialState = {};
 
-const snackBarReducer = (state = initialState, action) => {
+export const updateSnackBar = (payload: SnackBarState) => ({ type: 'SNACKBAR', payload });
+
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SNACKBAR':
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       };
     default:
       return state;
   }
 };
-
-export default snackBarReducer;

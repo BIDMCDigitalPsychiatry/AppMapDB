@@ -19,7 +19,7 @@ import {
   CircularProgress,
   useTheme,
 } from '@material-ui/core';
-import { useDialogState } from './actions';
+import { useDialogState } from './useDialogState';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 import merge from 'deepmerge';

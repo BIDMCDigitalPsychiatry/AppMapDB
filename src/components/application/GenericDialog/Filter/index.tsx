@@ -1,6 +1,6 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { useDialogState } from '../actions';
+import { useDialogState } from '../useDialogState';
 import MultiChip from '../../DialogField/MultiChip';
 import Select from '../../DialogField/Select';
 import { Costs, Platforms, Features, Conditions, ClinicalFoundations, Privacies } from '../../../../database/models/Application';

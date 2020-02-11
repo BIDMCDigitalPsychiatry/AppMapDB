@@ -1,6 +1,6 @@
 import React from 'react';
-import { useProcessDataHandle } from '../../layout/LayoutStore';
 import ExtendedButton from './ExtendedButton';
+import { useProcessDataHandle } from '../../../database/useProcessData';
 
 const ProcessDataButton = ({ pdis, ...other }) => {
   const handleProcessData = useProcessDataHandle();

@@ -4,17 +4,19 @@ import * as selectors from './selectors';
 import { Grid, Typography } from '@material-ui/core';
 import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
-import { useWidth } from '../../../layout/LayoutStore';
+import { useWidth } from '../../../layout/store';
 import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import { ViewModeButton } from '../ApplicationsList/table';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
 import * as FilterPopover from '../../GenericPopover/Filter';
-import Application, { Costs, Platforms, Functionalities, Features } from '../../../../database/models/Application';
+import Application, { Costs, Platforms, Functionalities, Features as AllFeatures } from '../../../../database/models/Application';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
 import Rating from '@material-ui/lab/Rating';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
+
+export const Features = AllFeatures.filter((f, i) => i < 9);
 
 export const CenterRadio = ({ checked = false }) => {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;

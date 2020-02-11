@@ -1,9 +1,6 @@
-const initialState = {};
-
 // Sets the state based on action.id.  If action.payload is a function, then it is called with the previous props as a parameter
-function updateState(state, action) {
-  const { table, id, payload } = action;
-  const data = typeof payload === 'function' ? payload(state[table] ? state[table][id] : undefined) : action.payload;
+function updateState(state, { table, id, payload }) {
+  const data = typeof payload === 'function' ? payload(state[table] ? state[table][id] : undefined) : payload;
   var newState = { ...state };
   if (!newState[table]) {
     newState[table] = { id: data };
@@ -16,7 +13,12 @@ function updateState(state, action) {
   return newState;
 }
 
-export default function dialogReducer(state = initialState, action) {
+const initialState = {};
+
+export const updateDatabase = (table, id, payload) => ({ type: 'UPDATE_DATABASE', table, id, payload });
+export const setDatabaseTable = (table, payload) => ({ type: 'SET_DATABASE_TABLE', table, payload });
+
+export function reducer(state = initialState, action) {
   switch (action.type) {
     case 'SET_DATABASE_TABLE':
       var newState = { ...state };

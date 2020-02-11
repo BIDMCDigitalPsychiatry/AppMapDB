@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../store';
-import { defaultDialogState } from './reducers';
-
-const updateDialog = (id, payload) => ({ type: 'UPDATE_DIALOG', id, payload });
+import { defaultDialogState, updateDialog } from './store';
 
 export const useDialogState = id => {
   const dispatch = useDispatch();

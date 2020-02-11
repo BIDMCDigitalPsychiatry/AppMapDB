@@ -4,14 +4,14 @@ import * as selectors from '../Applications/selectors';
 import { Grid, Typography } from '@material-ui/core';
 import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
-import { useWidth, useViewMode } from '../../../layout/LayoutStore';
+import { useWidth, useViewMode } from '../../../layout/store';
 import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
-import Application, { Features, ClinicalFoundations, Costs, Platforms, Privacies } from '../../../../database/models/Application';
+import Application, { ClinicalFoundations, Costs, Platforms, Privacies } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
-import { RatingsColumn } from '../Applications/table';
+import { RatingsColumn, Features } from '../Applications/table';
 
 function StyledRadio({ checked = false }) {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;

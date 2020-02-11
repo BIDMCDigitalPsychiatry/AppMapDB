@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Grid, Paper, Input, Tooltip } from '@material-ui/core';
 import { FormControl, InputAdornment, IconButton, Typography } from '@material-ui/core';
-import { useTable, useTableUpdate } from './TableStore';
-import { useWidth } from '../../layout/LayoutStore';
+import { useTable, useTableUpdate } from './store';
+import { useWidth } from '../../layout/store';
 import { icons } from './constants';
 import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';

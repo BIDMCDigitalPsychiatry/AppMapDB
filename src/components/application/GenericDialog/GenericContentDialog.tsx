@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { IconButton, Grid, Tooltip, CircularProgress, useTheme, Collapse } from '@material-ui/core';
-import { useDialogState } from './actions';
+import { useDialogState } from './useDialogState';
 import { useValues } from './helpers';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ErrorGate from './ErrorGate';

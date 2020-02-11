@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { makeStyles } from '@material-ui/core';
-import { useSnackBar } from './actions';
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
@@ -11,38 +10,39 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
+import { useSnackBar } from './useSnackBar';
 
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
   error: ErrorIcon,
-  info: InfoIcon,
+  info: InfoIcon
 };
 
 const useStyles = makeStyles(theme => ({
   success: {
-    backgroundColor: green[600],
+    backgroundColor: green[600]
   },
   error: {
-    backgroundColor: theme.palette.error.dark,
+    backgroundColor: theme.palette.error.dark
   },
   info: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main
   },
   warning: {
-    backgroundColor: amber[700],
+    backgroundColor: amber[700]
   },
   icon: {
-    fontSize: 20,
+    fontSize: 20
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(1)
   },
   message: {
     display: 'flex',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 }));
 
 export default function SnackBar({ className = undefined, ...other }) {
@@ -54,7 +54,7 @@ export default function SnackBar({ className = undefined, ...other }) {
     <Snackbar
       anchorOrigin={{
         vertical: 'bottom',
-        horizontal: 'right',
+        horizontal: 'right'
       }}
       open={open}
       autoHideDuration={3000}
@@ -72,7 +72,7 @@ export default function SnackBar({ className = undefined, ...other }) {
         action={[
           <IconButton key='close' aria-label='close' color='inherit' onClick={handleClose as any}>
             <CloseIcon className={classes.icon} />
-          </IconButton>,
+          </IconButton>
         ]}
         {...other}
       />
