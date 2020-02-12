@@ -1,5 +1,5 @@
 import React from 'react';
-import { getLabel, checkEmpty, hasChanged } from '../../../helpers';
+import { getLabel, checkEmpty, hasChanged, validateHttpUrl } from '../../../helpers';
 import merge from 'deepmerge';
 import { validateEmail, emptyUndefined } from '../../../helpers';
 import { isObjectWithKeys } from '../GenericTable/helpers';
@@ -201,6 +201,8 @@ export const handleValidation = ({ values, fields, errors: Errors }) => {
       setMappedValue({ field: f, value: 'Invalid email format.', prev: errors });
     } else if (f.required && checkEmpty(getValue(f, values))) {
       setMappedValue({ field: f, value: 'Required', prev: errors });
+    } else if (f.http && !checkEmpty(getValue(f, values)) && !validateHttpUrl(getValue(f, values))) {
+      setMappedValue({ field: f, value: 'Invalid http url format.', prev: errors });
     } else if (f.validate) {
       errors[f.id] = emptyUndefined(f.validate(values));
     }

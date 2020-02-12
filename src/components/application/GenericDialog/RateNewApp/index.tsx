@@ -80,18 +80,21 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
           id: 'androidLink',
           label: 'Enter link to app on Google Play store',
           required: true,
+          http: true,
           active: values => Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('Android')
         },
         {
           id: 'iosLink',
           label: 'Enter link to app on the Apple App store',
           required: true,
+          http: true,
           active: values => Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('iOS')
         },
         {
           id: 'webLink',
           label: 'Enter web link to app',
           required: true,
+          http: true,
           active: values => Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('Web')
         }
       ].map(f => ({ ...f, container: tables.applications }))
