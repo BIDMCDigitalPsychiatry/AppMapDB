@@ -5,4 +5,5 @@ export default interface Rating extends Nano.MaybeDocument {
   name: string; // Name of user
   review: string;
   rating: string;
+  time: number;
 }

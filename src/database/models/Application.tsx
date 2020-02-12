@@ -84,8 +84,9 @@ export type DeveloperType = 'Government' | 'For Profit Company' | 'Non Profit/He
 export const DeveloperTypes: DeveloperType[] = ['Government', 'For Profit Company', 'Non Profit/Healthcare Company', 'Academic Institution'];
 
 export default interface Application extends Nano.MaybeDocument {
-  name: string;
+  name: string;  
   company: string;
+  icon: string;
   androidLink: string;
   iosLink: string;
   webLink: string;

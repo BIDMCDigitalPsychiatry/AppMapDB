@@ -20,6 +20,15 @@ const useIndexAppRatings = () => {
 };
 
 export const useRatings = () => useTableState(tables.ratings);
+
+// Retreives an apps associated ratings using the index mapping (for performance)
+export const useAppRatings = appId => {
+  const [ratings] = useTableState(tables.ratings);
+  const [index] = useIndexAppRatings();
+  const ratingIds = index[appId] ?? [];
+  return ratingIds.map(id => ratings[id]);
+};
+
 const useRatingsLength = () => useTableLength(tables.ratings);
 const useApplicationsLength = () => useTableLength(tables.applications);
 

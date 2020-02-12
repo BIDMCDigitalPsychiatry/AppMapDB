@@ -41,7 +41,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
     const rating: Application = { ...values[tables.ratings], appId: application._id }; // Inject appId for document linkage
 
     processData({ Model: tables.applications, Action, Data: application }); // Submit application row
-    processData({ Model: tables.ratings, Action, Data: rating }); // Inject appId and submit rating row
+    processData({ Model: tables.ratings, Action, Data: { ...rating, time: new Date().getTime() } }); // Inject appId and submit rating row
 
     handleClose();
   };
@@ -61,6 +61,11 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
         {
           id: 'name',
           label: 'Application Name',
+          required: true
+        },
+        {
+          id: 'company',
+          label: 'Application Company',
           required: true
         },
         {

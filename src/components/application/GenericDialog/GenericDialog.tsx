@@ -110,6 +110,7 @@ export interface ComponentProps {
   validate: any;
   Content: Element;
   fields: FieldProps[];
+  classes?: object;
 }
 
 const GenericDialog = ({
@@ -126,6 +127,7 @@ const GenericDialog = ({
   onClose,
   Content,
   validate,
+  classes: Classes,
   children,
   ...other
 }: ComponentProps & any) => {
@@ -137,7 +139,7 @@ const GenericDialog = ({
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const handleConfirmDelete = React.useCallback(() => setConfirmDelete(prev => !prev), [setConfirmDelete]);
 
-  const classes = useStyles({});
+  const classes = useStyles({ classes: Classes });
   const fullScreen = useFullScreen();
 
   const { values, hasChanged, errors, errorCount, mapField } = useValues({
@@ -198,8 +200,8 @@ const GenericDialog = ({
         <>
           <DialogTitle id={`${id}-dialog-title`} disableTypography className={classes.title}>
             <Grid container justify='space-between' alignItems='center'>
-              <Grid item>
-                <Typography variant='h6' className={classes.capitalize}>
+              <Grid item zeroMinWidth xs>
+                <Typography noWrap variant='h6' className={classes.capitalize}>
                   {title ? title : [type, id].join(' ')}
                 </Typography>
               </Grid>

@@ -13,7 +13,7 @@ export default function RateApp({ id = title, onClose, ...other }) {
 
   const handleSubmit = React.useCallback(
     values => {
-      processData({ Model: tables.ratings, Data: values });
+      processData({ Model: tables.ratings, Data: { ...values, time: new Date().getTime() } });
       setDialogState(prev => ({ ...prev, open: false, submitting: false, errors: {} }));
       onClose && onClose();
     },

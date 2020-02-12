@@ -2,7 +2,6 @@
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import * as selectors from './selectors';
 import { Grid, Typography } from '@material-ui/core';
-import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
 import { useWidth } from '../../../layout/store';
 import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
@@ -11,7 +10,9 @@ import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import Application, { Costs, Platforms, Functionalities, Features as AllFeatures } from '../../../../database/models/Application';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
+import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
 import Rating from '@material-ui/lab/Rating';
+import AppSummary from './AppSummary';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -38,34 +39,6 @@ const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadi
 const CostRadios = ({ costs = [] }) => buildRadios(Costs, costs);
 const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
 
-const AppColumn = ({ name, company }) => {
-  return (
-    <Grid container alignItems='center'>
-      <Grid item>
-        <Grid container alignItems='center'>
-          <Grid item>
-            <img style={{ height: 40 }} src={logo} alt='logo' />
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item zeroMinWidth xs>
-        <Grid container style={{ padding: 4 }}>
-          <Grid item xs={12}>
-            <Typography noWrap variant='caption' color='textPrimary'>
-              {name}
-            </Typography>
-          </Grid>
-          <Grid item xs style={{ paddingLeft: 4 }}>
-            <Typography noWrap variant='caption' color='textSecondary'>
-              by {company}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
-};
-
 export const RatingsColumn = ({ _id, rating, ratingIds = [] }) => {
   return (
     <Grid container alignItems='center'>
@@ -80,14 +53,7 @@ export const RatingsColumn = ({ _id, rating, ratingIds = [] }) => {
       <Grid item xs={12}>
         <Grid container justify='space-between'>
           <Grid item>
-            <DialogButton
-              //Module={RateAppDialog}
-              mount={false}
-              variant='link'
-              size='small'
-              Icon={null}
-              tooltip='Click to View'
-            >
+            <DialogButton Module={AppReviewsDialog} mount={false} variant='link' size='small' Icon={null} tooltip='Click to View' initialValues={{ _id }}>
               {ratingIds.length} Reviews
             </DialogButton>
           </Grid>
@@ -113,9 +79,9 @@ export const RatingsColumn = ({ _id, rating, ratingIds = [] }) => {
 
 const defaultProps: GenericTableContainerProps = {
   name,
-  dialogs: [renderDialogModule(RateAppDialog)],
+  dialogs: [renderDialogModule(RateAppDialog), renderDialogModule(AppReviewsDialog)],
   columns: [
-    { name: 'app', header: 'Application', minWidth: 300, Cell: AppColumn },
+    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary },
     { name: 'rating', header: 'Rating', width: 140, Cell: RatingsColumn },
     {
       name: 'platforms',

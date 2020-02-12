@@ -160,3 +160,42 @@ export function uuid() {
     })
     .replace(/-/g, '');
 }
+
+// Returns minutes elapsed from time to current time
+export function minutesFrom(time) {
+  var current = new Date().getTime();
+  var diff = (current - time) / 60000; //converts milliseconds to elapsed minutes
+  return diff > 0 ? diff : 0;
+}
+
+export function minutesToTimeAgo(minutes) {
+  var d = Math.floor(minutes / 1440);
+  var h = Math.floor(minutes / 60);
+  var m = Math.floor(minutes % 60);
+  var ret = '';
+  if (d > 0) {
+    ret = ret + d + 'd ';
+  }
+  if (h > 0 || d > 0) {
+    ret = ret + h + 'h ';
+  }
+  if (m >= 0 || h > 0 || d > 0) {
+    ret = ret + m + 'm ';
+  }
+  if (ret !== '') ret = ret + 'ago';
+  return ret;
+}
+
+export const timeAgo = time => (time ? minutesToTimeAgo(minutesFrom(time)) : '');
+
+export function sortDescending(a = 0, b = 0) {
+  if (a < b) return 1;
+  if (a > b) return -1;
+  return 0;
+}
+
+export function sortAscending(a = 0, b = 0) {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  return 0;
+}

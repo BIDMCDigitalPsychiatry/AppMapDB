@@ -11,6 +11,7 @@ import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
 import Application, { ClinicalFoundations, Costs, Platforms, Privacies } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
+import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
 import { RatingsColumn, Features } from '../Applications/table';
 
 function StyledRadio({ checked = false }) {
@@ -145,7 +146,7 @@ export const ViewModeButton = ({ mode = 'list' }) => {
 const name = 'Applications';
 const defaultProps: GenericTableContainerProps = {
   name,
-  dialogs: [renderDialogModule(RateAppDialog)],
+  dialogs: [renderDialogModule(RateAppDialog), renderDialogModule(AppReviewsDialog)],
   columns: [{ name: 'app', header: 'Application', minWidth: 1300, Cell: AppSummary }],
   toolbar: true,
   selector: selectors.from_database,
