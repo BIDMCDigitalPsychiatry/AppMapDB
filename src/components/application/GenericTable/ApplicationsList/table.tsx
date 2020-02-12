@@ -2,7 +2,6 @@
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import * as selectors from '../Applications/selectors';
 import * as Icons from '@material-ui/icons';
-import { useWidth } from '../../../layout/store';
 import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
@@ -30,7 +29,4 @@ const defaultProps: GenericTableContainerProps = {
   ]
 };
 
-export const ApplicationsList = props => {
-  const width = useWidth();
-  return <GenericTableContainer {...defaultProps} showScroll={width < 2000 ? true : false} {...props} />;
-};
+export const ApplicationsList = props => <GenericTableContainer {...defaultProps} showScroll={true} {...props} />;

@@ -25,51 +25,52 @@ export interface VirtualTableProps {
   showScroll?: boolean;
 }
 
-const tableStyle = {
+const gridStyle = {
   border: 0,
-  '& .topLeftGrid': {
-    border: 0
-  },
-  '& .topRightGrid': {
-    border: 0
-  },
-  '& .bottomLeftGrid': {
-    border: 0
-  },
+  'scrollbar-width': 'none' /* Firefox 64 */
+};
+
+const sharedTableStyle = {
+  border: 0,
+  '& .topLeftGrid': gridStyle,
+  '& .topRightGrid': gridStyle,
+  '& .bottomLeftGrid': gridStyle
+};
+
+const tableStyle = {
+  ...sharedTableStyle,
   '& .bottomRightGrid': {
     border: 0,
     // Hide scrollbars on Chrome/Safari/IE
     '&::-webkit-scrollbar': {
       display: 'none'
     },
+    'scrollbar-width': 'none' /* Firefox 64 */,
     '-ms-overflow-style': 'none' as any,
     '-webkit-overflow-scrolling': 'auto',
     '&::-webkit-overflow-scrolling': 'auto'
   }
 };
 
-const tableScrollStyle = {
-  border: 0,
-  '& .topLeftGrid': {
-    border: 0
-  },
-  '& .topRightGrid': {
-    border: 0
-  },
-  '& .bottomLeftGrid': {
-    border: 0
-  },
+const tableScrollStyle = ({ palette }) => ({
+  ...sharedTableStyle,
   '& .bottomRightGrid': {
-    border: 0,
-    // Hide scrollbars on Chrome/Safari/IE
     '&::-webkit-scrollbar': {
-      display: 'auto'
+      display: 'auto',
+      width: 6,
+      height: 6
     },
+    '&::-webkit-scrollbar-thumb': {
+      // Works on chrome only
+      backgroundColor: palette.primary.light,
+      borderRadius: 25
+    },
+    border: 0,
     '-ms-overflow-style': 'none' as any,
     '-webkit-overflow-scrolling': 'auto',
     '&::-webkit-overflow-scrolling': 'auto'
   }
-};
+});
 
 const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
   createStyles({
@@ -82,12 +83,12 @@ const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
       ...tableStyle
     },
     tableScroll: {
-      ...tableScrollStyle
+      ...tableScrollStyle({ palette })
     },
     tableScrollRounded: {
       borderBottomLeftRadius: 12,
       borderBottomRightRadius: 12,
-      ...tableScrollStyle
+      ...tableScrollStyle({ palette })
     },
     cellHovered: {
       backgroundColor: palette.primary.light
