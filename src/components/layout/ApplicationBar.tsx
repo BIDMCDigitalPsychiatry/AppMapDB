@@ -14,7 +14,9 @@ import { publicUrl } from '../../helpers';
 const useStyles = makeStyles(({ breakpoints, palette, shadows, layout }: any) =>
   createStyles({
     appBar: {
-      background: palette.white
+      background: palette.white,
+      paddingLeft: layout.contentpadding,
+      paddingRight: layout.contentpadding
     },
     logo: {
       height: layout.toolbarheight,
@@ -61,7 +63,7 @@ export default function ApplicationBar() {
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={classes.appBar}>
       {renderDialogModule(RateAppDialog)}
-      <Toolbar className={classes.toolbar}>
+      <Toolbar className={classes.toolbar} disableGutters={true}>
         <Grid container alignItems='center' spacing={1}>
           <Grid item>
             <img className={classes.logo} src={logo} alt='logo' onClick={changeRoute(publicUrl('/'))} />
