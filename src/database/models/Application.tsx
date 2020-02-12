@@ -94,8 +94,8 @@ export default interface Application extends Nano.MaybeDocument {
   developerType: DeveloperType[];
   costs: Cost[];
   conditions: Condition[];
-  privicies: Privacy[];
-  clincialFoundation: ClinicalFoundation;
+  privacies: Privacy[];
+  clinicalFoundation: ClinicalFoundation;
   features: Feature[];
   functionalities: Functionality[];
 }

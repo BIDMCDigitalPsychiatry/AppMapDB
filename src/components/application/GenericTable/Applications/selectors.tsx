@@ -34,8 +34,8 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           features: app.features?.join(' '), // for searching
           functionalities: app.functionalities?.join(' '),
           conditions: app.conditions?.join(' '),
-          privicies: app.privicies?.join(' '),
-          clinicalFoundation: app.clincialFoundation,
+          privacies: app.privacies?.join(' '),
+          clinicalFoundation: app.clinicalFoundation,
           developerType: app.developerType,
           getValues: () => ({ ...app, rating, ratingIds })
         };
@@ -61,7 +61,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
       isMatch(Cost, r.costs) &&
       isMatch(Features, r.features) &&
       isMatch(Conditions, r.conditions) &&
-      isMatch(Privacy, r.privicies) &&
+      isMatch(Privacy, r.privacies) &&
       (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
       (isEmpty(DeveloperType) || DeveloperType === r.developerType)
     );

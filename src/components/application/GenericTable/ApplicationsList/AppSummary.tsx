@@ -12,18 +12,23 @@ function StyledRadio({ checked = false }) {
   return <Icon color='action' fontSize='small' style={{ height: 14 }} />;
 }
 
+interface AppSummaryProps {
+  ratingIds: string[];
+  rating: number;
+}
+
 export default function AppSummary({
   _id,
   name,
   company,
   platforms = [],
   costs = [],
-  privicies = [],
+  privacies = [],
   features = [],
-  clincialFoundation,
+  clinicalFoundation,
   ratingIds = [],
   rating
-}: Application & any) {
+}: Application & AppSummaryProps) {
   return (
     <Grid container justify='space-around' alignItems='center' spacing={2}>
       <Grid item xs style={{ minWidth: 250 }}>
@@ -102,8 +107,8 @@ export default function AppSummary({
           <Grid item xs={3}>
             <Grid container>
               {[
-                { title: 'Privacy', items: Privacies, values: privicies },
-                { title: 'Clinical Foundation', items: ClinicalFoundations, values: [clincialFoundation] }
+                { title: 'Privacy', items: Privacies, values: privacies },
+                { title: 'Clinical Foundation', items: ClinicalFoundations, values: [clinicalFoundation] }
               ].map(g => (
                 <Grid item xs={12} key={g.title}>
                   <OutlinedDiv width={220} label={g.title} marginTop={16} marginBottom={24}>
