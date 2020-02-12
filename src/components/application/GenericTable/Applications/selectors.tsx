@@ -36,22 +36,34 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           conditions: app.conditions?.join(' '),
           privicies: app.privicies?.join(' '),
           clinicalFoundation: app.clincialFoundation,
+          developerType: app.developerType,
           getValues: () => ({ ...app, rating, ratingIds })
         };
       })
     : [];
 
   const { filters = {} } = state.table[name] || {};
-  const { Features = [], Conditions = [], Platforms = [], Cost = [], Privacy = [], 'Clinical Foundation': ClinicalFoundation } = filters;
+  const {
+    Platforms = [],
+    Functionalities = [],
+    Cost = [],
+    Features = [],
+    Conditions = [],
+    Privacy = [],
+    'Clinical Foundation': ClinicalFoundation,
+    'Developer Type': DeveloperType
+  } = filters;
 
   data = data.filter(r => {
     return (
+      isMatch(Platforms, r.platforms) &&
+      isMatch(Functionalities, r.functionalities) &&
+      isMatch(Cost, r.costs) &&
       isMatch(Features, r.features) &&
       isMatch(Conditions, r.conditions) &&
-      isMatch(Platforms, r.platforms) &&
-      isMatch(Cost, r.costs) &&
       isMatch(Privacy, r.privicies) &&
-      (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation)
+      (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
+      (isEmpty(DeveloperType) || DeveloperType === r.developerType)
     );
   });
 

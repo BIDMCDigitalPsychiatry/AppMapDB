@@ -50,8 +50,20 @@ const StyledBadge = withStyles(theme =>
 
 export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList, tooltip = 'Filter Results' }) => {
   const [values, setValues] = useTableFilterValues(table);
-  const { Features = [], Conditions = [], Platforms = [], Cost = [], Privacy = [], 'Clinical Foundation': ClinicalFoundation } = values as any;
-  const filterCount = [Features, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) + (isEmpty(ClinicalFoundation) ? 0 : 1);
+  const {
+    Features = [],
+    Functionalities = [],
+    Conditions = [],
+    Platforms = [],
+    Cost = [],
+    Privacy = [],
+    'Clinical Foundation': ClinicalFoundation,
+    'Developer Type': DeveloperType
+  } = values as any;
+  const filterCount =
+    [Features, Functionalities, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) +
+    (isEmpty(ClinicalFoundation) ? 0 : 1) +
+    (isEmpty(DeveloperType) ? 0 : 1);
   const handleReset = React.useCallback(() => setValues({}), [setValues]);
 
   return (

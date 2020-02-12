@@ -14,10 +14,10 @@ import Application, {
   ClinicalFoundations
 } from '../../../../database/models/Application';
 import Rating from '../../DialogField/Rating';
-import Select from '../../DialogField/Select';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
 import { uuid } from '../../../../helpers';
+import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 
 export const title = 'Rate New Application';
 
@@ -135,8 +135,8 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
         {
           id: 'clinicalFoundation',
           label: 'Clinical Foundation',
-          Field: Select,
-          items: ClinicalFoundations.map(value => ({ value, label: value })),
+          Field: AutoCompleteSelect,
+          items: ClinicalFoundations,
           required: true,
           initialValue: ClinicalFoundations[0]
         },
