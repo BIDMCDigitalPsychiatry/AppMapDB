@@ -173,7 +173,9 @@ export default function DialogButton({
       <Tooltip
         placement={placement}
         title={
-          checkEmpty(tooltip) ? (
+          disabled ? (
+            ''
+          ) : checkEmpty(tooltip) ? (
             tooltip
           ) : (
             <Typography variant='h6' color='inherit'>
@@ -212,9 +214,15 @@ export default function DialogButton({
               {children}
             </Button>
           ) : variant === 'link' ? (
-            <Link color={color} variant='caption' style={{ cursor: 'pointer' }} {...shared}>
-              {children}
-            </Link>
+            disabled ? (
+              <Typography color='textSecondary' variant='caption'>
+                {children}
+              </Typography>
+            ) : (
+              <Link color={color} variant='caption' style={{ cursor: 'pointer' }} {...shared}>
+                {children}
+              </Link>
+            )
           ) : (
             <Fab
               size={size}

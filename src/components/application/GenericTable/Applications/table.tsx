@@ -1,18 +1,18 @@
 ﻿import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import * as selectors from './selectors';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { useWidth } from '../../../layout/store';
 import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
-import { ViewModeButton } from '../ApplicationsList/table';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import Application, { Costs, Platforms, Functionalities, Features as AllFeatures } from '../../../../database/models/Application';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
 import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
-import Rating from '@material-ui/lab/Rating';
 import AppSummary from './AppSummary';
+import RatingsColumn from './RatingsColumn';
+import ViewModeButton from './ViewModeButton';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -38,44 +38,6 @@ const PlatformRadios = ({ platforms = [] }: Application) => buildRadios(Platform
 const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadios(Functionalities, functionalities);
 const CostRadios = ({ costs = [] }) => buildRadios(Costs, costs);
 const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
-
-export const RatingsColumn = ({ _id, rating, ratingIds = [] }) => {
-  return (
-    <Grid container alignItems='center'>
-      <Grid item xs={12}>
-        <Grid container alignItems='center' justify='space-between'>
-          <Rating size='small' precision={0.1} value={Number(rating)} readOnly={true} />
-          <Typography variant='caption' color='textSecondary'>
-            {`(${rating})`}
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container justify='space-between'>
-          <Grid item>
-            <DialogButton Module={AppReviewsDialog} mount={false} variant='link' size='small' Icon={null} tooltip='Click to View' initialValues={{ _id }}>
-              {ratingIds.length} Reviews
-            </DialogButton>
-          </Grid>
-          <Grid item>{'  |  '}</Grid>
-          <Grid item>
-            <DialogButton
-              Module={RateAppDialog}
-              mount={false}
-              variant='link'
-              size='small'
-              Icon={null}
-              tooltip='Click to Submit Rating'
-              initialValues={{ appId: _id }}
-            >
-              Rate App
-            </DialogButton>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
-};
 
 const defaultProps: GenericTableContainerProps = {
   name,

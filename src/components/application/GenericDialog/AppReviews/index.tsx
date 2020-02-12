@@ -2,7 +2,7 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import { useAppRatings } from '../../../../database/useRatings';
-import { DialogContent, Grid } from '@material-ui/core';
+import { DialogContent, Grid, Typography } from '@material-ui/core';
 import { useApp } from '../../../../database/useApplications';
 import Application from '../../../../database/models/Application';
 import RatingCard from './RatingCard';
@@ -20,13 +20,19 @@ export default function Reviews({ id = title, onClose, ...other }) {
     <GenericDialog id={id} title={`Reviews - ${app?.name}`} onClose={onClose} submitLabel={null} cancelLabel={'Close'} {...other}>
       <DialogContent>
         <Grid container spacing={1}>
-          {ratings
-            .sort(({ time: t1 }, { time: t2 }) => sortDescending(t1, t2))
-            .map((r, i) => (
-              <Grid item xs={12} key={i}>
-                <RatingCard {...r} />
-              </Grid>
-            ))}
+          {ratings.length === 0 ? (
+            <Grid item>
+              <Typography></Typography>No Reviews
+            </Grid>
+          ) : (
+            ratings
+              .sort(({ time: t1 }, { time: t2 }) => sortDescending(t1, t2))
+              .map((r, i) => (
+                <Grid item xs={12} key={i}>
+                  <RatingCard {...r} />
+                </Grid>
+              ))
+          )}
         </Grid>
       </DialogContent>
     </GenericDialog>
