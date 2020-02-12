@@ -2,6 +2,7 @@ import React from 'react';
 import { getLabel, checkEmpty, hasChanged } from '../../../helpers';
 import merge from 'deepmerge';
 import { validateEmail, emptyUndefined } from '../../../helpers';
+import { isObjectWithKeys } from '../GenericTable/helpers';
 
 export interface FieldProps {
   id: string | number;
@@ -24,8 +25,9 @@ const getMappedValue = (id, object, container, values = {}) => {
   }
 };
 
-export const setMappedValue = ({ field, value, prev }) => {
+export const setMappedValue = ({ field, value, prev: Prev }) => {
   const { id, object, container } = field;
+  const prev = { ...Prev }; // Ensure we are working on a new copy
   if (container && !prev[container]) {
     prev[container] = {};
   }
@@ -84,7 +86,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
 
 export const isEnabled = value => value === true || value === undefined;
 
-export const useHandleChange = (setValues, setDialogState) =>
+export const useHandleChange = (setValues, resetErrors) =>
   React.useCallback(
     field => e => {
       var value = e && e.target && e.target.value;
@@ -92,10 +94,10 @@ export const useHandleChange = (setValues, setDialogState) =>
         value = value.toUpperCase();
       }
       setValues(prev => setMappedValue({ field, value, prev }));
-      setDialogState(prev => ({ ...prev, errors: {} })); // Reset any external errors
+      resetErrors && resetErrors();
       field.onChange && field.onChange({ value, field, setValues });
     },
-    [setValues, setDialogState]
+    [setValues, resetErrors]
   );
 
 export const getDefaultValues = fields => {
@@ -156,7 +158,9 @@ export const useValues = ({
   const errors = merge(internalErrors, externalErrors);
   const errorCount = fields ? fields.filter(f => isError(f, values, errors)).length : 0;
 
-  const handleChange = useHandleChange(setValues, setState);
+  const stateErrors = state.errors;
+  const resetErrors = React.useCallback(() => isObjectWithKeys(stateErrors) && setState(prev => ({ ...prev, errors: {} })), [setState, stateErrors]); // Reset any external errors
+  const handleChange = useHandleChange(setValues, resetErrors);
   const handleBlur = React.useCallback(
     field => () => {
       setTouched(prev => setMappedValue({ field, value: true, prev }));

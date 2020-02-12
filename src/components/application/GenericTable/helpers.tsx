@@ -141,3 +141,6 @@ export function updateState(state: TableStore.State, table: TableStore.Table) {
   }
   return newState;
 }
+
+export const isObject = obj => typeof obj === 'object';
+export const isObjectWithKeys = obj => isObject(obj) && Object.keys(obj).length > 0;
