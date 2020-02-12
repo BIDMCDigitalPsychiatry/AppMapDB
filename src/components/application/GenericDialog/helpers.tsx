@@ -25,9 +25,8 @@ const getMappedValue = (id, object, container, values = {}) => {
   }
 };
 
-export const setMappedValue = ({ field, value, prev: Prev }) => {
+export const setMappedValue = ({ field, value, prev }) => {
   const { id, object, container } = field;
-  const prev = { ...Prev }; // Ensure we are working on a new copy
   if (container && !prev[container]) {
     prev[container] = {};
   }
@@ -93,7 +92,7 @@ export const useHandleChange = (setValues, resetErrors) =>
       if (field && field.uppercase && !checkEmpty(value)) {
         value = value.toUpperCase();
       }
-      setValues(prev => setMappedValue({ field, value, prev }));
+      setValues(prev => setMappedValue({ field, value, prev: { ...prev } })); // Ensure prev is a new copy
       resetErrors && resetErrors();
       field.onChange && field.onChange({ value, field, setValues });
     },
@@ -163,7 +162,7 @@ export const useValues = ({
   const handleChange = useHandleChange(setValues, resetErrors);
   const handleBlur = React.useCallback(
     field => () => {
-      setTouched(prev => setMappedValue({ field, value: true, prev }));
+      setTouched(prev => setMappedValue({ field, value: true, prev: { ...prev } })); // Ensure new copy of prev is used
     },
     [setTouched]
   );
