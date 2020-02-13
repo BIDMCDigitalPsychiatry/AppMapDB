@@ -24,8 +24,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           .dividedBy(ratingIds.length)
           .toPrecision(2);
 
-        return {
-          _id: app._id,
+        const appSearchable = {
           name: app.name,
           rating,
           company: app.company,
@@ -36,7 +35,15 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           conditions: app.conditions?.join(' '),
           privacies: app.privacies?.join(' '),
           clinicalFoundation: app.clinicalFoundation,
-          developerType: app.developerType,
+          developerType: app.developerType
+        };
+
+        return {
+          _id: app._id,
+          ...appSearchable,
+          getSearchValues: () => {
+            return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
+          },
           getValues: () => ({ ...app, rating, ratingIds })
         };
       })
@@ -54,18 +61,15 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     'Developer Type': DeveloperType
   } = filters;
 
-  data = data.filter(r => {
-    return (
-      isMatch(Platforms, r.platforms) &&
-      isMatch(Functionalities, r.functionalities) &&
-      isMatch(Cost, r.costs) &&
-      isMatch(Features, r.features) &&
-      isMatch(Conditions, r.conditions) &&
-      isMatch(Privacy, r.privacies) &&
-      (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
-      (isEmpty(DeveloperType) || DeveloperType === r.developerType)
-    );
-  });
+  const customFilter = r =>
+    isMatch(Platforms, r.platforms) &&
+    isMatch(Functionalities, r.functionalities) &&
+    isMatch(Cost, r.costs) &&
+    isMatch(Features, r.features) &&
+    isMatch(Conditions, r.conditions) &&
+    isMatch(Privacy, r.privacies) &&
+    (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
+    (isEmpty(DeveloperType) || DeveloperType === r.developerType);
 
-  return tableFilter(data, state, props);
+  return tableFilter(data, state, props, customFilter);
 };

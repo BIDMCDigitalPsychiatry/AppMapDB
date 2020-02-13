@@ -22,24 +22,28 @@ export interface ColumnFilter {
 }
 
 const isMatch = (obj, re) => {
-  for (var attrname in obj) {
-    if (['_id', 'id', 'key', 'getValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
-    if (obj[attrname])
-      if (isNaN(obj[attrname])) {
-        //only search non numeric values
-        try {
-          if (obj[attrname].match(re)) return true;
-        } catch (e) {
-          continue;
+  if (obj.getSearchValues) {
+    return obj.getSearchValues().match(re);
+  } else {
+    for (var attrname in obj) {
+      if (['_id', 'id', 'key', 'getValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
+      if (obj[attrname])
+        if (isNaN(obj[attrname])) {
+          //only search non numeric values
+          try {
+            if (obj[attrname].match(re)) return true;
+          } catch (e) {
+            continue;
+          }
+        } else {
+          //it is a number
+          try {
+            if (obj[attrname].toString().match(re)) return true;
+          } catch (e) {
+            continue;
+          }
         }
-      } else {
-        //it is a number
-        try {
-          if (obj[attrname].toString().match(re)) return true;
-        } catch (e) {
-          continue;
-        }
-      }
+    }
   }
   return false;
 };
@@ -49,10 +53,10 @@ const isColumnExactMatch = (obj, cf: ColumnFilter) => {
 };
 
 //extracts the necessary properties from the table's component props so table_filter can be called
-export const tableFilter = (data: any, state: AppState, props: GenericTableContainerProps) => {
+export const tableFilter = (data: any, state: AppState, props: GenericTableContainerProps, customFilter = undefined) => {
   //Extract the table information from the redux store
   const table: TableStore.Table = state.table[props.name];
-  const searchtext = table && table.searchtext;
+  var searchtext = table && table.searchtext;
 
   const columnfilter = table &&
     table.columnfiltervalue != null &&
@@ -61,7 +65,7 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
       column: table && table.columnfiltercolumn
     };
 
-  const filtered = table_filter(data, columnfilter, searchtext);
+  const filtered = table_filter(data, columnfilter, searchtext, customFilter);
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
@@ -81,18 +85,19 @@ export const useTableFilter = (data: any, name: string) => {
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const table_filter = (data, columnfilter: ColumnFilter, searchtext) => {
+export const table_filter = (data, columnfilter: ColumnFilter, searchtext, customFilter = undefined) => {
   var performcolumnfilter = false;
   if (columnfilter) if (columnfilter.column) if (columnfilter.value !== 'All' && columnfilter.value !== '') performcolumnfilter = true;
 
   const performtextfilter = searchtext && searchtext !== '' ? true : false;
-  const re = new RegExp(searchtext, 'gi');
+  const re = new RegExp(searchtext.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'gi'); // Ensures that all possible regex characters in searchtext are escaped before searching
 
-  if (performcolumnfilter && performtextfilter) data = data.filter(x => isColumnExactMatch(x, columnfilter) && isMatch(x, re));
-  else if (performcolumnfilter) data = data.filter(x => isColumnExactMatch(x, columnfilter));
-  else if (performtextfilter) data = data.filter(x => isMatch(x, re));
-
-  return data;
+  return data.filter(
+    x =>
+      (performcolumnfilter ? isColumnExactMatch(x, columnfilter) : true) &&
+      (performtextfilter ? isMatch(x, re) : true) &&
+      (customFilter ? customFilter(x) : true)
+  );
 };
 
 function desc(a, b, orderBy) {

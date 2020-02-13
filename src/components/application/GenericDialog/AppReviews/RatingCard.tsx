@@ -16,7 +16,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-const RatingCard = ({ rating, name, review, time }: Rating) => {
+const RatingCard = ({ rating, name, review, time }: Rating = {} as any) => {
   const classes = useStyles({});
   return (
     <Card>
