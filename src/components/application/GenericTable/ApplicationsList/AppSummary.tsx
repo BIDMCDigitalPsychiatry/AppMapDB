@@ -43,7 +43,7 @@ export default function AppSummary({
               {company}
             </Typography>
           </Grid>
-          <Grid item xs={12} style={{ maxWidth: 130 }}>
+          <Grid item xs={12} style={{ maxWidth: 140 }}>
             <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
           </Grid>
           <Grid item xs={12}>

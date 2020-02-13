@@ -29,7 +29,7 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
               tooltip='Click to View'
               initialValues={{ _id }}
             >
-              {ratingIds.length} Reviews
+              {ratingIds.length} {ratingIds.length === 1 ? 'Review' : 'Reviews'}
             </DialogButton>
           </Grid>
           <Grid item>{'  |  '}</Grid>

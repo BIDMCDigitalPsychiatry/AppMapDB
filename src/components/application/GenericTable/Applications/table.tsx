@@ -43,7 +43,7 @@ const defaultProps: GenericTableContainerProps = {
   dialogs: [renderDialogModule(RateAppDialog), renderDialogModule(AppReviewsDialog)],
   columns: [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary },
-    { name: 'rating', header: 'Rating', width: 140, Cell: RatingsColumn },
+    { name: 'rating', header: 'Rating', width: 156, Cell: RatingsColumn },
     {
       name: 'platforms',
       width: 140,
