@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, CardContent, Typography, makeStyles, Grid, Box, Avatar, createStyles, Divider } from '@material-ui/core';
 import Rating from '../../../../database/models/Rating';
-import { Rating as MuiRating } from '@material-ui/lab';
 import * as Icons from '@material-ui/icons';
 import { timeAgo } from '../../../../helpers';
+import RatingReadOnly from '../../GenericTable/Applications/RatingReadOnly';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -31,7 +31,7 @@ const RatingCard = ({ rating, name, review, time }: Rating = {} as any) => {
             <Grid container alignItems='center'>
               <Grid item xs={12}>
                 <Grid container alignItems='center' spacing={1}>
-                  <MuiRating size='small' precision={0.1} value={Number(rating)} readOnly={true} />
+                  <RatingReadOnly size='small' precision={0.25} value={Number(rating)} />
                   <Typography variant='caption' color='textSecondary'>
                     {`(${rating})`}
                   </Typography>

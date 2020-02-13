@@ -85,7 +85,7 @@ export const useTableFilter = (data: any, name: string) => {
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const table_filter = (data, columnfilter: ColumnFilter, searchtext, customFilter = undefined) => {
+export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', customFilter = undefined) => {
   var performcolumnfilter = false;
   if (columnfilter) if (columnfilter.column) if (columnfilter.value !== 'All' && columnfilter.value !== '') performcolumnfilter = true;
 

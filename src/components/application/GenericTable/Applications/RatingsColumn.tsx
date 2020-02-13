@@ -3,14 +3,14 @@ import { Grid, Typography } from '@material-ui/core';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
 import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
-import Rating from '@material-ui/lab/Rating';
+import RatingReadOnly from './RatingReadOnly';
 
 export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
   return (
     <Grid container alignItems='center'>
       <Grid item xs={12}>
         <Grid container alignItems='center' justify='space-between'>
-          <Rating size='small' precision={0.1} value={Number(rating)} readOnly={true} />
+          <RatingReadOnly size='small' precision={0.25} value={Number(rating)} />
           <Typography variant='caption' color='textSecondary'>
             {`(${rating})`}
           </Typography>
