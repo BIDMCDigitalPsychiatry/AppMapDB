@@ -98,6 +98,11 @@ export default function ApplicationBar() {
                   Rate New App
                 </Typography>
               </Button>
+              <Button className={pathname === publicUrl('/PlayGround') ? classes.active : undefined} onClick={changeRoute(publicUrl('/PlayGround'))}>
+                <Typography variant='button' noWrap>
+                  Play Ground
+                </Typography>
+              </Button>
             </ButtonGroup>
           </Grid>
         </Grid>

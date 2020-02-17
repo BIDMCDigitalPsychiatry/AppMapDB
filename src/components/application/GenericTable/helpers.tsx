@@ -56,7 +56,7 @@ const isColumnExactMatch = (obj, cf: ColumnFilter) => {
 export const tableFilter = (data: any, state: AppState, props: GenericTableContainerProps, customFilter = undefined) => {
   //Extract the table information from the redux store
   const table: TableStore.Table = state.table[props.name];
-  var searchtext = table && table.searchtext;
+  var searchtext = table?.searchtext;
 
   const columnfilter = table &&
     table.columnfiltervalue != null &&
@@ -72,7 +72,7 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
 export const useTableFilter = (data: any, name: string) => {
   //Extract the table information from the redux store
   const table = TableStore.useTable(name);
-  const searchtext = table && table.searchtext;
+  const searchtext = table?.searchtext;
 
   const columnfilter = table &&
     table.columnfiltervalue != null &&

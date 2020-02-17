@@ -50,7 +50,7 @@ export const useTableFilterUpdate = () => {
   return React.useCallback((id, filters) => dispatch(tableFilterUpdate(id, filters)), [dispatch]);
 };
 
-export const useTable = name => useSelector((state: AppState) => state.table[name] || {});
+export const useTable = name => useSelector((state: AppState) => state.table[name] ?? ({ id: name } as any));
 
 export function useTableFilterValues(name): any {
   const { filters: values = {} } = useTable(name);

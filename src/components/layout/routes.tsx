@@ -4,6 +4,7 @@ import RatingProcess from '../pages/RatingProcess';
 import Framework from '../pages/Framework';
 import Apps from '../pages/Apps';
 import { publicUrl } from '../../helpers';
+import PlayGround from './PlayGround';
 
 const Routes = () => (
   <Switch>
@@ -12,6 +13,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Framework')} component={Framework} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />
+    <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
   </Switch>
 );
 
