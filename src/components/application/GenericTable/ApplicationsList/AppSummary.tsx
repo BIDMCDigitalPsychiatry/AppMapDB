@@ -1,11 +1,11 @@
 ﻿import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import logo from '../../../../images/logo.png';
 import * as Icons from '@material-ui/icons';
 import Application, { ClinicalFoundations, Costs, Platforms, Privacies } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import { Features } from '../Applications/table';
 import RatingsColumn from '../Applications/RatingsColumn';
+import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 
 function StyledRadio({ checked = false }) {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;
@@ -17,18 +17,20 @@ interface AppSummaryProps {
   rating: number;
 }
 
-export default function AppSummary({
-  _id,
-  name,
-  company,
-  platforms = [],
-  costs = [],
-  privacies = [],
-  features = [],
-  clinicalFoundation,
-  ratingIds = [],
-  rating
-}: Application & AppSummaryProps) {
+export default function AppSummary(props: Application & AppSummaryProps) {
+  const {
+    _id,
+    name = getAppName(props),
+    company = getAppCompany(props),
+    platforms = [],
+    costs = [],
+    privacies = [],
+    features = [],
+    clinicalFoundation,
+    ratingIds = [],
+    icon = getAppIcon(props),
+    rating
+  } = props;
   return (
     <Grid container justify='space-around' alignItems='center' spacing={2}>
       <Grid item xs style={{ minWidth: 250 }}>
@@ -48,7 +50,7 @@ export default function AppSummary({
           </Grid>
           <Grid item xs={12}>
             <Typography align='center'>
-              <img style={{ height: 160 }} src={logo} alt='logo' />
+              <img style={{ height: 160 }} src={icon} alt='logo' />
             </Typography>
           </Grid>
         </Grid>
@@ -107,7 +109,7 @@ export default function AppSummary({
           <Grid item xs={3}>
             <Grid container>
               {[
-                { title: 'Privacy', items: Privacies, values: privacies },
+                { title: 'Privacy', items: Privacies.filter((p, i) => i < 4), values: privacies },
                 { title: 'Clinical Foundation', items: ClinicalFoundations, values: [clinicalFoundation] }
               ].map(g => (
                 <Grid item xs={12} key={g.title}>

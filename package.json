@@ -41,7 +41,7 @@
     "axios": "0.19.2"
   },
   "devDependencies": {
-    "fs-extra": "8.0.1"    
+    "fs-extra": "8.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

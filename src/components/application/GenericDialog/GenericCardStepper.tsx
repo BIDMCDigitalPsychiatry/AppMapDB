@@ -1,17 +1,23 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme } from '@material-ui/core';
+import {
+  Grid,
+  Step,
+  MobileStepper,
+  Collapse,
+  Chip,
+  CircularProgress,
+  useTheme,
+  Card,
+  CardActions,
+  CardHeader,
+  DialogContent,
+  DialogActions
+} from '@material-ui/core';
 import { useDialogState } from './useDialogState';
-import Paper from '@material-ui/core/Paper';
-import Draggable from 'react-draggable';
 import merge from 'deepmerge';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -20,16 +26,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
-import { useFullScreen } from '../../../hooks';
 import ErrorGate from './ErrorGate';
-
-function PaperComponent(props) {
-  return (
-    <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
+import { useAppBarHeight, useHeight } from '../../layout/store';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -51,10 +49,7 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
     dialogTitle: {
       background: palette.primary.main,
       color: palette.common.white,
-      margin: 0,
-      padding: 0,
-      paddingLeft: spacing(2),
-      paddingRight: spacing(1)
+      maxHeight: 22
     },
     closeButton: {
       color: 'inherit'
@@ -76,6 +71,9 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       left: '50%',
       marginTop: -(layout.progressSize / 2),
       marginLeft: -(layout.progressSize / 2)
+    },
+    stepSummary: {
+      background: palette.background.default
     }
   })
 );
@@ -98,11 +96,13 @@ export interface ComponentProps {
   onSubmit: any;
   onDelete: any;
   validate: any;
-  Content: any;
   steps: any[];
+  fullHeight: boolean;
 }
 
-const GenericStepperDialog = ({
+const contentPaddingTop = 24;
+
+const GenericStepperCard = ({
   id,
   title: Title, // Title can be set via the state as well as the input props, state takes priority
   initialValues: InitialValues = {}, // If initial values are provided they are merged with the initial values from the state
@@ -115,8 +115,8 @@ const GenericStepperDialog = ({
   onSubmit,
   onDelete,
   onClose,
-  Content,
   validate,
+  fullHeight = true,
   ...other
 }: ComponentProps & any) => {
   const { layout } = useTheme();
@@ -128,7 +128,7 @@ const GenericStepperDialog = ({
   const title = state.title ? state.title : Title;
   const fields = useStepFields(steps);
 
-  const { values, setValues, hasChanged, errors, mapField } = useValues({
+  const { values, setValues, hasChanged, errors, mapField, initializeValues } = useValues({
     open,
     fields,
     InitialValues,
@@ -143,8 +143,13 @@ const GenericStepperDialog = ({
     open && setConfirmDelete(false);
   }, [open]);
 
+  const handleReset = React.useCallback(() => {
+    setActiveStep(0);
+    setConfirmDelete(false);
+    initializeValues();
+  }, [setActiveStep, setConfirmDelete, initializeValues]);
+
   const classes = useStyles({});
-  const fullScreen = useFullScreen();
 
   const activeSteps = steps.filter(s => isEnabled(typeof s.enabled === 'function' ? s.enabled(values) : s.enabled));
   const currentStep = (activeSteps && activeSteps[activeStep]) || {};
@@ -157,9 +162,9 @@ const GenericStepperDialog = ({
     if (activeErrorCount > 0) {
       setShowErrors(true);
     } else {
-      onSubmit && onSubmit(JSON.parse(values_s));
+      onSubmit && onSubmit(JSON.parse(values_s), handleReset);
     }
-  }, [activeErrorCount, setShowErrors, onSubmit, values_s]);
+  }, [activeErrorCount, setShowErrors, onSubmit, values_s, handleReset]);
 
   const handleDelete = React.useCallback(() => {
     onDelete && onDelete(JSON.parse(values_s));
@@ -171,7 +176,6 @@ const GenericStepperDialog = ({
     setState(prev => ({ ...prev, open: false }));
     onClose && onClose();
   }, [setState, onClose]);
-
   const handleNext = React.useCallback(() => {
     if (activeErrorCount > 0) {
       setShowErrors(true);
@@ -190,44 +194,54 @@ const GenericStepperDialog = ({
   const inProgress = loading || submitting;
   const disabled = inProgress || errors['loading'];
 
+  const height = useHeight();
+  const appBarHeight = useAppBarHeight();
+
+  const componentsOnPage = [
+    appBarHeight,
+    layout.contentpadding * 2, // Top and bottom inner content padding
+    54, // Header height
+    1, // Header divider
+    1, // Title divider
+    //16, // Top and bottom dialog content padding
+    contentPaddingTop,
+    8, // Bottom dialog content padding
+    48, // Stepper info bar height
+    56, // Actions height
+    layout.footerheight
+  ];
+
+  var calculatedheight = height - componentsOnPage.reduce((t, c) => t + c, 0);
+
   return (
-    <Dialog
-      PaperComponent={!fullScreen && draggable ? PaperComponent : Paper}
-      fullScreen={fullScreen}
+    <Card
       open={open}
       onClose={handleClose}
       aria-labelledby={`${id}-dialog-title`}
       aria-describedby={`${id}-dialog-description`}
       className={classes.dialog}
-      disableAutoFocus={true}
-      maxWidth={currentStep.maxWidth !== undefined ? currentStep.maxWidth : maxWidth}
-      fullWidth
       {...other}
     >
       {title !== null && (
         <>
-          <DialogTitle id={`${id}-dialog-title`} disableTypography className={classes.dialogTitle}>
-            <Grid container justify='space-between' alignItems='center'>
-              <Grid item>
-                <Typography variant='h6' className={classes.capitalize}>
-                  {title ? title : [type, id].join(' ')}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Tooltip title='Close' placement='left'>
-                  <IconButton aria-label='close' className={classes.closeButton} onClick={handleClose}>
-                    <CloseIcon />
-                  </IconButton>
-                </Tooltip>
-              </Grid>
-            </Grid>
-          </DialogTitle>
+          <CardHeader
+            id={`${id}-dialog-title`}
+            title={title ? title : [type, id].join(' ')}
+            className={classes.dialogTitle}
+            action={
+              <Button aria-label='Reset' variant='contained' color='primary' onClick={handleReset}>
+                Reset Form
+              </Button>
+            }
+          />
           <Divider />
           {!confirmDelete && (
-            <DialogActions>
+            <CardActions className={classes.stepSummary}>
               <Grid container style={{ paddingLeft: 12, paddingRight: 12 }} alignItems='center'>
-                <Grid item xs>
-                  <Typography color='textSecondary'>{currentStep.label ? currentStep.label : currentStep.id}</Typography>
+                <Grid item zeroMinWidth xs>
+                  <Typography noWrap color='textPrimary' variant='body1'>
+                    {currentStep.label ? currentStep.label : currentStep.id}
+                  </Typography>
                 </Grid>
                 {activeSteps.length > 1 && (
                   <Grid item>
@@ -235,25 +249,29 @@ const GenericStepperDialog = ({
                   </Grid>
                 )}
               </Grid>
-            </DialogActions>
+            </CardActions>
           )}
+          <Divider />
         </>
       )}
-      <DialogContent dividers>
+      <DialogContent style={{ paddingTop: contentPaddingTop, height: fullHeight ? calculatedheight : undefined }}>
         <ErrorGate error={errors['loading']}>
           {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
           <Collapse in={!confirmDelete}>
-            {activeSteps.map(({ fields = [], label, onActivate, minWidth }, i) => (
-              <Collapse key={i} in={activeStep === i}>
-                <Step key={label}>
-                  <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
-                    <Grid container alignItems='center' spacing={1}>
-                      <Fields fields={fields} mapField={mapField} values={values} />
-                    </Grid>
-                  </OnActivate>
-                </Step>
-              </Collapse>
-            ))}
+            {activeSteps.map(({ Template, fields = [], label, onActivate }, i) => {
+              const ContentComponent = Template ?? Fields;
+              return (
+                <Collapse key={i} in={activeStep === i}>
+                  <Step key={label}>
+                    <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
+                      <Grid container alignItems='center' spacing={1}>
+                        <ContentComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
+                      </Grid>
+                    </OnActivate>
+                  </Step>
+                </Collapse>
+              );
+            })}
           </Collapse>
           {confirmDelete && (
             <Grid container spacing={2} justify='center' alignItems='center'>
@@ -288,7 +306,7 @@ const GenericStepperDialog = ({
                 </Button>
               ) : (
                 <>
-                  <Button size='small' onClick={handleNext} disabled={disabled}>
+                  <Button color='primary' size='small' variant='contained' onClick={handleNext} disabled={disabled}>
                     Next
                     <KeyboardArrowRight />
                   </Button>
@@ -311,8 +329,8 @@ const GenericStepperDialog = ({
           />
         </DialogActions>
       )}
-    </Dialog>
+    </Card>
   );
 };
 
-export default GenericStepperDialog;
+export default GenericStepperCard;

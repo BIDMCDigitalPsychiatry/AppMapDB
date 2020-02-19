@@ -65,4 +65,11 @@ const Fields = ({ fields, mapField, values, fullWidth = false, columns = 1, minC
     fields.filter(f => !isHidden(f, values)).map((props, i) => <MapField key={i} values={values} mapField={mapField} fullWidth={fullWidth} {...props} />)
   );
 
+export const InjectField = ({ values, mapField, fullWidth, fields, id, object = undefined, container = undefined, ...other }) => {
+  const f = fields.find(
+    f => f.id === id && (object !== undefined ? f.object === object : true) && (container !== undefined ? f.container === container : true)
+  );
+  return !f || isHidden(f, values) ? <></> : <MapField {...f} {...other} values={values} mapField={mapField} fullWidth={fullWidth} />;
+};
+
 export default Fields;

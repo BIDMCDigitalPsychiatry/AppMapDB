@@ -1,7 +1,0 @@
-{
-  "name": "google-play-cors-proxy",
-  "version": "1.0.0",
-  "dependencies": {
-    "google-play-scraper": "7.1.2"
-  }
-}

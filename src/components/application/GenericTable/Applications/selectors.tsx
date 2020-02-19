@@ -6,8 +6,46 @@ import { isEmpty, decimalsum } from '../../../../helpers';
 import { tableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import Decimal from 'decimal.js-light';
+import { AndroidStoreProps } from '../../DialogField/AndroidStore';
+import { AppleStoreProps } from '../../DialogField/AppleStore';
+import logo from '../../../../images/logo.png';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
+export const getAppName = app => {
+  const androidStore: AndroidStoreProps = app.androidStore;
+  const appleStore: AppleStoreProps = app.appleStore;
+  return !isEmpty(app.name)
+    ? app.name
+    : androidStore && !isEmpty(androidStore.title)
+    ? androidStore.title
+    : appleStore && !isEmpty(appleStore.title)
+    ? appleStore.title
+    : app.name;
+};
+
+export const getAppCompany = app => {
+  const androidStore: AndroidStoreProps = app.androidStore;
+  const appleStore: AppleStoreProps = app.appleStore;
+  return !isEmpty(app.company)
+    ? app.company
+    : androidStore && !isEmpty(androidStore.developer)
+    ? androidStore.developer
+    : appleStore && !isEmpty(appleStore.developer)
+    ? appleStore.developer
+    : app.company;
+};
+
+export const getAppIcon = (app: Application) => {
+  const androidStore: AndroidStoreProps = app.androidStore;
+  const appleStore: AppleStoreProps = app.appleStore;
+  return !isEmpty(app.icon)
+    ? app.icon
+    : androidStore && !isEmpty(androidStore.icon)
+    ? androidStore.icon
+    : appleStore && !isEmpty(appleStore.icon)
+    ? appleStore.icon
+    : logo;
+};
 
 export const from_database = (state: AppState, props: GenericTableContainerProps) => {
   const apps = state.database[tables.applications] ?? {};
@@ -25,9 +63,9 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           .toPrecision(2);
 
         const appSearchable = {
-          name: app.name,
+          name: getAppName(app),
           rating,
-          company: app.company,
+          company: getAppCompany(app),
           costs: app.costs?.join(''),
           platforms: app.platforms?.join(' '), // for searching
           features: app.features?.join(' '), // for searching

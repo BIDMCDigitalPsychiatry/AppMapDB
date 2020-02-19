@@ -204,3 +204,21 @@ export function sortAscending(a = 0, b = 0) {
   if (a > b) return 1;
   return 0;
 }
+
+export const getAndroidIdFromUrl = (url: string) => {
+  var searchStr = '?id=';
+  var index = (url as string)?.indexOf(searchStr);
+  if (index >= 0) {
+    var indexEnd = url.indexOf('&', index);
+    return url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
+  }
+};
+
+export const getAppleIdFromUrl = (url: string) => {
+  var searchStr = '/id';
+  var index = (url as string)?.indexOf(searchStr);
+  if (index >= 0) {
+    var indexEnd = url.indexOf('&', index);
+    return url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
+  }
+};

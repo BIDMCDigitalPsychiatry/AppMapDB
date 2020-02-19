@@ -166,10 +166,10 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
       ].map(f => ({ ...f, container: tables.applications }))
     },
     {
-      label: 'Enter rating and review',
+      label: 'Enter rating and review. Click finish to submit.',
       fields: [
         { id: 'name', label: 'Enter name of reviewer', xs: 8, initialValue: 'Anonymous', required: true, container: tables.ratings },
-        { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true, container: tables.ratings },
+        { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true, container: tables.ratings, minWidth: 300 },
         {
           id: 'review',
           label: 'Enter Review',
