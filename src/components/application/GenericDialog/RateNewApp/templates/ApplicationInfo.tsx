@@ -117,12 +117,12 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
               TabIndicatorProps={{ children: <div /> }}
             >
               {values.applications.platforms.map(p => (
-                <Tab className={classes.tab} label={<TabLabel label={labelMap[p]} icon={iconMap[p]} />} disableRipple />
+                <Tab key={p} className={classes.tab} label={<TabLabel label={labelMap[p]} icon={iconMap[p]} />} disableRipple />
               ))}
             </Tabs>
             <Typography className={classes.padding} />
           </div>
-          {values.applications.platforms.map((p, i) => tab === i && !loading && injectField(keyMap[p]))}
+          {values.applications.platforms.map((p, i) => tab === i && !loading && <div key={p}>{injectField(keyMap[p])}</div>)}
         </div>
       </Grid>
       <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>

@@ -35,7 +35,8 @@ const WholeNumberUpDown = ({
         }
       }
     }
-  }, [value, max, min, onChange]);
+  }, [value, max, min, step, onChange]);
+  
   const handleDown = React.useCallback(() => {
     if (!isNaN(step)) {
       if (!isNaN(value)) {
@@ -58,7 +59,7 @@ const WholeNumberUpDown = ({
         }
       }
     }
-  }, [value, min, max, onChange]);
+  }, [value, min, max, step, onChange]);
 
   return (
     <WholeNumber
