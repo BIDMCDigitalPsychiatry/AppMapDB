@@ -39,7 +39,6 @@ export interface AppleStoreProps {
 }
 
 const AppleStore = ({ value = {} as AppleStoreProps, forceErrorMargin = false, error = undefined, initialValue = undefined, ...other }) => {
-  console.log(value);
   const { icon = logo, title, developer, description, free } = value;
   return (
     <>

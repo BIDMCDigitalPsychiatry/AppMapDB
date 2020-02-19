@@ -1,6 +1,6 @@
 {
   "name": "app-map-db",
-  "version": "0.1.9",
+  "version": "0.1.0",
   "private": true,
   "homepage": "https://BIDMCDigitalPsychiatry.github.io/AppMapDB",
   "dependencies": {
