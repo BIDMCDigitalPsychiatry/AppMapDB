@@ -9,18 +9,28 @@ import {
   ClinicalFoundations,
   Privacies,
   Functionalities,
-  DeveloperTypes
+  DeveloperTypes,
+  Engagements,
+  Outputs,
+  Inputs
 } from '../../../../database/models/Application';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
+import { useFullScreen } from '../../../../hooks';
 
 export const title = 'Apply Filters';
 
 export default function FilterPopover({ id = title, ...other }) {
+  const fullScreen = useFullScreen();
+  const width = fullScreen ? 290 : 700;
   return (
     <GenericPopover
       id={id}
       submitLabel={null}
       cancelLabel='Close'
+      width={width}
+      columns={2}
+      minColumnWidth={275}
+      maxColumnWidth={350}
       fields={[
         {
           id: 'Platforms',
@@ -28,14 +38,19 @@ export default function FilterPopover({ id = title, ...other }) {
           items: Platforms.map(label => ({ value: label, label }))
         },
         {
-          id: 'Functionalities',
-          Field: MultiSelectCheck,
-          items: Functionalities.map(label => ({ value: label, label }))
-        },
-        {
           id: 'Cost',
           Field: MultiSelectCheck,
           items: Costs.map(label => ({ value: label, label }))
+        },
+        {
+          id: 'Developer Type',
+          Field: AutoCompleteSelect,
+          items: DeveloperTypes
+        },
+        {
+          id: 'Functionalities',
+          Field: MultiSelectCheck,
+          items: Functionalities.map(label => ({ value: label, label }))
         },
         {
           id: 'Features',
@@ -48,7 +63,21 @@ export default function FilterPopover({ id = title, ...other }) {
           Field: MultiSelectCheck,
           items: Conditions.map(label => ({ value: label, label }))
         },
-
+        {
+          id: 'Engagements',
+          Field: MultiSelectCheck,
+          items: Engagements.map(label => ({ value: label, label }))
+        },
+        {
+          id: 'Inputs',
+          Field: MultiSelectCheck,
+          items: Inputs.map(label => ({ value: label, label }))
+        },
+        {
+          id: 'Outputs',
+          Field: MultiSelectCheck,
+          items: Outputs.map(label => ({ value: label, label }))
+        },
         {
           id: 'Privacy',
           Field: MultiSelectCheck,
@@ -60,9 +89,67 @@ export default function FilterPopover({ id = title, ...other }) {
           items: ClinicalFoundations
         },
         {
-          id: 'Developer Type',
+          id: 'respondToHarm',
+          label: 'Can Respond to Harm',
           Field: AutoCompleteSelect,
-          items: DeveloperTypes
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
+        },
+        {
+          id: 'thirdPartyVendors',
+          label: 'Third Party Vendors',
+          Field: AutoCompleteSelect,
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
+        },
+        {
+          id: 'selfHelp',
+          label: 'App is a Self-Help Tool',
+          Field: AutoCompleteSelect,
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
+        },
+        {
+          id: 'hybridUse',
+          label: 'Use with Clinician/Treatment Plan',
+          Field: AutoCompleteSelect,
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
+        },
+        {
+          id: 'referenceApp',
+          label: 'App is a Reference App',
+          Field: AutoCompleteSelect,
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
+        },
+        {
+          id: 'correctContent',
+          label: 'Well-Written and Relevant Content',
+          Field: AutoCompleteSelect,
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
+        },
+        {
+          id: 'doesWhatItClaims',
+          label: 'App Appears to do what it Claims',
+          Field: AutoCompleteSelect,
+          items: [
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]
         }
       ]}
       {...other}

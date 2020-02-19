@@ -37,6 +37,10 @@ export interface ComponentProps {
   validate?: any;
   Content?: any;
   values?: any;
+  width?: number | string;
+  columns?: number;
+  minColumnWidth?: number;
+  maxColumnWidth?: number;
   setValues?: any;
   fields?: FieldProps[] | any;
   onClose?: () => any;
@@ -69,9 +73,9 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       marginTop: -(layout.progressSize / 2),
       marginLeft: -(layout.progressSize / 2)
     },
-    card: {
-      width: 290 // Small enough to fit iPhone 5 in portrait mode
-    }
+    card: ({ width = 290 }: any) => ({
+      width
+    })
   })
 );
 
@@ -84,12 +88,16 @@ export default function GenericPopover({
   deleteLabel = 'Delete',
   submitLabel = 'Submit',
   fields = [] as any[],
+  width,
   onSubmit,
   onDelete,
   onClose,
   onReset,
   Content,
   validate,
+  columns,
+  minColumnWidth,
+  maxColumnWidth,
   values: externalValues = undefined,
   setValues: externalSetValues = undefined,
   children,
@@ -103,7 +111,7 @@ export default function GenericPopover({
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const handleConfirmDelete = React.useCallback(() => setConfirmDelete(prev => !prev), [setConfirmDelete]);
 
-  const classes = useStyles({});
+  const classes = useStyles({ width });
 
   const { values, hasChanged, errors, errorCount, mapField } = useValues({
     open,
@@ -141,8 +149,11 @@ export default function GenericPopover({
   const contentProps = {
     fields,
     mapField,
-    values
-  };
+    values,    
+    columns,
+    minColumnWidth,
+    maxColumnWidth
+  };  
 
   const inProgress = loading || submitting;
   const disabled = inProgress || errors['loading'];

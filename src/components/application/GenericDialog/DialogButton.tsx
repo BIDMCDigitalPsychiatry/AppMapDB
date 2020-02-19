@@ -18,7 +18,7 @@ import {
 } from '@material-ui/core';
 import { useDialogState } from './useDialogState';
 import EditIcon from '@material-ui/icons/Edit';
-import { checkEmpty, evalFunc, isEmpty } from '../../../helpers';
+import { checkEmpty, evalFunc } from '../../../helpers';
 import { useTableFilterValues } from '../GenericTable/store';
 import * as Icons from '@material-ui/icons';
 
@@ -52,18 +52,31 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
   const [values, setValues] = useTableFilterValues(table);
   const {
     Features = [],
+    Engagements = [],
+    Inputs = [],
+    Outputs = [],
     Functionalities = [],
     Conditions = [],
     Platforms = [],
     Cost = [],
     Privacy = [],
     'Clinical Foundation': ClinicalFoundation,
-    'Developer Type': DeveloperType
+    'Developer Type': DeveloperType,
+    respondToHarm,
+    thirdPartyVendors,
+    selfHelp,
+    hybridUse,
+    referenceApp,
+    doesWhatItClaims,
+    correctContent
   } = values as any;
   const filterCount =
-    [Features, Functionalities, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) +
-    (isEmpty(ClinicalFoundation) ? 0 : 1) +
-    (isEmpty(DeveloperType) ? 0 : 1);
+    [Features, Engagements, Inputs, Outputs, Functionalities, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) +
+    [ClinicalFoundation, DeveloperType, respondToHarm, thirdPartyVendors, selfHelp, hybridUse, referenceApp, doesWhatItClaims, correctContent].reduce(
+      (t, c) => (t = t + (checkEmpty(c) ? 0 : 1)),
+      0
+    );
+
   const handleReset = React.useCallback(() => setValues({}), [setValues]);
 
   return (

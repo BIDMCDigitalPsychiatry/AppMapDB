@@ -44,19 +44,21 @@ export const MapField = ({ Field, style, active, xs = 12, values, mapField, full
 
 const Fields = ({ fields, mapField, values, fullWidth = false, columns = 1, minColumnWidth = 250, maxColumnWidth = 250 }) =>
   columns > 1 ? (
-    <Grid key='column-container' item xs={12} container spacing={2} justify='center'>
+    <Grid key='column-container' item xs={12} container spacing={0} justify='center'>
       {Array.from(Array(columns).keys()).map(i => (
         <Grid key={i} item xs={fullWidth ? 12 : true} style={fullWidth ? {} : { minWidth: minColumnWidth, maxWidth: maxColumnWidth }}>
-          <Grid container>
-            <Fields
-              fields={getColumnFields(fields, columns, i)}
-              mapField={mapField}
-              values={values}
-              fullWidth={false}
-              columns={1}
-              minColumnWidth={minColumnWidth}
-              maxColumnWidth={maxColumnWidth}
-            />
+          <Grid container justify='center' spacing={1}>
+            <Grid item xs={11}>
+              <Fields
+                fields={getColumnFields(fields, columns, i)}
+                mapField={mapField}
+                values={values}
+                fullWidth={false}
+                columns={1}
+                minColumnWidth={minColumnWidth}
+                maxColumnWidth={maxColumnWidth}
+              />
+            </Grid>
           </Grid>
         </Grid>
       ))}
