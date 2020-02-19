@@ -7,11 +7,10 @@ import logo from '../../images/logo.png';
 import { useLocation, useHistory } from 'react-router';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import * as RateAppDialog from '../application/GenericDialog/RateNewApp';
-import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useAppBarHeightRef } from './hooks';
 import { publicUrl } from '../../helpers';
 
-const useStyles = makeStyles(({ breakpoints, palette, shadows, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
       background: palette.white,
@@ -19,22 +18,17 @@ const useStyles = makeStyles(({ breakpoints, palette, shadows, layout }: any) =>
       paddingRight: layout.contentpadding
     },
     logo: {
-      height: layout.toolbarheight,
+      height: layout.toolbarheight - 8,
       [breakpoints.down('sm')]: {
         display: 'none'
       },
       cursor: 'pointer'
     },
-    button: {},
     active: {
       backgroundColor: palette.primary.dark
     },
     toolbar: {
-      background: palette.white,
-      height: layout.toolbarheight,
-      [breakpoints.down('sm')]: {
-        height: 64
-      }
+      background: palette.white
     }
   })
 );
@@ -51,20 +45,11 @@ export default function ApplicationBar() {
     [history, pathname]
   );
 
-  const [, setDialogState] = useDialogState(RateAppDialog.title);
-
-  const handleRateApp = React.useCallback(() => {
-    setDialogState({
-      type: 'Add',
-      open: true
-    });
-  }, [setDialogState]);
-
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={classes.appBar}>
       {renderDialogModule(RateAppDialog)}
       <Toolbar className={classes.toolbar} disableGutters={true}>
-        <Grid container alignItems='center' spacing={1}>
+        <Grid container alignItems='center' spacing={0}>
           <Grid item>
             <img className={classes.logo} src={logo} alt='logo' onClick={changeRoute(publicUrl('/'))} />
           </Grid>
@@ -93,16 +78,17 @@ export default function ApplicationBar() {
                   Rating Process
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/Rate') ? classes.active : undefined} onClick={handleRateApp}>
+              <Button className={pathname === publicUrl('/RateNewApp') ? classes.active : undefined} onClick={changeRoute(publicUrl('/RateNewApp'))}>
                 <Typography variant='button' noWrap>
                   Rate New App
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/PlayGround') ? classes.active : undefined} onClick={changeRoute(publicUrl('/PlayGround'))}>
+              {/*<Button className={pathname === publicUrl('/PlayGround') ? classes.active : undefined} onClick={changeRoute(publicUrl('/PlayGround'))}>
                 <Typography variant='button' noWrap>
                   Play Ground
                 </Typography>
               </Button>
+              */}
             </ButtonGroup>
           </Grid>
         </Grid>

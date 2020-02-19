@@ -3,6 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import SnackBar from '../application/SnackBar/SnackBar';
+import { useAppBarHeight } from './store';
 
 const useStyles = makeStyles(({ breakpoints, palette, mixins, layout }: any) =>
   createStyles({
@@ -20,18 +21,16 @@ const useStyles = makeStyles(({ breakpoints, palette, mixins, layout }: any) =>
     innerContent: {
       padding: layout.contentpadding
     },
-    toolbar: {
+    toolbar: ({ height }: any) => ({
       background: palette.white,
-      height: layout.toolbarheight,
-      [breakpoints.down('sm')]: {
-        height: 64
-      }
-    }
+      height
+    })
   })
 );
 
 export default function Layout({ children }) {
-  const classes = useStyles({});
+  const height = useAppBarHeight();
+  const classes = useStyles({ height });
   return (
     <div data-testid='app-container' className={classes.root}>
       <main className={classes.content}>

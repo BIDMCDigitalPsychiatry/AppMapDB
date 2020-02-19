@@ -18,6 +18,7 @@ export default function MuliSelectCheck({
   size = 'small' as 'small',
   items = [],
   disableCloseOnSelect = true,
+  initialValue = undefined, // prevent passing down
   ...other
 }) {
   const handleChange = React.useCallback((e, value = []) => onChange && onChange({ target: { value: value.map(i => i.value) } }), [onChange]);

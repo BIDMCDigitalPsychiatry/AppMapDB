@@ -6,7 +6,7 @@ import * as Icons from '@material-ui/icons';
 import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
 import * as FilterPopover from '../../GenericPopover/Filter';
-import Application, { Costs, Platforms, Functionalities, Features as AllFeatures } from '../../../../database/models/Application';
+import Application, { Costs, Platforms, Functionalities as AllFunctionalities, Features as AllFeatures } from '../../../../database/models/Application';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
 import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
 import AppSummary from './AppSummary';
@@ -17,6 +17,7 @@ export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
 
 export const Features = AllFeatures.filter((f, i) => i < 9);
+export const Functionalities = AllFunctionalities.filter((f, i) => i < 2);
 
 export const CenterRadio = ({ checked = false }) => {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;

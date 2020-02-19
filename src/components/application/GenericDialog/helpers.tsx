@@ -85,7 +85,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
 
 export const isEnabled = value => value === true || value === undefined;
 
-export const useHandleChange = (setValues, resetErrors) =>
+export const useHandleChange = (setValues, resetErrors = undefined) =>
   React.useCallback(
     field => e => {
       var value = e && e.target && e.target.value;
@@ -204,7 +204,7 @@ export const handleValidation = ({ values, fields, errors: Errors }) => {
     } else if (f.http && !checkEmpty(getValue(f, values)) && !validateHttpUrl(getValue(f, values))) {
       setMappedValue({ field: f, value: 'Invalid http url format.', prev: errors });
     } else if (f.validate) {
-      errors[f.id] = emptyUndefined(f.validate(values));
+      setMappedValue({ field: f, value: emptyUndefined(f.validate(values)), prev: errors });
     }
   });
 
@@ -219,4 +219,24 @@ export const isError = (field, values, errors) => {
     !(isHidden(field, values) === true) && // Not hidden
     getValue(field, errors) !== undefined // Not undefined
   );
+};
+
+// Returns a static field array to prevent un-necessary re-renders
+export const useStepFields = steps => {
+  const [fields, setFields] = React.useState(
+    steps
+      .filter(s => s.fields)
+      .map(s => s.fields)
+      .reduce((t, c) => (t = [...t, ...c]), [])
+  );
+
+  React.useEffect(() => {
+    setFields(
+      steps
+        .filter(s => s.fields)
+        .map(s => s.fields)
+        .reduce((t, c) => (t = [...t, ...c]), [])
+    );
+  }, [steps, setFields]);
+  return fields;
 };
