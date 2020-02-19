@@ -10,7 +10,7 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
     <Grid container alignItems='center'>
       <Grid item xs={12}>
         <Grid container alignItems='center' justify='space-between'>
-          <RatingReadOnly size='small' precision={0.25} value={Number(rating)} />
+          <RatingReadOnly size='small' precision={0.5} value={Number(rating)} readOnly={true} />
           <Typography variant='caption' color='textSecondary'>
             {`(${rating})`}
           </Typography>

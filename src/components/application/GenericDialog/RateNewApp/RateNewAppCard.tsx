@@ -3,9 +3,10 @@ import { useDialogState } from '../useDialogState';
 import Application from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
-import { uuid } from '../../../../helpers';
+import { uuid, publicUrl } from '../../../../helpers';
 import GenericStepperCard from '../GenericCardStepper';
 import steps from './steps';
+import { useChangeRoute } from '../../../layout/hooks';
 
 export const title = 'Rate New App';
 
@@ -18,6 +19,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
   const [{ type }, setDialogState] = useDialogState(id);
 
   const processData = useProcessData();
+  const changeRoute = useChangeRoute();
 
   const handleProcessData = (values, Action) => {
     const application: Application = values[tables.applications];
@@ -31,6 +33,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
     processData({ Model: tables.applications, Action, Data: application }); // Submit application row
     processData({ Model: tables.ratings, Action, Data: { ...rating, time: new Date().getTime() } }); // Inject appId and submit rating row
 
+    changeRoute(publicUrl('/Apps'));
     handleClose();
   };
 

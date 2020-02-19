@@ -4,10 +4,10 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
-import { useLocation, useHistory } from 'react-router';
+import { useLocation } from 'react-router';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import * as RateAppDialog from '../application/GenericDialog/RateNewApp';
-import { useAppBarHeightRef } from './hooks';
+import { useAppBarHeightRef, useHandleChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
@@ -36,14 +36,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 export default function ApplicationBar() {
   const classes = useStyles();
   const { pathname } = useLocation();
-  const history = useHistory();
-
-  const changeRoute = React.useCallback(
-    (route: string) => event => {
-      pathname !== route && history && history.push(route); //only change pages if it is different than the current page
-    },
-    [history, pathname]
-  );
+  const handleChangeRoute = useHandleChangeRoute();
 
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={classes.appBar}>
@@ -51,7 +44,7 @@ export default function ApplicationBar() {
       <Toolbar className={classes.toolbar} disableGutters={true}>
         <Grid container alignItems='center' spacing={0}>
           <Grid item>
-            <img className={classes.logo} src={logo} alt='logo' onClick={changeRoute(publicUrl('/'))} />
+            <img className={classes.logo} src={logo} alt='logo' onClick={handleChangeRoute(publicUrl('/'))} />
           </Grid>
           <Grid item xs>
             <ButtonGroup
@@ -64,21 +57,21 @@ export default function ApplicationBar() {
             >
               <Button
                 className={pathname === publicUrl('/Apps') || pathname === publicUrl('/') ? classes.active : undefined}
-                onClick={changeRoute(publicUrl('/Apps'))}
+                onClick={handleChangeRoute(publicUrl('/Apps'))}
               >
                 <Typography variant='button' noWrap>
                   Apps
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/Framework') ? classes.active : undefined} onClick={changeRoute(publicUrl('/Framework'))}>
+              <Button className={pathname === publicUrl('/Framework') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Framework'))}>
                 <Typography variant='button' noWrap>{`Framework & Questions`}</Typography>
               </Button>
-              <Button className={pathname === publicUrl('/Rating') ? classes.active : undefined} onClick={changeRoute(publicUrl('/Rating'))}>
+              <Button className={pathname === publicUrl('/Rating') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Rating'))}>
                 <Typography variant='button' noWrap>
                   Rating Process
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/RateNewApp') ? classes.active : undefined} onClick={changeRoute(publicUrl('/RateNewApp'))}>
+              <Button className={pathname === publicUrl('/RateNewApp') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
                 <Typography variant='button' noWrap>
                   Rate New App
                 </Typography>

@@ -32,10 +32,10 @@ export const styles = theme => ({
     '&$disabled': {
       opacity: 0.5,
       pointerEvents: 'none'
-    },
-    '&$focusVisible $iconActive': {
-      outline: '1px solid #999'
     }
+    /*'&$focusVisible $iconActive': {
+      outline: '1px solid #999'
+    }*/
   },
   /* Styles applied to the root element if `size="small"`. */
   sizeSmall: {
@@ -110,7 +110,7 @@ const Rating = props => {
     max = 5,
     name: nameProp,
     precision = 1,
-    readOnly = false,
+    readOnly = true,
     size = 'medium',
     value: valueProp,
     ...other
