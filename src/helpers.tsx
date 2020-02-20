@@ -222,3 +222,7 @@ export const getAppleIdFromUrl = (url: string) => {
     return url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
   }
 };
+
+export function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}

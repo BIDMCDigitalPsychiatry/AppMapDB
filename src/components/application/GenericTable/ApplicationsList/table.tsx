@@ -21,7 +21,8 @@ const defaultProps: GenericTableContainerProps = {
   search: true,
   includeHeaders: false,
   fixedRowCount: 0,
-  rowHeight: 280,
+  rowHeight: 300,
+  rowDivider: false,
   buttons: [
     <TableFilterDialogButton Module={FilterPopover} table={name} />,
     <ViewModeButton />,

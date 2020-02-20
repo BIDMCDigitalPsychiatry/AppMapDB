@@ -23,6 +23,7 @@ export interface VirtualTableProps {
   includeHeaders?: boolean;
   fixedRowCount?: number;
   showScroll?: boolean;
+  rowDivider?: boolean;
 }
 
 const gridStyle = {
@@ -145,7 +146,8 @@ export default function VirtualTable(props: VirtualTableProps) {
     height,
     columns,
     MultiSelectToolbar,
-    showScroll = false
+    showScroll = false,
+    rowDivider = true
   } = props;
 
   const table: TableStore.Table = TableStore.useTable(name);
@@ -196,7 +198,7 @@ export default function VirtualTable(props: VirtualTableProps) {
                   <MuiTable
                     cellProps={{
                       size: 'small',
-                      style: { paddingLeft: 16, paddingRight: 0 }
+                      style: { paddingLeft: 16, paddingRight: 0, borderBottom: rowDivider === false ? 0 : undefined }
                     }}
                     classes={{
                       table: showScroll
