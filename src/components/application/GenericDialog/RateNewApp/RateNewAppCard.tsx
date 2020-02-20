@@ -21,7 +21,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
   const processData = useProcessData();
   const changeRoute = useChangeRoute();
 
-  const handleProcessData = (values, Action) => {
+  const handleProcessData = (values, Action, handleReset = undefined) => {
     const application: Application = values[tables.applications];
 
     if (Action === 'c') {
@@ -30,16 +30,30 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
 
     const rating: Application = { ...values[tables.ratings], appId: application._id }; // Inject appId for document linkage
 
-    processData({ Model: tables.applications, Action, Data: application }); // Submit application row
-    processData({ Model: tables.ratings, Action, Data: { ...rating, time: new Date().getTime() } }); // Inject appId and submit rating row
+    setDialogState(prev => ({ ...prev, loading: true }));
 
-    changeRoute(publicUrl('/Apps'));
-    handleClose();
+    processData({
+      Model: tables.applications,
+      Action,
+      Data: application,
+      onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+      onSuccess: () =>
+        processData({
+          Model: tables.ratings,
+          Action,
+          Data: { ...rating, time: new Date().getTime() }, // Inject appId and submit rating row
+          onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+          onSuccess: () => {
+            handleReset && handleReset();
+            changeRoute(publicUrl('/Apps'));
+            handleClose();
+          }
+        })
+    });
   };
 
   const handleSubmit = (values, handleReset) => {
-    handleProcessData(values, type === 'Edit' ? 'u' : 'c');
-    handleReset();
+    handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset);
   };
   const handleDelete = values => handleProcessData(values, 'd');
 
