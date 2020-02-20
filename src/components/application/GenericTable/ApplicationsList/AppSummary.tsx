@@ -185,7 +185,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                         </TableCell>
                         <TableCell>
                           {row.values.map((l, i) => (
-                            <Chip key={`${l}-${i}`} style={{ marginRight: 8 }} color='primary' variant='outlined' size='small' label={l} />
+                            <Chip key={`${l}-${i}`} style={{ marginRight: 8 }} variant='outlined' size='small' label={l} />
                           ))}
                         </TableCell>
                       </TableRow>

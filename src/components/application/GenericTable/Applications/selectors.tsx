@@ -8,7 +8,7 @@ import { tables } from '../../../../database/dbConfig';
 import Decimal from 'decimal.js-light';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
 import { AppleStoreProps } from '../../DialogField/AppleStore';
-import logo from '../../../../images/logo.png';
+import logo from '../../../../images/default_app_icon.png';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 const isBoolFilter = (filterValue, value) => isEmpty(filterValue) || bool(filterValue) === bool(value);

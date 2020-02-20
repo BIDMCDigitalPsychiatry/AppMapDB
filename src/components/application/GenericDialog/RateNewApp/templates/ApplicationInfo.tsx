@@ -7,6 +7,8 @@ import { googlePlayProxyUrl } from '../../../../../constants';
 import { useHandleChange } from '../../helpers';
 import google_play_store from '../../../../../images/google_play_store.png';
 import apple_store from '../../../../../images/apple_store.png';
+import web from '../../../../../images/web.png';
+import { tables } from '../../../../../database/dbConfig';
 
 async function getAppInfo(appId, type) {
   const { data } = await axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
@@ -46,13 +48,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 const labelMap = {
   iOS: 'Apple Store',
   Android: 'Google Play Store',
-  Web: 'Web Store'
+  Web: 'Web'
 };
 
 const iconMap = {
   iOS: apple_store,
   Android: google_play_store,
-  Web: <></>
+  Web: web
 };
 
 const keyMap = {
@@ -104,6 +106,8 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
     setTab(newValue);
   };
 
+  const platforms = values[tables.applications].platforms ?? [];  
+
   return (
     <Grid container justify='center' spacing={3}>
       <Grid item xs style={{ maxWidth: 700 }}>
@@ -127,6 +131,12 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
       </Grid>
       <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
         <Grid container spacing={1}>
+          {platforms.length === 1 && platforms[0] === 'Web' && (
+            <>
+              {injectField('name')}
+              {injectField('company')}
+            </>
+          )}
           {injectField('costs')}
           {injectField('developerType')}
           {injectField('features')}

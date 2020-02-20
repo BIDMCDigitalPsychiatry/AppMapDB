@@ -76,6 +76,14 @@ const steps = [
         Field: AppleStore
       },
       {
+        id: 'name',
+        label: 'Name'
+      },
+      {
+        id: 'company',
+        label: 'Company'
+      },
+      {
         id: 'costs',
         label: 'Costs Associated with Application',
         Field: MultiSelectCheck,
@@ -214,7 +222,7 @@ const steps = [
         min: 0,
         max: 999,
         required: true,
-        initialValue: 0,        
+        initialValue: 0
       },
       {
         id: 'efficacyStudies',
