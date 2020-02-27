@@ -30,7 +30,7 @@ export default function Framework() {
           <Typography variant='h6' align='center'>
             {`For further reading about how the framework was developed, please refer to the following papers:`}
 
-            <Typography variant='h6' align='center' noWrap component='span'>
+            <Typography variant='h6' align='center' noWrap component='div'>
               {`\u2022 `}
               <Link href='https://www.thelancet.com/journals/landig/article/PIIS2589-7500(19)30013-5/fulltext' target='_blank'>
                 https://www.thelancet.com/journals/landig/article/PIIS2589-7500(19)30013-5/fulltext
