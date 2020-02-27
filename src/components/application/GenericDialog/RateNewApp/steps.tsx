@@ -220,7 +220,11 @@ const steps = [
         label: null,
         Field: WholeNumberUpDown,
         min: 0,
-        max: 999,
+        max: 99.9,
+        step: 0.1,
+        inputProps: {
+          decimalScale: 1
+        },
         required: true,
         initialValue: 0
       },

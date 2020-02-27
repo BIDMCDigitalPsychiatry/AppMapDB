@@ -57,7 +57,7 @@ export const isActive = ({ active }, values) => (typeof active === 'function' ? 
 export const isHidden = ({ hidden }, values) => (typeof hidden === 'function' ? hidden(values) : hidden); //Hidden fields are hidden for the current dialog state, and can't be shown via other options
 
 export const bindField = ({ f, values, initialValues, errors, touched, handleChange, handleBlur, submitting, showErrors = false }) => {
-  const { required, type, autoFocus, InputProps, min, max, tab, multiline, rows, getProps, disableCloseOnSelect } = f; // Only pass necessary props to field
+  const { required, type, autoFocus, InputProps, inputProps, step, min, max, tab, multiline, rows, getProps, disableCloseOnSelect } = f; // Only pass necessary props to field
   const props = {
     autoFocus,
     required,
@@ -71,6 +71,8 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     onBlur: handleBlur(f),
     items: f.filter ? f.filter(f.items, values) : typeof f.items === 'function' ? f.items(values) : f.items,
     InputProps,
+    inputProps,
+    step,
     min,
     max,
     tab,
