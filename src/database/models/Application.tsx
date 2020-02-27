@@ -46,7 +46,7 @@ export type Engagement =
   | 'Asynchronous Response'
   | 'Gamification (Points, Badges)'
   | 'Videos'
-  | 'Audo/Music/Scripts'
+  | 'Audio/Music/Scripts'
   | 'Bio Feedback'
   | 'AI Support'
   | 'Peer Support'
@@ -59,7 +59,7 @@ export const Engagements: Engagement[] = [
   'Asynchronous Response',
   'Gamification (Points, Badges)',
   'Videos',
-  'Audo/Music/Scripts',
+  'Audio/Music/Scripts',
   'Bio Feedback',
   'AI Support',
   'Peer Support',
