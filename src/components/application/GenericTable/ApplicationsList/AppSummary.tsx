@@ -13,13 +13,15 @@ import {
   makeStyles,
   Theme,
   createStyles,
-  Tooltip
+  Tooltip,
+  useTheme
 } from '@material-ui/core';
 import Application from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 import { bool, onlyUnique } from '../../../../helpers';
+import { purple, green, blue, red } from '@material-ui/core/colors';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -76,14 +78,9 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     privacies = [],
     features = [],
     functionalities = [],
-    inputs = [],
-    outputs = [],
-    engagements = [],
     conditions = [],
     clinicalFoundation,
     developerType,
-    causeHarm,
-    useWarning,
     selfHelp,
     referenceApp,
     hybridUse,
@@ -96,6 +93,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
   } = props;
 
   const classes = useStyles({});
+  const theme = useTheme();
 
   const handleLink = React.useCallback(
     platform => event => {
@@ -106,6 +104,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     [androidLink, iosLink, webLink]
   );
 
+  const colorLevel = 700;
+
   return (
     <div style={{ marginRight: 16 /*width: width - 200*/ }}>
       <OutlinedDiv>
@@ -114,7 +114,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
             <Grid item style={{ width: appColumnWidth }}>
               <Grid container spacing={2}>
                 <Grid item>
-                  <img style={{ height: 170 }} src={icon} alt='logo' />
+                  <img style={{ height: 184 }} src={icon} alt='logo' />
                 </Grid>
                 <Grid item zeroMinWidth xs>
                   <Typography noWrap variant='h5'>
@@ -145,24 +145,6 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                     <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
                   </div>
                 </Grid>
-                <Grid item xs={12}>
-                  <div className={classes.chipRoot}>
-                    {[
-                      { label: 'Self Help Tool', value: bool(selfHelp), tooltip: 'App is a self-help/self-management tool.' },
-                      { label: 'Supporting Studies', value: clinicalFoundation === 'Supporting Studies', tooltip: 'App has supporting studies.' },
-                      { label: 'Hybrid Use', value: bool(hybridUse), tooltip: 'App can be used with a clinician in conjuction with treatment plan.' },
-                      { label: 'Reference App', value: bool(referenceApp), tooltip: 'App is a reference app.' },
-                      { label: 'Can Cause Harm', value: bool(causeHarm), tooltip: 'App can cause harm.' },
-                      { label: 'Use Warning', value: bool(useWarning), tooltip: 'App provides warning for use.' }
-                    ]
-                      .filter(c => c.value)
-                      .map((c, i) => (
-                        <Tooltip key={`main-chip-${c.label}`} title={(<Typography>{c.tooltip}</Typography>) as any}>
-                          <Chip className={classes.mainChip} color='primary' size='small' label={c.label} />
-                        </Tooltip>
-                      ))}
-                  </div>
-                </Grid>
               </Grid>
             </Grid>
             <Grid item zeroMinWidth xs>
@@ -170,26 +152,54 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                 <Table size='small'>
                   <TableBody>
                     {[
-                      { label: 'Conditions', values: conditions.filter(onlyUnique) },
-                      { label: 'Features', values: features.filter(onlyUnique) },
-                      { label: 'Functionalities', values: functionalities.filter(onlyUnique) },
-                      { label: 'Privacies', values: privacies.filter(onlyUnique) },
-                      { label: 'Inputs', values: inputs.filter(onlyUnique) },
-                      { label: 'Outputs', values: outputs.filter(onlyUnique) },
-                      { label: 'Engagements', values: engagements.filter(onlyUnique) }
+                      { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
+                      { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
+                      { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
+                      { label: 'Privacies', values: privacies.filter(onlyUnique), color: red[colorLevel] }
                     ].map((row: any, i) => (
                       <TableRow key={`${row.label}-${i}`}>
                         <TableCell style={{ width: summaryNameColumnWidth }}>
-                          <Chip color='primary' size='small' label={row.values.length} style={{ minWidth: 30, marginRight: 8 }} />
-                          {row.label}:
+                          <Typography>{row.label}:</Typography>
                         </TableCell>
                         <TableCell>
                           {row.values.map((l, i) => (
-                            <Chip key={`${l}-${i}`} style={{ marginRight: 8 }} variant='outlined' size='small' label={l} />
+                            <Chip
+                              key={`${l}-${i}`}
+                              style={{ background: row.color, color: 'white', marginRight: 8 }}
+                              variant='outlined'
+                              size='small'
+                              label={l}
+                            />
                           ))}
                         </TableCell>
                       </TableRow>
                     ))}
+                    <TableRow>
+                      <TableCell style={{ width: summaryNameColumnWidth }}>
+                        <Typography>Classifications:</Typography>
+                      </TableCell>
+                      <TableCell>
+                        {[
+                          { label: 'Self Help Tool', value: bool(selfHelp), tooltip: 'App is a self-help/self-management tool.' },
+                          { label: 'Supporting Studies', value: clinicalFoundation === 'Supporting Studies', tooltip: 'App has supporting studies.' },
+                          { label: 'Hybrid Use', value: bool(hybridUse), tooltip: 'App can be used with a clinician in conjuction with treatment plan.' },
+                          { label: 'Reference App', value: bool(referenceApp), tooltip: 'App is a reference app.' }
+                        ]
+                          .filter(c => c.value)
+                          .map((c, i) => (
+                            <Tooltip key={`main-chip-${c.label}`} title={(<Typography>{c.tooltip}</Typography>) as any}>
+                              <Chip
+                                style={{ background: theme.palette.primary.main, color: 'white', marginRight: 8 }}
+                                variant='outlined'
+                                size='small'
+                                className={classes.mainChip}
+                                color='primary'
+                                label={c.label}
+                              />
+                            </Tooltip>
+                          ))}
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </TableContainer>
