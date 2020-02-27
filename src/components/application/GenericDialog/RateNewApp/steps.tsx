@@ -203,7 +203,7 @@ const steps = [
         label: null,
         Field: WholeNumberUpDown,
         min: 0,
-        max: 12,
+        max: 20,
         required: true
       },
       {
