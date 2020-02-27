@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core';
+import { makeStyles, createStyles, useTheme } from '@material-ui/core';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useAppBarHeight } from './store';
+import { useAppBarHeight, useHeight } from './store';
 
 const useStyles = makeStyles(({ breakpoints, palette, mixins, layout }: any) =>
   createStyles({
@@ -12,25 +12,33 @@ const useStyles = makeStyles(({ breakpoints, palette, mixins, layout }: any) =>
     },
     content: {
       flexGrow: 1,
-      backgroundColor: palette.background.default,
+      backgroundColor: palette.common.white,
       [breakpoints.down('sm')]: {
         marginLeft: 0,
         flexShrink: 0
       }
     },
-    innerContent: {
+    innerContent: ({ contentHeight }) => ({
+      height: contentHeight,
+      overflow: 'auto',
       padding: layout.contentpadding
-    },
-    toolbar: ({ height }: any) => ({
+    }),
+    toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
-      height
+      height: appBarHeight
     })
   })
 );
 
 export default function Layout({ children }) {
-  const height = useAppBarHeight();
-  const classes = useStyles({ height });
+  const height = useHeight();
+  const appBarHeight = useAppBarHeight();
+
+  const { layout } = useTheme();
+  const componentsOnPage = [appBarHeight, layout.footerheight];
+  var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
+  const classes = useStyles({ contentHeight, appBarHeight });
+
   return (
     <div data-testid='app-container' className={classes.root}>
       <main className={classes.content}>
