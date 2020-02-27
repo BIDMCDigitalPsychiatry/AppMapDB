@@ -5,8 +5,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
 import { useLocation } from 'react-router';
-import { renderDialogModule } from '../application/GenericDialog/DialogButton';
-import * as RateAppDialog from '../application/GenericDialog/RateNewApp';
 import { useAppBarHeightRef, useHandleChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 
@@ -40,7 +38,6 @@ export default function ApplicationBar() {
 
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={classes.appBar}>
-      {renderDialogModule(RateAppDialog)}
       <Toolbar className={classes.toolbar} disableGutters={true}>
         <Grid container alignItems='center' spacing={0}>
           <Grid item>

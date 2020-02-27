@@ -13,7 +13,6 @@ import {
   Inputs,
   Engagements
 } from '../../../../database/models/Application';
-import Rating from '../../DialogField/Rating';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
@@ -247,23 +246,6 @@ const steps = [
         initialValue: 0
       }
     ].map(f => ({ ...f, container: tables.applications }))
-  },
-
-  {
-    label: 'Enter rating and review',
-    fields: [
-      { id: 'name', label: 'Enter name of reviewer', xs: 8, initialValue: 'Anonymous', required: true, container: tables.ratings },
-      { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true, container: tables.ratings },
-      {
-        id: 'review',
-        label: 'Enter Review',
-        multiline: true,
-        rows: 10,
-        xs: 12,
-        required: true,
-        autoFocus: true
-      }
-    ].map(f => ({ ...f, container: tables.ratings }))
   }
 ];
 

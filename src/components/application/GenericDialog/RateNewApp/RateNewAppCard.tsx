@@ -28,8 +28,6 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
       application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
     }
 
-    const rating: Application = { ...values[tables.ratings], appId: application._id }; // Inject appId for document linkage
-
     setDialogState(prev => ({ ...prev, loading: true }));
 
     processData({
@@ -37,18 +35,11 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
       Action,
       Data: application,
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
-      onSuccess: () =>
-        processData({
-          Model: tables.ratings,
-          Action,
-          Data: { ...rating, time: new Date().getTime() }, // Inject appId and submit rating row
-          onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
-          onSuccess: () => {
-            handleReset && handleReset();
-            changeRoute(publicUrl('/Apps'));
-            handleClose();
-          }
-        })
+      onSuccess: () => {
+        handleReset && handleReset();
+        changeRoute(publicUrl('/Apps'));
+        handleClose();
+      }
     });
   };
 
