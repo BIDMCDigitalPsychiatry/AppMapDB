@@ -23,10 +23,14 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
 
   const handleProcessData = (values, Action, handleReset = undefined) => {
     const application: Application = values[tables.applications];
+    const timestamp = new Date().getTime();
 
     if (Action === 'c') {
       application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
+      application.created = timestamp;
     }
+
+    application.updated = timestamp;
 
     setDialogState(prev => ({ ...prev, loading: true }));
 

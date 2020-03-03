@@ -12,6 +12,8 @@ import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
 import ViewModeButton from './ViewModeButton';
+import { Typography } from '@material-ui/core';
+import { getDayTimeFromTimestamp } from '../../../../helpers';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -23,6 +25,12 @@ export const CenterRadio = ({ checked = false }) => {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;
   return center(<Icon color='action' fontSize='small' />);
 };
+
+const LastUpdated = ({ updated }) => (
+  <Typography variant='body2' color='textSecondary'>
+    {updated ? getDayTimeFromTimestamp(updated) : ''}
+  </Typography>
+);
 
 const buildRadios = (items, values, paddingRight = undefined) => (
   <Grid container style={{ paddingRight }}>
@@ -44,6 +52,7 @@ const defaultProps: GenericTableContainerProps = {
   dialogs: [renderDialogModule(RateAppDialog), renderDialogModule(AppReviewsDialog)],
   columns: [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary },
+    { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated },
     { name: 'rating', header: 'Rating', width: 156, Cell: RatingsColumn },
     {
       name: 'platforms',

@@ -20,7 +20,7 @@ import Application from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
-import { bool, onlyUnique } from '../../../../helpers';
+import { bool, onlyUnique, getDayTimeFromTimestamp } from '../../../../helpers';
 import { purple, green, blue, red } from '@material-ui/core/colors';
 
 interface AppSummaryProps {
@@ -89,7 +89,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     webLink,
     ratingIds = [],
     icon = getAppIcon(props),
-    rating
+    rating,
+    updated
   } = props;
 
   const classes = useStyles({});
@@ -144,6 +145,9 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                   <div style={{ maxWidth: 130 }}>
                     <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
                   </div>
+                  <Typography noWrap color='textSecondary' variant='caption'>
+                    Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>

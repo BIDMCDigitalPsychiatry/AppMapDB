@@ -2,7 +2,7 @@
 import { GenericTableContainerProps } from '../GenericTableContainer';
 import Application from '../../../../database/models/Application';
 import { name } from './table';
-import { isEmpty, decimalsum, bool } from '../../../../helpers';
+import { isEmpty, decimalsum, bool, getDayTimeFromTimestamp } from '../../../../helpers';
 import { tableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import Decimal from 'decimal.js-light';
@@ -66,6 +66,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
 
         const appSearchable = {
           name: getAppName(app),
+          updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
           rating,
           company: getAppCompany(app),
           costs: app.costs?.join(''),

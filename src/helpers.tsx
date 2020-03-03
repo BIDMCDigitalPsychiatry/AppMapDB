@@ -226,3 +226,46 @@ export const getAppleIdFromUrl = (url: string) => {
 export function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
+
+function dayAbbrOfWeek(dayIndex) {
+  return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][dayIndex];
+}
+
+function monthAbbrOfYear(monthIndex) {
+  return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][monthIndex];
+}
+
+function nth(d) {
+  if (d > 3 && d < 21) return 'th';
+  switch (d % 10) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
+
+function addZero(i) {
+  if (i < 10) {
+    i = '0' + i;
+  }
+  return i;
+}
+
+export function getDayTimeFromTimestamp(timestamp: number) {
+  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+  d.setUTCMilliseconds(timestamp); //utc time
+  var day = dayAbbrOfWeek(d.getDay());
+  var year = d.getDate() + nth(d.getDate());
+  var h = d.getHours();
+  var m = addZero(d.getMinutes());
+  var isPM = h > 12 ? true : false;
+  h = isPM ? h - 12 : h === 0 ? 12 : h; //If PM, subtract 12.  If we are 0 or midnight, then set to 12, otherwise use the normal hour index
+  var month = monthAbbrOfYear(d.getMonth());
+
+  return `${day} ${month} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
+}

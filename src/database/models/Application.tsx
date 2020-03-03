@@ -193,5 +193,7 @@ export default interface Application extends Nano.MaybeDocument {
   useWarning: boolean; // Does the app provide any warning for use?
   selfHelp: boolean; // Is it a self-help/self-management tool?
   referenceApp: boolean; // Is it a reference app?
-  hybridUse: boolean; // Is it intended for hybrid use with a clinician in conjunction with treatment plan?
+  hybridUse: boolean; // Is it intended for hybrid use with a clinician in conjunction with treatment plan?    
+  created: number;
+  updated: number;
 }
