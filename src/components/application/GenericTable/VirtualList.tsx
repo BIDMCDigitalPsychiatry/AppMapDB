@@ -1,9 +1,8 @@
 ﻿import * as React from 'react';
-import { useTheme, makeStyles, createStyles } from '@material-ui/core';
+import { useTheme } from '@material-ui/core';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Component from '@reactions/component';
 import { evalFunc } from '../../../helpers';
-import { tableScrollStyle } from './VirtualTable';
 import { CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 
 export interface VirtualListProps {
@@ -13,14 +12,6 @@ export interface VirtualListProps {
   data?: any[];
   rowHeight?: number;
 }
-
-const useStyles = makeStyles(({ palette }: any) =>
-  createStyles({
-    tableScroll: {
-      ...tableScrollStyle({ palette })
-    }
-  })
-);
 
 export default function VirtualList(props: VirtualListProps) {
   const { layout } = useTheme();
@@ -47,17 +38,16 @@ export default function VirtualList(props: VirtualListProps) {
 }
 
 const DynamicList = props => {
-  const { height, width, data, columns, getClassName } = props as any;
-  const classes = useStyles();
+  const { height, width, data, columns, rowHeight = 50, getClassName } = props as any;
 
   React.useEffect(() => {
     setCache(
       new CellMeasurerCache({
         fixedWidth: true,
-        minHeight: props.rowHeight ?? 50
+        minHeight: rowHeight
       })
     );
-  }, [data, columns, getClassName, height, width]);
+  }, [data, columns, getClassName, height, rowHeight, width]);
 
   const [cache, setCache] = React.useState(
     new CellMeasurerCache({
