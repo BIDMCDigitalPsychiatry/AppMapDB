@@ -29,6 +29,7 @@ export interface GenericTableContainerProps extends TabSelectorProps, GenericTab
   domainLogs?: boolean;
   dialogs?: any[];
   showScroll?: boolean;
+  FilterContainer?: any;
 }
 
 const injectValues = (Component, { getValues }) => <Component {...getValues()} />;
@@ -51,6 +52,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     dialogs = [],
     onChangeTab,
     Icon,
+    FilterContainer,
     ...tableProps
   } = props;
 
@@ -92,6 +94,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
   var filterbar = tabs && <TableTabSelector name={name} tabs={tabs} onChange={handleTabChange} />;
 
   const rows = [
+    { id: 'fc', component: FilterContainer, height: layout.tabletoolbarheight },
     { id: 'toolbar', component: _toolbar, height: layout.tabletoolbarheight },
     {
       id: 'filterbar',

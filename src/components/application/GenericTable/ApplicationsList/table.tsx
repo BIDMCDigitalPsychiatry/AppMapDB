@@ -12,17 +12,14 @@ import AppSummary from './AppSummary';
 
 const name = 'Applications';
 const defaultProps: GenericTableContainerProps = {
+  isList: true,
   name,
   dialogs: [renderDialogModule(RateAppDialog), renderDialogModule(AppReviewsDialog)],
-  columns: [{ name: 'app', header: 'Application', minWidth: 1300, Cell: AppSummary }],
+  columns: [{ name: 'app', header: 'Application', Cell: AppSummary }],
   toolbar: true,
   selector: selectors.from_database,
   footer: true,
-  search: true,
-  includeHeaders: false,
-  fixedRowCount: 0,
-  rowHeight: 240,
-  rowDivider: false,
+  search: true,  
   buttons: [
     <TableFilterDialogButton Module={FilterPopover} table={name} />,
     <ViewModeButton />,

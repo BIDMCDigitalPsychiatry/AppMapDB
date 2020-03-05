@@ -53,7 +53,7 @@ const tableStyle = {
   }
 };
 
-const tableScrollStyle = ({ palette }) => ({
+export const tableScrollStyle = ({ palette }) => ({
   ...sharedTableStyle,
   '& .bottomRightGrid': {
     '&::-webkit-scrollbar': {

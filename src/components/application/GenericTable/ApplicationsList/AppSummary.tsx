@@ -1,21 +1,5 @@
 ﻿import React from 'react';
-import {
-  Grid,
-  Box,
-  Typography,
-  Link,
-  Chip,
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
-  TableBody,
-  makeStyles,
-  Theme,
-  createStyles,
-  Tooltip,
-  useTheme
-} from '@material-ui/core';
+import { Grid, Box, Typography, Link, Chip, makeStyles, Theme, createStyles, Tooltip, useTheme } from '@material-ui/core';
 import Application from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
@@ -61,12 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
     link: {
       cursor: 'pointer',
       marginRight: 8
+    },
+    row: {
+      borderBottom: `1px solid ${theme.palette.divider}`
     }
   })
 );
 
 const appColumnWidth = 520;
-const summaryNameColumnWidth = 60;
 
 export default function AppSummary(props: Application & AppSummaryProps) {
   const {
@@ -108,109 +94,97 @@ export default function AppSummary(props: Application & AppSummaryProps) {
   const colorLevel = 700;
 
   return (
-    <div style={{ marginRight: 16 /*width: width - 200*/ }}>
-      <OutlinedDiv>
-        <Box pt={1} pb={1}>
-          <Grid container>
-            <Grid item style={{ width: appColumnWidth }}>
-              <Grid container spacing={2}>
-                <Grid item>
-                  <img style={{ height: 184 }} src={icon} alt='logo' />
-                </Grid>
-                <Grid item zeroMinWidth xs>
-                  <Typography noWrap variant='h5'>
-                    {name}
-                  </Typography>
-                  <Typography noWrap color='textSecondary'>
-                    {company}
-                  </Typography>
-                  <Typography noWrap color='textSecondary' variant='body1'>
-                    {developerType}
-                  </Typography>
-                  <Typography noWrap component='span'>
-                    <Grid container spacing={1}>
-                      {platforms.filter(onlyUnique).map((p, i) => (
-                        <Grid item key={`platform-${p}-${i}`}>
-                          <Link underline='always' key={p} className={classes.link} onClick={handleLink(p)}>
-                            {p}
-                          </Link>
-                          {i !== platforms.length - 1 && `\u2022`}
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Typography>
-                  <Typography noWrap color='textSecondary' variant='caption'>
-                    {costs.join(' | ')}
-                  </Typography>
-                  <div style={{ maxWidth: 130 }}>
-                    <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
-                  </div>
-                  <Typography noWrap color='textSecondary' variant='caption'>
-                    Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
-                  </Typography>
-                </Grid>
+    <OutlinedDiv>
+      <Box pt={1} pb={1}>
+        <Grid container spacing={2}>
+          <Grid item style={{ width: appColumnWidth }}>
+            <Grid container spacing={2}>
+              <Grid item>
+                <img style={{ height: 184 }} src={icon} alt='logo' />
+              </Grid>
+              <Grid item zeroMinWidth xs>
+                <Typography noWrap variant='h5'>
+                  {name}
+                </Typography>
+                <Typography noWrap color='textSecondary'>
+                  {company}
+                </Typography>
+                <Typography noWrap color='textSecondary' variant='body1'>
+                  {developerType}
+                </Typography>
+                <Typography noWrap component='span'>
+                  <Grid container spacing={1}>
+                    {platforms.filter(onlyUnique).map((p, i) => (
+                      <Grid item key={`platform-${p}-${i}`}>
+                        <Link underline='always' key={p} className={classes.link} onClick={handleLink(p)}>
+                          {p}
+                        </Link>
+                        {i !== platforms.length - 1 && `\u2022`}
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Typography>
+                <Typography noWrap color='textSecondary' variant='caption'>
+                  {costs.join(' | ')}
+                </Typography>
+                <div style={{ maxWidth: 130 }}>
+                  <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
+                </div>
+                <Typography noWrap color='textSecondary' variant='caption'>
+                  Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
+                </Typography>
               </Grid>
             </Grid>
-            <Grid item zeroMinWidth xs>
-              <TableContainer className={classes.tableScroll}>
-                <Table size='small'>
-                  <TableBody>
-                    {[
-                      { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
-                      { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
-                      { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
-                      { label: 'Privacies', values: privacies.filter(onlyUnique), color: red[colorLevel] }
-                    ].map((row: any, i) => (
-                      <TableRow key={`${row.label}-${i}`}>
-                        <TableCell style={{ width: summaryNameColumnWidth }}>
-                          <Typography>{row.label}:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          {row.values.map((l, i) => (
-                            <Chip
-                              key={`${l}-${i}`}
-                              style={{ background: row.color, color: 'white', marginRight: 8 }}
-                              variant='outlined'
-                              size='small'
-                              label={l}
-                            />
-                          ))}
-                        </TableCell>
-                      </TableRow>
+          </Grid>
+          <Grid item xs style={{ minWidth: 350 }}>
+            {[
+              { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
+              { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
+              { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
+              { label: 'Privacies', values: privacies.filter(onlyUnique), color: red[colorLevel] }
+            ].map((row: any, i) => (
+              <>
+                <Grid container alignItems='center' spacing={1} className={classes.row}>
+                  <Grid item style={{ width: 120 }}>
+                    <Typography>{row.label}:</Typography>
+                  </Grid>
+                  <Grid item zeroMinWidth xs className={classes.chipRoot}>
+                    {row.values.map((l, i) => (
+                      <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
                     ))}
-                    <TableRow>
-                      <TableCell style={{ width: summaryNameColumnWidth }}>
-                        <Typography>Classifications:</Typography>
-                      </TableCell>
-                      <TableCell>
-                        {[
-                          { label: 'Self Help Tool', value: bool(selfHelp), tooltip: 'App is a self-help/self-management tool.' },
-                          { label: 'Supporting Studies', value: clinicalFoundation === 'Supporting Studies', tooltip: 'App has supporting studies.' },
-                          { label: 'Hybrid Use', value: bool(hybridUse), tooltip: 'App can be used with a clinician in conjuction with treatment plan.' },
-                          { label: 'Reference App', value: bool(referenceApp), tooltip: 'App is a reference app.' }
-                        ]
-                          .filter(c => c.value)
-                          .map((c, i) => (
-                            <Tooltip key={`main-chip-${c.label}`} title={(<Typography>{c.tooltip}</Typography>) as any}>
-                              <Chip
-                                style={{ background: theme.palette.primary.main, color: 'white', marginRight: 8 }}
-                                variant='outlined'
-                                size='small'
-                                className={classes.mainChip}
-                                color='primary'
-                                label={c.label}
-                              />
-                            </Tooltip>
-                          ))}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                  </Grid>
+                </Grid>
+              </>
+            ))}
+            <Grid container alignItems='center' spacing={1} className={classes.row}>
+              <Grid item style={{ width: 120 }}>
+                <Typography>Classifications:</Typography>
+              </Grid>
+              <Grid item zeroMinWidth xs className={classes.chipRoot}>
+                {[
+                  { label: 'Self Help Tool', value: bool(selfHelp), tooltip: 'App is a self-help/self-management tool.' },
+                  { label: 'Supporting Studies', value: clinicalFoundation === 'Supporting Studies', tooltip: 'App has supporting studies.' },
+                  { label: 'Hybrid Use', value: bool(hybridUse), tooltip: 'App can be used with a clinician in conjuction with treatment plan.' },
+                  { label: 'Reference App', value: bool(referenceApp), tooltip: 'App is a reference app.' }
+                ]
+                  .filter(c => c.value)
+                  .map((c, i) => (
+                    <Tooltip key={`main-chip-${c.label}`} title={(<Typography>{c.tooltip}</Typography>) as any}>
+                      <Chip
+                        style={{ background: theme.palette.primary.main, color: 'white', marginRight: 8 }}
+                        variant='outlined'
+                        size='small'
+                        className={classes.mainChip}
+                        color='primary'
+                        label={c.label}
+                      />
+                    </Tooltip>
+                  ))}
+              </Grid>
             </Grid>
           </Grid>
-        </Box>
-      </OutlinedDiv>
-    </div>
+        </Grid>
+      </Box>
+    </OutlinedDiv>
   );
 }
