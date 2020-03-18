@@ -1,6 +1,7 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
+import Rating from '../../DialogField/Rating';
 import { useProcessData } from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 
@@ -35,8 +36,8 @@ export default function RateApp({ id = title, onClose, ...other }) {
       initialValues={{}}
       fields={[
         { id: 'appId', hidden: true },
-        { id: 'name', label: 'Enter name of reviewer', initialValue: 'Anonymous', required: true },
-        //{ id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true },
+        { id: 'name', label: 'Enter name of reviewer', xs: 8, initialValue: 'Anonymous', required: true },
+        { id: 'rating', label: 'Select Rating', Field: Rating, xs: 4, required: true },
         {
           id: 'review',
           label: 'Enter Review',
