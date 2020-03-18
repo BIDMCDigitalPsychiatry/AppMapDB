@@ -68,7 +68,7 @@ export default function FilterPopover({ id = title, ...other }) {
           Field: MultiSelectCheck,
           items: Engagements.map(label => ({ value: label, label }))
         },
-        {
+        /*{
           id: 'Inputs',
           Field: MultiSelectCheck,
           items: Inputs.map(label => ({ value: label, label }))
@@ -77,7 +77,7 @@ export default function FilterPopover({ id = title, ...other }) {
           id: 'Outputs',
           Field: MultiSelectCheck,
           items: Outputs.map(label => ({ value: label, label }))
-        },
+        },*/
         {
           id: 'Privacy',
           Field: MultiSelectCheck,
@@ -88,7 +88,7 @@ export default function FilterPopover({ id = title, ...other }) {
           Field: AutoCompleteSelect,
           items: ClinicalFoundations
         },
-        {
+        /*{
           id: 'respondToHarm',
           label: 'Can Respond to Harm',
           Field: AutoCompleteSelect,
@@ -105,7 +105,7 @@ export default function FilterPopover({ id = title, ...other }) {
             { label: 'Yes', value: true },
             { label: 'No', value: false }
           ]
-        },
+        },*/
         {
           id: 'selfHelp',
           label: 'App is a Self-Help Tool',
@@ -132,8 +132,8 @@ export default function FilterPopover({ id = title, ...other }) {
             { label: 'Yes', value: true },
             { label: 'No', value: false }
           ]
-        },
-        {
+        }
+        /*{
           id: 'correctContent',
           label: 'Well-Written and Relevant Content',
           Field: AutoCompleteSelect,
@@ -150,7 +150,7 @@ export default function FilterPopover({ id = title, ...other }) {
             { label: 'Yes', value: true },
             { label: 'No', value: false }
           ]
-        }
+        }*/
       ]}
       {...other}
     />
