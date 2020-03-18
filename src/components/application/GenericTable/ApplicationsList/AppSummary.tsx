@@ -5,7 +5,7 @@ import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 import { bool, onlyUnique, getDayTimeFromTimestamp } from '../../../../helpers';
-import { purple, green, blue, red } from '@material-ui/core/colors';
+import { purple, green, blue, pink } from '@material-ui/core/colors';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -141,7 +141,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
               { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
               { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
               { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
-              { label: 'Privacies', values: privacies.filter(onlyUnique), color: red[colorLevel] }
+              { label: 'Privacies', values: privacies.filter(onlyUnique), color: pink[400] }
             ].map((row: any, i) => (
               <>
                 <Grid container alignItems='center' spacing={1} className={classes.row}>
