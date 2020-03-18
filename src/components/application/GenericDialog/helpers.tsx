@@ -123,7 +123,8 @@ export const useValues = ({
   validate,
   externalValues = undefined, // Use with externalSetValues, for having an external state, such as redux
   externalSetValues = undefined, //Use with externalValues, for having an external state, such as redux
-  onChange = undefined
+  onChange = undefined,
+  disableInitialize = false
 }) => {
   const { initialValues = {}, submitting, showErrors } = state;
   const defaultValues = getDefaultValues(fields); // Get any default values from the individual fields first
@@ -150,9 +151,9 @@ export const useValues = ({
 
   React.useEffect(() => {
     // Re-initialize values when necessary
-    open && setValues(JSON.parse(mergedInitialValuesStr));
-    open && setTouched({});
-  }, [open, mergedInitialValuesStr, setValues]);
+    open && !disableInitialize && setValues(JSON.parse(mergedInitialValuesStr));
+    open && !disableInitialize && setTouched({});
+  }, [open, mergedInitialValuesStr, disableInitialize, setValues]);
 
   const internalErrors = open ? handleValidation({ values, fields, errors: state.errors }) : {}; // Perform standard field validations, required, email, etc
   const externalErrors = open && validate ? validate(values, state) : {}; // Add any external validations if specified

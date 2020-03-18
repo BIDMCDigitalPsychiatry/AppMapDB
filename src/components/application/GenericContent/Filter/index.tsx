@@ -1,5 +1,5 @@
 import React from 'react';
-import GenericPopover from '../GenericPopover';
+import GenericContent from '../GenericContent';
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import {
   Features,
@@ -16,95 +16,74 @@ import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useFullScreen } from '../../../../hooks';
 
 export const title = 'Apply Filters';
+const maxWidth = 340;
+const minWidth = 300;
 
-export default function FilterPopover({ id = title, ...other }) {
+export default function FilterContent({ id = title, ...other }) {
   const fullScreen = useFullScreen();
   const width = fullScreen ? 290 : 700;
   return (
-    <GenericPopover
+    <GenericContent
       id={id}
       submitLabel={null}
       cancelLabel='Close'
       width={width}
-      columns={2}
-      minColumnWidth={275}
-      maxColumnWidth={350}
-      disableInitialize={true}
       fields={[
         {
           id: 'Platforms',
           Field: MultiSelectCheck,
-          items: Platforms.map(label => ({ value: label, label }))
+          items: Platforms.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Cost',
           Field: MultiSelectCheck,
-          items: Costs.map(label => ({ value: label, label }))
+          items: Costs.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Developer Type',
           Field: AutoCompleteSelect,
-          items: DeveloperTypes
+          items: DeveloperTypes,
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Functionalities',
           Field: MultiSelectCheck,
-          items: Functionalities.map(label => ({ value: label, label }))
+          items: Functionalities.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Features',
           Field: MultiSelectCheck,
-          items: Features.map(label => ({ value: label, label }))
+          items: Features.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Conditions',
           label: 'Supported Conditions',
           Field: MultiSelectCheck,
-          items: Conditions.map(label => ({ value: label, label }))
+          items: Conditions.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Engagements',
           Field: MultiSelectCheck,
-          items: Engagements.map(label => ({ value: label, label }))
+          items: Engagements.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
-        /*{
-          id: 'Inputs',
-          Field: MultiSelectCheck,
-          items: Inputs.map(label => ({ value: label, label }))
-        },
-        {
-          id: 'Outputs',
-          Field: MultiSelectCheck,
-          items: Outputs.map(label => ({ value: label, label }))
-        },*/
         {
           id: 'Privacy',
           Field: MultiSelectCheck,
-          items: Privacies.map(label => ({ value: label, label }))
+          items: Privacies.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth }
         },
         {
           id: 'Clinical Foundation',
           Field: AutoCompleteSelect,
-          items: ClinicalFoundations
+          items: ClinicalFoundations,
+          style: { minWidth, maxWidth }
         },
-        /*{
-          id: 'respondToHarm',
-          label: 'Can Respond to Harm',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },
-        {
-          id: 'thirdPartyVendors',
-          label: 'Third Party Vendors',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },*/
         {
           id: 'selfHelp',
           label: 'App is a Self-Help Tool',
@@ -112,7 +91,8 @@ export default function FilterPopover({ id = title, ...other }) {
           items: [
             { label: 'Yes', value: true },
             { label: 'No', value: false }
-          ]
+          ],
+          style: { minWidth, maxWidth }
         },
         {
           id: 'hybridUse',
@@ -121,7 +101,8 @@ export default function FilterPopover({ id = title, ...other }) {
           items: [
             { label: 'Yes', value: true },
             { label: 'No', value: false }
-          ]
+          ],
+          style: { minWidth, maxWidth }
         },
         {
           id: 'referenceApp',
@@ -130,26 +111,9 @@ export default function FilterPopover({ id = title, ...other }) {
           items: [
             { label: 'Yes', value: true },
             { label: 'No', value: false }
-          ]
+          ],
+          style: { minWidth, maxWidth }
         }
-        /*{
-          id: 'correctContent',
-          label: 'Well-Written and Relevant Content',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },
-        {
-          id: 'doesWhatItClaims',
-          label: 'App Appears to do what it Claims',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        }*/
       ]}
       {...other}
     />

@@ -21,6 +21,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { checkEmpty, evalFunc } from '../../../helpers';
 import { useTableFilterValues } from '../GenericTable/store';
 import * as Icons from '@material-ui/icons';
+import { useFullScreen } from '../../../hooks';
 
 export interface DialogModuleProps {
   default: any;
@@ -78,6 +79,7 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
     );
 
   const handleReset = React.useCallback(() => setValues({}), [setValues]);
+  const fullScreen = useFullScreen();
 
   return (
     <StyledBadge badgeContent={filterCount} color='error' overlap='circle' anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
@@ -89,7 +91,9 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
         values={values}
         setValues={setValues}
         onReset={handleReset}
-      />
+      >
+        {!fullScreen && 'Filter'}
+      </DialogButton>
     </StyledBadge>
   );
 };

@@ -3,8 +3,7 @@ import GenericTableContainer, { GenericTableContainerProps } from '../GenericTab
 import * as selectors from './selectors';
 import { Grid } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
-import DialogButton, { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
-import * as GettingStartedDialog from '../../GenericDialog/GettingStarted';
+import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import Application, { Costs, Platforms, Functionalities as AllFunctionalities, Features as AllFeatures } from '../../../../database/models/Application';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
@@ -144,9 +143,9 @@ const defaultProps: GenericTableContainerProps = {
   footer: true,
   search: true,
   buttons: [
-    <TableFilterDialogButton Module={FilterPopover} table={name} />,
     <ViewModeButton mode='table' />,
-    <DialogButton Module={GettingStartedDialog} Icon={Icons.Help} tooltip='Help Getting Started' />
+    <TableFilterDialogButton Module={FilterPopover} table={name} />
+    //<DialogButton Module={GettingStartedDialog} Icon={Icons.Help} tooltip='Help Getting Started' />
   ]
 };
 

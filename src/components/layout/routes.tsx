@@ -6,11 +6,12 @@ import Framework from '../pages/Framework';
 import Apps from '../pages/Apps';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
+import Home from '../pages/Home';
 
 const Routes = () => (
   <Switch>
-    <Route exact path={'/'} component={Apps} />
-    <Route exact path={publicUrl('/')} component={Apps} />
+    <Route exact path={'/'} component={Home} />
+    <Route exact path={publicUrl('/')} component={Home} />
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Framework')} component={Framework} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />

@@ -42,6 +42,7 @@ export interface ComponentProps {
   minColumnWidth?: number;
   maxColumnWidth?: number;
   setValues?: any;
+  disableInitialize?: boolean;
   fields?: FieldProps[] | any;
   onClose?: () => any;
   children?: any;
@@ -100,6 +101,7 @@ export default function GenericPopover({
   maxColumnWidth,
   values: externalValues = undefined,
   setValues: externalSetValues = undefined,
+  disableInitialize = false,
   children,
   ...other
 }: ComponentProps) {
@@ -121,7 +123,8 @@ export default function GenericPopover({
     setState,
     validate,
     externalSetValues,
-    externalValues
+    externalValues,
+    disableInitialize
   });
 
   const values_s = JSON.stringify(values);
@@ -149,11 +152,11 @@ export default function GenericPopover({
   const contentProps = {
     fields,
     mapField,
-    values,    
+    values,
     columns,
     minColumnWidth,
     maxColumnWidth
-  };  
+  };
 
   const inProgress = loading || submitting;
   const disabled = inProgress || errors['loading'];

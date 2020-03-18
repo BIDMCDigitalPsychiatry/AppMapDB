@@ -7,6 +7,7 @@ import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
+import { useFullScreen } from '../../../hooks';
 
 export interface TableToolbarProps {
   name?: string;
@@ -32,14 +33,15 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
     formControl: {
       marginBottom: 4,
       paddingRight: spacing(1),
-      width: 208
+      width: 308
     },
     searchIcon: {
-      color: palette.common.white
+      color: palette.primary.main
     },
     underline: {
-      color: palette.common.white,
-      borderBottom: `2px solid ${palette.common.white}`
+      //color: palette.common.white,
+      color: palette.primary.main,
+      borderBottom: `2px solid ${palette.primary.main}`
     },
     title: {
       ...typography.h4,
@@ -58,7 +60,7 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
       overflow: 'hidden',
       paddingRight: spacing(1),
       paddingLeft: spacing(1),
-      height: layout.tabletoolbarheight
+      height: layout.tabletoolbarheight / 2
     },
     hidden: {
       display: 'none' as 'none'
@@ -138,6 +140,7 @@ function TableToolbar(props: TableToolbarProps) {
     },
     [updateTable]
   );
+  const fullScreen = useFullScreen();
 
   const Search = (
     <FormControl className={classes.formControl}>
@@ -176,7 +179,8 @@ function TableToolbar(props: TableToolbarProps) {
           }
         >
           <Fab variant='extended' size='small' color='primary' onClick={handleOpenSearch}>
-            <Icons.Search style={{ margin: -4 }} />
+            <Icons.Search style={{ margin: -4, marginRight: fullScreen ? -4 : 0 }} />
+            {!fullScreen && 'Search'}
           </Fab>
         </Tooltip>
       </>
@@ -206,46 +210,55 @@ function TableToolbar(props: TableToolbarProps) {
   const IconComponent = Icon ?? Icons.List;
 
   return (
-    <Paper className={classes.paper} square={square}>
-      <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
-        <Grid item xs zeroMinWidth>
-          <Grid container justify='flex-start' alignItems='center'>
-            {tableiconvisible && showicon === true && (
+    <>
+      <Paper elevation={0} square={square}>
+        <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
+          <Grid item xs zeroMinWidth>
+            <Grid container justify='flex-start' alignItems='center'></Grid>
+          </Grid>
+          <Grid item>
+            <Grid container direction='row' justify='flex-end' alignItems='center' spacing={buttonspacing}>
               <Grid item>
-                <Tooltip title={title}>
-                  <IconComponent className={classes.titleicon} />
-                </Tooltip>
-              </Grid>
-            )}
-            {tabletitlevisible && (
-              <Grid item xs zeroMinWidth>
-                {title && (
-                  <Typography variant='body2' noWrap className={classes.title}>
-                    {title}
-                  </Typography>
+                <div style={{ display: searchOpen ? '' : 'none' }}>{Search}</div>
+                {!searchOpen && (
+                  <Grid container spacing={1}>
+                    {Buttons.map((b, i) => (
+                      <Grid key={i} item>
+                        {evalFunc(b)}
+                      </Grid>
+                    ))}
+                  </Grid>
                 )}
               </Grid>
-            )}
+            </Grid>
           </Grid>
         </Grid>
-        <Grid item>
-          <Grid container direction='row' justify='flex-end' alignItems='center' spacing={buttonspacing}>
-            <Grid item>
-              <div style={{ display: searchOpen ? '' : 'none' }}>{Search}</div>
-              {!searchOpen && (
-                <Grid container spacing={1}>
-                  {Buttons.map((b, i) => (
-                    <Grid key={i} item>
-                      {evalFunc(b)}
-                    </Grid>
-                  ))}
+      </Paper>
+      <Paper className={classes.paper} square={square}>
+        <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
+          <Grid item xs zeroMinWidth>
+            <Grid container justify='flex-start' alignItems='center'>
+              {tableiconvisible && showicon === true && (
+                <Grid item>
+                  <Tooltip title={title}>
+                    <IconComponent className={classes.titleicon} />
+                  </Tooltip>
+                </Grid>
+              )}
+              {tabletitlevisible && (
+                <Grid item xs zeroMinWidth>
+                  {title && (
+                    <Typography variant='body2' noWrap className={classes.title}>
+                      {title}
+                    </Typography>
+                  )}
                 </Grid>
               )}
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </>
   );
 }
 
