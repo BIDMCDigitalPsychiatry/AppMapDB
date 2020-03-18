@@ -8,7 +8,7 @@ import RatingReadOnly from './RatingReadOnly';
 export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
   return (
     <Grid container alignItems='center'>
-      <Grid item xs={12}>
+      {/*<Grid item xs={12}>
         <Grid container alignItems='center' justify='space-between'>
           <RatingReadOnly size='small' precision={0.5} value={Number(rating)} readOnly={true} />
           <Typography variant='caption' color='textSecondary'>
@@ -16,6 +16,7 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
           </Typography>
         </Grid>
       </Grid>
+    */}
       <Grid item xs={12}>
         <Grid container justify='space-between'>
           <Grid item>
