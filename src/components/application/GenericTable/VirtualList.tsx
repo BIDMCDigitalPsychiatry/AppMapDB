@@ -40,6 +40,15 @@ export default function VirtualList(props: VirtualListProps) {
 const DynamicList = props => {
   const { height, width, data, columns, rowHeight = 50, getClassName } = props as any;
 
+  const handleRefresh = () => {
+    setCache(
+      new CellMeasurerCache({
+        fixedWidth: true,
+        minHeight: rowHeight
+      })
+    );
+  };
+
   React.useEffect(() => {
     setCache(
       new CellMeasurerCache({
@@ -62,7 +71,7 @@ const DynamicList = props => {
       <CellMeasurer cache={cache} columnIndex={0} key={key} rowIndex={index} parent={parent}>
         {({ measure, registerChild }) => (
           <div ref={registerChild} className={classNames} style={style}>
-            {columns[0].cell(data[index], columns[0])}
+            {columns[0].cell({ ...data[index], handleRefresh }, columns[0])}
           </div>
         )}
       </CellMeasurer>

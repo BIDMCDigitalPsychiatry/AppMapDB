@@ -79,6 +79,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     updated
   } = props;
 
+  const { handleRefresh } = props as any;
+
   const classes = useStyles({});
   const theme = useTheme();
 
@@ -92,6 +94,16 @@ export default function AppSummary(props: Application & AppSummaryProps) {
   );
 
   const colorLevel = 700;
+
+  const [state, setState] = React.useState({});
+
+  const handleExpand = React.useCallback(
+    name => event => {
+      setState(prev => ({ ...prev, [name]: true }));
+      handleRefresh && handleRefresh();
+    },
+    [setState, handleRefresh]
+  );
 
   return (
     <OutlinedDiv>
@@ -143,18 +155,29 @@ export default function AppSummary(props: Application & AppSummaryProps) {
               { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
               { label: 'Privacies', values: privacies.filter(onlyUnique), color: pink[400] }
             ].map((row: any, i) => (
-              <>
-                <Grid container alignItems='center' spacing={1} className={classes.row}>
-                  <Grid item style={{ width: 120 }}>
-                    <Typography>{row.label}:</Typography>
-                  </Grid>
-                  <Grid item zeroMinWidth xs className={classes.chipRoot}>
-                    {row.values.map((l, i) => (
-                      <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
-                    ))}
-                  </Grid>
+              <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
+                <Grid item style={{ width: 120 }}>
+                  <Typography>{row.label}:</Typography>
                 </Grid>
-              </>
+                <Grid item zeroMinWidth xs className={classes.chipRoot}>
+                  {row.values.map((l, i) =>
+                    i === 3 && row.values.length > 4 && state[row.label] !== true ? (
+                      <Chip
+                        key={`${l}-${i}`}
+                        style={{ background: row.color, color: 'white', marginRight: 8 }}
+                        variant='outlined'
+                        size='small'
+                        label={`${row.values.length - 3} More ...`}
+                        onClick={handleExpand(row.label)}
+                      />
+                    ) : i > 3 && row.values.length > 4 && state[row.label] !== true ? (
+                      <div key={`${l}-${i}`}></div>
+                    ) : (
+                      <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
+                    )
+                  )}
+                </Grid>
+              </Grid>
             ))}
             <Grid container alignItems='center' spacing={1} className={classes.row}>
               <Grid item style={{ width: 120 }}>

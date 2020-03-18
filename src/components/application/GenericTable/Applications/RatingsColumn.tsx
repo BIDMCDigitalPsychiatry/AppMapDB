@@ -1,9 +1,8 @@
 ﻿import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as RateAppDialog from '../../GenericDialog/RateApp';
 import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
-import RatingReadOnly from './RatingReadOnly';
 
 export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
   return (

@@ -11,8 +11,6 @@ import {
   Functionalities,
   DeveloperTypes,
   Engagements,
-  Outputs,
-  Inputs
 } from '../../../../database/models/Application';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useFullScreen } from '../../../../hooks';

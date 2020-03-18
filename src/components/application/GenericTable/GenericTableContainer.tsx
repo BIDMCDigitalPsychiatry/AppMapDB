@@ -32,7 +32,7 @@ export interface GenericTableContainerProps extends TabSelectorProps, GenericTab
   FilterContainer?: any;
 }
 
-const injectValues = (Component, { getValues }) => <Component {...getValues()} />;
+const injectValues = (Component, { getValues, handleRefresh }) => <Component {...getValues()} handleRefresh={handleRefresh} />;
 
 export default function GenericTableContainer(props: GenericTableContainerProps) {
   const {

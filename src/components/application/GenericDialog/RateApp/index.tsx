@@ -1,7 +1,6 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
-import Rating from '../../DialogField/Rating';
 import { useProcessData } from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 
