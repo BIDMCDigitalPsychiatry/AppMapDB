@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Box, Button, Link } from '@material-ui/core';
+import { Grid, Typography, Box, Button } from '@material-ui/core';
 import ReactPlayer from 'react-player';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';

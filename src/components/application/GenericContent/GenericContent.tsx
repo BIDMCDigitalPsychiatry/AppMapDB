@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme, makeStyles, createStyles, Button, Grid, CircularProgress, Collapse, Divider, Box } from '@material-ui/core';
+import { useTheme, makeStyles, createStyles, Button, Grid, CircularProgress, Collapse, Box } from '@material-ui/core';
 import { useDialogState } from '../GenericDialog/useDialogState';
 import { useValues, FieldProps } from '../GenericDialog/helpers';
 import ErrorGate from '../GenericDialog/ErrorGate';
