@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { Grid, Typography, Box, Button } from '@material-ui/core';
-import ReactPlayer from 'react-player';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import FilterContent from '../application/GenericContent/Filter';
 import { useTableFilterValues } from '../application/GenericTable/store';
+import Framework from '../pages/Framework';
+import { useFullScreen } from '../../hooks';
+import { useWidth } from '../layout/store';
+
+const contentWidth = 600;
+const spacing = 2;
 
 export default function Home() {
   const handleChangeRoute = useHandleChangeRoute();
@@ -14,25 +19,21 @@ export default function Home() {
     setAdvanced(prev => !prev);
   }, [setAdvanced]);
 
+  const fullScreen = useFullScreen();
+  const xs = fullScreen ? 12 : 6;
+  const width = useWidth();
+
+  console.log({ one: width - contentWidth - spacing * 8 });
+
+  const maxWidth = width - contentWidth - spacing * 8 > 1000 ? 808 : 400;
+
   return (
     <Box m={2}>
-      <Grid container spacing={4} justify='space-around'>
-        <Grid item style={{ minWidth: 300, maxWidth: 500 }}>
-          <Grid container spacing={1} justify='center'>
-            <Grid item xs={12}>
-              <Typography variant='h4'>Welcome!</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant='h6' style={{ marginTop: 8 }}>
-                If you need help getting started, please take a minute to review the video below:
-              </Typography>
-            </Grid>
-            <Grid item style={{ width: 600 }}>
-              <ReactPlayer width='100%' url='https://www.youtube.com/watch?v=nLF0n9SACd4' controls />
-            </Grid>
-          </Grid>
+      <Grid container spacing={spacing} justify='space-around'>
+        <Grid item xs={xs} style={{ minWidth: 300, maxWidth: contentWidth }}>
+          <Framework />
         </Grid>
-        <Grid item xs={6} style={{ minWidth: 350, maxWidth: 1200, marginTop: 48 }}>
+        <Grid item xs={xs} style={{ minWidth: 350, maxWidth, marginTop: 12 }}>
           <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 8 }}>
             Select filters and click search:
           </Typography>

@@ -16,7 +16,7 @@ import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useFullScreen } from '../../../../hooks';
 
 export const title = 'Apply Filters';
-const maxWidth = 340;
+const maxWidth = 400;
 const minWidth = 300;
 
 export default function FilterContent({ id = title, advanced, ...other }) {

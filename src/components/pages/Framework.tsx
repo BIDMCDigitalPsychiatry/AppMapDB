@@ -14,12 +14,12 @@ export default function Framework() {
         </Link>
         .
       </Typography>
-      <Box p={fullScreen ? 1 : 8}>
+      <Box pt={1} pb={1}>
         <Typography align='center'>
-          <img style={{ width: fullScreen ? '100%' : '80%' }} src={appModel} alt='logo' />
+          <img style={{ width: '100%' }} src={appModel} alt='logo' />
         </Typography>
       </Box>
-      <Box pt={2} pl={fullScreen ? 0 : 2} pr={fullScreen ? 0 : 2}>
+      <Box pt={2} pl={fullScreen ? 0 : 1} pr={fullScreen ? 0 : 1}>
         <Typography variant='h6' align='center'>
           {`The APA App Evaluation Model is designed to equip individuals with the information they need to assess digital health tools on their own and in the
         context of a therapeutic relationship. The five levels of analysis include (1) accessibility; (2) privacy & security; (3) clinical foundation; (4)
