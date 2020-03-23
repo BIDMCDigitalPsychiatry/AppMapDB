@@ -23,8 +23,6 @@ export default function Home() {
   const xs = fullScreen ? 12 : 6;
   const width = useWidth();
 
-  console.log({ one: width - contentWidth - spacing * 8 });
-
   const maxWidth = width - contentWidth - spacing * 8 > 1000 ? 808 : 400;
 
   return (
@@ -33,7 +31,7 @@ export default function Home() {
         <Grid item xs={xs} style={{ minWidth: 300, maxWidth: contentWidth }}>
           <Framework />
         </Grid>
-        <Grid item xs={xs} style={{ minWidth: 350, maxWidth, marginTop: 12 }}>
+        <Grid item xs={xs} style={{ minWidth: 300, maxWidth, marginTop: 12 }}>
           <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 8 }}>
             Select filters and click search:
           </Typography>

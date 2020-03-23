@@ -17,7 +17,7 @@ import { useFullScreen } from '../../../../hooks';
 
 export const title = 'Apply Filters';
 const maxWidth = 400;
-const minWidth = 300;
+const minWidth = 280;
 
 export default function FilterContent({ id = title, advanced, ...other }) {
   const fullScreen = useFullScreen();
