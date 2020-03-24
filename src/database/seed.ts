@@ -25,7 +25,7 @@ export async function asyncSeed(count = 300, force = false) {
         clinicalFoundation: getRandom(ClinicalFoundations),
         features: getRandom(Features, true, 0),
         functionalities: getRandom(Functionalities, true, 0),
-        developerType: getRandom(DeveloperTypes)
+        developerType: getRandom(DeveloperTypes, true)
       } as Application);
       if (response && response.ok === true) {
         success++;

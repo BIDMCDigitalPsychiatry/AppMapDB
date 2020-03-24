@@ -7,6 +7,12 @@ export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
 
 export type Cost = 'Totally Free' | 'In-App Purchase' | 'Payment' | 'Subscription';
 export const Costs: Cost[] = ['Totally Free', 'In-App Purchase', 'Payment', 'Subscription'];
+export const CostQuestions = [
+  { value: 'Totally Free', label: 'Is the app totally free?' },
+  { value: 'Payment', label: 'Is there a one time payment?' },
+  { value: 'In-App Purchase', label: 'Are there in-app purchases?' },
+  { value: 'Subscription', label: 'Is there a subscription (recurrent/monthly/annual)?' }
+];
 
 export type ClinicalFoundation = 'No Supporting Studies' | 'Supporting Studies';
 export const ClinicalFoundations: ClinicalFoundation[] = ['No Supporting Studies', 'Supporting Studies'];
@@ -157,8 +163,14 @@ export const Conditions: Condition[] = [
   'Personality Disorders'
 ];
 
-export type DeveloperType = 'Government' | 'For Profit Company' | 'Non Profit/Healthcare Company' | 'Academic Institution';
-export const DeveloperTypes: DeveloperType[] = ['Government', 'For Profit Company', 'Non Profit/Healthcare Company', 'Academic Institution'];
+export type DeveloperType = 'Government' | 'For Profit Company' | 'Healthcare Company' | 'Academic Institution';
+export const DeveloperTypes: DeveloperType[] = ['Government', 'For Profit Company', 'Healthcare Company', 'Academic Institution'];
+export const DeveloperTypeQuestions = [
+  { value: 'Government', label: 'Does it come from the government?' },
+  { value: 'For Profit Company', label: 'Does it come from a for-profit company?' },
+  { value: 'Healthcare Company', label: 'Does it come from a trusted healthcare company?' },
+  { value: 'Academic Institution', label: 'Does it come from an academic institution?' }
+];
 
 export default interface Application extends Nano.MaybeDocument {
   name: string;
@@ -193,7 +205,7 @@ export default interface Application extends Nano.MaybeDocument {
   useWarning: boolean; // Does the app provide any warning for use?
   selfHelp: boolean; // Is it a self-help/self-management tool?
   referenceApp: boolean; // Is it a reference app?
-  hybridUse: boolean; // Is it intended for hybrid use with a clinician in conjunction with treatment plan?    
+  hybridUse: boolean; // Is it intended for hybrid use with a clinician in conjunction with treatment plan?
   created: number;
   updated: number;
 }

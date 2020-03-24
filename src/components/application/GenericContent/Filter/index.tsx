@@ -44,8 +44,8 @@ export default function FilterContent({ id = title, advanced, ...other }) {
         },
         {
           id: 'Developer Type',
-          Field: AutoCompleteSelect,
-          items: DeveloperTypes,
+          Field: MultiSelectCheck,
+          items: DeveloperTypes.map(label => ({ value: label, label })),
           style: { minWidth, maxWidth }
         },
         {

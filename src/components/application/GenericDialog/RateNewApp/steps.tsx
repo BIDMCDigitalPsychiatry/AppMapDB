@@ -2,16 +2,16 @@ import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import Radio from '../../DialogField/Radio';
 import {
   Platforms,
-  DeveloperTypes,
   Features,
   Conditions,
   Privacies,
   Functionalities,
-  Costs,
   ClinicalFoundations,
   Outputs,
   Inputs,
-  Engagements
+  Engagements,
+  DeveloperTypeQuestions,
+  CostQuestions
 } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
@@ -23,6 +23,7 @@ import AppleStore from '../../DialogField/AppleStore';
 import ApplicationProperties from './templates/ApplicationProperties';
 import Check from '../../DialogField/Check';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
+import YesNoGroup from '../../DialogField/YesNoGroup';
 
 const steps = [
   {
@@ -84,17 +85,15 @@ const steps = [
       },
       {
         id: 'costs',
-        label: 'Costs Associated with Application',
-        Field: MultiSelectCheck,
-        items: Costs.map(value => ({ value, label: value })),
-        disableCloseOnSelect: false,
-        required: true
+        label: 'Cost',
+        Field: YesNoGroup,
+        items: CostQuestions
       },
       {
         id: 'developerType',
-        label: 'Developer Type',
-        Field: Radio,
-        items: DeveloperTypes.map(dt => ({ value: dt, label: dt }))
+        label: 'Application Origin',
+        Field: YesNoGroup,
+        items: DeveloperTypeQuestions
       },
       {
         id: 'features',

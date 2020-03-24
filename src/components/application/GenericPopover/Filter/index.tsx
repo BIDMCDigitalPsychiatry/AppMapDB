@@ -43,8 +43,8 @@ export default function FilterPopover({ id = title, ...other }) {
         },
         {
           id: 'Developer Type',
-          Field: AutoCompleteSelect,
-          items: DeveloperTypes
+          Field: MultiSelectCheck,
+          items: DeveloperTypes.map(label => ({ value: label, label }))
         },
         {
           id: 'Functionalities',

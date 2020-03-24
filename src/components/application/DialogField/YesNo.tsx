@@ -5,6 +5,7 @@ import { isError, isTrue, isFalse } from '../../../helpers';
 const YesNo = ({
   label = '',
   variant = undefined,
+  key = undefined,
   size = 'small' as 'small',
   color = 'primary' as 'primary',
   error = undefined,
@@ -17,7 +18,7 @@ const YesNo = ({
   initialValue = undefined,
   ...other
 }) => {
-  const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value } }), [onChange]);
+  const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value, key: key ? key : label } }), [onChange]);
 
   const Label = (
     <Grid item>
@@ -26,7 +27,7 @@ const YesNo = ({
   );
 
   return (
-    <FormControl variant={variant} error={isError(error)} fullWidth margin={margin}>
+    <FormControl key={key ? key : label} variant={variant} error={isError(error)} fullWidth margin={margin}>
       <Grid container justify='space-between' alignItems='center' spacing={3}>
         {labelPlacement === 'start' && Label}
         <Grid item>
