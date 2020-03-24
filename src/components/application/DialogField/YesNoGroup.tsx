@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { FormControl, Box, FormHelperText } from '@material-ui/core';
+import { FormControl, Box, FormHelperText, Typography, Divider } from '@material-ui/core';
 import { isError, isTrue, onlyUnique } from '../../../helpers';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 import YesNo from './YesNo';
 
 const YesNoGroup = ({
   label = '',
+  description = undefined,
   items = [],
   variant = undefined,
   size = 'small' as 'small',
@@ -32,6 +33,11 @@ const YesNoGroup = ({
     <FormControl variant={variant} error={isError(error)} fullWidth margin={margin}>
       <OutlinedDiv label={label}>
         <Box mt={1} mb={1}>
+          {description && (
+            <Typography paragraph={true} color='textSecondary' variant='caption'>
+              {description}
+            </Typography>
+          )}
           {items.map(({ label, value: key }) => (
             <YesNo label={label} key={key} value={getValue(key)} onChange={handleChange(key)} {...other} />
           ))}

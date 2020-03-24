@@ -79,6 +79,8 @@ const steps = [
       {
         id: 'developerType',
         label: 'Application Origin',
+        description:
+          'Every app will be in at least one of these categories but can be in more than one of them (a university-affiliated hospital, for example, could be both academic, healthcare, and non-profit). When in doubt, put for profit. Refer to app store description and app itself (i.e. is there a logo on the interface) and developer website.',
         Field: YesNoGroup,
         items: DeveloperTypeQuestions
       }
