@@ -82,9 +82,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           developerType: app.developerType
         };
 
-        const unsearchableFilters = {
-          respondToHarm: app.respondToHarm,
-          thirdPartyVendors: app.thirdPartyVendors,
+        const unsearchableFilters = {          
           selfHelp: app.selfHelp,
           hybridUse: app.hybridUse,
           referenceApp: app.referenceApp,
@@ -116,9 +114,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     Conditions = [],
     Privacy = [],
     'Clinical Foundation': ClinicalFoundation,
-    'Developer Type': DeveloperType,
-    respondToHarm,
-    thirdPartyVendors,
+    'Developer Type': DeveloperType,    
     selfHelp,
     hybridUse,
     referenceApp,
@@ -137,9 +133,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     isMatch(Conditions, r.conditions) &&
     isMatch(Privacy, r.privacies) &&
     (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
-    (isEmpty(DeveloperType) || DeveloperType === r.developerType) &&
-    isBoolFilter(respondToHarm, r.respondToHarm) &&
-    isBoolFilter(thirdPartyVendors, r.thirdPartyVendors) &&
+    (isEmpty(DeveloperType) || DeveloperType === r.developerType) &&    
     isBoolFilter(selfHelp, r.selfHelp) &&
     isBoolFilter(hybridUse, r.hybridUse) &&
     isBoolFilter(referenceApp, r.referenceApp) &&

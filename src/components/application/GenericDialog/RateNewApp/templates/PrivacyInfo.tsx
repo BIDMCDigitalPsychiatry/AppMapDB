@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Theme, Tabs, makeStyles, Tab } from '@material-ui/core';
+import { Grid, Typography, Theme, Tabs, makeStyles, Tab, Box, Collapse } from '@material-ui/core';
 import { InjectField } from '../../Fields';
 import { getAndroidIdFromUrl, isEmpty, getAppleIdFromUrl } from '../../../../../helpers';
 import axios from 'axios';
@@ -8,8 +8,8 @@ import { useHandleChange } from '../../helpers';
 import google_play_store from '../../../../../images/google_play_store.png';
 import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';
-import { tables } from '../../../../../database/dbConfig';
 import TabLabel from './TabLabel';
+import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
 
 async function getAppInfo(appId, type) {
   const { data } = await axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
@@ -64,7 +64,7 @@ const keyMap = {
   Web: 'webStore'
 };
 
-export default function ApplicationInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
+export default function PrivacyInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const handleChange = useHandleChange(setValues);
   const androidStoreField = fields.find(f => f.id === 'androidStore');
   const appleStoreField = fields.find(f => f.id === 'appleStore');
@@ -107,7 +107,7 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
     setTab(newValue);
   };
 
-  const platforms = values[tables.applications].platforms ?? [];
+  const privacies = values.applications.privacies || '';
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -131,23 +131,22 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
         </div>
       </Grid>
       <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
-        <Grid container spacing={1}>
-          {platforms.length === 1 && platforms[0] === 'Web' && (
-            <>
-              {injectField('name')}
-              {injectField('company')}
-            </>
-          )}
-          {injectField('costs')}
-          {injectField('developerType')}
-          {injectField('features')}
-          {injectField('clinicalFoundation')}
-          {injectField('conditions')}
-          {injectField('functionalities')}
-          {injectField('engagements')}
-          {injectField('inputs')}
-          {injectField('outputs')}
-          {injectField('privacies')}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            {injectField('privacies')}
+          </Grid>
+          <Grid item xs={12}>
+            <Collapse in={privacies.split(',').includes('Has Privacy Policy')}>
+              <OutlinedDiv label='Privacy Policy Reading Level'>
+                <Grid container alignItems='center' justify='space-between'>
+                  <Typography>Reading grade level of the privacy policy?</Typography>
+                  <Box pl={2} width={75}>
+                    {injectField('readingLevel')}
+                  </Box>
+                </Grid>
+              </OutlinedDiv>
+            </Collapse>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

@@ -86,25 +86,7 @@ export default function FilterPopover({ id = title, ...other }) {
           id: 'Clinical Foundation',
           Field: AutoCompleteSelect,
           items: ClinicalFoundations
-        },
-        /*{
-          id: 'respondToHarm',
-          label: 'Can Respond to Harm',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },
-        {
-          id: 'thirdPartyVendors',
-          label: 'Third Party Vendors',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },*/
+        },        
         {
           id: 'selfHelp',
           label: 'App is a Self-Help Tool',

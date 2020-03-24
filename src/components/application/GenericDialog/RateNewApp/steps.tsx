@@ -1,21 +1,7 @@
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
-import Radio from '../../DialogField/Radio';
-import {
-  Platforms,
-  Features,
-  Conditions,
-  Privacies,
-  Functionalities,
-  ClinicalFoundations,
-  Outputs,
-  Inputs,
-  Engagements,
-  DeveloperTypeQuestions,
-  CostQuestions
-} from '../../../../database/models/Application';
+import { Platforms, DeveloperTypeQuestions, CostQuestions, PrivacyQuestions } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
-import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import SupportedPlatforms from './templates/SupportedPlatforms';
 import ApplicationInfo from './templates/ApplicationInfo';
 import AndroidStore from '../../DialogField/AndroidStore';
@@ -24,6 +10,7 @@ import ApplicationProperties from './templates/ApplicationProperties';
 import Check from '../../DialogField/Check';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import YesNoGroup from '../../DialogField/YesNoGroup';
+import PrivacyInfo from './templates/PrivacyInfo';
 
 const steps = [
   {
@@ -94,8 +81,8 @@ const steps = [
         label: 'Application Origin',
         Field: YesNoGroup,
         items: DeveloperTypeQuestions
-      },
-      {
+      }
+      /*{
         id: 'features',
         label: 'Features',
         Field: MultiSelectCheck,
@@ -138,12 +125,41 @@ const steps = [
         label: 'Outputs',
         Field: MultiSelectCheck,
         items: Outputs.map(value => ({ value, label: value }))
+      }
+      */
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Enter privacy/security information. Click next to continue.',
+    Template: PrivacyInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'costs',
+        label: 'Cost',
+        Field: YesNoGroup,
+        items: CostQuestions
       },
       {
         id: 'privacies',
-        label: 'Privacy Options',
-        Field: MultiSelectCheck,
-        items: Privacies.map(value => ({ value, label: value }))
+        label: 'Privacy & Security',
+        Field: YesNoGroup,
+        items: PrivacyQuestions
+      },
+      {
+        id: 'readingLevel',
+        label: null,
+        Field: WholeNumberUpDown,
+        min: 0,
+        max: 20,
+        initialValue: 0
       }
     ].map(f => ({ ...f, container: tables.applications }))
   },
@@ -151,16 +167,6 @@ const steps = [
     label: 'Check all that apply and enter remaining properties. Click next to continue.',
     Template: ApplicationProperties,
     fields: [
-      {
-        id: 'respondToHarm',
-        label: 'Is the app equipped to respond to potential harms or safety concerns?',
-        Field: Check
-      },
-      {
-        id: 'thirdPartyVendors',
-        label: 'Does the app use 3rd party vendors (i.e. google analytics, etc)?',
-        Field: Check
-      },
       {
         id: 'doesWhatItClaims',
         label: 'Does the app appear to do what it claims to do?',
@@ -195,14 +201,6 @@ const steps = [
         id: 'hybridUse',
         label: 'Is it intended for hybrid use with a clinician in conjunction with treatment plan?',
         Field: Check
-      },
-      {
-        id: 'readingLevel',
-        label: null,
-        Field: WholeNumberUpDown,
-        min: 0,
-        max: 20,
-        required: true
       },
       {
         id: 'feasibilityStudies',

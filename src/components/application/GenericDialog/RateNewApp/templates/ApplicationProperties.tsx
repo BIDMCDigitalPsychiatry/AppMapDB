@@ -15,8 +15,7 @@ export default function ApplicationProperties({ fields, values, mapField, fullWi
           <Grid item xs={xs} style={{ minWidth: 280, maxWidth: 675 }}>
             <OutlinedDiv label='Safety'>
               {injectField('useWarning')}
-              {injectField('causeHarm')}
-              {injectField('respondToHarm')}
+              {injectField('causeHarm')}              
             </OutlinedDiv>
           </Grid>
           <Grid item xs={xs} style={{ minWidth: 280, maxWidth: 675 }}>
@@ -27,8 +26,7 @@ export default function ApplicationProperties({ fields, values, mapField, fullWi
             </OutlinedDiv>
           </Grid>
           <Grid item xs={xs} style={{ minWidth: 280, maxWidth: 675 }}>
-            <OutlinedDiv label='Content'>
-              {injectField('thirdPartyVendors')}
+            <OutlinedDiv label='Content'>              
               {injectField('doesWhatItClaims')}
               {injectField('correctContent')}
               <Box p={0.25}>

@@ -62,9 +62,7 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
     Cost = [],
     Privacy = [],
     'Clinical Foundation': ClinicalFoundation,
-    'Developer Type': DeveloperType,
-    respondToHarm,
-    thirdPartyVendors,
+    'Developer Type': DeveloperType,    
     selfHelp,
     hybridUse,
     referenceApp,
@@ -73,7 +71,7 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
   } = values as any;
   const filterCount =
     [Features, Engagements, Inputs, Outputs, Functionalities, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) +
-    [ClinicalFoundation, DeveloperType, respondToHarm, thirdPartyVendors, selfHelp, hybridUse, referenceApp, doesWhatItClaims, correctContent].reduce(
+    [ClinicalFoundation, DeveloperType, selfHelp, hybridUse, referenceApp, doesWhatItClaims, correctContent].reduce(
       (t, c) => (t = t + (checkEmpty(c) ? 0 : 1)),
       0
     );
