@@ -90,6 +90,9 @@ export function copyToLower(obj = {}) {
   return newobj;
 }
 
+export const isTrue = value => value === 1 || value === '1' || value === true || value === 'true';
+export const isFalse = value => value === 0 || value === '0' || value === false || value === 'false';
+
 // Converts a string, number or boolean to boolean with default false
 export const bool = x =>
   typeof x === 'boolean'
