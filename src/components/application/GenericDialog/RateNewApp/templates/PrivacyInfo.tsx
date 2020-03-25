@@ -155,7 +155,7 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
                           <Icons.HelpOutlined fontSize='small' color='primary' />
                         </LightTooltip>
                       </Grid>
-                      <Grid item style={{ width: 75 }}>
+                      <Grid item style={{ width: 94 }}>
                         {injectField('readingLevel')}
                       </Grid>
                     </Grid>

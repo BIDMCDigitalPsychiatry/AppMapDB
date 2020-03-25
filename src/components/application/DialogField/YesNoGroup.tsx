@@ -38,7 +38,9 @@ const YesNoGroup = ({
             </Typography>
           )}
           {items.map(({ label, value: key, ...more }) => (
-            <YesNo label={label} key={key} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />
+            <div key={key}>
+              <YesNo label={label} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />
+            </div>
           ))}
           {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
         </Box>

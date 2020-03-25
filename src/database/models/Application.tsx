@@ -127,18 +127,18 @@ export const EngagementQuestions = [
 export const Engagements: Engagement[] = EngagementQuestions.map(eq => eq.value as Engagement);
 
 export type Functionality =
-  | 'Works with Spanish'
-  | 'Works Offline'
-  | 'Works with Accessibility Features'
+  | 'Spanish'
+  | 'Offline'
+  | 'Accessibility'
   | 'Own Your Own Data'
   | 'Email or Export Your Data'
   | 'Send Your Data to a Medical Record';
 
 export const FunctionalityQuestions = [
-  { value: 'Works with Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store.' },
-  { value: 'Works Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
+  { value: 'Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store.' },
+  { value: 'Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
   {
-    value: 'Works with Accessibility Features',
+    value: 'Accessibility',
     label: 'Does the app work with accessibility features?',
     tooltip: 'Does the app have adjustible text size or text to voice features?'
   },

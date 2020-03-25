@@ -18,7 +18,7 @@ export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
 
 export const Features = AllFeatures.filter((f, i) => i < 9);
-export const Functionalities = AllFunctionalities.filter((f, i) => i < 2);
+export const Functionalities = AllFunctionalities.filter((f, i) => f === 'Offline' || f === 'Accessibility');
 
 export const CenterRadio = ({ checked = false }) => {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;
@@ -97,7 +97,7 @@ const defaultProps: GenericTableContainerProps = {
     },
     {
       name: 'cost',
-      width: 370,
+      width: 462,
       header: (
         <>
           <Grid container>
@@ -118,7 +118,7 @@ const defaultProps: GenericTableContainerProps = {
     },
     {
       name: 'features',
-      width: 830,
+      width: 880,
       header: (
         <>
           <Grid container style={{ paddingRight: 16 }}>
