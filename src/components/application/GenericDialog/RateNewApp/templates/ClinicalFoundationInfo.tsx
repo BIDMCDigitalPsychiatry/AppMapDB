@@ -64,7 +64,7 @@ const keyMap = {
   Web: 'webStore'
 };
 
-export default function FunctionalityInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
+export default function ClinicalFoundationInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const handleChange = useHandleChange(setValues);
   const androidStoreField = fields.find(f => f.id === 'androidStore');
   const appleStoreField = fields.find(f => f.id === 'appleStore');
@@ -107,7 +107,7 @@ export default function FunctionalityInfo({ fields, values, mapField, fullWidth,
     setTab(newValue);
   };
 
-  const privacies = values.applications.privacies || '';
+  const clinicalFoundations = values.applications.clinicalFoundations || '';
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -133,7 +133,34 @@ export default function FunctionalityInfo({ fields, values, mapField, fullWidth,
       <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {injectField('functionalities')}
+            {injectField('clinicalFoundations')}
+          </Grid>
+          <Grid item xs={12}>
+            <Collapse in={clinicalFoundations.split(',').includes('Supporting Studies')}>
+              <OutlinedDiv label='Supporting Studies'>
+                {[
+                  { id: 'feasibilityStudies', label: 'How many feasibility/usability studies?' },
+                  {
+                    id: 'feasibilityImpact',
+                    label: 'What is the highest feasibility impact factor?',
+                    tooltip: `What is the impact factor of the journal in which the feasibility study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" (assume the journal doesn't have an impact factor.`
+                  },
+                  { id: 'efficacyStudies', label: 'How many evidence/efficacy studies?' },
+                  {
+                    id: 'efficacyImpact',
+                    label: 'What is the highest efficacy impact factor?',
+                    tooltip: `What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" (assume the journal doesn't have an impact factor.`
+                  }
+                ].map(({ label, id }) => (
+                  <Grid key={id} container alignItems='center' justify='space-between'>
+                    <Typography>{label}</Typography>
+                    <Box pl={2} width={75}>
+                      {injectField(id)}
+                    </Box>
+                  </Grid>
+                ))}
+              </OutlinedDiv>
+            </Collapse>
           </Grid>
         </Grid>
       </Grid>

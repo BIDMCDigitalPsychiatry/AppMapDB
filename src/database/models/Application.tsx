@@ -17,13 +17,13 @@ export const CostQuestions = [
 
 export const Costs: Cost[] = CostQuestions.map(cq => cq.value as Cost);
 
-export type ClinicalFoundation = 'Can Cause Harm' | 'Does What it Claims' | 'Patient Facing' | 'Supporting Studies';
+export type ClinicalFoundation = 'Does What it Claims' | 'Patient Facing' | 'Can Cause Harm' | 'Supporting Studies' | 'Use Warning';
 
 export const ClinicalFondationQuestions = [
   { value: 'Does What it Claims', label: 'Does the app appear to do what it claims to do?' },
   {
     value: 'Patient Facing',
-    label: 'Is the app relevat and intended for an individual with the condition the app relates to?',
+    label: 'Is the app patient facing?',
     tooltip: 'Is the app relevant and intended for an individual with the condition the app relates to?'
   },
   {

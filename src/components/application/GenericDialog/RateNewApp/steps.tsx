@@ -1,5 +1,12 @@
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
-import { Platforms, DeveloperTypeQuestions, CostQuestions, PrivacyQuestions, FunctionalityQuestions } from '../../../../database/models/Application';
+import {
+  Platforms,
+  DeveloperTypeQuestions,
+  CostQuestions,
+  PrivacyQuestions,
+  FunctionalityQuestions,
+  ClinicalFondationQuestions
+} from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
 import SupportedPlatforms from './templates/SupportedPlatforms';
@@ -12,6 +19,7 @@ import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import YesNoGroup from '../../DialogField/YesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
 import FunctionalityInfo from './templates/FunctionalityInfo';
+import ClinicalFoundationInfo from './templates/ClinicalFoundationInfo';
 
 const steps = [
   {
@@ -104,13 +112,7 @@ const steps = [
         label: 'Supported Conditions',
         Field: MultiSelectCheck,
         items: Conditions.map(value => ({ value, label: value }))
-      },
-      {
-        id: 'functionalities',
-        label: 'Functionality',
-        Field: MultiSelectCheck,
-        items: Functionalities.map(value => ({ value, label: value }))
-      },
+      },      
       {
         id: 'engagements',
         label: 'Engagements',
@@ -187,28 +189,22 @@ const steps = [
     ].map(f => ({ ...f, container: tables.applications }))
   },
   {
-    label: 'Check all that apply and enter remaining properties. Click next to continue.',
-    Template: ApplicationProperties,
+    label: 'Enter evidence and clinical foundation information. Click next to continue.',
+    Template: ClinicalFoundationInfo,
     fields: [
       {
-        id: 'correctContent',
-        label: ' Is the app content well-written, correct, and relevant?',
-        Field: Check
+        id: 'androidStore',
+        Field: AndroidStore
       },
       {
-        id: 'selfHelp',
-        label: 'Is it a self-help/self-management tool?',
-        Field: Check
+        id: 'appleStore',
+        Field: AppleStore
       },
       {
-        id: 'referenceApp',
-        label: 'Is it a reference app?',
-        Field: Check
-      },
-      {
-        id: 'hybridUse',
-        label: 'Is it intended for hybrid use with a clinician in conjunction with treatment plan?',
-        Field: Check
+        id: 'clinicalFoundations',
+        label: 'Evidence & Clinical Foundations',
+        Field: YesNoGroup,
+        items: ClinicalFondationQuestions
       },
       {
         id: 'feasibilityStudies',
@@ -249,6 +245,32 @@ const steps = [
         max: 999,
         required: true,
         initialValue: 0
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Check all that apply and enter remaining properties. Click next to continue.',
+    Template: ApplicationProperties,
+    fields: [
+      {
+        id: 'correctContent',
+        label: ' Is the app content well-written, correct, and relevant?',
+        Field: Check
+      },
+      {
+        id: 'selfHelp',
+        label: 'Is it a self-help/self-management tool?',
+        Field: Check
+      },
+      {
+        id: 'referenceApp',
+        label: 'Is it a reference app?',
+        Field: Check
+      },
+      {
+        id: 'hybridUse',
+        label: 'Is it intended for hybrid use with a clinician in conjunction with treatment plan?',
+        Field: Check
       }
     ].map(f => ({ ...f, container: tables.applications }))
   }
