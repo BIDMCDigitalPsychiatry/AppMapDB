@@ -82,14 +82,9 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           developerTypes: app.developerTypes
         };
 
-        const unsearchableFilters = {
-          correctContent: app.correctContent
-        };
-
         return {
           _id: app._id,
           ...appSearchable,
-          ...unsearchableFilters,
           getSearchValues: () => {
             return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
           },

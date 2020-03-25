@@ -126,13 +126,7 @@ export const EngagementQuestions = [
 
 export const Engagements: Engagement[] = EngagementQuestions.map(eq => eq.value as Engagement);
 
-export type Functionality =
-  | 'Spanish'
-  | 'Offline'
-  | 'Accessibility'
-  | 'Own Your Own Data'
-  | 'Email or Export Your Data'
-  | 'Send Your Data to a Medical Record';
+export type Functionality = 'Spanish' | 'Offline' | 'Accessibility' | 'Own Your Own Data' | 'Email or Export Your Data' | 'Send Your Data to a Medical Record';
 
 export const FunctionalityQuestions = [
   { value: 'Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store.' },
@@ -302,7 +296,6 @@ export default interface Application extends Nano.MaybeDocument {
   androidStore: AndroidStoreProps; // Meta information from the store
   appleStore: AppleStoreProps; // Meta information from the store
   readingLevel: number; // Reading level of the privacy policy (what grade reading level)?
-  correctContent: boolean; // Is the app content well-written, correct, and relevant?
   feasibilityStudies: number; // How many feasibility/usability studies?
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
