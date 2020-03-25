@@ -130,7 +130,7 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
           {values.applications.platforms.map((p, i) => tab === i && !loading && <div key={p}>{injectField(keyMap[p])}</div>)}
         </div>
       </Grid>
-      <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
+      <Grid item xs style={{ minWidth: 280, maxWidth: 550 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             {injectField('privacies')}

@@ -6,10 +6,11 @@ import { AddToQueue } from '@material-ui/icons';
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
 
-export type Cost = 'Totally Free' | 'In-App Purchase' | 'Payment' | 'Subscription';
+export type Cost = 'Totally Free' | 'Free to Download' | 'In-App Purchase' | 'Payment' | 'Subscription';
 
 export const CostQuestions = [
-  { value: 'Totally Free', label: 'Is the app totally free?' },
+  { value: 'Free to Download', label: 'Is the app free to download?', tooltip: 'Some apps may be free up front but then have in app purchases.' },
+  { value: 'Totally Free', label: 'Is the app totally free?', tooltip: 'No cost up front, no in app purchases.' },
   { value: 'Payment', label: 'Is there a one time payment?' },
   { value: 'In-App Purchase', label: 'Are there in-app purchases?' },
   { value: 'Subscription', label: 'Is there a subscription (recurrent/monthly/annual)?' }
@@ -109,7 +110,7 @@ export type Functionality =
   | 'Send Your Data to a Medical Record';
 
 export const FunctionalityQuestions = [
-  { value: 'Works with Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store?' },
+  { value: 'Works with Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store.' },
   { value: 'Works Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
   {
     value: 'Works with Accessibility Features',
@@ -121,7 +122,7 @@ export const FunctionalityQuestions = [
   {
     value: 'Send Your Data to a Medical Record',
     label: 'Can you send your data to a medical record?',
-    tooltip: 'Does the app sync with EMR? (most apps are not currently equipped with connections to medical record)'
+    tooltip: 'Does the app sync with EMR? Most apps are not currently equipped with connections to medical record.'
   }
 ];
 

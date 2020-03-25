@@ -38,8 +38,8 @@ const YesNoGroup = ({
               {description}
             </Typography>
           )}
-          {items.map(({ label, value: key }) => (
-            <YesNo label={label} key={key} value={getValue(key)} onChange={handleChange(key)} {...other} />
+          {items.map(({ label, value: key, ...more }) => (
+            <YesNo label={label} key={key} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />
           ))}
           {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
         </Box>
