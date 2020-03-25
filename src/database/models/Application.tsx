@@ -17,8 +17,26 @@ export const CostQuestions = [
 
 export const Costs: Cost[] = CostQuestions.map(cq => cq.value as Cost);
 
-export type ClinicalFoundation = 'No Supporting Studies' | 'Supporting Studies';
-export const ClinicalFoundations: ClinicalFoundation[] = ['No Supporting Studies', 'Supporting Studies'];
+export type ClinicalFoundation = 'Can Cause Harm' | 'Does What it Claims' | 'Patient Facing' | 'Supporting Studies';
+
+export const ClinicalFondationQuestions = [
+  { value: 'Does What it Claims', label: 'Does the app appear to do what it claims to do?' },
+  {
+    value: 'Patient Facing',
+    label: 'Is the app relevat and intended for an individual with the condition the app relates to?',
+    tooltip: 'Is the app relevant and intended for an individual with the condition the app relates to?'
+  },
+  {
+    value: 'Can Cause Harm',
+    label: 'Can the app cause harm?',
+    tooltip:
+      "Does the app make recommendations or suggestions that directly defy clinical guidelines? Does it include overtly false information, like a suicide hotline number that doesn't actually work?"
+  },
+  { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' },
+  { value: 'Use Warning', label: 'Does the app provide any warning for use?' }
+];
+
+export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFondationQuestions.map(cfq => cfq.value as ClinicalFoundation);
 
 export type Privacy =
   | 'Has Privacy Policy'
@@ -46,7 +64,11 @@ export const PrivacyQuestions = [
   { value: 'Is Anonymized/Aggregate Data Shared', label: 'Is anonymized/aggregate data shared?' },
   { value: 'Can Opt Out of Data Collection', label: 'Can you opt out of data colleciton?' },
   { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?' },
-  { value: 'Has Crisis Management Feature', label: 'Does the app have a crisis management feature?' }
+  {
+    value: 'Has Crisis Management Feature',
+    label: 'Does the app have a crisis management feature?',
+    tooltip: 'An app’s emergency response or crisis management feature is often detailed in the privacy policy.'
+  }
 ];
 
 export const Privacies: Privacy[] = PrivacyQuestions.map(pq => pq.value as Privacy);
@@ -78,14 +100,32 @@ export const Engagements: Engagement[] = [
   'Collaborative With Provider/Other'
 ];
 
-export type Functionality = 'Offline' | 'Accessibility' | 'Own Your Own Data' | 'Email or Export Your Data' | 'Send Your Data to a Medical Record';
-export const Functionalities: Functionality[] = [
-  'Offline',
-  'Accessibility',
-  'Own Your Own Data',
-  'Email or Export Your Data',
-  'Send Your Data to a Medical Record'
+export type Functionality =
+  | 'Works with Spanish'
+  | 'Works Offline'
+  | 'Works with Accessibility Features'
+  | 'Own Your Own Data'
+  | 'Email or Export Your Data'
+  | 'Send Your Data to a Medical Record';
+
+export const FunctionalityQuestions = [
+  { value: 'Works with Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store?' },
+  { value: 'Works Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
+  {
+    value: 'Works with Accessibility Features',
+    label: 'Does the app work with accessibility features?',
+    tooltip: 'Does the app have adjustible text size or text to voice features?'
+  },
+  { value: 'Own Your Own Data', label: 'Do you own your own data?' },
+  { value: 'Email or Export Your Data', label: 'Can you email or export your data?' },
+  {
+    value: 'Send Your Data to a Medical Record',
+    label: 'Can you send your data to a medical record?',
+    tooltip: 'Does the app sync with EMR? (most apps are not currently equipped with connections to medical record)'
+  }
 ];
+
+export const Functionalities: Functionality[] = FunctionalityQuestions.map(fq => fq.value as Functionality);
 
 export type Input = 'Surveys' | 'Diary' | 'Geolocation' | 'Contact List' | 'Camera' | 'Microphone' | 'Step Count' | 'External Devices' | 'Social Network';
 export const Inputs: Input[] = ['Surveys', 'Diary', 'Geolocation', 'Contact List', 'Camera', 'Microphone', 'Step Count', 'External Devices', 'Social Network'];
@@ -206,14 +246,11 @@ export default interface Application extends Nano.MaybeDocument {
   androidStore: AndroidStoreProps; // Meta information from the store
   appleStore: AppleStoreProps; // Meta information from the store
   readingLevel: number; // Reading level of the privacy policy (what grade reading level)?
-  doesWhatItClaims: boolean; // Does the app appear to do what it claims to do?
   correctContent: boolean; // Is the app content well-written, correct, and relevant?
   feasibilityStudies: number; // How many feasibility/usability studies?
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
   efficacyImpact: number; //What is the highest efficacy impact factor?
-  causeHarm: boolean; // Can the app cause harm?
-  useWarning: boolean; // Does the app provide any warning for use?
   selfHelp: boolean; // Is it a self-help/self-management tool?
   referenceApp: boolean; // Is it a reference app?
   hybridUse: boolean; // Is it intended for hybrid use with a clinician in conjunction with treatment plan?

@@ -82,11 +82,10 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           developerType: app.developerType
         };
 
-        const unsearchableFilters = {          
+        const unsearchableFilters = {
           selfHelp: app.selfHelp,
           hybridUse: app.hybridUse,
           referenceApp: app.referenceApp,
-          doesWhatItClaims: app.doesWhatItClaims,
           correctContent: app.correctContent
         };
 
@@ -114,11 +113,10 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     Conditions = [],
     Privacy = [],
     'Clinical Foundation': ClinicalFoundation,
-    'Developer Type': DeveloperType,    
+    'Developer Type': DeveloperType,
     selfHelp,
     hybridUse,
     referenceApp,
-    doesWhatItClaims,
     correctContent
   } = filters;
 
@@ -133,11 +131,10 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     isMatch(Conditions, r.conditions) &&
     isMatch(Privacy, r.privacies) &&
     (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
-    (isEmpty(DeveloperType) || DeveloperType === r.developerType) &&    
+    (isEmpty(DeveloperType) || DeveloperType === r.developerType) &&
     isBoolFilter(selfHelp, r.selfHelp) &&
     isBoolFilter(hybridUse, r.hybridUse) &&
     isBoolFilter(referenceApp, r.referenceApp) &&
-    isBoolFilter(doesWhatItClaims, r.doesWhatItClaims) &&
     isBoolFilter(correctContent, r.correctContent);
 
   return tableFilter(data, state, props, customFilter);

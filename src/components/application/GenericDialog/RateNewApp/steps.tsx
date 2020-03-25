@@ -1,5 +1,5 @@
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
-import { Platforms, DeveloperTypeQuestions, CostQuestions, PrivacyQuestions } from '../../../../database/models/Application';
+import { Platforms, DeveloperTypeQuestions, CostQuestions, PrivacyQuestions, FunctionalityQuestions } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
 import SupportedPlatforms from './templates/SupportedPlatforms';
@@ -11,6 +11,7 @@ import Check from '../../DialogField/Check';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import YesNoGroup from '../../DialogField/YesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
+import FunctionalityInfo from './templates/FunctionalityInfo';
 
 const steps = [
   {
@@ -144,12 +145,6 @@ const steps = [
         Field: AppleStore
       },
       {
-        id: 'costs',
-        label: 'Cost',
-        Field: YesNoGroup,
-        items: CostQuestions
-      },
-      {
         id: 'privacies',
         label: 'Privacy & Security',
         Field: YesNoGroup,
@@ -166,27 +161,38 @@ const steps = [
     ].map(f => ({ ...f, container: tables.applications }))
   },
   {
+    label: 'Enter functionality and data sharing information. Click next to continue.',
+    Template: FunctionalityInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'costs',
+        label: 'Cost',
+        Field: YesNoGroup,
+        items: CostQuestions
+      },
+      {
+        id: 'functionalities',
+        label: 'Functionality & Data Sharing',
+        Field: YesNoGroup,
+        items: FunctionalityQuestions
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
     label: 'Check all that apply and enter remaining properties. Click next to continue.',
     Template: ApplicationProperties,
     fields: [
       {
-        id: 'doesWhatItClaims',
-        label: 'Does the app appear to do what it claims to do?',
-        Field: Check
-      },
-      {
         id: 'correctContent',
         label: ' Is the app content well-written, correct, and relevant?',
-        Field: Check
-      },
-      {
-        id: 'causeHarm',
-        label: 'Can the app cause harm?',
-        Field: Check
-      },
-      {
-        id: 'useWarning',
-        label: 'Does the app provide any warning for use?',
         Field: Check
       },
       {

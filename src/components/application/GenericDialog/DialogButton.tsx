@@ -65,13 +65,12 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
     'Developer Type': DeveloperType,    
     selfHelp,
     hybridUse,
-    referenceApp,
-    doesWhatItClaims,
+    referenceApp,    
     correctContent
   } = values as any;
   const filterCount =
     [Features, Engagements, Inputs, Outputs, Functionalities, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) +
-    [ClinicalFoundation, DeveloperType, selfHelp, hybridUse, referenceApp, doesWhatItClaims, correctContent].reduce(
+    [ClinicalFoundation, DeveloperType, selfHelp, hybridUse, referenceApp, correctContent].reduce(
       (t, c) => (t = t + (checkEmpty(c) ? 0 : 1)),
       0
     );

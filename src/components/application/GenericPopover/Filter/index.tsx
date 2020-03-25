@@ -123,15 +123,7 @@ export default function FilterPopover({ id = title, ...other }) {
             { label: 'No', value: false }
           ]
         },
-        {
-          id: 'doesWhatItClaims',
-          label: 'App Appears to do what it Claims',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        }*/
+        */
       ]}
       {...other}
     />
