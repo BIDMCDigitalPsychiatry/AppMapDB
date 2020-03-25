@@ -75,31 +75,47 @@ export const PrivacyQuestions = [
 export const Privacies: Privacy[] = PrivacyQuestions.map(pq => pq.value as Privacy);
 
 export type Engagement =
-  | 'Chat/Message Board'
+  | 'User Generated Data'
+  | 'Chat/Message'
+  | 'Assessments/Screenings'
   | 'Real Time Response'
   | 'Asynchronous Response'
   | 'Gamification (Points, Badges)'
   | 'Videos'
   | 'Audio/Music/Scripts'
-  | 'Bio Feedback'
   | 'AI Support'
   | 'Peer Support'
   | 'Network Support'
   | 'Collaborative With Provider/Other';
 
-export const Engagements: Engagement[] = [
-  'Chat/Message Board',
-  'Real Time Response',
-  'Asynchronous Response',
-  'Gamification (Points, Badges)',
-  'Videos',
-  'Audio/Music/Scripts',
-  'Bio Feedback',
-  'AI Support',
-  'Peer Support',
-  'Network Support',
-  'Collaborative With Provider/Other'
+export const EngagementQuestions = [
+  { value: 'User Generated Data', label: 'User generated data?', tooltip: 'Examples include mood tracking, diary app, etc.' },
+  { value: 'Chat/Message', label: 'Chat/message based?' },
+  { value: 'Assessments/Screenings', label: 'Does app have have screeners/assesments?', tooltip: 'Examples include PHQ9, GAS7, etc.' },
+  { value: 'Real Time Response', label: 'Real time response?', tooltip: 'Someone will reply to your chat right away.' },
+  {
+    value: 'Asynchronous Response',
+    label: 'Asynchronous response?',
+    tooltip: 'There are no immediate responses to chats. Responses come at predetermined intervals (once a day; every four hours; etc)'
+  },
+  { value: 'Gamification (Points, Badges)', label: 'Gamification (points, badges)?' },
+  { value: 'Videos', label: 'Videos?' },
+  { value: 'Audio/Music/Scripts', label: 'Audio/music/scripts?' },
+  { value: 'AI Support', label: 'AI support', tooltip: 'Interaction is not with a real person but with a but.' },
+  {
+    value: 'Peer Support',
+    label: 'Peer support?',
+    tooltip: 'Peer is defined as a person with lived experience and support involves actually communicating (so not just watching a video)'
+  },
+  { value: 'Network Support', label: 'Network support?', tooltip: 'Network is defined as someone (like family or friend) who is actually known.' },
+  {
+    value: 'Collaborative With Provider/Other',
+    label: 'Collaborative with provider/other?',
+    tooltip: 'Does it allow for direct collaboration with a provider or clinician? Beyond just being able to share your data'
+  }
 ];
+
+export const Engagements: Engagement[] = EngagementQuestions.map(eq => eq.value as Engagement);
 
 export type Functionality =
   | 'Works with Spanish'
@@ -151,57 +167,71 @@ export const Outputs: Output[] = [
 ];
 
 export type Feature =
-  | 'Track Symptoms'
-  | 'Chatbot/AI'
-  | 'Assessments/Screenings'
-  | 'CBT'
-  | 'Mindfulness'
-  | 'Journaling'
-  | 'Productivity'
-  | 'Peer Support'
-  | 'Physical Health'
   | 'Track Mood'
   | 'Track Medication'
   | 'Track Sleep'
+  | 'Physical Health'
   | 'Psychoeducation'
+  | 'Journaling'
+  | 'Picture Gallery/Hope Board'
+  | 'Mindfulness'
   | 'Deep Breathing'
+  | 'iCBT or Sleep Therapy'
+  | 'CBT'
   | 'ACT'
   | 'DBT'
-  | 'Biodata'
+  | 'Peer Support'
   | 'Coach/Therapist Connection'
+  | 'Biodata'
   | 'Goal Setting/Habits'
   | 'Physical Health Excersizes'
-  | 'Picture Gallery/Hope Board'
-  | 'iCBT or Sleep Therapy'
   | 'Bbot Interaction'
   | 'Bio Feedback with Sense Data';
+//| 'Track Symptoms'
+//| 'Productivity';
 
-export const Features = [
-  'Track Symptoms',
-  'Chatbot/AI',
-  'Assessments',
-  'CBT',
-  'Mindfulness',
-  'Journaling',
-  'Productivity',
-  'Peer Support',
-  'Physical Health',
-  'Track Mood',
-  'Track Medication',
-  'Track Sleep',
-  'Psychoeducation',
-  'Deep Breathing',
-  'ACT',
-  'DBT',
-  'Biodata',
-  'Coach/Therapist Connection',
-  'Goal Setting/Habits',
-  'Physical Health Excersizes',
-  'Picture Gallery/Hope Board',
-  'iCBT or Sleep Therapy',
-  'Bbot Interaction',
-  'Bio Feedback with Sense Data'
+export const FeatureQuestions = [
+  { value: 'Track Mood', label: 'Does app have mood tracking?' },
+  { value: 'Track Medication', label: 'Does app have medication tracking?' },
+  { value: 'Track Sleep', label: 'Does app have sleep tracking?' },
+  { value: 'Physical Health', label: 'Does app have physical excersize tracking?' },
+  {
+    value: 'Psychoeducation',
+    label: 'Does app have psychoeducation?',
+    tooltip: 'Does app provide definitions, explanations of different diagnoses? Is it didactic?'
+  },
+  { value: 'Journaling', label: 'Does app have journaling?' },
+  { value: 'Picture Gallery/Hope Board', label: 'Does app have a picture gallery or hope board?' },
+  { value: 'Mindfulness', label: 'Does app have mindfullness?' },
+  { value: 'Deep Breathing', label: 'Does app have deep breathing?' },
+  { value: 'iCBT or Sleep Therapy', label: 'Does app have iCBT or sleep therapy?' },
+  { value: 'CBT', label: 'Does app have CBT?' },
+  { value: 'ACT', label: 'Does app have ACT?' },
+  { value: 'DBT', label: 'Does app have DBT?' },
+  {
+    value: 'Peer Support',
+    label: 'Does app have peer support?',
+    tooltip: 'Does the app offer connection to peer specialists or individuals with lived experience?'
+  },
+  { value: 'Coach/Therapist Connection', label: 'Does have have a connection to coach/therapist?' },
+  { value: 'Biodata', label: 'Does app have biodata tracking?', tooltip: 'Does it collect heart rate, skin conductance, etc.' },
+  { value: 'Goal Setting/Habits', label: 'Does app have goal setting/habits?' },
+  {
+    value: 'Physical Health Excersizes',
+    label: 'Does app have physical health excersizes?',
+    tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT excersize tracking.'
+  },
+  { value: 'Bbot Interaction', label: 'Does app have Bbot interaction?', tooltip: 'An example would be interaction with a virtual character.' },
+  {
+    value: 'Bio Feedback with Sense Data',
+    label: 'Does app have bio feedback with sense data?',
+    tooltip: 'HRV, skin conductance etc. Puts biodata to use to provide feedback/recommendations (a lot of ASD and ADHD apps)'
+  }
+  //{ value: 'Track Symptoms', label: '', tooltip: '' },
+  //{ value: 'Productivity', label: '', tooltip: '' },
 ];
+
+export const Features = FeatureQuestions.map(fq => fq.value as Feature);
 
 export type Condition = 'Mood Disorders' | 'Stress & Anxiety' | 'Sleep' | 'Phobias' | 'OCD' | 'Schizophrenia' | 'Eating Disorders' | 'Personality Disorders';
 export const Conditions: Condition[] = [
