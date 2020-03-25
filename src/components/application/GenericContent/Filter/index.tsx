@@ -10,7 +10,8 @@ import {
   Privacies,
   Functionalities,
   DeveloperTypes,
-  Engagements
+  Engagements,
+  Uses
 } from '../../../../database/models/Application';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useFullScreen } from '../../../../hooks';
@@ -84,42 +85,16 @@ export default function FilterContent({ id = title, advanced, ...other }) {
           hidden
         },
         {
+          id: 'Privacy',
+          Field: MultiSelectCheck,
+          items: Uses.map(label => ({ value: label, label })),
+          style: { minWidth, maxWidth },
+          hidden
+        },
+        {
           id: 'Clinical Foundation',
           Field: AutoCompleteSelect,
           items: ClinicalFoundations,
-          style: { minWidth, maxWidth },
-          hidden
-        },
-        {
-          id: 'selfHelp',
-          label: 'App is a Self-Help Tool',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ],
-          style: { minWidth, maxWidth },
-          hidden
-        },
-        {
-          id: 'hybridUse',
-          label: 'Use with Clinician/Treatment Plan',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ],
-          style: { minWidth, maxWidth },
-          hidden
-        },
-        {
-          id: 'referenceApp',
-          label: 'App is a Reference App',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ],
           style: { minWidth, maxWidth },
           hidden
         }

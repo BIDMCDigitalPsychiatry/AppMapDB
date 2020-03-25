@@ -10,7 +10,8 @@ import {
   Privacies,
   Functionalities,
   DeveloperTypes,
-  Engagements
+  Engagements,
+  Uses
 } from '../../../../database/models/Application';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useFullScreen } from '../../../../hooks';
@@ -83,36 +84,14 @@ export default function FilterPopover({ id = title, ...other }) {
           items: Privacies.map(label => ({ value: label, label }))
         },
         {
+          id: 'Uses',
+          Field: MultiSelectCheck,
+          items: Uses.map(label => ({ value: label, label }))
+        },
+        {
           id: 'Clinical Foundation',
           Field: AutoCompleteSelect,
           items: ClinicalFoundations
-        },        
-        {
-          id: 'selfHelp',
-          label: 'App is a Self-Help Tool',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },
-        {
-          id: 'hybridUse',
-          label: 'Use with Clinician/Treatment Plan',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },
-        {
-          id: 'referenceApp',
-          label: 'App is a Reference App',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
         }
         /*{
           id: 'correctContent',

@@ -11,16 +11,9 @@ export default function ApplicationProperties({ fields, values, mapField, fullWi
   return (
     <Grid container justify='center'>
       <Grid item style={{ maxWidth: 1400 }}>
-        <Grid container justify='center' spacing={2}>          
+        <Grid container justify='center' spacing={2}>
           <Grid item xs={xs} style={{ minWidth: 280, maxWidth: 675 }}>
-            <OutlinedDiv label='Miscellaneous'>
-              {injectField('selfHelp')}
-              {injectField('referenceApp')}
-              {injectField('hybridUse')}
-            </OutlinedDiv>
-          </Grid>
-          <Grid item xs={xs} style={{ minWidth: 280, maxWidth: 675 }}>
-            <OutlinedDiv label='Content'>                            
+            <OutlinedDiv label='Content'>
               {injectField('correctContent')}
               <Box p={0.25}>
                 <Grid container alignItems='center' justify='space-between'>

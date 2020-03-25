@@ -61,19 +61,14 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
     Platforms = [],
     Cost = [],
     Privacy = [],
+    Uses = [],
     'Clinical Foundation': ClinicalFoundation,
-    'Developer Type': DeveloperType,    
-    selfHelp,
-    hybridUse,
-    referenceApp,    
+    'Developer Type': DeveloperType,
     correctContent
   } = values as any;
   const filterCount =
-    [Features, Engagements, Inputs, Outputs, Functionalities, Conditions, Platforms, Cost, Privacy].reduce((t, c) => (t = t + c.length), 0) +
-    [ClinicalFoundation, DeveloperType, selfHelp, hybridUse, referenceApp, correctContent].reduce(
-      (t, c) => (t = t + (checkEmpty(c) ? 0 : 1)),
-      0
-    );
+    [Features, Engagements, Inputs, Outputs, Functionalities, Conditions, Platforms, Cost, Privacy, Uses].reduce((t, c) => (t = t + c.length), 0) +
+    [ClinicalFoundation, DeveloperType, correctContent].reduce((t, c) => (t = t + (checkEmpty(c) ? 0 : 1)), 0);
 
   const handleReset = React.useCallback(() => setValues({}), [setValues]);
   const fullScreen = useFullScreen();

@@ -256,6 +256,20 @@ export const DeveloperTypeQuestions = [
 
 export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
 
+export type Use = 'Self Help' | 'Reference' | 'Hybrid';
+
+export const UseQuestions = [
+  { value: 'Self Help', label: 'Is app a self-help/self-managment tool?' },
+  {
+    value: 'Reference',
+    label: 'Is app a reference app?',
+    tooltip: 'Provides information and references but not necessarily activites.  Psychoeducation first.'
+  },
+  { value: 'Hybrid', label: 'Is app intended for hybrid use with a clinician in conjuction with a treatment plan?' }
+];
+
+export const Uses = UseQuestions.map(uq => uq.value as Use);
+
 export default interface Application extends Nano.MaybeDocument {
   name: string;
   company: string;
@@ -268,6 +282,7 @@ export default interface Application extends Nano.MaybeDocument {
   costs: Cost[];
   conditions: Condition[];
   privacies: Privacy[];
+  uses: Use[];
   clinicalFoundation: ClinicalFoundation;
   features: Feature[];
   functionalities: Functionality[];
@@ -281,10 +296,7 @@ export default interface Application extends Nano.MaybeDocument {
   feasibilityStudies: number; // How many feasibility/usability studies?
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
-  efficacyImpact: number; //What is the highest efficacy impact factor?
-  selfHelp: boolean; // Is it a self-help/self-management tool?
-  referenceApp: boolean; // Is it a reference app?
-  hybridUse: boolean; // Is it intended for hybrid use with a clinician in conjunction with treatment plan?
+  efficacyImpact: number; //What is the highest efficacy impact factor?  
   created: number;
   updated: number;
 }

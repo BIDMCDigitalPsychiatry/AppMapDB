@@ -62,14 +62,12 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     platforms = [],
     costs = [],
     privacies = [],
+    uses = [],
     features = [],
     functionalities = [],
     conditions = [],
     clinicalFoundation,
     developerType,
-    selfHelp,
-    referenceApp,
-    hybridUse,
     androidLink,
     iosLink,
     webLink,
@@ -153,7 +151,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
               { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
               { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
               { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
-              { label: 'Privacies', values: privacies.filter(onlyUnique), color: pink[400] }
+              { label: 'Privacies', values: privacies.filter(onlyUnique), color: pink[400] },
+              { label: 'Uses', values: uses.filter(onlyUnique), color: theme.palette.primary.main }
             ].map((row: any, i) => (
               <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
                 <Grid item style={{ width: 120 }}>
@@ -179,32 +178,6 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                 </Grid>
               </Grid>
             ))}
-            <Grid container alignItems='center' spacing={1} className={classes.row}>
-              <Grid item style={{ width: 120 }}>
-                <Typography>Classifications:</Typography>
-              </Grid>
-              <Grid item zeroMinWidth xs className={classes.chipRoot}>
-                {[
-                  { label: 'Self Help Tool', value: bool(selfHelp), tooltip: 'App is a self-help/self-management tool.' },
-                  { label: 'Supporting Studies', value: clinicalFoundation === 'Supporting Studies', tooltip: 'App has supporting studies.' },
-                  { label: 'Hybrid Use', value: bool(hybridUse), tooltip: 'App can be used with a clinician in conjuction with treatment plan.' },
-                  { label: 'Reference App', value: bool(referenceApp), tooltip: 'App is a reference app.' }
-                ]
-                  .filter(c => c.value)
-                  .map((c, i) => (
-                    <Tooltip key={`main-chip-${c.label}`} title={(<Typography>{c.tooltip}</Typography>) as any}>
-                      <Chip
-                        style={{ background: theme.palette.primary.main, color: 'white', marginRight: 8 }}
-                        variant='outlined'
-                        size='small'
-                        className={classes.mainChip}
-                        color='primary'
-                        label={c.label}
-                      />
-                    </Tooltip>
-                  ))}
-              </Grid>
-            </Grid>
           </Grid>
         </Grid>
       </Box>

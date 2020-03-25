@@ -5,7 +5,9 @@ import {
   CostQuestions,
   PrivacyQuestions,
   FunctionalityQuestions,
-  ClinicalFondationQuestions
+  ClinicalFondationQuestions,
+  FeatureQuestions,
+  EngagementQuestions
 } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
@@ -249,27 +251,52 @@ const steps = [
     ].map(f => ({ ...f, container: tables.applications }))
   },
   {
+    label: 'Enter feature information. Click next to continue.',
+    Template: ApplicationInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'features',
+        label: 'Features',
+        Field: YesNoGroup,
+        items: FeatureQuestions
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Enter engagement information. Click next to continue.',
+    Template: ApplicationInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'features',
+        label: 'Features',
+        Field: YesNoGroup,
+        items: EngagementQuestions
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
     label: 'Check all that apply and enter remaining properties. Click next to continue.',
     Template: ApplicationProperties,
     fields: [
       {
         id: 'correctContent',
         label: ' Is the app content well-written, correct, and relevant?',
-        Field: Check
-      },
-      {
-        id: 'selfHelp',
-        label: 'Is it a self-help/self-management tool?',
-        Field: Check
-      },
-      {
-        id: 'referenceApp',
-        label: 'Is it a reference app?',
-        Field: Check
-      },
-      {
-        id: 'hybridUse',
-        label: 'Is it intended for hybrid use with a clinician in conjunction with treatment plan?',
         Field: Check
       }
     ].map(f => ({ ...f, container: tables.applications }))

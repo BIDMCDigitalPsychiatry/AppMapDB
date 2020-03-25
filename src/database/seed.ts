@@ -1,4 +1,14 @@
-import Application, { Costs, Privacies, ClinicalFoundations, Features, Functionalities, Platforms, Conditions, DeveloperTypes } from './models/Application';
+import Application, {
+  Costs,
+  Privacies,
+  ClinicalFoundations,
+  Features,
+  Functionalities,
+  Platforms,
+  Conditions,
+  DeveloperTypes,
+  Uses
+} from './models/Application';
 import { randomInt } from '../helpers';
 import DB from './dbConfig';
 import Rating from './models/Rating';
@@ -22,6 +32,7 @@ export async function asyncSeed(count = 300, force = false) {
         costs: getRandom(Costs, true),
         conditions: getRandom(Conditions, true),
         privacies: getRandom(Privacies, true, 0),
+        uses: getRandom(Uses, true, 0),
         clinicalFoundation: getRandom(ClinicalFoundations),
         features: getRandom(Features, true, 0),
         functionalities: getRandom(Functionalities, true, 0),
