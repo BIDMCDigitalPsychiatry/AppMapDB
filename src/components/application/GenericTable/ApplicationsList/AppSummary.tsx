@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Grid, Box, Typography, Link, Chip, makeStyles, Theme, createStyles, useTheme } from '@material-ui/core';
+import { Grid, Box, Typography, Link, Chip, makeStyles, Theme, createStyles } from '@material-ui/core';
 import Application from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
@@ -81,7 +81,6 @@ export default function AppSummary(props: Application & AppSummaryProps) {
   const { handleRefresh } = props as any;
 
   const classes = useStyles({});
-  const theme = useTheme();
 
   const handleLink = React.useCallback(
     platform => event => {

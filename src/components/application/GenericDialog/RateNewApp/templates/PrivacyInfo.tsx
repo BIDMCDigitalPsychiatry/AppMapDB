@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Theme, Tabs, makeStyles, Tab, Box, Collapse } from '@material-ui/core';
+import { Grid, Typography, Theme, Tabs, makeStyles, Tab, Collapse } from '@material-ui/core';
 import { InjectField } from '../../Fields';
 import { getAndroidIdFromUrl, isEmpty, getAppleIdFromUrl } from '../../../../../helpers';
 import axios from 'axios';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Theme, Tabs, makeStyles, Tab, Box, Collapse } from '@material-ui/core';
+import { Grid, Typography, Theme, Tabs, makeStyles, Tab } from '@material-ui/core';
 import { InjectField } from '../../Fields';
 import { getAndroidIdFromUrl, isEmpty, getAppleIdFromUrl } from '../../../../../helpers';
 import axios from 'axios';
@@ -9,7 +9,6 @@ import google_play_store from '../../../../../images/google_play_store.png';
 import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';
 import TabLabel from './TabLabel';
-import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
 
 async function getAppInfo(appId, type) {
   const { data } = await axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
@@ -106,8 +105,6 @@ export default function FunctionalityInfo({ fields, values, mapField, fullWidth,
   const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
-
-  const privacies = values.applications.privacies || '';
 
   return (
     <Grid container justify='center' spacing={3}>

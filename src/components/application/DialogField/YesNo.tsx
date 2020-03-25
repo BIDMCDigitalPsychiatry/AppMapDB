@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl, FormHelperText, Grid, Typography, ButtonGroup, Button, Tooltip, withStyles, Theme } from '@material-ui/core';
+import { FormControl, FormHelperText, Grid, Typography, ButtonGroup, Button } from '@material-ui/core';
 import { isError, isTrue, isFalse } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import LightTooltip from '../../general/LightTooltip/LightTooltip';
@@ -21,7 +21,7 @@ const YesNo = ({
   initialValue = undefined,
   ...other
 }) => {
-  const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value, key: key ? key : label } }), [onChange]);
+  const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value, key: key ? key : label } }), [key, label, onChange]);
 
   const Label = (
     <Grid item>
