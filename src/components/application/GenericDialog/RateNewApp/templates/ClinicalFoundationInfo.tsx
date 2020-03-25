@@ -10,6 +10,8 @@ import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';
 import TabLabel from './TabLabel';
 import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
+import LightTooltip from '../../../../general/LightTooltip/LightTooltip';
+import * as Icons from '@material-ui/icons';
 
 async function getAppInfo(appId, type) {
   const { data } = await axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
@@ -143,20 +145,33 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
                   {
                     id: 'feasibilityImpact',
                     label: 'What is the highest feasibility impact factor?',
-                    tooltip: `What is the impact factor of the journal in which the feasibility study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" (assume the journal doesn't have an impact factor.`
+                    tooltip: `What is the impact factor of the journal in which the feasibility study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
                   },
                   { id: 'efficacyStudies', label: 'How many evidence/efficacy studies?' },
                   {
                     id: 'efficacyImpact',
                     label: 'What is the highest efficacy impact factor?',
-                    tooltip: `What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" (assume the journal doesn't have an impact factor.`
+                    tooltip: `What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
                   }
-                ].map(({ label, id }) => (
-                  <Grid key={id} container alignItems='center' justify='space-between'>
-                    <Typography>{label}</Typography>
-                    <Box pl={2} width={75}>
-                      {injectField(id)}
-                    </Box>
+                ].map(({ label, id, tooltip }) => (
+                  <Grid key={id} container alignItems='center' justify='space-between' spacing={2}>
+                    <Grid item>
+                      <Typography>{label}</Typography>
+                    </Grid>
+                    <Grid item>
+                      <Grid container justify='flex-end' alignItems='center' spacing={1}>
+                        {tooltip && (
+                          <Grid item>
+                            <LightTooltip title={tooltip}>
+                              <Icons.HelpOutlined fontSize='small' color='primary' />
+                            </LightTooltip>
+                          </Grid>
+                        )}
+                        <Grid item style={{ width: 75 }}>
+                          {injectField(id)}
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 ))}
               </OutlinedDiv>

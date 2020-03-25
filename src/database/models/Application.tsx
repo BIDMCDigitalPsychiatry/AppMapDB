@@ -33,8 +33,8 @@ export const ClinicalFondationQuestions = [
     tooltip:
       "Does the app make recommendations or suggestions that directly defy clinical guidelines? Does it include overtly false information, like a suicide hotline number that doesn't actually work?"
   },
-  { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' },
-  { value: 'Use Warning', label: 'Does the app provide any warning for use?' }
+  { value: 'Use Warning', label: 'Does the app provide any warning for use?' },
+  { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' }
 ];
 
 export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFondationQuestions.map(cfq => cfq.value as ClinicalFoundation);

@@ -10,6 +10,8 @@ import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';
 import TabLabel from './TabLabel';
 import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
+import * as Icons from '@material-ui/icons';
+import LightTooltip from '../../../../general/LightTooltip/LightTooltip';
 
 async function getAppInfo(appId, type) {
   const { data } = await axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
@@ -138,11 +140,26 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
           <Grid item xs={12}>
             <Collapse in={privacies.split(',').includes('Has Privacy Policy')}>
               <OutlinedDiv label='Privacy Policy Reading Level'>
-                <Grid container alignItems='center' justify='space-between'>
-                  <Typography>Reading grade level of the privacy policy?</Typography>
-                  <Box pl={2} width={75}>
-                    {injectField('readingLevel')}
-                  </Box>
+                <Grid container alignItems='center' justify='space-between' spacing={2}>
+                  <Grid item>
+                    <Typography>Reading grade level of the privacy policy?</Typography>
+                  </Grid>
+                  <Grid item>
+                    <Grid container justify='flex-end' alignItems='center' spacing={1}>
+                      <Grid item>
+                        <LightTooltip
+                          title={
+                            'Flesch-Kincaid grade level: https://readabilityformulas.com/free-readability-formula-tests.php (just copy and paste privacy policy in)'
+                          }
+                        >
+                          <Icons.HelpOutlined fontSize='small' color='primary' />
+                        </LightTooltip>
+                      </Grid>
+                      <Grid item style={{ width: 75 }}>
+                        {injectField('readingLevel')}
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </OutlinedDiv>
             </Collapse>
