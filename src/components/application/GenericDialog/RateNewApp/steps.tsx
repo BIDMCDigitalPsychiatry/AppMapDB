@@ -7,7 +7,8 @@ import {
   FunctionalityQuestions,
   ClinicalFondationQuestions,
   FeatureQuestions,
-  EngagementQuestions
+  EngagementQuestions,
+  UseQuestions
 } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
@@ -15,8 +16,6 @@ import SupportedPlatforms from './templates/SupportedPlatforms';
 import ApplicationInfo from './templates/ApplicationInfo';
 import AndroidStore from '../../DialogField/AndroidStore';
 import AppleStore from '../../DialogField/AppleStore';
-import ApplicationProperties from './templates/ApplicationProperties';
-import Check from '../../DialogField/Check';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import YesNoGroup from '../../DialogField/YesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
@@ -88,39 +87,20 @@ const steps = [
         items: CostQuestions
       },
       {
-        id: 'developerType',
+        id: 'developerTypes',
         label: 'Application Origin',
         description:
           'Every app will be in at least one of these categories but can be in more than one of them (a university-affiliated hospital, for example, could be both academic, healthcare, and non-profit). When in doubt, put for profit. Refer to app store description and app itself (i.e. is there a logo on the interface) and developer website.',
         Field: YesNoGroup,
         items: DeveloperTypeQuestions
       }
-      /*{
-        id: 'features',
-        label: 'Features',
-        Field: MultiSelectCheck,
-        items: Features.map(value => ({ value, label: value }))
-      },
-      {
-        id: 'clinicalFoundation',
-        label: 'Clinical Foundation',
-        Field: AutoCompleteSelect,
-        items: ClinicalFoundations,
-        required: true,
-        initialValue: ClinicalFoundations[0]
-      },
+      /*      
       {
         id: 'conditions',
         label: 'Supported Conditions',
         Field: MultiSelectCheck,
         items: Conditions.map(value => ({ value, label: value }))
-      },      
-      {
-        id: 'engagements',
-        label: 'Engagements',
-        Field: MultiSelectCheck,
-        items: Engagements.map(value => ({ value, label: value }))
-      },
+      },            
       {
         id: 'inputs',
         label: 'Inputs',
@@ -264,7 +244,7 @@ const steps = [
       },
       {
         id: 'features',
-        label: 'Features',
+        label: 'Application Features',
         Field: YesNoGroup,
         items: FeatureQuestions
       }
@@ -283,21 +263,30 @@ const steps = [
         Field: AppleStore
       },
       {
-        id: 'features',
-        label: 'Features',
+        id: 'engagements',
+        label: 'Application Engagements',
         Field: YesNoGroup,
         items: EngagementQuestions
       }
     ].map(f => ({ ...f, container: tables.applications }))
   },
   {
-    label: 'Check all that apply and enter remaining properties. Click next to continue.',
-    Template: ApplicationProperties,
+    label: 'Enter application usage information. Click next to continue.',
+    Template: ApplicationInfo,
     fields: [
       {
-        id: 'correctContent',
-        label: ' Is the app content well-written, correct, and relevant?',
-        Field: Check
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'uses',
+        label: 'Application Uses',
+        Field: YesNoGroup,
+        items: UseQuestions
       }
     ].map(f => ({ ...f, container: tables.applications }))
   }

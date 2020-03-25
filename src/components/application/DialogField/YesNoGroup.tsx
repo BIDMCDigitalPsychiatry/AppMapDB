@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl, Box, FormHelperText, Typography, Divider } from '@material-ui/core';
+import { FormControl, Box, FormHelperText, Typography } from '@material-ui/core';
 import { isError, isTrue, onlyUnique } from '../../../helpers';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 import YesNo from './YesNo';
@@ -13,7 +13,7 @@ const YesNoGroup = ({
   color = 'primary' as 'primary',
   error = undefined,
   forceErrorMargin = false,
-  value = '',
+  value = [],
   margin = 'dense' as 'dense',
   onChange = undefined,
   ...other
@@ -21,13 +21,12 @@ const YesNoGroup = ({
   const handleChange = React.useCallback(
     key => event => {
       const itemValue = event.target.value; // true or false
-      const values = value.split(',').filter(v => v !== '');
-      onChange && onChange({ target: { value: (isTrue(itemValue) ? [...values, key].filter(onlyUnique) : values.filter(v => v !== key)).join(',') } });
+      onChange && onChange({ target: { value: isTrue(itemValue) ? [...value, key].filter(onlyUnique) : value.filter(v => v !== key) } });
     },
     [value, onChange]
   );
 
-  const getValue = key => value.split(',').includes(key);
+  const getValue = key => value.includes(key);
 
   return (
     <FormControl variant={variant} error={isError(error)} fullWidth margin={margin}>

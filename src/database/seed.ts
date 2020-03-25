@@ -33,10 +33,10 @@ export async function asyncSeed(count = 300, force = false) {
         conditions: getRandom(Conditions, true),
         privacies: getRandom(Privacies, true, 0),
         uses: getRandom(Uses, true, 0),
-        clinicalFoundation: getRandom(ClinicalFoundations),
+        clinicalFoundations: getRandom(ClinicalFoundations, true, 0),
         features: getRandom(Features, true, 0),
         functionalities: getRandom(Functionalities, true, 0),
-        developerType: getRandom(DeveloperTypes, true)
+        developerTypes: getRandom(DeveloperTypes, true, 0)
       } as Application);
       if (response && response.ok === true) {
         success++;

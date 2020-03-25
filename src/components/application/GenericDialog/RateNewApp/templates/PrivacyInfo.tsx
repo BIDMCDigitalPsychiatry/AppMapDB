@@ -109,7 +109,7 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
     setTab(newValue);
   };
 
-  const privacies = values.applications.privacies || '';
+  const privacies = values.applications.privacies || [];
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -138,7 +138,7 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
             {injectField('privacies')}
           </Grid>
           <Grid item xs={12}>
-            <Collapse in={privacies.split(',').includes('Has Privacy Policy')}>
+            <Collapse in={privacies.includes('Has Privacy Policy')}>
               <OutlinedDiv label='Privacy Policy Reading Level'>
                 <Grid container alignItems='center' justify='space-between' spacing={2}>
                   <Grid item>

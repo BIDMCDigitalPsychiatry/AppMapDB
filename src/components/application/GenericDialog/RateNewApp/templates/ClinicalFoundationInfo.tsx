@@ -109,7 +109,7 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
     setTab(newValue);
   };
 
-  const clinicalFoundations = values.applications.clinicalFoundations || '';
+  const clinicalFoundations = values.applications.clinicalFoundations || [];
 
   return (
     <Grid container justify='center' spacing={3}>
@@ -132,13 +132,13 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
           {values.applications.platforms.map((p, i) => tab === i && !loading && <div key={p}>{injectField(keyMap[p])}</div>)}
         </div>
       </Grid>
-      <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
+      <Grid item xs style={{ minWidth: 280, maxWidth: 600 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             {injectField('clinicalFoundations')}
           </Grid>
           <Grid item xs={12}>
-            <Collapse in={clinicalFoundations.split(',').includes('Supporting Studies')}>
+            <Collapse in={clinicalFoundations.includes('Supporting Studies')}>
               <OutlinedDiv label='Supporting Studies'>
                 {[
                   { id: 'feasibilityStudies', label: 'How many feasibility/usability studies?' },
@@ -167,7 +167,7 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
                             </LightTooltip>
                           </Grid>
                         )}
-                        <Grid item style={{ width: 75 }}>
+                        <Grid item style={{ width: 94 }}>
                           {injectField(id)}
                         </Grid>
                       </Grid>

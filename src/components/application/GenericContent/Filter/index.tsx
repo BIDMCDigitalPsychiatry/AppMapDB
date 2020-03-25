@@ -44,7 +44,8 @@ export default function FilterContent({ id = title, advanced, ...other }) {
           style: { minWidth, maxWidth }
         },
         {
-          id: 'Developer Type',
+          id: 'DeveloperTypes',
+          label: 'Developer Types',
           Field: MultiSelectCheck,
           items: DeveloperTypes.map(label => ({ value: label, label })),
           style: { minWidth, maxWidth }
@@ -85,16 +86,17 @@ export default function FilterContent({ id = title, advanced, ...other }) {
           hidden
         },
         {
-          id: 'Privacy',
+          id: 'Uses',
           Field: MultiSelectCheck,
           items: Uses.map(label => ({ value: label, label })),
           style: { minWidth, maxWidth },
           hidden
         },
         {
-          id: 'Clinical Foundation',
-          Field: AutoCompleteSelect,
-          items: ClinicalFoundations,
+          id: 'ClinicalFoundations',
+          label: 'Evidence & Clinical Foundations',
+          Field: MultiSelectCheck,
+          items: ClinicalFoundations.map(label => ({ value: label, label })),
           style: { minWidth, maxWidth },
           hidden
         }

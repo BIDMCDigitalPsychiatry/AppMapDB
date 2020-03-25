@@ -130,7 +130,7 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
           {values.applications.platforms.map((p, i) => tab === i && !loading && <div key={p}>{injectField(keyMap[p])}</div>)}
         </div>
       </Grid>
-      <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
+      <Grid item xs style={{ minWidth: 280, maxWidth: 600 }}>
         <Grid container spacing={1}>
           {platforms.length === 1 && platforms[0] === 'Web' && (
             <>
@@ -139,15 +139,10 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
             </>
           )}
           {injectField('costs')}
-          {injectField('developerType')}
+          {injectField('developerTypes')}
           {injectField('features')}
-          {injectField('clinicalFoundation')}
-          {injectField('conditions')}
-          {injectField('functionalities')}
           {injectField('engagements')}
-          {injectField('inputs')}
-          {injectField('outputs')}
-          {injectField('privacies')}
+          {injectField('uses')}
         </Grid>
       </Grid>
     </Grid>

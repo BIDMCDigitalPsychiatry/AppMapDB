@@ -1,7 +1,6 @@
 import Nano from 'nano';
 import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
-import { AddToQueue } from '@material-ui/icons';
 
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
@@ -18,9 +17,19 @@ export const CostQuestions = [
 
 export const Costs: Cost[] = CostQuestions.map(cq => cq.value as Cost);
 
-export type ClinicalFoundation = 'Does What it Claims' | 'Patient Facing' | 'Can Cause Harm' | 'Supporting Studies' | 'Use Warning';
+export type ClinicalFoundation =
+  | 'Well Written Relevant Content'
+  | 'Does What it Claims'
+  | 'Patient Facing'
+  | 'Can Cause Harm'
+  | 'Supporting Studies'
+  | 'Use Warning';
 
 export const ClinicalFondationQuestions = [
+  {
+    value: 'Well Written Relevant Content',
+    label: 'Is the app content well-written, correct, and relevant?'
+  },
   { value: 'Does What it Claims', label: 'Does the app appear to do what it claims to do?' },
   {
     value: 'Patient Facing',
@@ -80,7 +89,7 @@ export type Engagement =
   | 'Assessments/Screenings'
   | 'Real Time Response'
   | 'Asynchronous Response'
-  | 'Gamification (Points, Badges)'
+  | 'Gamification (Points/Badges)'
   | 'Videos'
   | 'Audio/Music/Scripts'
   | 'AI Support'
@@ -98,7 +107,7 @@ export const EngagementQuestions = [
     label: 'Asynchronous response?',
     tooltip: 'There are no immediate responses to chats. Responses come at predetermined intervals (once a day; every four hours; etc)'
   },
-  { value: 'Gamification (Points, Badges)', label: 'Gamification (points, badges)?' },
+  { value: 'Gamification (Points/Badges)', label: 'Gamification (points, badges)?' },
   { value: 'Videos', label: 'Videos?' },
   { value: 'Audio/Music/Scripts', label: 'Audio/music/scripts?' },
   { value: 'AI Support', label: 'AI support', tooltip: 'Interaction is not with a real person but with a but.' },
@@ -245,11 +254,12 @@ export const Conditions: Condition[] = [
   'Personality Disorders'
 ];
 
-export type DeveloperType = 'Government' | 'For Profit Company' | 'Healthcare Company' | 'Academic Institution';
+export type DeveloperType = 'Government' | 'For Profit Company' | 'Non-Profit Company' | 'Healthcare Company' | 'Academic Institution';
 
 export const DeveloperTypeQuestions = [
   { value: 'Government', label: 'Does it come from the government?' },
   { value: 'For Profit Company', label: 'Does it come from a for-profit company?' },
+  { value: 'Non-Profit Company', label: 'Does it come from a non-profit company?' },
   { value: 'Healthcare Company', label: 'Does it come from a trusted healthcare company?' },
   { value: 'Academic Institution', label: 'Does it come from an academic institution?' }
 ];
@@ -265,7 +275,7 @@ export const UseQuestions = [
     label: 'Is app a reference app?',
     tooltip: 'Provides information and references but not necessarily activites.  Psychoeducation first.'
   },
-  { value: 'Hybrid', label: 'Is app intended for hybrid use with a clinician in conjuction with a treatment plan?' }
+  { value: 'Hybrid', label: 'Is app intended for hybrid use with a clinician and treatment plan?' }
 ];
 
 export const Uses = UseQuestions.map(uq => uq.value as Use);
@@ -278,12 +288,12 @@ export default interface Application extends Nano.MaybeDocument {
   iosLink: string;
   webLink: string;
   platforms: Platform[];
-  developerType: DeveloperType[];
+  developerTypes: DeveloperType[];
   costs: Cost[];
   conditions: Condition[];
   privacies: Privacy[];
   uses: Use[];
-  clinicalFoundation: ClinicalFoundation;
+  clinicalFoundations: ClinicalFoundation[];
   features: Feature[];
   functionalities: Functionality[];
   inputs: Input[];
@@ -296,7 +306,7 @@ export default interface Application extends Nano.MaybeDocument {
   feasibilityStudies: number; // How many feasibility/usability studies?
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
-  efficacyImpact: number; //What is the highest efficacy impact factor?  
+  efficacyImpact: number; //What is the highest efficacy impact factor?
   created: number;
   updated: number;
 }

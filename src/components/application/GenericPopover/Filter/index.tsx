@@ -13,7 +13,6 @@ import {
   Engagements,
   Uses
 } from '../../../../database/models/Application';
-import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useFullScreen } from '../../../../hooks';
 
 export const title = 'Apply Filters';
@@ -43,7 +42,8 @@ export default function FilterPopover({ id = title, ...other }) {
           items: Costs.map(label => ({ value: label, label }))
         },
         {
-          id: 'Developer Type',
+          id: 'DeveloperTypes',
+          label: 'Developer Types',
           Field: MultiSelectCheck,
           items: DeveloperTypes.map(label => ({ value: label, label }))
         },
@@ -89,20 +89,11 @@ export default function FilterPopover({ id = title, ...other }) {
           items: Uses.map(label => ({ value: label, label }))
         },
         {
-          id: 'Clinical Foundation',
-          Field: AutoCompleteSelect,
-          items: ClinicalFoundations
+          id: 'ClinicalFoundations',
+          label: 'Evidence & Clinical Foundations',
+          Field: MultiSelectCheck,
+          items: ClinicalFoundations.map(label => ({ value: label, label }))
         }
-        /*{
-          id: 'correctContent',
-          label: 'Well-Written and Relevant Content',
-          Field: AutoCompleteSelect,
-          items: [
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
-          ]
-        },
-        */
       ]}
       {...other}
     />

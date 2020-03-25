@@ -2,7 +2,7 @@
 import { GenericTableContainerProps } from '../GenericTableContainer';
 import Application from '../../../../database/models/Application';
 import { name } from './table';
-import { isEmpty, decimalsum, bool, getDayTimeFromTimestamp } from '../../../../helpers';
+import { isEmpty, decimalsum, getDayTimeFromTimestamp } from '../../../../helpers';
 import { tableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import Decimal from 'decimal.js-light';
@@ -11,7 +11,6 @@ import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
-const isBoolFilter = (filterValue, value) => isEmpty(filterValue) || bool(filterValue) === bool(value);
 
 export const getAppName = app => {
   const androidStore: AndroidStoreProps = app.androidStore;
@@ -69,7 +68,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
           rating,
           company: getAppCompany(app),
-          costs: app.costs?.join(''),
+          costs: app.costs?.join(' '),
           platforms: app.platforms?.join(' '), // for searching
           features: app.features?.join(' '), // for searching
           functionalities: app.functionalities?.join(' '),
@@ -79,8 +78,8 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           conditions: app.conditions?.join(' '),
           privacies: app.privacies?.join(' '),
           uses: app.uses?.join(' '),
-          clinicalFoundation: app.clinicalFoundation,
-          developerType: app.developerType
+          clinicalFoundations: app.clinicalFoundations,
+          developerTypes: app.developerTypes
         };
 
         const unsearchableFilters = {
@@ -111,9 +110,8 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     Conditions = [],
     Privacy = [],
     Uses = [],
-    'Clinical Foundation': ClinicalFoundation,
-    'Developer Type': DeveloperType,
-    correctContent
+    ClinicalFoundations = [],
+    DeveloperTypes = []
   } = filters;
 
   const customFilter = r =>
@@ -127,9 +125,8 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     isMatch(Conditions, r.conditions) &&
     isMatch(Privacy, r.privacies) &&
     isMatch(Uses, r.uses) &&
-    (isEmpty(ClinicalFoundation) || ClinicalFoundation === r.clinicalFoundation) &&
-    (isEmpty(DeveloperType) || DeveloperType === r.developerType) &&
-    isBoolFilter(correctContent, r.correctContent);
+    isMatch(ClinicalFoundations, r.clinicalFoundations) &&
+    isMatch(DeveloperTypes, r.developerTypes);
 
   return tableFilter(data, state, props, customFilter);
 };
