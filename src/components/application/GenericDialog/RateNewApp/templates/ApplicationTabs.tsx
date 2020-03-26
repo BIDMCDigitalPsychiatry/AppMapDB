@@ -1,18 +1,17 @@
 import React from 'react';
-import { Grid, Typography, Theme, Tabs, makeStyles, Tab } from '@material-ui/core';
-import { InjectField } from '../../Fields';
-import { getAndroidIdFromUrl, isEmpty, getAppleIdFromUrl } from '../../../../../helpers';
-import axios from 'axios';
-import { googlePlayProxyUrl } from '../../../../../constants';
-import { useHandleChange } from '../../helpers';
+import { Typography, Theme, Tabs, makeStyles, Tab } from '@material-ui/core';
 import google_play_store from '../../../../../images/google_play_store.png';
 import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';
-import { tables } from '../../../../../database/dbConfig';
 import TabLabel from './TabLabel';
+import NewWindowLink from '../../../DialogField/NewWindowLink';
+import { getAndroidIdFromUrl, getAppleIdFromUrl, isEmpty } from '../../../../../helpers';
+import { useHandleChange } from '../../helpers';
+import { googlePlayProxyUrl } from '../../../../../constants';
+import Axios from 'axios';
 
 async function getAppInfo(appId, type) {
-  const { data } = await axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
+  const { data } = await Axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
   return data;
 }
 
@@ -64,12 +63,12 @@ const keyMap = {
   Web: 'webStore'
 };
 
-export default function FeaturesInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
+export const ApplicationTabs = ({ state, values, injectField, fields, setValues, setState }) => {
+  const classes = useStyles();
+
   const handleChange = useHandleChange(setValues);
   const androidStoreField = fields.find(f => f.id === 'androidStore');
   const appleStoreField = fields.find(f => f.id === 'appleStore');
-
-  const injectField = id => <InjectField id={id} fields={fields} values={values} mapField={mapField} fullWidth={fullWidth} {...props} />;
 
   const googleAppId = getAndroidIdFromUrl(values.applications.androidLink);
   const appleAppId = getAppleIdFromUrl(values.applications.iosLink);
@@ -77,11 +76,11 @@ export default function FeaturesInfo({ fields, values, mapField, fullWidth, setV
   const handleGetAppInfo = React.useCallback(() => {
     async function fetchData() {
       try {
-        if (!isEmpty(googleAppId)) {
+        if (androidStoreField.load === true && !isEmpty(googleAppId)) {
           const appInfo = await getAppInfo(googleAppId, 'google');
           handleChange(androidStoreField)({ target: { value: appInfo } });
         }
-        if (!isEmpty(appleAppId)) {
+        if (appleStoreField.load === true && !isEmpty(appleAppId)) {
           const appleAppInfo = await getAppInfo(appleAppId, 'apple');
           handleChange(appleStoreField)({ target: { value: appleAppInfo } });
         }
@@ -100,41 +99,33 @@ export default function FeaturesInfo({ fields, values, mapField, fullWidth, setV
 
   const { loading } = state;
 
-  const classes = useStyles();
   const [tab, setTab] = React.useState(0);
 
   const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
     setTab(newValue);
   };
 
-  const platforms = values[tables.applications].platforms ?? [];
-
   return (
-    <Grid container justify='center' spacing={3}>
-      <Grid item xs style={{ maxWidth: 700 }}>
-        <div className={classes.root}>
-          <div className={classes.tabs}>
-            <Tabs
-              classes={{ indicator: classes.indicator }}
-              value={tab}
-              onChange={handleChangeTab}
-              aria-label='styled tabs example'
-              TabIndicatorProps={{ children: <div /> }}
-            >
-              {values.applications.platforms.map(p => (
-                <Tab key={p} className={classes.tab} label={<TabLabel label={labelMap[p]} icon={iconMap[p]} />} disableRipple />
-              ))}
-            </Tabs>
-            <Typography className={classes.padding} />
-          </div>
-          {values.applications.platforms.map((p, i) => tab === i && !loading && <div key={p}>{injectField(keyMap[p])}</div>)}
-        </div>
-      </Grid>
-      <Grid item xs style={{ minWidth: 280, maxWidth: 500 }}>
-        <Grid container spacing={1}>
-          {injectField('features')}
-        </Grid>
-      </Grid>
-    </Grid>
+    <div className={classes.root}>
+      <div className={classes.tabs}>
+        <Tabs
+          classes={{ indicator: classes.indicator }}
+          value={tab}
+          onChange={handleChangeTab}
+          aria-label='styled tabs example'
+          TabIndicatorProps={{ children: <div /> }}
+        >
+          {values.applications.platforms.map(p => (
+            <Tab key={p} className={classes.tab} label={<TabLabel label={labelMap[p]} icon={iconMap[p]} />} disableRipple />
+          ))}
+        </Tabs>
+        <Typography className={classes.padding} />
+      </div>
+      {values.applications.platforms.map(
+        (p, i) =>
+          tab === i &&
+          !loading && <div key={p}>{p === 'Web' ? <NewWindowLink url={values.applications.webLink} label={'Open Web Link'} /> : injectField(keyMap[p])}</div>
+      )}
+    </div>
   );
-}
+};

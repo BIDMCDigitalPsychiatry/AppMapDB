@@ -8,7 +8,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme } from '@material-ui/core';
+import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, duration } from '@material-ui/core';
 import { useDialogState } from './useDialogState';
 import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
@@ -117,6 +117,7 @@ const GenericStepperDialog = ({
   onClose,
   Content,
   validate,
+  timeout = duration.standard,
   ...other
 }: ComponentProps & any) => {
   const { layout } = useTheme();
@@ -243,17 +244,20 @@ const GenericStepperDialog = ({
         <ErrorGate error={errors['loading']}>
           {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
           <Collapse in={!confirmDelete}>
-            {activeSteps.map(({ fields = [], label, onActivate, minWidth }, i) => (
-              <Collapse key={i} in={activeStep === i}>
-                <Step key={label}>
-                  <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
-                    <Grid container alignItems='center' spacing={1}>
-                      <Fields fields={fields} mapField={mapField} values={values} />
-                    </Grid>
-                  </OnActivate>
-                </Step>
-              </Collapse>
-            ))}
+            {activeSteps.map(({ Template, fields = [], label, onActivate, minWidth }, i) => {
+              const FieldsComponent = Template ?? Fields;
+              return (
+                <Collapse key={i} in={activeStep === i} timeout={timeout}>
+                  <Step key={label}>
+                    <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
+                      <Grid container alignItems='center' spacing={1}>
+                        <FieldsComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
+                      </Grid>
+                    </OnActivate>
+                  </Step>
+                </Collapse>
+              );
+            })}
           </Collapse>
           {confirmDelete && (
             <Grid container spacing={2} justify='center' alignItems='center'>
@@ -283,7 +287,7 @@ const GenericStepperDialog = ({
             nextButton={
               activeStep === activeSteps.length - 1 ? (
                 <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
-                  Finish
+                  {submitLabel ? submitLabel : 'Finish'}
                   <CheckIcon style={{ marginLeft: 4 }} />
                 </Button>
               ) : (

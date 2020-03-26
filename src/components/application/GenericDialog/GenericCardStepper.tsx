@@ -259,13 +259,13 @@ const GenericStepperCard = ({
           {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
           <Collapse in={!confirmDelete}>
             {activeSteps.map(({ Template, fields = [], label, onActivate }, i) => {
-              const ContentComponent = Template ?? Fields;
+              const FieldsComponent = Template ?? Fields;
               return (
                 <Collapse key={i} in={activeStep === i}>
                   <Step key={label}>
                     <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
                       <Grid container alignItems='center' spacing={1}>
-                        <ContentComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
+                        <FieldsComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
                       </Grid>
                     </OnActivate>
                   </Step>

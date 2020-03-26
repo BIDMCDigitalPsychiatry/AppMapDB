@@ -36,7 +36,11 @@ export async function asyncSeed(count = 300, force = false) {
         clinicalFoundations: getRandom(ClinicalFoundations, true, 0),
         features: getRandom(Features, true, 0),
         functionalities: getRandom(Functionalities, true, 0),
-        developerTypes: getRandom(DeveloperTypes, true, 0)
+        developerTypes: getRandom(DeveloperTypes, true, 0),
+        androidLink: 'https://play.google.com/store/apps/details?id=com.netflix.mediaclient',
+        iosLink: 'https://apps.apple.com/us/app/netflix/id363590051',
+        webLink: 'http://google.com',
+        delete: false
       } as Application);
       if (response && response.ok === true) {
         success++;

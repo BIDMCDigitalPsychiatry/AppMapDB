@@ -60,11 +60,12 @@ export default function ApplicationBar() {
                   Apps
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/Rating') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Rating'))}>
+              {/*<Button className={pathname === publicUrl('/Rating') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Rating'))}>
                 <Typography variant='button' noWrap>
                   Rating Process
                 </Typography>
               </Button>
+              */}
               <Button className={pathname === publicUrl('/RateNewApp') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
                 <Typography variant='button' noWrap>
                   Rate New App

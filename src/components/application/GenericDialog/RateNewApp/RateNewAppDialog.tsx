@@ -4,18 +4,18 @@ import Application from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
 import { uuid, publicUrl } from '../../../../helpers';
-import GenericStepperCard from '../GenericCardStepper';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
+import GenericStepperDialog from '../GenericStepperDialog';
 
-export const title = 'Rate New App';
+export const title = 'View/Edit App';
 
 export interface ComponentProps {
   id?: string;
   onClose?: () => any;
 }
 
-export default function RateNewAppCard({ id = title, onClose }: ComponentProps) {
+export default function RateNewAppDialog({ id = title, onClose }: ComponentProps) {
   const [{ type }, setDialogState] = useDialogState(id);
   const [_steps, setSteps] = React.useState(steps(type));
   React.useEffect(() => {
@@ -61,5 +61,17 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
     onClose && onClose();
   }, [setDialogState, onClose]);
 
-  return <GenericStepperCard id={id} title={title} onSubmit={handleSubmit} onDelete={handleDelete} steps={_steps} onClose={onClose} open={true} />;
+  return (
+    <GenericStepperDialog
+      id={id}
+      maxWidth='lg'
+      submitLabel='Save'
+      title={title}
+      onSubmit={handleSubmit}
+      onDelete={handleDelete}
+      steps={_steps}
+      onClose={onClose}
+      timeout={0}
+    />
+  );
 }

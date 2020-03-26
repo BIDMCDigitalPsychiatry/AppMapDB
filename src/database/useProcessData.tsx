@@ -25,21 +25,38 @@ export const useProcessDataHandle = () => {
   return React.useCallback((pdi: ProcessDataInfo) => () => dispatch(processData(pdi, updateDatabase)), [dispatch, updateDatabase]);
 };
 
-const processData = (
-  { Model: Table, Data, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined }: ProcessDataInfo,
-  updateDatabase
-) => async (dispatch: any, getState: any) => {
+async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
+  const { Model: Table, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined } = pdi;
   const { _id } = Data;
-  const response = Action === 'c' || Action === 'u' ? await DB[Table].insert(Data) : Action === 'd' ? DB[Table].destory(_id) : DB[Table].get(_id);
+
+  const response = Action === 'c' || Action === 'u' || Action === 'd' ? await DB[Table].insert(Data) : await DB[Table].get(_id);
+
   if (response && response.ok === true) {
     Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
     onSuccess && onSuccess(response, Data);
-    (Action === 'c' || Action === 'u') && updateDatabase({ table: Table, id: response.id, payload: Data }); // write data to local state
-    //(Action === 'd') && // TODO: Remove id from database
+    (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: response.id, payload: { ...Data, _rev: response.rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
   } else {
-    var message = `(Error processing data.  Table: ${Table}$`;
+    var message = `(Error processing data.  Table: ${Table}`;
     Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
     onError && onError(response, Data);
-    console.error({ message, response });
+    console.error({ message, response, Data });
+  }
+}
+
+const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: any, getState: any) => {
+  const { Model: Table, Data: DataProp, Action = 'c', Snackbar = true, onError = undefined } = pdi;
+  const Data = { ...DataProp, delete: Action === 'c' ? false : Action === 'd' ? true : (DataProp as any).delete };
+  try {
+    executeTransaction(pdi, Data, updateDatabase, dispatch);
+  } catch (error) {
+    if (error.statusCode === 409) {
+      //Document update conflict.  This can happen if someone updated the document at the server while another user's browser is editing an earlier revision
+      //Just show an error for now, as the applications will rarely be edited and the tables are constantly refreshed with new data.
+      //The correct logic would get the most recent document from the database, inform the user that the document is out of date, update the revision number and allow the user to review changes or force the update.
+    }
+    var message = `(Caught Error processing data.  Table: ${Table}`;
+    Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+    onError && onError(error, Data);
+    console.error({ message, error, Data });
   }
 };

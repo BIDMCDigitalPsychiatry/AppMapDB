@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Grid, Typography, Box } from '@material-ui/core';
 import logo from '../../../images/logo.png';
+import NewWindowLink from './NewWindowLink';
 
 export interface AndroidStoreProps {
   title: string; //DC Universe - The Ultimate DC Membership"
@@ -52,8 +53,9 @@ export interface AndroidStoreProps {
   url: string; //'https://play.google.com/store/apps/details?id=com.google.android.apps.translate&hl=en&gl=us';
 }
 
-const AndroidStore = ({ value = {} as AndroidStoreProps, forceErrorMargin = false, error = undefined, initialValue = undefined, ...other }) => {
-  const { icon = logo, title, developer, description, installs, offersIAP, free, adSupported } = value;
+const AndroidStore = ({ value = {} as AndroidStoreProps }) => {
+  const { icon = logo, title, developer, description, installs, offersIAP, free, adSupported, url } = value;
+
   return (
     <>
       <Grid container spacing={2}>
@@ -61,11 +63,22 @@ const AndroidStore = ({ value = {} as AndroidStoreProps, forceErrorMargin = fals
           <img style={{ height: 100 }} src={icon} alt='logo' />
         </Grid>
         <Grid item xs>
-          <Typography variant='h5'>{title}</Typography>
-          <Typography color='textSecondary'>{developer}</Typography>
-          <Typography color='textSecondary' variant='caption'>
-            {installs} Installs {offersIAP && ' | In-App Purchases'} {free && ' | Free'} {adSupported && ' | Ad Supported'}
-          </Typography>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant='h5'>{title}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography color='textSecondary'>{developer}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography color='textSecondary' variant='caption'>
+                {installs} Installs {offersIAP && ' | In-App Purchases'} {free && ' | Free'} {adSupported && ' | Ad Supported'}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <NewWindowLink url={url} label={'Open in Google Play Store'} />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <Box mt={2}>

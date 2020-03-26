@@ -1,10 +1,13 @@
 ﻿import React from 'react';
 import { Grid } from '@material-ui/core';
-import DialogButton from '../../GenericDialog/DialogButton';
-import * as RateAppDialog from '../../GenericDialog/RateApp';
-import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
+import { EditDialogButton } from '../../GenericDialog/DialogButton';
+import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../store';
+import { tables } from '../../../../database/dbConfig';
 
 export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
+  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   return (
     <Grid container alignItems='center'>
       {/*<Grid item xs={12}>
@@ -18,7 +21,7 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
     */}
       <Grid item xs={12}>
         <Grid container justify='space-between'>
-          <Grid item>
+          {/*<Grid item>
             <DialogButton
               Module={AppReviewsDialog}
               mount={false}
@@ -33,18 +36,18 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
             </DialogButton>
           </Grid>
           <Grid item>{'  |  '}</Grid>
+          */}
           <Grid item>
-            <DialogButton
-              Module={RateAppDialog}
+            <EditDialogButton
+              Module={RateNewAppDialog}
               mount={false}
-              variant='link'
-              size='small'
+              variant='primarycontained'
+              tooltip=''
               Icon={null}
-              tooltip='Click to Submit Rating'
-              initialValues={{ appId: _id }}
+              initialValues={{ [tables.applications]: initialValues }}
             >
-              Rate App
-            </DialogButton>
+              View / Edit App
+            </EditDialogButton>
           </Grid>
         </Grid>
       </Grid>

@@ -5,7 +5,7 @@ import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 import { onlyUnique, getDayTimeFromTimestamp } from '../../../../helpers';
-import { purple, green, blue, pink, cyan, indigo } from '@material-ui/core/colors';
+import { purple, green, blue, pink, cyan, indigo, yellow, deepOrange } from '@material-ui/core/colors';
 import DialogButton from '../../GenericDialog/DialogButton';
 
 interface AppSummaryProps {
@@ -69,6 +69,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     conditions = [],
     clinicalFoundations = [],
     developerTypes = [],
+    inputs = [],
+    outputs = [],
     androidLink,
     iosLink,
     webLink,
@@ -116,7 +118,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                 <Grid container>
                   <Grid item xs={12}>
                     <Typography noWrap variant='h5'>
-                      {name}
+                      {name || 'Unknown Name'}
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
@@ -132,7 +134,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                             <Link underline='always' key={p} className={classes.link} onClick={handleLink(p)}>
                               {p}
                             </Link>
-                            {i !== platforms.length - 1 && `\u2022`}
+                            {i !== platforms.filter(onlyUnique).length - 1 && `\u2022`}
                           </Grid>
                         ))}
                       </Grid>
@@ -165,14 +167,14 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <div style={{ maxWidth: 130 }}>
-                      <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
-                    </div>
-                  </Grid>
-                  <Grid item xs={12}>
                     <Typography noWrap color='textSecondary' variant='caption'>
                       Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
                     </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ maxWidth: 130 }}>
+                      <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
+                    </div>
                   </Grid>
                 </Grid>
               </Grid>
@@ -180,11 +182,13 @@ export default function AppSummary(props: Application & AppSummaryProps) {
           </Grid>
           <Grid item xs style={{ minWidth: 450 }}>
             {[
-              { label: 'Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
               { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
-              { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
-              { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
               { label: 'Privacies', values: privacies.filter(onlyUnique), color: pink[400] },
+              { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
+              { label: 'Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
+              { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
+              { label: 'Inputs', values: inputs.filter(onlyUnique), color: yellow[colorLevel] },
+              { label: 'Outputs', values: outputs.filter(onlyUnique), color: deepOrange[400] },
               { label: 'Uses', values: uses.filter(onlyUnique), color: cyan[colorLevel] }
             ].map((row: any, i) => (
               <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>

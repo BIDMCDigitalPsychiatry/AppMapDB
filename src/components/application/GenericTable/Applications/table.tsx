@@ -6,8 +6,7 @@ import * as Icons from '@material-ui/icons';
 import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import Application, { Costs, Platforms, Functionalities as AllFunctionalities, Features as AllFeatures } from '../../../../database/models/Application';
-import * as RateAppDialog from '../../GenericDialog/RateApp';
-import * as AppReviewsDialog from '../../GenericDialog/AppReviews';
+import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
 import ViewModeButton from './ViewModeButton';
@@ -48,7 +47,7 @@ const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16
 
 const defaultProps: GenericTableContainerProps = {
   name,
-  dialogs: [renderDialogModule(RateAppDialog), renderDialogModule(AppReviewsDialog)],
+  dialogs: [renderDialogModule(RateNewAppDialog)],
   columns: [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary },
     { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated },
@@ -118,7 +117,7 @@ const defaultProps: GenericTableContainerProps = {
     },
     {
       name: 'features',
-      width: 880,
+      width: 920,
       header: (
         <>
           <Grid container style={{ paddingRight: 16 }}>
@@ -142,11 +141,7 @@ const defaultProps: GenericTableContainerProps = {
   selector: selectors.from_database,
   footer: true,
   search: true,
-  buttons: [
-    <ViewModeButton mode='table' />,
-    <TableFilterDialogButton Module={FilterPopover} table={name} />
-    //<DialogButton Module={GettingStartedDialog} Icon={Icons.Help} tooltip='Help Getting Started' />
-  ]
+  buttons: [<ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
 };
 
 export const Applications = props => <GenericTableContainer {...defaultProps} showScroll={true} {...props} />;

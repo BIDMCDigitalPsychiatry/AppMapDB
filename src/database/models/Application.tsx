@@ -148,20 +148,54 @@ export const FunctionalityQuestions = [
 export const Functionalities: Functionality[] = FunctionalityQuestions.map(fq => fq.value as Functionality);
 
 export type Input = 'Surveys' | 'Diary' | 'Geolocation' | 'Contact List' | 'Camera' | 'Microphone' | 'Step Count' | 'External Devices' | 'Social Network';
-export const Inputs: Input[] = ['Surveys', 'Diary', 'Geolocation', 'Contact List', 'Camera', 'Microphone', 'Step Count', 'External Devices', 'Social Network'];
+export const InputQuestions = [
+  { value: 'Surveys', label: 'Surveys?' },
+  { value: 'Diary', label: 'Diary?' },
+  { value: 'Geolocation', label: 'Geolocation?' },
+  { value: 'Contact List', label: 'Contact List?' },
+  {
+    value: 'Camera',
+    label: 'Camera?',
+    tooltip: 'Do any features of the app utilize camera input? So profile picture? Or photo diary features? Or video chat?'
+  },
+  { value: 'Microphone', label: 'Microphone?' },
+  { value: 'Step Count', label: 'Step Count?', tooltip: 'Does the app utilize step tracking?' },
+  { value: 'External Devices', label: 'External Devices' },
+  {
+    value: 'Social Network',
+    label: 'Social Network?',
+    tooltip: 'Connection to social media. Does the app allow you to input social media information? For example, do you connect it to your facebook to log in?'
+  }
+];
+
+export const Inputs: Input[] = InputQuestions.map(iq => iq.value as Input);
 
 export type Output =
   | 'Notifications'
-  | 'Refernces/Information'
+  | 'References/Information'
   | 'Social Network'
   | 'Reminders'
   | 'Graphs of Data'
   | 'Summary of Data'
   | 'Link to Formal Care/Coaching';
 
+export const OutputQuestions = [
+  { value: 'Notifications', label: 'Notifications?' },
+  { value: 'References/Information', label: 'References/Information?' },
+  {
+    value: 'Social Network',
+    label: 'Social Network?',
+    tooltip: 'Can you post information from the app to social media? Does the app connect to social media for posting purposes?'
+  },
+  { value: 'Reminders', label: 'Reminders?' },
+  { value: 'Graphs of Data', label: 'Graphs of Data?' },
+  { value: 'Summary of Data', label: 'Summary of Data?' },
+  { value: 'Link to Formal Care/Coaching', label: 'Link to Formal Care/Coaching?' }
+];
+
 export const Outputs: Output[] = [
   'Notifications',
-  'Refernces/Information',
+  'References/Information',
   'Social Network',
   'Reminders',
   'Graphs of Data',
@@ -269,7 +303,7 @@ export const UseQuestions = [
     label: 'Is app a reference app?',
     tooltip: 'Provides information and references but not necessarily activites.  Psychoeducation first.'
   },
-  { value: 'Hybrid', label: 'Is app intended for hybrid use with a clinician and treatment plan?' }
+  { value: 'Hybrid', label: 'Intended for hybrid use with a clinician and treatment plan?' }
 ];
 
 export const Uses = UseQuestions.map(uq => uq.value as Use);
@@ -302,4 +336,5 @@ export default interface Application extends Nano.MaybeDocument {
   efficacyImpact: number; //What is the highest efficacy impact factor?
   created: number;
   updated: number;
+  delete: boolean; // If set to true item has been deleted, keep in database
 }

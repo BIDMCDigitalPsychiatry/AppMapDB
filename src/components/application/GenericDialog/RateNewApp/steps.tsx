@@ -8,7 +8,10 @@ import {
   ClinicalFondationQuestions,
   FeatureQuestions,
   EngagementQuestions,
-  UseQuestions
+  UseQuestions,
+  OutputQuestions,
+  InputQuestions,
+  Conditions
 } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { isEmpty, getAndroidIdFromUrl, getAppleIdFromUrl } from '../../../../helpers';
@@ -19,10 +22,9 @@ import AppleStore from '../../DialogField/AppleStore';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import YesNoGroup from '../../DialogField/YesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
-import FunctionalityInfo from './templates/FunctionalityInfo';
 import ClinicalFoundationInfo from './templates/ClinicalFoundationInfo';
 
-const steps = [
+const steps = (type = undefined) => [
   {
     label: 'For each platform, enter associated link or remove if unsupported. Click next to continue.',
     Template: SupportedPlatforms,
@@ -33,7 +35,7 @@ const steps = [
         Field: MultiSelectCheck,
         items: Platforms.map(label => ({ value: label, label })),
         required: true,
-        initialValue: Platforms
+        initialValue: type === 'Add' ? Platforms : undefined
       },
       {
         id: 'androidLink',
@@ -66,11 +68,13 @@ const steps = [
     fields: [
       {
         id: 'androidStore',
-        Field: AndroidStore
+        Field: AndroidStore,
+        load: true
       },
       {
         id: 'appleStore',
-        Field: AppleStore
+        Field: AppleStore,
+        load: true
       },
       {
         id: 'name',
@@ -93,27 +97,13 @@ const steps = [
           'Every app will be in at least one of these categories but can be in more than one of them (a university-affiliated hospital, for example, could be both academic, healthcare, and non-profit). When in doubt, put for profit. Refer to app store description and app itself (i.e. is there a logo on the interface) and developer website.',
         Field: YesNoGroup,
         items: DeveloperTypeQuestions
-      }
-      /*      
+      },
       {
         id: 'conditions',
         label: 'Supported Conditions',
         Field: MultiSelectCheck,
         items: Conditions.map(value => ({ value, label: value }))
-      },            
-      {
-        id: 'inputs',
-        label: 'Inputs',
-        Field: MultiSelectCheck,
-        items: Inputs.map(value => ({ value, label: value }))
-      },
-      {
-        id: 'outputs',
-        label: 'Outputs',
-        Field: MultiSelectCheck,
-        items: Outputs.map(value => ({ value, label: value }))
       }
-      */
     ].map(f => ({ ...f, container: tables.applications }))
   },
   {
@@ -146,7 +136,7 @@ const steps = [
   },
   {
     label: 'Enter functionality and data sharing information. Click next to continue.',
-    Template: FunctionalityInfo,
+    Template: ApplicationInfo,
     fields: [
       {
         id: 'androidStore',
@@ -155,12 +145,6 @@ const steps = [
       {
         id: 'appleStore',
         Field: AppleStore
-      },
-      {
-        id: 'costs',
-        label: 'Cost',
-        Field: YesNoGroup,
-        items: CostQuestions
       },
       {
         id: 'functionalities',
@@ -267,6 +251,46 @@ const steps = [
         label: 'Application Engagements',
         Field: YesNoGroup,
         items: EngagementQuestions
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Enter input information. Click next to continue.',
+    Template: ApplicationInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'inputs',
+        label: 'Application Inputs',
+        Field: YesNoGroup,
+        items: InputQuestions
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Enter output information. Click next to continue.',
+    Template: ApplicationInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'outputs',
+        label: 'Application Outputs',
+        Field: YesNoGroup,
+        items: OutputQuestions
       }
     ].map(f => ({ ...f, container: tables.applications }))
   },

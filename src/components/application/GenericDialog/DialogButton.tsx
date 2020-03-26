@@ -224,6 +224,10 @@ export default function DialogButton({
             <IconButton color='inherit' {...shared}>
               {Icon && <Icon />}
             </IconButton>
+          ) : variant === 'primarycontained' ? (
+            <Button color='primary' variant='contained' {...shared}>
+              {children}
+            </Button>
           ) : variant === 'text' ? (
             <Button
               color='secondary'

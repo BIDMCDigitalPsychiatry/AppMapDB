@@ -54,43 +54,45 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
   const ix_app_ratings = state.database[tables.ix_app_ratings] ?? {};
 
   var data = apps
-    ? Object.keys(apps).map(k => {
-        const app: Application = apps[k];
-        const ratingIds = ix_app_ratings[app._id] ?? [];
-        const rating = ratingIds
-          .map(k => new Decimal(ratings[k].rating))
-          .reduce(decimalsum, new Decimal(0))
-          .dividedBy(ratingIds.length)
-          .toPrecision(2);
+    ? Object.keys(apps)
+        .filter(k => apps[k].delete !== true)
+        .map(k => {
+          const app: Application = apps[k];
+          const ratingIds = ix_app_ratings[app._id] ?? [];
+          const rating = ratingIds
+            .map(k => new Decimal(ratings[k].rating))
+            .reduce(decimalsum, new Decimal(0))
+            .dividedBy(ratingIds.length)
+            .toPrecision(2);
 
-        const appSearchable = {
-          name: getAppName(app),
-          updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
-          rating,
-          company: getAppCompany(app),
-          costs: app.costs?.join(' '),
-          platforms: app.platforms?.join(' '), // for searching
-          features: app.features?.join(' '), // for searching
-          functionalities: app.functionalities?.join(' '),
-          engagements: app.engagements?.join(' '),
-          inputs: app.inputs?.join(' '),
-          outputs: app.outputs?.join(' '),
-          conditions: app.conditions?.join(' '),
-          privacies: app.privacies?.join(' '),
-          uses: app.uses?.join(' '),
-          clinicalFoundations: app.clinicalFoundations,
-          developerTypes: app.developerTypes
-        };
+          const appSearchable = {
+            name: getAppName(app),
+            updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
+            rating,
+            company: getAppCompany(app),
+            costs: app.costs?.join(' '),
+            platforms: app.platforms?.join(' '), // for searching
+            features: app.features?.join(' '), // for searching
+            functionalities: app.functionalities?.join(' '),
+            engagements: app.engagements?.join(' '),
+            inputs: app.inputs?.join(' '),
+            outputs: app.outputs?.join(' '),
+            conditions: app.conditions?.join(' '),
+            privacies: app.privacies?.join(' '),
+            uses: app.uses?.join(' '),
+            clinicalFoundations: app.clinicalFoundations,
+            developerTypes: app.developerTypes
+          };
 
-        return {
-          _id: app._id,
-          ...appSearchable,
-          getSearchValues: () => {
-            return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
-          },
-          getValues: () => ({ ...app, rating, ratingIds })
-        };
-      })
+          return {
+            _id: app._id,
+            ...appSearchable,
+            getSearchValues: () => {
+              return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
+            },
+            getValues: () => ({ ...app, rating, ratingIds })
+          };
+        })
     : [];
 
   const { filters = {} } = state.table[name] || {};

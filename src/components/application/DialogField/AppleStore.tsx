@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Grid, Typography, Box } from '@material-ui/core';
 import logo from '../../../images/logo.png';
+import NewWindowLink from './NewWindowLink';
 
 export interface AppleStoreProps {
   id: number; // 363590051
@@ -38,8 +39,9 @@ export interface AppleStoreProps {
   supportedDevices: string; //(51) ["iPhone5s-iPhone5s", "iPadAir-iPadAir", "iPadAirCellular-iPadAirCellular", "iPadMiniRetina-iPadMiniRetina", "iPadMiniRetinaCellular-iPadMiniRetinaCellular", "iPhone6-iPhone6", "iPhone6Plus-iPhone6Plus", "iPadAir2-iPadAir2", "iPadAir2Cellular-iPadAir2Cellular", "iPadMini3-iPadMini3", "iPadMini3Cellular-iPadMini3Cellular", "iPodTouchSixthGen-iPodTouchSixthGen", "iPhone6s-iPhone6s", "iPhone6sPlus-iPhone6sPlus", "iPadMini4-iPadMini4", "iPadMini4Cellular-iPadMini4Cellular", "iPadPro-iPadPro", "iPadProCellular-iPadProCellular", "iPadPro97-iPadPro97", "iPadPro97Cellular-iPadPro97Cellular", "iPhoneSE-iPhoneSE", "iPhone7-iPhone7", "iPhone7Plus-iPhone7Plus", "iPad611-iPad611", "iPad612-iPad612", "iPad71-iPad71", "iPad72-iPad72", "iPad73-iPad73", "iPad74-iPad74", "iPhone8-iPhone8", "iPhone8Plus-iPhone8Plus", "iPhoneX-iPhoneX", "iPad75-iPad75", "iPad76-iPad76", "iPhoneXS-iPhoneXS", "iPhoneXSMax-iPhoneXSMax", "iPhoneXR-iPhoneXR", "iPad812-iPad812", "iPad834-iPad834", "iPad856-iPad856", "iPad878-iPad878", "iPadMini5-iPadMini5", "iPadMini5Cellular-iPadMini5Cellular", "iPadAir3-iPadAir3", "iPadAir3Cellular-iPadAir3Cellular", "iPodTouchSeventhGen-iPodTouchSeventhGen", "iPhone11-iPhone11", "iPhone11Pro-iPhone11Pro", "iPadSeventhGen-iPadSeventhGen", "iPadSeventhGenCellular-iPadSeventhGenCellular", "iPhone11ProMax-iPhone11ProMax"]
 }
 
-const AppleStore = ({ value = {} as AppleStoreProps, forceErrorMargin = false, error = undefined, initialValue = undefined, ...other }) => {
-  const { icon = logo, title, developer, description, free } = value;
+const AppleStore = ({ value = {} as AppleStoreProps }) => {
+  const { icon = logo, title, developer, description, free, url } = value;
+
   return (
     <>
       <Grid container spacing={2}>
@@ -47,11 +49,22 @@ const AppleStore = ({ value = {} as AppleStoreProps, forceErrorMargin = false, e
           <img style={{ height: 100 }} src={icon} alt='logo' />
         </Grid>
         <Grid item xs>
-          <Typography variant='h5'>{title}</Typography>
-          <Typography color='textSecondary'>{developer}</Typography>
-          <Typography color='textSecondary' variant='caption'>
-            {free && 'Free'}
-          </Typography>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant='h5'>{title}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography color='textSecondary'>{developer}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography color='textSecondary' variant='caption'>
+                {free && 'Free'}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <NewWindowLink url={url} label={'Open in Apple Store'} />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <Box mt={2}>
