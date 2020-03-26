@@ -207,12 +207,14 @@ export type Feature =
   | 'Track Mood'
   | 'Track Medication'
   | 'Track Sleep'
+  | 'Track Symptoms'
+  | 'Productivity'
   | 'Physical Health'
   | 'Psychoeducation'
   | 'Journaling'
-  | 'Picture Gallery/Hope Board'
   | 'Mindfulness'
   | 'Deep Breathing'
+  | 'Picture Gallery/Hope Board'
   | 'iCBT or Sleep Therapy'
   | 'CBT'
   | 'ACT'
@@ -224,13 +226,13 @@ export type Feature =
   | 'Physical Health Excersizes'
   | 'Bbot Interaction'
   | 'Bio Feedback with Sense Data';
-//| 'Track Symptoms'
-//| 'Productivity';
 
 export const FeatureQuestions = [
   { value: 'Track Mood', label: 'Does app have mood tracking?' },
   { value: 'Track Medication', label: 'Does app have medication tracking?' },
   { value: 'Track Sleep', label: 'Does app have sleep tracking?' },
+  { value: 'Track Symptoms', label: 'Does app have symptom tracking?' },
+  { value: 'Productivity', label: 'Does app have productivity?' },
   { value: 'Physical Health', label: 'Does app have physical excersize tracking?' },
   {
     value: 'Psychoeducation',
@@ -238,9 +240,9 @@ export const FeatureQuestions = [
     tooltip: 'Does app provide definitions, explanations of different diagnoses? Is it didactic?'
   },
   { value: 'Journaling', label: 'Does app have journaling?' },
-  { value: 'Picture Gallery/Hope Board', label: 'Does app have a picture gallery or hope board?' },
   { value: 'Mindfulness', label: 'Does app have mindfullness?' },
   { value: 'Deep Breathing', label: 'Does app have deep breathing?' },
+  { value: 'Picture Gallery/Hope Board', label: 'Does app have a picture gallery or hope board?' },
   { value: 'iCBT or Sleep Therapy', label: 'Does app have iCBT or sleep therapy?' },
   { value: 'CBT', label: 'Does app have CBT?' },
   { value: 'ACT', label: 'Does app have ACT?' },
@@ -264,8 +266,6 @@ export const FeatureQuestions = [
     label: 'Does app have bio feedback with sense data?',
     tooltip: 'HRV, skin conductance etc. Puts biodata to use to provide feedback/recommendations (a lot of ASD and ADHD apps)'
   }
-  //{ value: 'Track Symptoms', label: '', tooltip: '' },
-  //{ value: 'Productivity', label: '', tooltip: '' },
 ];
 
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);

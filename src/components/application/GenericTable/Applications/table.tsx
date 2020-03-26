@@ -117,7 +117,7 @@ const defaultProps: GenericTableContainerProps = {
     },
     {
       name: 'features',
-      width: 920,
+      width: 960,
       header: (
         <>
           <Grid container style={{ paddingRight: 16 }}>
