@@ -116,7 +116,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     { label: 'Privacy', values: privacies.filter(onlyUnique), color: pink[400] },
     { label: 'Clinical Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
     { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
-    { label: 'Supported Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
+    { label: 'Conditions Supported', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
     { label: 'Inputs', values: inputs.filter(onlyUnique), color: yellow[colorLevel] },
     { label: 'Outputs', values: outputs.filter(onlyUnique), color: deepOrange[400] },
     { label: 'Uses', values: uses.filter(onlyUnique), color: cyan[colorLevel] }
