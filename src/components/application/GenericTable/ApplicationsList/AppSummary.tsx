@@ -83,6 +83,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
   const { handleRefresh } = props as any;
 
   const classes = useStyles({});
+  const [expand, setExpand] = React.useState(false);
 
   const handleLink = React.useCallback(
     platform => event => {
@@ -103,6 +104,26 @@ export default function AppSummary(props: Application & AppSummaryProps) {
       handleRefresh && handleRefresh();
     },
     [setState, handleRefresh]
+  );
+
+  const handleToggleExpand = React.useCallback(() => {
+    setExpand(prev => !prev);
+    handleRefresh && handleRefresh();
+  }, [setExpand, handleRefresh]);
+
+  const categories = [
+    { label: 'Access', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
+    { label: 'Privacy', values: privacies.filter(onlyUnique), color: pink[400] },
+    { label: 'Clinical Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
+    { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
+    { label: 'Supported Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
+    { label: 'Inputs', values: inputs.filter(onlyUnique), color: yellow[colorLevel] },
+    { label: 'Outputs', values: outputs.filter(onlyUnique), color: deepOrange[400] },
+    { label: 'Uses', values: uses.filter(onlyUnique), color: cyan[colorLevel] }
+  ];
+
+  const filtered = categories.filter(
+    row => expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
   );
 
   return (
@@ -181,18 +202,9 @@ export default function AppSummary(props: Application & AppSummaryProps) {
             </Grid>
           </Grid>
           <Grid item xs style={{ minWidth: 450 }}>
-            {[
-              { label: 'Conditions', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
-              { label: 'Privacies', values: privacies.filter(onlyUnique), color: pink[400] },
-              { label: 'Functionalities', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
-              { label: 'Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
-              { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
-              { label: 'Inputs', values: inputs.filter(onlyUnique), color: yellow[colorLevel] },
-              { label: 'Outputs', values: outputs.filter(onlyUnique), color: deepOrange[400] },
-              { label: 'Uses', values: uses.filter(onlyUnique), color: cyan[colorLevel] }
-            ].map((row: any, i) => (
+            {filtered.map((row: any, i) => (
               <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
-                <Grid item style={{ width: 120 }}>
+                <Grid item style={{ width: 160 }}>
                   <Typography>{row.label}:</Typography>
                 </Grid>
                 <Grid item zeroMinWidth xs className={classes.chipRoot}>
@@ -215,6 +227,9 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                 </Grid>
               </Grid>
             ))}
+            <DialogButton style={{ marginLeft: -4, marginTop: 8 }} variant='link' color='primary' size='small' tooltip='' underline={true} onClick={handleToggleExpand}>
+              {`${expand ? 'Hide' : `Show  ${categories.length - filtered.length}`} More`}
+            </DialogButton>
           </Grid>
         </Grid>
       </Box>
