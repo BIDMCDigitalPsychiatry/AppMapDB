@@ -204,7 +204,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
           <Grid item xs style={{ minWidth: 450 }}>
             {filtered.map((row: any, i) => (
               <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
-                <Grid item style={{ width: 160 }}>
+                <Grid item style={{ width: 172 }}>
                   <Typography>{row.label}:</Typography>
                 </Grid>
                 <Grid item zeroMinWidth xs className={classes.chipRoot}>
