@@ -17,6 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Fields from './Fields';
 import ErrorGate from './ErrorGate';
 import { useFullScreen } from '../../../hooks';
+import { evalFunc } from '../../../helpers';
 
 function PaperComponent(props) {
   return (
@@ -266,7 +267,7 @@ const GenericDialog = ({
           )}
           {submitLabel !== null && (
             <Button autoFocus disabled={disabled || !hasChanged} color='primary' onClick={handleSubmit}>
-              {submitLabel || type}
+              {evalFunc(submitLabel, values) || type}
             </Button>
           )}
         </DialogActions>

@@ -4,6 +4,8 @@ import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useDialogState } from '../useDialogState';
+import DialogButton from '../DialogButton';
+import Label from '../../DialogField/Label';
 
 export const title = 'Login';
 
@@ -21,20 +23,45 @@ const handleValidation = ({ message }, dialogState) => {
   return errors;
 };
 
+const ForgotPassword = ({ value = false, onChange }) => {
+  const handleClick = () => onChange({ target: { value: !value } });
+  return (
+    <DialogButton variant='link' tooltip='' onClick={handleClick}>
+      {value ? 'Back' : 'Forgot Password'}
+    </DialogButton>
+  );
+};
+
 export default function LoginDialog({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
   const { errors } = dialogState;
   const dialogStateStr = JSON.stringify(dialogState);
 
   const handleAdd = React.useCallback(
-    ({ email, password }) => {
-      console.log('Performing Login');
-      firebase.login({ email, password }).catch(error => {
-        console.log('Error with Login');
-        const { message } = error;
-        const newErrors = handleValidation({ ...errors, message }, JSON.parse(dialogStateStr));
-        setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
-      });
+    ({ forgotPassword, email, password }) => {
+      if (forgotPassword) {
+        firebase
+          .auth()
+          .sendPasswordResetEmail(email)
+          .then(success => {
+            alert('An email has been sent with instructions for resetting your password.');
+            setState(prev => ({ ...prev, loading: false, open: false }));
+          })
+          .catch(error => {
+            console.log('Error requesting reset');
+            const { message } = error;
+            const newErrors = handleValidation({ ...errors, message }, JSON.parse(dialogStateStr));
+            setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+          });
+      } else {
+        console.log('Performing Login');
+        firebase.login({ email, password }).catch(error => {
+          console.log('Error with Login');
+          const { message } = error;
+          const newErrors = handleValidation({ ...errors, message }, JSON.parse(dialogStateStr));
+          setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+        });
+      }
     },
     [dialogStateStr, setState, errors]
   );
@@ -43,9 +70,9 @@ export default function LoginDialog({ id = title }) {
     <GenericDialog
       id={id}
       title={id}
-      submitLabel={id}
       onSubmit={handleAdd}
       validate={handleValidation}
+      submitLabel={values => (values.forgotPassword ? 'Request Reset' : id)}
       fields={[
         {
           id: 'email',
@@ -59,7 +86,21 @@ export default function LoginDialog({ id = title }) {
           required: true,
           inputProps: {
             type: 'password'
-          }
+          },
+          hidden: values => values.forgotPassword
+        },
+        {
+          id: 'forgotPasswordLabel',
+          label: 'Enter your email address and press request reset. We will send you an email to reset your password.',
+          Field: Label,
+          initialValue: false,
+          hidden: values => !values.forgotPassword
+        },
+        {
+          id: 'forgotPassword',
+          label: 'Forgot Password',
+          Field: ForgotPassword,
+          initialValue: false
         }
       ]}
     />
