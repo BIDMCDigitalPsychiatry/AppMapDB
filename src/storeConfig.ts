@@ -7,6 +7,8 @@ import { createStore, applyMiddleware, compose, combineReducers, StoreEnhancer, 
 import { persistReducer } from 'redux-persist';
 import * as localforage from 'localforage';
 import packageJson from '../package.json';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 localforage &&
   localforage.config &&
@@ -22,6 +24,11 @@ localforage &&
 export const persistConfig = {
   key: 'app',
   storage: localforage
+};
+
+const fbConfig = {
+  apiKey: 'AIzaSyDjeNlKjmQxx0ELp8tXjlgpxRloXsAdyJU',
+  projectId: 'app-map-db'
 };
 
 export default function configureStore(history: History, initialState?: AppState, appConfig?: any) {
@@ -40,6 +47,7 @@ export default function configureStore(history: History, initialState?: AppState
 
   // Combine all reducers and instantiate the app-wide store instance
   const store = createStoreWithMiddleware(persistedReducer, initialState) as Store<AppState>;
+  firebase.initializeApp(fbConfig);
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {
