@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Grid, Typography, Box } from '@material-ui/core';
 import FilterContent from '../application/GenericContent/Filter';
 import { useTableFilterValues } from '../application/GenericTable/store';
-import Framework from '../pages/Framework';
 import { useFullScreen } from '../../hooks';
 import { useWidth } from '../layout/store';
 import useFilterList from '../../database/useFilterList';
