@@ -27,6 +27,7 @@ export interface ComponentProps {
   fields?: FieldProps[] | any;
   onClose?: () => any;
   children?: any;
+  Buttons?: any;
 }
 
 const useStyles = makeStyles(({ palette, layout }: any) =>
@@ -75,6 +76,7 @@ export default function GenericContent({
   maxColumnWidth,
   values: externalValues = undefined,
   setValues: externalSetValues = undefined,
+  Buttons,
   children,
   ...other
 }: ComponentProps) {
@@ -133,13 +135,15 @@ export default function GenericContent({
         </>
       </ErrorGate>
       <Box mt={2} />
-      <Button size='small' color='default' onClick={handleReset}>
-        Reset
-      </Button>
-      {type === 'Edit' && onDelete !== undefined && (
-        <Button size='small' disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
-          {deleteLabel}
-        </Button>
+      {Buttons ? (
+        <Buttons {...other} values={values} setValues={setValues} handleReset={handleReset} />
+      ) : (
+        type === 'Edit' &&
+        onDelete !== undefined && (
+          <Button size='small' disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
+            {deleteLabel}
+          </Button>
+        )
       )}
     </>
   );

@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
+import { useSignedIn } from '../../hooks'
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -42,10 +43,9 @@ export default function ApplicationBar() {
   const classes = useStyles();
   const { pathname } = useLocation();
   const handleChangeRoute = useHandleChangeRoute();
-  const isEmpty = useSelector((s: any) => s.firebase.auth.isEmpty);
-  const isLoaded = useSelector((s: any) => s.firebase.auth.isLoaded);
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
   const [{ open: loginOpen }, setLoginState] = useDialogState(LoginDialog.title);
+  const signedIn = useSignedIn();
 
   const handleLogout = React.useCallback(() => {
     registerOpen && setRegisterState(prev => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
@@ -99,7 +99,7 @@ export default function ApplicationBar() {
               */}
             </ButtonGroup>
           </Grid>
-          {isLoaded && isEmpty ? (
+          {!signedIn ? (
             <>
               <Grid item>
                 <Box mb={1}>

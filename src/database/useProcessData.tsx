@@ -60,3 +60,5 @@ const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: a
     console.error({ message, error, Data });
   }
 };
+
+export default useProcessData;
