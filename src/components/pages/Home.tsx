@@ -23,9 +23,10 @@ export default function Home() {
   return (
     <Box m={2}>
       <Grid container spacing={spacing} justify='space-around'>
-        <Grid item xs={xs} style={{ minWidth: 300, maxWidth: contentWidth }}>
+        {/*<Grid item xs={xs} style={{ minWidth: 300, maxWidth: contentWidth }}>
           <Framework />
         </Grid>
+        */}
         <Grid item xs={xs} style={{ minWidth: 300, maxWidth, marginTop: 12 }}>
           <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 8 }}>
             Select filters and click search:

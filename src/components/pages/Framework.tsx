@@ -6,7 +6,7 @@ import { useFullScreen } from '../../hooks';
 export default function Framework() {
   const fullScreen = useFullScreen();
   return (
-    <Box p={2}>
+    <Box m={fullScreen ? 0 : 8} p={2}>
       <Typography variant='h4' align='center'>
         This database is based on the{' '}
         <Link href='https://www.psychiatry.org/psychiatrists/practice/mental-health-apps/app-evaluation-model' target='_blank'>

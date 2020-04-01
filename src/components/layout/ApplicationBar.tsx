@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn } from '../../hooks'
+import { useSignedIn } from '../../hooks';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -90,7 +90,11 @@ export default function ApplicationBar() {
                   Rate New App
                 </Typography>
               </Button>
-
+              <Button className={pathname === publicUrl('/Framework') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Framework'))}>
+                <Typography variant='button' noWrap>
+                  {`Framework & Questions`}
+                </Typography>
+              </Button>
               {/*<Button className={pathname === publicUrl('/PlayGround') ? classes.active : undefined} onClick={changeRoute(publicUrl('/PlayGround'))}>
                 <Typography variant='button' noWrap>
                   Play Ground
