@@ -39,7 +39,6 @@
     "redux-thunk": "2.3.0",
     "typescript": "3.8.3",
     "nano": "8.1.0",
-    "decimal.js-light": "2.5.0",
     "axios": "0.19.2"
   },
   "devDependencies": {

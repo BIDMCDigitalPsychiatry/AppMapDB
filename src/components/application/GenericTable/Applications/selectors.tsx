@@ -2,10 +2,9 @@
 import { GenericTableContainerProps } from '../GenericTableContainer';
 import Application from '../../../../database/models/Application';
 import { name } from './table';
-import { isEmpty, decimalsum, getDayTimeFromTimestamp } from '../../../../helpers';
+import { isEmpty, getDayTimeFromTimestamp } from '../../../../helpers';
 import { tableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
-import Decimal from 'decimal.js-light';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
 import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
@@ -50,25 +49,15 @@ export const getAppIcon = (app: Application) => {
 
 export const from_database = (state: AppState, props: GenericTableContainerProps) => {
   const apps = state.database[tables.applications] ?? {};
-  const ratings = state.database[tables.ratings] ?? {};
-  const ix_app_ratings = state.database[tables.ix_app_ratings] ?? {};
-
   var data = apps
     ? Object.keys(apps)
         .filter(k => apps[k].delete !== true)
         .map(k => {
           const app: Application = apps[k];
-          const ratingIds = ix_app_ratings[app._id] ?? [];
-          const rating = ratingIds
-            .map(k => new Decimal(ratings[k].rating))
-            .reduce(decimalsum, new Decimal(0))
-            .dividedBy(ratingIds.length)
-            .toPrecision(2);
 
           const appSearchable = {
             name: getAppName(app),
             updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
-            rating,
             company: getAppCompany(app),
             costs: app.costs?.join(' '),
             platforms: app.platforms?.join(' '), // for searching
@@ -90,7 +79,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
             getSearchValues: () => {
               return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
             },
-            getValues: () => ({ ...app, rating, ratingIds })
+            getValues: () => app
           };
         })
     : [];

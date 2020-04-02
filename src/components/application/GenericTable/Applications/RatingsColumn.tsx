@@ -10,33 +10,8 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   return (
     <Grid container alignItems='center'>
-      {/*<Grid item xs={12}>
-        <Grid container alignItems='center' justify='space-between'>
-          <RatingReadOnly size='small' precision={0.5} value={Number(rating)} readOnly={true} />
-          <Typography variant='caption' color='textSecondary'>
-            {`(${rating})`}
-          </Typography>
-        </Grid>
-      </Grid>
-    */}
       <Grid item xs={12}>
         <Grid container justify='space-between'>
-          {/*<Grid item>
-            <DialogButton
-              Module={AppReviewsDialog}
-              mount={false}
-              disabled={ratingIds.length === 0}
-              variant='link'
-              size='small'
-              Icon={null}
-              tooltip='Click to View'
-              initialValues={{ _id }}
-            >
-              {ratingIds.length} {ratingIds.length === 1 ? 'Review' : 'Reviews'}
-            </DialogButton>
-          </Grid>
-          <Grid item>{'  |  '}</Grid>
-          */}
           <Grid item>
             <EditDialogButton
               Module={RateNewAppDialog}

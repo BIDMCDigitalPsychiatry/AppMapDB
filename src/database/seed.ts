@@ -11,7 +11,6 @@ import Application, {
 } from './models/Application';
 import { randomInt } from '../helpers';
 import DB from './dbConfig';
-import Rating from './models/Rating';
 
 // Returns a random entry from an array.  If multiple is set to true, return an an array with a random number of random elements
 const getRandom = (array = [], multiple = false, min = 1) =>
@@ -25,7 +24,7 @@ export async function asyncSeed(count = 300, force = false) {
     var r_success = 0;
     var r_failed = 0;
     for (var i = 0; i < count; i++) {
-      const response = await DB.applications.insert({
+      await DB.applications.insert({
         name: `Test Application ${i + 1}`,
         company: getRandom(companies),
         platforms: getRandom(Platforms, true),
@@ -42,24 +41,6 @@ export async function asyncSeed(count = 300, force = false) {
         webLink: 'http://google.com',
         delete: false
       } as Application);
-      if (response && response.ok === true) {
-        success++;
-        for (var j = 0; j < randomInt(0, 5); j++) {
-          const r_response = await DB.ratings.insert({
-            appId: response.id,
-            name: 'Anonymous',
-            review: 'This is a test review.',
-            rating: randomInt(1, 5)
-          } as Rating);
-          if (r_response && r_response.ok === true) {
-            r_success++;
-          } else {
-            r_failed++;
-          }
-        }
-      } else {
-        failed++;
-      }
     }
     console.log(`Successfully seeded ${success} application records. ${failed} failed.`);
     console.log(`Successfully seeded ${r_success} rating records. ${r_failed} failed.`);

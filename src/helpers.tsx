@@ -1,7 +1,6 @@
 import { AppState } from './store';
 import { theme } from './constants';
 import packageJson from '../package.json';
-import Decimal from 'decimal.js-light';
 
 export function hostAddress(append?) {
   return (
@@ -141,10 +140,6 @@ export function randomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function decimalsum(total: Decimal, amount: Decimal) {
-  return total.add(amount);
 }
 
 export const publicUrl = path => process.env.PUBLIC_URL + path;
