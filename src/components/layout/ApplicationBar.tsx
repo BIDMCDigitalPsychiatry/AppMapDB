@@ -90,7 +90,7 @@ export default function ApplicationBar() {
                   Rate New App
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/Framework') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Framework'))}>
+              <Button className={pathname === publicUrl('/FrameworkQuestions') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/FrameworkQuestions'))}>
                 <Typography variant='button' noWrap>
                   {`Framework & Questions`}
                 </Typography>

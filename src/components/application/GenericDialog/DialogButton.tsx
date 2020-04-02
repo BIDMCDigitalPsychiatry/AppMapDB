@@ -150,6 +150,7 @@ export default function DialogButton({
   onReset = undefined,
   values = undefined,
   setValues = undefined,
+  className = undefined,
   children,
   ...other
 }: DialogButtonProps & any) {
@@ -186,7 +187,8 @@ export default function DialogButton({
   const shared = {
     disabled,
     onClick: handleClick,
-    size
+    size,
+    className
   };
 
   const wrapGrid = Content =>

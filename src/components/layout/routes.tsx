@@ -6,13 +6,13 @@ import Apps from '../pages/Apps';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
 import Home from '../pages/Home';
-import Framework from '../pages/Framework';
+import FrameworkQuestions from '../pages/FrameworkQuestions';
 
 const Routes = () => (
   <Switch>
     <Route exact path={'/'} component={Home} />
     <Route exact path={publicUrl('/')} component={Home} />
-    <Route exact path={publicUrl('/Framework')} component={Framework} />
+    <Route exact path={publicUrl('/FrameworkQuestions')} component={FrameworkQuestions} />
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />
     <Route exact path={publicUrl('/RateNewApp')} component={RateNewApp} />
