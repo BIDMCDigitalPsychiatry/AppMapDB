@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ zIndex }: any) =>
     bottomAppBarBeta: {
       top: 0,
       background: 'yellow',
-      color: 'black',      
+      color: 'black',
       zIndex: zIndex.drawer + 1
     },
     bottomToolBar: {
@@ -60,7 +60,7 @@ export default function Footer() {
               <Grid item xs={8}>
                 <Typography noWrap variant='body2' align='right'>
                   <Link href='mailto:team@digitalpsych.org' target='_blank' variant='body2' color='inherit'>
-                    {fullScreen ? '' : 'Please contact us if you find a bug or have a feature: '}requestteam@digitalpsych.org
+                    {fullScreen ? '' : 'Please contact us if you find a bug or have a feature: '}team@digitalpsych.org
                   </Link>
                 </Typography>
               </Grid>
