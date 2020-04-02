@@ -5,7 +5,7 @@ import Footer from './Footer';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useHeight } from './store';
 
-const useStyles = makeStyles(({ breakpoints, palette, mixins, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     root: {
       display: 'static'

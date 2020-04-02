@@ -15,10 +15,12 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn } from '../../hooks';
+import { beta } from '../../constants';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
+      paddingTop: beta ? layout.footerheight : 0,
       background: palette.white,
       paddingLeft: layout.contentpadding,
       paddingRight: layout.contentpadding
@@ -90,7 +92,10 @@ export default function ApplicationBar() {
                   Rate New App
                 </Typography>
               </Button>
-              <Button className={pathname === publicUrl('/FrameworkQuestions') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/FrameworkQuestions'))}>
+              <Button
+                className={pathname === publicUrl('/FrameworkQuestions') ? classes.active : undefined}
+                onClick={handleChangeRoute(publicUrl('/FrameworkQuestions'))}
+              >
                 <Typography variant='button' noWrap>
                   {`Framework & Questions`}
                 </Typography>

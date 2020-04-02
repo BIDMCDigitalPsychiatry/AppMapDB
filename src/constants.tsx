@@ -3,6 +3,7 @@ import { createMuiTheme, Theme } from '@material-ui/core/styles';
 export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
 
 const basetheme = createMuiTheme({});
+export const beta = true;
 
 export const theme = createMuiTheme({
   layout: {
