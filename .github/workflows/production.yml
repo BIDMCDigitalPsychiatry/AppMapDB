@@ -1,14 +1,20 @@
-name: Production Build
+name: Production Build & Deploy
 on: [push]
 jobs:
   build:
+    name: Build & Deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
-    - uses: jerray/publish-docker-action@v1.0.3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: docker.pkg.github.com
-        repository: bidmcdigitalpsychiatry/appmapdb/appmapdb
-        auto_tag: true
+        node-version: ${{ matrix.node-version }}
+    - name: npm install, build, and deploy
+      run: |
+        npm install
+        npm run build
+        npm run deploy
