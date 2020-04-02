@@ -74,17 +74,14 @@ export default function ApplicationBar() {
               style={{ marginBottom: 8 }}
             >
               <Button
-                className={pathname === publicUrl('/') || pathname === publicUrl('/') ? classes.active : undefined}
+                className={pathname === publicUrl('/Home') || pathname === publicUrl('/') ? classes.active : undefined}
                 onClick={handleChangeRoute(publicUrl('/'))}
               >
                 <Typography variant='button' noWrap>
                   Find an App
                 </Typography>
               </Button>
-              <Button
-                className={pathname === publicUrl('/Apps') || pathname === publicUrl('/') ? classes.active : undefined}
-                onClick={handleChangeRoute(publicUrl('/Apps'))}
-              >
+              <Button className={pathname === publicUrl('/Apps') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Apps'))}>
                 <Typography variant='button' noWrap>
                   Apps
                 </Typography>
