@@ -58,7 +58,7 @@ export default function ObjecttiveQuestions() {
         <Divider />
         <Box m={2} ml={fullScreen ? 0 : 2} mr={fullScreen ? 0 : 2}>
           <Typography variant='h5' align='center'>
-            {`How do you choose the right app? Each app's entry in the database is informed by 105 objective questions, giving you the necessary information to make your decision based on the app characteristics that matter most to you.  The questions are based on the APA App Evaluation Framework. `}
+            {`The questions that inform the database provide information about an app across six different categories aligned with the levels of the APA framework.`}
           </Typography>
         </Box>
 
