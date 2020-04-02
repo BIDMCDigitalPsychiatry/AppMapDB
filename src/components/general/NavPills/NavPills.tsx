@@ -196,14 +196,13 @@ export default function NavPills(props: ComponentProps) {
   );
   const tabContent = (
     <div className={classes.contentWrapper}>
+      <Divider />
       <SwipeableViews axis={direction === 'rtl' ? 'x-reverse' : 'x'} index={state.active} onChangeIndex={handleChangeIndex}>
-        {tabs.map((prop, key) => {
-          return (
-            <div className={classes.tabContent} key={key}>
-              {prop.tabContent}
-            </div>
-          );
-        })}
+        {tabs.map((prop, key) => (
+          <div className={classes.tabContent} key={key}>
+            {prop.tabContent}
+          </div>
+        ))}
       </SwipeableViews>
     </div>
   );
@@ -218,10 +217,9 @@ export default function NavPills(props: ComponentProps) {
       </Grid>
     </Grid>
   ) : (
-    <div>
+    <>
       {tabButtons}
-      <Divider />
-      {tabContent}      
-    </div>
+      {tabContent}
+    </>
   );
 }
