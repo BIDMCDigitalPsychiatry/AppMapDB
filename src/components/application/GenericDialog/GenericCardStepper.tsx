@@ -92,12 +92,20 @@ export interface ComponentProps {
   cancelLabel: string;
   deleteLabel: string;
   submitLabel: string;
+  SubmitIcon?: any;
   draggable: boolean;
   onSubmit: any;
   onDelete: any;
   validate: any;
   steps: any[];
   fullHeight: boolean;
+  values: any;
+  setValues: any;
+  header?: boolean;
+  onChange?: any;
+  showActions?: boolean;
+  FieldActions?: any;
+  elevation?: any;
 }
 
 const contentPaddingTop = 24;
@@ -109,7 +117,8 @@ const GenericStepperCard = ({
   draggable = false,
   cancelLabel = 'Cancel',
   deleteLabel = 'Delete',
-  submitLabel,
+  submitLabel = 'Finish',
+  SubmitIcon = CheckIcon,
   maxWidth = 'xs',
   steps = [] as any[],
   onSubmit,
@@ -117,6 +126,13 @@ const GenericStepperCard = ({
   onClose,
   validate,
   fullHeight = true,
+  values: externalValues,
+  setValues: externalSetValues,
+  onChange,
+  header = true,
+  showActions = true,
+  elevation = 3,
+  FieldActions = undefined,
   ...other
 }: ComponentProps & any) => {
   const { layout } = useTheme();
@@ -134,7 +150,10 @@ const GenericStepperCard = ({
     InitialValues,
     state,
     setState,
-    validate
+    validate,
+    externalValues,
+    externalSetValues,
+    onChange
   });
 
   // Re-initialize values when necessary
@@ -216,6 +235,7 @@ const GenericStepperCard = ({
   return (
     <Card
       open={open}
+      elevation={elevation}
       onClose={handleClose}
       aria-labelledby={`${id}-dialog-title`}
       aria-describedby={`${id}-dialog-description`}
@@ -224,17 +244,21 @@ const GenericStepperCard = ({
     >
       {title !== null && (
         <>
-          <CardHeader
-            id={`${id}-dialog-title`}
-            title={title ? title : [type, id].join(' ')}
-            className={classes.dialogTitle}
-            action={
-              <Button aria-label='Reset' variant='contained' color='primary' onClick={handleReset}>
-                Reset Form
-              </Button>
-            }
-          />
-          <Divider />
+          {header && (
+            <>
+              <CardHeader
+                id={`${id}-dialog-title`}
+                title={title ? title : [type, id].join(' ')}
+                className={classes.dialogTitle}
+                action={
+                  <Button aria-label='Reset' variant='contained' color='primary' onClick={handleReset}>
+                    Reset Form
+                  </Button>
+                }
+              />
+              <Divider />
+            </>
+          )}
           {!confirmDelete && (
             <CardActions className={classes.stepSummary}>
               <Grid container style={{ paddingLeft: 12, paddingRight: 12 }} alignItems='center'>
@@ -266,6 +290,13 @@ const GenericStepperCard = ({
                     <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
                       <Grid container alignItems='center' spacing={1}>
                         <FieldsComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
+                        {FieldActions ? (
+                          <Grid item xs={12}>
+                            <FieldActions handleNext={handleNext} handleBack={handleBack} handleSubmit={handleSubmit} activeStep={activeStep} />
+                          </Grid>
+                        ) : (
+                          <></>
+                        )}
                       </Grid>
                     </OnActivate>
                   </Step>
@@ -290,7 +321,7 @@ const GenericStepperCard = ({
           )}
         </ErrorGate>
       </DialogContent>
-      {!confirmDelete && (
+      {!confirmDelete && showActions && (
         <DialogActions className={classes.dialogActions}>
           <MobileStepper
             variant='dots'
@@ -301,8 +332,8 @@ const GenericStepperCard = ({
             nextButton={
               activeStep === activeSteps.length - 1 ? (
                 <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
-                  Finish
-                  <CheckIcon style={{ marginLeft: 4 }} />
+                  {submitLabel}
+                  <SubmitIcon style={{ marginLeft: 4 }} />
                 </Button>
               ) : (
                 <>

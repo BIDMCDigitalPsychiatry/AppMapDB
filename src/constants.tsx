@@ -15,7 +15,8 @@ export const theme = createMuiTheme({
     tabletoolbarheight: basetheme.spacing(5.5) * 2, // The height of the top bar on the table, also the height of the secondary tabselector
     tableRowHeight: basetheme.spacing(6), // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
-    progressSize: 80 // size of the circulatr progress indicator shown when dialogs are submitting
+    progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
+    tabheight: 132 // Height of the nav pills tab section
   },
   overrides: {
     MuiTooltip: {

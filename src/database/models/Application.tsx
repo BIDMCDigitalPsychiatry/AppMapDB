@@ -1,9 +1,20 @@
 import Nano from 'nano';
 import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
+import android from '../../images/android.png';
+import apple from '../../images/apple.png';
+import moodtracking from '../../images/apple.png';
+import journaling from '../../images/journaling.png';
+import mindfulness from '../../images/mindfulness.png';
+import peersupport from '../../images/peersupport.png';
+import psychoeducation from '../../images/psychoeducation.png';
 
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
+export const PlatformImages = [
+  { value: 'Android', label: 'Android', image: android },
+  { value: 'iOS', label: 'iOS', image: apple }
+];
 
 export type Cost = 'Totally Free' | 'Free to Download' | 'In-App Purchase' | 'Payment' | 'Subscription';
 
@@ -266,6 +277,14 @@ export const FeatureQuestions = [
     label: 'Does app have bio feedback with sense data?',
     tooltip: 'HRV, skin conductance etc. Puts biodata to use to provide feedback/recommendations (a lot of ASD and ADHD apps)'
   }
+];
+
+export const FeatureImages = [
+  { value: 'Track Mood', label: 'Mood Tracking', image: moodtracking },
+  { value: 'Journaling', label: 'Journaling', image: journaling },
+  { value: 'Mindfulness', label: 'Mindfulness', image: mindfulness },
+  { value: 'Peer Support', label: 'Peer Support', image: peersupport },
+  { value: 'Psychoeducation', label: 'Psychoeducation', image: psychoeducation }
 ];
 
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);
