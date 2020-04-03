@@ -30,15 +30,22 @@ export default function Footer() {
     <>
       <AppBar position='fixed' color='primary' className={classes.bottomAppBar}>
         <Toolbar className={classes.bottomToolBar}>
-          <Grid container justify='space-between'>
-            <Grid item xs={4}>
-              <Typography noWrap variant='body2'>
+          <Grid container justify='flex-start'>
+            <Grid item xs zeroMinWidth>
+              <Typography noWrap variant='body2' align='left'>
                 <Link href='https://www.digitalpsych.org/' target='_blank' variant='body2' color='inherit'>
                   Division of Digital Psychiatry
                 </Link>
               </Typography>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs zeroMinWidth>
+              <Typography noWrap variant='body2' align='center'>
+                <Link href='https://www.argosyfnd.org/' target='_blank' variant='body2' color='inherit'>
+                  This website is made possible by support from the Argosy Foundation
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item xs zeroMinWidth>
               <Typography noWrap variant='body2' align='right'>
                 <Link href='https://www.bidmc.org/' target='_blank' variant='body2' color='inherit'>
                   ©2020 Beth Israel Deaconess Medical Center
