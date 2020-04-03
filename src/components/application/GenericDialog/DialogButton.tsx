@@ -14,7 +14,8 @@ import {
   createStyles,
   Badge,
   withStyles,
-  Link
+  Link,
+  MenuItem
 } from '@material-ui/core';
 import { useDialogState } from './useDialogState';
 import EditIcon from '@material-ui/icons/Edit';
@@ -39,7 +40,7 @@ export const EditDialogButton = ({
   ...other
 }) => <DialogButton variant={variant} Icon={EditIcon} type='Edit' tooltip={tooltip} placement={placement} mount={mount} {...other} />;
 
-const StyledBadge = withStyles(theme =>
+const StyledBadge = withStyles((theme) =>
   createStyles({
     badge: {
       top: 7,
@@ -129,31 +130,34 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function DialogButton({
-  id: Id = undefined,
-  Module = undefined,
-  type = 'Add',
-  tooltip = 'Add',
-  placement = 'bottom',
-  color = 'primary',
-  variant = 'fab',
-  size = 'small',
-  label = '',
-  disabled = undefined,
-  Icon = AddIcon,
-  initialValues = {},
-  noGrid = true,
-  mount = true,
-  onClick = undefined,
-  onClose = undefined,
-  onChange = undefined,
-  onReset = undefined,
-  values = undefined,
-  setValues = undefined,
-  className = undefined,
-  children,
-  ...other
-}: DialogButtonProps & any) {
+const DialogButton = React.forwardRef(function DialogButton(
+  {
+    id: Id = undefined,
+    Module = undefined,
+    type = 'Add',
+    tooltip = 'Add',
+    placement = 'bottom',
+    color = 'primary',
+    variant = 'fab',
+    size = 'small',
+    label = '',
+    disabled = undefined,
+    Icon = AddIcon,
+    initialValues = {},
+    noGrid = true,
+    mount = true,
+    onClick = undefined,
+    onClose = undefined,
+    onChange = undefined,
+    onReset = undefined,
+    values = undefined,
+    setValues = undefined,
+    className = undefined,
+    children,
+    ...other
+  }: DialogButtonProps & any,
+  ref
+) {
   const classes = useStyles({});
   const theme = useTheme();
   const id = Id ? Id : Module && Module.title;
@@ -176,7 +180,7 @@ export default function DialogButton({
   }, [onClose, setAnchorEl]);
 
   const handleClick = React.useCallback(
-    event => {
+    (event) => {
       setAnchorEl(event.currentTarget);
       onClick && onClick(event);
       handleUpdate();
@@ -191,7 +195,7 @@ export default function DialogButton({
     className
   };
 
-  const wrapGrid = Content =>
+  const wrapGrid = (Content) =>
     !noGrid ? (
       <Grid key={tooltip} item>
         {Content}
@@ -218,7 +222,11 @@ export default function DialogButton({
         }
       >
         <span>
-          {variant === 'listitem' ? (
+          {variant === 'menuitem' ? (
+            <MenuItem key={label} {...shared}>
+              {children}
+            </MenuItem>
+          ) : variant === 'listitem' ? (
             <ListItem key={label} button={true} className={classes.listitem} {...shared}>
               <ListItemText primary={label} />
             </ListItem>
@@ -278,4 +286,6 @@ export default function DialogButton({
       </Tooltip>
     </>
   );
-}
+});
+
+export default DialogButton;

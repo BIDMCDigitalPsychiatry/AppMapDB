@@ -43,23 +43,22 @@ export default function LoginDialog({ id = title }) {
         firebase
           .auth()
           .sendPasswordResetEmail(email)
-          .then(success => {
+          .then((success) => {
             alert('An email has been sent with instructions for resetting your password.');
-            setState(prev => ({ ...prev, loading: false, open: false }));
+            setState((prev) => ({ ...prev, loading: false, open: false }));
           })
-          .catch(error => {
-            console.log('Error requesting reset');
+          .catch((error) => {
+            console.error('Error requesting reset');
             const { message } = error;
             const newErrors = handleValidation({ ...errors, message }, JSON.parse(dialogStateStr));
-            setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+            setState((prev) => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
           });
       } else {
-        console.log('Performing Login');
-        firebase.login({ email, password }).catch(error => {
-          console.log('Error with Login');
+        firebase.login({ email, password }).catch((error) => {
+          console.error('Error with Login');
           const { message } = error;
           const newErrors = handleValidation({ ...errors, message }, JSON.parse(dialogStateStr));
-          setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+          setState((prev) => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
         });
       }
     },
@@ -72,7 +71,7 @@ export default function LoginDialog({ id = title }) {
       title={id}
       onSubmit={handleAdd}
       validate={handleValidation}
-      submitLabel={values => (values.forgotPassword ? 'Request Reset' : id)}
+      submitLabel={(values) => (values.forgotPassword ? 'Request Reset' : id)}
       fields={[
         {
           id: 'email',
@@ -87,14 +86,14 @@ export default function LoginDialog({ id = title }) {
           inputProps: {
             type: 'password'
           },
-          hidden: values => values.forgotPassword
+          hidden: (values) => values.forgotPassword
         },
         {
           id: 'forgotPasswordLabel',
           label: 'Enter your email address and press request reset. We will send you an email to reset your password.',
           Field: Label,
           initialValue: false,
-          hidden: values => !values.forgotPassword
+          hidden: (values) => !values.forgotPassword
         },
         {
           id: 'forgotPassword',

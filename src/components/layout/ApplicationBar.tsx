@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { makeStyles, Button, Grid, ButtonGroup, Typography, Box, Tooltip } from '@material-ui/core';
+import { makeStyles, Grid, IconButton, Menu, MenuItem, Divider } from '@material-ui/core';
 import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
-import { useLocation } from 'react-router';
-import { useAppBarHeightRef, useHandleChangeRoute } from './hooks';
+import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/Login';
 import * as RegisterDialog from '../application/GenericDialog/Register';
@@ -14,20 +13,30 @@ import { useSelector } from 'react-redux';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn } from '../../hooks';
+import { useSignedIn, useFullScreen } from '../../hooks';
 import { beta } from '../../constants';
+import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
+import * as Icons from '@material-ui/icons';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
       paddingTop: beta ? layout.footerheight : 0,
-      background: palette.white,
+      background: palette.primary.main,
+      color: palette.common.white,
       paddingLeft: layout.contentpadding,
       paddingRight: layout.contentpadding
     },
+    appBarFullScreen: {
+      paddingTop: beta ? layout.footerheight : 0,
+      background: palette.primary.main,
+      color: palette.common.white
+    },
     logo: {
-      height: layout.toolbarheight - 8,
-      [breakpoints.down('sm')]: {
+      paddingLeft: 8,
+      paddingRight: 16,
+      height: layout.toolbarheight - 16,
+      [breakpoints.down('xs')]: {
         display: 'none'
       },
       cursor: 'pointer'
@@ -37,118 +46,108 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     },
     toolbar: {
       background: palette.white
+    },
+    accountMenuItem: {
+      pointerEvents: 'none',
+      background: palette.primary.light,
+      color: palette.common.white
     }
   })
 );
 
+const tabs = [
+  { id: 'Find an App', icon: Icons.Search, onClick: () => alert('click'), route: '/' },
+  { id: 'Apps', icon: Icons.Apps, route: '/Apps' },
+  { id: 'Rate New App', icon: Icons.PostAdd, route: '/RateNewApp' },
+  { id: 'Framework & Questions', icon: Icons.Help, route: '/FrameworkQuestions' }
+];
+
+const AppBarTabSelector = (props) => <TabSelectorToolBar id='AppBar' tabs={tabs} {...props} />;
+
 export default function ApplicationBar() {
   const classes = useStyles();
-  const { pathname } = useLocation();
   const handleChangeRoute = useHandleChangeRoute();
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
   const [{ open: loginOpen }, setLoginState] = useDialogState(LoginDialog.title);
   const signedIn = useSignedIn();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   const handleLogout = React.useCallback(() => {
-    registerOpen && setRegisterState(prev => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
-    !loginOpen && setLoginState(prev => ({ ...prev, open: true, loading: false })); // Open the login dialog
+    registerOpen && setRegisterState((prev) => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
+    loginOpen && setLoginState((prev) => ({ ...prev, open: false, loading: false })); // Ensure login dialog is closed
     (firebase as any).logout();
-  }, [registerOpen, loginOpen, setRegisterState, setLoginState]);
+    setAnchorEl(null);
+  }, [registerOpen, loginOpen, setRegisterState, setLoginState, setAnchorEl]);
 
   const email = useSelector((s: any) => s.firebase.auth.email);
 
+  const changeRoute = useChangeRoute();
+
+  const handleTabChange = React.useCallback(
+    (value) => {
+      const { route } = tabs.find((t) => t.id === value);
+      changeRoute(publicUrl(route));
+    },
+    [changeRoute]
+  );
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const fullScreen = useFullScreen('xs');
+
   return (
-    <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={classes.appBar}>
+    <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
       <Toolbar className={classes.toolbar} disableGutters={true}>
-        <Grid container alignItems='center' spacing={1}>
+        <Grid container alignItems='center' spacing={0}>
           <Grid item>
             <img className={classes.logo} src={logo} alt='logo' onClick={handleChangeRoute(publicUrl('/'))} />
           </Grid>
-          <Grid item xs>
-            <ButtonGroup
-              variant='contained'
-              size='small'
-              color='primary'
-              aria-label='contained primary button group'
-              fullWidth={true}
-              style={{ marginBottom: 8 }}
-            >
-              <Button
-                className={pathname === publicUrl('/Home') || pathname === publicUrl('/') ? classes.active : undefined}
-                onClick={handleChangeRoute(publicUrl('/'))}
-              >
-                <Typography variant='button' noWrap>
-                  Find an App
-                </Typography>
-              </Button>
-              <Button className={pathname === publicUrl('/Apps') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Apps'))}>
-                <Typography variant='button' noWrap>
-                  Apps
-                </Typography>
-              </Button>
-              {/*<Button className={pathname === publicUrl('/Rating') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/Rating'))}>
-                <Typography variant='button' noWrap>
-                  Rating Process
-                </Typography>
-              </Button>
-              */}
-              <Button className={pathname === publicUrl('/RateNewApp') ? classes.active : undefined} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
-                <Typography variant='button' noWrap>
-                  Rate New App
-                </Typography>
-              </Button>
-              <Button
-                className={pathname === publicUrl('/FrameworkQuestions') ? classes.active : undefined}
-                onClick={handleChangeRoute(publicUrl('/FrameworkQuestions'))}
-              >
-                <Typography variant='button' noWrap>
-                  {`Framework & Questions`}
-                </Typography>
-              </Button>
-              {/*<Button className={pathname === publicUrl('/PlayGround') ? classes.active : undefined} onClick={changeRoute(publicUrl('/PlayGround'))}>
-                <Typography variant='button' noWrap>
-                  Play Ground
-                </Typography>
-              </Button>
-              */}
-            </ButtonGroup>
+          <Grid item xs style={{ minWidth: 0 }}>
+            <AppBarTabSelector onChange={handleTabChange} />
           </Grid>
-          {!signedIn ? (
-            <>
+          <Grid item>
+            <Grid container justify='flex-end' alignItems='center'>
               <Grid item>
-                <Box mb={1}>
-                  <DialogButton Module={RegisterDialog} variant='contained' size='small' margin='dense' tooltip=''>
-                    <Typography variant='button' noWrap>
-                      Sign Up
-                    </Typography>
-                  </DialogButton>
-                </Box>
+                <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu}>
+                  {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
+                </IconButton>
+                <Menu
+                  id='menu-appbar'
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{ style: { paddingTop: 0 } }}
+                >
+                  {signedIn
+                    ? [<MenuItem className={classes.accountMenuItem}>{email}</MenuItem>, <Divider />, <MenuItem onClick={handleLogout}>Logout</MenuItem>]
+                    : [
+                        { label: 'Login', Module: LoginDialog },
+                        { label: 'Signup', Module: RegisterDialog }
+                      ].map(({ label, Module }) => (
+                        <DialogButton key={label} Module={Module} onClick={handleClose} variant='menuitem' tooltip=''>
+                          {label}
+                        </DialogButton>
+                      ))}
+                </Menu>
               </Grid>
-              <Grid item>
-                <Box mb={1}>
-                  <DialogButton Module={LoginDialog} variant='contained' size='small' tooltip=''>
-                    <Typography variant='button' noWrap>
-                      Login
-                    </Typography>
-                  </DialogButton>
-                </Box>
-              </Grid>
-            </>
-          ) : (
-            <>
-              <Grid item>
-                <Box mb={1}>
-                  <Tooltip title={`Logout ${email}`}>
-                    <Button variant='contained' color='primary' size='small' onClick={handleLogout}>
-                      <Typography variant='button' noWrap>
-                        Logout
-                      </Typography>
-                    </Button>
-                  </Tooltip>
-                </Box>
-              </Grid>
-            </>
-          )}
+            </Grid>
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>

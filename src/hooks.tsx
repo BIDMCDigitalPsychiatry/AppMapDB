@@ -1,9 +1,9 @@
 import { useTheme, useMediaQuery } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
-export const useFullScreen = () => {
+export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
-  return useMediaQuery(theme.breakpoints.down('sm'));
+  return useMediaQuery(theme.breakpoints.down(size));
 };
 
 export const useSignedIn = () => {

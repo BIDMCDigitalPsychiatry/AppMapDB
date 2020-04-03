@@ -7,7 +7,7 @@ export const beta = true;
 
 export const theme = createMuiTheme({
   layout: {
-    toolbarheight: 132, //The height of the top toolbar
+    toolbarheight: 64, //The height of the top toolbar
     contentpadding: 8, //The padding around the inner layout content
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)
     tablefooterheight: 20, //The height of the table footer

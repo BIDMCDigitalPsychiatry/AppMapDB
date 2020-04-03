@@ -34,12 +34,11 @@ export default function RegisterDialog({ id = title }) {
 
   const handleAdd = React.useCallback(
     ({ email, password }) => {
-      console.log('Performing Register');
-      firebase.createUser({ email, password }, { username: email, email }).catch(error => {
-        console.log('Error with Register');
+      firebase.createUser({ email, password }, { username: email, email }).catch((error) => {
+        console.error('Error with Register');
         const { message } = error;
         const newErrors = handleValidation({ ...errors, message }, JSON.parse(dialogStateStr));
-        setState(prev => ({ ...prev, showErrors: true, loading: false, errors: newErrors }));
+        setState((prev) => ({ ...prev, showErrors: true, loading: false, errors: newErrors }));
       });
     },
     [dialogStateStr, setState, errors]
