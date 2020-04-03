@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { Link, Typography, Box, Paper, Container, Divider, Button } from '@material-ui/core';
-import { useFullScreen } from '../../hooks';
 import rateappscreenshot from '../../images/rateappscreenshot.png';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 
 export default function RateNewAppIntro() {
-  const fullScreen = useFullScreen();
   const handleChangeRoute = useHandleChangeRoute();
   return (
-    <Box m={fullScreen ? 0 : 8} p={2}>
+    <Box pt={2}>
       <Typography variant='h4' align='center'>
         {`Rate a New App`}
       </Typography>
