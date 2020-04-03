@@ -1,32 +1,33 @@
 {
   "files": {
     "main.css": "/static/css/main.34de6062.chunk.css",
-    "main.js": "/static/js/main.60860ebf.chunk.js",
-    "main.js.map": "/static/js/main.60860ebf.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.ac76caf5.js",
-    "runtime-main.js.map": "/static/js/runtime-main.ac76caf5.js.map",
-    "static/js/2.2e0634cb.chunk.js": "/static/js/2.2e0634cb.chunk.js",
-    "static/js/2.2e0634cb.chunk.js.map": "/static/js/2.2e0634cb.chunk.js.map",
-    "static/js/3.8c86d2b7.chunk.js": "/static/js/3.8c86d2b7.chunk.js",
-    "static/js/3.8c86d2b7.chunk.js.map": "/static/js/3.8c86d2b7.chunk.js.map",
-    "static/js/4.2e937eae.chunk.js": "/static/js/4.2e937eae.chunk.js",
-    "static/js/4.2e937eae.chunk.js.map": "/static/js/4.2e937eae.chunk.js.map",
+    "main.js": "/static/js/main.933f7767.chunk.js",
+    "main.js.map": "/static/js/main.933f7767.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.d6104cd3.js",
+    "runtime-main.js.map": "/static/js/runtime-main.d6104cd3.js.map",
+    "static/js/2.ee56987d.chunk.js": "/static/js/2.ee56987d.chunk.js",
+    "static/js/2.ee56987d.chunk.js.map": "/static/js/2.ee56987d.chunk.js.map",
+    "static/js/3.1e27e39a.chunk.js": "/static/js/3.1e27e39a.chunk.js",
+    "static/js/3.1e27e39a.chunk.js.map": "/static/js/3.1e27e39a.chunk.js.map",
+    "static/js/4.bb22703d.chunk.js": "/static/js/4.bb22703d.chunk.js",
+    "static/js/4.bb22703d.chunk.js.map": "/static/js/4.bb22703d.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.2999a63f0469a693106970a5697a6c62.js": "/precache-manifest.2999a63f0469a693106970a5697a6c62.js",
+    "precache-manifest.3959cb35aa6fbb87e5f0d81f5427c181.js": "/precache-manifest.3959cb35aa6fbb87e5f0d81f5427c181.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/static/css/main.34de6062.chunk.css.map",
-    "static/js/2.2e0634cb.chunk.js.LICENSE.txt": "/static/js/2.2e0634cb.chunk.js.LICENSE.txt",
+    "static/js/2.ee56987d.chunk.js.LICENSE.txt": "/static/js/2.ee56987d.chunk.js.LICENSE.txt",
     "static/media/app_model.png": "/static/media/app_model.0ae09ead.png",
     "static/media/apple_store.png": "/static/media/apple_store.f4fb2b9c.png",
     "static/media/default_app_icon.png": "/static/media/default_app_icon.0eb0fba9.png",
     "static/media/google_play_store.png": "/static/media/google_play_store.decc32d0.png",
     "static/media/logo.png": "/static/media/logo.742ee37c.png",
+    "static/media/rateappscreenshot.png": "/static/media/rateappscreenshot.4fd682c0.png",
     "static/media/web.png": "/static/media/web.f3e8e275.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.ac76caf5.js",
-    "static/js/2.2e0634cb.chunk.js",
+    "static/js/runtime-main.d6104cd3.js",
+    "static/js/2.ee56987d.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.60860ebf.chunk.js"
+    "static/js/main.933f7767.chunk.js"
   ]
 }
