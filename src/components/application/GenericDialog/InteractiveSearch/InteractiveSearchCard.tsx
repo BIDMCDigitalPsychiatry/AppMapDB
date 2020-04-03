@@ -23,14 +23,14 @@ const FieldActions = ({ handleNext, handleBack, handleSubmit, activeStep }) => {
       )}
       {activeStep !== steps.length - 1 && (
         <Grid item>
-          <Button style={{ width: buttonWidth }} color='primary' variant='outlined' onClick={handleNext}>
+          <Button style={{ width: buttonWidth }} variant='outlined' onClick={handleNext}>
             Next
             <Icons.KeyboardArrowRight />
           </Button>
         </Grid>
       )}
       <Grid item>
-        <Button style={{ width: buttonWidth }} color='primary' variant='outlined' onClick={handleSubmit}>
+        <Button style={{ width: buttonWidth }} color='primary' variant='contained' onClick={handleSubmit}>
           Search Now
           <Icons.Search style={{ marginLeft: 4 }} />
         </Button>
