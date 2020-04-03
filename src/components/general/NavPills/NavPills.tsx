@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
-import { Tab, Tabs, Grid, makeStyles, createStyles, Divider, Box } from '@material-ui/core';
+import { Tab, Tabs, Grid, makeStyles, createStyles, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
   createStyles({
