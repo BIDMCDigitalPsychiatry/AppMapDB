@@ -13,6 +13,24 @@ import { FeatureImages, PlatformImages } from '../../database/models/Application
 
 const spacing = 2;
 
+export const variableFilters = [
+  {
+    key: 'Cost',
+    availableFilters: ['Totally Free'],
+    stepKey: 'Free'
+  },
+  {
+    key: 'Privacy',
+    availableFilters: ['Has Privacy Policy', 'App Declares Data Use and Purpose'],
+    stepKey: 'YesNoPrivacy'
+  },
+  {
+    key: 'Functionalities',
+    availableFilters: ['Email or Export Your Data'],
+    stepKey: 'YesNoFunctionality'
+  }
+];
+
 export default function Home() {
   const [values, setValues] = useTableFilterValues('Applications');
 
@@ -22,38 +40,42 @@ export default function Home() {
   const width = useWidth();
 
   const handleTabChange = React.useCallback(
-    tab => {
+    (tab) => {
       if (tab === 0) {
         // If we navigate to the 0 tab, adjust the filter values since the filters cannot show all of the filters from the other step.  The other step can show all of the filters from the first step so no need to reset in that case.
-        setValues(prev => {
+        setValues((prev) => {
           const ids = steps
-            .map(s => s.fields)
+            .map((s) => s.fields)
             .reduce((t: any, c) => (t = t.concat(c)), [])
-            .map(s => s.id);
+            .map((s) => s.id);
 
           const copy = { ...prev };
 
-          const matchingKeys = Object.keys(copy).filter(key => ids.find(id => id === key));
-          const filteredValues = matchingKeys.reduce((t, c) => (t = { ...t, [c]: copy[c] }), {});
+          const matchingKeys = Object.keys(copy).filter((key) => ids.find((id) => id === key));
 
-          if (filteredValues['Cost']) {
-            filteredValues['Cost'] = filteredValues['Cost'].filter(id => id === 'Totally Free'); // Ensure totally free is the only option that is kept, other values should be disregarded
-            if (filteredValues['Cost'].find(id => id === 'Totally Free')) {
-              filteredValues['Free'] = [true];
-            } else {
-              filteredValues['Free'] = [false];
+          matchingKeys.forEach((mk) => {
+            const vfi = variableFilters.findIndex((vf) => vf.key === mk);
+            const vf = variableFilters[vfi];
+            if (copy[mk] && vfi > -1 && vf !== undefined && Array.isArray(copy[mk])) {
+              var allFound = vf.availableFilters.reduce((t, c) => (t = t === true && copy[mk].findIndex((id) => id === c) > -1), true);
+              if (allFound) {
+                copy[vf.stepKey] = [true];
+              } else {
+                copy[vf.stepKey] = [false];
+              }
+              copy[vf.key] = copy[vf.key].filter((k) => vf.availableFilters.findIndex((af) => af === k) > -1); // Remove any filters values that aren't supported by the interactive search
             }
+          });
+
+          if (copy['Features']) {
+            copy['Features'] = copy['Features'].filter((f) => FeatureImages.find((fi) => fi.value === f)); // Ensure we only keep the filters that apply
           }
 
-          if (filteredValues['Features']) {
-            filteredValues['Features'] = filteredValues['Features'].filter(f => FeatureImages.find(fi => fi.value === f)); // Ensure we only keep the filters that apply
+          if (copy['Platforms']) {
+            copy['Platforms'] = copy['Platforms'].filter((p) => PlatformImages.find((pi) => pi.value === p)); // Ensure we only keep the filters that apply
           }
 
-          if (filteredValues['Platforms']) {
-            filteredValues['Platforms'] = filteredValues['Platforms'].filter(p => PlatformImages.find(pi => pi.value === p)); // Ensure we only keep the filters that apply
-          }
-
-          return filteredValues;
+          return copy;
         });
       }
     },

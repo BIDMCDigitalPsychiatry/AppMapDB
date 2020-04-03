@@ -1,6 +1,10 @@
 import MultiSelectImage from '../../DialogField/MultiSelectImage';
 import { PlatformImages, FeatureImages } from '../../../../database/models/Application';
 import LabelCenter from '../../DialogField/LabelCenter';
+import exportdata from '../../../../images/exportdata.png';
+import noexportdata from '../../../../images/noexportdata.png';
+import lock from '../../../../images/lock.png';
+import unlock from '../../../../images/unlock.png';
 
 const steps = [
   {
@@ -57,6 +61,54 @@ const steps = [
         label: 'Features',
         Field: MultiSelectImage,
         items: FeatureImages
+      }
+    ]
+  },
+  {
+    fields: [
+      {
+        id: 'label4',
+        label: 'Would you like your app to have a privacy policy that specifies data use?',
+        Field: LabelCenter,
+        xs: 12
+      },
+      {
+        id: 'YesNoPrivacy',
+        label: null,
+        Field: MultiSelectImage,
+        replace: true,
+        items: [
+          { value: true, label: 'Yes!', image: lock },
+          { value: false, label: `No`, image: unlock }
+        ]
+      },
+      {
+        id: 'Privacy',
+        hidden: true
+      }
+    ]
+  },
+  {
+    fields: [
+      {
+        id: 'label5',
+        label: 'Do you want to be able to export and share your data?',
+        Field: LabelCenter,
+        xs: 12
+      },
+      {
+        id: 'YesNoFunctionality',
+        label: null,
+        Field: MultiSelectImage,
+        replace: true,
+        items: [
+          { value: true, label: 'Yes!', image: exportdata },
+          { value: false, label: `No`, image: noexportdata }
+        ]
+      },
+      {
+        id: 'Functionalities',
+        hidden: true
       }
     ]
   }

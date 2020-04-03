@@ -85,7 +85,7 @@ export default function GenericContent({
   const { open, type, loading, submitting } = state;
 
   const [confirmDelete, setConfirmDelete] = React.useState(false);
-  const handleConfirmDelete = React.useCallback(() => setConfirmDelete(prev => !prev), [setConfirmDelete]);
+  const handleConfirmDelete = React.useCallback(() => setConfirmDelete((prev) => !prev), [setConfirmDelete]);
 
   const classes = useStyles({ width });
 

@@ -6,6 +6,7 @@ import { useHandleChangeRoute } from '../../../layout/hooks';
 import { setMappedValue } from '../helpers';
 import * as Icons from '@material-ui/icons';
 import { Button, Grid } from '@material-ui/core';
+import { variableFilters } from '../../../pages/Home';
 
 export const title = 'Interactive Search';
 const buttonWidth = 180;
@@ -51,11 +52,23 @@ export default function InteractiveSearchCard({ id = title, onClose, setValues, 
 
   // This monitors the Free field to determine how to set the appropriate cost field
   const handleChange = React.useCallback(
-    vals => {
-      setValues(prev => {
-        const { Free = [] } = evalFunc(vals, prev);
-        const isFree = Free.findIndex(i => i === true) > -1;
-        return setMappedValue({ field: { id: 'Cost' }, value: isFree ? ['Totally Free'] : [], prev: { ...prev } });
+    (vals) => {
+      setValues((prev) => {
+        const { Free = [], YesNoPrivacy = [], YesNoFunctionality = [] } = evalFunc(vals, prev);
+        const isFree = Free.findIndex((i) => i === true) > -1;
+        const isPrivacy = YesNoPrivacy.findIndex((i) => i === true) > -1;
+        const isFunctionality = YesNoFunctionality.findIndex((i) => i === true) > -1;
+
+        const conditionalMapping = {
+          Cost: isFree,
+          Privacy: isPrivacy,
+          Functionalities: isFunctionality
+        };
+
+        return variableFilters.reduce(
+          (t, c) => (t = setMappedValue({ field: { id: c.key }, value: conditionalMapping[c.key] ? c.availableFilters : [], prev: t })),
+          { ...prev }
+        );
       });
     },
     [setValues]
