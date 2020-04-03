@@ -135,7 +135,15 @@ export default function ApplicationBar() {
                   MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
                 >
                   {signedIn
-                    ? [<MenuItem className={classes.accountMenuItem}>{email}</MenuItem>, <Divider />, <MenuItem onClick={handleLogout}>Logout</MenuItem>]
+                    ? [
+                        <MenuItem key='email' className={classes.accountMenuItem}>
+                          {email}
+                        </MenuItem>,
+                        <Divider key='divider' />,
+                        <MenuItem key='logout' onClick={handleLogout}>
+                          Logout
+                        </MenuItem>
+                      ]
                     : [
                         { label: 'Login', Module: LoginDialog },
                         { label: 'Signup', Module: RegisterDialog }
