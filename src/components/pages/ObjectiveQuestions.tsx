@@ -58,7 +58,7 @@ export default function ObjecttiveQuestions() {
         <Divider />
         <Box m={2} ml={fullScreen ? 0 : 2} mr={fullScreen ? 0 : 2}>
           <Typography variant='h5' align='center'>
-            {`The questions that inform the database provide information about an app across six different categories aligned with the levels of the APA framework.`}
+            {`The questions that inform the database are intended to be objective and reproducible. They provide information about an app across six different categories aligned with the levels of the APA framework.`}
           </Typography>
         </Box>
 
