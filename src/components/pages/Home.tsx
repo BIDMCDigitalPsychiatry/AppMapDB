@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, useTheme } from '@material-ui/core';
+import { Grid, Typography, useTheme, Box } from '@material-ui/core';
 import FilterContent from '../application/GenericContent/Filter';
 import { useTableFilterValues } from '../application/GenericTable/store';
 import { useFullScreen } from '../../hooks';
@@ -80,7 +80,6 @@ export default function Home() {
   return (
     <NavPills
       contentHeight={contentHeight}
-      contentWidth={contentWidth}
       color='primary'
       alignCenter
       active={0}

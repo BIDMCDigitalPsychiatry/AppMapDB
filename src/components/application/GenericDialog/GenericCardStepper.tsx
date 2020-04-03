@@ -253,6 +253,7 @@ const GenericStepperCard = ({
               <CardHeader
                 id={`${id}-dialog-title`}
                 title={title ? title : [type, id].join(' ')}
+                titleTypographyProps={{ noWrap: true }}
                 className={classes.dialogTitle}
                 action={
                   <Button aria-label='Reset' variant='contained' color='primary' onClick={handleReset}>

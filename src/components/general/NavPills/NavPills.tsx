@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
-import { Tab, Tabs, Grid, makeStyles, createStyles, Divider } from '@material-ui/core';
+import { Tab, Tabs, Grid, makeStyles, createStyles, Divider, Box } from '@material-ui/core';
 
 const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
   createStyles({
@@ -110,9 +110,8 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
       alignItems: 'center',
       justifyContent: 'center'
     },
-    tabContent: ({ contentHeight, contentWidth }: any) => ({
+    tabContent: ({ contentHeight }: any) => ({
       height: contentHeight,
-      width: contentWidth ? contentWidth : '100%',
       overflowX: 'hidden'
     })
   })
@@ -133,8 +132,7 @@ interface ComponentProps {
 }
 
 export default function NavPills(props: ComponentProps) {
-  const { contentHeight = 500, contentWidth, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active } = props;
-  const classes = useStyles({ contentHeight, contentWidth });
+  const { contentHeight = 500, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active } = props;
   const [state, setState] = React.useState({ active: Active });
   const handleChange = React.useCallback(
     (event, active) => {
@@ -150,6 +148,7 @@ export default function NavPills(props: ComponentProps) {
     },
     [setState]
   );
+  const classes = useStyles({ contentHeight });
 
   const flexContainerClasses = classNames({
     [classes.flexContainer]: true,

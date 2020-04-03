@@ -19,8 +19,8 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
       }
     },
     innerContent: ({ contentHeight }) => ({
-      height: contentHeight - layout.contentpadding * 2,
-      overflow: 'hidden',
+      height: contentHeight - layout.contentpadding * 2 + 1,
+      overflow: 'auto',
       padding: layout.contentpadding
     }),
     toolbar: ({ appBarHeight }: any) => ({
