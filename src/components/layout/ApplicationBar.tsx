@@ -30,7 +30,8 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     appBarFullScreen: {
       paddingTop: beta ? layout.footerheight : 0,
       background: palette.primary.main,
-      color: palette.common.white
+      color: palette.common.white,
+      paddingLeft: layout.contentpadding
     },
     logo: {
       paddingLeft: 8,
