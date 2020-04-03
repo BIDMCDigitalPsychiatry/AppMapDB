@@ -3,7 +3,7 @@ import { AndroidStoreProps } from '../../components/application/DialogField/Andr
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
 import android from '../../images/android.png';
 import apple from '../../images/apple.png';
-import moodtracking from '../../images/apple.png';
+import moodtracking from '../../images/moodtracking.png';
 import journaling from '../../images/journaling.png';
 import mindfulness from '../../images/mindfulness.png';
 import peersupport from '../../images/peersupport.png';
@@ -26,7 +26,7 @@ export const CostQuestions = [
   { value: 'Subscription', label: 'Is there a subscription (recurrent/monthly/annual)?' }
 ];
 
-export const Costs: Cost[] = CostQuestions.map(cq => cq.value as Cost);
+export const Costs: Cost[] = CostQuestions.map((cq) => cq.value as Cost);
 
 export type ClinicalFoundation =
   | 'Well Written Relevant Content'
@@ -57,7 +57,7 @@ export const ClinicalFondationQuestions = [
   { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' }
 ];
 
-export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFondationQuestions.map(cfq => cfq.value as ClinicalFoundation);
+export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFondationQuestions.map((cfq) => cfq.value as ClinicalFoundation);
 
 export type Privacy =
   | 'Has Privacy Policy'
@@ -92,7 +92,7 @@ export const PrivacyQuestions = [
   }
 ];
 
-export const Privacies: Privacy[] = PrivacyQuestions.map(pq => pq.value as Privacy);
+export const Privacies: Privacy[] = PrivacyQuestions.map((pq) => pq.value as Privacy);
 
 export type Engagement =
   | 'User Generated Data'
@@ -135,7 +135,7 @@ export const EngagementQuestions = [
   }
 ];
 
-export const Engagements: Engagement[] = EngagementQuestions.map(eq => eq.value as Engagement);
+export const Engagements: Engagement[] = EngagementQuestions.map((eq) => eq.value as Engagement);
 
 export type Functionality = 'Spanish' | 'Offline' | 'Accessibility' | 'Own Your Own Data' | 'Email or Export Your Data' | 'Send Your Data to a Medical Record';
 
@@ -156,7 +156,7 @@ export const FunctionalityQuestions = [
   }
 ];
 
-export const Functionalities: Functionality[] = FunctionalityQuestions.map(fq => fq.value as Functionality);
+export const Functionalities: Functionality[] = FunctionalityQuestions.map((fq) => fq.value as Functionality);
 
 export type Input = 'Surveys' | 'Diary' | 'Geolocation' | 'Contact List' | 'Camera' | 'Microphone' | 'Step Count' | 'External Devices' | 'Social Network';
 export const InputQuestions = [
@@ -179,7 +179,7 @@ export const InputQuestions = [
   }
 ];
 
-export const Inputs: Input[] = InputQuestions.map(iq => iq.value as Input);
+export const Inputs: Input[] = InputQuestions.map((iq) => iq.value as Input);
 
 export type Output =
   | 'Notifications'
@@ -287,7 +287,7 @@ export const FeatureImages = [
   { value: 'Psychoeducation', label: 'Psychoeducation', image: psychoeducation }
 ];
 
-export const Features = FeatureQuestions.map(fq => fq.value as Feature);
+export const Features = FeatureQuestions.map((fq) => fq.value as Feature);
 
 export type Condition = 'Mood Disorders' | 'Stress & Anxiety' | 'Sleep' | 'Phobias' | 'OCD' | 'Schizophrenia' | 'Eating Disorders' | 'Personality Disorders';
 export const Conditions: Condition[] = [
@@ -311,7 +311,7 @@ export const DeveloperTypeQuestions = [
   { value: 'Academic Institution', label: 'Does it come from an academic institution?' }
 ];
 
-export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
+export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map((dtq) => dtq.value as DeveloperType);
 
 export type Use = 'Self Help' | 'Reference' | 'Hybrid';
 
@@ -325,7 +325,7 @@ export const UseQuestions = [
   { value: 'Hybrid', label: 'Intended for hybrid use with a clinician and treatment plan?' }
 ];
 
-export const Uses = UseQuestions.map(uq => uq.value as Use);
+export const Uses = UseQuestions.map((uq) => uq.value as Use);
 
 export default interface Application extends Nano.MaybeDocument {
   name: string;
