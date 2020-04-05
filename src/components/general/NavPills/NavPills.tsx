@@ -132,7 +132,7 @@ interface ComponentProps {
 }
 
 export default function NavPills(props: ComponentProps) {
-  const { contentHeight = 500, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active } = props;
+  const { contentHeight = undefined, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active } = props;
   const [state, setState] = React.useState({ active: Active });
   const handleChange = React.useCallback(
     (event, active) => {

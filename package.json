@@ -1,6 +1,6 @@
 {
   "name": "app-map-db",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "homepage": "https://apps.digitalpsych.org",
   "dependencies": {
@@ -64,7 +64,8 @@
     "semi": true,
     "singleQuote": true,
     "jsxSingleQuote": true,
-    "bracketSpacing": true
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
   },
   "browserslist": {
     "production": [

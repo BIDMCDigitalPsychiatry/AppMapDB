@@ -160,6 +160,7 @@ const DialogButton = React.forwardRef(function DialogButton(
 ) {
   const classes = useStyles({});
   const theme = useTheme();
+  const fullScreen = useFullScreen();
   const id = Id ? Id : Module && Module.title;
   const [, setDialogState] = useDialogState(id);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -278,7 +279,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               }}
               {...shared}
             >
-              {Icon && <Icon style={{ margin: -4 }} />}
+              {Icon && <Icon style={{ margin: -4, marginLeft: fullScreen ? -4 : 0 }} />}
               {children && <div style={{ marginLeft: Icon ? 8 : 0 }}>{children}</div>}
             </Fab>
           )}

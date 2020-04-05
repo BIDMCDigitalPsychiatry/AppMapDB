@@ -9,8 +9,8 @@ export default function ViewModeButton({ mode = 'list' }) {
   const handleClick = React.useCallback(() => setViewMode(mode === 'list' ? 'table' : 'list'), [mode, setViewMode]);
   const fullScreen = useFullScreen();
   return (
-    <DialogButton Icon={mode === 'list' ? Icons.List : Icons.ViewList} tooltip={`Switch to ${mode === 'list' ? 'Table' : 'List'} View`} onClick={handleClick}>
-      {!fullScreen && 'Toggle View'}
+    <DialogButton Icon={mode === 'list' ? Icons.List : Icons.ViewList} tooltip={`Switch to ${mode === 'list' ? 'Grid' : 'List'} View`} onClick={handleClick}>
+      {!fullScreen && (mode === 'list' ? 'Grid View' : 'List View')}
     </DialogButton>
   );
 }
