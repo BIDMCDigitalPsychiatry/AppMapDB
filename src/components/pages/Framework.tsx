@@ -16,7 +16,7 @@ const ContentBox = ({ p = 2, children }) => {
 
 export default function Framework({ containerHeight }) {
   const fullScreen = useFullScreen();
-  const handleTabChange = React.useCallback((tab) => {}, []);
+  const handleTabChange = React.useCallback(tab => {}, []);
 
   return (
     <NavPills
@@ -63,8 +63,8 @@ export default function Framework({ containerHeight }) {
                     `Apps may offer incorrect or misleading information, including potentially harmful recommendations. Without stringent regulations,
                     some apps may not securely protect the personal information that they collect.`,
                     `Some apps may even sell personal data without clearly disclosing it to users.`
-                  ].map((line) => (
-                    <Grid item xs={12}>
+                  ].map((line, i) => (
+                    <Grid item key={i} xs={12}>
                       <Grid container spacing={3}>
                         <Grid item>
                           <Typography variant='h6' align='justify'>
@@ -105,8 +105,8 @@ export default function Framework({ containerHeight }) {
                     { label: 'Clinical Foundation', text: ' Is the app supported by research?' },
                     { label: 'Engagement Style', text: 'Is the app usable and customizable?' },
                     { label: 'Data Sharing Towards Therapeutic Goal', text: 'How easily can the app share data in a clinically meaningful way?' }
-                  ].map(({ label, text }) => (
-                    <Grid item xs={12}>
+                  ].map(({ label, text }, i) => (
+                    <Grid item key={i} xs={12}>
                       <Grid container spacing={3}>
                         <Grid item>
                           <Typography variant='h6' align='justify'>

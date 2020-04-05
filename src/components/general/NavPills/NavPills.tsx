@@ -42,7 +42,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
       textAlign: 'center' as any,
       transition: 'all .3s' as any,
       opacity: 1,
-      margin: spacing(2),
+      margin: spacing(1),
       padding: '0!important',
       color: 'inherit',
       lineHeight: '24px' as any,
