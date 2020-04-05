@@ -40,7 +40,7 @@ export const EditDialogButton = ({
   ...other
 }) => <DialogButton variant={variant} Icon={EditIcon} type='Edit' tooltip={tooltip} placement={placement} mount={mount} {...other} />;
 
-const StyledBadge = withStyles((theme) =>
+const StyledBadge = withStyles(theme =>
   createStyles({
     badge: {
       top: 7,
@@ -181,7 +181,7 @@ const DialogButton = React.forwardRef(function DialogButton(
   }, [onClose, setAnchorEl]);
 
   const handleClick = React.useCallback(
-    (event) => {
+    event => {
       setAnchorEl(event.currentTarget);
       onClick && onClick(event);
       handleUpdate();
@@ -196,7 +196,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     className
   };
 
-  const wrapGrid = (Content) =>
+  const wrapGrid = Content =>
     !noGrid ? (
       <Grid key={tooltip} item>
         {Content}
@@ -279,8 +279,8 @@ const DialogButton = React.forwardRef(function DialogButton(
               }}
               {...shared}
             >
-              {Icon && <Icon style={{ margin: -4, marginLeft: fullScreen ? -4 : 0 }} />}
-              {children && <div style={{ marginLeft: Icon ? 8 : 0 }}>{children}</div>}
+              {Icon && <Icon />}
+              {children && <div style={{ marginLeft: Icon ? 4 : 0, marginRight: !fullScreen ? 4 : 0 }}>{children}</div>}
             </Fab>
           )}
         </span>

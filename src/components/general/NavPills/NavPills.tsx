@@ -112,7 +112,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
     },
     tabContent: ({ contentHeight }: any) => ({
       height: contentHeight,
-      overflowX: 'hidden'
+      overflow: 'hidden'
     })
   })
 );

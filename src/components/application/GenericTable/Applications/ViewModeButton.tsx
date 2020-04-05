@@ -10,7 +10,7 @@ export default function ViewModeButton({ mode = 'list' }) {
   const fullScreen = useFullScreen();
   return (
     <DialogButton Icon={mode === 'list' ? Icons.List : Icons.ViewList} tooltip={`Switch to ${mode === 'list' ? 'Grid' : 'List'} View`} onClick={handleClick}>
-      {!fullScreen && (mode === 'list' ? 'Grid View' : 'List View')}
+      {!fullScreen && <div style={{ width: fullScreen ? undefined : 80 }}> {mode === 'list' ? 'Grid View' : 'List View'}</div>}
     </DialogButton>
   );
 }

@@ -4,6 +4,7 @@ import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useHeight } from './store';
+import { useLocation } from 'react-router';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -18,9 +19,9 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     },
-    innerContent: ({ contentHeight }) => ({
+    innerContent: ({ overflow = 'auto', contentHeight }) => ({
       height: contentHeight - layout.contentpadding * 2 + 1,
-      overflow: 'auto',
+      overflow,
       padding: layout.contentpadding
     }),
     toolbar: ({ appBarHeight }: any) => ({
@@ -30,6 +31,8 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
+const noScrollPaths = ['/Apps', '/'];
+
 export default function Layout({ children }) {
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
@@ -37,7 +40,9 @@ export default function Layout({ children }) {
   const { layout } = useTheme();
   const componentsOnPage = [appBarHeight, layout.footerheight];
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
-  const classes = useStyles({ contentHeight, appBarHeight });
+
+  const { pathname } = useLocation();
+  const classes = useStyles({ overflow: noScrollPaths.findIndex(p => p === pathname) > -1 ? 'hidden' : 'auto', contentHeight, appBarHeight });
 
   return (
     <div data-testid='app-container' className={classes.root}>

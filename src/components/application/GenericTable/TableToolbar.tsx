@@ -179,8 +179,8 @@ function TableToolbar(props: TableToolbarProps) {
           }
         >
           <Fab variant='extended' size='small' color='primary' onClick={handleOpenSearch}>
-            <Icons.Search style={{ margin: -4, marginLeft: fullScreen ? -2 : 0, marginRight: fullScreen ? -4 : 0 }} />
-            {!fullScreen && 'Search'}
+            <Icons.Search />
+            {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>Search</div>}
           </Fab>
         </Tooltip>
       </>
