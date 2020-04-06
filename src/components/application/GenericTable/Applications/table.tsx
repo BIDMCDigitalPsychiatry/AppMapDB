@@ -14,7 +14,15 @@ import Application, {
   ClinicalFondationQuestions,
   Features,
   Inputs,
-  Outputs
+  Outputs,
+  Uses,
+  PrivacyQuestions,
+  Privacies,
+  Engagements,
+  EngagementQuestions,
+  Conditions,
+  DeveloperTypes,
+  DeveloperTypeQuestions
 } from '../../../../database/models/Application';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import AppSummary from './AppSummary';
@@ -49,8 +57,13 @@ const buildRadios = (items, values, paddingRight = undefined) => (
 );
 
 const PlatformRadios = ({ platforms = [] }: Application) => buildRadios(Platforms, platforms);
+const UsesRadios = ({ uses = [] }: Application) => buildRadios(Uses, uses);
+const DeveloperTypeRadios = ({ developerTypes = [] }: Application) => buildRadios(DeveloperTypes, developerTypes);
+const ConditionRadios = ({ conditions = [] }: Application) => buildRadios(Conditions, conditions);
+const EngagementRadios = ({ engagements = [] }: Application) => buildRadios(Engagements, engagements);
 const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadios(Functionalities, functionalities);
-const ClinicalFondationQuestionsRadios = ({ clinicalFoundations = [] }: Application) => buildRadios(ClinicalFoundations, clinicalFoundations);
+const ClinicalFondationRadios = ({ clinicalFoundations = [] }: Application) => buildRadios(ClinicalFoundations, clinicalFoundations);
+const PrivacyRadios = ({ privacies = [] }: Application) => buildRadios(Privacies, privacies);
 const CostRadios = ({ costs = [] }) => buildRadios(Costs, costs);
 const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
 const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
@@ -85,18 +98,18 @@ const defaultProps: GenericTableContainerProps = {
       Cell: PlatformRadios
     },
     {
-      name: 'functionality',
-      width: 700,
+      name: 'developerType',
+      width: 350,
       header: (
         <>
           <Grid container>
             <Grid item xs={12}>
               <Grid container justify='center'>
-                Functionality
+                Developer Type
               </Grid>
             </Grid>
-            {Functionalities.map(t => {
-              var s = FunctionalityQuestions.find(fq => fq.value === t);
+            {DeveloperTypes.map(t => {
+              var s = DeveloperTypeQuestions.find(fq => fq.value === t);
               var label = s ? (s.short ? s.short : s.value) : t;
               return (
                 <Grid item xs key={label}>
@@ -107,32 +120,7 @@ const defaultProps: GenericTableContainerProps = {
           </Grid>
         </>
       ),
-      Cell: FunctionalityRadios
-    },
-    {
-      name: 'clinicalFoundations',
-      width: 700,
-      header: (
-        <>
-          <Grid container>
-            <Grid item xs={12}>
-              <Grid container justify='center'>
-                Clinical Foundations
-              </Grid>
-            </Grid>
-            {ClinicalFoundations.map(t => {
-              var s = ClinicalFondationQuestions.find(fq => fq.value === t);
-              var label = s ? (s.short ? s.short : s.value) : t;
-              return (
-                <Grid item xs key={label}>
-                  {center(label)}
-                </Grid>
-              );
-            })}
-          </Grid>
-        </>
-      ),
-      Cell: ClinicalFondationQuestionsRadios
+      Cell: DeveloperTypeRadios
     },
     {
       name: 'cost',
@@ -156,6 +144,81 @@ const defaultProps: GenericTableContainerProps = {
       Cell: CostRadios
     },
     {
+      name: 'functionality',
+      width: 490,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Access
+              </Grid>
+            </Grid>
+            {Functionalities.map(t => {
+              var s = FunctionalityQuestions.find(fq => fq.value === t);
+              var label = s ? (s.short ? s.short : s.value) : t;
+              return (
+                <Grid item xs key={label}>
+                  {center(label)}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </>
+      ),
+      Cell: FunctionalityRadios
+    },
+    {
+      name: 'privacies',
+      width: 1800,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Privacies
+              </Grid>
+            </Grid>
+            {Privacies.map(t => {
+              var s = PrivacyQuestions.find(fq => fq.value === t);
+              var label = s ? (s.short ? s.short : s.value) : t;
+              return (
+                <Grid item xs key={label}>
+                  {center(label)}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </>
+      ),
+      Cell: PrivacyRadios
+    },
+    {
+      name: 'clinicalFoundations',
+      width: 650,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Clinical Foundations
+              </Grid>
+            </Grid>
+            {ClinicalFoundations.map(t => {
+              var s = ClinicalFondationQuestions.find(fq => fq.value === t);
+              var label = s ? (s.short ? s.short : s.value) : t;
+              return (
+                <Grid item xs key={label}>
+                  {center(label)}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </>
+      ),
+      Cell: ClinicalFondationRadios
+    },
+    {
       name: 'features',
       width: 3500,
       header: (
@@ -175,6 +238,52 @@ const defaultProps: GenericTableContainerProps = {
         </>
       ),
       Cell: FeaturesRadios
+    },
+    {
+      name: 'conditions',
+      width: 850,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Supported Conditions
+              </Grid>
+            </Grid>
+            {Conditions.map(t => (
+              <Grid item xs key={t}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: ConditionRadios
+    },
+    {
+      name: 'engagments',
+      width: 1500,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Engagements
+              </Grid>
+            </Grid>
+            {Engagements.map(t => {
+              var s = EngagementQuestions.find(fq => fq.value === t);
+              var label = s ? (s.short ? s.short : s.value) : t;
+              return (
+                <Grid item xs key={label}>
+                  {center(label)}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </>
+      ),
+      Cell: EngagementRadios
     },
     {
       name: 'inputs',
@@ -217,6 +326,27 @@ const defaultProps: GenericTableContainerProps = {
         </>
       ),
       Cell: OutputRadios
+    },
+    {
+      name: 'uses',
+      width: 200,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Uses
+              </Grid>
+            </Grid>
+            {Uses.map(t => (
+              <Grid item xs key={t}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: UsesRadios
     }
   ],
   toolbar: true,

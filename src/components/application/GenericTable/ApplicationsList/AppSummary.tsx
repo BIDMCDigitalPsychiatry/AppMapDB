@@ -5,7 +5,7 @@ import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 import { onlyUnique, getDayTimeFromTimestamp } from '../../../../helpers';
-import { purple, green, blue, pink, cyan, indigo, yellow, deepOrange } from '@material-ui/core/colors';
+import { purple, green, blue, pink, cyan, indigo, yellow, deepOrange, lime } from '@material-ui/core/colors';
 import DialogButton from '../../GenericDialog/DialogButton';
 
 interface AppSummaryProps {
@@ -67,6 +67,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     features = [],
     functionalities = [],
     conditions = [],
+    engagements = [],
     clinicalFoundations = [],
     developerTypes = [],
     inputs = [],
@@ -117,6 +118,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     { label: 'Clinical Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
     { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
     { label: 'Conditions Supported', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
+    { label: 'Engagements', values: engagements.filter(onlyUnique), color: lime[colorLevel] },
     { label: 'Inputs', values: inputs.filter(onlyUnique), color: yellow[colorLevel] },
     { label: 'Outputs', values: outputs.filter(onlyUnique), color: deepOrange[400] },
     { label: 'Uses', values: uses.filter(onlyUnique), color: cyan[colorLevel] }
@@ -227,7 +229,15 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                 </Grid>
               </Grid>
             ))}
-            <DialogButton style={{ marginLeft: -4, marginTop: 8 }} variant='link' color='primary' size='small' tooltip='' underline={true} onClick={handleToggleExpand}>
+            <DialogButton
+              style={{ marginLeft: -4, marginTop: 8 }}
+              variant='link'
+              color='primary'
+              size='small'
+              tooltip=''
+              underline={true}
+              onClick={handleToggleExpand}
+            >
               {`${expand ? 'Hide' : `Show  ${categories.length - filtered.length}`} More`}
             </DialogButton>
           </Grid>

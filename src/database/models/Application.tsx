@@ -75,19 +75,20 @@ export type Privacy =
   | 'Has Crisis Management Feature';
 
 export const PrivacyQuestions = [
-  { value: 'Has Privacy Policy', label: 'Is there a privacy policy?' },
-  { value: 'Data Stored on Device', label: 'Is the data stored only on the device?' },
-  { value: 'Data Stored on Server', label: 'Is the data stored on a server?' },
-  { value: 'Can Delete Data', label: 'Can you delete your data?' },
-  { value: 'App Declares Data Use and Purpose', label: 'Does the app declare data use and purpose?' },
-  { value: 'App Reports Security Measures in Place', label: 'Does the app report security measures in place?' },
-  { value: 'Is PHI Shared', label: 'Is PHI shared?' },
-  { value: 'Is De-Identified Data Shared', label: 'Is de-identified data shared?' },
-  { value: 'Is Anonymized/Aggregate Data Shared', label: 'Is anonymized/aggregate data shared?' },
-  { value: 'Can Opt Out of Data Collection', label: 'Can you opt out of data colleciton?' },
+  { value: 'Has Privacy Policy', short: 'Has Policy', label: 'Is there a privacy policy?' },
+  { value: 'Data Stored on Device', short: 'Device Storage', label: 'Is the data stored only on the device?' },
+  { value: 'Data Stored on Server', short: 'Server Storage', label: 'Is the data stored on a server?' },
+  { value: 'Can Delete Data', short: 'Can Delete Data', label: 'Can you delete your data?' },
+  { value: 'App Declares Data Use and Purpose', short: 'Declares Purpose', label: 'Does the app declare data use and purpose?' },
+  { value: 'App Reports Security Measures in Place', short: 'Security Measures', label: 'Does the app report security measures in place?' },
+  { value: 'Is PHI Shared', label: 'Is PHI shared?', short: 'PHI Shared' },
+  { value: 'Is De-Identified Data Shared', short: 'De-Indentifed Data Shared', label: 'Is de-identified data shared?' },
+  { value: 'Is Anonymized/Aggregate Data Shared', short: 'Anonymized Data Shared', label: 'Is anonymized/aggregate data shared?' },
+  { value: 'Can Opt Out of Data Collection', short: 'Data Collection Opt Out', label: 'Can you opt out of data colleciton?' },
   { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?' },
   {
     value: 'Has Crisis Management Feature',
+    short: 'Crisis Management Feature',
     label: 'Does the app have a crisis management feature?',
     tooltip: 'An app’s emergency response or crisis management feature is often detailed in the privacy policy.'
   }
@@ -119,7 +120,7 @@ export const EngagementQuestions = [
     label: 'Asynchronous response?',
     tooltip: 'There are no immediate responses to chats. Responses come at predetermined intervals (once a day; every four hours; etc)'
   },
-  { value: 'Gamification (Points/Badges)', label: 'Gamification (points, badges)?' },
+  { value: 'Gamification (Points/Badges)', short: 'Gamification', label: 'Gamification (points, badges)?' },
   { value: 'Videos', label: 'Videos?' },
   { value: 'Audio/Music/Scripts', label: 'Audio/music/scripts?' },
   { value: 'AI Support', label: 'AI support', tooltip: 'Interaction is not with a real person but with a but.' },
@@ -131,6 +132,7 @@ export const EngagementQuestions = [
   { value: 'Network Support', label: 'Network support?', tooltip: 'Network is defined as someone (like family or friend) who is actually known.' },
   {
     value: 'Collaborative With Provider/Other',
+    short: 'Collaboration',
     label: 'Collaborative with provider/other?',
     tooltip: 'Does it allow for direct collaboration with a provider or clinician? Beyond just being able to share your data'
   }
@@ -149,10 +151,10 @@ export const FunctionalityQuestions = [
     tooltip: 'Does the app have adjustible text size or text to voice features?'
   },
   { value: 'Own Your Own Data', short: 'Own Data', label: 'Do you own your own data?' },
-  { value: 'Email or Export Your Data', short: 'Email/Export Data', label: 'Can you email or export your data?' },
+  { value: 'Email or Export Your Data', short: 'Export Data', label: 'Can you email or export your data?' },
   {
     value: 'Send Your Data to a Medical Record',
-    short: 'Send Medical Record',
+    short: 'Send Record',
     label: 'Can you send your data to a medical record?',
     tooltip: 'Does the app sync with EMR? Most apps are not currently equipped with connections to medical record.'
   }
@@ -307,10 +309,10 @@ export type DeveloperType = 'Government' | 'For Profit Company' | 'Non-Profit Co
 
 export const DeveloperTypeQuestions = [
   { value: 'Government', label: 'Does it come from the government?' },
-  { value: 'For Profit Company', label: 'Does it come from a for-profit company?' },
-  { value: 'Non-Profit Company', label: 'Does it come from a non-profit company?' },
-  { value: 'Healthcare Company', label: 'Does it come from a trusted healthcare company?' },
-  { value: 'Academic Institution', label: 'Does it come from an academic institution?' }
+  { value: 'For Profit Company', short: 'For Profit', label: 'Does it come from a for-profit company?' },
+  { value: 'Non-Profit Company', short: 'Non-Profit', label: 'Does it come from a non-profit company?' },
+  { value: 'Healthcare Company', short: 'Healthcare', label: 'Does it come from a trusted healthcare company?' },
+  { value: 'Academic Institution', short: 'Academic', label: 'Does it come from an academic institution?' }
 ];
 
 export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
