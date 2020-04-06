@@ -3,9 +3,11 @@ import { Link, Typography, Box, Paper, Container, Divider, Button } from '@mater
 import rateappscreenshot from '../../images/rateappscreenshot.png';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
+import { useSignedIn } from '../../hooks';
 
 export default function RateNewAppIntro() {
   const handleChangeRoute = useHandleChangeRoute();
+  const signedIn = useSignedIn();
   return (
     <Box pt={2}>
       <Typography variant='h4' align='center'>
@@ -24,7 +26,7 @@ export default function RateNewAppIntro() {
       </Box>
       <Box mt={3} mb={3}>
         <Typography align='center'>
-          <Button size='large' color='primary' variant='contained' onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
+          <Button disabled={!signedIn} size='large' color='primary' variant='contained' onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
             Begin Rating
           </Button>
         </Typography>

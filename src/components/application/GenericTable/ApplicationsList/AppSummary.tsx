@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { Grid, Box, Typography, Link, Chip, makeStyles, Theme, createStyles } from '@material-ui/core';
-import Application from '../../../../database/models/Application';
+import Application, { DeveloperTypeQuestions } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
@@ -128,6 +128,10 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     row => expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
   );
 
+  const shortDeveloperTypes = developerTypes.map(dt => {
+    const dtq = DeveloperTypeQuestions.find(dtq => dtq.value === dt);
+    return dtq ? (dtq.short ? dtq.short : dtq.value) : dt;
+  });
   return (
     <OutlinedDiv>
       <Box pt={1} pb={1}>
@@ -165,14 +169,14 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                   </Grid>
                   <Grid item xs={12}>
                     <Typography noWrap color='textSecondary' variant='caption'>
-                      {developerTypes.length === 0 ? (
+                      {shortDeveloperTypes.length === 0 ? (
                         'Unknown Developer Type'
-                      ) : developerTypes.length > 3 ? (
+                      ) : shortDeveloperTypes.length > 4 ? (
                         <DialogButton variant='link' size='small' Icon={null} tooltip={developerTypes.join(' | ')}>
                           Multiple Developer Types
                         </DialogButton>
                       ) : (
-                        developerTypes.join(' | ')
+                        shortDeveloperTypes.join(' | ')
                       )}
                     </Typography>
                   </Grid>

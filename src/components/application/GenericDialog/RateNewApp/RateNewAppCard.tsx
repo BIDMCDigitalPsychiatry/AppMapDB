@@ -7,6 +7,7 @@ import { uuid, publicUrl } from '../../../../helpers';
 import GenericStepperCard from '../GenericCardStepper';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
+import { useSelector } from 'react-redux';
 
 export const title = 'Rate an App';
 
@@ -25,6 +26,9 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
   const processData = useProcessData();
   const changeRoute = useChangeRoute();
 
+  const email = useSelector((s: any) => s.firebase.auth.email);
+  const uid = useSelector((s: any) => s.firebase.auth.uid);
+
   const handleProcessData = (values, Action, handleReset = undefined) => {
     const application: Application = values[tables.applications];
     const timestamp = new Date().getTime();
@@ -41,7 +45,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
     processData({
       Model: tables.applications,
       Action,
-      Data: application,
+      Data: { ...application, email, uid },
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
       onSuccess: () => {
         handleReset && handleReset();

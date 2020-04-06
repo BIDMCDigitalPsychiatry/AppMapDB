@@ -75,6 +75,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
 
           return {
             _id: app._id,
+            parent: app.parent,
             ...appSearchable,
             getSearchValues: () => {
               return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
@@ -83,6 +84,9 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
           };
         })
     : [];
+
+  // Filter any entries that have a child, this ensures only the most recent revision is shown
+  data = data.filter(d => !data.find(i => i.parent !== undefined && i.parent._id === d._id));
 
   const { filters = {} } = state.table[name] || {};
   const {
