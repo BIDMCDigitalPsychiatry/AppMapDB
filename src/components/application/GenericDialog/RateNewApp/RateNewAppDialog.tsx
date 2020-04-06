@@ -54,24 +54,11 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
   const handleSubmit = (values, handleReset) => {
     handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset);
   };
-  const handleDelete = values => handleProcessData(values, 'd');
 
   const handleClose = React.useCallback(() => {
     setDialogState(prev => ({ ...prev, open: false, submitting: false, errors: {} }));
     onClose && onClose();
   }, [setDialogState, onClose]);
 
-  return (
-    <GenericStepperDialog
-      id={id}
-      maxWidth='lg'
-      submitLabel='Save'
-      title={title}
-      onSubmit={handleSubmit}
-      onDelete={handleDelete}
-      steps={_steps}
-      onClose={onClose}
-      timeout={0}
-    />
-  );
+  return <GenericStepperDialog id={id} maxWidth='lg' submitLabel='Save' title={title} onSubmit={handleSubmit} steps={_steps} onClose={onClose} timeout={0} />;
 }
