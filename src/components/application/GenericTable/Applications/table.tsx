@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
-import Application, { Costs, Platforms, Functionalities, FunctionalityQuestions, Features } from '../../../../database/models/Application';
+import Application, { Costs, Platforms, Functionalities, FunctionalityQuestions, Features, Inputs, Outputs } from '../../../../database/models/Application';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
@@ -42,6 +42,8 @@ const PlatformRadios = ({ platforms = [] }: Application) => buildRadios(Platform
 const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadios(Functionalities, functionalities);
 const CostRadios = ({ costs = [] }) => buildRadios(Costs, costs);
 const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
+const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
+const OutputRadios = ({ outputs = [] }: Application) => buildRadios(Outputs, outputs);
 
 const defaultProps: GenericTableContainerProps = {
   name,
@@ -137,6 +139,48 @@ const defaultProps: GenericTableContainerProps = {
         </>
       ),
       Cell: FeaturesRadios
+    },
+    {
+      name: 'inputs',
+      width: 850,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Inputs
+              </Grid>
+            </Grid>
+            {Inputs.map(t => (
+              <Grid item xs key={t}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: InputRadios
+    },
+    {
+      name: 'outputs',
+      width: 1000,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Outputs
+              </Grid>
+            </Grid>
+            {Outputs.map(t => (
+              <Grid item xs key={t}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: OutputRadios
     }
   ],
   toolbar: true,
