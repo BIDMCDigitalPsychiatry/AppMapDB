@@ -39,9 +39,10 @@ export type ClinicalFoundation =
 export const ClinicalFondationQuestions = [
   {
     value: 'Well Written Relevant Content',
+    short: 'Well Written',
     label: 'Is the app content well-written, correct, and relevant?'
   },
-  { value: 'Does What it Claims', label: 'Does the app appear to do what it claims to do?' },
+  { value: 'Does What it Claims', short: 'Does as Claims', label: 'Does the app appear to do what it claims to do?' },
   {
     value: 'Patient Facing',
     label: 'Is the app patient facing?',

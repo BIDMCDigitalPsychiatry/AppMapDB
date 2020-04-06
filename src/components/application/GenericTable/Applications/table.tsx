@@ -5,7 +5,17 @@ import { Grid } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
-import Application, { Costs, Platforms, Functionalities, FunctionalityQuestions, Features, Inputs, Outputs } from '../../../../database/models/Application';
+import Application, {
+  Costs,
+  Platforms,
+  Functionalities,
+  FunctionalityQuestions,
+  ClinicalFoundations,
+  ClinicalFondationQuestions,
+  Features,
+  Inputs,
+  Outputs
+} from '../../../../database/models/Application';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
@@ -40,6 +50,7 @@ const buildRadios = (items, values, paddingRight = undefined) => (
 
 const PlatformRadios = ({ platforms = [] }: Application) => buildRadios(Platforms, platforms);
 const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadios(Functionalities, functionalities);
+const ClinicalFondationQuestionsRadios = ({ clinicalFoundations = [] }: Application) => buildRadios(ClinicalFoundations, clinicalFoundations);
 const CostRadios = ({ costs = [] }) => buildRadios(Costs, costs);
 const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
 const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
@@ -97,6 +108,31 @@ const defaultProps: GenericTableContainerProps = {
         </>
       ),
       Cell: FunctionalityRadios
+    },
+    {
+      name: 'clinicalFoundations',
+      width: 700,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justify='center'>
+                Clinical Foundations
+              </Grid>
+            </Grid>
+            {ClinicalFoundations.map(t => {
+              var s = ClinicalFondationQuestions.find(fq => fq.value === t);
+              var label = s ? (s.short ? s.short : s.value) : t;
+              return (
+                <Grid item xs key={label}>
+                  {center(label)}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </>
+      ),
+      Cell: ClinicalFondationQuestionsRadios
     },
     {
       name: 'cost',
