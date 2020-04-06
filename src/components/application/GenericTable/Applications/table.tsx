@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
-import Application, { Costs, Platforms, Functionalities as AllFunctionalities, Features as AllFeatures } from '../../../../database/models/Application';
+import Application, { Costs, Platforms, Functionalities, FunctionalityQuestions, Features } from '../../../../database/models/Application';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
@@ -16,9 +16,6 @@ import { useSignedIn } from '../../../../hooks';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
-
-export const Features = AllFeatures.filter((f, i) => i < 9);
-export const Functionalities = AllFunctionalities.filter((f, i) => f === 'Offline' || f === 'Accessibility');
 
 export const CenterRadio = ({ checked = false }) => {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;
@@ -76,7 +73,7 @@ const defaultProps: GenericTableContainerProps = {
     },
     {
       name: 'functionality',
-      width: 140,
+      width: 700,
       header: (
         <>
           <Grid container>
@@ -85,11 +82,15 @@ const defaultProps: GenericTableContainerProps = {
                 Functionality
               </Grid>
             </Grid>
-            {Functionalities.map(t => (
-              <Grid item xs key={t}>
-                {center(t)}
-              </Grid>
-            ))}
+            {Functionalities.map(t => {
+              var s = FunctionalityQuestions.find(fq => fq.value === t);
+              var label = s ? (s.short ? s.short : s.value) : t;
+              return (
+                <Grid item xs key={label}>
+                  {center(label)}
+                </Grid>
+              );
+            })}
           </Grid>
         </>
       ),
@@ -118,7 +119,7 @@ const defaultProps: GenericTableContainerProps = {
     },
     {
       name: 'features',
-      width: 960,
+      width: 3500,
       header: (
         <>
           <Grid container style={{ paddingRight: 16 }}>
