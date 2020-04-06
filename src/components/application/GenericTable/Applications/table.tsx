@@ -12,6 +12,7 @@ import RatingsColumn from './RatingsColumn';
 import ViewModeButton from './ViewModeButton';
 import { Typography } from '@material-ui/core';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
+import { useSignedIn } from '../../../../hooks';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -144,4 +145,9 @@ const defaultProps: GenericTableContainerProps = {
   buttons: [<ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
 };
 
-export const Applications = props => <GenericTableContainer {...defaultProps} showScroll={true} {...props} />;
+export const Applications = props => {
+  var { columns = [] } = defaultProps;
+  const signedIn = useSignedIn();
+  columns = signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating');
+  return <GenericTableContainer {...defaultProps} columns={columns} showScroll={true} {...props} />;
+};

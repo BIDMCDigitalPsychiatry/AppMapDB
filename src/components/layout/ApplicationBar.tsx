@@ -58,7 +58,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 const tabs = [
   { id: 'Find an App', icon: Icons.Search, onClick: () => alert('click'), route: '/' },
   { id: 'Apps', icon: Icons.Apps, route: '/Apps' },
-  { id: 'Rate New App', icon: Icons.PostAdd, route: '/RateNewAppIntro' },
+  { id: 'Rate an App', icon: Icons.PostAdd, route: '/RateNewAppIntro' },
   { id: 'Framework & Questions', icon: Icons.Help, route: '/FrameworkQuestions' }
 ];
 

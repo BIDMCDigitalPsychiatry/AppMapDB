@@ -8,7 +8,7 @@ import GenericStepperCard from '../GenericCardStepper';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 
-export const title = 'Rate New App';
+export const title = 'Rate an App';
 
 export interface ComponentProps {
   id?: string;
