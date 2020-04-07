@@ -5,6 +5,7 @@ import * as FrameworkDialog from '../application/GenericDialog/Framework';
 import * as ObjectiveQuestionsDialog from '../application/GenericDialog/ObjectiveQuestions';
 import { useFullScreen } from '../../hooks';
 import marked from 'marked';
+import DOMPurify from 'dompurify';
 
 const contentPatth = require('../../content/FrameworkQuestions.md');
 
@@ -38,7 +39,7 @@ export default function FrameworkQuestions() {
       })
       .then(text => {
         setState({
-          markdown: marked(text)
+          markdown: DOMPurify.sanitize(marked(text))
         });
       });
   }, [setState]);

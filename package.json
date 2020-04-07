@@ -41,7 +41,8 @@
     "nano": "8.1.0",
     "axios": "0.19.2",
     "react-swipeable-views": "0.13.9",
-    "marked": "0.8.2"
+    "marked": "0.8.2",
+    "dompurify": "2.0.8"
   },
   "devDependencies": {
     "fs-extra": "9.0.0"
