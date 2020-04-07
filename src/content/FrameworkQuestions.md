@@ -35,9 +35,17 @@ Alternatively,
 
 ---
 
+External image
 <img src= "https://media.vanityfair.com/photos/5dd70131e78810000883f587/7:3/w_1953,h_837,c_limit/baby-yoda-craze.jpg" width="400px"/>
 
 ---
+
+Image from this projects /public directory.  If you add an image to the /public directory, it will be available via the apps.digitalpsych.org domain
+
+<img src= "https://apps.digitalpsych.org/apple_test.png" />
+
+---
+
 
 Video link in markup
 
