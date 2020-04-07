@@ -5,7 +5,7 @@ import { useFullScreen } from '../../hooks';
 import NavPills from '../general/NavPills/NavPills';
 import * as Icons from '@material-ui/icons';
 
-const ContentBox = ({ p = 2, children }) => {
+export const ContentBox = ({ p = 2, children }) => {
   const fullScreen = useFullScreen();
   return (
     <Box pl={fullScreen ? 0 : p} pr={fullScreen ? 0 : p} pt={fullScreen ? 2 : 4}>
