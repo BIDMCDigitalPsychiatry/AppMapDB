@@ -35,7 +35,25 @@ Alternatively,
 
 ---
 
-![Test Baby Yoda Image](https://media.vanityfair.com/photos/5dd70131e78810000883f587/7:3/w_1953,h_837,c_limit/baby-yoda-craze.jpg)
+<img src= "https://media.vanityfair.com/photos/5dd70131e78810000883f587/7:3/w_1953,h_837,c_limit/baby-yoda-craze.jpg" width="400px"/>
+
+---
+
+Video link in markup
+
+[![Audi R8](http://img.youtube.com/vi/KOxbO0EI4MA/0.jpg)](https://www.youtube.com/watch?v=KOxbO0EI4MA "Audi R8")
+
+---
+
+Video link in markup (new window)
+
+<a href="https://www.youtube.com/watch?v=KOxbO0EI4MA" target="_blank">[![Audi R8](http://img.youtube.com/vi/KOxbO0EI4MA/0.jpg)]</a>
+
+---
+
+Manual link
+
+<a href="https://www.youtube.com/watch?v=KOxbO0EI4MA" target="_blank">Hello, world!</a>
 
 ---
 
