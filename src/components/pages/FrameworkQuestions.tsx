@@ -127,8 +127,11 @@ export default function FrameworkQuestions() {
       <ContentBox>
         <Typography variant='h6' align='justify'>
           So how DO you choose an app? The best way is to start by identifying user priorities: how do they want to engage with the app? What features do they
-          desire? Is there a particular standard of privacy they seek? Recognizing that app choice is a personal decision based on many individual factors, the
-          goal of this database is to equip users with the information necessary to make a decision based on the app characteristics that matter most to them.
+          desire? Is there a particular standard of privacy they seek? Recognizing that app choice is a personal decision based on many individual factors,{' '}
+          <div style={{ display: 'inline', fontWeight: 'bold' }}>
+            the goal of this database is to equip users with the information necessary to make a decision based on the app characteristics that matter most to
+            them.
+          </div>{' '}
           Each app’s entry in the database is informed by 105 objective questions based on the{' '}
           <Link href='https://www.psychiatry.org/psychiatrists/practice/mental-health-apps/app-evaluation-model' target='_blank'>
             American Psychiatric Association’s App Evaluation Model
