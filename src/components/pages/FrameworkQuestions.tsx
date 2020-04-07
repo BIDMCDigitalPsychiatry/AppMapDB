@@ -45,7 +45,9 @@ export default function FrameworkQuestions() {
 
   return (
     <section>
-      <article dangerouslySetInnerHTML={{ __html: state.markdown }}></article>
+      <Container>
+        <article dangerouslySetInnerHTML={{ __html: state.markdown }}></article>
+      </Container>
       <Container style={{ maxWidth: 800 }}>
         <Grid container alignItems='center' justify='center' spacing={2}>
           <Grid container item xs={6} style={{ minWidth: 300 }} justify='center'>
