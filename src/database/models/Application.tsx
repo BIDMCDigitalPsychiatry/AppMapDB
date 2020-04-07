@@ -42,7 +42,12 @@ export const ClinicalFondationQuestions = [
     short: 'Well Written',
     label: 'Is the app content well-written, correct, and relevant?'
   },
-  { value: 'Does What it Claims', short: 'Does as Claims', label: 'Does the app appear to do what it claims to do?' },
+  {
+    value: 'Does What it Claims',
+    short: 'Does as Claims',
+    label: 'Does the app appear to do what it claims to do?',
+    tooltip: 'If the app claims to offer CBT, for example, is there evidence that CBT is provided on the app?'
+  },
   {
     value: 'Patient Facing',
     label: 'Is the app patient facing?',
@@ -76,15 +81,52 @@ export type Privacy =
 
 export const PrivacyQuestions = [
   { value: 'Has Privacy Policy', short: 'Has Policy', label: 'Is there a privacy policy?' },
-  { value: 'Data Stored on Device', short: 'Device Storage', label: 'Is the data stored only on the device?' },
-  { value: 'Data Stored on Server', short: 'Server Storage', label: 'Is the data stored on a server?' },
-  { value: 'Can Delete Data', short: 'Can Delete Data', label: 'Can you delete your data?' },
+  {
+    value: 'Data Stored on Device',
+    short: 'Device Storage',
+    label: 'Is the data stored only on the device?',
+    tooltip: 'User data is either stored locally (exclusively on the device) or on a server.'
+  },
+  {
+    value: 'Data Stored on Server',
+    short: 'Server Storage',
+    label: 'Is the data stored on a server?',
+    tooltip: 'If the data is stored only on the device, then it won’t be stored on a server.'
+  },
+  {
+    value: 'Can Delete Data',
+    short: 'Can Delete Data',
+    label: 'Can you delete your data?',
+    tooltip: 'Can user data be deleted? Some apps may retain data permanently even if the user deletes the app.'
+  },
   { value: 'App Declares Data Use and Purpose', short: 'Declares Purpose', label: 'Does the app declare data use and purpose?' },
   { value: 'App Reports Security Measures in Place', short: 'Security Measures', label: 'Does the app report security measures in place?' },
-  { value: 'Is PHI Shared', label: 'Is PHI shared?', short: 'PHI Shared' },
-  { value: 'Is De-Identified Data Shared', short: 'De-Indentifed Data Shared', label: 'Is de-identified data shared?' },
-  { value: 'Is Anonymized/Aggregate Data Shared', short: 'Anonymized Data Shared', label: 'Is anonymized/aggregate data shared?' },
-  { value: 'Can Opt Out of Data Collection', short: 'Data Collection Opt Out', label: 'Can you opt out of data colleciton?' },
+  {
+    value: 'Is PHI Shared',
+    label: 'Is PHI shared?',
+    short: 'PHI Shared',
+    tooltip:
+      'PHI refers to personal health information that is entered into the app (name, birthday, content of messages, mental health information). Data is shared if it leaves the app in any way.'
+  },
+  {
+    value: 'Is De-Identified Data Shared',
+    short: 'De-Indentifed Data Shared',
+    label: 'Is de-identified data shared?',
+    tooltip:
+      'De-identified data is information that has been stripped of personally identifiable attributes (Names and identifiers have been stripped, but the individual information remains)'
+  },
+  {
+    value: 'Is Anonymized/Aggregate Data Shared',
+    short: 'Anonymized Data Shared',
+    label: 'Is anonymized/aggregate data shared?',
+    tooltip: 'Anonymized data can no longer be associated with an individual in any manner.'
+  },
+  {
+    value: 'Can Opt Out of Data Collection',
+    short: 'Data Collection Opt Out',
+    label: 'Can you opt out of data colleciton?',
+    tooltip: 'Is there a way for a user to indicate that they don’t want to app to collect or share their data?'
+  },
   { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?' },
   {
     value: 'Has Crisis Management Feature',
@@ -120,9 +162,18 @@ export const EngagementQuestions = [
     label: 'Asynchronous response?',
     tooltip: 'There are no immediate responses to chats. Responses come at predetermined intervals (once a day; every four hours; etc)'
   },
-  { value: 'Gamification (Points/Badges)', short: 'Gamification', label: 'Gamification (points, badges)?' },
+  {
+    value: 'Gamification (Points/Badges)',
+    short: 'Gamification',
+    label: 'Gamification (points, badges)?',
+    tooltip: 'User can win points and prizes for engaging with the app.'
+  },
   { value: 'Videos', label: 'Videos?' },
-  { value: 'Audio/Music/Scripts', label: 'Audio/music/scripts?' },
+  {
+    value: 'Audio/Music/Scripts',
+    label: 'Audio/music/scripts?',
+    tooltip: 'Does the app provide music or audio experiences? Some meditation apps, for example, utilize audio.'
+  },
   { value: 'AI Support', label: 'AI support', tooltip: 'Interaction is not with a real person but with a but.' },
   {
     value: 'Peer Support',
@@ -147,11 +198,22 @@ export const FunctionalityQuestions = [
   { value: 'Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
   {
     value: 'Accessibility',
-    label: 'Does the app work with accessibility features?',
-    tooltip: 'Does the app have adjustible text size or text to voice features?'
+    label: 'Does it have at least one accessibility feature?',
+    tooltip:
+      'Does the app work with the adjustable text size setting of the phone? Or text to voice features? Does the app have an internal setting for increasing text size?'
   },
-  { value: 'Own Your Own Data', short: 'Own Data', label: 'Do you own your own data?' },
-  { value: 'Email or Export Your Data', short: 'Export Data', label: 'Can you email or export your data?' },
+  {
+    value: 'Own Your Own Data',
+    short: 'Own Data',
+    label: 'Do you own your own data?',
+    tooltip: 'This can be found in the privacy policy of the app but is relevant for data sharing capacity. Can a user see and access their data from the app?'
+  },
+  {
+    value: 'Email or Export Your Data',
+    short: 'Export Data',
+    label: 'Can you email or export your data?',
+    tooltip: 'Can data be downloaded or exported, or emailed straight from the app?'
+  },
   {
     value: 'Send Your Data to a Medical Record',
     short: 'Send Record',
@@ -164,10 +226,10 @@ export const Functionalities: Functionality[] = FunctionalityQuestions.map(fq =>
 
 export type Input = 'Surveys' | 'Diary' | 'Geolocation' | 'Contact List' | 'Camera' | 'Microphone' | 'Step Count' | 'External Devices' | 'Social Network';
 export const InputQuestions = [
-  { value: 'Surveys', label: 'Surveys?' },
-  { value: 'Diary', label: 'Diary?' },
-  { value: 'Geolocation', label: 'Geolocation?' },
-  { value: 'Contact List', label: 'Contact List?' },
+  { value: 'Surveys', label: 'Surveys?', tooltip: 'Does the app enable a user to enter surveys such as mood or symptom surveys?' },
+  { value: 'Diary', label: 'Diary?', tooltip: 'Does the app have a journaling, diary, or free writing feature?' },
+  { value: 'Geolocation', label: 'Geolocation?', tooltip: 'Does the app enable location services from the phone?' },
+  { value: 'Contact List', label: 'Contact List?', tooltip: 'Can a user connect their contact list to the app?' },
   {
     value: 'Camera',
     label: 'Camera?',
@@ -175,7 +237,11 @@ export const InputQuestions = [
   },
   { value: 'Microphone', label: 'Microphone?' },
   { value: 'Step Count', label: 'Step Count?', tooltip: 'Does the app utilize step tracking?' },
-  { value: 'External Devices', label: 'External Devices' },
+  {
+    value: 'External Devices',
+    label: 'External Devices',
+    tooltip: `Does the app connect with an external device such as a smart watch or heart rate monitor?`
+  },
   {
     value: 'Social Network',
     label: 'Social Network?',
@@ -195,17 +261,30 @@ export type Output =
   | 'Link to Formal Care/Coaching';
 
 export const OutputQuestions = [
-  { value: 'Notifications', label: 'Notifications?' },
-  { value: 'References/Information', label: 'References/Information?' },
+  {
+    value: 'Notifications',
+    label: 'Notifications?',
+    tooltip: 'Does the app send notifications? These notifications could be incoming messages, reminders from the app, or alerts.'
+  },
+  { value: 'References/Information', label: 'References/Information?', tooltip: 'Does the app provide psychoeducational references or information?' },
   {
     value: 'Social Network',
     label: 'Social Network?',
     tooltip: 'Can you post information from the app to social media? Does the app connect to social media for posting purposes?'
   },
-  { value: 'Reminders', label: 'Reminders?' },
-  { value: 'Graphs of Data', label: 'Graphs of Data?' },
-  { value: 'Summary of Data', label: 'Summary of Data?' },
-  { value: 'Link to Formal Care/Coaching', label: 'Link to Formal Care/Coaching?' }
+
+  {
+    value: 'Reminders',
+    label: 'Reminders?',
+    tooltip: 'Does the app allow you to set reminders? (Oftentimes these reminders will then generate notifications)'
+  },
+  { value: 'Graphs of Data', label: 'Graphs of Data?', tooltip: 'Does the app allow a user to see graphically depicted data?' },
+  { value: 'Summary of Data', label: 'Summary of Data?', tooltip: 'Does the app provide written summaries of data (description of data apart from a graph)?' },
+  {
+    value: 'Link to Formal Care/Coaching',
+    label: 'Link to Formal Care/Coaching?',
+    tooltip: 'Does the app connect a user with a healthcare provider? A licensed therapist or clinician?'
+  }
 ];
 
 export const Outputs: Output[] = [
@@ -245,10 +324,18 @@ export type Feature =
 export const FeatureQuestions = [
   { value: 'Track Mood', label: 'Does app have mood tracking?' },
   { value: 'Track Medication', label: 'Does app have medication tracking?' },
-  { value: 'Track Sleep', label: 'Does app have sleep tracking?' },
+  {
+    value: 'Track Sleep',
+    label: 'Does app have sleep tracking?',
+    tooltip: 'Does the app track sleep, either in conjunction with a wearable or through user-entered information?'
+  },
   { value: 'Track Symptoms', label: 'Does app have symptom tracking?' },
   { value: 'Productivity', label: 'Does app have productivity?' },
-  { value: 'Physical Health', label: 'Does app have physical excersize tracking?' },
+  {
+    value: 'Physical Health',
+    label: 'Does app have physical excersize tracking?',
+    tooltip: 'Does it allow a user to track duration or content of physical exercise?'
+  },
   {
     value: 'Psychoeducation',
     label: 'Does app have psychoeducation?',
@@ -257,19 +344,32 @@ export const FeatureQuestions = [
   { value: 'Journaling', label: 'Does app have journaling?' },
   { value: 'Mindfulness', label: 'Does app have mindfullness?' },
   { value: 'Deep Breathing', label: 'Does app have deep breathing?' },
-  { value: 'Picture Gallery/Hope Board', label: 'Does app have a picture gallery or hope board?' },
-  { value: 'iCBT or Sleep Therapy', label: 'Does app have iCBT or sleep therapy?' },
-  { value: 'CBT', label: 'Does app have CBT?' },
-  { value: 'ACT', label: 'Does app have ACT?' },
-  { value: 'DBT', label: 'Does app have DBT?' },
+  {
+    value: 'Picture Gallery/Hope Board',
+    label: 'Does app have a picture gallery or hope board?',
+    tooltip: 'Does the app allow a user to curate a gallery of saved and searched images and quotes?'
+  },
+  {
+    value: 'iCBT or Sleep Therapy',
+    label: 'Does app have iCBT or sleep therapy?',
+    tooltip: 'Does the app offer sleep therapy of any kind (including iCBT, a targeted sleep intervention)?'
+  },
+  { value: 'CBT', label: 'Does app have CBT?', tooltip: 'Does the app provide cognitive-behavioral therapy?' },
+  { value: 'ACT', label: 'Does app have ACT?', tooltip: 'Does the app provide Acceptance and Commitment Therapy?' },
+  { value: 'DBT', label: 'Does app have DBT?', tooltip: 'Does the app provide dialectical behavior therapy?' },
   {
     value: 'Peer Support',
     label: 'Does app have peer support?',
     tooltip: 'Does the app offer connection to peer specialists or individuals with lived experience?'
   },
-  { value: 'Coach/Therapist Connection', label: 'Does have have a connection to coach/therapist?' },
+  {
+    value: 'Coach/Therapist Connection',
+    label: 'Does have have a connection to coach/therapist?',
+    tooltip: 'The app has a built-in way to connect with a provider or coach.'
+  },
   { value: 'Biodata', label: 'Does app have biodata tracking?', tooltip: 'Does it collect heart rate, skin conductance, etc.' },
-  { value: 'Goal Setting/Habits', label: 'Does app have goal setting/habits?' },
+  { value: 'Goal Setting/Habits', label: 'Does app have goal setting/habits?', tooltip: 'Productivity feature allowing user to set and check in on goals.' },
+
   {
     value: 'Physical Health Excersizes',
     label: 'Does app have physical health excersizes?',
@@ -279,7 +379,8 @@ export const FeatureQuestions = [
   {
     value: 'Bio Feedback with Sense Data',
     label: 'Does app have bio feedback with sense data?',
-    tooltip: 'HRV, skin conductance etc. Puts biodata to use to provide feedback/recommendations (a lot of ASD and ADHD apps)'
+    tooltip:
+      'The app uses biodata to provide feedback/recommendations (an app that will recommend more breathing exercises to respond to high heart rate, for example).'
   }
 ];
 
@@ -320,13 +421,22 @@ export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq =>
 export type Use = 'Self Help' | 'Reference' | 'Hybrid';
 
 export const UseQuestions = [
-  { value: 'Self Help', label: 'Is app a self-help/self-managment tool?' },
+  {
+    value: 'Self Help',
+    label: 'Is app a self-help/self-managment tool?',
+    tooltip: 'Provides activities that can be used for self-help and self-management, such as mood or symptom tracking or mindfulness exercises.'
+  },
   {
     value: 'Reference',
     label: 'Is app a reference app?',
     tooltip: 'Provides information and references but not necessarily activites.  Psychoeducation first.'
   },
-  { value: 'Hybrid', label: 'Intended for hybrid use with a clinician and treatment plan?' }
+  {
+    value: 'Hybrid',
+    label: 'Intended for hybrid use with a clinician and treatment plan?',
+    tooltip:
+      'Is the app intended to be used as an adjunct to care? Apps that have built-in methods of connecting with a provider meet this criteria. However, a teletherapy app would not be intended for hybrid care, as the app replaces in-person care.'
+  }
 ];
 
 export const Uses = UseQuestions.map(uq => uq.value as Use);
