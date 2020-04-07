@@ -40,7 +40,8 @@
     "typescript": "3.8.3",
     "nano": "8.1.0",
     "axios": "0.19.2",
-    "react-swipeable-views": "0.13.9"
+    "react-swipeable-views": "0.13.9",
+    "marked": "0.8.2"
   },
   "devDependencies": {
     "fs-extra": "9.0.0"

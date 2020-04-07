@@ -4,6 +4,9 @@ import DialogButton from '../application/GenericDialog/DialogButton';
 import * as FrameworkDialog from '../application/GenericDialog/Framework';
 import * as ObjectiveQuestionsDialog from '../application/GenericDialog/ObjectiveQuestions';
 import { useFullScreen } from '../../hooks';
+import marked from 'marked';
+
+const contentPatth = require('../../content/FrameworkQuestions.md');
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -25,6 +28,59 @@ export const ContentBox = ({ p = 2, children }) => {
 };
 
 export default function FrameworkQuestions() {
+  const classes = useStyles({});
+  const [state, setState] = React.useState({ markdown: 'placeholder' });
+
+  React.useEffect(() => {
+    fetch(contentPatth)
+      .then(response => {
+        return response.text();
+      })
+      .then(text => {
+        setState({
+          markdown: marked(text)
+        });
+      });
+  }, [setState]);
+
+  return (
+    <section>
+      <article dangerouslySetInnerHTML={{ __html: state.markdown }}></article>
+      <Container style={{ maxWidth: 800 }}>
+        <Grid container alignItems='center' justify='center' spacing={2}>
+          <Grid container item xs={6} style={{ minWidth: 300 }} justify='center'>
+            <DialogButton
+              Module={FrameworkDialog}
+              className={classes.button}
+              size='large'
+              variant='outlined'
+              placement='right'
+              tooltip='Click to View'
+              Icon={null}
+            >
+              APA App Evaluation Model
+            </DialogButton>
+          </Grid>
+          <Grid container item xs={6} style={{ minWidth: 300 }} justify='center'>
+            <DialogButton
+              Module={ObjectiveQuestionsDialog}
+              className={classes.button}
+              size='large'
+              variant='outlined'
+              placement='right'
+              tooltip='Click to View'
+              Icon={null}
+            >
+              Why 105 Objective Questions?
+            </DialogButton>
+          </Grid>
+        </Grid>
+      </Container>
+    </section>
+  );
+}
+
+export function FrameworkQuestionsOld() {
   const classes = useStyles({});
   const fullScreen = useFullScreen();
 
