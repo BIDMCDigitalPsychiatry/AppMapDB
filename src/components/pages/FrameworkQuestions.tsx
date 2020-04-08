@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { Box, Grid, makeStyles, createStyles, Container } from '@material-ui/core';
+import { Box, Grid, makeStyles, createStyles, Container, Typography, Divider } from '@material-ui/core';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as FrameworkDialog from '../application/GenericDialog/Framework';
 import * as ObjectiveQuestionsDialog from '../application/GenericDialog/ObjectiveQuestions';
 import { useFullScreen } from '../../hooks';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
+import ReactPlayer from 'react-player';
+import { useWidth } from '../layout/store';
 
 const contentPath = require('../../content/FrameworkQuestions.md');
+const videoPath = require('../../content/zoom_1.mp4');
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -30,7 +33,8 @@ export const ContentBox = ({ p = 2, children }) => {
 
 export default function FrameworkQuestions() {
   const classes = useStyles({});
-  const [state, setState] = React.useState({ markdown: 'placeholder' });
+  const [state, setState] = React.useState({ markdown: '' });
+  const width = useWidth();
 
   React.useEffect(() => {
     fetch(contentPath)
@@ -78,6 +82,21 @@ export default function FrameworkQuestions() {
             </DialogButton>
           </Grid>
         </Grid>
+        <Divider style={{ marginTop: 16 }} />
+        <Box pt={2}>
+          <Grid container justify='center'>
+            <Grid item xs={12}>
+              <Typography>Actional App Evaluation Video:</Typography>
+            </Grid>
+            <Grid item style={{ paddingTop: 16, paddingBottom: 24 }} xs={12}>
+              <Grid container justify='center'>
+                <Grid item>
+                  <ReactPlayer url={videoPath} controls={true} width={Math.min(width - 32, 640)} />
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
       </Container>
     </section>
   );

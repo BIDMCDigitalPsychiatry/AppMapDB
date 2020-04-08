@@ -35,7 +35,7 @@ export default function configureStore(history: History, initialState?: AppState
   // Build middleware. These are functions that can process the actions before they reach the store.
   const windowIfDefined = typeof window === 'undefined' ? null : (window as any);
   // If devTools is installed, connect to it
-  const devToolsExtension = windowIfDefined && (windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__ as () => StoreEnhancer);
+  const devToolsExtension = process.env.NODE_ENV === 'development' && windowIfDefined && (windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__ as () => StoreEnhancer);
 
   const allReducers = buildRootReducer(reducers, history);
   const persistedReducer = persistReducer(persistConfig, allReducers as any);
