@@ -11,7 +11,7 @@ import * as GenericObjectiveQuestionDialog from '../application/GenericDialog/Ob
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
-const contentPatth = require('../../content/ObjectiveQuestions.md');
+const contentPath = require('../../content/ObjectiveQuestions.md');
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -54,7 +54,7 @@ export default function ObjecttiveQuestions() {
   const [state, setState] = React.useState({ markdown: '' });
 
   React.useEffect(() => {
-    fetch(contentPatth)
+    fetch(contentPath)
       .then(response => {
         return response.text();
       })

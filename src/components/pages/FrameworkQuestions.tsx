@@ -7,7 +7,7 @@ import { useFullScreen } from '../../hooks';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
-const contentPatth = require('../../content/FrameworkQuestions.md');
+const contentPath = require('../../content/FrameworkQuestions.md');
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -33,7 +33,7 @@ export default function FrameworkQuestions() {
   const [state, setState] = React.useState({ markdown: 'placeholder' });
 
   React.useEffect(() => {
-    fetch(contentPatth)
+    fetch(contentPath)
       .then(response => {
         return response.text();
       })

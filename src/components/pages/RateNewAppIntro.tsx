@@ -1,13 +1,18 @@
 import * as React from 'react';
-import { Link, Typography, Box, Paper, Container, Divider, Button } from '@material-ui/core';
-import rateappscreenshot from '../../images/rateappscreenshot.png';
+import { Link, Typography, Box, Divider, Button, Grid } from '@material-ui/core';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import { useSignedIn } from '../../hooks';
+import ReactPlayer from 'react-player';
+import { useWidth } from '../layout/store';
+
+const contentPath = require('../../content/zoom_0.mp4');
 
 export default function RateNewAppIntro() {
   const handleChangeRoute = useHandleChangeRoute();
   const signedIn = useSignedIn();
+  const width = useWidth();
+
   return (
     <Box pt={2}>
       <Typography variant='h4' align='center'>
@@ -32,17 +37,22 @@ export default function RateNewAppIntro() {
         </Typography>
       </Box>
       <Divider />
-
-      <Container style={{ marginTop: 24, maxWidth: 900 }}>
-        <Typography variant='h6'>Example Screenshot:</Typography>
-        <Paper>
-          <Box pt={1} pb={1}>
-            <Typography align='center'>
-              <img style={{ width: '100%' }} src={rateappscreenshot} alt='screenshot' />
+      <Box pt={2}>
+        <Grid container justify='center'>
+          <Grid item xs={12}>
+            <Typography variant='h6' align='center'>
+              Instructional Video
             </Typography>
-          </Box>
-        </Paper>
-      </Container>
+          </Grid>
+          <Grid item style={{ paddingTop: 16 }} xs={12}>
+            <Grid container justify='center'>
+              <Grid item>
+                <ReactPlayer url={contentPath} controls={true} width={Math.min(width - 32, 640)} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
   );
 }
