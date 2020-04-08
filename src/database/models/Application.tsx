@@ -317,7 +317,7 @@ export type Feature =
   | 'Coach/Therapist Connection'
   | 'Biodata'
   | 'Goal Setting/Habits'
-  | 'Physical Health Excersizes'
+  | 'Physical Health Exercises'  
   | 'Bbot Interaction'
   | 'Bio Feedback with Sense Data';
 
@@ -333,7 +333,7 @@ export const FeatureQuestions = [
   { value: 'Productivity', label: 'Does app have productivity?' },
   {
     value: 'Physical Health',
-    label: 'Does app have physical excersize tracking?',
+    label: 'Does app have physical exercise tracking?',
     tooltip: 'Does it allow a user to track duration or content of physical exercise?'
   },
   {
@@ -371,9 +371,9 @@ export const FeatureQuestions = [
   { value: 'Goal Setting/Habits', label: 'Does app have goal setting/habits?', tooltip: 'Productivity feature allowing user to set and check in on goals.' },
 
   {
-    value: 'Physical Health Excersizes',
-    label: 'Does app have physical health excersizes?',
-    tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT excersize tracking.'
+    value: 'Physical Health Exercises',
+    label: 'Does app have physical health exercises?',
+    tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT exercise tracking.'
   },
   { value: 'Bbot Interaction', label: 'Does app have Bbot interaction?', tooltip: 'An example would be interaction with a virtual character.' },
   {
