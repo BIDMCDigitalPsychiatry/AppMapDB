@@ -467,6 +467,7 @@ export default interface Application extends Nano.MaybeDocument {
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
   efficacyImpact: number; //What is the highest efficacy impact factor?
+  review: string; 
   email: string; // User's email
   uid: string; // Uid for user
   parent: any; // If object was created from a parent, keep the link to it

@@ -23,6 +23,7 @@ import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import YesNoGroup from '../../DialogField/YesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
 import ClinicalFoundationInfo from './templates/ClinicalFoundationInfo';
+import Review from './templates/Review';
 
 const steps = (type = undefined) => [
   {
@@ -315,6 +316,28 @@ const steps = (type = undefined) => [
         label: 'Application Uses',
         Field: YesNoGroup,
         items: UseQuestions
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Enter qualitative review.',
+    Template: Review,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'review',
+        label: 'Review',
+        multiline: true,
+        rows: 12,
+        placeholder: 'Please enter a qualitative review.',
+        hidden: false
       }
     ].map(f => ({ ...f, container: tables.applications }))
   }

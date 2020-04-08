@@ -65,7 +65,6 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
   const handleSubmit = (values, handleReset) => {
     handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset);
   };
-  console.log({ type });
 
   const handleClose = React.useCallback(() => {
     setDialogState(prev => ({ ...prev, open: false, submitting: false, errors: {} }));
