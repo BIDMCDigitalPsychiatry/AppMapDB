@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Typography, Box, Container, Grid, makeStyles, createStyles, Divider } from '@material-ui/core';
-import { useFullScreen } from '../../hooks';
+import { Typography, Box, Container, Grid, makeStyles, createStyles } from '@material-ui/core';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import originFunctionality from '../../images/originfunctionality.png';
 import engagementStyle from '../../images/engagementstyle.png';
@@ -9,6 +8,10 @@ import inputsOutputs from '../../images/inputsoutputs.png';
 import clinicalFoundation from '../../images/clinicalfoundation.png';
 import interoperabilitySharing from '../../images/interoperabilitysharing.png';
 import * as GenericObjectiveQuestionDialog from '../application/GenericDialog/ObjectiveQuestions/GenericObjectiveQuestionDialog';
+import marked from 'marked';
+import DOMPurify from 'dompurify';
+
+const contentPatth = require('../../content/ObjectiveQuestions.md');
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -47,44 +50,47 @@ const buttons = [
 ];
 
 export default function ObjecttiveQuestions() {
-  const fullScreen = useFullScreen();
   const classes = useStyles({});
+  const [state, setState] = React.useState({ markdown: '' });
+
+  React.useEffect(() => {
+    fetch(contentPatth)
+      .then(response => {
+        return response.text();
+      })
+      .then(text => {
+        setState({
+          markdown: DOMPurify.sanitize(marked(text))
+        });
+      });
+  }, [setState]);
+
   return (
     <Container className={classes.root}>
-      <Box pt={2} mb={4} pl={fullScreen ? 0 : 1} pr={fullScreen ? 0 : 1}>
-        <Typography variant='h4' align='center'>
-          Why 105 Objective Questions?
-        </Typography>
-        <Divider />
-        <Box m={2} ml={fullScreen ? 0 : 2} mr={fullScreen ? 0 : 2}>
-          <Typography variant='h5' align='center'>
-            {`The questions that inform the database are intended to be objective and reproducible. They provide information about an app across six different categories aligned with the levels of the APA framework.`}
-          </Typography>
-        </Box>
+      <article dangerouslySetInnerHTML={{ __html: state.markdown }}></article>
 
-        <Box pt={4}>
-          <Grid container item xs={12} justify='center' spacing={2}>
-            {buttons.map(b => (
-              <Grid item key={b.title}>
-                <Box pt={1} pb={1} mb={1}>
-                  <Typography align='center'>
-                    <img style={{ width: '60%' }} src={b.img} alt={b.title} />
-                  </Typography>
-                </Box>
-                <DialogButton
-                  Module={{ ...GenericObjectiveQuestionDialog, id: b.title, ...b }}
-                  className={classes.button}
-                  size='large'
-                  variant='outlined'
-                  tooltip='Click to View'
-                  Icon={null}
-                >
-                  {b.title}
-                </DialogButton>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+      <Box pt={2} pb={2}>
+        <Grid container item xs={12} justify='center' spacing={2}>
+          {buttons.map(b => (
+            <Grid item key={b.title}>
+              <Box pt={1} pb={1} mb={1}>
+                <Typography align='center'>
+                  <img style={{ width: '60%' }} src={b.img} alt={b.title} />
+                </Typography>
+              </Box>
+              <DialogButton
+                Module={{ ...GenericObjectiveQuestionDialog, id: b.title, ...b }}
+                className={classes.button}
+                size='large'
+                variant='outlined'
+                tooltip='Click to View'
+                Icon={null}
+              >
+                {b.title}
+              </DialogButton>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </Container>
   );
