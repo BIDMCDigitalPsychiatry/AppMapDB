@@ -153,6 +153,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     values = undefined,
     setValues = undefined,
     className = undefined,
+    disabledColor = undefined,
     children,
     ...other
   }: DialogButtonProps & any,
@@ -275,7 +276,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               variant='extended'
               color='primary'
               style={{
-                color: disabled ? theme.palette.primary.light : theme.palette.common.white
+                color: disabled ? (disabledColor ? disabledColor : theme.palette.primary.light) : theme.palette.common.white
               }}
               {...shared}
             >

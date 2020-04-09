@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Box, Grid, makeStyles, createStyles, Container, Typography, Divider, Link } from '@material-ui/core';
+import { Box, Grid, makeStyles, createStyles, Container, Typography, Divider } from '@material-ui/core';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as FrameworkDialog from '../application/GenericDialog/Framework';
 import * as ObjectiveQuestionsDialog from '../application/GenericDialog/ObjectiveQuestions';
+import * as ExploreQuestionsDialog from '../application/GenericDialog/ExploreQuestions';
 import { useFullScreen } from '../../hooks';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
@@ -82,19 +83,17 @@ export default function FrameworkQuestions() {
             </DialogButton>
           </Grid>
           <Grid container item xs={6} style={{ minWidth: 300 }} justify='center'>
-            <Link href='https://drive.google.com/file/d/1NTLKfXG32VDH5eB2rsQGIZ3FbfO3H27B/view?usp=sharing' style={{ cursor: 'pointer' }} target='_blank'>
-              <DialogButton
-                Module={ObjectiveQuestionsDialog}
-                className={classes.button}
-                size='large'
-                variant='outlined'
-                placement='right'
-                tooltip='Click to Open'
-                Icon={null}
-              >
-                Explore the Questions
-              </DialogButton>
-            </Link>
+            <DialogButton
+              Module={ExploreQuestionsDialog}
+              className={classes.button}
+              size='large'
+              variant='outlined'
+              placement='right'
+              tooltip='Click to Open'
+              Icon={null}
+            >
+              Explore the Questions
+            </DialogButton>
           </Grid>
         </Grid>
         <Divider style={{ marginTop: 16 }} />
