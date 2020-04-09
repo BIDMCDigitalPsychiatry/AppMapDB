@@ -16,17 +16,78 @@ import {
 import { useProcessData } from '../../../../database/useProcessData';
 import { useFullScreen, useSignedIn } from '../../../../hooks';
 import { useHandleChangeRoute } from '../../../layout/hooks';
-import { Grid, Button, Divider } from '@material-ui/core';
+import { Grid, Button, Divider, Typography, Box } from '@material-ui/core';
 import { publicUrl } from '../../../../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { useSelector } from 'react-redux';
 import { useFilters } from '../../../../database/useFilters';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useGetFilters } from '../../../../database/useFilterList';
+import { InjectField } from '../../GenericDialog/Fields';
+import { useTableFilterValues } from '../../GenericTable/store';
 
 export const title = 'Apply Filters';
 const maxWidth = 400;
 const minWidth = 280;
+
+const spacing = 6;
+
+function Content({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
+  const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
+  const { advanced } = values;
+  return (
+    <Grid container style={{ maxWidth: 1000 }} justify='center' spacing={spacing}>
+      <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
+        <Typography variant='h6'>Accessibility</Typography>
+        <Divider style={{ marginBottom: 8 }} />
+        <Grid container spacing={1}>
+          {injectField('Platforms')}
+          {injectField('Cost')}
+          {injectField('DeveloperTypes')}
+          {injectField('Conditions')}
+        </Grid>
+        {advanced && (
+          <>
+            <Box mt={spacing / 2}>
+              <Typography variant='h6'>Interoperability</Typography>
+              <Divider style={{ marginBottom: 8 }} />
+              <Grid container spacing={1}>
+                {injectField('Functionalities')}
+                {injectField('Uses')}
+              </Grid>
+            </Box>
+          </>
+        )}
+      </Grid>
+      <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
+        <Typography variant='h6'>Engagement Style</Typography>
+        <Divider style={{ marginBottom: 8 }} />
+        <Grid container spacing={1}>
+          {injectField('Features')}
+          {injectField('Engagements')}
+        </Grid>
+        {advanced && (
+          <>
+            <Box mt={spacing / 2}>
+              <Typography variant='h6'>Clinical Foundation</Typography>
+              <Divider style={{ marginBottom: 8 }} />
+              <Grid container spacing={1}>
+                {injectField('ClinicalFoundations')}
+              </Grid>
+            </Box>
+            <Box mt={spacing / 2}>
+              <Typography variant='h6'>Privacy</Typography>
+              <Divider style={{ marginBottom: 8 }} />
+              <Grid container spacing={1}>
+                {injectField('Privacy')}
+              </Grid>
+            </Box>
+          </>
+        )}
+      </Grid>
+    </Grid>
+  );
+}
 
 const FilterButtons = props => {
   const handleChangeRoute = useHandleChangeRoute();
@@ -101,13 +162,15 @@ const FilterButtons = props => {
 };
 
 export default function FilterContent({ id = title, ...other }) {
-  const [advanced, setAdvanced] = React.useState(false);
+  const [values, setValues] = useTableFilterValues('Applications');
+  const { advanced } = values;
+
   const handleToggleAdvanced = React.useCallback(() => {
-    setAdvanced(prev => !prev);
-  }, [setAdvanced]);
+    setValues(prev => ({ ...prev, advanced: !prev.advanced }));
+  }, [setValues]);
+
   const fullScreen = useFullScreen();
   const width = fullScreen ? 290 : 700;
-  const hidden = !advanced;
   const signedIn = useSignedIn();
   const [filters] = useFilters();
 
@@ -122,6 +185,7 @@ export default function FilterContent({ id = title, ...other }) {
     cancelLabel: 'Close',
     width,
     fields: [
+      { id: 'advanced', initialValue: false, hidden: true },
       {
         id: 'SavedFilter',
         label: 'Load from Saved Filters',
@@ -165,48 +229,43 @@ export default function FilterContent({ id = title, ...other }) {
         id: 'Functionalities',
         Field: MultiSelectCheck,
         items: Functionalities.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth },
-        hidden
+        style: { minWidth, maxWidth }
       },
       {
         id: 'Conditions',
         label: 'Supported Conditions',
         Field: MultiSelectCheck,
         items: Conditions.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth },
-        hidden
+        style: { minWidth, maxWidth }
       },
       {
         id: 'Engagements',
         Field: MultiSelectCheck,
         items: Engagements.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth },
-        hidden
+        style: { minWidth, maxWidth }
       },
       {
         id: 'Privacy',
         Field: MultiSelectCheck,
         items: Privacies.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth },
-        hidden
+        style: { minWidth, maxWidth }
       },
       {
         id: 'Uses',
         Field: MultiSelectCheck,
         items: Uses.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth },
-        hidden
+        style: { minWidth, maxWidth }
       },
       {
         id: 'ClinicalFoundations',
         label: 'Evidence & Clinical Foundations',
         Field: MultiSelectCheck,
         items: ClinicalFoundations.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth },
-        hidden
+        style: { minWidth, maxWidth }
       }
     ],
     ...other
   };
-  return <GenericContent {...props} />;
+
+  return <GenericContent {...props} Content={Content} values={values} setValues={setValues} disableInitialize={true} />;
 }

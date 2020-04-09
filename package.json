@@ -1,6 +1,6 @@
 {
   "name": "app-map-db",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "homepage": "https://apps.digitalpsych.org",
   "dependencies": {

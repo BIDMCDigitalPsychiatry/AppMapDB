@@ -3,7 +3,7 @@ import { Grid, Typography, useTheme } from '@material-ui/core';
 import FilterContent from '../application/GenericContent/Filter';
 import { useTableFilterValues } from '../application/GenericTable/store';
 import { useFullScreen } from '../../hooks';
-import { useWidth, useHeight, useAppBarHeight } from '../layout/store';
+import { useHeight, useAppBarHeight } from '../layout/store';
 import useFilterList from '../../database/useFilterList';
 import * as Icons from '@material-ui/icons';
 import NavPills from '../general/NavPills/NavPills';
@@ -37,42 +37,41 @@ export default function Home() {
   useFilterList();
   const fullScreen = useFullScreen();
   const xs = fullScreen ? 12 : 6;
-  const width = useWidth();
 
   const handleTabChange = React.useCallback(
-    (tab) => {
+    tab => {
       if (tab === 0) {
         // If we navigate to the 0 tab, adjust the filter values since the filters cannot show all of the filters from the other step.  The other step can show all of the filters from the first step so no need to reset in that case.
-        setValues((prev) => {
+        setValues(prev => {
           const ids = steps
-            .map((s) => s.fields)
+            .map(s => s.fields)
             .reduce((t: any, c) => (t = t.concat(c)), [])
-            .map((s) => s.id);
+            .map(s => s.id);
 
           const copy = { ...prev };
 
-          const matchingKeys = Object.keys(copy).filter((key) => ids.find((id) => id === key));
+          const matchingKeys = Object.keys(copy).filter(key => ids.find(id => id === key));
 
-          matchingKeys.forEach((mk) => {
-            const vfi = variableFilters.findIndex((vf) => vf.key === mk);
+          matchingKeys.forEach(mk => {
+            const vfi = variableFilters.findIndex(vf => vf.key === mk);
             const vf = variableFilters[vfi];
             if (copy[mk] && vfi > -1 && vf !== undefined && Array.isArray(copy[mk])) {
-              var allFound = vf.availableFilters.reduce((t, c) => (t = t === true && copy[mk].findIndex((id) => id === c) > -1), true);
+              var allFound = vf.availableFilters.reduce((t, c) => (t = t === true && copy[mk].findIndex(id => id === c) > -1), true);
               if (allFound) {
                 copy[vf.stepKey] = [true];
               } else {
                 copy[vf.stepKey] = [false];
               }
-              copy[vf.key] = copy[vf.key].filter((k) => vf.availableFilters.findIndex((af) => af === k) > -1); // Remove any filters values that aren't supported by the interactive search
+              copy[vf.key] = copy[vf.key].filter(k => vf.availableFilters.findIndex(af => af === k) > -1); // Remove any filters values that aren't supported by the interactive search
             }
           });
 
           if (copy['Features']) {
-            copy['Features'] = copy['Features'].filter((f) => FeatureImages.find((fi) => fi.value === f)); // Ensure we only keep the filters that apply
+            copy['Features'] = copy['Features'].filter(f => FeatureImages.find(fi => fi.value === f)); // Ensure we only keep the filters that apply
           }
 
           if (copy['Platforms']) {
-            copy['Platforms'] = copy['Platforms'].filter((p) => PlatformImages.find((pi) => pi.value === p)); // Ensure we only keep the filters that apply
+            copy['Platforms'] = copy['Platforms'].filter(p => PlatformImages.find(pi => pi.value === p)); // Ensure we only keep the filters that apply
           }
 
           return copy;
@@ -96,9 +95,6 @@ export default function Home() {
       layout.footerheight
     ].reduce((t, c) => t + c, 0);
 
-  var contentWidth = width - layout.contentpadding * 2;
-  const maxWidth = width - contentWidth - spacing * 8 > 1000 ? 808 : 400;
-
   return (
     <NavPills
       contentHeight={contentHeight}
@@ -117,8 +113,8 @@ export default function Home() {
           tabButton: 'Search by Filters',
           tabContent: (
             <Grid container spacing={spacing} justify='space-around'>
-              <Grid item xs={xs} style={{ minWidth: 300, maxWidth, marginTop: 12 }}>
-                <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 8 }}>
+              <Grid item xs={xs} style={{ minWidth: 300, maxWidth: 850, marginTop: 12 }}>
+                <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 16 }}>
                   Select filters and click search:
                 </Typography>
                 <FilterContent values={values} setValues={setValues} />
