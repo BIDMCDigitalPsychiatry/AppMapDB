@@ -133,6 +133,7 @@ const GenericStepperCard = ({
   showActions = true,
   elevation = 3,
   FieldActions = undefined,
+  disableInitialize = undefined,
   ...other
 }: ComponentProps & any) => {
   const { layout } = useTheme();
@@ -153,7 +154,8 @@ const GenericStepperCard = ({
     validate,
     externalValues,
     externalSetValues,
-    onChange
+    onChange,
+    disableInitialize
   });
 
   // Re-initialize values when necessary

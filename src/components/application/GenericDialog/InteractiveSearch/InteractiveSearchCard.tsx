@@ -52,12 +52,12 @@ export default function InteractiveSearchCard({ id = title, onClose, setValues, 
 
   // This monitors the Free field to determine how to set the appropriate cost field
   const handleChange = React.useCallback(
-    (vals) => {
-      setValues((prev) => {
+    vals => {      
+      setValues(prev => {
         const { Free = [], YesNoPrivacy = [], YesNoFunctionality = [] } = evalFunc(vals, prev);
-        const isFree = Free.findIndex((i) => i === true) > -1;
-        const isPrivacy = YesNoPrivacy.findIndex((i) => i === true) > -1;
-        const isFunctionality = YesNoFunctionality.findIndex((i) => i === true) > -1;
+        const isFree = Free.findIndex(i => i === true) > -1;
+        const isPrivacy = YesNoPrivacy.findIndex(i => i === true) > -1;
+        const isFunctionality = YesNoFunctionality.findIndex(i => i === true) > -1;
 
         const conditionalMapping = {
           Cost: isFree,
@@ -89,6 +89,7 @@ export default function InteractiveSearchCard({ id = title, onClose, setValues, 
       showActions={false}
       elevation={0}
       FieldActions={FieldActions}
+      disableInitialize={true}
       {...other}
     />
   );

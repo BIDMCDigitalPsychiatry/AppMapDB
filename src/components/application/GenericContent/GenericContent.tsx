@@ -24,6 +24,7 @@ export interface ComponentProps {
   minColumnWidth?: number;
   maxColumnWidth?: number;
   setValues?: any;
+  disableInitialize?: boolean;
   fields?: FieldProps[] | any;
   onClose?: () => any;
   children?: any;
@@ -76,6 +77,7 @@ export default function GenericContent({
   maxColumnWidth,
   values: externalValues = undefined,
   setValues: externalSetValues = undefined,
+  disableInitialize = undefined,
   Buttons,
   children,
   ...other
@@ -85,7 +87,7 @@ export default function GenericContent({
   const { open, type, loading, submitting } = state;
 
   const [confirmDelete, setConfirmDelete] = React.useState(false);
-  const handleConfirmDelete = React.useCallback(() => setConfirmDelete((prev) => !prev), [setConfirmDelete]);
+  const handleConfirmDelete = React.useCallback(() => setConfirmDelete(prev => !prev), [setConfirmDelete]);
 
   const classes = useStyles({ width });
 
@@ -97,7 +99,8 @@ export default function GenericContent({
     setState,
     validate,
     externalSetValues,
-    externalValues
+    externalValues,
+    disableInitialize
   });
 
   const handleReset = React.useCallback(() => setValues({}), [setValues]);

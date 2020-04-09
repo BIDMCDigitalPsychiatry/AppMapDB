@@ -5,6 +5,7 @@ import exportdata from '../../../../images/exportdata.png';
 import noexportdata from '../../../../images/noexportdata.png';
 import lock from '../../../../images/lock.png';
 import unlock from '../../../../images/unlock.png';
+import FilterContentInteractive from '../../GenericContent/Filter/FilterContentInteractive';
 
 const steps = [
   {
@@ -109,6 +110,21 @@ const steps = [
       {
         id: 'Functionalities',
         hidden: true
+      }
+    ]
+  },
+  {
+    fields: [
+      {
+        id: 'label5',
+        label: 'Would you like any more advanced filters?',
+        Field: LabelCenter,
+        xs: 12
+      },
+      {
+        id: 'FilterContent',
+        label: null,
+        Field: FilterContentInteractive
       }
     ]
   }
