@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Grid, makeStyles, createStyles, Container, Typography, Divider } from '@material-ui/core';
+import { Box, Grid, makeStyles, createStyles, Container, Typography, Divider, Link } from '@material-ui/core';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import * as FrameworkDialog from '../application/GenericDialog/Framework';
 import * as ObjectiveQuestionsDialog from '../application/GenericDialog/ObjectiveQuestions';
@@ -80,6 +80,21 @@ export default function FrameworkQuestions() {
             >
               Why 105 Objective Questions?
             </DialogButton>
+          </Grid>
+          <Grid container item xs={6} style={{ minWidth: 300 }} justify='center'>
+            <Link href='https://drive.google.com/file/d/1NTLKfXG32VDH5eB2rsQGIZ3FbfO3H27B/view?usp=sharing' style={{ cursor: 'pointer' }} target='_blank'>
+              <DialogButton
+                Module={ObjectiveQuestionsDialog}
+                className={classes.button}
+                size='large'
+                variant='outlined'
+                placement='right'
+                tooltip='Click to Open'
+                Icon={null}
+              >
+                Explore the Questions
+              </DialogButton>
+            </Link>
           </Grid>
         </Grid>
         <Divider style={{ marginTop: 16 }} />
