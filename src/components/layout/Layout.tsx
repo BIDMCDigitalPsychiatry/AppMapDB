@@ -19,10 +19,10 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     },
-    innerContent: ({ overflow = 'auto', contentHeight }) => ({
-      height: contentHeight - layout.contentpadding * 2 + 1,
+    innerContent: ({ overflow = 'auto', contentHeight, padInnerContent = true }) => ({
+      height: contentHeight - (!padInnerContent ? 0 : layout.contentpadding * 2 + 1),
       overflow,
-      padding: layout.contentpadding
+      padding: padInnerContent ? layout.contentpadding : 0
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -31,7 +31,8 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const noScrollPaths = ['/Apps', '/'];
+const noScrollPaths = ['/Apps', '/', '/RateNewApp'];
+const noPadPaths = ['/Home', '/'];
 
 export default function Layout({ children }) {
   const height = useHeight();
@@ -42,7 +43,12 @@ export default function Layout({ children }) {
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 
   const { pathname } = useLocation();
-  const classes = useStyles({ overflow: noScrollPaths.findIndex(p => p === pathname) > -1 ? 'hidden' : 'auto', contentHeight, appBarHeight });
+  const classes = useStyles({
+    padInnerContent: noPadPaths.findIndex(p => p === pathname) > -1 ? false : true,
+    overflow: noScrollPaths.findIndex(p => p === pathname) > -1 ? 'hidden' : 'auto',
+    contentHeight,
+    appBarHeight
+  });
 
   return (
     <div data-testid='app-container' className={classes.root}>

@@ -63,7 +63,6 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
         margin: '10px 0'
       }
     },
-    contentWrapper: {},
     primary: {
       '&,&:hover': {
         color: '#FFFFFF',
@@ -110,9 +109,10 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
       alignItems: 'center',
       justifyContent: 'center'
     },
-    tabContent: ({ contentHeight }: any) => ({
+    tabContent: ({ contentHeight, overflowY }: any) => ({
       height: contentHeight,
-      overflow: 'hidden'
+      overflow: 'hidden',
+      overflowY
     })
   })
 );
@@ -128,11 +128,12 @@ interface ComponentProps {
   alignCenter: boolean;
   contentHeight?: number;
   contentWidth?: number;
+  overflowY?: string;
   onChange?: (index: number) => void;
 }
 
 export default function NavPills(props: ComponentProps) {
-  const { contentHeight = undefined, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active } = props;
+  const { contentHeight = undefined, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active, overflowY = 'hidden' } = props;
   const [state, setState] = React.useState({ active: Active });
   const handleChange = React.useCallback(
     (event, active) => {
@@ -148,7 +149,7 @@ export default function NavPills(props: ComponentProps) {
     },
     [setState]
   );
-  const classes = useStyles({ contentHeight });
+  const classes = useStyles({ contentHeight, overflowY });
 
   const flexContainerClasses = classNames({
     [classes.flexContainer]: true,
@@ -194,7 +195,7 @@ export default function NavPills(props: ComponentProps) {
     </Tabs>
   );
   const tabContent = (
-    <div className={classes.contentWrapper}>
+    <>
       <Divider />
       <SwipeableViews axis={direction === 'rtl' ? 'x-reverse' : 'x'} index={state.active} onChangeIndex={handleChangeIndex}>
         {tabs.map((prop, key) => (
@@ -203,7 +204,7 @@ export default function NavPills(props: ComponentProps) {
           </div>
         ))}
       </SwipeableViews>
-    </div>
+    </>
   );
 
   return horizontal !== undefined ? (

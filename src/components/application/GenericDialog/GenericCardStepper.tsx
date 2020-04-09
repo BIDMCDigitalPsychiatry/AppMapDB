@@ -235,7 +235,7 @@ const GenericStepperCard = ({
   var calculatedheight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 
   if (title === null) {
-    calculatedheight = calculatedheight + 28; // Adjustment if title/header is hidden
+    calculatedheight = calculatedheight + 54 ; // Adjustment if title/header is hidden
   }
 
   return (
