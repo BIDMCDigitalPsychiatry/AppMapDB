@@ -5,7 +5,10 @@ export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.
 const basetheme = createMuiTheme({});
 export const beta = true;
 
-export const theme = createMuiTheme({
+const shared = {
+  palette: {
+    type: 'light'
+  },
   layout: {
     toolbarheight: 64, //The height of the top toolbar
     contentpadding: 8, //The padding around the inner layout content
@@ -69,4 +72,23 @@ export const theme = createMuiTheme({
       }
     }
   }
-} as Theme & any);
+} as Theme & any;
+
+export const adminTheme = createMuiTheme({
+  ...shared,
+  palette: {
+    ...shared.palette,
+    primary: {
+      main: '#00695c',
+      light: '#439889',
+      dark: '#003d33'
+    },
+    secondary: {
+      main: '#f44336',
+      light: '#ff7961',
+      dark: '#ba000d'
+    }
+  }
+});
+
+export const theme = createMuiTheme(shared);

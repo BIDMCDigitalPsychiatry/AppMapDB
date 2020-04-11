@@ -8,11 +8,13 @@ import { AppState } from './store';
 import { persistStore } from 'redux-persist';
 import ViewPort from './components/layout/ViewPort';
 import AppRouter from './components/layout/AppRouter';
-import { theme } from './constants';
+import { theme, adminTheme } from './constants';
 import { asyncSeed } from './database/seed';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { useAdminMode } from './components/layout/store';
+import { useIsAdmin } from './hooks';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
@@ -28,15 +30,25 @@ const rrfProps = {
   dispatch: store.dispatch
 };
 
+function ThemedViewPort(props: any) {
+  const { children } = props;
+  const isAdmin = useIsAdmin();
+  const [adminMode] = useAdminMode();
+
+  return (
+    <MuiThemeProvider theme={isAdmin && adminMode ? adminTheme : theme}>
+      <ViewPort>{children}</ViewPort>
+    </MuiThemeProvider>
+  );
+}
+
 function AppWrapper(props: any) {
   const { children } = props;
   return (
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <PersistGate loading={null} persistor={persistor}>
-          <MuiThemeProvider theme={theme}>
-            <ViewPort>{children}</ViewPort>
-          </MuiThemeProvider>
+          <ThemedViewPort>{children}</ThemedViewPort>
         </PersistGate>
       </ReactReduxFirebaseProvider>
     </Provider>
