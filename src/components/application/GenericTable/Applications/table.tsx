@@ -1,6 +1,5 @@
 ﻿import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
-import * as selectors from './selectors';
 import { Grid } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
@@ -31,6 +30,7 @@ import ViewModeButton from './ViewModeButton';
 import { Typography } from '@material-ui/core';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import { useSignedIn } from '../../../../hooks';
+import { useAppData } from './selectors';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -350,7 +350,6 @@ const defaultProps: GenericTableContainerProps = {
     }
   ],
   toolbar: true,
-  selector: selectors.from_database,
   footer: true,
   search: true,
   buttons: [<ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
@@ -360,5 +359,5 @@ export const Applications = props => {
   var { columns = [] } = defaultProps;
   const signedIn = useSignedIn();
   columns = signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating');
-  return <GenericTableContainer {...defaultProps} columns={columns} showScroll={true} {...props} />;
+  return <GenericTableContainer {...defaultProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />;
 };

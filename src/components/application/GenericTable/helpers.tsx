@@ -69,7 +69,7 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const useTableFilter = (data: any, name: string) => {
+export const useTableFilter = (data: any, name: string, customFilter = undefined) => {
   //Extract the table information from the redux store
   const table = TableStore.useTable(name);
   const searchtext = table?.searchtext;
@@ -81,7 +81,7 @@ export const useTableFilter = (data: any, name: string) => {
       column: table && table.columnfiltercolumn
     };
 
-  const filtered = table_filter(data, columnfilter, searchtext);
+  const filtered = table_filter(data, columnfilter, searchtext, customFilter);
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 

@@ -1,13 +1,13 @@
 ﻿import { AppState } from '../../../../store';
-import { GenericTableContainerProps } from '../GenericTableContainer';
 import Application from '../../../../database/models/Application';
 import { name } from './table';
 import { isEmpty, getDayTimeFromTimestamp } from '../../../../helpers';
-import { tableFilter } from '../helpers';
+import { useTableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
 import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
+import { useSelector } from 'react-redux';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -47,8 +47,8 @@ export const getAppIcon = (app: Application) => {
     : logo;
 };
 
-export const from_database = (state: AppState, props: GenericTableContainerProps) => {
-  const apps = state.database[tables.applications] ?? {};
+export const useAppData = table => {
+  const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   var data = apps
     ? Object.keys(apps)
         .filter(k => apps[k].delete !== true)
@@ -88,7 +88,7 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
   // Filter any entries that have a child, this ensures only the most recent revision is shown
   data = data.filter(d => !data.find(i => i.parent !== undefined && i.parent._id === d._id));
 
-  const { filters = {} } = state.table[name] || {};
+  const { filters = {} } = useSelector((s: AppState) => s.table[name] || {});
   const {
     Platforms = [],
     Functionalities = [],
@@ -118,5 +118,5 @@ export const from_database = (state: AppState, props: GenericTableContainerProps
     isMatch(ClinicalFoundations, r.clinicalFoundations) &&
     isMatch(DeveloperTypes, r.developerTypes);
 
-  return tableFilter(data, state, props, customFilter);
+  return useTableFilter(data, table, customFilter);
 };
