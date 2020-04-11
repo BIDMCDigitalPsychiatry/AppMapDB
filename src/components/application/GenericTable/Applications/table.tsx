@@ -76,7 +76,7 @@ const defaultProps: GenericTableContainerProps = {
   columns: [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary },
     { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated },
-    { name: 'rating', header: 'Rating', width: 156, Cell: RatingsColumn },
+    { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn },
     {
       name: 'platforms',
       width: 140,

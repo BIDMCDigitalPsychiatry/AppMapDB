@@ -199,9 +199,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <div style={{ maxWidth: 130 }}>
-                      <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
-                    </div>
+                    <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
                   </Grid>
                 </Grid>
               </Grid>
