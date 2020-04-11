@@ -20,6 +20,7 @@ export interface TableToolbarProps {
   width?: number;
   search?: boolean;
   Icon?: any;
+  buttonPosition?: string;
   classes?: any;
 }
 
@@ -72,7 +73,7 @@ function TableToolbar(props: TableToolbarProps) {
   const classes = useStyles({});
   const [searchOpen, setSearchOpen] = React.useState(false);
   const { layout } = useTheme();
-  const { name, buttons = [], square, title, inputplaceholder, Icon, search, showicon = true } = props;
+  const { name, buttons = [], square, title, inputplaceholder, Icon, search, showicon = true, buttonPosition = 'top' } = props;
 
   const { searchtext = '' } = useTable(name);
 
@@ -209,31 +210,37 @@ function TableToolbar(props: TableToolbarProps) {
 
   const IconComponent = Icon ?? Icons.List;
 
+  const ButtonGroup = (
+    <Grid item>
+      <Grid container direction='row' justify='flex-end' alignItems='center' spacing={buttonspacing}>
+        <Grid item>
+          <div style={{ display: searchOpen ? '' : 'none' }}>{Search}</div>
+          {!searchOpen && (
+            <Grid container spacing={1}>
+              {Buttons.map((b, i) => (
+                <Grid key={i} item>
+                  {evalFunc(b)}
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+
   return (
     <>
-      <Paper elevation={0} square={square}>
-        <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
-          <Grid item xs zeroMinWidth>
-            <Grid container justify='flex-start' alignItems='center'></Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction='row' justify='flex-end' alignItems='center' spacing={buttonspacing}>
-              <Grid item>
-                <div style={{ display: searchOpen ? '' : 'none' }}>{Search}</div>
-                {!searchOpen && (
-                  <Grid container spacing={1}>
-                    {Buttons.map((b, i) => (
-                      <Grid key={i} item>
-                        {evalFunc(b)}
-                      </Grid>
-                    ))}
-                  </Grid>
-                )}
-              </Grid>
+      {buttonPosition === 'top' && (
+        <Paper elevation={0} square={square}>
+          <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
+            <Grid item xs zeroMinWidth>
+              <Grid container justify='flex-start' alignItems='center'></Grid>
             </Grid>
+            {ButtonGroup}
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      )}
       <Paper className={classes.paper} square={square}>
         <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
           <Grid item xs zeroMinWidth>
@@ -256,6 +263,7 @@ function TableToolbar(props: TableToolbarProps) {
               )}
             </Grid>
           </Grid>
+          {buttonPosition !== 'top' && ButtonGroup}
         </Grid>
       </Paper>
     </>

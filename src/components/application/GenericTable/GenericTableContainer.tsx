@@ -29,6 +29,7 @@ export interface GenericTableContainerProps extends TabSelectorProps, GenericTab
   domainLogs?: boolean;
   dialogs?: any[];
   showScroll?: boolean;
+  buttonPosition?: string;
   FilterContainer?: any;
 }
 
@@ -53,6 +54,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     onChangeTab,
     Icon,
     FilterContainer,
+    buttonPosition = 'top',
     ...tableProps
   } = props;
 
@@ -89,6 +91,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
       showicon={showicon}
       buttons={evalFunc(buttons, props)}
       Icon={Icon}
+      buttonPosition={buttonPosition}
     />
   );
   var filterbar = tabs && <TableTabSelector name={name} tabs={tabs} onChange={handleTabChange} />;
@@ -109,7 +112,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     appBarHeight,
     layout.contentpadding, // Top content padding
     stacked ? layout.tablefilterbarheight + layout.contentrowspacing : 0,
-    layout.tabletoolbarheight + layout.contentrowspacing,
+    (buttonPosition === 'top' ? layout.tabletoolbarheight : layout.tabletoolbarheight / 2) + layout.contentrowspacing,
     layout.contentpadding, // Bottom content padding
     layout.footerheight
   ];

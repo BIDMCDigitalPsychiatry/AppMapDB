@@ -3,7 +3,7 @@ import { useDialogState } from '../useDialogState';
 import Application from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
-import { uuid, publicUrl } from '../../../../helpers';
+import { uuid, publicUrl, isEmpty } from '../../../../helpers';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 import GenericStepperDialog from '../GenericStepperDialog';
@@ -35,10 +35,14 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
 
     if (Action === 'c') {
       application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
+      application.groupId = uuid(); // Keep track of group for history purposes
       application.created = timestamp;
     } else if (Action === 'u') {
       // If we are updating an existing entry, we actually create a new row with  link back to the parent
       application.parent = { _id: application._id, _rev: application._rev };
+      if (isEmpty(application.groupId)) {
+        application.groupId = application._id; // If we don't have a group id yet then use the app id for the first group id so we can still link it to the parent before this wa implemented
+      }
       application._id = uuid(); // Create new id so a new row is created
       application._rev = undefined; // reset revision
       application.created = timestamp;

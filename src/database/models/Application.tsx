@@ -317,7 +317,7 @@ export type Feature =
   | 'Coach/Therapist Connection'
   | 'Biodata'
   | 'Goal Setting/Habits'
-  | 'Physical Health Exercises'  
+  | 'Physical Health Exercises'
   | 'Bbot Interaction'
   | 'Bio Feedback with Sense Data';
 
@@ -442,6 +442,7 @@ export const UseQuestions = [
 export const Uses = UseQuestions.map(uq => uq.value as Use);
 
 export default interface Application extends Nano.MaybeDocument {
+  groupId: string; // groupId for app so we can track the rating/approval chain more easily
   name: string;
   company: string;
   icon: string;
@@ -467,11 +468,12 @@ export default interface Application extends Nano.MaybeDocument {
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
   efficacyImpact: number; //What is the highest efficacy impact factor?
-  review: string; 
+  review: string;
   email: string; // User's email
   uid: string; // Uid for user
   parent: any; // If object was created from a parent, keep the link to it
   created: number;
   updated: number;
   delete: boolean; // If set to true item has been deleted, keep in database
+  approved: boolean;
 }

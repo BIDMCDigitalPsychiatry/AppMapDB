@@ -70,7 +70,7 @@ const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16
 const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
 const OutputRadios = ({ outputs = [] }: Application) => buildRadios(Outputs, outputs);
 
-const defaultProps: GenericTableContainerProps = {
+export const defaultApplicationsProps: GenericTableContainerProps = {
   name,
   dialogs: [renderDialogModule(RateNewAppDialog)],
   columns: [
@@ -356,9 +356,9 @@ const defaultProps: GenericTableContainerProps = {
   buttons: [<AdminToggle />, <ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
 };
 
-export const Applications = props => {
-  var { columns = [] } = defaultProps;
+export const Applications = (props) => {
+  var { columns = [] } = defaultApplicationsProps;
   const signedIn = useSignedIn();
   columns = signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating');
-  return <GenericTableContainer {...defaultProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />;
+  return <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />;
 };

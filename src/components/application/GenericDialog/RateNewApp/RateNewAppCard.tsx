@@ -34,7 +34,8 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
     const timestamp = new Date().getTime();
 
     if (Action === 'c') {
-      application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
+      application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating
+      application.groupId = uuid(); // Also create a group id so we can keep track of the history more easily
       application.created = timestamp;
     }
 

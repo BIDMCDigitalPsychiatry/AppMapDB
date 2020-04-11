@@ -110,6 +110,7 @@ export interface ComponentProps {
   OnClose: any;
   validate: any;
   Content: Element;
+  ContentProps: any;
   fields: FieldProps[];
   classes?: object;
 }
@@ -127,6 +128,7 @@ const GenericDialog = ({
   onDelete,
   onClose,
   Content,
+  ContentProps,
   validate,
   classes: Classes,
   children,
@@ -177,7 +179,8 @@ const GenericDialog = ({
   const contentProps = {
     fields,
     mapField,
-    values
+    values,
+    ...ContentProps
   };
 
   const inProgress = loading || submitting;

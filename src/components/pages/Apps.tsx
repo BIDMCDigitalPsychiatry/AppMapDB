@@ -3,6 +3,8 @@ import * as Tables from '../application/GenericTable';
 import { useViewMode } from '../layout/store';
 import DB from '../../database/dbConfig';
 import { useApplications } from '../../database/useApplications';
+import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
+import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 
 export default function Apps() {
   const [viewMode] = useViewMode() as any;
@@ -20,5 +22,10 @@ export default function Apps() {
     });
   }, [setApps]);
 
-  return viewMode === 'table' ? <Tables.Applications /> : <Tables.ApplicationsList />;
+  return (
+    <>
+      {renderDialogModule(ApplicationHistoryDialog)}
+      {viewMode === 'table' ? <Tables.Applications /> : <Tables.ApplicationsList />}
+    </>
+  );
 }

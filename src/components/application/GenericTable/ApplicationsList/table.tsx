@@ -10,7 +10,7 @@ import { useAppData } from '../Applications/selectors';
 import AdminToggle from '../Applications/AdminToggle';
 
 const name = 'Applications';
-const defaultProps: GenericTableContainerProps = {
+export const defaultApplicationsListProps: GenericTableContainerProps = {
   isList: true,
   name,
   dialogs: [renderDialogModule(RateNewAppDialog)],
@@ -20,5 +20,5 @@ const defaultProps: GenericTableContainerProps = {
   search: true,
   buttons: [<AdminToggle />, <ViewModeButton />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
 };
- 
-export const ApplicationsList = props => <GenericTableContainer {...defaultProps} data={useAppData(name)} showScroll={true} {...props} />;
+
+export const ApplicationsList = props => <GenericTableContainer {...defaultApplicationsListProps} data={useAppData(name)} showScroll={true} {...props} />;

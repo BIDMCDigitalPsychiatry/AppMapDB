@@ -2,6 +2,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
+import * as ApplicationHistoryDialog from '../../GenericDialog/ApplicationHistoryDialog';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
@@ -32,7 +33,7 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
       <Grid container item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
         {signedIn && (
           <EditDialogButton
-            Module={RateNewAppDialog}
+            Module={ApplicationHistoryDialog}
             mount={false}
             variant='primarycontained'
             tooltip=''
