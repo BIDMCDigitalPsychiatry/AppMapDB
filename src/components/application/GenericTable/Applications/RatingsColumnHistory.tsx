@@ -6,18 +6,20 @@ import * as ApplicationHistoryDialog from '../../GenericDialog/ApplicationHistor
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
-import { useSignedIn, useFullScreen } from '../../../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin } from '../../../../hooks';
 import { useViewMode } from '../../../layout/store';
 
-export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
+export default function RatingsColumnHistory({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
+  const { approved } = initialValues;
   const [viewMode] = useViewMode();
   const signedIn = useSignedIn();
   const fullScreen = useFullScreen();
+  const isAdmin = useIsAdmin();
   return (
     <Grid container alignItems='flex-start' spacing={1}>
-      {signedIn && (
-        <Grid container item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
+      <Grid container item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
+        {signedIn && (
           <EditDialogButton
             Module={RateNewAppDialog}
             mount={false}
@@ -28,19 +30,21 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
           >
             <Typography noWrap>View / Edit</Typography>
           </EditDialogButton>
-        </Grid>
-      )}
+        )}
+      </Grid>
       <Grid container item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
-        <EditDialogButton
-          Module={ApplicationHistoryDialog}
-          mount={false}
-          variant='primarycontained'
-          tooltip=''
-          Icon={null}
-          initialValues={{ [tables.applications]: initialValues }}
-        >
-          <Typography noWrap>Rating History</Typography>
-        </EditDialogButton>
+        {isAdmin && approved !== true && (
+          <EditDialogButton
+            Module={ApplicationHistoryDialog}
+            mount={false}
+            variant='primarycontained'
+            tooltip=''
+            Icon={null}
+            initialValues={{ [tables.applications]: initialValues }}
+          >
+            <Typography noWrap>Approve</Typography>
+          </EditDialogButton>
+        )}
       </Grid>
     </Grid>
   );

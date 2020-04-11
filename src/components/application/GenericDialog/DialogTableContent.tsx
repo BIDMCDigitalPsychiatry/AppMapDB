@@ -4,7 +4,7 @@ import { useHeight } from '../../layout/store';
 
 const DialogTableContent = ({ Table, breakpoint = 'sm' as any, toolbar = true, square = true, elevation = 0, ...other }) => {
   const theme = useTheme();
-  var height = useHeight() - (toolbar ? 0 : 44) - 48 + 148; // Heights for the dialog header and footer
+  var height = useHeight() - (toolbar ? 0 : 44) - 48 + 130; // Heights for the dialog header and footer
   const fullScreen = useMediaQuery(theme.breakpoints.down(breakpoint));
 
   return (

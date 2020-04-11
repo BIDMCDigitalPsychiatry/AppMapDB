@@ -11,6 +11,7 @@ import DialogButton from '../../GenericDialog/DialogButton';
 interface AppSummaryProps {
   ratingIds: string[];
   rating: number;
+  RatingButtonsComponent: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -78,7 +79,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     ratingIds = [],
     icon = getAppIcon(props),
     rating,
-    updated
+    updated,
+    RatingButtonsComponent = RatingsColumn
   } = props;
 
   const { handleRefresh } = props as any;
@@ -199,7 +201,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <RatingsColumn _id={_id} rating={rating} ratingIds={ratingIds} />
+                    <RatingButtonsComponent _id={_id} rating={rating} ratingIds={ratingIds} />
                   </Grid>
                 </Grid>
               </Grid>

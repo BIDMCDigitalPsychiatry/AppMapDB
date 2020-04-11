@@ -7,6 +7,8 @@ import ViewModeButton from '../Applications/ViewModeButton';
 import { TableFilterDialogButton } from '../../GenericDialog/DialogButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import { useAppHistoryData } from './selectors';
+import { columns } from '../Applications/columns';
+import RatingsColumnHistory from '../Applications/RatingsColumnHistory';
 
 const name = 'Applications History';
 
@@ -15,12 +17,19 @@ const defaultProps: GenericTableContainerProps = {
   buttons: [<AdminToggle />, <ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
 };
 
+export const customRatingColumn = { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumnHistory };
+
 export const ApplicationHistory = ({ initialValues, ...props }) => {
-  var { columns = [] } = defaultApplicationsProps;
   const _id = initialValues?.applications?._id;
   const signedIn = useSignedIn();
-  columns = signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating');
+
+  const Columns = signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating');
+  const ratingIndex = Columns.findIndex(c => c.name === 'rating');
+  if (ratingIndex > -1) {
+    Columns.splice(ratingIndex, 1, customRatingColumn);
+  }
+
   return (
-    <GenericTableContainer {...defaultApplicationsProps} {...defaultProps} data={useAppHistoryData(name, _id)} columns={columns} showScroll={true} {...props} />
+    <GenericTableContainer {...defaultApplicationsProps} {...defaultProps} data={useAppHistoryData(name, _id)} columns={Columns} showScroll={true} {...props} />
   );
 };

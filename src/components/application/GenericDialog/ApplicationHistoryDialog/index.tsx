@@ -24,8 +24,7 @@ export default function ApplicationHistoryDialog({ id = title, ...other }) {
   return (
     <GenericDialog
       id={id}
-      title={null}
-      isFullScreen={true}
+      title={null}      
       maxWidth='xl'
       cancelLabel='Close'
       submitLabel={null}
