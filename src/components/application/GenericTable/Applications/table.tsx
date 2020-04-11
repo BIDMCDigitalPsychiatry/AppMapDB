@@ -31,6 +31,7 @@ import { Typography } from '@material-ui/core';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import { useSignedIn } from '../../../../hooks';
 import { useAppData } from './selectors';
+import AdminToggle from './AdminToggle';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -352,7 +353,7 @@ const defaultProps: GenericTableContainerProps = {
   toolbar: true,
   footer: true,
   search: true,
-  buttons: [<ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
+  buttons: [<AdminToggle />, <ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
 };
 
 export const Applications = props => {
