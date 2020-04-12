@@ -3,7 +3,7 @@
   "version": "1.0.6",
   "private": true,
   "homepage": "https://apps.digitalpsych.org",
-  "adminUsers": "slagan@bidmc.harvard.edu,cvanem@gmail.com",
+  "adminUsers": "team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com",
   "dependencies": {
     "@material-ui/core": "4.9.7",
     "@material-ui/icons": "4.9.1",
