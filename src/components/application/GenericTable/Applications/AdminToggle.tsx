@@ -21,7 +21,7 @@ export default function AdminToggle() {
   const [adminMode, setAdminMode] = useAdminMode() as any;
   const handleClick = React.useCallback(() => setAdminMode(adminMode === true ? false : true), [adminMode, setAdminMode]);
   const Icon = adminMode === true ? Icons.PermIdentity : Icons.PeopleAlt;
-  const tooltip = `Switch to ${adminMode === true ? 'public mode' : 'admin mode'}`;
+  const tooltip = `Switch to ${adminMode === true ? 'Public Mode' : 'Admin Mode'}`;
   return isAdmin ? (
     <Tooltip title={tooltip} placement='left'>
       <Fab className={classes.fab} size='large' color='primary' aria-label='admin-public-mode' onClick={handleClick}>

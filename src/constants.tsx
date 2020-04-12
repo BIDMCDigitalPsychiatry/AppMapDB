@@ -79,14 +79,14 @@ export const adminTheme = createMuiTheme({
   palette: {
     ...shared.palette,
     primary: {
-      main: '#00695c',
-      light: '#439889',
-      dark: '#003d33'
+      main: '#c62828',
+      light: '#ff5f52',
+      dark: '#8e0000'
     },
     secondary: {
-      main: '#f44336',
-      light: '#ff7961',
-      dark: '#ba000d'
+      main: '#388e3c',
+      light: '#6abf69',
+      dark: '#00600f'
     }
   }
 });

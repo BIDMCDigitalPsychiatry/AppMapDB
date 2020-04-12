@@ -164,7 +164,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                   </Grid>
                   {adminMode && (
                     <Grid item xs={12}>
-                      <Typography align='center' color={approved ? 'primary' : 'secondary'}>
+                      <Typography align='center' color={approved ? 'secondary' : 'primary'}>
                         {`${approved === true ? 'Approved' : 'Not Approved'}${newMemberText}`}
                       </Typography>
                     </Grid>
