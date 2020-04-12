@@ -10,6 +10,7 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { tables } from '../../../../database/dbConfig';
 import { AppState } from '../../../../store';
+import { useAdminMode } from '../../../layout/store';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -149,6 +150,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
   const GroupId = isEmpty(groupId) ? _id : groupId;
   const newerMembers = useNewerMemberCount(GroupId, created);
   const newMemberText = newerMembers > 0 ? ` (${newerMembers} Newer)` : '';
+  const [adminMode] = useAdminMode();
   return (
     <OutlinedDiv>
       <Box pt={1} pb={1}>
@@ -160,11 +162,13 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                   <Grid item xs={12}>
                     <img style={{ height: 184 }} src={icon} alt='logo' />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Typography align='center' color={approved ? 'primary' : 'secondary'}>
-                      {`${approved === true ? 'Approved' : 'Not Approved'}${newMemberText}`}
-                    </Typography>
-                  </Grid>
+                  {adminMode && (
+                    <Grid item xs={12}>
+                      <Typography align='center' color={approved ? 'primary' : 'secondary'}>
+                        {`${approved === true ? 'Approved' : 'Not Approved'}${newMemberText}`}
+                      </Typography>
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
               <Grid item zeroMinWidth xs>
@@ -219,11 +223,13 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                       )}
                     </Typography>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Typography noWrap color='textSecondary' variant='caption'>
-                      Created: {updated ? getDayTimeFromTimestamp(created) : ''}
-                    </Typography>
-                  </Grid>
+                  {adminMode && (
+                    <Grid item xs={12}>
+                      <Typography noWrap color='textSecondary' variant='caption'>
+                        Created: {updated ? getDayTimeFromTimestamp(created) : ''}
+                      </Typography>
+                    </Grid>
+                  )}
                   {created !== updated && (
                     <Grid item xs={12}>
                       <Typography noWrap color='textSecondary' variant='caption'>
