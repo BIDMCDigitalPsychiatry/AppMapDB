@@ -37,6 +37,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
       application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
       application.groupId = uuid(); // Keep track of group for history purposes
       application.created = timestamp;
+      application.approved = false;
     } else if (Action === 'u') {
       // If we are updating an existing entry, we actually create a new row with  link back to the parent
       application.parent = { _id: application._id, _rev: application._rev };
@@ -46,6 +47,7 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
       application._id = uuid(); // Create new id so a new row is created
       application._rev = undefined; // reset revision
       application.created = timestamp;
+      application.approved = false; // New items should not be approved by default
       Action = 'c'; // Switch action to create for political correctness
     }
 

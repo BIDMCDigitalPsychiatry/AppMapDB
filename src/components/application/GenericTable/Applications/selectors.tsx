@@ -1,12 +1,13 @@
 ﻿import { AppState } from '../../../../store';
 import Application from '../../../../database/models/Application';
-import { isEmpty, getDayTimeFromTimestamp } from '../../../../helpers';
+import { isEmpty, getDayTimeFromTimestamp, onlyUnique } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
 import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
+import { useAdminMode } from '../../../layout/store';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -48,9 +49,10 @@ export const getAppIcon = (app: Application) => {
 
 export const useAppData = table => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
+  const [adminMode] = useAdminMode();
   var data = apps
     ? Object.keys(apps)
-        .filter(k => apps[k].delete !== true)
+        .filter(k => apps[k].delete !== true && ((!adminMode && apps[k].approved === true) || adminMode)) // only show approved for public mode, show all for admin
         .map(k => {
           const app: Application = apps[k];
 
@@ -79,13 +81,34 @@ export const useAppData = table => {
             getSearchValues: () => {
               return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
             },
-            getValues: () => app
+            getValues: () => app,
+            created: app.created,
+            approved: app.approved,
+            groupId: isEmpty(app.groupId) ? app._id : app.groupId
           };
         })
     : [];
 
-  // Filter any entries that have a child, this ensures only the most recent revision is shown
-  data = data.filter(d => !data.find(i => i.parent !== undefined && i.parent._id === d._id));
+  // For public, show only the most recent with a status of approved == true
+  // For admin, show only the most recent approved, or if no approvals then show the most recent
+
+  var groupIds = data.map(r => r.groupId).filter(onlyUnique);
+  var filteredData = groupIds.map(gId => {
+    // For each group id find the most recently created
+    var groupMembers = data.filter(r => r.groupId === gId);
+    var sortedAsc = groupMembers.sort(({ getValues: a }, { getValues: b }) => (b() as any).created - (a() as any).created); // Create a sorted ascending list
+
+    var newest = sortedAsc[0]; // Set the newest record, regardless of approval status
+
+    for (var i = 0; i < sortedAsc.length; i++) {
+      // Now search all records from newest down to find the newest approved entry.  If no approved entry is found then newest will be the furst entry above
+      if (sortedAsc[i].approved === true) {
+        newest = sortedAsc[i];
+        break;
+      }
+    }
+    return newest;
+  });
 
   const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
   const {
@@ -117,5 +140,5 @@ export const useAppData = table => {
     isMatch(ClinicalFoundations, r.clinicalFoundations) &&
     isMatch(DeveloperTypes, r.developerTypes);
 
-  return useTableFilter(data, table, customFilter);
+  return useTableFilter(filteredData, table, customFilter);
 };

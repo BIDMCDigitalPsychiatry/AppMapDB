@@ -7,6 +7,7 @@ import { AndroidStoreProps } from '../../DialogField/AndroidStore';
 import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
+import { useAdminMode } from '../../../layout/store';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -51,10 +52,17 @@ export const useAppHistoryData = (table, id) => {
   const node = apps[id];
   var { groupId } = node;
   groupId = isEmpty(groupId) ? node._id : groupId; // If we don't have a group id, then use the _id by default, for backwards compatability
+
+  const [adminMode] = useAdminMode();
   var data =
     apps && !isEmpty(groupId)
       ? Object.keys(apps)
-          .filter(k => apps[k].delete !== true && (apps[k]._id === groupId || apps[k].groupId === groupId || apps[k]._id === id))
+          .filter(
+            k =>
+              apps[k].delete !== true &&
+              (apps[k]._id === groupId || apps[k].groupId === groupId || apps[k]._id === id) &&
+              (adminMode !== true ? apps[k].approved === true : true)
+          )
           .map(k => {
             const app: Application = apps[k];
 
@@ -87,6 +95,9 @@ export const useAppHistoryData = (table, id) => {
             };
           })
       : [];
+
+  // sort by created date
+  data = data.sort(({ getValues: a }, { getValues: b }) => (b() as any).created - (a() as any).created);
 
   const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
   const {

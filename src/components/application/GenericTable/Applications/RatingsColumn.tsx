@@ -9,15 +9,16 @@ import { tables } from '../../../../database/dbConfig';
 import { useSignedIn, useFullScreen } from '../../../../hooks';
 import { useViewMode } from '../../../layout/store';
 
-export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
+export default function RatingsColumn({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const [viewMode] = useViewMode();
   const signedIn = useSignedIn();
   const fullScreen = useFullScreen();
+
   return (
-    <Grid container alignItems='flex-start' spacing={1}>
+    <Grid container alignItems='center' spacing={1}>
       {signedIn && (
-        <Grid container item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
+        <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
           <EditDialogButton
             Module={RateNewAppDialog}
             mount={false}
@@ -30,7 +31,7 @@ export default function RatingsColumn({ _id, rating, ratingIds = [] }) {
           </EditDialogButton>
         </Grid>
       )}
-      <Grid container item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
+      <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
         <EditDialogButton
           Module={ApplicationHistoryDialog}
           mount={false}

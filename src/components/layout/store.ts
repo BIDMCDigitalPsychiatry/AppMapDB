@@ -3,6 +3,7 @@ import { Reducer } from 'redux';
 import { AppState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { theme } from '../../constants';
+import { useIsAdmin } from '../../hooks';
 
 export type ViewMode = 'table' | 'list';
 
@@ -90,7 +91,8 @@ export const useViewMode = () => {
 
 export const useAdminMode = () => {
   const dispatch = useDispatch();
+  const isAdmin = useIsAdmin();
   const setAdminMode = React.useCallback(adminMode => dispatch(changeAdminMode(adminMode)), [dispatch]);
   const adminMode = useSelector((state: AppState) => state.layout.adminMode);
-  return [adminMode, setAdminMode];
+  return [isAdmin && adminMode, setAdminMode];
 };

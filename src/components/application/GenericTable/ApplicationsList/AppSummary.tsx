@@ -4,9 +4,12 @@ import Application, { DeveloperTypeQuestions } from '../../../../database/models
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
-import { onlyUnique, getDayTimeFromTimestamp } from '../../../../helpers';
+import { onlyUnique, getDayTimeFromTimestamp, isEmpty } from '../../../../helpers';
 import { purple, green, blue, pink, cyan, indigo, yellow, deepOrange, lime } from '@material-ui/core/colors';
 import DialogButton from '../../GenericDialog/DialogButton';
+import { useSelector } from 'react-redux';
+import { tables } from '../../../../database/dbConfig';
+import { AppState } from '../../../../store';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -56,6 +59,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const appColumnWidth = 520;
 
+const useNewerMemberCount = (groupId, created) => {
+  const apps = useSelector((state: AppState) => state.database[tables.applications] ?? {});
+  return Object.keys(apps).filter(k => (apps[k]._id === groupId || apps[k].groupId === groupId) && apps[k].created > created).length;
+};
+
 export default function AppSummary(props: Application & AppSummaryProps) {
   const {
     _id,
@@ -79,7 +87,10 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     ratingIds = [],
     icon = getAppIcon(props),
     rating,
+    created,
     updated,
+    approved,
+    groupId,
     RatingButtonsComponent = RatingsColumn
   } = props;
 
@@ -134,14 +145,27 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     const dtq = DeveloperTypeQuestions.find(dtq => dtq.value === dt);
     return dtq ? (dtq.short ? dtq.short : dtq.value) : dt;
   });
+
+  const GroupId = isEmpty(groupId) ? _id : groupId;
+  const newerMembers = useNewerMemberCount(GroupId, created);
+  const newMemberText = newerMembers > 0 ? ` (${newerMembers} Newer)` : '';
   return (
     <OutlinedDiv>
       <Box pt={1} pb={1}>
         <Grid container spacing={2}>
           <Grid item style={{ width: appColumnWidth }}>
             <Grid container spacing={2}>
-              <Grid item>
-                <img style={{ height: 184 }} src={icon} alt='logo' />
+              <Grid item style={{ maxWidth: 184 + 16 }}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <img style={{ height: 184 }} src={icon} alt='logo' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography align='center' color={approved ? 'primary' : 'secondary'}>
+                      {`${approved === true ? 'Approved' : 'Not Approved'}${newMemberText}`}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item zeroMinWidth xs>
                 <Grid container>
@@ -197,9 +221,16 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                   </Grid>
                   <Grid item xs={12}>
                     <Typography noWrap color='textSecondary' variant='caption'>
-                      Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
+                      Created: {updated ? getDayTimeFromTimestamp(created) : ''}
                     </Typography>
                   </Grid>
+                  {created !== updated && (
+                    <Grid item xs={12}>
+                      <Typography noWrap color='textSecondary' variant='caption'>
+                        Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
+                      </Typography>
+                    </Grid>
+                  )}
                   <Grid item xs={12}>
                     <RatingButtonsComponent _id={_id} rating={rating} ratingIds={ratingIds} />
                   </Grid>

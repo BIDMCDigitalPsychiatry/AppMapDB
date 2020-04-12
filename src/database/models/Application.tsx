@@ -471,6 +471,7 @@ export default interface Application extends Nano.MaybeDocument {
   review: string;
   email: string; // User's email
   uid: string; // Uid for user
+  approverEmail: string; // User's email who approved  
   parent: any; // If object was created from a parent, keep the link to it
   created: number;
   updated: number;
