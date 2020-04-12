@@ -23,13 +23,21 @@ export const ApplicationHistory = ({ initialValues, ...props }) => {
   const _id = initialValues?.applications?._id;
   const signedIn = useSignedIn();
 
-  const Columns = signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating');
+  // Ensure we make a copy of columns here so react updates work correctly
+  const Columns = [...(signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating'))];
   const ratingIndex = Columns.findIndex(c => c.name === 'rating');
   if (ratingIndex > -1) {
     Columns.splice(ratingIndex, 1, customRatingColumn);
   }
 
   return (
-    <GenericTableContainer {...defaultApplicationsProps} {...defaultProps} data={useAppHistoryData(name, _id)} columns={Columns} showScroll={true} {...props} />
+    <GenericTableContainer
+      {...defaultApplicationsProps}
+      {...defaultProps}
+      data={useAppHistoryData(name, _id)}
+      columns={[...Columns]}
+      showScroll={true}
+      {...props}
+    />
   );
 };
