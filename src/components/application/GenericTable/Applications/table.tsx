@@ -1,13 +1,14 @@
 ﻿import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import * as Icons from '@material-ui/icons';
-import { TableFilterDialogButton, renderDialogModule } from '../../GenericDialog/DialogButton';
-import * as FilterPopover from '../../GenericPopover/Filter';
+import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import ViewModeButton from './ViewModeButton';
 import { useAppData } from './selectors';
 import AdminToggle from './AdminToggle';
 import { columns } from './columns';
+import FilterButton from './FilterButton';
+import * as FilterPopover from '../../GenericPopover/Filter';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -20,12 +21,18 @@ export const CenterRadio = ({ checked = false }) => {
 export const defaultApplicationsProps: GenericTableContainerProps = {
   name,
   dialogs: [renderDialogModule(RateNewAppDialog)],
-  toolbar: true,
+  toolbar: false,
   footer: true,
-  search: true,
-  buttons: [<AdminToggle />, <ViewModeButton mode='table' />, <TableFilterDialogButton Module={FilterPopover} table={name} />]
+  search: false
 };
 
 export const Applications = props => {
-  return <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />;
+  return (
+    <>
+      <AdminToggle />
+      <FilterButton Module={FilterPopover} table={name} />
+      <ViewModeButton mode='table' />
+      <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />
+    </>
+  );
 };

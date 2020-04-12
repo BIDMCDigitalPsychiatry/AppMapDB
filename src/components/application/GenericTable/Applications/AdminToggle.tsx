@@ -1,22 +1,33 @@
 ﻿import React from 'react';
 import * as Icons from '@material-ui/icons';
 import { useAdminMode } from '../../../layout/store';
-import DialogButton from '../../GenericDialog/DialogButton';
-import { useFullScreen, useIsAdmin } from '../../../../hooks';
+import { useIsAdmin } from '../../../../hooks';
+import { makeStyles, createStyles, Fab, Tooltip } from '@material-ui/core';
+
+const useStyles = makeStyles(({ spacing }: any) =>
+  createStyles({
+    fab: {
+      position: 'absolute',
+      bottom: spacing(25),
+      right: spacing(3),
+      zIndex: 999999
+    }
+  })
+);
 
 export default function AdminToggle() {
+  const classes = useStyles();
   const isAdmin = useIsAdmin();
   const [adminMode, setAdminMode] = useAdminMode() as any;
   const handleClick = React.useCallback(() => setAdminMode(adminMode === true ? false : true), [adminMode, setAdminMode]);
-  const fullScreen = useFullScreen();
+  const Icon = adminMode === true ? Icons.PermIdentity : Icons.PeopleAlt;
+  const tooltip = `Switch to ${adminMode === true ? 'public mode' : 'admin mode'}`;
   return isAdmin ? (
-    <DialogButton
-      Icon={adminMode === true ? Icons.PermIdentity : Icons.PeopleAlt}
-      tooltip={`Switch to ${adminMode === true ? 'public mode' : 'admin mode'}`}
-      onClick={handleClick}
-    >
-      {!fullScreen && <div style={{ width: fullScreen ? undefined : 130 }}> {adminMode === true ? 'Viewing Admin' : 'Viewing Public'}</div>}
-    </DialogButton>
+    <Tooltip title={tooltip} placement='left'>
+      <Fab className={classes.fab} size='large' color='primary' aria-label='admin-public-mode' onClick={handleClick}>
+        <Icon />
+      </Fab>
+    </Tooltip>
   ) : (
     <></>
   );

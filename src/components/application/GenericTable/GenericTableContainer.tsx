@@ -7,6 +7,8 @@ import { Paper, CircularProgress, useTheme } from '@material-ui/core';
 import { evalFunc } from '../../../helpers';
 import { useHeight, useAppBarHeight } from '../../layout/store';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
+import { useLocation } from 'react-router';
+import { noPadPaths } from '../../layout/Layout';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
 
@@ -108,12 +110,15 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
 
   const appBarHeight = useAppBarHeight();
 
+  const { pathname } = useLocation();
+  const excludePadding = noPadPaths.findIndex(p => p === pathname) > -1 ? true : false;
+
   const componentsOnPage = [
     appBarHeight,
-    layout.contentpadding, // Top content padding
+    excludePadding ? 0 : layout.contentpadding, // Top content padding
     stacked ? layout.tablefilterbarheight + layout.contentrowspacing : 0,
-    (buttonPosition === 'top' ? layout.tabletoolbarheight : layout.tabletoolbarheight / 2) + layout.contentrowspacing,
-    layout.contentpadding, // Bottom content padding
+    !toolbar ? 0 : (buttonPosition === 'top' ? layout.tabletoolbarheight : layout.tabletoolbarheight / 2) + layout.contentrowspacing,
+    excludePadding ? 0 : layout.contentpadding, // Bottom content padding
     layout.footerheight
   ];
 

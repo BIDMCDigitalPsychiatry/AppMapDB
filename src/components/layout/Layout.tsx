@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 );
 
 const noScrollPaths = ['/Apps', '/', '/RateNewApp'];
-const noPadPaths = ['/Home', '/'];
+export const noPadPaths = ['/Home', '/', '/Apps'];
 
 export default function Layout({ children }) {
   const height = useHeight();
