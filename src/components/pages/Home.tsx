@@ -92,44 +92,41 @@ export default function Home() {
     height -
     [
       appBarHeight, // Appbar height
-      padding * 8, // Box padding
       layout.tabheight, // Nav pills tab section height
       layout.footerheight // Footer height
     ].reduce((t, c) => t + c, 0);
 
   return (
-    <Box pt={padding}>
-      <NavPills
-        contentHeight={contentHeight}
-        color='primary'
-        overflowY={localTab === 0 ? 'hidden' : 'auto'}
-        alignCenter
-        active={0}
-        onChange={handleTabChange}
-        tabs={[
-          {
-            tabIcon: Icons.ImageSearch,
-            tabButton: 'Interactive Search',
-            tabContent: <InteractiveSearchCard values={values} setValues={setValues} />
-          },
-          {
-            tabIcon: Icons.Search,
-            tabButton: 'Search by Filters',
-            tabContent: (
-              <Box p={2}>
-                <Grid container spacing={spacing} justify='space-around'>
-                  <Grid item xs={xs} style={{ minWidth: 300, maxWidth: 850, marginTop: 12 }}>
-                    <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 16 }}>
-                      Select filters and click search:
-                    </Typography>
-                    <FilterContent values={values} setValues={setValues} />
-                  </Grid>
+    <NavPills
+      contentHeight={contentHeight}
+      color='primary'
+      overflowY={localTab === 0 ? 'hidden' : 'auto'}
+      alignCenter
+      active={0}
+      onChange={handleTabChange}
+      tabs={[
+        {
+          tabIcon: Icons.ImageSearch,
+          tabButton: 'Interactive Search',
+          tabContent: <InteractiveSearchCard values={values} setValues={setValues} />
+        },
+        {
+          tabIcon: Icons.Search,
+          tabButton: 'Search by Filters',
+          tabContent: (
+            <Box p={2}>
+              <Grid container spacing={spacing} justify='space-around'>
+                <Grid item xs={xs} style={{ minWidth: 300, maxWidth: 850, marginTop: 12 }}>
+                  <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 16 }}>
+                    Select filters and click search:
+                  </Typography>
+                  <FilterContent values={values} setValues={setValues} />
                 </Grid>
-              </Box>
-            )
-          }
-        ]}
-      />
-    </Box>
+              </Grid>
+            </Box>
+          )
+        }
+      ]}
+    />
   );
 }

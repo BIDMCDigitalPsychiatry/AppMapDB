@@ -108,7 +108,7 @@ export interface ComponentProps {
   elevation?: any;
 }
 
-const contentPaddingTop = 24;
+const contentPaddingTop = 20;
 
 const GenericStepperCard = ({
   id,
