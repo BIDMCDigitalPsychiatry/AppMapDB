@@ -12,7 +12,6 @@ import steps from '../application/GenericDialog/InteractiveSearch/steps';
 import { FeatureImages, PlatformImages } from '../../database/models/Application';
 
 const spacing = 2;
-const padding = 1;
 
 export const variableFilters = [
   {
