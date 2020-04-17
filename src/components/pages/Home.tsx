@@ -117,7 +117,7 @@ export default function Home() {
               <Grid container spacing={spacing} justify='space-around'>
                 <Grid item xs={xs} style={{ minWidth: 300, maxWidth: 850, marginTop: 12 }}>
                   <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 16 }}>
-                    Select filters and click search:
+                    Enter filters and click search:
                   </Typography>
                   <FilterContent values={values} setValues={setValues} />
                 </Grid>

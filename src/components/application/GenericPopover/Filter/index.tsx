@@ -14,6 +14,7 @@ import {
   Uses
 } from '../../../../database/models/Application';
 import { useFullScreen } from '../../../../hooks';
+import TableSearch from '../../GenericTable/TableSearch';
 
 export const title = 'Apply Filters';
 
@@ -31,6 +32,7 @@ export default function FilterPopover({ id = title, ...other }) {
       maxColumnWidth={350}
       disableInitialize={true}
       fields={[
+        { id: 'TextSearch', label: 'Text Search', Field: TableSearch },
         {
           id: 'Platforms',
           Field: MultiSelectCheck,

@@ -25,6 +25,7 @@ import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { useGetFilters } from '../../../../database/useFilterList';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
+import TableSearch from '../../GenericTable/TableSearch';
 
 export const title = 'Apply Filters';
 const maxWidth = 400;
@@ -38,14 +39,19 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
   return (
     <Grid container style={{ maxWidth: 1000 }} justify='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>Accessibility</Typography>
+        <Typography variant='h6'>Text Search</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
-          {injectField('Platforms')}
-          {injectField('Cost')}
-          {injectField('DeveloperTypes')}
-          {injectField('Conditions')}
+          {injectField('TextSearch')}
         </Grid>
+        <Box mt={spacing / 2}>
+          <Typography variant='h6'>Engagement Style</Typography>
+          <Divider style={{ marginBottom: 8 }} />
+          <Grid container spacing={1}>
+            {injectField('Features')}
+            {injectField('Engagements')}
+          </Grid>
+        </Box>
         {advanced && (
           <>
             <Box mt={spacing / 2}>
@@ -60,11 +66,13 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
         )}
       </Grid>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>Engagement Style</Typography>
+        <Typography variant='h6'>Accessibility</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
-          {injectField('Features')}
-          {injectField('Engagements')}
+          {injectField('Platforms')}
+          {injectField('Cost')}
+          {injectField('DeveloperTypes')}
+          {injectField('Conditions')}
         </Grid>
         {advanced && (
           <>
@@ -200,6 +208,7 @@ export default function FilterContent({ id = title, ...other }) {
         xs: 12,
         hidden: !signedIn
       },
+      { id: 'TextSearch', label: 'Text Search', Field: TableSearch },
       {
         id: 'Platforms',
         Field: MultiSelectCheck,
