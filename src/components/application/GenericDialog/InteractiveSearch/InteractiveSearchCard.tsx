@@ -13,7 +13,7 @@ const buttonWidth = 180;
 
 const FieldActions = ({ handleNext, handleBack, handleSubmit, activeStep }) => {
   return (
-    <Grid container justify='center' spacing={4} style={{ marginTop: 16 }}>
+    <Grid container justify='center' spacing={4} style={{ marginTop: 16, marginBottom: 64 }}>
       {activeStep > 0 && (
         <Grid item>
           <Button style={{ width: buttonWidth }} onClick={handleBack} variant='outlined' disabled={activeStep === 0}>

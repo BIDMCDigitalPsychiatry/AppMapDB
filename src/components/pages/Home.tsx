@@ -113,7 +113,7 @@ export default function Home() {
           tabIcon: Icons.Search,
           tabButton: 'Search by Filters',
           tabContent: (
-            <Box p={2}>
+            <Box p={2} mb={8}>
               <Grid container spacing={spacing} justify='space-around'>
                 <Grid item xs={xs} style={{ minWidth: 300, maxWidth: 850, marginTop: 12 }}>
                   <Typography variant='h6' color='textPrimary' style={{ marginTop: 8, marginBottom: 16 }}>
