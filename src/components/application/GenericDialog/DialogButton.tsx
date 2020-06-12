@@ -115,8 +115,11 @@ export interface DialogButtonProps {
   children?: any;
 }
 
-const useStyles = makeStyles(({ palette }: any) =>
+const useStyles = makeStyles(({ palette, spacing }: any) =>
   createStyles({
+    margin: {
+      margin: spacing(1)
+    },
     listitem: {
       padding: 8,
       paddingLeft: 16,
@@ -233,8 +236,8 @@ const DialogButton = React.forwardRef(function DialogButton(
               <ListItemText primary={label} />
             </ListItem>
           ) : variant === 'iconbutton' ? (
-            <IconButton color='inherit' {...shared}>
-              {Icon && <Icon />}
+            <IconButton className={classes.margin} color={color} {...shared}>
+              {Icon && <Icon fontSize="large"/>}
             </IconButton>
           ) : variant === 'primarycontained' ? (
             <Button color='primary' variant='contained' {...shared}>
@@ -274,7 +277,7 @@ const DialogButton = React.forwardRef(function DialogButton(
             <Fab
               size={size}
               variant='extended'
-              color='primary'
+              color={color}
               style={{
                 color: disabled ? (disabledColor ? disabledColor : theme.palette.primary.light) : theme.palette.common.white
               }}
