@@ -63,9 +63,9 @@ const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs
 const OutputRadios = ({ outputs = [] }: Application) => buildRadios(Outputs, outputs);
 
 export const columns = [
-  { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary },
-  { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated },
-  { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn },
+  { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false },
+  { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated, hoverable: false },
+  { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn, hoverable: false },
   {
     name: 'platforms',
     width: 140,

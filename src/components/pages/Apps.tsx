@@ -4,6 +4,7 @@ import { useViewMode } from '../layout/store';
 import DB from '../../database/dbConfig';
 import { useApplications } from '../../database/useApplications';
 import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
+import * as ReportIssueDialog from '../application/GenericDialog/ReportIssue';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 
 export default function Apps() {
@@ -20,11 +21,12 @@ export default function Apps() {
       }, {});
       setApps(result);
     });
-  }, [setApps]);
+  }, [setApps]); 
 
   return (
     <>
       {renderDialogModule(ApplicationHistoryDialog)}
+      {renderDialogModule(ReportIssueDialog)}
       {viewMode === 'table' ? <Tables.Applications /> : <Tables.ApplicationsList />}
     </>
   );

@@ -3,45 +3,63 @@ import { Grid, Typography } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import * as ApplicationHistoryDialog from '../../GenericDialog/ApplicationHistoryDialog';
+import * as ReportIssueDialog from '../../GenericDialog/ReportIssue';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
-import { useSignedIn, useFullScreen } from '../../../../hooks';
-import { useViewMode } from '../../../layout/store';
+import { useSignedIn } from '../../../../hooks';
+import * as Icons from '@material-ui/icons';
 
 export default function RatingsColumn({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
-  const [viewMode] = useViewMode();
   const signedIn = useSignedIn();
-  const fullScreen = useFullScreen();
 
   return (
     <Grid container alignItems='center' spacing={1}>
+      {/* TODO Add more info dialog
+      <Grid item>
+        <DialogButton variant='iconbutton' Icon={Icons.Pageview} color='primary' tooltip='Open/View More Info' />;
+      </Grid>
+      */}
       {signedIn && (
-        <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
+        <Grid item>
           <EditDialogButton
+            variant='iconbutton'
             Module={RateNewAppDialog}
             mount={false}
-            variant='primarycontained'
-            tooltip=''
-            Icon={null}
+            Icon={Icons.Edit}
             initialValues={{ [tables.applications]: initialValues }}
-          >
-            <Typography noWrap>View / Edit</Typography>
-          </EditDialogButton>
+            color='primary'
+            tooltip='Edit'
+            placement='bottom'
+          />
         </Grid>
       )}
-      <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
+      <Grid item>
         <EditDialogButton
+          variant='iconbutton'
           Module={ApplicationHistoryDialog}
           mount={false}
-          variant='primarycontained'
-          tooltip=''
-          Icon={null}
+          Icon={Icons.Timeline}
           initialValues={{ [tables.applications]: initialValues }}
-        >
-          <Typography noWrap>Rating History</Typography>
-        </EditDialogButton>
+          color='primary'
+          tooltip='Open Ratings History'
+          placement='bottom'
+        />
+      </Grid>
+      <Grid item>
+        <Typography color='error'>
+          <EditDialogButton
+            variant='iconbutton'
+            color='inherit'
+            Module={ReportIssueDialog}
+            mount={false}
+            Icon={Icons.Report}
+            initialValues={{ [tables.applications]: initialValues }}
+            tooltip='Report Issue'
+            placement='bottom'
+          />
+        </Typography>
       </Grid>
     </Grid>
   );

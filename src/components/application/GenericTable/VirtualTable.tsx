@@ -14,6 +14,9 @@ export interface VirtualTableProps {
   height?: number;
   checkbox?: boolean;
   hover?: boolean;
+  onCellClick?: (event, props) => any;
+  onHeaderClick?: (event, props) => any;  
+  isCellHovered?: (column, rowData, hoveredColumn, hoveredRowData) => boolean;
   select?: boolean;
   columns?: any[] | ((props?) => any[]);
   data?: any[];
@@ -140,6 +143,9 @@ export default function VirtualTable(props: VirtualTableProps) {
     rowHeight = layout.tableRowHeight,
     rounded = false,
     hover,
+    onCellClick = undefined,
+    onHeaderClick = undefined,
+    isCellHovered = undefined,
     select,
     checkbox,
     data,
@@ -165,7 +171,12 @@ export default function VirtualTable(props: VirtualTableProps) {
 
   const sortinjectedcolumns = evalFunc(columns, props).map(c => ({
     ...c,
-    onHeaderClick: c.sort ? () => handleSort(c.name, c.sort) : undefined
+    onHeaderClick: c.sort
+      ? (event, props) => {
+          handleSort(c.name, c.sort);
+          onHeaderClick(event, props);
+        }
+      : onHeaderClick
   })); //;== true && handleSort() }));
   return (
     <div style={{ height: height }}>
@@ -263,10 +274,18 @@ export default function VirtualTable(props: VirtualTableProps) {
                     }
                     isCellSelected={select ? (column, rowData) => state.selectedRowIds.some(id => rowData && rowData.id === id) : undefined}
                     isCellHovered={
-                      hover ? (column, rowData, hoveredColumn, hoveredRowData) => rowData && rowData.id && rowData.id === hoveredRowData.id : undefined
+                      isCellHovered || hover
+                        ? (column, rowData, hoveredColumn, hoveredRowData) =>
+                            isCellHovered
+                              ? isCellHovered(column, rowData, hoveredColumn, hoveredRowData)
+                              : rowData && rowData.id && rowData.id === hoveredRowData.id
+                        : undefined
                     }
+                    onHeaderClick={onHeaderClick}
                     onCellClick={
-                      select
+                      onCellClick
+                        ? onCellClick
+                        : select
                         ? (event, { column, rowData }) => {
                             setState(prevState => {
                               if (prevState.selectedRowIds.some(id => rowData.id === id)) {
