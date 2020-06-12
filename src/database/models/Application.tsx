@@ -79,60 +79,75 @@ export type Privacy =
   | 'Meets HIPAA'
   | 'Has Crisis Management Feature';
 
+const hasPrivacyPolicy = value => !value.includes('Has Privacy Policy');
+
 export const PrivacyQuestions = [
   { value: 'Has Privacy Policy', short: 'Has Policy', label: 'Is there a privacy policy?' },
   {
     value: 'Data Stored on Device',
     short: 'Device Storage',
     label: 'Is the data stored only on the device?',
-    tooltip: 'User data is either stored locally (exclusively on the device) or on a server.'
+    tooltip: 'User data is either stored locally (exclusively on the device) or on a server.',
+    hidden: hasPrivacyPolicy
   },
   {
     value: 'Data Stored on Server',
     short: 'Server Storage',
     label: 'Is the data stored on a server?',
-    tooltip: 'If the data is stored only on the device, then it won’t be stored on a server.'
+    tooltip: 'If the data is stored only on the device, then it won’t be stored on a server.',
+    hidden: hasPrivacyPolicy
   },
   {
     value: 'Can Delete Data',
     short: 'Can Delete Data',
     label: 'Can you delete your data?',
-    tooltip: 'Can user data be deleted? Some apps may retain data permanently even if the user deletes the app.'
+    tooltip: 'Can user data be deleted? Some apps may retain data permanently even if the user deletes the app.',
+    hidden: hasPrivacyPolicy
   },
-  { value: 'App Declares Data Use and Purpose', short: 'Declares Purpose', label: 'Does the app declare data use and purpose?' },
-  { value: 'App Reports Security Measures in Place', short: 'Security Measures', label: 'Does the app report security measures in place?' },
+  { value: 'App Declares Data Use and Purpose', short: 'Declares Purpose', label: 'Does the app declare data use and purpose?', hidden: hasPrivacyPolicy },
+  {
+    value: 'App Reports Security Measures in Place',
+    short: 'Security Measures',
+    label: 'Does the app report security measures in place?',
+    hidden: hasPrivacyPolicy
+  },
   {
     value: 'Is PHI Shared',
     label: 'Is PHI shared?',
     short: 'PHI Shared',
     tooltip:
-      'PHI refers to personal health information that is entered into the app (name, birthday, content of messages, mental health information). Data is shared if it leaves the app in any way.'
+      'PHI refers to personal health information that is entered into the app (name, birthday, content of messages, mental health information). Data is shared if it leaves the app in any way.',
+    hidden: hasPrivacyPolicy
   },
   {
     value: 'Is De-Identified Data Shared',
     short: 'De-Indentifed Data Shared',
     label: 'Is de-identified data shared?',
     tooltip:
-      'De-identified data is information that has been stripped of personally identifiable attributes (Names and identifiers have been stripped, but the individual information remains)'
+      'De-identified data is information that has been stripped of personally identifiable attributes (Names and identifiers have been stripped, but the individual information remains)',
+    hidden: hasPrivacyPolicy
   },
   {
     value: 'Is Anonymized/Aggregate Data Shared',
     short: 'Anonymized Data Shared',
     label: 'Is anonymized/aggregate data shared?',
-    tooltip: 'Anonymized data can no longer be associated with an individual in any manner.'
+    tooltip: 'Anonymized data can no longer be associated with an individual in any manner.',
+    hidden: hasPrivacyPolicy
   },
   {
     value: 'Can Opt Out of Data Collection',
     short: 'Data Collection Opt Out',
     label: 'Can you opt out of data colleciton?',
-    tooltip: 'Is there a way for a user to indicate that they don’t want to app to collect or share their data?'
+    tooltip: 'Is there a way for a user to indicate that they don’t want to app to collect or share their data?',
+    hidden: hasPrivacyPolicy
   },
-  { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?' },
+  { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?', hidden: hasPrivacyPolicy },
   {
     value: 'Has Crisis Management Feature',
     short: 'Crisis Management Feature',
     label: 'Does the app have a crisis management feature?',
-    tooltip: 'An app’s emergency response or crisis management feature is often detailed in the privacy policy.'
+    tooltip: 'An app’s emergency response or crisis management feature is often detailed in the privacy policy.',
+    hidden: hasPrivacyPolicy
   }
 ];
 
@@ -471,7 +486,7 @@ export default interface Application extends Nano.MaybeDocument {
   review: string;
   email: string; // User's email
   uid: string; // Uid for user
-  approverEmail: string; // User's email who approved  
+  approverEmail: string; // User's email who approved
   parent: any; // If object was created from a parent, keep the link to it
   created: number;
   updated: number;

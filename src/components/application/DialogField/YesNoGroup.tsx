@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormControl, Box, FormHelperText, Typography } from '@material-ui/core';
-import { isError, isTrue, onlyUnique } from '../../../helpers';
+import { isError, isTrue, onlyUnique, evalFunc } from '../../../helpers';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 import YesNo from './YesNo';
 
@@ -37,11 +37,13 @@ const YesNoGroup = ({
               {description}
             </Typography>
           )}
-          {items.map(({ label, value: key, ...more }) => (
-            <div key={key}>
-              <YesNo label={label} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />
-            </div>
-          ))}
+          {items
+            .filter(i => !evalFunc(i.hidden, value))
+            .map(({ label, value: key, ...more }) => (
+              <div key={key}>
+                <YesNo label={label} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />
+              </div>
+            ))}
           {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
         </Box>
       </OutlinedDiv>
