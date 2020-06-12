@@ -4,7 +4,8 @@ import { useViewMode } from '../layout/store';
 import DB from '../../database/dbConfig';
 import { useApplications } from '../../database/useApplications';
 import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
-import * as ReportIssueDialog from '../application/GenericDialog/ReportIssue';
+import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
+import * as ApplicationDialog from '../application/GenericDialog/ApplicationDialog';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 
 export default function Apps() {
@@ -21,12 +22,13 @@ export default function Apps() {
       }, {});
       setApps(result);
     });
-  }, [setApps]); 
+  }, [setApps]);
 
   return (
     <>
       {renderDialogModule(ApplicationHistoryDialog)}
-      {renderDialogModule(ReportIssueDialog)}
+      {renderDialogModule(SuggestEditDialog)}
+      {renderDialogModule(ApplicationDialog)}
       {viewMode === 'table' ? <Tables.Applications /> : <Tables.ApplicationsList />}
     </>
   );

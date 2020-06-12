@@ -2,16 +2,16 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 
-export const title = 'Report Issue';
+export const title = 'Suggest Edit';
 
-export default function ReportIssue({ id = title }) {
+export default function SuggestEdit({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
   const { initialValues } = dialogState;
 
   const handleSubmit = ({ name, email, review }) => {
     console.log({ name, email, review, initialValues });
     setState(prev => ({ ...prev, open: false, showErrors: true, loading: false }));
-    alert('Your issue has been reported.  Thank you.');
+    alert('Your suggestion has been reported.  Thank you.');
   };
 
   return (
@@ -24,12 +24,12 @@ export default function ReportIssue({ id = title }) {
         {
           id: 'name',
           label: 'Name',
-          placeholder: 'Enter name of person reporting the issue'
+          placeholder: 'Enter name of person suggesting the edit'
         },
         {
           id: 'email',
           label: 'Email',
-          placeholder: 'Enter email of person reporting the issue',
+          placeholder: 'Enter email of person suggesting the edit',
           email: true
         },
         {
@@ -38,7 +38,7 @@ export default function ReportIssue({ id = title }) {
           multiline: true,
           required: true,
           rows: 12,
-          placeholder: 'Enter a description of the issue you are reporting',
+          placeholder: 'Enter a description of the issue you are suggesting',
           hidden: false
         }
       ]}

@@ -1,9 +1,10 @@
 ﻿import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import * as ApplicationHistoryDialog from '../../GenericDialog/ApplicationHistoryDialog';
-import * as ReportIssueDialog from '../../GenericDialog/ReportIssue';
+import * as ApplicationDialog from '../../GenericDialog/ApplicationDialog';
+import * as SuggestEditDialog from '../../GenericDialog/SuggestEdit';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
@@ -16,11 +17,17 @@ export default function RatingsColumn({ _id }) {
 
   return (
     <Grid container alignItems='center' spacing={1}>
-      {/* TODO Add more info dialog
       <Grid item>
-        <DialogButton variant='iconbutton' Icon={Icons.Pageview} color='primary' tooltip='Open/View More Info' />;
+        <EditDialogButton
+          Module={ApplicationDialog}
+          variant='iconbutton'
+          mount={false}
+          Icon={Icons.Pageview}
+          initialValues={{ [tables.applications]: initialValues }}
+          tooltip='View Additional Application Info'
+          placement='bottom'
+        />
       </Grid>
-      */}
       {signedIn && (
         <Grid item>
           <EditDialogButton
@@ -29,7 +36,6 @@ export default function RatingsColumn({ _id }) {
             mount={false}
             Icon={Icons.Edit}
             initialValues={{ [tables.applications]: initialValues }}
-            color='primary'
             tooltip='Edit'
             placement='bottom'
           />
@@ -42,24 +48,20 @@ export default function RatingsColumn({ _id }) {
           mount={false}
           Icon={Icons.Timeline}
           initialValues={{ [tables.applications]: initialValues }}
-          color='primary'
           tooltip='Open Ratings History'
           placement='bottom'
         />
       </Grid>
       <Grid item>
-        <Typography color='error'>
-          <EditDialogButton
-            variant='iconbutton'
-            color='inherit'
-            Module={ReportIssueDialog}
-            mount={false}
-            Icon={Icons.Report}
-            initialValues={{ [tables.applications]: initialValues }}
-            tooltip='Report Issue'
-            placement='bottom'
-          />
-        </Typography>
+        <EditDialogButton
+          variant='iconbutton'
+          Module={SuggestEditDialog}
+          mount={false}
+          Icon={Icons.Report}
+          initialValues={{ [tables.applications]: initialValues }}
+          tooltip='Suggest Edit'
+          placement='bottom'
+        />
       </Grid>
     </Grid>
   );
