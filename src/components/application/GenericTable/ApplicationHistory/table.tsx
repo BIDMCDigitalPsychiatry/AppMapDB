@@ -16,7 +16,7 @@ const defaultProps: GenericTableContainerProps = {
   name
 };
 
-export const customRatingColumn = { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumnHistory };
+export const customRatingColumn = { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumnHistory, hoverable: false };
 
 export const ApplicationHistory = ({ initialValues, ...props }) => {
   const _id = initialValues?.applications?._id;
