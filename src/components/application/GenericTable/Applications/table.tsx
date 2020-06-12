@@ -48,7 +48,11 @@ export const Applications = props => {
       <ViewModeButton mode='table' />
       <GenericTableContainer
         {...defaultApplicationsProps}
-        isCellHovered={(column, rowData, hoveredColumn, hoveredRowData) => column.name === hoveredColumn.name && column.hoverable !== false}
+        isCellHovered={(column, rowData, hoveredColumn, hoveredRowData) =>
+          !(pinned.length == 0 && dynamicColumns.length > 0 && dynamicColumns[0].name === column.name) // Prevent hover if no columns are pinned and column is already pinned in first position
+          && (pinned.length == 0 || pinned[0] !== column.name) // Prevent hover if column is already pinned in first position
+          && column.name === hoveredColumn.name && column.hoverable !== false
+        }
         onHeaderClick={(event, { column }) => handlePinColumn(column.name)}
         onCellClick={(event, { column, rowData }) => handlePinColumn(column.name)}
         data={useAppData(name)}
