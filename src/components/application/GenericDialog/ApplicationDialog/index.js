@@ -1,9 +1,7 @@
 import React from 'react';
-import { Box, Container, Grid, makeStyles, createStyles, Divider, Typography, Paper } from '@material-ui/core';
-import * as GenericObjectiveQuestionDialog from '../ObjectiveQuestions/GenericObjectiveQuestionDialog';
+import { Container, Grid, makeStyles, createStyles, Typography, Paper } from '@material-ui/core';
 import GenericDialog from '../GenericDialog';
 import { DialogContent } from '@material-ui/core';
-import DialogButton from '../DialogButton';
 import { ApplicationTabsView } from '../RateNewApp/templates/ApplicationTabsView';
 import { useDialogState } from '../useDialogState';
 import { ApplicationReviews } from '../../GenericTable/ApplicationReviews/table';
@@ -26,12 +24,6 @@ const useStyles = makeStyles(({ palette, spacing }) =>
   })
 );
 
-const buttons = [
-  {
-    title: 'Screenshots'
-  }
-];
-
 export default function ApplicationDialog({ id = title }) {
   const classes = useStyles({});
   const [{ initialValues = {} }] = useDialogState(id);
@@ -53,27 +45,6 @@ export default function ApplicationDialog({ id = title }) {
               <ApplicationReviews groupId={groupId} height={500} />
             </Grid>
           </Grid>
-          <Box pt={2} pb={2}>
-            <Divider />
-            <Box pt={2} pb={2}>
-              <Grid container item xs={12} justify='center' spacing={2}>
-                {buttons.map(b => (
-                  <Grid item key={b.title}>
-                    <DialogButton
-                      Module={{ ...GenericObjectiveQuestionDialog, id: b.title, ...b }}
-                      className={classes.button}
-                      size='large'
-                      variant='outlined'
-                      tooltip='Click to View'
-                      Icon={null}
-                    >
-                      {b.title}
-                    </DialogButton>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          </Box>
         </Container>
       </DialogContent>
     </GenericDialog>

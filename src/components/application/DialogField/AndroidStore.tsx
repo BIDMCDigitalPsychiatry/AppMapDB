@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Grid, Typography, Box } from '@material-ui/core';
 import logo from '../../../images/logo.png';
 import NewWindowLink from './NewWindowLink';
+import DialogButton from '../GenericDialog/DialogButton';
+import * as ScreenshotsDialog from '../GenericDialog/ScreenshotsDialog';
 
 export interface AndroidStoreProps {
   title: string; //DC Universe - The Ultimate DC Membership"
@@ -54,7 +56,7 @@ export interface AndroidStoreProps {
 }
 
 const AndroidStore = ({ value = {} as AndroidStoreProps }) => {
-  const { icon = logo, title, developer, description, installs, offersIAP, free, adSupported, url } = value;
+  const { icon = logo, title, developer, description, installs, offersIAP, free, adSupported, url, screenshots = [] } = value;
 
   return (
     <>
@@ -76,7 +78,30 @@ const AndroidStore = ({ value = {} as AndroidStoreProps }) => {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <NewWindowLink url={url} label={'Open in Google Play Store'} />
+              <Grid container spacing={1}>
+                <Grid item>
+                  <NewWindowLink url={url} label={'Open in Google Play Store'} />
+                </Grid>
+                {screenshots.length > 0 && (
+                  <>
+                    <Grid item>|</Grid>
+                    <Grid item>
+                      <DialogButton
+                        Module={ScreenshotsDialog}
+                        size='large'
+                        variant='link'
+                        linkvariant='inherit'
+                        underline='always'
+                        tooltip='Click to View'
+                        Icon={null}
+                        initialValues={{ images: screenshots }}
+                      >
+                        View Screenshots
+                      </DialogButton>
+                    </Grid>
+                  </>
+                )}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

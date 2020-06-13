@@ -142,6 +142,8 @@ const DialogButton = React.forwardRef(function DialogButton(
     placement = 'bottom',
     color = 'primary',
     variant = 'fab',
+    underline = 'hover',
+    linkvariant = 'caption',
     size = 'small',
     label = '',
     disabled = undefined,
@@ -237,7 +239,7 @@ const DialogButton = React.forwardRef(function DialogButton(
             </ListItem>
           ) : variant === 'iconbutton' ? (
             <IconButton className={classes.margin} color={color} {...shared}>
-              {Icon && <Icon fontSize="large"/>}
+              {Icon && <Icon fontSize='large' />}
             </IconButton>
           ) : variant === 'primarycontained' ? (
             <Button color='primary' variant='contained' {...shared}>
@@ -269,7 +271,7 @@ const DialogButton = React.forwardRef(function DialogButton(
                 {children}
               </Typography>
             ) : (
-              <Link color={color} variant='caption' style={{ cursor: 'pointer' }} {...shared}>
+              <Link color={color} variant={linkvariant} underline={underline} style={{ cursor: 'pointer' }} {...shared}>
                 {children}
               </Link>
             )
