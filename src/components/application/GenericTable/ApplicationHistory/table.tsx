@@ -5,7 +5,7 @@ import GenericTableContainer, { GenericTableContainerProps } from '../GenericTab
 import AdminToggle from '../Applications/AdminToggle';
 import ViewModeButton from '../Applications/ViewModeButton';
 import { useAppHistoryData } from './selectors';
-import { columns } from '../Applications/columns';
+import { useColumns } from '../Applications/columns';
 import RatingsColumnHistory from '../Applications/RatingsColumnHistory';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import TableFilterDialogButton from '../Applications/FilterButton';
@@ -21,6 +21,8 @@ export const customRatingColumn = { name: 'rating', header: 'Rating', width: 300
 export const ApplicationHistory = ({ initialValues, ...props }) => {
   const _id = initialValues?.applications?._id;
   const signedIn = useSignedIn();
+
+  const columns = useColumns();
 
   // Ensure we make a copy of columns here so react updates work correctly
   const Columns = [...(signedIn ? columns : (columns as []).filter((c: any) => c.name !== 'rating'))];

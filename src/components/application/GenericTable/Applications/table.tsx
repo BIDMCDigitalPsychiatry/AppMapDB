@@ -6,7 +6,7 @@ import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDial
 import ViewModeButton from './ViewModeButton';
 import { useAppData } from './selectors';
 import AdminToggle from './AdminToggle';
-import { columns } from './columns';
+import { useColumns } from './columns';
 import FilterButton from './FilterButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 
@@ -27,40 +27,13 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
 };
 
 export const Applications = props => {
-  const [pinned, setPinned] = React.useState([]);
-  const handlePinColumn = React.useCallback(name => setPinned(prev => [name, ...prev.filter(c => c !== name)]), [setPinned]);
-
-  const staticColumns = columns.filter(c => c.hoverable === false);
-  const dynamicColumns = columns.filter(c => c.hoverable !== false);
-
-  const pinnedColumns = pinned.map(name => dynamicColumns.find(c => c.name === name));
-  const remainingColumns = dynamicColumns.filter(c => !pinned.includes(c.name));
-
-  const mergedColumns = [...staticColumns, ...pinnedColumns, ...remainingColumns].map(c => ({
-    ...c,
-    onHeaderClick: false
-  }));
-
+  const columns = useColumns();
   return (
     <>
       <AdminToggle />
       <FilterButton Module={FilterPopover} table={name} />
       <ViewModeButton mode='table' />
-      <GenericTableContainer
-        {...defaultApplicationsProps}
-        isCellHovered={(column, rowData, hoveredColumn, hoveredRowData) =>
-          !(pinned.length === 0 && dynamicColumns.length > 0 && dynamicColumns[0].name === column.name) && // Prevent hover if no columns are pinned and column is already pinned in first position
-          (pinned.length === 0 || pinned[0] !== column.name) && // Prevent hover if column is already pinned in first position
-          column.name === hoveredColumn.name &&
-          column.hoverable !== false
-        }
-        onHeaderClick={(event, { column }) => handlePinColumn(column.name)}
-        onCellClick={(event, { column, rowData }) => handlePinColumn(column.name)}
-        data={useAppData(name)}
-        columns={mergedColumns}
-        showScroll={true}
-        {...props}
-      />
+      <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />
     </>
   );
 };
