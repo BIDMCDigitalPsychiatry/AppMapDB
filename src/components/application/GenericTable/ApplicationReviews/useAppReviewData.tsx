@@ -12,12 +12,12 @@ export const useAppReviewData = (table, groupId) => {
   var data = apps
     ? Object.keys(apps)
         .filter(k => apps[k].delete !== true && !isEmpty(apps[k].review) && apps[k].approved === true && getId(apps[k]) === groupId)
-        .map(k => {
+        .map((k, i) => {
           const app: Application = apps[k];
           return {
-            _id: app._id,
+            _id: app._id,            
             parent: app.parent,
-            getValues: () => app,
+            getValues: () => ({ ...app, index: i }),
             created: app.created,
             approved: app.approved,
             review: app.review,

@@ -18,8 +18,9 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const appColumnWidth = 520;
 
-export default function AppReview({ updated, review, handleRefresh }) {
-  const [expand, setExpand] = React.useState(false);
+export default function AppReview({ updated, review, handleRefresh, index }) {
+  const [expand, setExpand] = React.useState(index === 0);
+
   const handleExpand = React.useCallback(
     e => {
       setExpand(prev => !prev);
