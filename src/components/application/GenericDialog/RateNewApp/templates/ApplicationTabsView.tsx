@@ -73,11 +73,11 @@ export const ApplicationTabsView = ({ platforms = [], androidLink, iosLink, webL
       try {
         if (androidStore.load === true && !isEmpty(googleAppId)) {
           const appInfo = await getAppInfo(googleAppId, 'google');
-          setAndroidStore(prev => ({ ...prev, value: appInfo }));
+          setAndroidStore(prev => ({ ...prev, value: appInfo, load: false }));
         }
         if (appleStore.load === true && !isEmpty(appleAppId)) {
           const appleAppInfo = await getAppInfo(appleAppId, 'apple');
-          setAppleStore(prev => ({ ...prev, value: appleAppInfo }));
+          setAppleStore(prev => ({ ...prev, value: appleAppInfo, load: false }));
         }
         setState(prev => ({ ...prev, loading: false }));
       } catch (error) {
@@ -120,9 +120,9 @@ export const ApplicationTabsView = ({ platforms = [], androidLink, iosLink, webL
               {p === 'Web' ? (
                 <NewWindowLink url={webLink} label={'Open Web Link'} />
               ) : p === 'Android' ? (
-                <AndroidStore value={androidStore as any} />
+                <AndroidStore value={androidStore.value as any} />
               ) : (
-                <AppleStore value={appleStore as any} />
+                <AppleStore value={appleStore.value as any} />
               )}
             </div>
           )
