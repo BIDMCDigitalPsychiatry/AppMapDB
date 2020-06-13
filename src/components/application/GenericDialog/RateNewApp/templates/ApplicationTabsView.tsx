@@ -64,29 +64,37 @@ export const ApplicationTabsView = ({ platforms = [], androidLink, iosLink, webL
   const googleAppId = getAndroidIdFromUrl(androidLink);
   const appleAppId = getAppleIdFromUrl(iosLink);
 
-  const [androidStore, setAndroidStore] = React.useState({ value: '', load: true });
-  const [appleStore, setAppleStore] = React.useState({ value: '', load: true });
-  const [{ loading, tab }, setState] = React.useState({ loading: false, tab: 0 });
+  const [{ loading, tab, androidStore, appleStore }, setState] = React.useState({
+    loading: false,
+    tab: 0,
+    androidStore: { value: '', load: true },
+    appleStore: { value: '', load: true }
+  });
 
   const handleGetAppInfo = React.useCallback(() => {
     async function fetchData() {
       try {
+        var androidAppInfo = '';
+        var appleAppInfo = '';
         if (androidStore.load === true && !isEmpty(googleAppId)) {
-          const appInfo = await getAppInfo(googleAppId, 'google');
-          setAndroidStore(prev => ({ ...prev, value: appInfo, load: false }));
+          androidAppInfo = await getAppInfo(googleAppId, 'google');
         }
         if (appleStore.load === true && !isEmpty(appleAppId)) {
-          const appleAppInfo = await getAppInfo(appleAppId, 'apple');
-          setAppleStore(prev => ({ ...prev, value: appleAppInfo, load: false }));
+          appleAppInfo = await getAppInfo(appleAppId, 'apple');
         }
-        setState(prev => ({ ...prev, loading: false }));
+        setState(prev => ({
+          ...prev,
+          loading: false,
+          androidStore: { ...prev.androidStore, value: androidAppInfo, load: false },
+          appleStore: { ...prev.appleStore, value: appleAppInfo, load: false }
+        }));
       } catch (error) {
         setState(prev => ({ ...prev, loading: false }));
       }
     }
     setState(prev => ({ ...prev, loading: true }));
     fetchData();
-  }, [googleAppId, appleAppId, setState, setAndroidStore, setAppleStore, androidStore, appleStore]);
+  }, [googleAppId, appleAppId, setState, androidStore.load, appleStore.load]);
 
   React.useEffect(() => {
     (!isEmpty(googleAppId) || !isEmpty(appleAppId)) && handleGetAppInfo();
