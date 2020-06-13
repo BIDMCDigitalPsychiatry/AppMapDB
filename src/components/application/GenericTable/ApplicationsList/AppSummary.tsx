@@ -276,7 +276,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
               color='primary'
               size='small'
               tooltip=''
-              underline={true}
+              underline='always'
               onClick={handleToggleExpand}
             >
               {`${expand ? 'Hide' : `Show  ${categories.length - filtered.length}`} More`}
