@@ -101,7 +101,7 @@ export const useAppData = table => {
     var newest = sortedAsc[0]; // Set the newest record, regardless of approval status
 
     for (var i = 0; i < sortedAsc.length; i++) {
-      // Now search all records from newest down to find the newest approved entry.  If no approved entry is found then newest will be the furst entry above
+      // Now search all records from newest down to find the newest approved entry.  If no approved entry is found then newest will be the first entry above
       if (sortedAsc[i].approved === true) {
         newest = sortedAsc[i];
         break;
