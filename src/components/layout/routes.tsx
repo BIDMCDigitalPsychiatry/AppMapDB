@@ -6,6 +6,7 @@ import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
 import Home from '../pages/Home';
 import FrameworkQuestions from '../pages/FrameworkQuestions';
+import News from '../pages/News';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
 
@@ -14,6 +15,7 @@ const Routes = () => (
     <Route exact path={'/'} component={Home} />
     <Route exact path={publicUrl('/')} component={Home} />
     <Route exact path={publicUrl('/FrameworkQuestions')} component={FrameworkQuestions} />
+    <Route exact path={publicUrl('/News')} component={News} />
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />
     <Route exact path={publicUrl('/RateNewApp')} component={RateNewApp} />

@@ -28,7 +28,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
       paddingRight: layout.contentpadding
     },
     appBarFullScreen: {
-      paddingTop: beta ? layout.footerheight : 0,      
+      paddingTop: beta ? layout.footerheight : 0,
       background: palette.primary.main,
       color: palette.common.white
     },
@@ -59,10 +59,11 @@ const tabs = [
   { id: 'Find an App', icon: Icons.Search, onClick: () => alert('click'), route: '/' },
   { id: 'Apps', icon: Icons.Apps, route: '/Apps' },
   { id: 'Rate an App', icon: Icons.PostAdd, route: '/RateNewAppIntro' },
-  { id: 'Framework & Questions', icon: Icons.Help, route: '/FrameworkQuestions' }
+  { id: 'Framework & Questions', icon: Icons.Help, route: '/FrameworkQuestions' },
+  { id: 'News', icon: Icons.Announcement, route: '/News' }
 ];
 
-const AppBarTabSelector = (props) => <TabSelectorToolBar id='AppBar' tabs={tabs} {...props} />;
+const AppBarTabSelector = props => <TabSelectorToolBar id='AppBar' tabs={tabs} {...props} />;
 
 export default function ApplicationBar() {
   const classes = useStyles();
@@ -74,8 +75,8 @@ export default function ApplicationBar() {
   const open = Boolean(anchorEl);
 
   const handleLogout = React.useCallback(() => {
-    registerOpen && setRegisterState((prev) => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
-    loginOpen && setLoginState((prev) => ({ ...prev, open: false, loading: false })); // Ensure login dialog is closed
+    registerOpen && setRegisterState(prev => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
+    loginOpen && setLoginState(prev => ({ ...prev, open: false, loading: false })); // Ensure login dialog is closed
     (firebase as any).logout();
     setAnchorEl(null);
   }, [registerOpen, loginOpen, setRegisterState, setLoginState, setAnchorEl]);
@@ -85,8 +86,8 @@ export default function ApplicationBar() {
   const changeRoute = useChangeRoute();
 
   const handleTabChange = React.useCallback(
-    (value) => {
-      const { route } = tabs.find((t) => t.id === value);
+    value => {
+      const { route } = tabs.find(t => t.id === value);
       changeRoute(publicUrl(route));
     },
     [changeRoute]
