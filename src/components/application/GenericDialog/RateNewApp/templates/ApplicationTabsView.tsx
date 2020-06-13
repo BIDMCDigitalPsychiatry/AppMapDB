@@ -85,8 +85,8 @@ export const ApplicationTabsView = ({ platforms = [], androidLink, iosLink, webL
         setState(prev => ({
           ...prev,
           loading: false,
-          androidStore: { ...prev.androidStore, value: androidAppInfo, load: false },
-          appleStore: { ...prev.appleStore, value: appleAppInfo, load: false }
+          androidStore: { ...prev.androidStore, value: isEmpty(androidAppInfo) ? prev.androidStore.value : androidAppInfo, load: false },
+          appleStore: { ...prev.appleStore, value: isEmpty(appleAppInfo) ? prev.appleStore.value : appleAppInfo, load: false }
         }));
       } catch (error) {
         setState(prev => ({ ...prev, loading: false }));
