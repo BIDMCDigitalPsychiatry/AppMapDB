@@ -52,7 +52,7 @@ const LastUpdated = ({ updated }) => (
   </Typography>
 );
 
-const buildRadios = (items, values, paddingRight = undefined, pinned = []) => (
+const buildRadios = (items, values, paddingRight = undefined) => (
   <Grid container style={{ paddingRight }}>
     {items.map((i, index) => (
       <Grid item xs key={index}>
@@ -82,22 +82,24 @@ const ClinicalFoundationLabels = ClinicalFoundations.map(t => {
   return s ? (s.short ? s.short : s.value) : t;
 });
 
-const PlatformRadios = pinned => ({ platforms = [] }: Application) => buildRadios(sortPinned(Platforms, 'platforms', pinned), platforms, pinned);
+const PlatformRadios = pinned => ({ platforms = [] }: Application) => buildRadios(sortPinned(Platforms, 'platforms', pinned), platforms);
 const UsesRadios = ({ uses = [] }: Application) => buildRadios(Uses, uses);
 const DeveloperTypeRadios = pinned => ({ developerTypes = [] }: Application) =>
   buildRadios(sortPinned(DeveloperTypeLabels, 'developerTypes', pinned), developerTypes);
 const CostRadios = pinned => ({ costs = [] }) => buildRadios(sortPinned(Costs, 'cost', pinned), costs);
-const ConditionRadios = ({ conditions = [] }: Application) => buildRadios(Conditions, conditions);
+
+const ConditionRadios = pinned => ({ conditions = [] }: Application) => buildRadios(sortPinned(Conditions, 'conditions', pinned), conditions);
+
 const EngagementRadios = ({ engagements = [] }: Application) => buildRadios(Engagements, engagements);
 const FunctionalityRadios = pinned => ({ functionalities = [] }: Application) =>
-  buildRadios(sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities, pinned);
+  buildRadios(sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities);
 
 const ClinicalFoundationRadios = pinned => ({ clinicalFoundations = [] }: Application) =>
-  buildRadios(sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned), clinicalFoundations, pinned);
+  buildRadios(sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned), clinicalFoundations);
 
-const PrivacyRadios = pinned => ({ privacies = [] }: Application) => buildRadios(sortPinned(PrivacyLabels, 'privacies', pinned), privacies, pinned);
+const PrivacyRadios = pinned => ({ privacies = [] }: Application) => buildRadios(sortPinned(PrivacyLabels, 'privacies', pinned), privacies);
 
-const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
+const FeaturesRadios = pinned => ({ features = [] }) => buildRadios(sortPinned(Features, 'features', pinned), features, 16);
 const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
 const OutputRadios = ({ outputs = [] }: Application) => buildRadios(Outputs, outputs);
 
@@ -255,20 +257,20 @@ export const useColumns = () => {
       header: (
         <>
           <Grid container style={{ paddingRight: 16 }}>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'features')}>
               <Grid container justify='center'>
                 Features
               </Grid>
             </Grid>
-            {Features.map(t => (
-              <Grid item xs key={t}>
+            {sortPinned(Features, 'features', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('features', t)} className={classes.hover}>
                 {center(t)}
               </Grid>
             ))}
           </Grid>
         </>
       ),
-      Cell: FeaturesRadios
+      Cell: FeaturesRadios(pinned)
     },
     {
       name: 'conditions',
@@ -276,20 +278,20 @@ export const useColumns = () => {
       header: (
         <>
           <Grid container>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'conditions')}>
               <Grid container justify='center'>
                 Supported Conditions
               </Grid>
             </Grid>
-            {Conditions.map(t => (
-              <Grid item xs key={t}>
+            {sortPinned(Conditions, 'conditions', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('conditions', t)} className={classes.hover}>
                 {center(t)}
               </Grid>
             ))}
           </Grid>
         </>
       ),
-      Cell: ConditionRadios
+      Cell: ConditionRadios(pinned)
     },
     {
       name: 'engagments',
