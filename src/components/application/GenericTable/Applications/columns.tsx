@@ -306,7 +306,7 @@ export const useColumns = () => {
       Cell: ConditionRadios(pinned)
     },
     {
-      name: 'engagments',
+      name: 'engagements',
       width: 1500,
       header: (
         <>
