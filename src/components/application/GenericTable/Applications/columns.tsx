@@ -99,7 +99,7 @@ const CostRadios = pinned => ({ costs = [] }) => buildRadios(sortPinned(Costs, '
 const ConditionRadios = pinned => ({ conditions = [] }: Application) => buildRadios(sortPinned(Conditions, 'conditions', pinned), conditions);
 
 const EngagementRadios = pinned => ({ engagements = [] }: Application) =>
-  buildRadios(sortPinned(EngagementLabels, 'engagements', pinned), Engagements, engagements);
+  buildRadios(sortPinned(EngagementLabels, 'engagements', pinned), engagements);
 
 const FunctionalityRadios = pinned => ({ functionalities = [] }: Application) =>
   buildRadios(sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities);
