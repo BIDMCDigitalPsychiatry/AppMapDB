@@ -82,15 +82,25 @@ const ClinicalFoundationLabels = ClinicalFoundations.map(t => {
   return s ? (s.short ? s.short : s.value) : t;
 });
 
+const EngagementLabels = Engagements.map(t => {
+  var s = EngagementQuestions.find(fq => fq.value === t);
+  return s ? (s.short ? s.short : s.value) : t;
+});
+
 const PlatformRadios = pinned => ({ platforms = [] }: Application) => buildRadios(sortPinned(Platforms, 'platforms', pinned), platforms);
-const UsesRadios = ({ uses = [] }: Application) => buildRadios(Uses, uses);
+
+const UsesRadios = pinned => ({ uses = [] }: Application) => buildRadios(sortPinned(Uses, 'uses', pinned), uses);
+
 const DeveloperTypeRadios = pinned => ({ developerTypes = [] }: Application) =>
   buildRadios(sortPinned(DeveloperTypeLabels, 'developerTypes', pinned), developerTypes);
+
 const CostRadios = pinned => ({ costs = [] }) => buildRadios(sortPinned(Costs, 'cost', pinned), costs);
 
 const ConditionRadios = pinned => ({ conditions = [] }: Application) => buildRadios(sortPinned(Conditions, 'conditions', pinned), conditions);
 
-const EngagementRadios = ({ engagements = [] }: Application) => buildRadios(Engagements, engagements);
+const EngagementRadios = pinned => ({ engagements = [] }: Application) =>
+  buildRadios(sortPinned(EngagementLabels, 'engagements', pinned), Engagements, engagements);
+
 const FunctionalityRadios = pinned => ({ functionalities = [] }: Application) =>
   buildRadios(sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities);
 
@@ -100,8 +110,10 @@ const ClinicalFoundationRadios = pinned => ({ clinicalFoundations = [] }: Applic
 const PrivacyRadios = pinned => ({ privacies = [] }: Application) => buildRadios(sortPinned(PrivacyLabels, 'privacies', pinned), privacies);
 
 const FeaturesRadios = pinned => ({ features = [] }) => buildRadios(sortPinned(Features, 'features', pinned), features, 16);
-const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
-const OutputRadios = ({ outputs = [] }: Application) => buildRadios(Outputs, outputs);
+
+const InputRadios = pinned => ({ inputs = [] }: Application) => buildRadios(sortPinned(Inputs, 'inputs', pinned), inputs);
+
+const OutputRadios = pinned => ({ outputs = [] }: Application) => buildRadios(sortPinned(Outputs, 'outputs', pinned), outputs);
 
 const sortPinned = (columns, column, pinned) => {
   const pinnedColumns = pinned[column] ?? [];
@@ -300,23 +312,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'engagements')}>
                 Engagements
               </Grid>
             </Grid>
-            {Engagements.map(t => {
-              var s = EngagementQuestions.find(fq => fq.value === t);
-              var label = s ? (s.short ? s.short : s.value) : t;
-              return (
-                <Grid item xs key={label}>
-                  {center(label)}
-                </Grid>
-              );
-            })}
+            {sortPinned(EngagementLabels, 'engagements', pinned).map(label => (
+              <Grid item xs key={label} onClick={handlePinColumn('engagements', label)} className={classes.hover}>
+                {center(label)}
+              </Grid>
+            ))}
           </Grid>
         </>
       ),
-      Cell: EngagementRadios
+      Cell: EngagementRadios(pinned)
     },
     {
       name: 'inputs',
@@ -325,19 +333,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'inputs')}>
                 Inputs
               </Grid>
             </Grid>
-            {Inputs.map(t => (
-              <Grid item xs key={t}>
+            {sortPinned(Inputs, 'inputs', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('inputs', t)} className={classes.hover}>
                 {center(t)}
               </Grid>
             ))}
           </Grid>
         </>
       ),
-      Cell: InputRadios
+      Cell: InputRadios(pinned)
     },
     {
       name: 'outputs',
@@ -346,19 +354,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'outputs')}>
                 Outputs
               </Grid>
             </Grid>
-            {Outputs.map(t => (
-              <Grid item xs key={t}>
+            {sortPinned(Outputs, 'outputs', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('outputs', t)} className={classes.hover}>
                 {center(t)}
               </Grid>
             ))}
           </Grid>
         </>
       ),
-      Cell: OutputRadios
+      Cell: OutputRadios(pinned)
     },
     {
       name: 'uses',
@@ -367,19 +375,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'uses')}>
                 Uses
               </Grid>
             </Grid>
-            {Uses.map(t => (
-              <Grid item xs key={t}>
+            {sortPinned(Uses, 'uses', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('uses', t)} className={classes.hover}>
                 {center(t)}
               </Grid>
             ))}
           </Grid>
         </>
       ),
-      Cell: UsesRadios
+      Cell: UsesRadios(pinned)
     }
   ];
 
