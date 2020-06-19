@@ -7,7 +7,7 @@ import Application, {
   Functionalities,
   FunctionalityQuestions,
   ClinicalFoundations,
-  ClinicalFondationQuestions,
+  ClinicalFoundationQuestions,
   Features,
   Inputs,
   Outputs,
@@ -64,8 +64,22 @@ const buildRadios = (items, values, paddingRight = undefined, pinned = []) => (
 
 const DeveloperTypeLabels = DeveloperTypes.map(t => {
   var s = DeveloperTypeQuestions.find(fq => fq.value === t);
-  var label = s ? (s.short ? s.short : s.value) : t;
-  return label;
+  return s ? (s.short ? s.short : s.value) : t;
+});
+
+const FunctionalityLabels = Functionalities.map(t => {
+  var s = FunctionalityQuestions.find(fq => fq.value === t);
+  return s ? (s.short ? s.short : s.value) : t;
+});
+
+const PrivacyLabels = Privacies.map(t => {
+  var s = PrivacyQuestions.find(fq => fq.value === t);
+  return s ? (s.short ? s.short : s.value) : t;
+});
+
+const ClinicalFoundationLabels = ClinicalFoundations.map(t => {
+  var s = ClinicalFoundationQuestions.find(fq => fq.value === t);
+  return s ? (s.short ? s.short : s.value) : t;
 });
 
 const PlatformRadios = pinned => ({ platforms = [] }: Application) => buildRadios(sortPinned(Platforms, 'platforms', pinned), platforms, pinned);
@@ -75,9 +89,14 @@ const DeveloperTypeRadios = pinned => ({ developerTypes = [] }: Application) =>
 const CostRadios = pinned => ({ costs = [] }) => buildRadios(sortPinned(Costs, 'cost', pinned), costs);
 const ConditionRadios = ({ conditions = [] }: Application) => buildRadios(Conditions, conditions);
 const EngagementRadios = ({ engagements = [] }: Application) => buildRadios(Engagements, engagements);
-const FunctionalityRadios = ({ functionalities = [] }: Application) => buildRadios(Functionalities, functionalities);
-const ClinicalFondationRadios = ({ clinicalFoundations = [] }: Application) => buildRadios(ClinicalFoundations, clinicalFoundations);
-const PrivacyRadios = ({ privacies = [] }: Application) => buildRadios(Privacies, privacies);
+const FunctionalityRadios = pinned => ({ functionalities = [] }: Application) =>
+  buildRadios(sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities, pinned);
+
+const ClinicalFoundationRadios = pinned => ({ clinicalFoundations = [] }: Application) =>
+  buildRadios(sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned), clinicalFoundations, pinned);
+
+const PrivacyRadios = pinned => ({ privacies = [] }: Application) => buildRadios(sortPinned(PrivacyLabels, 'privacies', pinned), privacies, pinned);
+
 const FeaturesRadios = ({ features = [] }) => buildRadios(Features, features, 16);
 const InputRadios = ({ inputs = [] }: Application) => buildRadios(Inputs, inputs);
 const OutputRadios = ({ outputs = [] }: Application) => buildRadios(Outputs, outputs);
@@ -174,23 +193,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'functionality')}>
                 Access
               </Grid>
             </Grid>
-            {Functionalities.map(t => {
-              var s = FunctionalityQuestions.find(fq => fq.value === t);
-              var label = s ? (s.short ? s.short : s.value) : t;
-              return (
-                <Grid item xs key={label}>
-                  {center(label)}
-                </Grid>
-              );
-            })}
+            {sortPinned(FunctionalityLabels, 'functionality', pinned).map(label => (
+              <Grid item xs key={label} onClick={handlePinColumn('functionality', label)} className={classes.hover}>
+                {center(label)}
+              </Grid>
+            ))}
           </Grid>
         </>
       ),
-      Cell: FunctionalityRadios
+      Cell: FunctionalityRadios(pinned)
     },
     {
       name: 'privacies',
@@ -199,23 +214,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' onClick={handlePinColumn('root', 'privacies')} className={classes.hover}>
                 Privacies
               </Grid>
             </Grid>
-            {Privacies.map(t => {
-              var s = PrivacyQuestions.find(fq => fq.value === t);
-              var label = s ? (s.short ? s.short : s.value) : t;
-              return (
-                <Grid item xs key={label}>
-                  {center(label)}
-                </Grid>
-              );
-            })}
+            {sortPinned(PrivacyLabels, 'privacies', pinned).map(label => (
+              <Grid item xs key={label} onClick={handlePinColumn('privacies', label)} className={classes.hover}>
+                {center(label)}
+              </Grid>
+            ))}
           </Grid>
         </>
       ),
-      Cell: PrivacyRadios
+      Cell: PrivacyRadios(pinned)
     },
     {
       name: 'clinicalFoundations',
@@ -224,23 +235,19 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center'>
+              <Grid container justify='center' onClick={handlePinColumn('root', 'clinicalFoundations')} className={classes.hover}>
                 Clinical Foundations
               </Grid>
             </Grid>
-            {ClinicalFoundations.map(t => {
-              var s = ClinicalFondationQuestions.find(fq => fq.value === t);
-              var label = s ? (s.short ? s.short : s.value) : t;
-              return (
-                <Grid item xs key={label}>
-                  {center(label)}
-                </Grid>
-              );
-            })}
+            {sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned).map(label => (
+              <Grid item xs key={label} onClick={handlePinColumn('clinicalFoundations', label)} className={classes.hover}>
+                {center(label)}
+              </Grid>
+            ))}
           </Grid>
         </>
       ),
-      Cell: ClinicalFondationRadios
+      Cell: ClinicalFoundationRadios(pinned)
     },
     {
       name: 'features',

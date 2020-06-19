@@ -36,7 +36,7 @@ export type ClinicalFoundation =
   | 'Supporting Studies'
   | 'Use Warning';
 
-export const ClinicalFondationQuestions = [
+export const ClinicalFoundationQuestions = [
   {
     value: 'Well Written Relevant Content',
     short: 'Well Written',
@@ -63,7 +63,7 @@ export const ClinicalFondationQuestions = [
   { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' }
 ];
 
-export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFondationQuestions.map(cfq => cfq.value as ClinicalFoundation);
+export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFoundationQuestions.map(cfq => cfq.value as ClinicalFoundation);
 
 export type Privacy =
   | 'Has Privacy Policy'

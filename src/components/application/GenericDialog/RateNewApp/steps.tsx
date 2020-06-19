@@ -5,7 +5,7 @@ import {
   CostQuestions,
   PrivacyQuestions,
   FunctionalityQuestions,
-  ClinicalFondationQuestions,
+  ClinicalFoundationQuestions,
   FeatureQuestions,
   EngagementQuestions,
   UseQuestions,
@@ -171,7 +171,7 @@ const steps = (type = undefined) => [
         id: 'clinicalFoundations',
         label: 'Evidence & Clinical Foundations',
         Field: YesNoGroup,
-        items: ClinicalFondationQuestions
+        items: ClinicalFoundationQuestions
       },
       {
         id: 'feasibilityStudies',
