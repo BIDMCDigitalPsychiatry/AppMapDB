@@ -2,7 +2,9 @@
 var AWS = require('aws-sdk');
 AWS.config.loadFromPath('./aws.json');
 
-const emailAddress = 'slagan@bidmc.harvard.edu';
+//const emailAddress = 'slagan@bidmc.harvard.edu';
+const emailAddress = 'chris@greenlinkservices.com';
+const sourceEmailAddress = 'appmap@psych.digital';
 // Create sendEmail params
 var params = {
   Destination: {
@@ -15,20 +17,20 @@ var params = {
       /* required */
       Html: {
         Charset: 'UTF-8',
-        Data: 'HTML_FORMAT_BODY'
+        Data: 'A suggested edit has been made:'
       },
       Text: {
         Charset: 'UTF-8',
-        Data: 'TEXT_FORMAT_BODY'
+        Data: 'A suggested edit has been made:'
       }
     },
     Subject: {
       Charset: 'UTF-8',
-      Data: 'Test email'
+      Data: 'AppMapDB - Suggested Edit'
     }
   },
-  Source: emailAddress /* required */,
-  ReplyToAddresses: [emailAddress]
+  Source: sourceEmailAddress /* required */,
+  ReplyToAddresses: [sourceEmailAddress]
 };
 
 //process.env.AWS_SDK_LOAD_CONFIG = 1;
