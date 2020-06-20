@@ -11,15 +11,14 @@ AWS.config = {
   region: 'us-east-1'
 };
 
-function sendEmail(name, email, suggestion, applicationInfo) {
-  //const emailAddress = 'slagan@bidmc.harvard.edu';
+function sendEmail(name, email, suggestion, applicationInfo) {  
   const emailAddress = emailUser;
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const appName = getAppName(applicationInfo);
   const appCompany = getAppCompany(applicationInfo);
 
-  const body = `A suggested edit has been made.
+  const body = `A suggested edit has been made:
     <p>Application: ${appName}</p>
     <p>Application Company: ${appCompany}</p>
     <p>User Name: ${name}</p>
