@@ -1,6 +1,8 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
+import { emailUser } from '../../../../../package.json';
+import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
 var AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 
 AWS.config = {
@@ -11,13 +13,20 @@ AWS.config = {
 
 function sendEmail(name, email, suggestion, applicationInfo) {
   //const emailAddress = 'slagan@bidmc.harvard.edu';
-  const emailAddress = 'chris@greenlinkservices.com';
+  const emailAddress = emailUser;
   const sourceEmailAddress = 'appmap@psych.digital';
+
+  const appName = getAppName(applicationInfo);
+  const appCompany = getAppCompany(applicationInfo);
+
   const body = `A suggested edit has been made.
-    <p>Name: ${name}</p>
-    <p>Email: ${email}</p>
+    <p>Application: ${appName}</p>
+    <p>Application Company: ${appCompany}</p>
+    <p>User Name: ${name}</p>
+    <p>User Email: ${email}</p>
     <p>Suggestion: ${suggestion}</p>
     <p>Application Info: ${JSON.stringify(applicationInfo)}</p>`;
+
   // Create sendEmail params
   var params = {
     Destination: {
