@@ -5,11 +5,11 @@ import { emailUser } from '../../../../../package.json';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
 var AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 
-AWS.config = {
-  accessKeyId: 'AKIAX5W3PCXMKBCFM2X6',
-  secretAccessKey: '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',
-  region: 'us-east-1'
-};
+// Initialize the Amazon Cognito credentials provider
+AWS.config.region = 'us-east-1'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe',
+});
 
 function sendEmail(name, email, suggestion, applicationInfo) {  
   const emailAddress = emailUser;
