@@ -91,7 +91,7 @@ export default function LoginDialog({ id = title }) {
           });
       }
     },
-    [setUser, dialogStateStr, setState, errors]
+    [enterNewPassword, setUser, dialogStateStr, setState, errors]
   );
 
   return (
