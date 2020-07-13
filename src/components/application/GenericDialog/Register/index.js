@@ -126,9 +126,7 @@ export default function RegisterDialog({ id = title }) {
 
   const handleSubmit = React.useCallback(({ confirm, ...other }, setValues) => (confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues)), [
     handleConfirm,
-    handleAdd,    
-    setState,
-    errors
+    handleAdd
   ]);
 
   return (
