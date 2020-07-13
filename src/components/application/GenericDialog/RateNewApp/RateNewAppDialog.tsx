@@ -26,8 +26,8 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
   const processData = useProcessData();
   const changeRoute = useChangeRoute();
 
-  const email = useSelector((s: any) => s.firebase.auth.email);
-  const uid = useSelector((s: any) => s.firebase.auth.uid);
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
+  const uid = useSelector((s: any) => s.layout.user?.username);
 
   const handleProcessData = (values, Action, handleReset = undefined) => {
     const application: Application = values[tables.applications];

@@ -102,7 +102,7 @@ const FilterButtons = props => {
   const signedIn = useSignedIn();
   const { values, setValues, handleReset, advanced, handleToggleAdvanced } = props;
   const processData = useProcessData();
-  const uid = useSelector((s: any) => s.firebase.auth.uid);
+  const uid = useSelector((s: any) => s.layout.user?.username);
   const { SavedFilter } = values;
   const SavedFilterStr = JSON.stringify(SavedFilter);
 

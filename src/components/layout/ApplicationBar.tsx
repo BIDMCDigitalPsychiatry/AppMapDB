@@ -10,13 +10,12 @@ import * as LoginDialog from '../application/GenericDialog/Login';
 import * as RegisterDialog from '../application/GenericDialog/Register';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
+import { useSetUser } from './store';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -74,14 +73,16 @@ export default function ApplicationBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
+  const setUser = useSetUser();
+
   const handleLogout = React.useCallback(() => {
     registerOpen && setRegisterState(prev => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
     loginOpen && setLoginState(prev => ({ ...prev, open: false, loading: false })); // Ensure login dialog is closed
-    (firebase as any).logout();
+    setUser(undefined); // Reset user information
     setAnchorEl(null);
-  }, [registerOpen, loginOpen, setRegisterState, setLoginState, setAnchorEl]);
+  }, [setUser, registerOpen, loginOpen, setRegisterState, setLoginState, setAnchorEl]);
 
-  const email = useSelector((s: any) => s.firebase.auth.email);
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 
   const changeRoute = useChangeRoute();
 

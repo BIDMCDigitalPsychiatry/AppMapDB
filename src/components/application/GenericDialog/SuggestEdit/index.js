@@ -74,8 +74,7 @@ export default function SuggestEdit({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
   const { initialValues } = dialogState;
 
-  const handleSubmit = ({ name, email, suggestion }) => {
-    console.log({ name, email, suggestion });
+  const handleSubmit = ({ name, email, suggestion }) => {    
     setState(prev => ({ ...prev, open: false, showErrors: true, loading: false }));
     sendEmail(name, email, suggestion, initialValues.applications);
     alert('Your suggestion has been reported!  Thank you.');

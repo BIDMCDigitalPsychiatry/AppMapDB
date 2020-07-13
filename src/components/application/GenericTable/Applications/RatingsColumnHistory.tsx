@@ -21,7 +21,7 @@ export default function RatingsColumnHistory({ _id }) {
 
   const processData = useProcessData();
 
-  const email = useSelector((s: any) => s.firebase.auth.email);
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 
   const appStr = JSON.stringify(application);
 

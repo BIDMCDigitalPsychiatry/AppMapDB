@@ -23,6 +23,7 @@ const defaultState = {
   adminMode: false
 };
 
+const setUser = user => ({ type: 'SET_USER', user });
 const resizeViewPort = (height: number | undefined, width: number | undefined) => ({ type: 'RESIZE_VIEWPORT', height: height, width: width });
 const resizeAppBar = (height: number | undefined) => ({ type: 'RESIZE_APPBAR', height });
 const changeViewMode = (mode: ViewMode) => ({ type: 'CHANGE_VIEW_MODE', mode });
@@ -30,6 +31,11 @@ const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', ad
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.user
+      };
     case 'RESIZE_APPBAR':
       return {
         ...state,
@@ -54,6 +60,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
     default:
   }
   return state || { ...defaultState };
+};
+
+export const useSetUser = () => {
+  const dispatch = useDispatch();
+  return React.useCallback(user => dispatch(setUser(user)), [dispatch]);
 };
 
 export const useResizeAppBar = () => {

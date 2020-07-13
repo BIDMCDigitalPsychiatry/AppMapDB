@@ -145,7 +145,7 @@ const GenericDialog = ({
   const classes = useStyles({ classes: Classes });
   const fullScreen = useFullScreen();
 
-  const { values, hasChanged, errors, errorCount, mapField } = useValues({
+  const { values, setValues, hasChanged, errors, errorCount, mapField } = useValues({
     open,
     fields,
     InitialValues,
@@ -163,9 +163,9 @@ const GenericDialog = ({
     if (errorCount > 0) {
       setState(prev => ({ ...prev, showErrors: true }));
     } else {
-      onSubmit && onSubmit(JSON.parse(values_s));
+      onSubmit && onSubmit(JSON.parse(values_s), setValues);
     }
-  }, [setState, onSubmit, values_s, errorCount]);
+  }, [setState, onSubmit, values_s, setValues, errorCount]);
 
   const handleDelete = React.useCallback(() => {
     onDelete && onDelete(JSON.parse(values_s));

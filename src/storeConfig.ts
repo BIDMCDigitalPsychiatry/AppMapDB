@@ -7,8 +7,6 @@ import { createStore, applyMiddleware, compose, combineReducers, StoreEnhancer, 
 import { persistReducer } from 'redux-persist';
 import * as localforage from 'localforage';
 import packageJson from '../package.json';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 localforage &&
   localforage.config &&
@@ -26,11 +24,6 @@ export const persistConfig = {
   storage: localforage
 };
 
-const fbConfig = {
-  apiKey: 'AIzaSyDjeNlKjmQxx0ELp8tXjlgpxRloXsAdyJU',
-  projectId: 'app-map-db'
-};
-
 export default function configureStore(history: History, initialState?: AppState, appConfig?: any) {
   // Build middleware. These are functions that can process the actions before they reach the store.
   const windowIfDefined = typeof window === 'undefined' ? null : (window as any);
@@ -46,8 +39,7 @@ export default function configureStore(history: History, initialState?: AppState
   )(createStore) as any;
 
   // Combine all reducers and instantiate the app-wide store instance
-  const store = createStoreWithMiddleware(persistedReducer, initialState) as Store<AppState>;
-  firebase.initializeApp(fbConfig);
+  const store = createStoreWithMiddleware(persistedReducer, initialState) as Store<AppState>;  
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {

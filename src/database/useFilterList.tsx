@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 export const useGetFilters = () => {
   const [, setFilters] = useFilters();
   const signedIn = useSignedIn();
-  const uid = useSelector((s: any) => s.firebase.auth.uid);
+  const uid = useSelector((s: any) => s.layout.user?.username);
 
   // Load data from the database
   const getFilters = React.useCallback(() => {
@@ -30,7 +30,7 @@ export const useGetFilters = () => {
 
 export default function useFilterList() {
   const signedIn = useSignedIn();
-  const uid = useSelector((s: any) => s.firebase.auth.uid);
+  const uid = useSelector((s: any) => s.layout.user?.username);
   const getFilters = useGetFilters();
   React.useEffect(() => {
     getFilters();
