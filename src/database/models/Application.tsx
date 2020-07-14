@@ -1,4 +1,3 @@
-import Nano from 'nano';
 import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
 import android from '../../images/android.png';
@@ -456,7 +455,9 @@ export const UseQuestions = [
 
 export const Uses = UseQuestions.map(uq => uq.value as Use);
 
-export default interface Application extends Nano.MaybeDocument {
+export default interface Application {
+  _id: string;
+  _rev: string;
   groupId: string; // groupId for app so we can track the rating/approval chain more easily
   name: string;
   company: string;

@@ -1,21 +1,20 @@
-import Nano from 'nano';
 import Application from './models/Application';
+import { identityPoolId, region } from '../../package.json';
+export const AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 
-export const databaseAddress = 'https://db3.lamp.digital/';
+// Initialize the Amazon Cognito credentials provider
+AWS.config.region = region;
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+  IdentityPoolId: identityPoolId
+});
 
-const nano = Nano(databaseAddress);
+export const dynamo = new AWS.DynamoDB.DocumentClient();
 
 export type DataModel = Application;
 export type TableName = 'applications' | 'filters';
 
 export const tables = {
-  applications: 'applications' as TableName,  
-  filters: 'filters' as TableName,  
+  applications: 'applications' as TableName,
+  filters: 'filters' as TableName
 };
 
-const DB = {
-  applications: nano.db.use(`${tables.applications}_${process.env.NODE_ENV}`),  
-  filters: nano.db.use(`${tables.filters}`)
-};
-
-export default DB;

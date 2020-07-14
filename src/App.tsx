@@ -9,7 +9,6 @@ import { persistStore } from 'redux-persist';
 import ViewPort from './components/layout/ViewPort';
 import AppRouter from './components/layout/AppRouter';
 import { theme, adminTheme } from './constants';
-import { asyncSeed } from './database/seed';
 import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
 import Amplify from 'aws-amplify';
@@ -20,7 +19,6 @@ export const initialState = (window as any).initialReduxState as AppState; // Ge
 export const store = configureStore(history, initialState) as any; //Setup the global store object
 export const getState = store.getState;
 export const persistor = persistStore(store); //Setup the global persistor
-(window as any).seed = (count, force) => asyncSeed(count, force);
 
 Amplify.configure(awsconfig);
 

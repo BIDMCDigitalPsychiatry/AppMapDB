@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
-import DB, { DataModel, TableName } from './dbConfig';
+import { dynamo, DataModel, TableName } from './dbConfig';
 import { updateSnackBar } from '../components/application/SnackBar/store';
 import { useUpdateDatabase } from './useUpdateDatabase';
 
@@ -27,19 +27,32 @@ export const useProcessDataHandle = () => {
 
 async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
   const { Model: Table, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined } = pdi;
-  const { _id } = Data;
 
-  const response = Action === 'c' || Action === 'u' || Action === 'd' ? await DB[Table].insert(Data) : await DB[Table].get(_id);
-
-  if (response && response.ok === true) {
-    Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
-    onSuccess && onSuccess(response, Data);
-    (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: response.id, payload: { ...Data, _rev: response.rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
+  if (Action === 'c' || Action === 'u' || Action === 'd') {
+    dynamo.put({ TableName: Table, Item: Data }, function (err, data) {
+      if (err) {
+        var message = `(Error processing data.  Table: ${Table}`;
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+        onError && onError(err, Data);
+        console.error({ message, err, Data });
+      } else {
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
+        onSuccess && onSuccess(data, Data);
+        (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: Data._id, payload: { ...Data, _rev: Data._rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
+      }
+    });
   } else {
-    var message = `(Error processing data.  Table: ${Table}`;
-    Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
-    onError && onError(response, Data);
-    console.error({ message, response, Data });
+    dynamo.get({ TableName: Table, Key: Data }, function (err, data) {
+      if (err) {
+        var message = `(Error processing data.  Table: ${Table}`;
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+        onError && onError(err, Data);
+        console.error({ message, err, Data });
+      } else {
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
+        onSuccess && onSuccess(data, Data);
+      }
+    });
   }
 }
 

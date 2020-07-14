@@ -3,15 +3,9 @@ import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import { emailUser } from '../../../../../package.json';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
-var AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
+import { AWS } from '../../../../database/dbConfig';
 
-// Initialize the Amazon Cognito credentials provider
-AWS.config.region = 'us-east-1'; // Region
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe',
-});
-
-function sendEmail(name, email, suggestion, applicationInfo) {  
+function sendEmail(name, email, suggestion, applicationInfo) {
   const emailAddress = emailUser;
   const sourceEmailAddress = 'appmap@psych.digital';
 
@@ -54,7 +48,6 @@ function sendEmail(name, email, suggestion, applicationInfo) {
     ReplyToAddresses: [sourceEmailAddress]
   };
 
-  //process.env.AWS_SDK_LOAD_CONFIG = 1;
   // Create the promise and SES service object
   var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
 
@@ -74,7 +67,7 @@ export default function SuggestEdit({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
   const { initialValues } = dialogState;
 
-  const handleSubmit = ({ name, email, suggestion }) => {    
+  const handleSubmit = ({ name, email, suggestion }) => {
     setState(prev => ({ ...prev, open: false, showErrors: true, loading: false }));
     sendEmail(name, email, suggestion, initialValues.applications);
     alert('Your suggestion has been reported!  Thank you.');
