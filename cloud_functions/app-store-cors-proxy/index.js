@@ -2,6 +2,7 @@ var gplay = require('google-play-scraper');
 var apple = require('app-store-scraper');
 
 function badRequest(res, error) {
+  console.log({ error });
   res.status(400).send(error);
 }
 
@@ -14,6 +15,8 @@ exports.process = (req, res) => {
   res.set('Access-Control-Allow-Methods', 'GET');
   const key = type === 'apple' ? 'id' : 'appId';
 
+  console.log({ appId, type, key });
+
   if (appId) {
     store.app({ [key]: appId }).then(
       success => {
@@ -22,7 +25,7 @@ exports.process = (req, res) => {
       },
       error => badRequest(res, error)
     );
-  } else {
+  } else {    
     badRequest(res, 'Invalid appId');
   }
 };
