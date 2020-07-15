@@ -1,0 +1,2 @@
+1. Run npm install to generate the node_modules directory.
+2. Zip contents of folder and upload to AWS lambda console.
