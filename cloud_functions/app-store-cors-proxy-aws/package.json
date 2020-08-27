@@ -1,6 +1,6 @@
 {
   "name": "app-store-cors-proxy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "google-play-scraper": "8.0.2",
     "app-store-scraper": "0.16.3"

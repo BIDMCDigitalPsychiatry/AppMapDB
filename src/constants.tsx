@@ -1,6 +1,7 @@
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
 
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
+//export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
 
 const basetheme = createMuiTheme({});
 export const beta = true;
