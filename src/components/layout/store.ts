@@ -11,6 +11,7 @@ export interface State {
   height?: number;
   width?: number;
   appBarHeight?: number;
+  layoutMode?: string;
   viewMode?: ViewMode;
   adminMode?: boolean;
 }
@@ -20,6 +21,7 @@ const defaultState = {
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   viewMode: 'table',
+  layoutMode: 'v1',
   adminMode: false
 };
 
@@ -28,6 +30,7 @@ const resizeViewPort = (height: number | undefined, width: number | undefined) =
 const resizeAppBar = (height: number | undefined) => ({ type: 'RESIZE_APPBAR', height });
 const changeViewMode = (mode: ViewMode) => ({ type: 'CHANGE_VIEW_MODE', mode });
 const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', adminMode });
+const changeLayoutMode = (layoutMode: string) => ({ type: 'CHANGE_LAYOUT_MODE', layoutMode });
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
@@ -53,6 +56,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         viewMode: action.mode
       };
     case 'CHANGE_ADMIN_MODE':
+      return {
+        ...state,
+        adminMode: action.adminMode
+      };
+    case 'CHANGE_LAYOUT_MODE':
       return {
         ...state,
         adminMode: action.adminMode
@@ -106,4 +114,11 @@ export const useAdminMode = () => {
   const setAdminMode = React.useCallback(adminMode => dispatch(changeAdminMode(adminMode)), [dispatch]);
   const adminMode = useSelector((state: AppState) => state.layout.adminMode);
   return [isAdmin && adminMode, setAdminMode];
+};
+
+export const useLayoutMode = () => {
+  const dispatch = useDispatch();
+  const setLayoutMode = React.useCallback(layoutMode => dispatch(changeLayoutMode(layoutMode)), [dispatch]);
+  const layoutMode = useSelector((state: AppState) => state.layout.layoutMode);
+  return [layoutMode, setLayoutMode];
 };
