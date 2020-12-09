@@ -13,6 +13,7 @@ import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
+import CssBaselineCustom from './components/layout/CssBaselineCustom';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
@@ -29,6 +30,7 @@ function ThemedViewPort(props: any) {
 
   return (
     <MuiThemeProvider theme={isAdmin && adminMode ? adminTheme : theme}>
+      <CssBaselineCustom />
       <ViewPort>{children}</ViewPort>
     </MuiThemeProvider>
   );

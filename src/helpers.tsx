@@ -267,3 +267,7 @@ export function getDayTimeFromTimestamp(timestamp: number) {
 
   return `${day} ${month} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
+
+export function isDev() {
+  return process.env.NODE_ENV === 'development';
+}

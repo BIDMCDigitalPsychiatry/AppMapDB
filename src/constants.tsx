@@ -1,4 +1,5 @@
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { notoSans, lato } from './fonts';
 
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
 //export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
@@ -22,7 +23,16 @@ const shared = {
     progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
     tabheight: 116 // Height of the nav pills tab section
   },
+  typography: {
+    fontFamily: 'Lato, NotoSans',
+    //fontSize: 12
+  },
   overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '@font-face': [lato, notoSans]
+      }
+    },
     MuiTooltip: {
       // Name of the component ⚛️ / style sheet
       tooltip: {
