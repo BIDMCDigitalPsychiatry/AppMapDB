@@ -1,6 +1,9 @@
+import React from 'react';
 import { AppState } from './store';
-import { theme } from './constants';
+import { theme, themeV2, adminTheme, adminThemeV2 } from './constants';
 import packageJson from '../package.json';
+import { useAdminMode, useLayoutMode } from './components/layout/store';
+import { useIsAdmin } from './hooks';
 
 export function hostAddress(append?) {
   return (
@@ -270,4 +273,20 @@ export function getDayTimeFromTimestamp(timestamp: number) {
 
 export function isDev() {
   return process.env.NODE_ENV === 'development';
+}
+
+export function useLayoutTheme() {
+  const [layoutMode] = useLayoutMode();
+  const isAdmin = useIsAdmin();
+  const [adminMode] = useAdminMode();
+  const adminLayoutTheme = layoutMode === 'v2' ? adminThemeV2 : adminTheme;
+  const layoutTheme = layoutMode === 'v2' ? themeV2 : theme;
+  return isAdmin && adminMode ? adminLayoutTheme : layoutTheme;
+}
+
+export function useHandleToggleLayout() {
+  const [layoutMode, setLayoutMode] = useLayoutMode() as any;
+  return React.useCallback(() => {
+    setLayoutMode(layoutMode === 'v2' ? 'v1' : 'v2');
+  }, [layoutMode, setLayoutMode]);
 }

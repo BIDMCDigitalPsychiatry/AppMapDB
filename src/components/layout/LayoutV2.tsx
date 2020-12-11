@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { makeStyles, createStyles, useTheme } from '@material-ui/core';
-import ApplicationBar from './ApplicationBar';
-import Footer from './Footer';
+import { makeStyles, createStyles, useScrollTrigger } from '@material-ui/core';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useHeight } from './store';
 import { useLocation } from 'react-router';
+import ApplicationBarV2 from './ApplicationBarV2';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -13,15 +12,16 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     },
     content: {
       flexGrow: 1,
+      overflow: 'auto',
+      overflowX: 'hidden',
+      height: '100vh',
       backgroundColor: palette.common.white,
       [breakpoints.down('sm')]: {
         marginLeft: 0,
         flexShrink: 0
       }
     },
-    innerContent: ({ overflow = 'auto', contentHeight, padInnerContent = true }) => ({
-      height: contentHeight - (!padInnerContent ? 0 : layout.contentpadding * 2 + 1),
-      overflow,
+    innerContent: ({ padInnerContent = true }) => ({
       padding: padInnerContent ? layout.contentpadding : 0
     }),
     toolbar: ({ appBarHeight }: any) => ({
@@ -37,10 +37,9 @@ export const noPadPaths = ['/Home', '/', '/Apps'];
 export default function LayoutV2({ children }) {
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
-
-  const { layout } = useTheme();
-  const componentsOnPage = [appBarHeight, layout.footerheight];
+  const componentsOnPage = [appBarHeight];
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
+  let ref = React.useRef();
 
   const { pathname } = useLocation();
   const classes = useStyles({
@@ -50,13 +49,17 @@ export default function LayoutV2({ children }) {
     appBarHeight
   });
 
+  const trigger = useScrollTrigger({ target: ref.current });
+
   return (
     <div data-testid='app-container' className={classes.root}>
-      <main className={classes.content}>
-        <ApplicationBar />
+      <main ref={ref} className={classes.content}>
+        <ApplicationBarV2 trigger={trigger} />
+
         <div className={classes.toolbar} />
+
         <div className={classes.innerContent}>{children}</div>
-        <Footer />
+
         <SnackBar />
       </main>
     </div>

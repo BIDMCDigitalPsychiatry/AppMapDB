@@ -63,7 +63,7 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
     case 'CHANGE_LAYOUT_MODE':
       return {
         ...state,
-        adminMode: action.adminMode
+        layoutMode: action.layoutMode
       };
     default:
   }
@@ -118,7 +118,7 @@ export const useAdminMode = () => {
 
 export const useLayoutMode = () => {
   const dispatch = useDispatch();
-  const setLayoutMode = React.useCallback(layoutMode => dispatch(changeLayoutMode(layoutMode)), [dispatch]);
+  const setLayoutMode = React.useCallback((layoutMode: string) => dispatch(changeLayoutMode(layoutMode)), [dispatch]);
   const layoutMode = useSelector((state: AppState) => state.layout.layoutMode);
   return [layoutMode, setLayoutMode];
 };
