@@ -21,7 +21,8 @@ const shared = {
     tableRowHeight: basetheme.spacing(6), // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
     progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
-    tabheight: 116 // Height of the nav pills tab section
+    tabheight: 116, // Height of the nav pills tab section
+    footerHeight: 186 //v2 footer
   },
   overrides: {
     MuiTooltip: {

@@ -26,7 +26,7 @@ const getMobilePadding = breakpoints => ({
 
 const getPadding = (bp, multiplier = 1) => (bp === 'sm' ? padding / 2 : bp === 'xs' ? padding / 3 : padding) * multiplier;
 
-const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
   createStyles({
     root: {
       display: 'static'
@@ -90,6 +90,24 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     primaryTextSmall: {
       fontWeight: 900,
       color: palette.primary.dark
+    },
+    footer: {
+      background: palette.secondary.light,
+      fontWeight: 900,
+      ...getMobilePadding(breakpoints)
+    },
+    footerRoot: {
+      padding: spacing(6, 0),
+      [breakpoints.up('md')]: {
+        padding: spacing(12, 0)
+      },
+      background: palette.secondary.light
+    },
+    footerContainer: {
+      //maxWidth: theme.layout.contentWidth,
+      width: '100%',
+      margin: '0 auto',
+      padding: spacing(0, 2)
     }
   })
 );

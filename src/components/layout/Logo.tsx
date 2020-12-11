@@ -8,33 +8,33 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({
-    logo: {
+    logo: ({ autoHide }: any) => ({
       paddingLeft: 8,
       paddingRight: 16,
       height: layout.toolbarheight - 32,
       [breakpoints.down('xs')]: {
-        display: 'none'
+        display: autoHide ? 'none' : 'flex'
       },
       cursor: 'pointer'
-    },
-    logoText: {
+    }),
+    logoText: ({ autoHide }: any) => ({
       width: 240,
       color: '#1D1D1D',
       marginTop: -6,
       letterSpacing: 4,
       [breakpoints.down('sm')]: {
-        display: 'none'
+        display: autoHide ? 'none' : 'flex'
       },
       cursor: 'pointer'
-    }
+    })
   })
 );
 
 const logoText = 'M-HEALTH INDEX &';
 const logoTextSecondary = 'NAVIGATION DATABASE';
 
-export default function Logo() {
-  const classes = useStyles();
+export default function Logo({ autoHide = true, showText = true }) {
+  const classes = useStyles({ autoHide });
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
@@ -42,16 +42,18 @@ export default function Logo() {
       <Grid item>
         <img className={classes.logo} src={logo} alt='logo' />
       </Grid>
-      <Grid item>
-        <Grid container alignItems='center' className={classes.logoText}>
-          <Grid item xs={12}>
-            <Typography variant='caption'>{logoText}</Typography>
-          </Grid>
-          <Grid item xs={12} style={{ marginTop: -4 }}>
-            <Typography variant='caption'>{logoTextSecondary}</Typography>
+      {showText && (
+        <Grid item>
+          <Grid container alignItems='center' className={classes.logoText}>
+            <Grid item xs={12}>
+              <Typography variant='caption'>{logoText}</Typography>
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: -4 }}>
+              <Typography variant='caption'>{logoTextSecondary}</Typography>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </Grid>
   );
 }

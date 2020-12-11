@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { makeStyles, createStyles, useScrollTrigger } from '@material-ui/core';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useAppBarHeight, useHeight } from './store';
+import { useAppBarHeight, useFooterHeight, useHeight } from './store';
 import { useLocation } from 'react-router';
 import ApplicationBarV2 from './ApplicationBarV2';
+import FooterV2 from './FooterV2';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -21,8 +22,9 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     },
-    innerContent: ({ padInnerContent = true }) => ({
-      padding: padInnerContent ? layout.contentpadding : 0
+    innerContent: ({ padInnerContent = true, minHeight }) => ({
+      padding: padInnerContent ? layout.contentpadding : 0,
+      minHeight
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -42,11 +44,16 @@ export default function LayoutV2({ children }) {
   let ref = React.useRef();
 
   const { pathname } = useLocation();
+
+  const footerHeight = useFooterHeight();
+  const minHeight = height - appBarHeight - footerHeight;
+
   const classes = useStyles({
     padInnerContent: noPadPaths.findIndex(p => p === pathname) > -1 ? false : true,
     overflow: noScrollPaths.findIndex(p => p === pathname) > -1 ? 'hidden' : 'auto',
     contentHeight,
-    appBarHeight
+    appBarHeight,
+    minHeight
   });
 
   const trigger = useScrollTrigger({ target: ref.current });
@@ -55,11 +62,9 @@ export default function LayoutV2({ children }) {
     <div data-testid='app-container' className={classes.root}>
       <main ref={ref} className={classes.content}>
         <ApplicationBarV2 trigger={trigger} />
-
         <div className={classes.toolbar} />
-
         <div className={classes.innerContent}>{children}</div>
-
+        <FooterV2 />
         <SnackBar />
       </main>
     </div>

@@ -16,7 +16,7 @@ import * as Icons from '@material-ui/icons';
 import { useSetUser } from './store';
 import Logo from './Logo';
 
-const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
+const useStyles = makeStyles(({ palette, layout }: any) =>
   createStyles({
     appBar: {
       background: palette.primary.white,
