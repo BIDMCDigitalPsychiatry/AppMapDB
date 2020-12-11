@@ -7,6 +7,8 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Features, Platforms } from '../../database/models/Application';
 import * as Icons from '@material-ui/icons';
+import { useHandleChangeRoute } from '../layout/hooks';
+import { publicUrl } from '../../helpers';
 
 const padding = 32;
 const spacing = 1;
@@ -159,8 +161,10 @@ export default function HomeV2() {
     [setState]
   );
 
+  const handleChangeRoute = useHandleChangeRoute();
+
   const Header = (
-    <Grid container className={classes.header} spacing={spacing}>
+    <Grid container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
           Explore relevant apps and reviews.
@@ -194,7 +198,7 @@ export default function HomeV2() {
   );
 
   const FeatureSection = (
-    <Grid container className={classes.features} spacing={0}>
+    <Grid container className={classes.features}>
       <Grid item xs={12}>
         <Typography>Search by Features</Typography>
       </Grid>
@@ -249,7 +253,7 @@ export default function HomeV2() {
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button style={{ borderRadius }}>
+            <Button style={{ borderRadius }} onClick={handleChangeRoute(publicUrl('/RateAnApp'))}>
               <Grid container spacing={1}>
                 <Grid item>
                   <Typography className={classes.primaryTextSmall}>Rate an App</Typography>

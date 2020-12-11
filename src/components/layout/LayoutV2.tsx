@@ -2,7 +2,6 @@ import * as React from 'react';
 import { makeStyles, createStyles, useScrollTrigger } from '@material-ui/core';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useFooterHeight, useHeight } from './store';
-import { useLocation } from 'react-router';
 import ApplicationBarV2 from './ApplicationBarV2';
 import FooterV2 from './FooterV2';
 
@@ -22,9 +21,10 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     },
-    innerContent: ({ padInnerContent = true, minHeight }) => ({
-      padding: padInnerContent ? layout.contentpadding : 0,
-      minHeight
+    innerContent: ({ minHeight }) => ({
+      minHeight: minHeight - 16,
+      paddingTop: 8,
+      paddingBottom: 8
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -33,9 +33,6 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const noScrollPaths = ['/Apps', '/', '/RateNewApp'];
-export const noPadPaths = ['/Home', '/', '/Apps'];
-
 export default function LayoutV2({ children }) {
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
@@ -43,14 +40,10 @@ export default function LayoutV2({ children }) {
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
   let ref = React.useRef();
 
-  const { pathname } = useLocation();
-
   const footerHeight = useFooterHeight();
-  const minHeight = height - appBarHeight - footerHeight;
+  const minHeight = height - appBarHeight - footerHeight - 1;
 
   const classes = useStyles({
-    padInnerContent: noPadPaths.findIndex(p => p === pathname) > -1 ? false : true,
-    overflow: noScrollPaths.findIndex(p => p === pathname) > -1 ? 'hidden' : 'auto',
     contentHeight,
     appBarHeight,
     minHeight
