@@ -27,8 +27,9 @@ const useStyles = makeStyles(({ palette }: any) =>
       borderRadius: 'inherit'
     }),
     indicator: {
-      background: palette.primary.main,
-      //height: '100%',
+      background: palette.primary.light,
+      marginBottom: 4,
+      height: 4,
       zIndex: 0,
       borderRadius: 5
     },
