@@ -11,6 +11,7 @@ import News from '../pages/News';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
 import VersionComponent from './VersionComponent';
+import RateAnApp from '../pages/RateAnApp';
 
 const Routes = () => (
   <Switch>
@@ -21,6 +22,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />
     <Route exact path={publicUrl('/RateNewApp')} component={RateNewApp} />
+    <Route exact path={publicUrl('/RateAnApp')} component={RateAnApp} />
     <Route exact path={publicUrl('/RateNewAppIntro')} component={RateNewAppIntro} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
   </Switch>

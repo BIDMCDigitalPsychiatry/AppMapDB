@@ -44,7 +44,6 @@ export default function FooterV2() {
   const handleChangeRoute = useHandleChangeRoute();
 
   const width = useWidth();
-  console.log({ width });
   var showText = width <= 660 ? false : true;
 
   return (
