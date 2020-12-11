@@ -167,11 +167,11 @@ export default function HomeV2() {
     <Grid container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
-          Explore relevant apps and reviews.
+          Explore relevant apps and reviews
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Grid container alignItems='center' spacing={spacing}>
+        <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
           <Grid item xs={12} sm style={{ marginTop: -4 }}>
             <Grid container spacing={spacing}>
               <Grid item xs>
