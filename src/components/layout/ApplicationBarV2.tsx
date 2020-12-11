@@ -3,8 +3,7 @@ import { makeStyles, Grid, IconButton, Menu, MenuItem, Divider, Slide } from '@m
 import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import logo from '../../images/logoV2.png';
-import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute } from './hooks';
+import { useAppBarHeightRef, useChangeRoute } from './hooks';
 import { publicUrl, useHandleToggleLayout } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/Login';
 import * as RegisterDialog from '../application/GenericDialog/Register';
@@ -15,7 +14,7 @@ import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
 import TabSelectorToolBarV2 from '../general/TabSelector/TabSelectorToolBarV2';
 import * as Icons from '@material-ui/icons';
 import { useSetUser } from './store';
-import Typography from '@material-ui/core/Typography';
+import Logo from './Logo';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -26,25 +25,6 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     },
     appBarFullScreen: {
       background: palette.primary.white
-    },
-    logo: {
-      paddingLeft: 8,
-      paddingRight: 16,
-      height: layout.toolbarheight - 32,
-      [breakpoints.down('xs')]: {
-        display: 'none'
-      },
-      cursor: 'pointer'
-    },
-    logoText: {
-      width: 240,
-      color: '#1D1D1D',
-      marginTop: -6,
-      letterSpacing: 4,
-      [breakpoints.down('sm')]: {
-        display: 'none'
-      },
-      cursor: 'pointer'
     },
     active: {
       backgroundColor: palette.primary.dark
@@ -60,9 +40,6 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const logoText = 'M-HEALTH INDEX &';
-const logoTextSecondary = 'NAVIGATION DATABASE';
-
 const tabs = [
   { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
   { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
@@ -73,7 +50,6 @@ const AppBarTabSelector = props => <TabSelectorToolBarV2 id='AppBar' tabs={tabs}
 
 export default function ApplicationBarV2({ trigger }) {
   const classes = useStyles();
-  const handleChangeRoute = useHandleChangeRoute();
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
   const [{ open: loginOpen }, setLoginState] = useDialogState(LoginDialog.title);
   const signedIn = useSignedIn();
@@ -119,22 +95,8 @@ export default function ApplicationBarV2({ trigger }) {
       <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
         <Toolbar className={classes.toolbar} disableGutters={true}>
           <Grid container alignItems='center' spacing={0}>
-            <Grid item onClick={handleChangeRoute(publicUrl('/'))}>
-              <Grid container alignItems='center'>
-                <Grid item>
-                  <img className={classes.logo} src={logo} alt='logo' />
-                </Grid>
-                <Grid item>
-                  <Grid container alignItems='center' className={classes.logoText}>
-                    <Grid item xs={12}>
-                      <Typography variant='caption'>{logoText}</Typography>
-                    </Grid>
-                    <Grid item xs={12} style={{ marginTop: -4 }}>
-                      <Typography variant='caption'>{logoTextSecondary}</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
+            <Grid item>
+              <Logo />
             </Grid>
             <Grid item xs style={{ minWidth: 0 }}>
               <AppBarTabSelector onChange={handleTabChange} />
