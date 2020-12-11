@@ -5,7 +5,7 @@ import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
-import { Platforms } from '../../database/models/Application';
+import { Features, Platforms } from '../../database/models/Application';
 import * as Icons from '@material-ui/icons';
 
 const padding = 32;
@@ -124,11 +124,18 @@ export default function HomeV2() {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
 
-  const [state, setState] = React.useState({ TextSearch: '', Platforms });
+  const [state, setState] = React.useState({ TextSearch: '', Platforms, Features });
 
   const handleChange = React.useCallback(
     id => (event: any) => {
       const value = event?.target?.value;
+      setState(prev => ({ ...prev, [id]: value }));
+    },
+    [setState]
+  );
+
+  const handleSelectAll = React.useCallback(
+    (id, value) => () => {
       setState(prev => ({ ...prev, [id]: value }));
     },
     [setState]
@@ -168,32 +175,30 @@ export default function HomeV2() {
     </Grid>
   );
 
-  const Features = (
-    <Grid container className={classes.features} spacing={spacing}>
+  const FeatureSection = (
+    <Grid container className={classes.features} spacing={0}>
       <Grid item xs={12}>
-        <Typography variant='body2'>Search by Features</Typography>
+        <Typography>Search by Features</Typography>
       </Grid>
       <Grid item xs={12}>
         <Grid container alignItems='center' spacing={spacing}>
-          <Grid item xs={12} sm style={{ marginTop: -4 }}>
+          <Grid item xs={12}>
             <Grid container spacing={spacing}>
               <Grid item xs>
-                <TableSearchV2 placeholder='Search by name, feature or platform' /*value={state['TextSearch']} onChange={handleChange('TextSearch')} */ />
-              </Grid>
-              <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
                 <MultiSelectCheck
-                  value={state['Platforms']}
-                  onChange={handleChange('Platforms')}
-                  placeholder='Platforms'
+                  value={state['Features']}
+                  onChange={handleChange('Features')}
                   InputProps={{ style: { background: 'white' } }}
-                  items={Platforms.map(label => ({ value: label, label })) as any}
+                  items={Features.map(label => ({ value: label, label })) as any}
                   fullWidth={true}
                 />
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button className={classes.primaryButton}>Search</Button>
+          <Grid item xs={12} style={{ textAlign: 'right' }}>
+            <Button onClick={handleSelectAll('Features', Features)} className={classes.primaryButton}>
+              Select All
+            </Button>
           </Grid>
         </Grid>
       </Grid>
@@ -245,7 +250,7 @@ export default function HomeV2() {
   return (
     <>
       {Header}
-      {Features}
+      {FeatureSection}
       {Cards}
     </>
   );
