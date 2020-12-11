@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }) =>
       padding: spacing(0, 2)
     },
     link: {
-      fontSize: 22,
+      fontSize: 18,
       color: palette.primary.dark,
       cursor: 'pointer'
     }
@@ -75,7 +75,7 @@ export default function FooterV2() {
           <Grid container justify='flex-start'>
             <Grid item xs={fs ? 5 : 2} zeroMinWidth>
               <Typography noWrap align='left'>
-                <Link href='https://www.digitalpsych.org/' target='_blank' color='inherit'>
+                <Link href='https://www.digitalpsych.org/' variant='caption' target='_blank' color='inherit'>
                   Division of Digital Psychiatry
                 </Link>
               </Typography>
@@ -83,7 +83,7 @@ export default function FooterV2() {
             {!fs && (
               <Grid item xs={7} zeroMinWidth>
                 <Typography noWrap align='center'>
-                  <Link href='https://www.argosyfnd.org/' target='_blank' color='inherit'>
+                  <Link href='https://www.argosyfnd.org/' variant='caption' target='_blank' color='inherit'>
                     This website is made possible by support from the Argosy Foundation
                   </Link>
                 </Typography>
@@ -91,7 +91,7 @@ export default function FooterV2() {
             )}
             <Grid item xs={fs ? 7 : 3} zeroMinWidth>
               <Typography noWrap align='right'>
-                <Link href='https://www.bidmc.org/' target='_blank' color='inherit'>
+                <Link href='https://www.bidmc.org/' variant='caption' target='_blank' color='inherit'>
                   ©2020 Beth Israel Deaconess Medical Center
                 </Link>
               </Typography>
