@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Button } from '@material-ui/core';
+import { Grid, Typography, createStyles, makeStyles, Button, Box } from '@material-ui/core';
 import Text from '../application/DialogField/Text';
 
 const padding = 32;
@@ -44,7 +44,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
       }
     },
     primaryText: {
-      fontSize: 34,
+      fontSize: 32,
       fontWeight: 900,
       color: palette.primary.dark
     },
@@ -96,9 +96,11 @@ export default function RanAnApp() {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Typography variant='h1' className={classes.primaryText}>
-              Our Review Approach
-            </Typography>
+            <Box mt={2}>
+              <Typography variant='h1' className={classes.primaryText}>
+                Our Review Approach
+              </Typography>
+            </Box>
           </Grid>
           <Grid item xs={12}>
             <Typography color='textSecondary'>

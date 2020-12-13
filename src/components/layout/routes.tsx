@@ -7,6 +7,7 @@ import PlayGround from './PlayGround';
 import Home from '../pages/Home';
 import HomeV2 from '../pages/HomeV2';
 import FrameworkQuestions from '../pages/FrameworkQuestions';
+import FrameworkQuestionsV2 from '../pages/FrameWorkQuestionsV2/FrameworkQuestionsV2';
 import News from '../pages/News';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
@@ -17,7 +18,7 @@ const Routes = () => (
   <Switch>
     <Route exact path={'/'} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
     <Route exact path={publicUrl('/')} component={Home} />
-    <Route exact path={publicUrl('/FrameworkQuestions')} component={FrameworkQuestions} />
+    <Route exact path={publicUrl('/FrameworkQuestions')} component={VersionComponent({ V1: FrameworkQuestions, V2: FrameworkQuestionsV2 })} />
     <Route exact path={publicUrl('/News')} component={News} />
     <Route exact path={publicUrl('/Apps')} component={Apps} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />

@@ -64,12 +64,12 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
       }
     },
     primaryText: {
-      fontSize: 34,
+      fontSize: 30,
       fontWeight: 900,
       color: palette.primary.dark
     },
     secondaryText: {
-      fontSize: 34,
+      fontSize: 30,
       fontWeight: 900,
       color: palette.common.white
     },
@@ -244,7 +244,9 @@ export default function HomeV2() {
       <Grid item xs={12} sm={6}>
         <Grid ref={ref} container alignItems='center' spacing={spacing} className={classes.rateAnApp}>
           <Grid item xs={12}>
-            <Typography variant='h5'>Interested in rating an app?</Typography>
+            <Typography variant='h5' style={{ fontWeight: 900 }}>
+              Interested in rating an app?
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography>

@@ -4,8 +4,7 @@ import NotoSans from './fonts/noto-sans-v11-latin/noto-sans-v11-latin-regular.wo
 export const lato = {
   fontFamily: 'Lato',
   fontStyle: 'normal',
-  fontDisplay: 'swap',
-  fontWeight: 600,
+  fontDisplay: 'swap',  
   src: `
     local('Lato'),
     local('Lato-Regular'),
@@ -19,7 +18,6 @@ export const notoSans = {
   fontFamily: 'NotoSans',
   fontStyle: 'normal',
   fontDisplay: 'swap',
-  fontWeight: 400,
   src: `
     local('NotoSans'),
     local('NotoSans-Regular'),
