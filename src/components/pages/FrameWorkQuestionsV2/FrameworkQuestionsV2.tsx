@@ -3,9 +3,10 @@ import { Grid, Typography, createStyles, makeStyles, Box, useTheme } from '@mate
 import { useFullScreen } from '../../../hooks';
 import appEvaluationModel from '../../../images/appEvaluationModel.webp';
 import QuestionSample from './QuestionSample';
+import * as ExploreQuestionsDialog from '../../application/GenericDialog/ExploreQuestions';
+import DialogButton from '../../application/GenericDialog/DialogButton';
 import ReactPlayer from 'react-player';
 import { useWidth } from '../../layout/store';
-
 const videoPath = require('../../../content/zoom_1.mp4');
 
 const padding = 32;
@@ -27,6 +28,12 @@ const getPadding = (bp, multiplier = 1) => (bp === 'sm' ? padding / 2 : bp === '
 
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({
+    header: {
+      background: palette.primary.light,
+      color: palette.common.white,
+      fontWeight: 900,
+      ...getMobilePadding(breakpoints)
+    },
     whiteHeader: {
       background: palette.common.white,
       color: palette.primary.dark,
@@ -252,6 +259,26 @@ export default function FrameworkQuestionsV2() {
     </Box>
   );
 
+  const ExploreQuestions = (
+    <Grid container className={classes.header} spacing={headerSpacing}>
+      <Grid item xs={12}>
+        <Grid container alignItems='center' alignContent='center'>
+          <Grid item xs>
+            <Typography className={classes.primaryText}>Explore the Questions</Typography>
+            <Typography style={{ marginTop: 8 }} variant='h6' className={classes.white}>
+              Want to learn more about the questions that are answered about each app in the database? View all 105 questions in this presentation.
+            </Typography>
+          </Grid>
+          <Grid item style={{ width, textAlign: 'center' }}>
+            <DialogButton variant='primaryButton' tooltip='Click to Open' Module={ExploreQuestionsDialog}>
+              View Presentation
+            </DialogButton>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+
   const Videos = (
     <Grid container className={classes.whiteHeader} spacing={headerSpacing}>
       <Grid item xs={12}>
@@ -276,7 +303,7 @@ export default function FrameworkQuestionsV2() {
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
-      {[Framework, HowChoose, AppRegulation, ReviewApproach, ObjectiveQuestions, QuestionSamples, Videos].map(C => (
+      {[Framework, HowChoose, AppRegulation, ReviewApproach, ObjectiveQuestions, QuestionSamples, ExploreQuestions, Videos].map(C => (
         <Grid item>{C}</Grid>
       ))}
     </Grid>
