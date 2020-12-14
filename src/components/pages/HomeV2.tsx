@@ -237,7 +237,9 @@ export default function HomeV2() {
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined}>
-            <Button className={classes.secondaryButton}>Search Filters</Button>
+            <Button className={classes.secondaryButton} onClick={handleChangeRoute(publicUrl('/Apps'))}>
+              Search Filters
+            </Button>
           </Grid>
         </Grid>
       </Grid>
