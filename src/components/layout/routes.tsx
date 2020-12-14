@@ -17,7 +17,8 @@ import RateAnApp from '../pages/RateAnApp';
 const Routes = () => (
   <Switch>
     <Route exact path={'/'} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
-    <Route exact path={publicUrl('/')} component={Home} />
+    <Route exact path={publicUrl('/')} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
+    <Route exact path={publicUrl('/Home')} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
     <Route exact path={publicUrl('/FrameworkQuestions')} component={VersionComponent({ V1: FrameworkQuestions, V2: FrameworkQuestionsV2 })} />
     <Route exact path={publicUrl('/News')} component={News} />
     <Route exact path={publicUrl('/Apps')} component={Apps} />
