@@ -7,8 +7,9 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Features, Platforms } from '../../database/models/Application';
 import * as Icons from '@material-ui/icons';
-import { useHandleChangeRoute } from '../layout/hooks';
+import { useChangeRoute, useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
+import { useTableFilterValues } from '../application/GenericTable/store';
 
 const padding = 32;
 const spacing = 1;
@@ -133,8 +134,7 @@ export const variableFilters = [
 ];
 
 export default function HomeV2() {
-  //const [values, setValues] = useTableFilterValues('Applications');
-  //const [localTab, setLocalTab] = React.useState(0);
+  const [, setValues] = useTableFilterValues('Applications');
 
   const classes = useStyles();
   useFilterList();
@@ -162,6 +162,13 @@ export default function HomeV2() {
   );
 
   const handleChangeRoute = useHandleChangeRoute();
+  const changeRoute = useChangeRoute();
+
+  const handleSearch = React.useCallback(() => {
+    setValues(prev => ({ ...prev, Platforms: state?.Platforms, Features: state?.Features }));
+    changeRoute(publicUrl('/Apps'));
+    // eslint-disable-next-line
+  }, [setValues, changeRoute, JSON.stringify(state?.Platforms), JSON.stringify(state?.Features)]);
 
   const Header = (
     <Grid container className={classes.header}>
@@ -190,7 +197,9 @@ export default function HomeV2() {
             </Grid>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button className={classes.primaryButton}>Search</Button>
+            <Button className={classes.primaryButton} onClick={handleSearch}>
+              Search
+            </Button>
           </Grid>
         </Grid>
       </Grid>
