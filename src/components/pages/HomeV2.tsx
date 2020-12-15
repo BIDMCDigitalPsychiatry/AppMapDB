@@ -5,6 +5,7 @@ import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
+import MultiFeatureSelect from '../application/DialogField/MultiFeatureSelect';
 import { Features, Platforms } from '../../database/models/Application';
 import * as Icons from '@material-ui/icons';
 import { useChangeRoute, useHandleChangeRoute } from '../layout/hooks';
@@ -144,7 +145,7 @@ export default function HomeV2() {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
 
-  const [state, setState] = React.useState({ TextSearch: '', Platforms, Features });
+  const [state, setState] = React.useState({ TextSearch: '', Platforms, Features: [] });
 
   const handleChange = React.useCallback(
     id => (event: any) => {
@@ -154,12 +155,14 @@ export default function HomeV2() {
     [setState]
   );
 
-  const handleSelectAll = React.useCallback(
+  /*
+  const handleClearAll = React.useCallback(
     (id, value) => () => {
       setState(prev => ({ ...prev, [id]: value }));
     },
     [setState]
   );
+  */
 
   const handleChangeRoute = useHandleChangeRoute();
   const changeRoute = useChangeRoute();
@@ -207,30 +210,31 @@ export default function HomeV2() {
   );
 
   const FeatureSection = (
-    <Grid container className={classes.features}>
+    <Grid container className={classes.features} spacing={2}>
       <Grid item xs={12}>
-        <Typography>Search by Features</Typography>
+        <Typography variant='h6'>Search by Features</Typography>
       </Grid>
       <Grid item xs={12}>
         <Grid container alignItems='center' spacing={spacing}>
           <Grid item xs={12}>
             <Grid container spacing={spacing}>
               <Grid item xs>
-                <MultiSelectCheck
+                <MultiFeatureSelect
                   value={state['Features']}
                   onChange={handleChange('Features')}
-                  InputProps={{ style: { background: 'white' } }}
+                  //InputProps={{ style: { background: 'white' } }}
                   items={Features.map(label => ({ value: label, label })) as any}
                   fullWidth={true}
                 />
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} style={{ textAlign: 'right' }}>
-            <Button onClick={handleSelectAll('Features', Features)} className={classes.primaryButton}>
-              Select All
+          {/*<Grid item xs={12} style={{ textAlign: 'right' }}>
+            <Button onClick={handleClearAll('Features', [])} className={classes.primaryButton}>
+              Clear All
             </Button>
           </Grid>
+  */}
         </Grid>
       </Grid>
     </Grid>
