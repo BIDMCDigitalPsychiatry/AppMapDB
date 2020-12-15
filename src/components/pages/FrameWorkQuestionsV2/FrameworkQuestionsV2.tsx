@@ -8,6 +8,7 @@ import DialogButton from '../../application/GenericDialog/DialogButton';
 import ReactPlayer from 'react-player';
 import { useWidth } from '../../layout/store';
 const videoPath = require('../../../content/zoom_1.mp4');
+const videoPath2 = require('../../../content/zoom_0.mp4');
 
 const padding = 32;
 const width = 300;
@@ -280,24 +281,35 @@ export default function FrameworkQuestionsV2() {
   );
 
   const Videos = (
-    <Grid container className={classes.whiteHeader} spacing={headerSpacing}>
+    <Grid container justify='space-evenly' className={classes.whiteHeader} spacing={headerSpacing}>
       <Grid item xs={12}>
         <Typography className={classes.primaryText}>Video Resources</Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Box style={{ width: Math.min(vw - 32, 640) }}>
-          <Box pb={2}>
-            <ReactPlayer url={videoPath} controls={true} width={Math.min(vw - 32, 640)} />
+      {[
+        {
+          title: 'Instructional Video:',
+          description:
+            'Rating an app is an interactve process. Raters will be prompted through 105 different questions about an app and its features, prvacy settings, clinical foundation, and more.',
+          url: videoPath2
+        },
+        {
+          title: 'Actional App Evaluation Video:',
+          description: 'Objective Standards to Guide Assessment and Implementation of Digital Health Intervations.',
+          url: videoPath
+        }
+      ].map(({ title, description, url }) => (
+        <Grid item>
+          <Box style={{ width: Math.min(vw - 32, 640) }}>
+            <Box pb={2}>
+              <ReactPlayer url={url} controls={true} width={Math.min(vw - 32, 640)} />
+            </Box>
+            <Typography variant='h6' className={classes.primaryLight}>
+              {title}
+            </Typography>
+            <Typography color='textSecondary'>{description}</Typography>
           </Box>
-          <Typography variant='h6' className={classes.primaryLight}>
-            Actional App Evaluation Video:
-          </Typography>
-          <Typography color='textSecondary'>
-            Rating an app is an interactve process. Raters will be prompted through 105 different questions about an app and its features, prvacy settings,
-            clinical foundation, and more.
-          </Typography>
-        </Box>
-      </Grid>
+        </Grid>
+      ))}
     </Grid>
   );
 
