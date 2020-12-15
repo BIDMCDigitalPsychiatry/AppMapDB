@@ -33,8 +33,8 @@ const tabs = [
   { id: 'Find an APP', route: '/Home' },
   { id: 'App Library', route: '/Apps' },
   { id: 'Framework', route: '/FrameworkQuestions' },
-  { id: 'News', route: '/News' },
-  { id: 'Privacy Policy', route: '/Apps' }
+  { id: 'News', route: '/News' }
+  // { id: 'Privacy Policy', route: '/Apps' }
 ];
 
 export default function FooterV2() {
