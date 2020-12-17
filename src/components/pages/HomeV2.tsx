@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Button } from '@material-ui/core';
+import { Grid, Typography, createStyles, makeStyles, Button, Container } from '@material-ui/core';
 import useComponentSize from '@rehooks/component-size';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
@@ -145,7 +145,7 @@ export default function HomeV2() {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
 
-  const [state, setState] = React.useState({ TextSearch: '', Platforms, Features: [] });
+  const [state, setState] = React.useState({ TextSearch: '', Platforms: [], Features: [] });
 
   const handleChange = React.useCallback(
     id => (event: any) => {
@@ -191,7 +191,7 @@ export default function HomeV2() {
                 <MultiSelectCheck
                   value={state['Platforms']}
                   onChange={handleChange('Platforms')}
-                  placeholder='Platforms'
+                  placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
                   InputProps={{ style: { background: 'white' } }}
                   items={Platforms.map(label => ({ value: label, label })) as any}
                   fullWidth={true}
@@ -219,13 +219,14 @@ export default function HomeV2() {
           <Grid item xs={12}>
             <Grid container spacing={spacing}>
               <Grid item xs>
-                <MultiFeatureSelect
-                  value={state['Features']}
-                  onChange={handleChange('Features')}
-                  //InputProps={{ style: { background: 'white' } }}
-                  items={Features.map(label => ({ value: label, label })) as any}
-                  fullWidth={true}
-                />
+                <Container maxWidth='xl'>
+                  <MultiFeatureSelect
+                    value={state['Features']}
+                    onChange={handleChange('Features')}
+                    items={Features.map(label => ({ value: label, label })) as any}
+                    fullWidth={true}
+                  />
+                </Container>
               </Grid>
             </Grid>
           </Grid>
