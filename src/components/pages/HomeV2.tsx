@@ -3,14 +3,12 @@ import { Grid, Typography, createStyles, makeStyles, Button, Container } from '@
 import useComponentSize from '@rehooks/component-size';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
-import TableSearchV2 from '../application/GenericTable/TableSearchV2';
-import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import MultiFeatureSelect from '../application/DialogField/MultiFeatureSelect';
-import { Features, Platforms } from '../../database/models/Application';
+import { Features } from '../../database/models/Application';
 import * as Icons from '@material-ui/icons';
-import { useChangeRoute, useHandleChangeRoute } from '../layout/hooks';
+import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
-import { useTableFilterValues } from '../application/GenericTable/store';
+import SearchHeader from './SearchHeader';
 
 const padding = 32;
 const spacing = 1;
@@ -32,9 +30,6 @@ const getPadding = (bp, multiplier = 1) => (bp === 'sm' ? padding / 2 : bp === '
 
 const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
   createStyles({
-    root: {
-      display: 'static'
-    },
     header: {
       background: palette.primary.light,
       color: palette.common.white,
@@ -94,24 +89,6 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
     primaryTextSmall: {
       fontWeight: 900,
       color: palette.primary.dark
-    },
-    footer: {
-      background: palette.secondary.light,
-      fontWeight: 900,
-      ...getMobilePadding(breakpoints)
-    },
-    footerRoot: {
-      padding: spacing(6, 0),
-      [breakpoints.up('md')]: {
-        padding: spacing(12, 0)
-      },
-      background: palette.secondary.light
-    },
-    footerContainer: {
-      //maxWidth: theme.layout.contentWidth,
-      width: '100%',
-      margin: '0 auto',
-      padding: spacing(0, 2)
     }
   })
 );
@@ -135,8 +112,6 @@ export const variableFilters = [
 ];
 
 export default function HomeV2() {
-  const [, setValues] = useTableFilterValues('Applications');
-
   const classes = useStyles();
   useFilterList();
 
@@ -165,49 +140,6 @@ export default function HomeV2() {
   */
 
   const handleChangeRoute = useHandleChangeRoute();
-  const changeRoute = useChangeRoute();
-
-  const handleSearch = React.useCallback(() => {
-    setValues(prev => ({ ...prev, Platforms: state?.Platforms, Features: state?.Features }));
-    changeRoute(publicUrl('/Apps'));
-    // eslint-disable-next-line
-  }, [setValues, changeRoute, JSON.stringify(state?.Platforms), JSON.stringify(state?.Features)]);
-
-  const Header = (
-    <Grid container className={classes.header}>
-      <Grid item xs={12}>
-        <Typography variant='h1' className={classes.primaryText}>
-          Explore relevant apps and reviews
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
-          <Grid item xs={12} sm style={{ marginTop: -4 }}>
-            <Grid container spacing={spacing}>
-              <Grid item xs>
-                <TableSearchV2 placeholder='Search by name, feature or platform' /*value={state['TextSearch']} onChange={handleChange('TextSearch')} */ />
-              </Grid>
-              <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
-                <MultiSelectCheck
-                  value={state['Platforms']}
-                  onChange={handleChange('Platforms')}
-                  placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
-                  InputProps={{ style: { background: 'white' } }}
-                  items={Platforms.map(label => ({ value: label, label })) as any}
-                  fullWidth={true}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button className={classes.primaryButton} onClick={handleSearch}>
-              Search
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
-  );
 
   const FeatureSection = (
     <Grid container className={classes.features} spacing={2}>
@@ -289,7 +221,7 @@ export default function HomeV2() {
 
   return (
     <>
-      {Header}
+      <SearchHeader title='Explore relevant apps and reviews' state={state} setState={setState} />
       {FeatureSection}
       {Cards}
     </>
