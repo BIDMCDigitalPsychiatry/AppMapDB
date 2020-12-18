@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { InputAdornment, IconButton } from '@material-ui/core';
-import { useTable, useTableUpdate } from './store';
 import { makeStyles, createStyles } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { GenericTableContainerProps } from './GenericTableContainer';
@@ -33,28 +32,17 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function TableSearchV2({ name = 'Applications', label = undefined, placeholder = undefined }) {
+export default function TableSearchV2({ value = '', label = undefined, placeholder = undefined, onChange }) {
   const classes = useStyles();
-  const { searchtext = '' } = useTable(name);
-  const tableUpdate = useTableUpdate();
-  const updateTable = React.useCallback(
-    value =>
-      tableUpdate({
-        id: name,
-        searchtext: value
-      }),
-    [name, tableUpdate]
-  );
-  const handleChange = React.useCallback(e => updateTable(e.target.value), [updateTable]);
 
-  const handleClear = React.useCallback(e => updateTable(''), [updateTable]);
+  const handleClear = React.useCallback(e => onChange({ target: { value: '' } }), [onChange]);
 
   return (
     <Text
       margin='dense'
       placeholder={placeholder}
-      value={searchtext ? searchtext : ''}
-      onChange={handleChange}
+      value={value}
+      onChange={onChange}
       label={label}
       InputProps={{
         style: { background: 'white' },

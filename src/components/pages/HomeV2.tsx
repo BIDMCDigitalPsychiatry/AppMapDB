@@ -120,7 +120,7 @@ export default function HomeV2() {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
 
-  const [state, setState] = React.useState({ TextSearch: '', Platforms: [], Features: [] });
+  const [state, setState] = React.useState({ searchtext: '', Platforms: [], Features: [] });
 
   const handleChange = React.useCallback(
     id => (event: any) => {
