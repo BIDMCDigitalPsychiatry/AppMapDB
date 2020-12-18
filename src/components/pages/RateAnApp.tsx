@@ -1,6 +1,61 @@
 import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Button, Box } from '@material-ui/core';
 import Text from '../application/DialogField/Text';
+import { emailUser } from '../../../package.json';
+import { AWS } from '../../database/dbConfig';
+
+function sendEmail({ name, title, email, institution, details }) {
+  const emailAddress = emailUser;
+  const sourceEmailAddress = 'appmap@psych.digital';
+
+  const body = `A user is interested in app rating:
+    
+    <p>User Name: ${name}</p>
+    <p>Title: ${title}</p>
+    <p>User Email: ${email}</p>
+    <p>Institution: ${institution}</p>
+    <p>How did you hear about us?: ${details}</p>`;
+
+  // Create sendEmail params
+  var params = {
+    Destination: {
+      /* required */ CcAddresses: [],
+      ToAddresses: [emailAddress]
+    },
+    Message: {
+      /* required */
+      Body: {
+        /* required */
+        Html: {
+          Charset: 'UTF-8',
+          Data: body
+        },
+        Text: {
+          Charset: 'UTF-8',
+          Data: body
+        }
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: 'AppMapDB - App Rating Interest'
+      }
+    },
+    Source: sourceEmailAddress /* required */,
+    ReplyToAddresses: [sourceEmailAddress]
+  };
+
+  // Create the promise and SES service object
+  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise
+    .then(function (data) {
+      console.log(data.MessageId);
+    })
+    .catch(function (err) {
+      console.error(err, err.stack);
+    });
+}
 
 const padding = 32;
 const spacing = 1;
@@ -67,17 +122,31 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
 );
 
 const fields = {
-  'Full Name:': { placeholder: 'Full Name' },
-  'Title:': { placeholder: 'Title' },
-  'Email address:': { placeholder: 'Email address' },
-  'Institution:': { placeholder: 'Institution name' },
-  'How did you hear about us?': { placeholder: 'Enter information', multiline: true, rows: 3 }
+  name: { label: 'Full Name', placeholder: 'Full Name' },
+  title: { label: 'Title', placeholder: 'Title' },
+  email: { label: 'Email', placeholder: 'Email address' },
+  institution: { label: 'Institution:', placeholder: 'Institution name' },
+  details: { label: 'How did you hear about us?', placeholder: 'Enter information', multiline: true, rows: 3 }
 };
 
 export default function RanAnApp() {
   const classes = useStyles();
 
-  // const [state, setState] = React.useState();
+  const [state, setState] = React.useState({});
+  const state_str = JSON.stringify(state);
+
+  const handleSend = React.useCallback(() => {
+    sendEmail(JSON.parse(state_str));
+    alert('We have received your request!  Thank you.');
+  }, [state_str]);
+
+  const handleChange = React.useCallback(
+    key => event => {
+      const { value } = event?.target;
+      setState(prev => ({ ...prev, [key]: value }));
+    },
+    [setState]
+  );
 
   return (
     <Grid container className={classes.root}>
@@ -119,20 +188,30 @@ export default function RanAnApp() {
           <Grid item xs={12}>
             <Grid container style={{ marginTop: 8, marginBottom: 8 }} alignItems='center' spacing={1}>
               {Object.keys(fields).map(k => {
-                const { placeholder = '', multiline = false, rows = undefined } = fields[k];
+                const { label, placeholder = '', multiline = false, rows = undefined } = fields[k];
                 return (
                   <Grid item xs={12}>
                     <Typography variant='body2' className={classes.primaryLabel}>
-                      {k}
+                      {label}
                     </Typography>
-                    <Text placeholder={placeholder} rows={rows} multiline={multiline} margin='dense' InputProps={{ style: { background: 'white' } }} />
+                    <Text
+                      value={state[k]}
+                      onChange={handleChange(k)}
+                      placeholder={placeholder}
+                      rows={rows}
+                      multiline={multiline}
+                      margin='dense'
+                      InputProps={{ style: { background: 'white' } }}
+                    />
                   </Grid>
                 );
               })}
             </Grid>
           </Grid>
           <Grid item xs={12} style={{ textAlign: 'center' }}>
-            <Button className={classes.primaryButton}>Send</Button>
+            <Button onClick={handleSend} className={classes.primaryButton}>
+              Send
+            </Button>
           </Grid>
         </Grid>
       </Grid>
