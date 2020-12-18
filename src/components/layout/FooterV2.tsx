@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }) =>
     root: {
       padding: spacing(1, 0),
       [breakpoints.up('md')]: {
-        padding: spacing(2, 0)
+        //padding: spacing(2, 0)
       },
       background: palette.secondary.light
     },
@@ -37,7 +37,7 @@ const tabs = [
   // { id: 'Privacy Policy', route: '/Apps' }
 ];
 
-export default function FooterV2() {
+export default function FooterV2({ variant = 'normal' }) {
   const classes = useStyles();
   const fs = useFullScreen();
 
@@ -49,16 +49,18 @@ export default function FooterV2() {
   return (
     <div ref={useFooterHeightRef()} className={classes.root}>
       <Grid container className={classes.container} spacing={spacing}>
-        <Grid item xs={12}>
-          <Grid container justify='space-between' spacing={spacing}>
-            <Grid item>
-              <Logo autoHide={false} showText={showText} />
-            </Grid>
-            <Grid item xs>
-              <Questions />
+        {variant !== 'small' && (
+          <Grid item xs={12}>
+            <Grid container justify='space-between' spacing={spacing}>
+              <Grid item>
+                <Logo autoHide={false} showText={showText} />
+              </Grid>
+              <Grid item xs>
+                <Questions />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )}
         <Grid item xs style={{ minWidth: 0 }}>
           <Grid container justify='space-between' spacing={spacing}>
             {tabs.map(({ id, route }) => (

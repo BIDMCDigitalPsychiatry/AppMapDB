@@ -4,6 +4,7 @@ import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useFooterHeight, useHeight } from './store';
 import ApplicationBarV2 from './ApplicationBarV2';
 import FooterV2 from './FooterV2';
+import { useLocation } from 'react-router';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -33,12 +34,17 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
+const smallRoutes = ['/Apps'];
+
 export default function LayoutV2({ children }) {
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
   const componentsOnPage = [appBarHeight];
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
   let ref = React.useRef();
+
+  const { pathname } = useLocation();
+  const variant = smallRoutes.find(p => p === pathname) ? 'small' : 'normal';
 
   const footerHeight = useFooterHeight();
   const minHeight = height - appBarHeight - footerHeight - 1;
@@ -57,7 +63,7 @@ export default function LayoutV2({ children }) {
         <ApplicationBarV2 trigger={trigger} />
         <div className={classes.toolbar} />
         <div className={classes.innerContent}>{children}</div>
-        <FooterV2 />
+        <FooterV2 variant={variant} />
         <SnackBar />
       </main>
     </div>
