@@ -55,7 +55,7 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       paddingBottom: spacing(0.5)
     },
     title: {
-      background: palette.primary.main,
+      background: palette.primary.light,
       color: palette.common.white,
       margin: 0,
       padding: 0,
@@ -123,6 +123,8 @@ const GenericDialog = ({
   cancelLabel = 'Cancel',
   deleteLabel = 'Delete',
   submitLabel,
+  dialogActions = true,
+  divider = true,
   fields = [] as any[],
   onSubmit,
   onDelete,
@@ -198,7 +200,7 @@ const GenericDialog = ({
       disableAutoFocus={true}
       maxWidth='xs'
       fullWidth
-      {...other}
+      {...other}      
     >
       {title !== null && (
         <>
@@ -206,7 +208,7 @@ const GenericDialog = ({
             <Grid container justify='space-between' alignItems='center'>
               <Grid item zeroMinWidth xs>
                 <Typography noWrap variant='h6' className={classes.capitalize}>
-                  {title ? title : [type, id].join(' ')}
+                  {title ? title : title === '' ? '' : [type, id].join(' ')}
                 </Typography>
               </Grid>
               <Grid item>
@@ -220,7 +222,7 @@ const GenericDialog = ({
               </Grid>
             </Grid>
           </DialogTitle>
-          <Divider />
+          {divider && <Divider />}
         </>
       )}
       <ErrorGate error={errors['loading']}>
@@ -256,7 +258,7 @@ const GenericDialog = ({
           )}
         </>
       </ErrorGate>
-      {!confirmDelete && (
+      {dialogActions && !confirmDelete && (
         <DialogActions className={classes.actions}>
           {type === 'Edit' && onDelete !== undefined && (
             <Button disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>

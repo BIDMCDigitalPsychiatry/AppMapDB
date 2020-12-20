@@ -41,7 +41,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
 );
 
 export default function SearchHeaderRedux({ title = 'App Library' }) {
-  const [{ searchtext, filters }, setValues] = useTableValues('Applications');
+  const [{ searchtext, filters = {} }, setValues] = useTableValues('Applications');
 
   const classes = useStyles();
   useFilterList();

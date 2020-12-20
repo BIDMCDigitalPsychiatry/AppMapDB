@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useAppBarHeightRef, useChangeRoute } from './hooks';
 import { publicUrl, useHandleToggleLayout } from '../../helpers';
-import * as LoginDialog from '../application/GenericDialog/Login';
+import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/Register';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
