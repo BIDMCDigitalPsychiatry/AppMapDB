@@ -22,10 +22,18 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     },
-    innerContent: ({ minHeight }) => ({
+    /*innerContent: ({ minHeight }) => ({
       minHeight: minHeight - 16,
       paddingTop: 8,
       paddingBottom: 8
+    }),
+    */
+    innerContent: ({ fullHeight, minHeight, overflow = 'hidden', contentHeight, padInnerContent = true }) => ({
+      minHeight: minHeight - (padInnerContent ? 16 : 0),
+      height: fullHeight ? undefined : contentHeight - (!padInnerContent ? 0 : layout.contentpadding * 2 + 1),
+      overflow,
+      paddingTop: padInnerContent ? 8 : 0,
+      paddingBottom: padInnerContent ? 8 : 0
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -35,23 +43,32 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 );
 
 const smallRoutes = ['/Apps'];
+//const noScrollPaths = ['/Apps'];
+//const fullHeightPaths = ['/', '/Home', '/FrameworkQuestions', '/News', '/RateAnApp'];
+export const noPadPaths = [
+  /*'/Home', '/', '/Apps'*/
+];
 
 export default function LayoutV2({ children }) {
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
-  const componentsOnPage = [appBarHeight];
+  const footerHeight = useFooterHeight();
+  const componentsOnPage = [appBarHeight, footerHeight];
+  const minHeight = height - appBarHeight - footerHeight - 1;
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
+
   let ref = React.useRef();
 
   const { pathname } = useLocation();
   const variant = smallRoutes.find(p => p === pathname) ? 'small' : 'normal';
 
-  const footerHeight = useFooterHeight();
-  const minHeight = height - appBarHeight - footerHeight - 1;
-
   const classes = useStyles({
+    fullHeight: true, //fullHeightPaths.find(p => p === pathname) ? true : false,
+    padInnerContent: noPadPaths.find(p => p === pathname) ? false : true,
+    //overflow: noScrollPaths.find(p => p === pathname) ? 'hidden' : 'auto',
     contentHeight,
     appBarHeight,
+    footerHeight,
     minHeight
   });
 

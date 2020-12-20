@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Tables from '../application/GenericTable';
-import { useViewMode } from '../layout/store';
+import { useFooterHeight, useHeaderHeight, useHeight, useViewMode } from '../layout/store';
 import { dynamo, tables } from '../../database/dbConfig';
 import { useApplications } from '../../database/useApplications';
 import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
@@ -37,13 +37,20 @@ export default function AppsV2() {
     getItems();
   }, [setApps]);
 
+  const headerHeight = useHeaderHeight();
+  const footerHeight = useFooterHeight();
+
+  const height = useHeight();
+
+  const tableHeight = height - footerHeight - headerHeight + 7;
+
   return (
     <>
       {renderDialogModule(ApplicationHistoryDialog)}
       {renderDialogModule(SuggestEditDialog)}
       {renderDialogModule(ApplicationDialog)}
       <SearchHeaderRedux />
-      {viewMode === 'table' ? <Tables.Applications /> : <Tables.ApplicationsList />}
+      {viewMode === 'table' ? <Tables.Applications height={tableHeight} /> : <Tables.ApplicationsList height={tableHeight} />}
     </>
   );
 }

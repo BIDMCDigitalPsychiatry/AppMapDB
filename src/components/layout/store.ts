@@ -12,6 +12,7 @@ export interface State {
   width?: number;
   appBarHeight?: number;
   footerHeight?: number;
+  headerHeight?: number;
   layoutMode?: string;
   viewMode?: ViewMode;
   adminMode?: boolean;
@@ -22,6 +23,7 @@ const defaultState = {
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   footerHeight: (theme as any).layout.footerHeight,
+  headerHeight: (theme as any).layout.headerHeight,
   viewMode: 'table',
   layoutMode: 'v1',
   adminMode: false
@@ -31,6 +33,7 @@ const setUser = user => ({ type: 'SET_USER', user });
 const resizeViewPort = (height: number | undefined, width: number | undefined) => ({ type: 'RESIZE_VIEWPORT', height: height, width: width });
 const resizeAppBar = (height: number | undefined) => ({ type: 'RESIZE_APPBAR', height });
 const resizeFooter = (height: number | undefined) => ({ type: 'RESIZE_FOOTER', height });
+const resizeHeader = (height: number | undefined) => ({ type: 'RESIZE_HEADER', height });
 const changeViewMode = (mode: ViewMode) => ({ type: 'CHANGE_VIEW_MODE', mode });
 const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', adminMode });
 const changeLayoutMode = (layoutMode: string) => ({ type: 'CHANGE_LAYOUT_MODE', layoutMode });
@@ -51,6 +54,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
       return {
         ...state,
         footerHeight: action.height
+      };
+    case 'RESIZE_HEADER':
+      return {
+        ...state,
+        headerHeight: action.height
       };
     case 'RESIZE_VIEWPORT':
       return {
@@ -93,12 +101,21 @@ export const useResizeFooter = () => {
   return React.useCallback(height => dispatch(resizeFooter(height)), [dispatch]);
 };
 
+export const useResizeHeader = () => {
+  const dispatch = useDispatch();
+  return React.useCallback(height => dispatch(resizeHeader(height)), [dispatch]);
+};
+
 export const useAppBarHeight = (): number => {
   return useSelector((state: AppState) => state.layout.appBarHeight);
 };
 
 export const useFooterHeight = (): number => {
   return useSelector((state: AppState) => state.layout.footerHeight);
+};
+
+export const useHeaderHeight = (): number => {
+  return useSelector((state: AppState) => state.layout.headerHeight);
 };
 
 export const useResizeViewPort = () => {

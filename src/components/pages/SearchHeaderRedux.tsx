@@ -6,6 +6,7 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import { useTableValues } from '../application/GenericTable/store';
+import { useHeaderHeightRef } from '../layout/hooks';
 
 const padding = 32;
 const spacing = 1;
@@ -60,7 +61,7 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
   );
 
   return (
-    <Grid container className={classes.header}>
+    <Grid ref={useHeaderHeightRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
           {title}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
-import { useResizeAppBar, useResizeFooter } from './store';
+import { useResizeAppBar, useResizeFooter, useResizeHeader } from './store';
 import { useHistory, useLocation } from 'react-router';
 
 export const useAppBarHeightRef = () => {
@@ -10,6 +10,16 @@ export const useAppBarHeightRef = () => {
   React.useEffect(() => {
     resizeAppBar(height);
   }, [resizeAppBar, height]);
+  return ref;
+};
+
+export const useHeaderHeightRef = () => {
+  let ref = React.useRef(null);
+  const { height } = useComponentSize(ref);
+  const resizeHeader = useResizeHeader();
+  React.useEffect(() => {
+    resizeHeader(height);
+  }, [resizeHeader, height]);
   return ref;
 };
 
