@@ -3,7 +3,7 @@ import Routes from './routes';
 import { ConnectedRouter } from 'connected-react-router';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
-import Layout from './Layout';
+import LayoutSelector from './LayoutSelector';
 
 export interface AppRouterProps {
   history?: any;
@@ -13,9 +13,9 @@ function AppRouter(props: AppRouterProps) {
   const { history } = props;
   return (
     <ConnectedRouter history={history}>
-      <Layout>
+      <LayoutSelector>
         <Routes />
-      </Layout>
+      </LayoutSelector>
     </ConnectedRouter>
   );
 }

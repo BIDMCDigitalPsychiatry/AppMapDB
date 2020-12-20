@@ -5,13 +5,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
 import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute } from './hooks';
-import { publicUrl } from '../../helpers';
+import { publicUrl, useHandleToggleLayout } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/Login';
 import * as RegisterDialog from '../application/GenericDialog/Register';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
 import { beta } from '../../constants';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
@@ -104,6 +104,9 @@ export default function ApplicationBar() {
 
   const fullScreen = useFullScreen('xs');
 
+  const handleToggleLayout = useHandleToggleLayout();
+  const isAdmin = useIsAdmin();
+
   return (
     <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
       <Toolbar className={classes.toolbar} disableGutters={true}>
@@ -144,13 +147,20 @@ export default function ApplicationBar() {
                         <Divider key='divider' />,
                         <MenuItem key='logout' onClick={handleLogout}>
                           Logout
-                        </MenuItem>
+                        </MenuItem>,
+                        isAdmin ? (
+                          <DialogButton key='Toggle Layout' onClick={handleToggleLayout} variant='menuitem' tooltip=''>
+                            Toggle Layout
+                          </DialogButton>
+                        ) : (
+                          <></>
+                        )
                       ]
                     : [
-                        { label: 'Login', Module: LoginDialog },
-                        { label: 'Signup', Module: RegisterDialog }
-                      ].map(({ label, Module }) => (
-                        <DialogButton key={label} Module={Module} onClick={handleClose} variant='menuitem' tooltip=''>
+                        { label: 'Login', Module: LoginDialog, onClick: handleClose },
+                        { label: 'Signup', Module: RegisterDialog, onClick: handleClose }
+                      ].map(({ label, Module, onClick }) => (
+                        <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip=''>
                           {label}
                         </DialogButton>
                       ))}

@@ -1,4 +1,5 @@
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { notoSans, lato } from './fonts';
 
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
 //export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
@@ -20,7 +21,8 @@ const shared = {
     tableRowHeight: basetheme.spacing(6), // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
     progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
-    tabheight: 116 // Height of the nav pills tab section
+    tabheight: 116, // Height of the nav pills tab section
+    footerHeight: 186 //v2 footer
   },
   overrides: {
     MuiTooltip: {
@@ -75,6 +77,37 @@ const shared = {
   }
 } as Theme & any;
 
+const sharedV2 = {
+  ...shared,
+  palette: {
+    ...shared.palette,
+    primary: {
+      main: '#2278CF',
+      light: '#38B6FF',
+      dark: '#0C4476'
+    },
+    secondary: {
+      main: '#737373',
+      light: '#F2F2F2',
+      dark: '#2C2A2C'
+    }
+  },
+  typography: {
+    fontFamily: 'Lato',
+    button: {
+      textTransform: 'none'
+    }
+  },
+  overrides: {
+    ...shared.overrides,
+    MuiCssBaseline: {
+      '@global': {
+        '@font-face': [lato, notoSans]
+      }
+    }
+  }
+} as Theme & any;
+
 export const adminTheme = createMuiTheme({
   ...shared,
   palette: {
@@ -92,4 +125,22 @@ export const adminTheme = createMuiTheme({
   }
 });
 
+export const adminThemeV2 = createMuiTheme({
+  ...sharedV2,
+  palette: {
+    ...sharedV2.palette,
+    primary: {
+      main: '#c62828',
+      light: '#ff5f52',
+      dark: '#8e0000'
+    },
+    secondary: {
+      main: '#388e3c',
+      light: '#6abf69',
+      dark: '#00600f'
+    }
+  }
+});
+
 export const theme = createMuiTheme(shared);
+export const themeV2 = createMuiTheme(sharedV2);

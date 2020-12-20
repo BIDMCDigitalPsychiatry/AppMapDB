@@ -2,6 +2,7 @@ import * as React from 'react';
 import { makeStyles, createStyles, Toolbar, Link, AppBar, Typography, Grid } from '@material-ui/core';
 import { theme, beta } from '../../constants';
 import { useFullScreen } from '../../hooks';
+import { contactEmail } from '../../../package.json';
 
 const useStyles = makeStyles(({ zIndex }: any) =>
   createStyles({
@@ -68,8 +69,8 @@ export default function Footer() {
               </Grid>
               <Grid item xs={8}>
                 <Typography noWrap variant='body2' align='right'>
-                  <Link href='mailto:team@digitalpsych.org' target='_blank' variant='body2' color='inherit'>
-                    {fullScreen ? '' : 'Please contact us if you find a bug or have a feature: '}team@digitalpsych.org
+                  <Link href={`mailto:${contactEmail}`} target='_blank' variant='body2' color='inherit'>
+                    {fullScreen ? '' : `Please contact us if you find a bug or have a feature: ${contactEmail}`}
                   </Link>
                 </Typography>
               </Grid>

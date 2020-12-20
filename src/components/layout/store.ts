@@ -11,6 +11,9 @@ export interface State {
   height?: number;
   width?: number;
   appBarHeight?: number;
+  footerHeight?: number;
+  headerHeight?: number;
+  layoutMode?: string;
   viewMode?: ViewMode;
   adminMode?: boolean;
 }
@@ -19,15 +22,21 @@ const defaultState = {
   width: 0,
   height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
+  footerHeight: (theme as any).layout.footerHeight,
+  headerHeight: (theme as any).layout.headerHeight,
   viewMode: 'table',
+  layoutMode: 'v1',
   adminMode: false
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
 const resizeViewPort = (height: number | undefined, width: number | undefined) => ({ type: 'RESIZE_VIEWPORT', height: height, width: width });
 const resizeAppBar = (height: number | undefined) => ({ type: 'RESIZE_APPBAR', height });
+const resizeFooter = (height: number | undefined) => ({ type: 'RESIZE_FOOTER', height });
+const resizeHeader = (height: number | undefined) => ({ type: 'RESIZE_HEADER', height });
 const changeViewMode = (mode: ViewMode) => ({ type: 'CHANGE_VIEW_MODE', mode });
 const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', adminMode });
+const changeLayoutMode = (layoutMode: string) => ({ type: 'CHANGE_LAYOUT_MODE', layoutMode });
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
@@ -40,6 +49,16 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
       return {
         ...state,
         appBarHeight: action.height
+      };
+    case 'RESIZE_FOOTER':
+      return {
+        ...state,
+        footerHeight: action.height
+      };
+    case 'RESIZE_HEADER':
+      return {
+        ...state,
+        headerHeight: action.height
       };
     case 'RESIZE_VIEWPORT':
       return {
@@ -57,6 +76,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         ...state,
         adminMode: action.adminMode
       };
+    case 'CHANGE_LAYOUT_MODE':
+      return {
+        ...state,
+        layoutMode: action.layoutMode
+      };
     default:
   }
   return state || { ...defaultState };
@@ -72,8 +96,26 @@ export const useResizeAppBar = () => {
   return React.useCallback(height => dispatch(resizeAppBar(height)), [dispatch]);
 };
 
+export const useResizeFooter = () => {
+  const dispatch = useDispatch();
+  return React.useCallback(height => dispatch(resizeFooter(height)), [dispatch]);
+};
+
+export const useResizeHeader = () => {
+  const dispatch = useDispatch();
+  return React.useCallback(height => dispatch(resizeHeader(height)), [dispatch]);
+};
+
 export const useAppBarHeight = (): number => {
   return useSelector((state: AppState) => state.layout.appBarHeight);
+};
+
+export const useFooterHeight = (): number => {
+  return useSelector((state: AppState) => state.layout.footerHeight);
+};
+
+export const useHeaderHeight = (): number => {
+  return useSelector((state: AppState) => state.layout.headerHeight);
 };
 
 export const useResizeViewPort = () => {
@@ -106,4 +148,11 @@ export const useAdminMode = () => {
   const setAdminMode = React.useCallback(adminMode => dispatch(changeAdminMode(adminMode)), [dispatch]);
   const adminMode = useSelector((state: AppState) => state.layout.adminMode);
   return [isAdmin && adminMode, setAdminMode];
+};
+
+export const useLayoutMode = () => {
+  const dispatch = useDispatch();
+  const setLayoutMode = React.useCallback((layoutMode: string) => dispatch(changeLayoutMode(layoutMode)), [dispatch]);
+  const layoutMode = useSelector((state: AppState) => state.layout.layoutMode);
+  return [layoutMode, setLayoutMode];
 };

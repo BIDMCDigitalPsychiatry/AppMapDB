@@ -11,14 +11,15 @@ const checkedIcon = <CheckBoxIcon fontSize='small' />;
 export default function MuliSelectCheck({
   value = [],
   onChange = undefined,
-  label,
-  placeholder,
+  label = undefined,
+  placeholder = undefined,
   fullWidth = true,
   disabled = false,
   size = 'small' as 'small',
   items = [],
   disableCloseOnSelect = true,
   initialValue = undefined, // prevent passing down
+  InputProps = undefined,
   ...other
 }) {
   const handleChange = React.useCallback((e, value = []) => onChange && onChange({ target: { value: value.map(i => i.value) } }), [onChange]);
@@ -42,12 +43,14 @@ export default function MuliSelectCheck({
           label={label}
           placeholder={placeholder}
           fullWidth={fullWidth}
+          InputProps={{ ...params?.InputProps, ...InputProps }}
           InputLabelProps={{
             shrink: true
           }}
           {...other}
         />
       )}
+      
       disabled={disabled}
       value={items.filter(i => value.includes(i.value))}
       onChange={handleChange}
