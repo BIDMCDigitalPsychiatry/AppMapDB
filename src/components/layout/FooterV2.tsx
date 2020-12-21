@@ -19,7 +19,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }) =>
     },
     container: {
       width: '100%',
-      margin: '0 auto',
+      //margin: '0 auto',
       padding: spacing(0, 2)
     },
     link: {

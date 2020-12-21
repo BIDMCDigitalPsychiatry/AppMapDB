@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Tables from '../application/GenericTable';
-import { useFooterHeight, useHeaderHeight, useHeight, useViewMode } from '../layout/store';
+import { useHeaderHeight, useHeight, useViewMode } from '../layout/store';
 import { dynamo, tables } from '../../database/dbConfig';
 import { useApplications } from '../../database/useApplications';
 import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
@@ -38,11 +38,11 @@ export default function AppsV2() {
   }, [setApps]);
 
   const headerHeight = useHeaderHeight();
-  const footerHeight = useFooterHeight();
+  //const footerHeight = useFooterHeight();
 
   const height = useHeight();
 
-  const tableHeight = height - footerHeight - headerHeight + 7;
+  const tableHeight = height /*- footerHeight*/ - headerHeight /*+ 7*/ + 14;
 
   return (
     <>

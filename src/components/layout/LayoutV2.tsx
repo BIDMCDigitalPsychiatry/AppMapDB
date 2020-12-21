@@ -11,9 +11,9 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     root: {
       display: 'static'
     },
-    content: {
+    content: ({ overflow = 'auto' }) => ({
       flexGrow: 1,
-      overflow: 'auto',
+      overflow,
       overflowX: 'hidden',
       height: '100vh',
       backgroundColor: palette.common.white,
@@ -21,17 +21,17 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         marginLeft: 0,
         flexShrink: 0
       }
-    },
+    }),
     /*innerContent: ({ minHeight }) => ({
       minHeight: minHeight - 16,
       paddingTop: 8,
       paddingBottom: 8
     }),
     */
-    innerContent: ({ fullHeight, minHeight, overflow = 'hidden', contentHeight, padInnerContent = true }) => ({
+    innerContent: ({ fullHeight, minHeight, contentHeight, padInnerContent = true }) => ({
       minHeight: minHeight - (padInnerContent ? 16 : 0),
       height: fullHeight ? undefined : contentHeight - (!padInnerContent ? 0 : layout.contentpadding * 2 + 1),
-      overflow,
+      overflow: 'hidden',
       paddingTop: padInnerContent ? 8 : 0,
       paddingBottom: padInnerContent ? 8 : 0
     }),
@@ -43,11 +43,12 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 );
 
 const smallRoutes = ['/Apps'];
-//const noScrollPaths = ['/Apps'];
+const noScrollPaths = ['/Apps'];
 //const fullHeightPaths = ['/', '/Home', '/FrameworkQuestions', '/News', '/RateAnApp'];
 export const noPadPaths = [
   /*'/Home', '/', '/Apps'*/
 ];
+const noFooterPaths = ['/Apps'];
 
 export default function LayoutV2({ children }) {
   const height = useHeight();
@@ -65,7 +66,7 @@ export default function LayoutV2({ children }) {
   const classes = useStyles({
     fullHeight: true, //fullHeightPaths.find(p => p === pathname) ? true : false,
     padInnerContent: noPadPaths.find(p => p === pathname) ? false : true,
-    //overflow: noScrollPaths.find(p => p === pathname) ? 'hidden' : 'auto',
+    overflow: noScrollPaths.find(p => p === pathname) ? 'hidden' : 'auto',
     contentHeight,
     appBarHeight,
     footerHeight,
@@ -80,7 +81,7 @@ export default function LayoutV2({ children }) {
         <ApplicationBarV2 trigger={trigger} />
         <div className={classes.toolbar} />
         <div className={classes.innerContent}>{children}</div>
-        <FooterV2 variant={variant} />
+        {!noFooterPaths.find(p => p === pathname) && <FooterV2 variant={variant} />}
         <SnackBar />
       </main>
     </div>
