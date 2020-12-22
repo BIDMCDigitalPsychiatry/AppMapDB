@@ -22,18 +22,10 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
         flexShrink: 0
       }
     }),
-    /*innerContent: ({ minHeight }) => ({
-      minHeight: minHeight - 16,
-      paddingTop: 8,
-      paddingBottom: 8
-    }),
-    */
-    innerContent: ({ fullHeight, minHeight, contentHeight, padInnerContent = true }) => ({
-      minHeight: minHeight - (padInnerContent ? 16 : 0),
-      height: fullHeight ? undefined : contentHeight - (!padInnerContent ? 0 : layout.contentpadding * 2 + 1),
-      overflow: 'hidden',
-      paddingTop: padInnerContent ? 8 : 0,
-      paddingBottom: padInnerContent ? 8 : 0
+    innerContent: ({ fullHeight, minHeight, contentHeight }) => ({
+      minHeight: minHeight,
+      height: fullHeight ? undefined : contentHeight,
+      overflow: 'hidden'
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -44,10 +36,6 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 
 const smallRoutes = ['/Apps'];
 const noScrollPaths = ['/Apps'];
-//const fullHeightPaths = ['/', '/Home', '/FrameworkQuestions', '/News', '/RateAnApp'];
-export const noPadPaths = [
-  /*'/Home', '/', '/Apps'*/
-];
 const noFooterPaths = ['/Apps'];
 
 export default function LayoutV2({ children }) {
@@ -64,8 +52,7 @@ export default function LayoutV2({ children }) {
   const variant = smallRoutes.find(p => p === pathname) ? 'small' : 'normal';
 
   const classes = useStyles({
-    fullHeight: true, //fullHeightPaths.find(p => p === pathname) ? true : false,
-    padInnerContent: noPadPaths.find(p => p === pathname) ? false : true,
+    fullHeight: true,
     overflow: noScrollPaths.find(p => p === pathname) ? 'hidden' : 'auto',
     contentHeight,
     appBarHeight,

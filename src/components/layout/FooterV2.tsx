@@ -11,16 +11,11 @@ const spacing = 3;
 const useStyles = makeStyles(({ breakpoints, palette, spacing }) =>
   createStyles({
     root: {
-      padding: spacing(1, 0),
-      [breakpoints.up('md')]: {
-        //padding: spacing(2, 0)
-      },
-      background: palette.secondary.light
+      background: palette.secondary.light,
+      padding: 16
     },
     container: {
-      width: '100%',
-      //margin: '0 auto',
-      padding: spacing(0, 2)
+      width: '100%'
     },
     link: {
       fontSize: 18,
@@ -48,11 +43,11 @@ export default function FooterV2({ variant = 'normal' }) {
 
   return (
     <div ref={useFooterHeightRef()} className={classes.root}>
-      <Grid container className={classes.container} spacing={spacing}>
+      <Grid container justify='center' className={classes.container} spacing={1}>
         {variant !== 'small' && (
           <Grid item xs={12}>
             <Grid container justify='space-between' spacing={spacing}>
-              <Grid item>
+              <Grid item style={{ marginTop: 8, marginLeft: -8 }}>
                 <Logo autoHide={false} showText={showText} />
               </Grid>
               <Grid item xs>

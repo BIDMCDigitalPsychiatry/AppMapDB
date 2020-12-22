@@ -8,6 +8,7 @@ import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import * as ApplicationDialog from '../application/GenericDialog/ApplicationDialog';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import SearchHeaderRedux from './SearchHeaderRedux';
+import { useTheme } from '@material-ui/core';
 
 export default function AppsV2() {
   const [viewMode] = useViewMode() as any;
@@ -38,11 +39,12 @@ export default function AppsV2() {
   }, [setApps]);
 
   const headerHeight = useHeaderHeight();
-  //const footerHeight = useFooterHeight();
 
   const height = useHeight();
+  const { layout } = useTheme() as any;
+  const { tablefooterheight } = layout;
 
-  const tableHeight = height /*- footerHeight*/ - headerHeight /*+ 7*/ + 14;
+  const tableHeight = height - headerHeight + tablefooterheight + 2;
 
   return (
     <>
