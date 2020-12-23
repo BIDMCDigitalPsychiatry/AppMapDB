@@ -1,17 +1,16 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { copyToLower, isEmpty as isValEmpty, publicUrl } from '../../../../helpers';
+import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
 import DialogButton from '../DialogButton';
 import Label from '../../DialogField/Label';
 import { Auth } from 'aws-amplify';
 import { useSetUser } from '../../../layout/store';
 import { Button, createStyles, DialogContent, Grid, makeStyles, Typography } from '@material-ui/core';
-import { useChangeRoute } from '../../../layout/hooks';
-import * as Icons from '@material-ui/icons';
 import { useFullScreen } from '../../../../hooks';
 import { InjectField } from '../Fields';
 import TextLabel from '../../DialogField/TextLabel';
+import RateAnApp from '../RegisterV2/RateAnApp';
 
 export const title = 'Login';
 const maxWidth = 'md';
@@ -43,14 +42,6 @@ const borderRadius = 25;
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
-    header: {
-      background: palette.primary.light,
-      color: palette.common.white,
-      fontWeight: 900
-    },
-    features: {
-      fontWeight: 900
-    },
     primaryButton: {
       borderRadius: 7,
       color: palette.common.white,
@@ -61,31 +52,6 @@ const useStyles = makeStyles(({ palette }) =>
         background: palette.primary.main
       }
     },
-    secondaryButton: {
-      borderRadius,
-      color: palette.common.white,
-      background: palette.primary.light,
-      minWidth: 160,
-      height: 40,
-      '&:hover': {
-        background: palette.primary.main
-      }
-    },
-    primaryText: {
-      fontSize: 30,
-      fontWeight: 900,
-      color: palette.primary.dark
-    },
-    secondaryText: {
-      fontSize: 30,
-      fontWeight: 900,
-      color: palette.common.white
-    },
-    searchFilters: {
-      background: palette.primary.dark,
-      color: palette.common.white,
-      borderRadius
-    },
     rateAnApp: {
       background: palette.secondary.light,
       color: palette.text.primary,
@@ -95,17 +61,10 @@ const useStyles = makeStyles(({ palette }) =>
     arrowRight: {
       color: palette.primary.light
     },
-    primaryTextSmall: {
-      fontWeight: 900,
-      color: palette.primary.dark
-    },
     infoContainer: {
       background: palette.primary.light,
       color: palette.common.white,
       borderRadius
-    },
-    primaryLabel: {
-      color: palette.primary.dark
     },
     content: {
       paddingLeft: 48,
@@ -123,14 +82,8 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
 
   const classes = useStyles();
   const fs = useFullScreen('sm');
-  const changeRoute = useChangeRoute();
 
   const [state, setState] = useDialogState(title);
-
-  const handleRateApp = React.useCallback(() => {
-    changeRoute(publicUrl('/RateAnApp'));
-    setState(prev => ({ ...prev, open: false }));
-  }, [changeRoute, setState]);
 
   const { enterNewPassword, errors } = state;
   const dialogStateStr = JSON.stringify(state);
@@ -236,33 +189,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
           </Grid>
         </Grid>
         <Grid item xs={fs ? 12 : 6}>
-          <Grid container alignItems='center' spacing={2} className={classes.rateAnApp}>
-            <Grid item xs={12}>
-              <Typography variant='h5' style={{ fontWeight: 900 }}>
-                Interested in rating an app?
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>Our database is sourced by app reviews from trained app raters. Rating an app is an interactive process.</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography>
-                Raters will be prompted through 105 different questions about an app and its features, privacy settings, clinical foundations and more.
-              </Typography>
-            </Grid>
-            <Grid item xs={12} style={{ textAlign: 'left' }}>
-              <Button style={{ borderRadius }} onClick={handleRateApp}>
-                <Grid container spacing={1}>
-                  <Grid item>
-                    <Typography className={classes.primaryTextSmall}>Rate an App</Typography>
-                  </Grid>
-                  <Grid item>
-                    <Icons.ArrowRightAlt className={classes.arrowRight} />
-                  </Grid>
-                </Grid>
-              </Button>
-            </Grid>
-          </Grid>
+          <RateAnApp onClick={() => setState(prev => ({ ...prev, open: false }))} />
         </Grid>
       </Grid>
     </DialogContent>
@@ -287,7 +214,7 @@ export default function LoginDialog({ id = title }) {
       divider={false}
       dialogActions={false}
       maxWidth={maxWidth}
-      validate={handleValidation}      
+      validate={handleValidation}
       Content={Content}
       fields={[
         {

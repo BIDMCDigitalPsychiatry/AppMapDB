@@ -182,6 +182,7 @@ const GenericDialog = ({
     fields,
     mapField,
     values,
+    setValues,
     ...ContentProps
   };
 
@@ -200,7 +201,7 @@ const GenericDialog = ({
       disableAutoFocus={true}
       maxWidth='xs'
       fullWidth
-      {...other}      
+      {...other}
     >
       {title !== null && (
         <>
