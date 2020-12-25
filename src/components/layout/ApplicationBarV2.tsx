@@ -41,12 +41,17 @@ const useStyles = makeStyles(({ palette, layout }: any) =>
 );
 
 const tabs = [
+  { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
   { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
   { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
   { id: 'News', icon: Icons.Announcement, route: '/News' }
 ];
 
-const AppBarTabSelector = props => <TabSelectorToolBarV2 id='AppBar' tabs={tabs} {...props} />;
+const AppBarTabSelector = props => {
+  const isAdmin = useIsAdmin();
+
+  return <TabSelectorToolBarV2 id='AppBar' tabs={tabs.filter(t => (!isAdmin ? (t.id === 'Admin' ? false : true) : true))} {...props} />;
+};
 
 export default function ApplicationBarV2({ trigger }) {
   const classes = useStyles();

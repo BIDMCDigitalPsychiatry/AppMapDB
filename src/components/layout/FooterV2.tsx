@@ -3,7 +3,7 @@ import { Grid, createStyles, makeStyles, Typography, Link } from '@material-ui/c
 import Logo from '../layout/Logo';
 import Questions from '../layout/Questions';
 import { useFooterHeightRef, useHandleChangeRoute } from './hooks';
-import { useFullScreen } from '../../hooks';
+import { useFullScreen, useIsAdmin } from '../../hooks';
 import { useWidth } from './store';
 
 const spacing = 3;
@@ -24,7 +24,9 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing }) =>
     }
   })
 );
+
 const tabs = [
+  { id: 'Admin', route: '/Admin' },
   { id: 'Find an APP', route: '/Home' },
   { id: 'App Library', route: '/Apps' },
   { id: 'Framework', route: '/FrameworkQuestions' },
@@ -40,6 +42,8 @@ export default function FooterV2({ variant = 'normal' }) {
 
   const width = useWidth();
   var showText = width <= 660 ? false : true;
+
+  const isAdmin = useIsAdmin();
 
   return (
     <div ref={useFooterHeightRef()} className={classes.root}>
@@ -58,13 +62,15 @@ export default function FooterV2({ variant = 'normal' }) {
         )}
         <Grid item xs style={{ minWidth: 0 }}>
           <Grid container justify='space-between' spacing={spacing}>
-            {tabs.map(({ id, route }) => (
-              <Grid item>
-                <Link className={classes.link} onClick={handleChangeRoute(route)} variant='h1'>
-                  {id}
-                </Link>
-              </Grid>
-            ))}
+            {tabs
+              .filter(t => (!isAdmin ? (t.id === 'Admin' ? false : true) : true))
+              .map(({ id, route }) => (
+                <Grid item>
+                  <Link className={classes.link} onClick={handleChangeRoute(route)} variant='h1'>
+                    {id}
+                  </Link>
+                </Grid>
+              ))}
           </Grid>
         </Grid>
         <Grid item xs={12}>
