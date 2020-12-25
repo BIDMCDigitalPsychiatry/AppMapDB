@@ -75,8 +75,12 @@ const TabSelectorToolBarV2 = ({ id, tabs = [], orientation, wrapped, minHeight =
   const tabToSelect = pathname !== tabRoute && tabs.find(t => t.route === pathname);
 
   React.useEffect(() => {
-    isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
-    tabToSelect && setTabSelector({ value: tabToSelect.id });
+    if (tabToSelect === undefined) {
+      setTabSelector({ value: tabToSelect });
+    } else {
+      isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
+      tabToSelect && setTabSelector({ value: tabToSelect.id });
+    }
     triggerResize();
   }, [setTabSelector, selected, tabId, tabToSelect]);
 
@@ -92,7 +96,7 @@ const TabSelectorToolBarV2 = ({ id, tabs = [], orientation, wrapped, minHeight =
     [setTabSelector, onChange]
   );
 
-  const { value = tabs[0].id } = tabSelector;
+  const { value = undefined } = tabSelector;
 
   return (
     <Container className={classes.root}>
