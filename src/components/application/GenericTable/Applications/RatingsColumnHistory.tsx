@@ -13,6 +13,7 @@ import Check from '../../DialogField/Check';
 export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined }) {
   const application = useSelector((s: AppState) => s.database.applications[_id]);
   const { approved } = application;
+  const deleted = application?.delete;
   const [viewMode] = useViewMode();
   const signedIn = useSignedIn();
   const fullScreen = useFullScreen();
@@ -41,6 +42,21 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
     [processData, email, appStr]
   );
 
+  const handleDelete = React.useCallback(
+    deleted => () => {
+      const app = JSON.parse(appStr);
+      app.updated = new Date().getTime();
+      app.delete = deleted;
+      processData({
+        Model: tables.applications,
+        Action: 'u',
+        Data: { ...app },
+        Snackbar: true
+      });
+    },
+    [processData, appStr]
+  );
+
   return (
     <Grid container alignItems='center' spacing={1}>
       <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
@@ -58,8 +74,18 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
         )}
       </Grid>
       {(IsAdmin || (isAdmin && adminMode === true)) && (
-        <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
-          <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
+        <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
+          <div style={{ marginBottom: -12 }}>
+            <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
+          </div>
+          <div style={{ marginTop: -12 }}>
+            <Check
+              value={deleted}
+              label={deleted ? 'Archived' : 'Not archived'}
+              onClick={handleDelete(!deleted)}
+              style={{ color: deleted ? 'red' : undefined }}
+            />
+          </div>
         </Grid>
       )}
     </Grid>

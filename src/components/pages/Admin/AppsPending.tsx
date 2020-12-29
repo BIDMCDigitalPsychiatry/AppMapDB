@@ -6,7 +6,7 @@ import * as ApplicationDialog from '../../application/GenericDialog/ApplicationD
 import { renderDialogModule } from '../../application/GenericDialog/DialogButton';
 import { ApplicationsPending } from '../../application/GenericTable/ApplicationsPending/table';
 
-export default function AppsPending({ height = undefined }) {
+export default function AppsPending({ height = undefined, showArchived = false }) {
   const [, setApps] = useApplications();
 
   // Load data from the database
@@ -37,7 +37,7 @@ export default function AppsPending({ height = undefined }) {
     <>
       {renderDialogModule(ApplicationHistoryDialogV2)}
       {renderDialogModule(ApplicationDialog)}
-      <ApplicationsPending height={height} />
+      <ApplicationsPending height={height} showArchived={showArchived} />
     </>
   );
 }

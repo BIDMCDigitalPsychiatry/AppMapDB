@@ -148,11 +148,11 @@ export const useNewerMemberCount = (groupId, created) => {
   return Object.keys(apps).filter(k => (apps[k]._id === groupId || apps[k].groupId === groupId) && apps[k].created > created).length;
 };
 
-export const usePendingAppData = table => {
+export const usePendingAppData = (table, showDeleted = false) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   var data = apps
     ? Object.keys(apps)
-        .filter(k => apps[k].delete !== true && apps[k].approved !== true)
+        .filter(k => (showDeleted ? apps[k].delete === true : apps[k].delete !== true) && apps[k].approved !== true)
         .map(k => {
           const app: Application = apps[k];
 

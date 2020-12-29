@@ -18,7 +18,7 @@ export const ApplicationListHistoryV2 = ({ initialValues, ...props }) => {
       {...defaultApplicationsListProps}
       columns={columns}
       name={name}
-      data={useAppHistoryData(name, _id, true)}
+      data={useAppHistoryData(name, _id, true, true)}
       showScroll={true}
       {...props}
     />

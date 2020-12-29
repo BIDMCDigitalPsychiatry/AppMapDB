@@ -24,12 +24,12 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
   search: false
 };
 
-export const ApplicationsPending = props => {
+export const ApplicationsPending = ({ showArchived = false, ...props }) => {
   const columns = useColumns();
   return (
     <>
       <FilterButtonBottom Module={FilterPopover} table={name} />
-      <GenericTableContainer {...defaultApplicationsProps} data={usePendingAppData(name)} columns={columns} showScroll={true} {...props} />
+      <GenericTableContainer {...defaultApplicationsProps} data={usePendingAppData(name, showArchived)} columns={columns} showScroll={true} {...props} />
     </>
   );
 };
