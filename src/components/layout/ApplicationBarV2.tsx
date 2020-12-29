@@ -50,8 +50,15 @@ const tabs = [
 
 const AppBarTabSelector = props => {
   const isAdmin = useIsAdmin();
+  const signedIn = useSignedIn();
 
-  return <TabSelectorToolBarV2 id='AppBar' tabs={tabs.filter(t => (!isAdmin ? (t.id === 'Admin' ? false : true) : true))} {...props} />;
+  return (
+    <TabSelectorToolBarV2
+      id='AppBar'
+      tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
+      {...props}
+    />
+  );
 };
 
 export default function ApplicationBarV2({ trigger }) {
