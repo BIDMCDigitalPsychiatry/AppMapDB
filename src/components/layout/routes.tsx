@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router';
 import RatingProcess from '../pages/RatingProcess';
 import Apps from '../pages/Apps';
 import AppsV2 from '../pages/AppsV2';
+import MyRatings from '../pages/MyRatings/MyRatings';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
 import Home from '../pages/Home';
@@ -14,13 +15,14 @@ import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
 import VersionComponent from './VersionComponent';
 import RateAnApp from '../pages/RateAnApp';
-import Admin from '../pages/Admin';
+import Admin from '../pages/Admin/Admin';
 
 const Routes = () => (
   <Switch>
     <Route exact path={'/'} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
     <Route exact path={publicUrl('/')} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
     <Route exact path={publicUrl('/Admin')} component={Admin} />
+    <Route exact path={publicUrl('/MyRatings')} component={MyRatings} />
     <Route exact path={publicUrl('/Home')} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
     <Route exact path={publicUrl('/FrameworkQuestions')} component={VersionComponent({ V1: FrameworkQuestions, V2: FrameworkQuestionsV2 })} />
     <Route exact path={publicUrl('/News')} component={News} />

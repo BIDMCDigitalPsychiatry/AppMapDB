@@ -41,8 +41,9 @@ const useStyles = makeStyles(({ palette, layout }: any) =>
 );
 
 const tabs = [
-  { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
   { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
+  { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
+  { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
   { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
   { id: 'News', icon: Icons.Announcement, route: '/News' }
 ];
