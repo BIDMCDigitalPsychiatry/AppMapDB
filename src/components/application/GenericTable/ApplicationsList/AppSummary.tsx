@@ -3,13 +3,10 @@ import { Grid, Box, Typography, Link, Chip, makeStyles, Theme, createStyles } fr
 import Application, { DeveloperTypeQuestions } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
-import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
+import { getAppName, getAppCompany, getAppIcon, useNewerMemberCount } from '../Applications/selectors';
 import { onlyUnique, getDayTimeFromTimestamp, isEmpty } from '../../../../helpers';
 import { purple, green, blue, pink, cyan, indigo, yellow, deepOrange, lime } from '@material-ui/core/colors';
 import DialogButton from '../../GenericDialog/DialogButton';
-import { useSelector } from 'react-redux';
-import { tables } from '../../../../database/dbConfig';
-import { AppState } from '../../../../store';
 import { useAdminMode } from '../../../layout/store';
 
 interface AppSummaryProps {
@@ -59,11 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const appColumnWidth = 520;
-
-const useNewerMemberCount = (groupId, created) => {
-  const apps = useSelector((state: AppState) => state.database[tables.applications] ?? {});
-  return Object.keys(apps).filter(k => (apps[k]._id === groupId || apps[k].groupId === groupId) && apps[k].created > created).length;
-};
 
 export default function AppSummary(props: Application & AppSummaryProps) {
   const {

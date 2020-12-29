@@ -2,9 +2,8 @@ import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Button } from '@material-ui/core';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
-import { useChangeRoute } from '../layout/hooks';
+import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
-import { useTableValues } from '../application/GenericTable/store';
 
 const padding = 32;
 const borderRadius = 7;
@@ -53,27 +52,13 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   })
 );
 
-export default function RateAnAppHeader({ title, state, setState = undefined }) {
-  const [, setValues] = useTableValues('Applications');
-
+export default function RateAnAppHeader() {
   const classes = useStyles();
   useFilterList();
 
   var sm = useFullScreen('sm');
 
-  // Sets the associated values in the redux store
-  const setTableState = React.useCallback(() => {
-    const { searchtext, ...filters } = state;
-    setValues(prev => ({ searchtext, filters: { ...prev.filters, ...filters } }));
-    // eslint-disable-next-line
-  }, [setValues, JSON.stringify(state)]);
-
-  const changeRoute = useChangeRoute();
-
-  const handleSearch = React.useCallback(() => {
-    setTableState();
-    changeRoute(publicUrl('/Apps'));
-  }, [changeRoute, setTableState]);
+  const handleChangeRoute = useHandleChangeRoute();
 
   return (
     <Grid container className={classes.header}>
@@ -91,7 +76,7 @@ export default function RateAnAppHeader({ title, state, setState = undefined }) 
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button className={classes.primaryButton} onClick={handleSearch}>
+            <Button className={classes.primaryButton} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
               Start App Rating
             </Button>
           </Grid>

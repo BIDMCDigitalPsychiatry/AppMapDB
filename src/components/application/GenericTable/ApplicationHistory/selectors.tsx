@@ -47,13 +47,15 @@ export const getAppIcon = (app: Application) => {
     : logo;
 };
 
-export const useAppHistoryData = (table, id) => {
+export const useAppHistoryData = (table, id, isAdmin = undefined) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   const node = apps[id];
   var { groupId } = node;
   groupId = isEmpty(groupId) ? node._id : groupId; // If we don't have a group id, then use the _id by default, for backwards compatability
 
   const [adminMode] = useAdminMode();
+  const isAdminMode = isAdmin !== undefined ? isAdmin : adminMode;
+  
   var data =
     apps && !isEmpty(groupId)
       ? Object.keys(apps)
@@ -61,7 +63,7 @@ export const useAppHistoryData = (table, id) => {
             k =>
               apps[k].delete !== true &&
               (apps[k]._id === groupId || apps[k].groupId === groupId || apps[k]._id === id) &&
-              (adminMode !== true ? apps[k].approved === true : true)
+              (isAdminMode !== true ? apps[k].approved === true : true)
           )
           .map(k => {
             const app: Application = apps[k];

@@ -10,7 +10,7 @@ import { useViewMode, useAdminMode } from '../../../layout/store';
 import { useProcessData } from '../../../../database/useProcessData';
 import Check from '../../DialogField/Check';
 
-export default function RatingsColumnHistory({ _id }) {
+export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined }) {
   const application = useSelector((s: AppState) => s.database.applications[_id]);
   const { approved } = application;
   const [viewMode] = useViewMode();
@@ -57,7 +57,7 @@ export default function RatingsColumnHistory({ _id }) {
           </EditDialogButton>
         )}
       </Grid>
-      {isAdmin && adminMode === true && (
+      {(IsAdmin || (isAdmin && adminMode === true)) && (
         <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
           <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
         </Grid>
