@@ -34,9 +34,9 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const smallRoutes = ['/Apps', '/RateNewApp', 'Admin'];
-const noScrollPaths = ['/Apps', '/RateNewApp', '/Admin'];
-const noFooterPaths = ['/Apps', '/RateNewApp', '/Admin'];
+const smallRoutes = ['/Apps', '/RateNewApp', 'Admin', '/MyRatings'];
+const noScrollPaths = ['/Apps', '/RateNewApp', '/Admin', '/MyRatings'];
+const noFooterPaths = ['/Apps', '/RateNewApp', '/Admin', '/MyRatings'];
 
 export default function LayoutV2({ children }) {
   const height = useHeight();

@@ -24,8 +24,8 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
   search: false
 };
 
-export const ApplicationsPending = ({ showArchived = false, email = undefined, ...props }) => {
-  const columns = useColumns({email});
+export const MyApplicationsPending = ({ showArchived = false, email = undefined, ...props }) => {
+  const columns = useColumns();
   return (
     <>
       <FilterButtonBottom Module={FilterPopover} table={name} />

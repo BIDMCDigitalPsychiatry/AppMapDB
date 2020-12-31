@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Button } from '@material-ui/core';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
-import { useHandleChangeRoute } from '../layout/hooks';
+import { useHandleChangeRoute, useHeaderHeightRef } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 
 const padding = 32;
@@ -52,7 +52,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   })
 );
 
-export default function RateAnAppHeader() {
+export default function RateAnAppHeader({ showArchived = undefined, onToggleArchive = undefined }) {
   const classes = useStyles();
   useFilterList();
 
@@ -61,10 +61,10 @@ export default function RateAnAppHeader() {
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
-    <Grid container className={classes.header}>
+    <Grid ref={useHeaderHeightRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
-          Rate an App
+          My App Ratings
         </Typography>
       </Grid>
       <Grid item xs={12}>
@@ -76,9 +76,19 @@ export default function RateAnAppHeader() {
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button className={classes.primaryButton} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
-              Start App Rating
-            </Button>
+            <Grid container spacing={2}>
+              {/*<Grid item>
+                <Button className={classes.primaryButton} onClick={onToggleArchive}>
+                  {showArchived ? 'Hide Archived' : 'Show Archived'}
+                </Button>
+              </Grid>
+              */}
+              <Grid item>
+                <Button className={classes.primaryButton} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
+                  Start App Rating
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
