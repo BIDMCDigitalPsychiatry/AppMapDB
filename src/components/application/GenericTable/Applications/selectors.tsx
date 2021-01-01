@@ -52,7 +52,7 @@ export const useAppData = table => {
   const [adminMode] = useAdminMode();
   var data = apps
     ? Object.keys(apps)
-        .filter(k => apps[k].delete !== true && ((!adminMode && apps[k].approved === true) || adminMode)) // only show approved for public mode, show all for admin
+        .filter(k => apps[k].draft !== true && apps[k].delete !== true && ((!adminMode && apps[k].approved === true) || adminMode)) // only show approved for public mode, show all for admin
         .map(k => {
           const app: Application = apps[k];
 
@@ -152,7 +152,7 @@ export const usePendingAppData = table => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   var data = apps
     ? Object.keys(apps)
-        .filter(k => apps[k].delete !== true && apps[k].approved !== true)
+        .filter(k => apps[k].draft !== true && apps[k].delete !== true && apps[k].approved !== true)
         .map(k => {
           const app: Application = apps[k];
 

@@ -47,7 +47,7 @@ export const getAppIcon = (app: Application) => {
     : logo;
 };
 
-export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted = false) => {
+export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted = false, includeDrafts = false) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   const node = apps[id];
   var { groupId } = node;
@@ -61,6 +61,7 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
       ? Object.keys(apps)
           .filter(
             k =>
+              (includeDrafts || apps[k].draft !== true) &&
               (includeDeleted || apps[k].delete !== true) &&
               (apps[k]._id === groupId || apps[k].groupId === groupId || apps[k]._id === id) &&
               (isAdminMode !== true ? apps[k].approved === true : true)

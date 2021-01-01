@@ -11,11 +11,11 @@ export const useAppReviewData = (table, groupId) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   var data = apps
     ? Object.keys(apps)
-        .filter(k => apps[k].delete !== true && !isEmpty(apps[k].review) && apps[k].approved === true && getId(apps[k]) === groupId)
+        .filter(k => apps[k].draft !== true && apps[k].delete !== true && !isEmpty(apps[k].review) && apps[k].approved === true && getId(apps[k]) === groupId)
         .map((k, i) => {
           const app: Application = apps[k];
           return {
-            _id: app._id,            
+            _id: app._id,
             parent: app.parent,
             getValues: () => ({ ...app, index: i }),
             created: app.created,

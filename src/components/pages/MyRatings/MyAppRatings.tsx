@@ -5,6 +5,7 @@ import * as ApplicationHistoryDialogV2 from '../../application/GenericDialog/App
 import * as ApplicationDialog from '../../application/GenericDialog/ApplicationDialog';
 import { renderDialogModule } from '../../application/GenericDialog/DialogButton';
 import { MyApplicationsPending } from '../../application/GenericTable/MyApplicationsPending/table';
+import { useSelector } from 'react-redux';
 
 export default function MyAppRatings({ height = undefined, showArchived = false }) {
   const [, setApps] = useApplications();
@@ -33,7 +34,7 @@ export default function MyAppRatings({ height = undefined, showArchived = false 
     getItems();
   }, [setApps]);
 
-  const email = 'slagan@bidmc.harvard.edu';
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 
   return (
     <>
