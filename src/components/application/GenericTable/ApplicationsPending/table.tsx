@@ -3,10 +3,10 @@ import GenericTableContainer, { GenericTableContainerProps } from '../GenericTab
 import * as Icons from '@material-ui/icons';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
-import { usePendingAppData } from './selectors';
 import { useColumns } from './columns';
 import FilterButtonBottom from '../Applications/FilterButtonBottom';
 import * as FilterPopover from '../../GenericPopover/Filter';
+import { usePendingAppData } from '../Applications/selectors';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;

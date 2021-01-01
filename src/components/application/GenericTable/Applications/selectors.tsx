@@ -148,15 +148,22 @@ export const useNewerMemberCount = (groupId, created) => {
   return Object.keys(apps).filter(k => (apps[k]._id === groupId || apps[k].groupId === groupId) && apps[k].created > created).length;
 };
 
-export const usePendingAppData = table => {
+export const usePendingAppData = (table, showDeleted = false, email = undefined, includeDrafts = false) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   var data = apps
     ? Object.keys(apps)
-        .filter(k => apps[k].draft !== true && apps[k].delete !== true && apps[k].approved !== true)
+        .filter(
+          k =>
+            (includeDrafts ? true : apps[k].draft !== true) &&
+            (email !== undefined ? (apps[k]?.email ?? '').toLowerCase() === email.toLowerCase() : true) &&
+            (showDeleted ? apps[k].delete === true : apps[k].delete !== true) &&
+            apps[k].approved !== true
+        )
         .map(k => {
           const app: Application = apps[k];
 
           const appSearchable = {
+            email: app.email,
             name: getAppName(app),
             updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
             company: getAppCompany(app),

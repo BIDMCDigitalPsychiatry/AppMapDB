@@ -3,10 +3,10 @@ import GenericTableContainer, { GenericTableContainerProps } from '../GenericTab
 import * as Icons from '@material-ui/icons';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
-import { usePendingAppData } from './selectors';
 import { useColumns } from './columns';
 import FilterButtonBottom from '../Applications/FilterButtonBottom';
 import * as FilterPopover from '../../GenericPopover/Filter';
+import { usePendingAppData } from '../Applications/selectors';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -24,12 +24,18 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
   search: false
 };
 
-export const MyApplicationsPending = ({ showArchived = false, email = undefined, ...props }) => {
+export const MyApplicationsPending = ({ showArchived = false, includeDrafts = true, email = undefined, ...props }) => {
   const columns = useColumns();
   return (
     <>
       <FilterButtonBottom Module={FilterPopover} table={name} />
-      <GenericTableContainer {...defaultApplicationsProps} data={usePendingAppData(name, showArchived, email)} columns={columns} showScroll={true} {...props} />
+      <GenericTableContainer
+        {...defaultApplicationsProps}
+        data={usePendingAppData(name, showArchived, email, includeDrafts)}
+        columns={columns}
+        showScroll={true}
+        {...props}
+      />
     </>
   );
 };
