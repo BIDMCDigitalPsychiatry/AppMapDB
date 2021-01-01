@@ -58,36 +58,39 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
   );
 
   return (
-    <Grid container alignItems='center' spacing={1}>
-      <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
-        {signedIn && (
-          <EditDialogButton
-            Module={RateNewAppDialog}
-            mount={false}
-            variant='primarycontained'
-            tooltip=''
-            Icon={null}
-            initialValues={{ [tables.applications]: application }}
-          >
-            <Typography noWrap>View / Edit</Typography>
-          </EditDialogButton>
+    <>
+      <Grid container alignItems='center' spacing={1}>
+        <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
+          {signedIn && (
+            <EditDialogButton
+              Module={RateNewAppDialog}
+              mount={false}
+              variant='primarycontained'
+              tooltip=''
+              Icon={null}
+              initialValues={{ [tables.applications]: application }}
+            >
+              <Typography noWrap>View / Edit</Typography>
+            </EditDialogButton>
+          )}
+        </Grid>
+        {(IsAdmin || (isAdmin && adminMode === true)) && (
+          <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
+            <div style={{ marginBottom: -12 }}>
+              <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
+            </div>
+            <div style={{ marginTop: -12 }}>
+              <Check
+                value={deleted}
+                label={deleted ? 'Archived' : 'Not archived'}
+                onClick={handleDelete(!deleted)}
+                style={{ color: deleted ? 'red' : undefined }}
+              />
+            </div>
+          </Grid>
         )}
       </Grid>
-      {(IsAdmin || (isAdmin && adminMode === true)) && (
-        <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
-          <div style={{ marginBottom: -12 }}>
-            <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
-          </div>
-          <div style={{ marginTop: -12 }}>
-            <Check
-              value={deleted}
-              label={deleted ? 'Archived' : 'Not archived'}
-              onClick={handleDelete(!deleted)}
-              style={{ color: deleted ? 'red' : undefined }}
-            />
-          </div>
-        </Grid>
-      )}
-    </Grid>
+      <Typography variant='caption'>Rated by: {application?.email}</Typography>
+    </>
   );
 }

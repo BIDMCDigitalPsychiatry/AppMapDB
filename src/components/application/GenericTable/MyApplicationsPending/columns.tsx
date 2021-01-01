@@ -25,14 +25,14 @@ const RatedBy = ({ email }) => (
   </Typography>
 );
 
-const MyRatingsColumnPending = props => <RatingsColumnPending {...props} showRatings={false} />;
+const MyRatingsColumnPending = props => <RatingsColumnPending {...props} showRatings={false} showInfo={false} />;
 
 export const useColumns = () => {
   const columns = [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false },
     { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false },
     { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated, hoverable: false },
-    { name: 'rating', header: 'Rating', width: 120, Cell: MyRatingsColumnPending, hoverable: false }
+    { name: 'rating', header: 'Rating', width: 80, Cell: MyRatingsColumnPending, hoverable: false }
   ];
 
   return columns;

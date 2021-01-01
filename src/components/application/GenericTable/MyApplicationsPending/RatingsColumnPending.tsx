@@ -10,23 +10,25 @@ import { tables } from '../../../../database/dbConfig';
 import { useSignedIn } from '../../../../hooks';
 import * as Icons from '@material-ui/icons';
 
-export default function RatingsColumnPending({ _id, showRatings = true }) {
+export default function RatingsColumnPending({ _id, showRatings = true, showInfo = true }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const signedIn = useSignedIn();
 
   return (
     <Grid container alignItems='center' spacing={1}>
-      <Grid item>
-        <EditDialogButton
-          Module={ApplicationDialog}
-          variant='iconbutton'
-          mount={false}
-          Icon={Icons.Pageview}
-          initialValues={{ [tables.applications]: initialValues }}
-          tooltip='View Additional Application Info'
-          placement='bottom'
-        />
-      </Grid>
+      {showInfo && (
+        <Grid item>
+          <EditDialogButton
+            Module={ApplicationDialog}
+            variant='iconbutton'
+            mount={false}
+            Icon={Icons.Pageview}
+            initialValues={{ [tables.applications]: initialValues }}
+            tooltip='View Additional Application Info'
+            placement='bottom'
+          />
+        </Grid>
+      )}
       {signedIn && (
         <Grid item>
           <EditDialogButton

@@ -15,6 +15,8 @@ import Fields from './Fields';
 import OnActivate from './OnActivate';
 import ErrorGate from './ErrorGate';
 import RateNewAppHeader from '../../pages/RateNewApp/RateNewAppHeader';
+import { publicUrl } from '../../../helpers';
+import { useChangeRoute } from '../../layout/hooks';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -171,13 +173,26 @@ const GenericStepper = ({
     if (activeErrorCount > 0) {
       setShowErrors(true);
     } else {
-      onSubmit && onSubmit(JSON.parse(values_s), handleReset);
+      onSubmit && onSubmit({ ...JSON.parse(values_s), draft: false }, handleReset);
     }
   }, [activeErrorCount, setShowErrors, onSubmit, values_s, handleReset]);
 
+  const changeRoute = useChangeRoute();
+
+  const onSaveSuccess = React.useCallback(() => {
+    handleReset();
+    changeRoute(publicUrl('/MyRatings'));
+    alert('Draft saved!');
+  }, [changeRoute, handleReset]);
+
   const handleSaveDraft = React.useCallback(() => {
-    alert('To be implemented');
-  }, []);
+    if (activeErrorCount > 0) {
+      alert('Error saving, please fix errors and try again.');
+      setShowErrors(true);
+    } else {
+      onSubmit && onSubmit({ ...JSON.parse(values_s), draft: true }, onSaveSuccess);
+    }
+  }, [activeErrorCount, setShowErrors, onSubmit, values_s, onSaveSuccess]);
 
   const handleDelete = React.useCallback(() => {
     onDelete && onDelete(JSON.parse(values_s));
