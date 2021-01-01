@@ -29,7 +29,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
   const uid = useSelector((s: any) => s.layout.user?.username);
 
-  const handleProcessData = (values, Action, handleReset = undefined) => {
+  const handleProcessData = (values, Action, handleReset = undefined, draft = false) => {
     const application: Application = values[tables.applications];
     const timestamp = new Date().getTime();
 
@@ -46,7 +46,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
     processData({
       Model: tables.applications,
       Action,
-      Data: { ...application, email, uid },
+      Data: { ...application, email, uid, draft },
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
       onSuccess: () => {
         handleReset && handleReset();
@@ -57,7 +57,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
   };
 
   const handleSubmit = (values, handleReset) => {
-    handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset);
+    handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset, false);
   };
   const handleDelete = values => handleProcessData(values, 'd');
 

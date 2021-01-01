@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import * as ApplicationHistoryDialogV2 from '../../GenericDialog/ApplicationHistoryDialogV2';
@@ -10,7 +10,7 @@ import { tables } from '../../../../database/dbConfig';
 import { useSignedIn } from '../../../../hooks';
 import * as Icons from '@material-ui/icons';
 
-export default function RatingsColumnPending({ _id, showRatings = true, showInfo = true }) {
+export default function RatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const signedIn = useSignedIn();
 
@@ -31,15 +31,20 @@ export default function RatingsColumnPending({ _id, showRatings = true, showInfo
       )}
       {signedIn && (
         <Grid item>
-          <EditDialogButton
-            variant='iconbutton'
-            Module={RateNewAppDialog}
-            mount={false}
-            Icon={Icons.Edit}
-            initialValues={{ [tables.applications]: initialValues }}
-            tooltip='Edit'
-            placement='bottom'
-          />
+          {canEdit ? (
+            <EditDialogButton
+              variant='iconbutton'
+              Module={RateNewAppDialog}
+              mount={false}
+              Icon={Icons.Edit}
+              initialValues={{ [tables.applications]: initialValues }}
+              tooltip='Edit'
+              placement='bottom'
+              disabled={!canEdit}
+            />
+          ) : (
+            <Box ml={5} />
+          )}
         </Grid>
       )}
       {showRatings && (
