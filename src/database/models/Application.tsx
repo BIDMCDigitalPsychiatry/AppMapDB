@@ -493,4 +493,5 @@ export default interface Application {
   updated: number;
   delete: boolean; // If set to true item has been deleted, keep in database
   approved: boolean;
+  draft: boolean;
 }

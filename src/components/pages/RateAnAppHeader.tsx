@@ -77,12 +77,11 @@ export default function RateAnAppHeader({ showArchived = undefined, onToggleArch
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
             <Grid container spacing={2}>
-              {/*<Grid item>
+              <Grid item>
                 <Button className={classes.primaryButton} onClick={onToggleArchive}>
                   {showArchived ? 'Hide Archived' : 'Show Archived'}
                 </Button>
               </Grid>
-              */}
               <Grid item>
                 <Button className={classes.primaryButton} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
                   Start App Rating

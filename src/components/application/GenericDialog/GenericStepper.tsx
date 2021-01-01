@@ -173,7 +173,7 @@ const GenericStepper = ({
     if (activeErrorCount > 0) {
       setShowErrors(true);
     } else {
-      onSubmit && onSubmit({ ...JSON.parse(values_s), draft: false }, handleReset);
+      onSubmit && onSubmit(JSON.parse(values_s), handleReset, false);
     }
   }, [activeErrorCount, setShowErrors, onSubmit, values_s, handleReset]);
 
@@ -190,7 +190,7 @@ const GenericStepper = ({
       alert('Error saving, please fix errors and try again.');
       setShowErrors(true);
     } else {
-      onSubmit && onSubmit({ ...JSON.parse(values_s), draft: true }, onSaveSuccess);
+      onSubmit && onSubmit(JSON.parse(values_s), onSaveSuccess, true);
     }
   }, [activeErrorCount, setShowErrors, onSubmit, values_s, onSaveSuccess]);
 
