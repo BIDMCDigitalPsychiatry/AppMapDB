@@ -67,7 +67,7 @@ const Status = props => {
   );
 };
 
-const MyRatingsColumnPending = props => <RatingsColumnPending {...props} showRatings={false} showInfo={false} />;
+const MyRatingsColumnPending = props => <RatingsColumnPending {...props} showRatings={true} showInfo={false} />;
 
 export const useColumns = () => {
   const columns = [
@@ -75,7 +75,7 @@ export const useColumns = () => {
     { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false },
     { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated, hoverable: false },
     { name: 'status', header: 'Status', width: 148, Cell: Status, hoverable: false },
-    { name: 'rating', header: 'Rating', width: 80, Cell: MyRatingsColumnPending, hoverable: false }
+    { name: 'rating', header: 'Rating', width: 120, Cell: MyRatingsColumnPending, hoverable: false }
   ];
 
   return columns;
