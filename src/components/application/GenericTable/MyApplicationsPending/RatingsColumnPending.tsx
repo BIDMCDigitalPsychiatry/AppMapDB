@@ -39,8 +39,7 @@ export default function RatingsColumnPending({ _id, canEdit = true, showRatings 
               Icon={Icons.Edit}
               initialValues={{ [tables.applications]: initialValues }}
               tooltip='Edit'
-              placement='bottom'
-              disabled={!canEdit}
+              placement='bottom'              
             />
           ) : (
             <Box ml={5} />

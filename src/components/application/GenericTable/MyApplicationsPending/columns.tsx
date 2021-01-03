@@ -68,7 +68,7 @@ const Status = props => {
 };
 
 const MyRatingsColumnPending = props => {
-  return <RatingsColumnPending {...props} showRatings={true} showInfo={false} canEdit={props?.approved ? false : true} />;
+  return <RatingsColumnPending {...props} showRatings={true} showInfo={false} canEdit={true /*props?.approved ? false : true*/} />;
 };
 
 export const useColumns = () => {
