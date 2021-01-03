@@ -9,9 +9,7 @@ import { useSelector } from 'react-redux';
 
 export default function MyAppRatings({ height = undefined, showArchived = false }) {
   const [, setApps] = useApplications();
-
-  // Load data from the database
-  React.useEffect(() => {
+  const handleRefresh = React.useCallback(() => {
     const getItems = async () => {
       let scanResults = [];
       let items;
@@ -34,12 +32,17 @@ export default function MyAppRatings({ height = undefined, showArchived = false 
     getItems();
   }, [setApps]);
 
+  // Load data from the database
+  React.useEffect(() => {
+    handleRefresh();
+  }, [handleRefresh]);
+
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 
   return (
     <>
-      {renderDialogModule(ApplicationHistoryDialogV2)}
-      {renderDialogModule(ApplicationDialog)}
+      {renderDialogModule({ ...ApplicationHistoryDialogV2, onClose: handleRefresh })}
+      {renderDialogModule({ ...ApplicationDialog, onClose: handleRefresh })}
       <MyApplicationsPending height={height} showArchived={showArchived} email={email} />
     </>
   );
