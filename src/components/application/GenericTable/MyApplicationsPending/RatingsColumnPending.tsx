@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { Box, Grid } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
-import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import * as ApplicationHistoryDialogV2 from '../../GenericDialog/ApplicationHistoryDialogV2';
 import * as ApplicationDialog from '../../GenericDialog/ApplicationDialog';
 import { useSelector } from 'react-redux';
@@ -9,10 +8,14 @@ import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
 import { useSignedIn } from '../../../../hooks';
 import * as Icons from '@material-ui/icons';
+import { useHandleChangeRoute } from '../../../layout/hooks';
+import { publicUrl } from '../../../../helpers';
 
 export default function RatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const signedIn = useSignedIn();
+
+  const handleChangeRoute = useHandleChangeRoute();
 
   return (
     <Grid container alignItems='center' spacing={1}>
@@ -33,13 +36,14 @@ export default function RatingsColumnPending({ _id, canEdit = true, showRatings 
         <Grid item>
           {canEdit ? (
             <EditDialogButton
+              id='Rate an App V2'
               variant='iconbutton'
-              Module={RateNewAppDialog}
               mount={false}
               Icon={Icons.Edit}
+              onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
               initialValues={{ [tables.applications]: initialValues }}
               tooltip='Edit'
-              placement='bottom'              
+              placement='bottom'
             />
           ) : (
             <Box ml={5} />

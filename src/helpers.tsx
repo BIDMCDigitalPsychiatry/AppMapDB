@@ -4,6 +4,7 @@ import { theme, themeV2, adminTheme, adminThemeV2 } from './constants';
 import packageJson from '../package.json';
 import { useAdminMode, useLayoutMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
+import { useChangeRoute } from './components/layout/hooks';
 
 export function hostAddress(append?) {
   return (
@@ -286,7 +287,9 @@ export function useLayoutTheme() {
 
 export function useHandleToggleLayout() {
   const [layoutMode, setLayoutMode] = useLayoutMode() as any;
+  const changeRoute = useChangeRoute();
   return React.useCallback(() => {
     setLayoutMode(layoutMode === 'v2' ? 'v1' : 'v2');
-  }, [layoutMode, setLayoutMode]);
+    changeRoute(publicUrl('/Home'));
+  }, [layoutMode, setLayoutMode, changeRoute]);
 }

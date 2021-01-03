@@ -16,6 +16,7 @@ export interface State {
   layoutMode?: string;
   viewMode?: ViewMode;
   adminMode?: boolean;
+  routeState: any;
 }
 
 const defaultState = {
@@ -26,7 +27,8 @@ const defaultState = {
   headerHeight: (theme as any).layout.headerHeight,
   viewMode: 'table',
   layoutMode: 'v1',
-  adminMode: false
+  adminMode: false,
+  routeState: {}
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
@@ -40,6 +42,11 @@ const changeLayoutMode = (layoutMode: string) => ({ type: 'CHANGE_LAYOUT_MODE', 
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
+    case 'ROUTE_STATE':
+      return {
+        ...state,
+        routeState: action.state
+      };
     case 'SET_USER':
       return {
         ...state,
@@ -133,6 +140,13 @@ export const useWidth = (): number => {
 
 export const useDimensions = () => {
   return [useHeight(), useWidth()];
+};
+
+export const useRouteState = () => {
+  const dispatch = useDispatch();
+  const setState = React.useCallback(state => dispatch({ type: 'ROUTE_STATE', state }), [dispatch]);
+  const state = useSelector((state: AppState) => state.layout.routeState);
+  return [state, setState];
 };
 
 export const useViewMode = () => {

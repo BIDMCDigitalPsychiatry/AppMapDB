@@ -196,7 +196,7 @@ export const usePendingAppData = (table, showDeleted = false, email = undefined,
         })
     : [];
 
-  // For public, show only the most recent with a status of approved == true
+  // For public, show only the most recent with a status of approved == true (or ignore if includeDrafts is set)
   // For admin, show only the most recent approved, or if no approvals then show the most recent
 
   var groupIds = data.map(r => r.groupId).filter(onlyUnique);
@@ -209,7 +209,7 @@ export const usePendingAppData = (table, showDeleted = false, email = undefined,
 
     for (var i = 0; i < sortedAsc.length; i++) {
       // Now search all records from newest down to find the newest approved entry.  If no approved entry is found then newest will be the first entry above
-      if (sortedAsc[i].approved === true) {
+      if (includeDrafts || sortedAsc[i].approved === true) {
         newest = sortedAsc[i];
         break;
       }

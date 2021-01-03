@@ -13,7 +13,7 @@ import FrameworkQuestionsV2 from '../pages/FrameWorkQuestionsV2/FrameworkQuestio
 import News from '../pages/News';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
-import RateNewAppV2 from '../pages/RateNewApp/RateNewAppV2';
+import RateNewAppV2, { RateExistingApp } from '../pages/RateNewApp/RateNewAppV2';
 import VersionComponent from './VersionComponent';
 import RateAnApp from '../pages/RateAnApp';
 import Admin from '../pages/Admin/Admin';
@@ -30,6 +30,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/Apps')} component={VersionComponent({ V1: Apps, V2: AppsV2 })} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />
     <Route exact path={publicUrl('/RateNewApp')} component={VersionComponent({ V1: RateNewApp, V2: RateNewAppV2 })} />
+    <Route exact path={publicUrl('/RateExistingApp')} component={RateExistingApp} />
     <Route exact path={publicUrl('/RateAnApp')} component={RateAnApp} />
     <Route exact path={publicUrl('/RateNewAppIntro')} component={RateNewAppIntro} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />

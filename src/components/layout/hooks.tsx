@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
-import { useResizeAppBar, useResizeFooter, useResizeHeader } from './store';
+import { useResizeAppBar, useResizeFooter, useResizeHeader, useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
 
 export const useAppBarHeightRef = () => {
@@ -35,11 +35,18 @@ export const useFooterHeightRef = () => {
 
 export const useHandleChangeRoute = () => {
   const changeRoute = useChangeRoute();
-  return React.useCallback(route => event => changeRoute(route), [changeRoute]);
+  return React.useCallback((route, state = undefined) => event => changeRoute(route, state), [changeRoute]);
 };
 
 export const useChangeRoute = () => {
   const { pathname } = useLocation();
   const history = useHistory();
-  return React.useCallback((route: string) => pathname !== route && history && history.push(route), [history, pathname]);
+  const [, setState] = useRouteState();
+  return React.useCallback(
+    (route: string, state = null) => {
+      pathname !== route && history && history.push(route);
+      setState(state);
+    },
+    [history, pathname, setState]
+  );
 };
