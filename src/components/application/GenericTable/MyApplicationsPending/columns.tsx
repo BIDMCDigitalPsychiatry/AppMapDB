@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import * as Icons from '@material-ui/icons';
-import RatingsColumnPending from './RatingsColumnPending';
+import MyRatingsColumnPending from './MyRatingsColumnPending';
 import { Chip, createStyles, makeStyles, Typography } from '@material-ui/core';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
@@ -53,9 +53,8 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-const Status = props => {
+export const Status = props => {
   const { draft, approved } = props;
-  console.log({ props });
   const classes = useStyles();
   const label = props.delete ? 'Archived' : draft ? 'Draft' : approved ? 'Approved' : 'Pending Approval';
   return (
@@ -67,8 +66,8 @@ const Status = props => {
   );
 };
 
-const MyRatingsColumnPending = props => {
-  return <RatingsColumnPending {...props} showRatings={true} showInfo={false} canEdit={true /*props?.approved ? false : true*/} />;
+const MyRatingsColumn = props => {
+  return <MyRatingsColumnPending {...props} showRatings={true} showInfo={false} canEdit={true /*props?.approved ? false : true*/} />;
 };
 
 export const useColumns = () => {
@@ -77,7 +76,7 @@ export const useColumns = () => {
     { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false },
     { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated, hoverable: false },
     { name: 'status', header: 'Status', width: 148, Cell: Status, hoverable: false },
-    { name: 'rating', header: 'Rating', width: 120, Cell: MyRatingsColumnPending, hoverable: false }
+    { name: 'rating', header: 'Rating', width: 120, Cell: MyRatingsColumn, hoverable: false }
   ];
 
   return columns;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ApplicationHistoryDialogV2 from '../../application/GenericDialog/ApplicationHistoryDialogV2';
+import * as ApplicationHistoryDialogV2WithDrafts from '../../application/GenericDialog/ApplicationHistoryDialogV2WithDrafts';
 import * as ApplicationDialog from '../../application/GenericDialog/ApplicationDialog';
 import { renderDialogModule } from '../../application/GenericDialog/DialogButton';
 import { MyApplicationsPending } from '../../application/GenericTable/MyApplicationsPending/table';
@@ -13,7 +13,7 @@ export default function MyAppRatings({ height = undefined, showArchived = false 
 
   return (
     <>
-      {renderDialogModule({ ...ApplicationHistoryDialogV2, onClose: handleRefresh })}
+      {renderDialogModule({ ...ApplicationHistoryDialogV2WithDrafts, onClose: handleRefresh })}
       {renderDialogModule({ ...ApplicationDialog, onClose: handleRefresh })}
       <MyApplicationsPending height={height} showArchived={showArchived} email={email} />
     </>

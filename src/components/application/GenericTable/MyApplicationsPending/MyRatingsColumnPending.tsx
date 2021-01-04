@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Box, Grid } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
-import * as ApplicationHistoryDialogV2 from '../../GenericDialog/ApplicationHistoryDialogV2';
+import * as ApplicationHistoryDialogV2WithDrafts from '../../GenericDialog/ApplicationHistoryDialogV2WithDrafts';
 import * as ApplicationDialog from '../../GenericDialog/ApplicationDialog';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
@@ -11,7 +11,7 @@ import * as Icons from '@material-ui/icons';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 
-export default function RatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
+export default function MyRatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const signedIn = useSignedIn();
 
@@ -54,11 +54,11 @@ export default function RatingsColumnPending({ _id, canEdit = true, showRatings 
         <Grid item>
           <EditDialogButton
             variant='iconbutton'
-            Module={ApplicationHistoryDialogV2}
+            Module={ApplicationHistoryDialogV2WithDrafts}
             mount={false}
             Icon={Icons.Timeline}
             initialValues={{ [tables.applications]: initialValues }}
-            tooltip='Open Ratings History'
+            tooltip='Open My Ratings History'
             placement='bottom'
           />
         </Grid>

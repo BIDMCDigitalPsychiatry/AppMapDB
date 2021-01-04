@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
+import { Status } from '../../GenericTable/MyApplicationsPending/columns';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
@@ -12,7 +13,7 @@ import Check from '../../DialogField/Check';
 
 export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined }) {
   const application = useSelector((s: AppState) => s.database.applications[_id]);
-  const { approved } = application;
+  const { approved, draft } = application;
   const deleted = application?.delete;
   const [viewMode] = useViewMode();
   const signedIn = useSignedIn();
@@ -77,7 +78,11 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
         {(IsAdmin || (isAdmin && adminMode === true)) && (
           <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
             <div style={{ marginBottom: -12 }}>
-              <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
+              {draft ? (
+                <Status draft={draft} approved={approved} />
+              ) : (
+                <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
+              )}
             </div>
             <div style={{ marginTop: -12 }}>
               <Check
