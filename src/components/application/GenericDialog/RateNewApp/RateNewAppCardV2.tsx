@@ -51,7 +51,7 @@ export default function RateNewAppCardV2({ id = title, onClose }: ComponentProps
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
       onSuccess: () => {
         handleReset && handleReset();
-        changeRoute(publicUrl('/Apps'));
+        changeRoute(publicUrl('/MyRatings'));
         handleClose();
       }
     });
