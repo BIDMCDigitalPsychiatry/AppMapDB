@@ -16,9 +16,9 @@ const useStyles = makeStyles(({ breakpoints, layout }: any) =>
     },
     drawerPaper: ({ height, appBarHeight }: any) => ({
       marginTop: appBarHeight,
-      width: layout.leftDrawerWidth,      
-      height,
-      //height: height - (appBarHeight + layout.footerheight),
+      width: layout.leftDrawerWidth,
+
+      height: height - appBarHeight,
       //background: palette.primary.light,
       //color: palette.common.white,
       [breakpoints.down('sm')]: {

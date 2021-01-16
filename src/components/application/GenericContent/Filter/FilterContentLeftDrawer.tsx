@@ -44,8 +44,6 @@ const spacing = 6;
 function Content({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
 
-  //const [expanded, setExpanded] = React.useState({});
-
   return (
     <Grid container justify='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
@@ -66,9 +64,6 @@ export default function FilterContentLeftDrawer({ id = title, ...other }) {
   const fullScreen = useFullScreen();
   const width = fullScreen ? 290 : 700;
 
-  // const [filters] = useFilters();
-  // const items = Object.keys(filters).map(k => ({ label: filters[k].name, value: filters[k] }));
-
   const props = {
     id,
     advanced,
@@ -77,28 +72,6 @@ export default function FilterContentLeftDrawer({ id = title, ...other }) {
     cancelLabel: 'Close',
     width,
     fields: [
-      /*{
-        id: 'SavedFilter',
-        label: 'Load from Saved Filters',
-        Field: AutoCompleteSelect,
-        items,
-        style: { minWidth, maxWidth },
-        hidden: !signedIn
-      },
-      {
-        id: 'SavedFilterPlaceholder',
-        Field: Divider,
-        xs: 12,
-        hidden: !signedIn
-      },
-      
-      {
-        id: 'Platforms',
-        Field: MultiSelectCheckExpandable,
-        items: Platforms.map(label => ({ value: label, label })),
-        style: { minWidth, maxWidth }
-      },
-      */
       {
         id: 'Cost',
         Field: MultiSelectCheckExpandable,

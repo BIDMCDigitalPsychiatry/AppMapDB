@@ -13,10 +13,11 @@ import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
 import TabSelectorToolBarV2 from '../general/TabSelector/TabSelectorToolBarV2';
 import * as Icons from '@material-ui/icons';
-import { useSetUser } from './store';
+import { useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
+import { grey } from '@material-ui/core/colors';
 
-const useStyles = makeStyles(({ palette, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     appBar: {
       background: palette.primary.white,
@@ -36,6 +37,13 @@ const useStyles = makeStyles(({ palette, layout }: any) =>
       pointerEvents: 'none',
       background: palette.primary.light,
       color: palette.common.white
+    },
+    menuButton: {
+      marginLeft: 0,
+      color: grey[900],
+      [breakpoints.up('md')]: {
+        display: 'none'
+      }
     }
   })
 );
@@ -103,10 +111,18 @@ export default function ApplicationBarV2({ trigger }) {
 
   const handleToggleLayout = useHandleToggleLayout();
 
+  const [, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
+  const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
+
   return (
     <Slide appear={false} direction='down' in={!trigger}>
       <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
         <Toolbar className={classes.toolbar} disableGutters={true}>
+          {leftDrawerEnabled && (
+            <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton}>
+              <Icons.Menu />
+            </IconButton>
+          )}
           <Grid container alignItems='center' spacing={0}>
             <Grid item>
               <Logo />

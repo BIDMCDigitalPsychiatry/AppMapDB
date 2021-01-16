@@ -31,7 +31,8 @@ const defaultState = {
   viewMode: 'table',
   layoutMode: 'v1',
   adminMode: false,
-  routeState: {}
+  routeState: {},
+  leftDrawerOpen: false
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
@@ -69,6 +70,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
       return {
         ...state,
         headerHeight: action.height
+      };
+    case 'UPDATE_LAYOUT':
+      return {
+        ...state,
+        ...action.payload
       };
     case 'RESIZE_VIEWPORT':
       return {
@@ -188,7 +194,7 @@ export const useLayout = (): any[] => {
 
 export const useLeftDrawer = (): any[] => {
   const { pathname } = useLocation();
-  const [{ leftDrawerOpen }, setLayout] = useLayout();
+  const [{ leftDrawerOpen = false }, setLayout] = useLayout();
   const { layout }: any = useTheme();
   const fullScreen = useFullScreen();
   const { drawerPaths } = layout;

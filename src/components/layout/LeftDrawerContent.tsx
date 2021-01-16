@@ -77,18 +77,22 @@ export default function VerticalLinearStepper() {
   };
 
   return (
-    <Box p={1}>
+    <>
       <Box p={1}>
-        <Typography variant='caption' color='textPrimary' className={classes.searchFilters}>
-          Search Filters
-        </Typography>
-        <Box mt={2}>
-          <FilterContentLeftDrawer />
+        <Box p={1}>
+          <Typography variant='caption' color='textPrimary' className={classes.searchFilters}>
+            Search Filters
+          </Typography>
+          <Box mt={2}>
+            <FilterContentLeftDrawer />
+          </Box>
         </Box>
       </Box>
-      <Button onClick={handleReset} className={classes.button}>
-        Reset
-      </Button>
-    </Box>
+      <Box textAlign='center' mb={2}>
+        <Button variant='outlined' onClick={handleReset} className={classes.button}>
+          Reset All Filters
+        </Button>
+      </Box>
+    </>
   );
 }
