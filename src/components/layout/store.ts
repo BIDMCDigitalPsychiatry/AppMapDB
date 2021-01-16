@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Reducer } from 'redux';
 import { AppState } from '../../store';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { theme } from '../../constants';
-import { useIsAdmin } from '../../hooks';
+import { useFullScreen, useIsAdmin } from '../../hooks';
+import { useLocation } from 'react-router';
+import { useTheme } from '@material-ui/core';
+import { homepage } from '../../../package.json';
 
 export type ViewMode = 'table' | 'list';
 
@@ -169,4 +172,29 @@ export const useLayoutMode = () => {
   const setLayoutMode = React.useCallback((layoutMode: string) => dispatch(changeLayoutMode(layoutMode)), [dispatch]);
   const layoutMode = useSelector((state: AppState) => state.layout.layoutMode);
   return [layoutMode, setLayoutMode];
+};
+
+export const useLayout = (): any[] => {
+  const dispatch = useDispatch();
+  const layout = useSelector((state: AppState) => state.layout, shallowEqual);
+  const setLayout = React.useCallback(
+    payload => {
+      dispatch({ type: 'UPDATE_LAYOUT', payload });
+    },
+    [dispatch]
+  );
+  return [layout, setLayout];
+};
+
+export const useLeftDrawer = (): any[] => {
+  const { pathname } = useLocation();
+  const [{ leftDrawerOpen }, setLayout] = useLayout();
+  const { layout }: any = useTheme();
+  const fullScreen = useFullScreen();
+  const { drawerPaths } = layout;
+  const parts = (homepage ?? '').split('/');
+  const lastPart = (parts.length > 0 ? parts[parts.length - 1] : '').replace('/', '');
+  const leftDrawerEnabled = drawerPaths.find(p => p === pathname || `/${lastPart}/${p}` === pathname) ? true : false;
+  const setLeftDrawerOpen = React.useCallback((open = !leftDrawerOpen) => setLayout({ leftDrawerOpen: open }), [setLayout, leftDrawerOpen]);
+  return [leftDrawerEnabled && (fullScreen ? leftDrawerOpen : true), setLeftDrawerOpen, leftDrawerEnabled];
 };

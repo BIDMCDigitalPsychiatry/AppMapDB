@@ -12,6 +12,8 @@ const shared = {
     type: 'light'
   },
   layout: {
+    drawerPaths: ['/Apps'], // Routes where the drawer should be shown
+    leftDrawerWidth: 280, //The width of the left nav drawer
     toolbarheight: 64, //The height of the top toolbar
     contentpadding: 8, //The padding around the inner layout content
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)

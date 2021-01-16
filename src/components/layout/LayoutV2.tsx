@@ -1,22 +1,24 @@
 import * as React from 'react';
 import { makeStyles, createStyles, useScrollTrigger } from '@material-ui/core';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useAppBarHeight, useFooterHeight, useHeight } from './store';
+import { useAppBarHeight, useFooterHeight, useHeight, useLeftDrawer } from './store';
 import ApplicationBarV2 from './ApplicationBarV2';
 import FooterV2 from './FooterV2';
 import { useLocation } from 'react-router';
+import LeftDrawer from './LeftDrawer';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
     root: {
       display: 'static'
     },
-    content: ({ overflow = 'auto' }) => ({
+    content: ({ leftDrawerOpen, overflow = 'auto' }) => ({
       flexGrow: 1,
       overflow,
       overflowX: 'hidden',
       height: '100vh',
       backgroundColor: palette.common.white,
+      marginLeft: leftDrawerOpen ? layout.leftDrawerWidth : 0,
       [breakpoints.down('sm')]: {
         marginLeft: 0,
         flexShrink: 0
@@ -39,6 +41,7 @@ const noScrollPaths = ['/Apps', '/Admin', '/MyRatings'];
 const noFooterPaths = ['/Apps', '/Admin', '/MyRatings'];
 
 export default function LayoutV2({ children }) {
+  const [leftDrawerOpen] = useLeftDrawer();
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
   const footerHeight = useFooterHeight();
@@ -52,6 +55,7 @@ export default function LayoutV2({ children }) {
   const variant = smallRoutes.find(p => p === pathname) ? 'small' : 'normal';
 
   const classes = useStyles({
+    leftDrawerOpen,
     fullHeight: true,
     overflow: noScrollPaths.find(p => p === pathname) ? 'hidden' : 'auto',
     contentHeight,
@@ -66,6 +70,7 @@ export default function LayoutV2({ children }) {
     <div data-testid='app-container' className={classes.root}>
       <main ref={ref} className={classes.content}>
         <ApplicationBarV2 trigger={trigger} />
+        <LeftDrawer />
         <div className={classes.toolbar} />
         <div className={classes.innerContent}>{children}</div>
         {!noFooterPaths.find(p => p === pathname) && <FooterV2 variant={variant} />}

@@ -27,7 +27,7 @@ const StyledBadge = withStyles(theme =>
   })
 )(Badge);
 
-export default function FilterButtonButton({
+export default function FilterButtonBottom({
   id: Id = undefined,
   type = 'Add',
   table,
