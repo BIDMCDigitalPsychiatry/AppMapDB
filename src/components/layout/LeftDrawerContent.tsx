@@ -79,11 +79,11 @@ export default function VerticalLinearStepper() {
   return (
     <>
       <Box p={1}>
-        <Box p={1}>
+        <Box p={0}>
           <Typography variant='caption' color='textPrimary' className={classes.searchFilters}>
             Search Filters
           </Typography>
-          <Box mt={2}>
+          <Box mt={1}>
             <FilterContentLeftDrawer />
           </Box>
         </Box>
