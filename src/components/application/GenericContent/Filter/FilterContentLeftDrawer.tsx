@@ -13,7 +13,6 @@ import {
   Uses
 } from '../../../../database/models/Application';
 import { useFullScreen } from '../../../../hooks';
-// import { useFilters } from '../../../../database/useFilters';
 import { Grid } from '@material-ui/core';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
@@ -38,7 +37,7 @@ const sections = {
 
 export const title = 'Apply Filters';
 const maxWidth = 400;
-const minWidth = 280;
+const minWidth = 240;
 
 const spacing = 6;
 
