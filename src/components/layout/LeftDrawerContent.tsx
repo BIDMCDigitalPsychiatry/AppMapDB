@@ -3,8 +3,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { useLocation } from 'react-router';
 import FilterContentLeftDrawer from '../application/GenericContent/Filter/FilterContentLeftDrawer';
+import { useTableFilterValues } from '../application/GenericTable/store';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,19 +62,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const steps = [{ label: 'Pre-Survey' }, { label: 'Lessons' }, { label: 'Post-Survey' }, { label: 'Resources' }];
 
-export default function VerticalLinearStepper() {
+export default function LeftDrawerContent() {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const { pathname } = useLocation();
 
-  React.useEffect(() => {
-    var idx = steps.findIndex(s => pathname.endsWith(`/${s.label}`));
-    if (idx !== activeStep && idx >= 0) setActiveStep(idx);
-  }, [activeStep, pathname]);
+  const [, setValues] = useTableFilterValues('Applications');
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  const handleReset = React.useCallback(() => setValues({}), [setValues]);
 
   return (
     <>
