@@ -5,9 +5,10 @@ import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
-import { useTableValues } from '../application/GenericTable/store';
+import { useTableFilterValues, useTableValues } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
 import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@material-ui/core/colors';
+import DialogButton from '../application/GenericDialog/DialogButton';
 
 const padding = 32;
 const spacing = 1;
@@ -61,6 +62,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 
 export default function SearchHeaderRedux({ title = 'App Library' }) {
   const [{ searchtext, filters = {} }, setValues] = useTableValues('Applications');
+  const [, setFilterValues] = useTableFilterValues('Applications');
 
   const classes = useStyles();
   useFilterList();
@@ -91,6 +93,10 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
     },
     [setValues]
   );
+
+  const handleReset = React.useCallback(() => setFilterValues({}), [setFilterValues]);
+
+  let showClear = false;
 
   return (
     <Grid ref={useHeaderHeightRef()} container className={classes.header}>
@@ -123,7 +129,10 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
       <Grid item xs={12}>
         <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
           {items.map((item, i) => {
-            const category = filterMap[item.key];            
+            const category = filterMap[item.key];
+            if (item.value.length > 0) {
+              showClear = true;
+            }
             return item.value.map((label, i2) => (
               <Grid item>
                 <Chip
@@ -140,6 +149,13 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
               </Grid>
             ));
           })}
+          {showClear && (
+            <Grid item>
+              <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
+                Clear all filters
+              </DialogButton>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>
