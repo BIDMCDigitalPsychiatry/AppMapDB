@@ -21,8 +21,7 @@ export default function MuliSelectCheckExpandable({
   const [expand, setExpand] = React.useState(value.length > 0 ? true : false);
   const handleChange = React.useCallback(
     (itemValue, value) => e => {
-      const checked = e.target.value;
-      console.log({ itemValue, value, checked });
+      const checked = e.target.value;      
       const newValue = value.filter(v => v !== itemValue);
       if (!bool(checked)) {
         onChange && onChange({ target: { value: newValue } });

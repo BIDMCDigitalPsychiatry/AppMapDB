@@ -55,9 +55,7 @@ export default function MuliFeatureSelectCheck({
       var newValue = value.filter(v => v !== f);
       if (!isActive) {
         newValue = newValue.concat(f);
-      }
-
-      console.log({ value, newValue, isActive });
+      }      
       onChange && onChange({ target: { value: newValue } });
     },
     [value, onChange]

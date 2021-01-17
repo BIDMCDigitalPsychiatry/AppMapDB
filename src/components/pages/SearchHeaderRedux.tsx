@@ -83,6 +83,15 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
     .filter(k => k !== 'Platforms')
     .map(k => ({ key: k, label: filters[k].name, value: filters[k] }));
 
+  const handleDelete = React.useCallback(
+    (key, value) => event => {
+      setValues(prev => {
+        return { searchtext: prev.searchtext, filters: { ...prev.filters, [key]: (prev?.filters[key] ?? []).filter(v => v !== value) } };
+      });
+    },
+    [setValues]
+  );
+
   return (
     <Grid ref={useHeaderHeightRef()} container className={classes.header}>
       <Grid item xs={12}>
@@ -114,8 +123,7 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
       <Grid item xs={12}>
         <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
           {items.map((item, i) => {
-            const category = filterMap[item.key];
-            console.log({ category, item, filterMap });
+            const category = filterMap[item.key];            
             return item.value.map((label, i2) => (
               <Grid item>
                 <Chip
@@ -124,10 +132,10 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
                   variant='outlined'
                   size='small'
                   label={label}
-                  /*onDelete={() => alert('To be implemented')}
+                  onDelete={handleDelete(item.key, label)}
                   classes={{
                     deleteIcon: classes.deleteIcon
-                  }}*/
+                  }}
                 />
               </Grid>
             ));
