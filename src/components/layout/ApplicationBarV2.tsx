@@ -116,7 +116,7 @@ export default function ApplicationBarV2({ trigger }) {
 
   return (
     <Slide appear={false} direction='down' in={!trigger}>
-      <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={0} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
+      <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
         <Toolbar className={classes.toolbar} disableGutters={true}>
           {leftDrawerEnabled && (
             <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import { Box, Divider } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FilterContentLeftDrawer from '../application/GenericContent/Filter/FilterContentLeftDrawer';
@@ -11,9 +11,13 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: '100%'
     },
-    searchFilters: {
-      color: theme.palette.primary.light,
-      fontWeight: 500
+    header: {
+      padding: 8
+    },
+    primaryText: {
+      fontSize: 18,
+      fontWeight: 700,
+      color: theme.palette.primary.dark
     },
     button: {
       marginTop: theme.spacing(1),
@@ -29,9 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
     container: {
       marginTop: 8,
       marginBottom: 8
-    },
-    header: {
-      color: theme.palette.primary.dark
     },
     stepper: {
       background: 'inherit',
@@ -71,16 +72,15 @@ export default function LeftDrawerContent() {
 
   return (
     <>
-      <Box p={1}>
-        <Box p={0}>
-          <Typography variant='caption' color='textPrimary' className={classes.searchFilters}>
-            Search Filters
-          </Typography>
-          <Box mt={1}>
-            <FilterContentLeftDrawer />
-          </Box>
-        </Box>
+      <div className={classes.header}>
+        <Typography variant='caption' color='textPrimary' className={classes.primaryText}>
+          Search Filters
+        </Typography>
+      </div>
+      <Box ml={1} mr={1}>
+        <Divider />
       </Box>
+      <FilterContentLeftDrawer />
       <Box textAlign='center' mb={2}>
         <Button variant='outlined' onClick={handleReset} className={classes.button}>
           Reset All Filters

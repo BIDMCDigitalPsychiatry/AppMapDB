@@ -16,7 +16,7 @@ const useStyles = makeStyles(({ breakpoints, layout }: any) =>
     },
     drawerPaper: ({ height, appBarHeight }: any) => ({
       overflowX: 'hidden',
-      marginTop: appBarHeight,
+      marginTop: appBarHeight + 1, // 1 is for the appbar elevation
       width: layout.leftDrawerWidth,
       height: height - appBarHeight,
       [breakpoints.down('sm')]: {
