@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles } from '@material-ui/core';
+import { Grid, Typography, createStyles, makeStyles, Chip } from '@material-ui/core';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
@@ -7,9 +7,25 @@ import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import { useTableValues } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
+import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@material-ui/core/colors';
 
 const padding = 32;
 const spacing = 1;
+
+const colorLevel = 700;
+const filterMap = {
+  Cost: { label: 'Cost', color: blue[colorLevel] },
+  Privacy: { label: 'Privacy', color: pink[400] },
+  ClinicalFoundations: { label: 'Clinical Foundation', color: indigo[colorLevel] },
+  Features: { label: 'Features', color: green[colorLevel] },
+  Conditions: { label: 'Conditions Supported', color: purple[colorLevel] },
+  Engagements: { label: 'Engagements', color: lime[colorLevel] },
+  Inputs: { label: 'Inputs', color: yellow[colorLevel] },
+  Outputs: { label: 'Outputs', color: deepOrange[400] },
+  Uses: { label: 'Uses', color: cyan[colorLevel] },
+  DeveloperTypes: { label: 'Developer Types', color: grey[colorLevel] },
+  Functionalities: { label: 'Functionalities', color: blue[colorLevel] }
+};
 
 const getMobilePadding = breakpoints => ({
   padding,
@@ -24,7 +40,7 @@ const getMobilePadding = breakpoints => ({
 
 const getPadding = (bp, multiplier = 1) => (bp === 'sm' ? padding / 2 : bp === 'xs' ? padding / 3 : padding) * multiplier;
 
-const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
+const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({
     header: {
       background: palette.primary.light,
@@ -36,6 +52,9 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
       fontSize: 30,
       fontWeight: 900,
       color: palette.primary.dark
+    },
+    deleteIcon: {
+      color: 'white !important'
     }
   })
 );
@@ -59,6 +78,10 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
     },
     [setValues]
   );
+
+  const items = Object.keys(filters)
+    .filter(k => k !== 'Platforms')
+    .map(k => ({ key: k, label: filters[k].name, value: filters[k] }));
 
   return (
     <Grid ref={useHeaderHeightRef()} container className={classes.header}>
@@ -86,6 +109,29 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
               </Grid>
             </Grid>
           </Grid>
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
+          {items.map((item, i) => {
+            const category = filterMap[item.key];
+            console.log({ category, item, filterMap });
+            return item.value.map((label, i2) => (
+              <Grid item>
+                <Chip
+                  key={`${label}-${i}-${i2}`}
+                  style={{ background: category?.color, color: 'white', marginRight: 8 }}
+                  variant='outlined'
+                  size='small'
+                  label={label}
+                  /*onDelete={() => alert('To be implemented')}
+                  classes={{
+                    deleteIcon: classes.deleteIcon
+                  }}*/
+                />
+              </Grid>
+            ));
+          })}
         </Grid>
       </Grid>
     </Grid>
