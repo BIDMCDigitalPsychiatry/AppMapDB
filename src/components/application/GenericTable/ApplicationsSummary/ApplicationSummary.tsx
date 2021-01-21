@@ -2,9 +2,11 @@
 import { Grid, Box, Typography, makeStyles, Theme, createStyles, Button } from '@material-ui/core';
 import Application from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
-import { onlyUnique, getDayTimeFromTimestamp, isEmpty, sortAscendingToLower } from '../../../../helpers';
+import { onlyUnique, getDayTimeFromTimestamp, isEmpty, sortAscendingToLower, publicUrl } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { grey } from '@material-ui/core/colors';
+import { useHandleChangeRoute } from '../../../layout/hooks';
+import PlatformButtons from './PlatformButtons';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -104,6 +106,8 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
     collapsedDescription = description.substring(0, maxDescription) + '...  ';
   }
 
+  const handleChangeRoute = useHandleChangeRoute();
+
   return (
     <Box mt={2} ml={2} mr={2} bgcolor={grey[100]} borderColor={grey[300]} border='2px solid' borderRadius={15}>
       <Box p={2}>
@@ -146,20 +150,7 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
           <Grid item style={{ width: 240 }}>
             <Grid container spacing={0}>
               <Grid item xs={12}>
-                <Typography noWrap component='span'>
-                  <Grid container spacing={1}>
-                    {platforms
-                      .sort(sortAscendingToLower)
-                      .filter(onlyUnique)
-                      .map((p, i) => (
-                        <Grid item key={`platform-${p}-${i}`}>
-                          <Button size='small' className={classes.secondaryButton} onClick={handleLink(p)}>
-                            {p}
-                          </Button>
-                        </Grid>
-                      ))}
-                  </Grid>
-                </Typography>
+                <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink}/>
               </Grid>
               <Grid item xs={12}>
                 <Typography noWrap color='textSecondary' variant='caption'>
@@ -181,7 +172,7 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
               </Grid>
             </Grid>
             <Grid item xs={12} style={{ paddingTop: 16 }}>
-              <DialogButton tooltip='' variant='primaryButton2' size='large' onClick={() => alert('To be implemented')}>
+              <DialogButton tooltip='' variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/ViewApp'), props)}>
                 View
               </DialogButton>
             </Grid>
