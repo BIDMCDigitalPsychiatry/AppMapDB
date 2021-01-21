@@ -1,6 +1,6 @@
 {
   "name": "app-map-db",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
   "homepage": "https://apps.digitalpsych.org",
   "adminUsers": "team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com",

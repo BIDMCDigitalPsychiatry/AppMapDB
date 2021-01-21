@@ -141,6 +141,14 @@ const useStyles = makeStyles(({ palette, spacing }: any) =>
       '&:hover': {
         background: palette.primary.main
       }
+    },
+    primaryButton2: {
+      borderRadius: 7,
+      color: palette.common.white,
+      background: palette.primary.dark,
+      '&:hover': {
+        background: palette.primary.main
+      }
     }
   })
 );
@@ -242,7 +250,11 @@ const DialogButton = React.forwardRef(function DialogButton(
       >
         <span>
           {variant === 'primaryButton' ? (
-            <Button {...shared} className={classes.primaryButton}>
+            <Button {...shared} className={classes.primaryButton} fullWidth={true}>
+              {children}
+            </Button>
+          ) : variant === 'primaryButton2' ? (
+            <Button {...shared} className={classes.primaryButton2} fullWidth={true}>
               {children}
             </Button>
           ) : variant === 'menuitem' ? (

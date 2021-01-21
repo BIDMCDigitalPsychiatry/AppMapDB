@@ -52,7 +52,7 @@ export default function AppsV2() {
       {renderDialogModule(SuggestEditDialog)}
       {renderDialogModule(ApplicationDialog)}
       <SearchHeaderRedux />
-      {viewMode === 'table' ? <Tables.Applications height={tableHeight} /> : <Tables.ApplicationsList height={tableHeight} />}
+      {viewMode === 'table' ? <Tables.Applications height={tableHeight} /> : <Tables.ApplicationsSummary height={tableHeight} />}
     </>
   );
 }
