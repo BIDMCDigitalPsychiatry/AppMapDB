@@ -1,12 +1,13 @@
 ﻿import React from 'react';
-import { Grid, Box, Typography, makeStyles, Theme, createStyles, Button } from '@material-ui/core';
+import { Grid, Box, Typography } from '@material-ui/core';
 import Application from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
-import { onlyUnique, getDayTimeFromTimestamp, isEmpty, sortAscendingToLower, publicUrl } from '../../../../helpers';
+import { getDayTimeFromTimestamp, publicUrl } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { grey } from '@material-ui/core/colors';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import PlatformButtons from './PlatformButtons';
+import ExpandableDescription from './ExpandableDescription';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -14,55 +15,7 @@ interface AppSummaryProps {
   RatingButtonsComponent: any;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    tableScroll: {
-      border: 0,
-      'scrollbar-width': 'none' /* Firefox 64 */,
-      '&::-webkit-scrollbar': {
-        display: 'auto',
-        width: 6,
-        height: 6
-      },
-      '&::-webkit-scrollbar-thumb': {
-        // Works on chrome only
-        backgroundColor: theme.palette.primary.light,
-        borderRadius: 25
-      },
-      '-ms-overflow-style': 'none' as any,
-      '-webkit-overflow-scrolling': 'auto',
-      '&::-webkit-overflow-scrolling': 'auto'
-    },
-    chipRoot: {
-      marginLeft: -4,
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& > *': {
-        margin: theme.spacing(0.5)
-      }
-    },
-    mainChip: {
-      minWidth: 130
-    },
-    link: {
-      cursor: 'pointer',
-      marginRight: 8
-    },
-    row: {
-      borderBottom: `1px solid ${theme.palette.divider}`
-    },
-    secondaryButton: {
-      color: theme.palette.common.white,
-      background: theme.palette.primary.light,
-      '&:hover': {
-        background: theme.palette.primary.main
-      }
-    }
-  })
-);
-
 const imageHeight = 64;
-const maxDescription = 1000;
 
 export default function ApplicationSummary(props: Application & AppSummaryProps) {
   const {
@@ -81,30 +34,6 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
   } = props;
 
   const { handleRefresh } = props as any;
-
-  const classes = useStyles({});
-  const [expand, setExpand] = React.useState(false);
-
-  const handleLink = React.useCallback(
-    platform => event => {
-      const url = platform === 'Android' ? androidLink : platform === 'iOS' ? iosLink : webLink;
-      var win = window.open(url, '_blank');
-      win.focus();
-    },
-    [androidLink, iosLink, webLink]
-  );
-
-  const handleToggleExpand = React.useCallback(() => {
-    setExpand(prev => !prev);
-    handleRefresh && handleRefresh();
-  }, [setExpand, handleRefresh]);
-
-  var description = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
-  const isExpandable = description?.length > maxDescription;
-  var collapsedDescription = undefined;
-  if (expand === false && isExpandable) {
-    collapsedDescription = description.substring(0, maxDescription) + '...  ';
-  }
 
   const handleChangeRoute = useHandleChangeRoute();
 
@@ -134,23 +63,14 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                {isExpandable ? (
-                  <>
-                    <Typography variant='caption'>{expand ? description : collapsedDescription}</Typography>
-                    <DialogButton variant='link' color='primary' size='small' tooltip='' underline='always' onClick={handleToggleExpand}>
-                      {expand ? 'Hide More' : `Show More`}
-                    </DialogButton>
-                  </>
-                ) : (
-                  <Typography variant='caption'>{description}</Typography>
-                )}
+                <ExpandableDescription appleStore={appleStore} androidStore={androidStore} handleRefresh={handleRefresh} />
               </Grid>
             </Grid>
           </Grid>
           <Grid item style={{ width: 240 }}>
             <Grid container spacing={0}>
               <Grid item xs={12}>
-                <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink}/>
+                <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
               </Grid>
               <Grid item xs={12}>
                 <Typography noWrap color='textSecondary' variant='caption'>
