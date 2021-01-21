@@ -5,10 +5,10 @@ import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import MultiFeatureSelect from '../application/DialogField/MultiFeatureSelect';
 import { Features } from '../../database/models/Application';
-import * as Icons from '@material-ui/icons';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import SearchHeader from './SearchHeader';
+import ArrowButton from '../general/ArrowButton';
 
 const padding = 32;
 const spacing = 1;
@@ -203,16 +203,7 @@ export default function HomeV2() {
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button style={{ borderRadius }} onClick={handleChangeRoute(publicUrl('/RateAnApp'))}>
-              <Grid container spacing={1}>
-                <Grid item>
-                  <Typography className={classes.primaryTextSmall}>Rate an App</Typography>
-                </Grid>
-                <Grid item>
-                  <Icons.ArrowRightAlt className={classes.arrowRight} />
-                </Grid>
-              </Grid>
-            </Button>
+            <ArrowButton label='Rate an App' onClick={handleChangeRoute(publicUrl('/RateAnApp'))}/>            
           </Grid>
         </Grid>
       </Grid>
