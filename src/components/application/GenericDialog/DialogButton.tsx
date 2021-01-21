@@ -23,6 +23,7 @@ import { checkEmpty, evalFunc } from '../../../helpers';
 import { useTableFilterValues } from '../GenericTable/store';
 import * as Icons from '@material-ui/icons';
 import { useFullScreen } from '../../../hooks';
+import ArrowButton from '../../general/ArrowButton';
 
 export interface DialogModuleProps {
   default: any;
@@ -158,7 +159,7 @@ const DialogButton = React.forwardRef(function DialogButton(
     id: Id = undefined,
     Module = undefined,
     type = 'Add',
-    tooltip = 'Add',
+    tooltip = '',
     placement = 'bottom',
     color = 'primary',
     variant = 'fab',
@@ -249,7 +250,9 @@ const DialogButton = React.forwardRef(function DialogButton(
         }
       >
         <span>
-          {variant === 'primaryButton' ? (
+          {variant === 'arrowButton' ? (
+            <ArrowButton label={label} {...shared} />
+          ) : variant === 'primaryButton' ? (
             <Button {...shared} className={classes.primaryButton} fullWidth={true}>
               {children}
             </Button>

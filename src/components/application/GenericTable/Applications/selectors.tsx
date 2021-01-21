@@ -12,15 +12,15 @@ import { useAdminMode } from '../../../layout/store';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
 export const getAppName = app => {
-  const androidStore: AndroidStoreProps = app.androidStore;
-  const appleStore: AppleStoreProps = app.appleStore;
-  return !isEmpty(app.name)
+  const androidStore: AndroidStoreProps = app?.androidStore;
+  const appleStore: AppleStoreProps = app?.appleStore;
+  return !isEmpty(app?.name)
     ? app.name
     : androidStore && !isEmpty(androidStore.title)
     ? androidStore.title
     : appleStore && !isEmpty(appleStore.title)
     ? appleStore.title
-    : app.name;
+    : app?.name;
 };
 
 export const getAppCompany = app => {

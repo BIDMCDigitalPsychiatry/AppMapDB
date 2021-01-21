@@ -14,6 +14,7 @@ import News from '../pages/News';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
 import RateNewAppV2, { RateExistingApp } from '../pages/RateNewApp/RateNewAppV2';
+import ViewApp from '../pages/ViewApp';
 import VersionComponent from './VersionComponent';
 import RateAnApp from '../pages/RateAnApp';
 import Admin from '../pages/Admin/Admin';
@@ -33,6 +34,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/RateExistingApp')} component={RateExistingApp} />
     <Route exact path={publicUrl('/RateAnApp')} component={RateAnApp} />
     <Route exact path={publicUrl('/RateNewAppIntro')} component={RateNewAppIntro} />
+    <Route exact path={publicUrl('/ViewApp')} component={ViewApp} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
   </Switch>
 );

@@ -43,9 +43,9 @@ export const useChangeRoute = () => {
   const history = useHistory();
   const [, setState] = useRouteState();
   return React.useCallback(
-    (route: string, state = null) => {
+    (route: string, state = undefined) => {
       pathname !== route && history && history.push(route);
-      setState(state);
+      if (state !== undefined) setState(state);
     },
     [history, pathname, setState]
   );
