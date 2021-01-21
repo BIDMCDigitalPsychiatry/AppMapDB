@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Divider } from '@material-ui/core';
-import { useFullScreen } from '../../hooks';
-import DialogButton from '../application/GenericDialog/DialogButton';
+import { useFullScreen, useSignedIn } from '../../hooks';
+import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
 import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
 import { useHandleChangeRoute } from '../layout/hooks';
@@ -40,6 +40,8 @@ export default function ViewApp() {
   const icon = getAppIcon(state);
 
   const handleChangeRoute = useHandleChangeRoute();
+
+  const signedIn = useSignedIn();
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
@@ -104,12 +106,26 @@ export default function ViewApp() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item style={{ width: 248 }}>
+          <Grid item style={{ width: 256 }}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateNewApp'), state)}>
-                  Submit New App Rating
-                </DialogButton>
+                {signedIn ? (
+                  <EditDialogButton
+                    variant='primaryButton2'
+                    size='large'
+                    id='Rate an App V2'
+                    onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
+                    initialValues={{ [tables.applications]: initialValues }}
+                    tooltip='Rate App'
+                    placement='bottom'
+                  >
+                    Submit New App Rating
+                  </EditDialogButton>
+                ) : (
+                  <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateAnApp'))}>
+                    Rate an App
+                  </DialogButton>
+                )}
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'right' }}>
                 <DialogButton
