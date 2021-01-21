@@ -8,6 +8,10 @@ import { useHandleChangeRoute } from '../layout/hooks';
 import { getDayTimeFromTimestamp, publicUrl } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
+import { AppState } from '../../store';
+import { useSelector } from 'react-redux';
+import { tables } from '../../database/dbConfig';
+import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 
 const imageHeight = 144;
 
@@ -29,7 +33,8 @@ export default function ViewApp() {
   var sm = useFullScreen('sm');
 
   const [state] = useRouteState();
-  const { privacies, platforms, androidLink, iosLink, webLink, appleStore, androidStore, costs = [], updated, created } = state;
+  const { _id, privacies, platforms, androidLink, iosLink, webLink, appleStore, androidStore, costs = [], updated, created } = state;
+  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const name = getAppName(state);
   const company = getAppCompany(state);
   const icon = getAppIcon(state);
@@ -107,7 +112,12 @@ export default function ViewApp() {
                 </DialogButton>
               </Grid>
               <Grid item xs={12} style={{ textAlign: 'right' }}>
-                <DialogButton variant='arrowButton' label='Flag/Suggest an Edit' />
+                <DialogButton
+                  Module={SuggestEditDialog}
+                  initialValues={{ [tables.applications]: initialValues }}
+                  variant='arrowButton'
+                  label='Flag/Suggest an Edit'
+                />
               </Grid>
               <Grid item xs={12}>
                 <Grid container>
