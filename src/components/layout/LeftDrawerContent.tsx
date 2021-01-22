@@ -1,10 +1,24 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Divider } from '@material-ui/core';
+import { Badge, Box, Divider, Grid, withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FilterContentLeftDrawer from '../application/GenericContent/Filter/FilterContentLeftDrawer';
 import { useTableFilterValues } from '../application/GenericTable/store';
+import { useFilterCount } from './useFilterCount';
+
+const StyledBadge = withStyles(theme =>
+  createStyles({
+    badge: {
+      height: 32,
+      width: 32,
+      top: 4,
+      right: 14,
+      border: `1px solid ${theme.palette.grey[400]}`,
+      background: theme.palette.primary.light
+    }
+  })
+)(Badge);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -63,19 +77,27 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const steps = [{ label: 'Pre-Survey' }, { label: 'Lessons' }, { label: 'Post-Survey' }, { label: 'Resources' }];
 
-export default function LeftDrawerContent() {
+export default function LeftDrawerContent({ table = 'Applications' }) {
   const classes = useStyles();
 
-  const [, setValues] = useTableFilterValues('Applications');
+  const [, setValues] = useTableFilterValues(table);
+  const filterCount = useFilterCount(table);
 
   const handleReset = React.useCallback(() => setValues({}), [setValues]);
 
   return (
     <>
       <div className={classes.header}>
-        <Typography variant='caption' color='textPrimary' className={classes.primaryText}>
-          Search Filters
-        </Typography>
+        <Grid container justify='space-between'>
+          <Grid item xs>
+            <Typography variant='caption' color='textPrimary' className={classes.primaryText}>
+              Search Filters
+            </Typography>
+          </Grid>
+          <Grid item>
+            <StyledBadge badgeContent={filterCount} color='primary' />
+          </Grid>
+        </Grid>
       </div>
       <Box ml={1} mr={1} mb={1}>
         <Divider />
