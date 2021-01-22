@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function PlatformButtons({ platforms = [], androidLink, iosLink, webLink }) {
-
   const classes = useStyles({});
 
   const handleLink = React.useCallback(

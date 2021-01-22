@@ -147,7 +147,7 @@ export default function HomeV2() {
         <Typography variant='h6'>Search by Features</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Grid container alignItems='center' spacing={spacing}>
+        <Grid container spacing={spacing}>
           <Grid item xs={12}>
             <Grid container spacing={spacing}>
               <Grid item xs>
@@ -203,7 +203,7 @@ export default function HomeV2() {
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <ArrowButton label='Rate an App' onClick={handleChangeRoute(publicUrl('/RateAnApp'))}/>            
+            <ArrowButton label='Rate an App' onClick={handleChangeRoute(publicUrl('/RateAnApp'))} />
           </Grid>
         </Grid>
       </Grid>

@@ -9,6 +9,7 @@ import { useTableFilterValues, useTableValues } from '../application/GenericTabl
 import { useHeaderHeightRef } from '../layout/hooks';
 import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@material-ui/core/colors';
 import DialogButton from '../application/GenericDialog/DialogButton';
+import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
 
 const padding = 32;
 const spacing = 1;
@@ -101,9 +102,16 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
   return (
     <Grid ref={useHeaderHeightRef()} container className={classes.header}>
       <Grid item xs={12}>
-        <Typography variant='h1' className={classes.primaryText}>
-          {title}
-        </Typography>
+        <Grid container justify='space-between' alignItems='flex-end'>
+          <Grid>
+            <Typography variant='h1' className={classes.primaryText}>
+              {title}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <ViewModeButtons />
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
         <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
@@ -127,35 +135,39 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
-          {items.map((item, i) => {
-            const category = filterMap[item.key];
-            if (item.value.length > 0) {
-              showClear = true;
-            }
-            return item.value.map((label, i2) => (
-              <Grid item>
-                <Chip
-                  key={`${label}-${i}-${i2}`}
-                  style={{ background: category?.color, color: 'white', marginRight: 8 }}
-                  variant='outlined'
-                  size='small'
-                  label={label}
-                  onDelete={handleDelete(item.key, label)}
-                  classes={{
-                    deleteIcon: classes.deleteIcon
-                  }}
-                />
-              </Grid>
-            ));
-          })}
-          {showClear && (
-            <Grid item>
-              <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
-                Clear all filters
-              </DialogButton>
+        <Grid container justify='space-between' alignItems='center'>
+          <Grid item xs>
+            <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
+              {items.map((item, i) => {
+                const category = filterMap[item.key];
+                if (item.value.length > 0) {
+                  showClear = true;
+                }
+                return item.value.map((label, i2) => (
+                  <Grid item>
+                    <Chip
+                      key={`${label}-${i}-${i2}`}
+                      style={{ background: category?.color, color: 'white', marginRight: 8 }}
+                      variant='outlined'
+                      size='small'
+                      label={label}
+                      onDelete={handleDelete(item.key, label)}
+                      classes={{
+                        deleteIcon: classes.deleteIcon
+                      }}
+                    />
+                  </Grid>
+                ));
+              })}
+              {showClear && (
+                <Grid item>
+                  <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
+                    Reset all filters
+                  </DialogButton>
+                </Grid>
+              )}
             </Grid>
-          )}
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

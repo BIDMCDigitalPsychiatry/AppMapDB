@@ -28,11 +28,16 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
 
 export const Applications = props => {
   const columns = useColumns();
+  const { showButtons = true } = props;
   return (
     <>
-      <AdminToggle />
-      <FilterButton Module={FilterPopover} table={name} />
-      <ViewModeButton mode='table' />
+      {showButtons && (
+        <>
+          <AdminToggle />
+          <FilterButton Module={FilterPopover} table={name} />
+          <ViewModeButton mode='table' />
+        </>
+      )}
       <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />
     </>
   );
