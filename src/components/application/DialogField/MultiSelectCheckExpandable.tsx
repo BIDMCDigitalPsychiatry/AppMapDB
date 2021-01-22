@@ -1,8 +1,18 @@
 import * as React from 'react';
-import { Box, Collapse, Grid, IconButton, Typography } from '@material-ui/core';
+import { Box, Collapse, createStyles, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
 import Check from './Check';
 import { bool } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
+
+const useStyles = makeStyles(({ palette }: any) =>
+  createStyles({
+    container: {
+      '&:hover': {
+        background: palette.grey[100]
+      }
+    }
+  })
+);
 
 export default function MuliSelectCheckExpandable({
   value = [],
@@ -19,6 +29,7 @@ export default function MuliSelectCheckExpandable({
   color = undefined,
   ...other
 }) {
+  const classes = useStyles();
   const [expand, setExpand] = React.useState(value.length > 0 ? true : false);
   const handleChange = React.useCallback(
     (itemValue, value) => e => {
@@ -48,9 +59,9 @@ export default function MuliSelectCheckExpandable({
 
   return (
     <Box ml={1} mr={1} style={{ paddingBottom: 8 }}>
-      <Grid container justify='space-between' alignItems='center' style={{ cursor: 'pointer' }} onClick={handleClick}>
+      <Grid container justify='space-between' alignItems='center' className={classes.container} style={{ cursor: 'pointer' }} onClick={handleClick}>
         <Grid item xs zeroMinWidth={true}>
-          <Typography variant='body1' style={{ color, fontWeight: 900 }}>
+          <Typography variant='body1' style={{ color, fontWeight: 500 }}>
             {label}
           </Typography>
         </Grid>
