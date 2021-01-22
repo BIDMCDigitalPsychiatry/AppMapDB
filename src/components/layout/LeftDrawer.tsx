@@ -6,7 +6,7 @@ import LeftDrawerContent from './LeftDrawerContent';
 import { useFullScreen } from '../../hooks';
 import { useAppBarHeight, useHeight, useLeftDrawer } from './store';
 
-const useStyles = makeStyles(({ breakpoints, layout }: any) =>
+const useStyles = makeStyles(({ palette, breakpoints, layout }: any) =>
   createStyles({
     drawer: {
       [breakpoints.up('sm')]: {
@@ -19,11 +19,13 @@ const useStyles = makeStyles(({ breakpoints, layout }: any) =>
       marginTop: appBarHeight + 1, // 1 is for the appbar elevation
       width: layout.leftDrawerWidth,
       height: height - appBarHeight,
+      background: palette.background.default,
       [breakpoints.down('sm')]: {
         height: '100%'
       }
     }),
     drawerPaperTemporary: {
+      background: palette.background.default,
       width: layout.leftDrawerWidth
     }
   })
