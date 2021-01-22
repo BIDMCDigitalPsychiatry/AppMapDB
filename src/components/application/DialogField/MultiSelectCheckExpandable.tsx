@@ -16,12 +16,13 @@ export default function MuliSelectCheckExpandable({
   disableCloseOnSelect = true,
   initialValue = undefined, // prevent passing down
   InputProps = undefined,
+  color = undefined,
   ...other
 }) {
   const [expand, setExpand] = React.useState(value.length > 0 ? true : false);
   const handleChange = React.useCallback(
     (itemValue, value) => e => {
-      const checked = e.target.value;      
+      const checked = e.target.value;
       const newValue = value.filter(v => v !== itemValue);
       if (!bool(checked)) {
         onChange && onChange({ target: { value: newValue } });
@@ -46,28 +47,32 @@ export default function MuliSelectCheckExpandable({
   const Icon = !expand ? Icons.AddBox : value.length > 0 ? Icons.Clear : Icons.IndeterminateCheckBox;
 
   return (
-    <Box ml={1} mr={1}>
-      <Grid container justify='space-between' alignItems='center'>
+    <Box ml={1} mr={1} style={{ paddingBottom: 8 }}>
+      <Grid container justify='space-between' alignItems='center' style={{ cursor: 'pointer' }} onClick={handleClick}>
         <Grid item xs zeroMinWidth={true}>
-          <Typography onClick={handleClick}>{label}</Typography>
+          <Typography variant='body1' style={{ color, fontWeight: 900 }}>
+            {label}
+          </Typography>
         </Grid>
         <Grid item>
-          <IconButton>
-            <Icon onClick={handleClick} />
+          <IconButton size='small'>
+            <Icon style={{ color }} />
           </IconButton>
         </Grid>
       </Grid>
       <Box ml={1} mr={1}>
-        <Grid>
+        <Grid container>
           <Collapse in={expand}>
             {items.map(i => (
               <Grid item>
                 <Check
-                  label={i.label}
-                  color='primary'
+                  label={(<Typography variant='body2'>{i.label}</Typography>) as any}
+                  style={{ color }}
                   margin='none'
                   value={value.find(v => v === i.value) ? true : false}
                   onChange={handleChange(i.value, value)}
+                  color={color}
+                  size='small'
                 />
               </Grid>
             ))}

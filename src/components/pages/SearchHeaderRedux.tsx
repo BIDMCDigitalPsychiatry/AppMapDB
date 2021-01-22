@@ -14,8 +14,8 @@ const padding = 32;
 const spacing = 1;
 
 const colorLevel = 700;
-const filterMap = {
-  Cost: { label: 'Cost', color: blue[colorLevel] },
+export const filterMap = {
+  Cost: { label: 'Cost', color: green[colorLevel] },
   Privacy: { label: 'Privacy', color: pink[400] },
   ClinicalFoundations: { label: 'Clinical Foundation', color: indigo[colorLevel] },
   Features: { label: 'Features', color: green[colorLevel] },

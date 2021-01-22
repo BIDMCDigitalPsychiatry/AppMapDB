@@ -77,7 +77,7 @@ export default function LeftDrawerContent() {
           Search Filters
         </Typography>
       </div>
-      <Box ml={1} mr={1}>
+      <Box ml={1} mr={1} mb={1}>
         <Divider />
       </Box>
       <FilterContentLeftDrawer />
