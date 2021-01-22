@@ -33,7 +33,20 @@ export default function ViewApp() {
   var sm = useFullScreen('sm');
 
   const [state] = useRouteState();
-  const { _id, privacies, platforms, androidLink, iosLink, webLink, appleStore, androidStore, costs = [], updated, created } = state;
+  const {
+    _id,
+    privacies = [],
+    clinicalFoundations = [],
+    platforms,
+    androidLink,
+    iosLink,
+    webLink,
+    appleStore,
+    androidStore,
+    costs = [],
+    updated,
+    created
+  } = state;
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const name = getAppName(state);
   const company = getAppCompany(state);
@@ -160,7 +173,7 @@ export default function ViewApp() {
                       </Grid>
                       <Grid item>
                         <Typography className={classes.primaryLightText} variant='caption'>
-                          {privacies.includes('Has Privacy Policy') ? 'Yes' : 'No'}
+                          {clinicalFoundations.includes('Supporting Studies') ? 'Yes' : 'No'}
                         </Typography>
                       </Grid>
                     </Grid>
