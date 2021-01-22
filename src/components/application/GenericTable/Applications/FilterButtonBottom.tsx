@@ -5,6 +5,7 @@ import { useTableFilterValues } from '../store';
 import { useDialogState } from '../../GenericDialog/useDialogState';
 import { evalFunc } from '../../../../helpers';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
+import { useFilterCount } from '../../../layout/useFilterCount';
 
 const useStyles = makeStyles(({ spacing }: any) =>
   createStyles({
@@ -43,35 +44,9 @@ export default function FilterButtonBottom({
   ...other
 }) {
   const classes = useStyles();
+  const filterCount = useFilterCount(table);
   const [values, setValues] = useTableFilterValues(table);
-  const {
-    Features = [],
-    Engagements = [],
-    Inputs = [],
-    Outputs = [],
-    Functionalities = [],
-    Conditions = [],
-    Platforms = [],
-    Cost = [],
-    Privacy = [],
-    Uses = [],
-    DeveloperTypes = [],
-    ClinicalFoundations = []
-  } = values as any;
-  const filterCount = [
-    Features,
-    Engagements,
-    Inputs,
-    Outputs,
-    Functionalities,
-    Conditions,
-    Platforms,
-    Cost,
-    Privacy,
-    Uses,
-    DeveloperTypes,
-    ClinicalFoundations
-  ].reduce((t, c) => (t = t + c.length), 0);
+
   const id = Id ? Id : Module && Module.title;
   const [, setDialogState] = useDialogState(id);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);

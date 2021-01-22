@@ -61,7 +61,7 @@ export default function MuliSelectCheckExpandable({
     <Box ml={1} mr={1} style={{ paddingBottom: 8 }}>
       <Grid container justify='space-between' alignItems='center' className={classes.container} style={{ cursor: 'pointer' }} onClick={handleClick}>
         <Grid item xs zeroMinWidth={true}>
-          <Typography variant='body1' style={{ color, fontWeight: 500 }}>
+          <Typography variant='body1' style={{ color, fontWeight: 600 }}>
             {label}
           </Typography>
         </Grid>
