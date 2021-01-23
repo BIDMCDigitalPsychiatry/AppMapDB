@@ -1,13 +1,13 @@
 ﻿import React from 'react';
-import { Grid, Box, Typography, Link, Chip, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Box, Typography, Link, makeStyles, Theme, createStyles } from '@material-ui/core';
 import Application, { DeveloperTypeQuestions } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon, useNewerMemberCount } from '../Applications/selectors';
-import { onlyUnique, getDayTimeFromTimestamp, isEmpty, evalFunc } from '../../../../helpers';
+import { onlyUnique, getDayTimeFromTimestamp, isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { useAdminMode } from '../../../layout/store';
-import { categoryArray } from '../../../../constants';
+import ExpandableCategories from './ExpandableCategories';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -78,10 +78,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     RatingButtonsComponent = RatingsColumn
   } = props;
 
-  const { handleRefresh } = props as any;
-
-  const classes = useStyles({});
-  const [expand, setExpand] = React.useState(false);
+  const classes = useStyles();
 
   const handleLink = React.useCallback(
     platform => event => {
@@ -90,25 +87,6 @@ export default function AppSummary(props: Application & AppSummaryProps) {
       win.focus();
     },
     [androidLink, iosLink, webLink]
-  );
-
-  const [state, setState] = React.useState({});
-
-  const handleExpand = React.useCallback(
-    name => event => {
-      setState(prev => ({ ...prev, [name]: true }));
-      handleRefresh && handleRefresh();
-    },
-    [setState, handleRefresh]
-  );
-
-  const handleToggleExpand = React.useCallback(() => {
-    setExpand(prev => !prev);
-    handleRefresh && handleRefresh();
-  }, [setExpand, handleRefresh]);
-
-  const filtered = categoryArray.filter(
-    row => expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
   );
 
   const shortDeveloperTypes = developerTypes.map(dt => {
@@ -214,45 +192,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
             </Grid>
           </Grid>
           <Grid item xs style={{ minWidth: 450 }}>
-            {filtered.map((row: any, i) => {
-              const values = evalFunc(row.values, props);
-              return (
-                <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
-                  <Grid item style={{ width: 172 }}>
-                    <Typography>{row.label}:</Typography>
-                  </Grid>
-                  <Grid item zeroMinWidth xs className={classes.chipRoot}>
-                    {values.map((l, i) =>
-                      i === 3 && values.length > 4 && state[row.label] !== true ? (
-                        <Chip
-                          key={`${l}-${i}`}
-                          style={{ background: row.color, color: 'white', marginRight: 8 }}
-                          variant='outlined'
-                          size='small'
-                          label={`${values.length - 3} More ...`}
-                          onClick={handleExpand(row.label)}
-                        />
-                      ) : i > 3 && values.length > 4 && state[row.label] !== true ? (
-                        <div key={`${l}-${i}`}></div>
-                      ) : (
-                        <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
-                      )
-                    )}
-                  </Grid>
-                </Grid>
-              );
-            })}
-            <DialogButton
-              style={{ marginLeft: -4, marginTop: 8 }}
-              variant='link'
-              color='primary'
-              size='small'
-              tooltip=''
-              underline='always'
-              onClick={handleToggleExpand}
-            >
-              {`${expand ? 'Hide' : `Show  ${categoryArray.length - filtered.length}`} More`}
-            </DialogButton>
+            <ExpandableCategories {...props} />
           </Grid>
         </Grid>
       </Box>
