@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import ImageCarousel from '../general/ImageCarousel';
+import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
 
 const imageHeight = 144;
 
@@ -204,6 +205,9 @@ export default function ViewApp() {
             <Box mt={4} mb={4}>
               <ImageCarousel images={images} />
             </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <ExpandableCategories {...state} isExpandable={false}/>
           </Grid>
           <Grid item xs={12}>
             More to be completed...
