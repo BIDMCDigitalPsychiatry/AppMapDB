@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Divider } from '@material-ui/core';
+import { Grid, Typography, createStyles, makeStyles, Divider, Box } from '@material-ui/core';
 import { useFullScreen, useSignedIn } from '../../hooks';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
@@ -12,6 +12,7 @@ import { AppState } from '../../store';
 import { useSelector } from 'react-redux';
 import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
+import ImageCarousel from '../general/ImageCarousel';
 
 const imageHeight = 144;
 
@@ -55,6 +56,10 @@ export default function ViewApp() {
   const handleChangeRoute = useHandleChangeRoute();
 
   const signedIn = useSignedIn();
+
+  const appleScreenshots = appleStore?.screenshots ?? [];
+  const androidScreenshots = androidStore?.screenshots ?? [];
+  const images = [...appleScreenshots, ...androidScreenshots];
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
@@ -190,12 +195,15 @@ export default function ViewApp() {
       <Grid item xs={12}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Typography variant='caption' className={classes.bold}>
-              Description from App Store, Not Vetted by MIND:
-            </Typography>
+            <Typography className={classes.bold}>Description from App Store, Not Vetted by MIND:</Typography>
           </Grid>
           <Grid item xs={12}>
-            <ExpandableDescription appleStore={appleStore} androidStore={androidStore} />
+            <ExpandableDescription maxDescription={2000} appleStore={appleStore} androidStore={androidStore} />
+          </Grid>
+          <Grid item xs={12}>
+            <Box mt={4} mb={4}>
+              <ImageCarousel images={images} />
+            </Box>
           </Grid>
           <Grid item xs={12}>
             More to be completed...

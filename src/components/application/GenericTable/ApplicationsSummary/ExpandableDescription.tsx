@@ -3,9 +3,13 @@ import { Typography } from '@material-ui/core';
 import { isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 
-const maxDescription = 1000;
-
-export default function ExpandableDescription({ androidStore = undefined, appleStore = undefined, handleRefresh = undefined }) {
+export default function ExpandableDescription({
+  variant = 'caption' as any,
+  maxDescription = 1000,
+  androidStore = undefined,
+  appleStore = undefined,
+  handleRefresh = undefined
+}) {
   const [expand, setExpand] = React.useState(false);
 
   const handleToggleExpand = React.useCallback(() => {
@@ -22,12 +26,12 @@ export default function ExpandableDescription({ androidStore = undefined, appleS
 
   return isExpandable ? (
     <>
-      <Typography variant='caption'>{expand ? description : collapsedDescription}</Typography>
+      <Typography variant={variant}>{expand ? description : collapsedDescription}</Typography>
       <DialogButton variant='link' color='primary' size='small' tooltip='' underline='always' onClick={handleToggleExpand}>
         {expand ? 'Hide More' : `Show More`}
       </DialogButton>
     </>
   ) : (
-    <Typography variant='caption'>{description}</Typography>
+    <Typography variant={variant}>{description}</Typography>
   );
 }
