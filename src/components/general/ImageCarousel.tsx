@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Grid, IconButton, Link, Paper, Typography } from '@material-ui/core';
+import { createStyles, Grid, IconButton, Link, makeStyles, Paper, Typography } from '@material-ui/core';
 import { useWidth } from '../layout/store';
 import Carousel from 'react-elastic-carousel';
 import * as Icons from '@material-ui/icons';
+import { grey } from '@material-ui/core/colors';
 
 const Arrow = ({ type, onClick }) => {
   const Icon = type === 'PREV' ? Icons.NavigateBefore : Icons.NavigateNext;
@@ -17,25 +18,44 @@ const Arrow = ({ type, onClick }) => {
   );
 };
 
+const useStyles = makeStyles(({ palette }: any) =>
+  createStyles({
+    paper: {
+      background: grey[50],
+      margin: 8,
+      padding: 4,
+      paddingBottom: 0,
+      '&:hover': {
+        background: palette.primary.light
+      }
+    },
+    link: {
+      outline: 'none'
+    }
+  })
+);
+
 export default function ImageCarousel({ images = [] }) {
   const width = useWidth();
-  var imageWidth = Math.max(225, Math.min(width * 0.2, 225)); 
+  var imageWidth = Math.max(225, Math.min(width * 0.2, 225));
 
   if (width < 400) {
     imageWidth = width * 0.4;
   }
+
   const itemsToShow = Math.floor((width * 0.7) / imageWidth);
 
+  const classes = useStyles();
   return (images?.length ?? []) <= 0 ? (
     <Typography color='textSecondary' align='center'>
       No images available
     </Typography>
   ) : (
-    <Carousel renderPagination={() => <></>} renderArrow={Arrow} itemsToShow={itemsToShow} isRTL={false}>
+    <Carousel focusOnSelect={false} renderPagination={() => <></>} renderArrow={Arrow} itemsToShow={itemsToShow} isRTL={false}>
       {images.map((ss, i) => (
-        <Link href={ss} underline='always' target='_blank' variant='body1' color='primary'>
-          <Paper>
-            <img style={{ width: imageWidth }} src={ss} alt={`slide-${i}`} />
+        <Link href={ss} underline='always' target='_blank' variant='body1' color='primary' className={classes.link}>
+          <Paper elevation={4} className={classes.paper}>
+            <img style={{ width: imageWidth, borderRadius: 3 }} src={ss} alt={`slide-${i}`} />
           </Paper>
         </Link>
       ))}
