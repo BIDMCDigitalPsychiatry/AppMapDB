@@ -19,7 +19,7 @@ const Arrow = ({ type, onClick }) => {
 
 export default function ImageCarousel({ images = [] }) {
   const width = useWidth();
-  var imageWidth = Math.max(225, Math.min(width * 0.2, 300)); // Minimum of 200, Max width of 300
+  var imageWidth = Math.max(225, Math.min(width * 0.2, 225)); 
 
   if (width < 400) {
     imageWidth = width * 0.4;
