@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ExpandableCategories({ handleRefresh = undefined, ...other }) {
+export default function ExpandableCategories({ isExpandable = true, handleRefresh = undefined, ...other }) {
   const classes = useStyles({});
   const [expand, setExpand] = React.useState(false);
 
@@ -40,7 +40,7 @@ export default function ExpandableCategories({ handleRefresh = undefined, ...oth
   }, [setExpand, handleRefresh]);
 
   const filtered = categoryArray.filter(
-    row => expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
+    row => !isExpandable || expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
   );
 
   return (
@@ -54,7 +54,7 @@ export default function ExpandableCategories({ handleRefresh = undefined, ...oth
             </Grid>
             <Grid item zeroMinWidth xs className={classes.chipRoot}>
               {values.map((l, i) =>
-                i === 3 && values.length > 4 && state[row.label] !== true ? (
+                isExpandable && i === 3 && values.length > 4 && state[row.label] !== true ? (
                   <Chip
                     key={`${l}-${i}`}
                     style={{ background: row.color, color: 'white', marginRight: 8 }}
@@ -63,7 +63,7 @@ export default function ExpandableCategories({ handleRefresh = undefined, ...oth
                     label={`${values.length - 3} More ...`}
                     onClick={handleExpand(row.label)}
                   />
-                ) : i > 3 && values.length > 4 && state[row.label] !== true ? (
+                ) : isExpandable && i > 3 && values.length > 4 && state[row.label] !== true ? (
                   <div key={`${l}-${i}`}></div>
                 ) : (
                   <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
@@ -73,17 +73,19 @@ export default function ExpandableCategories({ handleRefresh = undefined, ...oth
           </Grid>
         );
       })}
-      <DialogButton
-        style={{ marginLeft: -4, marginTop: 8 }}
-        variant='link'
-        color='primary'
-        size='small'
-        tooltip=''
-        underline='always'
-        onClick={handleToggleExpand}
-      >
-        {`${expand ? 'Hide' : `Show  ${categoryArray.length - filtered.length}`} More`}
-      </DialogButton>
+      {isExpandable && (
+        <DialogButton
+          style={{ marginLeft: -4, marginTop: 8 }}
+          variant='link'
+          color='primary'
+          size='small'
+          tooltip=''
+          underline='always'
+          onClick={handleToggleExpand}
+        >
+          {`${expand ? 'Hide' : `Show  ${categoryArray.length - filtered.length}`} More`}
+        </DialogButton>
+      )}
     </>
   );
 }
