@@ -15,7 +15,7 @@ import {
 import { Grid } from '@material-ui/core';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
-import { filterMap } from '../../../pages/SearchHeaderRedux';
+import { categories } from '../../../../constants';
 
 const sections = {
   Accessibility: {
@@ -113,7 +113,7 @@ export default function FilterContentLeftDrawer({ id = title, ...other }) {
         Field: MultiSelectCheckExpandable,
         items: ClinicalFoundations.map(label => ({ value: label, label }))
       }
-    ].map(i => ({ ...i, color: filterMap[i.id]?.color })),
+    ].map(i => ({ ...i, color: categories[i.id]?.color })),
     ...other
   };
 

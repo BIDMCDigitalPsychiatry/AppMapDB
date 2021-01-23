@@ -4,10 +4,10 @@ import Application, { DeveloperTypeQuestions } from '../../../../database/models
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';
 import { getAppName, getAppCompany, getAppIcon, useNewerMemberCount } from '../Applications/selectors';
-import { onlyUnique, getDayTimeFromTimestamp, isEmpty } from '../../../../helpers';
-import { purple, green, blue, pink, cyan, indigo, yellow, deepOrange, lime } from '@material-ui/core/colors';
+import { onlyUnique, getDayTimeFromTimestamp, isEmpty, evalFunc } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { useAdminMode } from '../../../layout/store';
+import { categoryArray } from '../../../../constants';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -64,16 +64,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     company = getAppCompany(props),
     platforms = [],
     costs = [],
-    privacies = [],
-    uses = [],
-    features = [],
-    functionalities = [],
-    conditions = [],
-    engagements = [],
-    clinicalFoundations = [],
     developerTypes = [],
-    inputs = [],
-    outputs = [],
     androidLink,
     iosLink,
     webLink,
@@ -101,8 +92,6 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     [androidLink, iosLink, webLink]
   );
 
-  const colorLevel = 700;
-
   const [state, setState] = React.useState({});
 
   const handleExpand = React.useCallback(
@@ -118,19 +107,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     handleRefresh && handleRefresh();
   }, [setExpand, handleRefresh]);
 
-  const categories = [
-    { label: 'Access', values: functionalities.filter(onlyUnique), color: blue[colorLevel] },
-    { label: 'Privacy', values: privacies.filter(onlyUnique), color: pink[400] },
-    { label: 'Clinical Foundation', values: clinicalFoundations.filter(onlyUnique), color: indigo[colorLevel] },
-    { label: 'Features', values: features.filter(onlyUnique), color: green[colorLevel] },
-    { label: 'Conditions Supported', values: conditions.filter(onlyUnique), color: purple[colorLevel] },
-    { label: 'Engagements', values: engagements.filter(onlyUnique), color: lime[colorLevel] },
-    { label: 'Inputs', values: inputs.filter(onlyUnique), color: yellow[colorLevel] },
-    { label: 'Outputs', values: outputs.filter(onlyUnique), color: deepOrange[400] },
-    { label: 'Uses', values: uses.filter(onlyUnique), color: cyan[colorLevel] }
-  ];
-
-  const filtered = categories.filter(
+  const filtered = categoryArray.filter(
     row => expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
   );
 
@@ -237,31 +214,34 @@ export default function AppSummary(props: Application & AppSummaryProps) {
             </Grid>
           </Grid>
           <Grid item xs style={{ minWidth: 450 }}>
-            {filtered.map((row: any, i) => (
-              <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
-                <Grid item style={{ width: 172 }}>
-                  <Typography>{row.label}:</Typography>
+            {filtered.map((row: any, i) => {
+              const values = evalFunc(row.values, props);
+              return (
+                <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
+                  <Grid item style={{ width: 172 }}>
+                    <Typography>{row.label}:</Typography>
+                  </Grid>
+                  <Grid item zeroMinWidth xs className={classes.chipRoot}>
+                    {values.map((l, i) =>
+                      i === 3 && values.length > 4 && state[row.label] !== true ? (
+                        <Chip
+                          key={`${l}-${i}`}
+                          style={{ background: row.color, color: 'white', marginRight: 8 }}
+                          variant='outlined'
+                          size='small'
+                          label={`${values.length - 3} More ...`}
+                          onClick={handleExpand(row.label)}
+                        />
+                      ) : i > 3 && values.length > 4 && state[row.label] !== true ? (
+                        <div key={`${l}-${i}`}></div>
+                      ) : (
+                        <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
+                      )
+                    )}
+                  </Grid>
                 </Grid>
-                <Grid item zeroMinWidth xs className={classes.chipRoot}>
-                  {row.values.map((l, i) =>
-                    i === 3 && row.values.length > 4 && state[row.label] !== true ? (
-                      <Chip
-                        key={`${l}-${i}`}
-                        style={{ background: row.color, color: 'white', marginRight: 8 }}
-                        variant='outlined'
-                        size='small'
-                        label={`${row.values.length - 3} More ...`}
-                        onClick={handleExpand(row.label)}
-                      />
-                    ) : i > 3 && row.values.length > 4 && state[row.label] !== true ? (
-                      <div key={`${l}-${i}`}></div>
-                    ) : (
-                      <Chip key={`${l}-${i}`} style={{ background: row.color, color: 'white', marginRight: 8 }} variant='outlined' size='small' label={l} />
-                    )
-                  )}
-                </Grid>
-              </Grid>
-            ))}
+              );
+            })}
             <DialogButton
               style={{ marginLeft: -4, marginTop: 8 }}
               variant='link'
@@ -271,7 +251,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
               underline='always'
               onClick={handleToggleExpand}
             >
-              {`${expand ? 'Hide' : `Show  ${categories.length - filtered.length}`} More`}
+              {`${expand ? 'Hide' : `Show  ${categoryArray.length - filtered.length}`} More`}
             </DialogButton>
           </Grid>
         </Grid>

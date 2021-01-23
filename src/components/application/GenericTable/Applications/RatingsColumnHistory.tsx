@@ -95,7 +95,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
           </Grid>
         )}
       </Grid>
-      <Typography variant='caption'>Rated by: {application?.email}</Typography>
+      {IsAdmin && <Typography variant='caption'>Rated by: {application?.email}</Typography>}
     </>
   );
 }

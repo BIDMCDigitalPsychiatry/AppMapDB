@@ -7,27 +7,12 @@ import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import { useTableFilterValues, useTableValues } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
-import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@material-ui/core/colors';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
+import { categories } from '../../constants';
 
 const padding = 32;
 const spacing = 1;
-
-const colorLevel = 700;
-export const filterMap = {
-  Cost: { label: 'Cost', color: green[colorLevel] },
-  Privacy: { label: 'Privacy', color: pink[400] },
-  ClinicalFoundations: { label: 'Clinical Foundation', color: indigo[colorLevel] },
-  Features: { label: 'Features', color: green[colorLevel] },
-  Conditions: { label: 'Conditions Supported', color: purple[colorLevel] },
-  Engagements: { label: 'Engagements', color: lime[colorLevel] },
-  Inputs: { label: 'Inputs', color: yellow[colorLevel] },
-  Outputs: { label: 'Outputs', color: deepOrange[400] },
-  Uses: { label: 'Uses', color: cyan[colorLevel] },
-  DeveloperTypes: { label: 'Developer Types', color: grey[colorLevel] },
-  Functionalities: { label: 'Functionalities', color: blue[colorLevel] }
-};
 
 const getMobilePadding = breakpoints => ({
   padding,
@@ -139,7 +124,7 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
           <Grid item xs>
             <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
               {items.map((item, i) => {
-                const category = filterMap[item.key];
+                const category = categories[item.key];
                 if (item.value.length > 0) {
                   showClear = true;
                 }

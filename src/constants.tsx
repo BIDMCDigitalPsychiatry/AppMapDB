@@ -1,5 +1,7 @@
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
 import { notoSans, lato } from './fonts';
+import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@material-ui/core/colors';
+import { onlyUnique } from './helpers';
 
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
 //export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
@@ -146,3 +148,25 @@ export const adminThemeV2 = createMuiTheme({
 
 export const theme = createMuiTheme(shared);
 export const themeV2 = createMuiTheme(sharedV2);
+
+const colorLevel = 700;
+
+export const categories = {
+  Cost: { label: 'Cost', color: green[colorLevel], values: ({ costs = [] }) => costs.filter(onlyUnique) },
+  Privacy: { label: 'Privacy', color: pink[400], values: ({ privacies = [] }) => privacies.filter(onlyUnique) },
+  ClinicalFoundations: {
+    label: 'Clinical Foundation',
+    color: indigo[colorLevel],
+    values: ({ clinicalFoundations = [] }) => clinicalFoundations.filter(onlyUnique)
+  },
+  Features: { label: 'Features', color: green[colorLevel], values: ({ features = [] }) => features.filter(onlyUnique) },
+  Conditions: { label: 'Conditions Supported', color: purple[colorLevel], values: ({ conditions = [] }) => conditions.filter(onlyUnique) },
+  Engagements: { label: 'Engagements', color: lime[colorLevel], values: ({ engagements = [] }) => engagements.filter(onlyUnique) },
+  Inputs: { label: 'Inputs', color: yellow[colorLevel], values: ({ inputs = [] }) => inputs.filter(onlyUnique) },
+  Outputs: { label: 'Outputs', color: deepOrange[400], values: ({ outputs = [] }) => outputs.filter(onlyUnique) },
+  Uses: { label: 'Uses', color: cyan[colorLevel], values: ({ uses = [] }) => uses.filter(onlyUnique) },
+  DeveloperTypes: { label: 'Developer Types', color: grey[colorLevel], values: ({ developerTypes = [] }) => developerTypes.filter(onlyUnique) },
+  Functionalities: { label: 'Access', color: blue[colorLevel], values: ({ functionalities = [] }) => functionalities.filter(onlyUnique) }
+};
+
+export const categoryArray = Object.keys(categories).map(k => categories[k]);
