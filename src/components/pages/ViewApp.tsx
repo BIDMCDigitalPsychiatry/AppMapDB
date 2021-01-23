@@ -69,7 +69,7 @@ export default function ViewApp() {
       <Grid item xs={12}>
         <Grid container spacing={4}>
           <Grid item style={{ width: imageHeight + 16 }}>
-            <img style={{ height: imageHeight }} src={icon} alt='logo' />
+            <img style={{ height: imageHeight, borderRadius: 15 }} src={icon} alt='logo' />
           </Grid>
           <Grid item xs>
             <Grid container spacing={4}>
