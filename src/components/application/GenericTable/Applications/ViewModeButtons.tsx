@@ -5,14 +5,9 @@ import { makeStyles, createStyles, Grid, Button } from '@material-ui/core';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
-    secondaryButton: {
-      color: palette.common.white,
-      background: palette.primary.light,
-      '&:hover': {
-        background: palette.primary.main
-      }
-    },
     primaryButtonDisabled: {
+      paddingLeft: 8,
+      paddingRight: 8,
       borderRadius: 7,
       cursor: 'auto',
       color: palette.common.white,
@@ -22,6 +17,8 @@ const useStyles = makeStyles(({ palette }: any) =>
       }
     },
     primaryButton: {
+      paddingLeft: 8,
+      paddingRight: 8,
       borderRadius: 7,
       color: palette.common.white,
       background: palette.primary.main,
@@ -35,8 +32,8 @@ const useStyles = makeStyles(({ palette }: any) =>
 export default function ViewModeButtons() {
   const classes = useStyles();
   const [viewMode, setViewMode] = useViewMode() as any;
-  const handleClick = React.useCallback(mode => () => setViewMode(mode), [setViewMode]);  
-  
+  const handleClick = React.useCallback(mode => () => setViewMode(mode), [setViewMode]);
+
   return (
     <Grid container spacing={1}>
       <Grid item>
