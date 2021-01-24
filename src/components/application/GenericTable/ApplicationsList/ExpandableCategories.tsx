@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ExpandableCategories({ isExpandable = true, handleRefresh = undefined, ...other }) {
+export default function ExpandableCategories({ titleVariant = 'body1' as any, isExpandable = true, handleRefresh = undefined, ...other }) {
   const classes = useStyles({});
   const [expand, setExpand] = React.useState(false);
 
@@ -50,7 +50,7 @@ export default function ExpandableCategories({ isExpandable = true, handleRefres
         return (
           <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
             <Grid item style={{ width: 172 }}>
-              <Typography>{row.label}:</Typography>
+              <Typography variant={titleVariant}>{row.label}:</Typography>
             </Grid>
             <Grid item zeroMinWidth xs className={classes.chipRoot}>
               {values.map((l, i) =>

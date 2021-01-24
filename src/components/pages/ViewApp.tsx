@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Divider, Box } from '@material-ui/core';
+import { Grid, Typography, createStyles, makeStyles, Divider, Box, Paper } from '@material-ui/core';
 import { useFullScreen, useSignedIn } from '../../hooks';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
@@ -14,11 +14,17 @@ import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import ImageCarousel from '../general/ImageCarousel';
 import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
+import ArrowButton from '../general/ArrowButton';
 
 const imageHeight = 144;
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
+    primaryText: {
+      fontSize: 18,
+      fontWeight: 700,
+      color: palette.primary.dark
+    },
     primaryLightText: {
       fontWeight: 700,
       color: palette.primary.light
@@ -47,7 +53,8 @@ export default function ViewApp() {
     androidStore,
     costs = [],
     updated,
-    created
+    created,
+    email
   } = state;
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const name = getAppName(state);
@@ -207,7 +214,61 @@ export default function ViewApp() {
             </Box>
           </Grid>
           <Grid item xs={12}>
-            <ExpandableCategories {...state} isExpandable={false}/>
+            <Typography className={classes.primaryText} variant='body1'>
+              Ratings and Reviews
+            </Typography>
+            <Typography variant='caption'>{`Explore the app's qualitative ratings & reviews`}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Box mt={2}>
+              <Paper style={{ padding: 24, paddingTop: 8 }}>
+                <Grid container justify='space-between' alignItems='center' spacing={0}>
+                  <Grid item xs>
+                    <Grid container>
+                      <Grid item>
+                        <Typography color='textSecondary' variant='caption'>
+                          Last Updated:
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <Typography noWrap className={classes.primaryLightText} variant='caption'>
+                          {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    <div style={{ textAlign: 'right' }}>
+                      <Grid container spacing={1}>
+                        <Grid item>
+                          <Typography color='textSecondary' variant='caption'>
+                            By:
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography noWrap className={classes.primaryLightText} variant='caption'>
+                            {email}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </Grid>
+                </Grid>
+                <Grid container justify='space-between' alignItems='center' spacing={0}>
+                  <Grid item xs>
+                    <Box mt={-0.75}>
+                      <Typography variant='body1' className={classes.bold}>
+                        Qualitative Ratings
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item>
+                    <ArrowButton size='small' variant='body2' label='Read Review' onClick={() => alert('To be completed')} />
+                  </Grid>
+                </Grid>
+                <ExpandableCategories {...state} isExpandable={false} titleVariant='body2' />
+              </Paper>
+            </Box>
           </Grid>
           <Grid item xs={12}>
             More to be completed...
