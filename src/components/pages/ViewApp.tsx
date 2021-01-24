@@ -224,7 +224,7 @@ export default function ViewApp() {
               <Paper style={{ padding: 24, paddingTop: 8 }}>
                 <Grid container justify='space-between' alignItems='center' spacing={0}>
                   <Grid item xs>
-                    <Grid container>
+                    <Grid container spacing={1}>
                       <Grid item>
                         <Typography color='textSecondary' variant='caption'>
                           Last Updated:
