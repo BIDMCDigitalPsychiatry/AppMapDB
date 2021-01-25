@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Box, Paper } from '@material-ui/core';
-import { getDayTimeFromTimestamp } from '../../helpers';
+import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
 import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
-import ArrowButton from '../general/ArrowButton';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -55,17 +54,24 @@ export default function ViewAppRating(props) {
           </div>
         </Grid>
       </Grid>
-      <Grid container justify='space-between' alignItems='center' spacing={0}>
-        <Grid item xs>
-          <Box mt={-0.75}>
-            <Typography variant='body1' className={classes.bold}>
-              Qualitative Ratings
-            </Typography>
+      <Grid container style={{ marginTop: 4 }} justify='space-between' alignItems='center' spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant='body1' className={classes.bold}>
+            Qualitative Review
+          </Typography>
+          <Box mt={1}>
+            <Typography variant='body2'>{isEmpty(props.review) ? 'Not available' : props.review}</Typography>
           </Box>
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
+          <Typography variant='body1' className={classes.bold}>
+            Qualitative Ratings
+          </Typography>
+        </Grid>
+        {/*<Grid item>
           <ArrowButton size='small' variant='body2' label='Read Review' onClick={() => alert('To be completed')} />
         </Grid>
+        */}
       </Grid>
       <ExpandableCategories {...props} isExpandable={false} titleVariant='body2' />
     </Paper>
