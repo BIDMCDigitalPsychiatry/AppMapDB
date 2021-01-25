@@ -1,11 +1,11 @@
 {
   "articles": [
-    { "file": "Article1.md", "title": "Article 1", "subTitle": "It's a small world", "date": "1/20/2021" },
-    { "file": "Article2.md", "title": "Article 2", "subTitle": "It's a small world", "date": "1/21/2021" },
-    { "file": "Article3.md", "title": "Article 3", "subTitle": "It's a small world", "date": "1/22/2021" },
-    { "file": "Article4.md", "title": "Article 4", "subTitle": "It's a small world", "date": "Unknown" },
-    { "file": "Article5.md", "title": "Article 5", "subTitle": "It's a small world", "date": "Unknown" },
-    { "file": "Article6.md", "title": "Article 6", "subTitle": "It's a small world", "date": "Unknown" },
-    { "file": "Article7.md", "title": "Article 7", "subTitle": "It's a small world", "date": "Unknown" }
+    { "file": "Article1.md", "title": "Article 1", "subTitle": "It's a small world. Test 1", "date": "1/20/2021" },
+    { "file": "Article2.md", "title": "Article 2", "subTitle": "It's a small world. Test 2", "date": "1/21/2021" },
+    { "file": "Article3.md", "title": "Article 3", "subTitle": "It's a small world. Test 3", "date": "1/22/2021" },
+    { "file": "Article4.md", "title": "Article 4", "subTitle": "It's a small world. Test 4", "date": "1/23/2021" },
+    { "file": "Article5.md", "title": "Article 5", "subTitle": "It's a small world. Test 5", "date": "1/24/2021" },
+    { "file": "Article6.md", "title": "Article 6", "subTitle": "It's a small world. Test 6", "date": "1/25/2021" },
+    { "file": "Article7.md", "title": "Article 7", "subTitle": "It's a small world. Test 7", "date": "1/26/2021" }
   ]
 }
