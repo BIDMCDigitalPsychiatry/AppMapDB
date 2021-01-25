@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Box, Container } from '@material-ui/core';
-import { useFullScreen } from '../../hooks';
+import { useFullScreen } from '../../../hooks';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
-const contentPath = require('../../content/News.md');
+const contentPath = require('../../../content/News.md');
 
 export const ContentBox = ({ p = 2, children }) => {
   const fullScreen = useFullScreen();

@@ -10,7 +10,8 @@ import Home from '../pages/Home';
 import HomeV2 from '../pages/HomeV2';
 import FrameworkQuestions from '../pages/FrameworkQuestions';
 import FrameworkQuestionsV2 from '../pages/FrameWorkQuestionsV2/FrameworkQuestionsV2';
-import News from '../pages/News';
+import News from '../pages/News/News';
+import NewsV2 from '../pages/News/NewsV2';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp from '../pages/RateNewApp';
 import RateNewAppV2, { RateExistingApp } from '../pages/RateNewApp/RateNewAppV2';
@@ -18,6 +19,7 @@ import ViewApp from '../pages/ViewApp';
 import VersionComponent from './VersionComponent';
 import RateAnApp from '../pages/RateAnApp';
 import Admin from '../pages/Admin/Admin';
+import Article from '../pages/News/Article';
 
 const Routes = () => (
   <Switch>
@@ -27,7 +29,8 @@ const Routes = () => (
     <Route exact path={publicUrl('/MyRatings')} component={MyRatings} />
     <Route exact path={publicUrl('/Home')} component={VersionComponent({ V1: Home, V2: HomeV2 })} />
     <Route exact path={publicUrl('/FrameworkQuestions')} component={VersionComponent({ V1: FrameworkQuestions, V2: FrameworkQuestionsV2 })} />
-    <Route exact path={publicUrl('/News')} component={News} />
+    <Route exact path={publicUrl('/News')} component={VersionComponent({ V1: News, V2: NewsV2 })} />
+    <Route exact path={publicUrl('/Article')} component={Article} />
     <Route exact path={publicUrl('/Apps')} component={VersionComponent({ V1: Apps, V2: AppsV2 })} />
     <Route exact path={publicUrl('/Rating')} component={RatingProcess} />
     <Route exact path={publicUrl('/RateNewApp')} component={VersionComponent({ V1: RateNewApp, V2: RateNewAppV2 })} />
