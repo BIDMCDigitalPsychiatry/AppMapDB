@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { Box, Container, createStyles, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Card, CardActionArea, CardActions, CardContent, Container, createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
 import { useFullScreen } from '../../../hooks';
 import { publicUrl } from '../../../helpers';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import ArrowButton from '../../general/ArrowButton';
+import useComponentSize from '@rehooks/component-size';
 
 const articleFile = require('../../../content/Articles/Articles.json');
 
@@ -29,10 +30,73 @@ export const ContentBox = ({ p = 2, children }) => {
   );
 };
 
+const PaperWithHeight = ({ maxHeight = undefined, index, date, title, subTitle, handleChangeRoute, handleSize }) => {
+  const ref = React.useRef();
+  const { height } = useComponentSize(ref);
+  const classes = useStyles();
+
+  React.useEffect(() => {
+    if (height !== undefined && height > 0 && (maxHeight === undefined || height > maxHeight)) {
+      handleSize({ height });
+    }
+  }, [maxHeight, height, handleSize]);
+
+  const h = maxHeight !== undefined && maxHeight > height ? maxHeight : undefined;
+
+  const [internalHeight, setInternalHeight] = React.useState();
+
+  React.useEffect(() => {
+    if (h !== undefined) {
+      setInternalHeight(h);
+    }
+  }, [h, setInternalHeight]);
+
+  const style = internalHeight === undefined ? { width: 300, cursor: 'pointer' } : { width: 300, height: internalHeight, cursor: 'pointer' };
+
+  return (
+    <Card ref={ref} onClick={handleChangeRoute(publicUrl('/Article'), { page: index + 1 })}>
+      <CardActionArea style={style}>
+        <CardContent>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <Typography noWrap variant='caption' className={classes.primaryText}>
+                {date}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography noWrap className={classes.primaryLightText}>
+                {title}
+              </Typography>
+            </Grid>
+            <Grid item xs>
+              <Typography variant='caption'>
+                {subTitle} {subTitle} {subTitle}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+        <CardActions>
+          <ArrowButton label='View more' onClick={handleChangeRoute(publicUrl('/Article'), { page: index + 1 })} />
+        </CardActions>
+      </CardActionArea>
+    </Card>
+  );
+};
+
 export default function NewsV2() {
   const { articles } = articleFile;
 
   const handleChangeRoute = useHandleChangeRoute();
+  const [maxHeight, setMaxHeight] = React.useState(0);
+
+  const handleSize = React.useCallback(
+    ({ height }) => {
+      if (height > maxHeight) {
+        setMaxHeight(height);
+      }
+    },
+    [maxHeight, setMaxHeight]
+  );
 
   const classes = useStyles();
 
@@ -44,39 +108,9 @@ export default function NewsV2() {
         </Typography>
         <Typography variant='caption'>Learn more about how our database is being used around the world.</Typography>
         <Grid container style={{ marginTop: 24 }} spacing={3}>
-          {articles.map(({ title, subTitle, date }, index) => (
+          {articles.map((props, index) => (
             <Grid item>
-              <Paper
-                style={{ width: 240, height: 132, padding: 16, paddingTop: 8, cursor: 'pointer' }}
-                onClick={handleChangeRoute(publicUrl('/Article'), { page: index + 1 })}
-              >
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography noWrap variant='caption' className={classes.primaryText}>
-                      {date}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography noWrap className={classes.primaryLightText}>
-                      {title}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography noWrap variant='caption'>
-                      {subTitle}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container style={{ marginTop: 20 }}>
-                      <Grid item>
-                        <div style={{ marginLeft: -8 }}>
-                          <ArrowButton label='View more' onClick={handleChangeRoute(publicUrl('/Article'), { page: index + 1 })} />
-                        </div>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Paper>
+              <PaperWithHeight {...props} index={index} handleChangeRoute={handleChangeRoute} handleSize={handleSize} maxHeight={maxHeight} />
             </Grid>
           ))}
         </Grid>
