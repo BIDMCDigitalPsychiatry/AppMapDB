@@ -286,8 +286,8 @@ export function useLayoutTheme() {
   const [layoutMode] = useLayoutMode();
   const isAdmin = useIsAdmin();
   const [adminMode] = useAdminMode();
-  const adminLayoutTheme = layoutMode === 'v2' ? adminThemeV2 : adminTheme;
-  const layoutTheme = layoutMode === 'v2' ? themeV2 : theme;
+  const adminLayoutTheme = !isAdmin ? adminThemeV2 : layoutMode === 'v2' ? adminThemeV2 : adminTheme;
+  const layoutTheme = !isAdmin ? themeV2 : layoutMode === 'v2' ? themeV2 : theme;
   return isAdmin && adminMode ? adminLayoutTheme : layoutTheme;
 }
 

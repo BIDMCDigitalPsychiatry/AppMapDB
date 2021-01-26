@@ -29,7 +29,7 @@ const defaultState = {
   footerHeight: (theme as any).layout.footerHeight,
   headerHeight: (theme as any).layout.headerHeight,
   viewMode: 'table',
-  layoutMode: 'v1',
+  layoutMode: 'v2',
   adminMode: false,
   routeState: {},
   leftDrawerOpen: false
