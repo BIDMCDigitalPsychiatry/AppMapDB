@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/static/css/main.5a8061a6.chunk.css",
-    "main.js": "/static/js/main.05ce8ce5.chunk.js",
-    "main.js.map": "/static/js/main.05ce8ce5.chunk.js.map",
+    "main.js": "/static/js/main.fff82edf.chunk.js",
+    "main.js.map": "/static/js/main.fff82edf.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.ef3a8385.js",
     "runtime-main.js.map": "/static/js/runtime-main.ef3a8385.js.map",
     "static/js/2.4db65ea0.chunk.js": "/static/js/2.4db65ea0.chunk.js",
@@ -12,7 +12,7 @@
     "static/js/4.424f3904.chunk.js": "/static/js/4.424f3904.chunk.js",
     "static/js/4.424f3904.chunk.js.map": "/static/js/4.424f3904.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.f74605dd42b97b80140d6dfee259ff32.js": "/precache-manifest.f74605dd42b97b80140d6dfee259ff32.js",
+    "precache-manifest.7c0cef32e5b7cc451597d6245268c908.js": "/precache-manifest.7c0cef32e5b7cc451597d6245268c908.js",
     "service-worker.js": "/service-worker.js",
     "static/css/main.5a8061a6.chunk.css.map": "/static/css/main.5a8061a6.chunk.css.map",
     "static/js/2.4db65ea0.chunk.js.LICENSE.txt": "/static/js/2.4db65ea0.chunk.js.LICENSE.txt",
@@ -35,10 +35,10 @@
     "static/media/Article5.md": "/static/media/Article5.130e2c94.md",
     "static/media/Article6.md": "/static/media/Article6.42948881.md",
     "static/media/Article7.md": "/static/media/Article7.84be5ac5.md",
+    "static/media/Article8.md": "/static/media/Article8.3c26c2cc.md",
     "static/media/FrameworkQuestions.md": "/static/media/FrameworkQuestions.a2d6e854.md",
     "static/media/News.md": "/static/media/News.084028c4.md",
     "static/media/ObjectiveQuestions.md": "/static/media/ObjectiveQuestions.2ee3ceda.md",
-    "static/media/Washington Post Feature": "/static/media/Washington Post Feature.3c26c2cc.bin",
     "static/media/appEvaluationModel.webp": "/static/media/appEvaluationModel.b1dcdb1d.webp",
     "static/media/app_model.png": "/static/media/app_model.e327de20.png",
     "static/media/apple_store.png": "/static/media/apple_store.f4fb2b9c.png",
@@ -55,6 +55,6 @@
     "static/js/runtime-main.ef3a8385.js",
     "static/js/2.4db65ea0.chunk.js",
     "static/css/main.5a8061a6.chunk.css",
-    "static/js/main.05ce8ce5.chunk.js"
+    "static/js/main.fff82edf.chunk.js"
   ]
 }

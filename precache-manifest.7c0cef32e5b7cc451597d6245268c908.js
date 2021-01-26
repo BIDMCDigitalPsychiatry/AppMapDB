@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "caa03803cb8f9622436c39138c3ba12c",
+    "revision": "70a1c0df969ff63f2041322d8e9fdd4a",
     "url": "/index.html"
   },
   {
-    "revision": "57405c7a7eb1b71ad6ba",
+    "revision": "9c6368ad85067225cb3c",
     "url": "/static/css/main.5a8061a6.chunk.css"
   },
   {
@@ -24,8 +24,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/4.424f3904.chunk.js"
   },
   {
-    "revision": "57405c7a7eb1b71ad6ba",
-    "url": "/static/js/main.05ce8ce5.chunk.js"
+    "revision": "9c6368ad85067225cb3c",
+    "url": "/static/js/main.fff82edf.chunk.js"
   },
   {
     "revision": "23d17fbe35f2b9e47d11",
@@ -108,6 +108,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/media/Article7.84be5ac5.md"
   },
   {
+    "revision": "3c26c2cc2908252caf02d5a7da457a07",
+    "url": "/static/media/Article8.3c26c2cc.md"
+  },
+  {
     "revision": "a2d6e854d5a0812de29181c8ed33f44a",
     "url": "/static/media/FrameworkQuestions.a2d6e854.md"
   },
@@ -118,10 +122,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "2ee3ceda2c76510720465049b5500198",
     "url": "/static/media/ObjectiveQuestions.2ee3ceda.md"
-  },
-  {
-    "revision": "3c26c2cc2908252caf02d5a7da457a07",
-    "url": "/static/media/Washington Post Feature.3c26c2cc.bin"
   },
   {
     "revision": "b1dcdb1d7a1a415684a2bab75a8bcea1",
