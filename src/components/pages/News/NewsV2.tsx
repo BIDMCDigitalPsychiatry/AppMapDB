@@ -10,6 +10,11 @@ const articleFile = require('../../../content/Articles/Articles.json');
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
+    primaryHeaderText: {
+      fontWeight: 900,
+      color: palette.primary.dark,
+      fontSize: 30
+    },
     primaryText: {
       fontWeight: 700,
       color: palette.primary.dark
@@ -102,12 +107,12 @@ export default function NewsV2() {
 
   return (
     <section>
-      <Container style={{ paddingTop: 24, paddingBottom: 24 }}>
-        <Typography variant='h6' className={classes.primaryText}>
+      <Container maxWidth='xl' style={{ padding: 24}}>
+        <Typography variant='h5' className={classes.primaryHeaderText}>
           News
         </Typography>
-        <Typography variant='caption'>Learn more about how our database is being used around the world.</Typography>
-        <Grid container style={{ marginTop: 24 }} spacing={3}>
+        <Typography variant='body2'>Learn more about how our database is being used around the world.</Typography>
+        <Grid container justify='center' style={{ marginTop: 24 }} spacing={3}>
           {articles.map((props, index) => (
             <Grid item>
               <PaperWithHeight {...props} index={index} handleChangeRoute={handleChangeRoute} handleSize={handleSize} maxHeight={maxHeight} />
