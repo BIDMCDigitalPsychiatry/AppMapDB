@@ -58,7 +58,7 @@ export const ClinicalFoundationQuestions = [
     tooltip:
       "Does the app make recommendations or suggestions that directly defy clinical guidelines? Does it include overtly false information, like a suicide hotline number that doesn't actually work?"
   },
-  { value: 'Use Warning', label: 'Does the app provide any warning for use?' },
+  { value: 'Use Warning', label: 'Does the app specify that it is not a replacement for medical care?' },
   { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' }
 ];
 
