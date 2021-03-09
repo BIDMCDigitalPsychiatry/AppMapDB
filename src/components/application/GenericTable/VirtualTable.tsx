@@ -15,7 +15,7 @@ export interface VirtualTableProps {
   checkbox?: boolean;
   hover?: boolean;
   onCellClick?: (event, props) => any;
-  onHeaderClick?: (event, props) => any;  
+  onHeaderClick?: (event, props) => any;
   isCellHovered?: (column, rowData, hoveredColumn, hoveredRowData) => boolean;
   select?: boolean;
   columns?: any[] | ((props?) => any[]);
@@ -25,6 +25,7 @@ export interface VirtualTableProps {
   rowHeight?: number;
   includeHeaders?: boolean;
   fixedRowCount?: number;
+  fixedColumnCount?: number;
   showScroll?: boolean;
   rowDivider?: boolean;
 }
@@ -140,6 +141,7 @@ export default function VirtualTable(props: VirtualTableProps) {
     name,
     includeHeaders = true,
     fixedRowCount = 1,
+    fixedColumnCount = 0,
     rowHeight = layout.tableRowHeight,
     rounded = false,
     hover,
@@ -220,6 +222,7 @@ export default function VirtualTable(props: VirtualTableProps) {
                       cell: classes.cell
                     }}
                     fixedRowCount={fixedRowCount}
+                    fixedColumnCount={fixedColumnCount}
                     width={width}
                     height={adjustedheight}
                     rowHeight={rowHeight}

@@ -38,7 +38,7 @@ export const Applications = props => {
           <ViewModeButton mode='table' />
         </>
       )}
-      <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} {...props} />
+      <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} fixedColumnCount={1} {...props} />
     </>
   );
 };
