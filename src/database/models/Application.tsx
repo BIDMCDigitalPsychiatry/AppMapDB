@@ -356,7 +356,7 @@ export const FeatureQuestions = [
     tooltip: 'Does app provide definitions, explanations of different diagnoses? Is it didactic?'
   },
   { value: 'Journaling', label: 'Does app have journaling?' },
-  { value: 'Mindfulness', label: 'Does app have mindfullness?' },
+  { value: 'Mindfulness', label: 'Does app have mindfulness?' },
   { value: 'Deep Breathing', label: 'Does app have deep breathing?' },
   {
     value: 'Picture Gallery/Hope Board',
@@ -389,7 +389,7 @@ export const FeatureQuestions = [
     label: 'Does app have physical health exercises?',
     tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT exercise tracking.'
   },
-  { value: 'Bbot Interaction', label: 'Does app have Bbot interaction?', tooltip: 'An example would be interaction with a virtual character.' },
+  { value: 'Bbot Interaction', label: 'Does app have chat interaction?', tooltip: 'An example would be interaction with a virtual character.' },
   {
     value: 'Bio Feedback with Sense Data',
     label: 'Does app have bio feedback with sense data?',
