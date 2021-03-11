@@ -408,7 +408,7 @@ export const FeatureImages = [
 
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);
 
-export type Condition = 'Mood Disorders' | 'Stress & Anxiety' | 'Sleep' | 'Phobias' | 'OCD' | 'Schizophrenia' | 'Eating Disorders' | 'Personality Disorders';
+export type Condition = 'Mood Disorders' | 'Stress & Anxiety' | 'Sleep' | 'Phobias' | 'OCD' | 'Schizophrenia' | 'Eating Disorders' | 'Personality Disorders' | 'Self-Harm' | 'PTSD' | 'Substance Use';
 export const Conditions: Condition[] = [
   'Mood Disorders',
   'Stress & Anxiety',
@@ -417,7 +417,10 @@ export const Conditions: Condition[] = [
   'OCD',
   'Schizophrenia',
   'Eating Disorders',
-  'Personality Disorders'
+  'Personality Disorders',
+  'Self-Harm',
+  'PTSD',
+  'Substance Use'
 ];
 
 export type DeveloperType = 'Government' | 'For Profit Company' | 'Non-Profit Company' | 'Healthcare Company' | 'Academic Institution';
