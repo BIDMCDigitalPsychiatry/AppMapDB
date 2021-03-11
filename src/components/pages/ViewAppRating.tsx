@@ -59,6 +59,7 @@ export default function ViewAppRating(props) {
           <Typography variant='body1' className={classes.bold}>
             Qualitative Review
           </Typography>
+          <Typography variant='caption'>{`This review represents the view of the app rater and is not an endorsement by MIND.`}</Typography>
           <Box mt={1}>
             <Typography variant='body2'>{isEmpty(props.review) ? 'Not available' : props.review}</Typography>
           </Box>
