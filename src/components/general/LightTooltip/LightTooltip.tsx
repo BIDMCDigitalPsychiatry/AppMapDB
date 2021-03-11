@@ -7,6 +7,6 @@ const LightTooltip = withStyles((theme: Theme) => ({
     color: theme.palette.text.primary,
     boxShadow: theme.shadows[1]
   }
-}))(Tooltip);
+}))(Tooltip) as any;
 
 export default LightTooltip;

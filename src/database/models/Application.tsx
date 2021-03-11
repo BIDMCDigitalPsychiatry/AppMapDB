@@ -481,8 +481,10 @@ export default interface Application {
   appleStore: AppleStoreProps; // Meta information from the store
   readingLevel: number; // Reading level of the privacy policy (what grade reading level)?
   feasibilityStudies: number; // How many feasibility/usability studies?
+  feasibilityStudiesLink: string;
   feasibilityImpact: number; // What is the highest feasibility impact factor?
   efficacyStudies: number; // How many evidence/efficacy studies?
+  efficacyStudiesLink: string; // How many evidence/efficacy studies?
   efficacyImpact: number; //What is the highest efficacy impact factor?
   review: string;
   email: string; // User's email

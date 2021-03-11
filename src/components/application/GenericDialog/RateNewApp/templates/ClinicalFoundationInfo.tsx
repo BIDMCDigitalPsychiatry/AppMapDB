@@ -25,18 +25,20 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
               <OutlinedDiv label='Supporting Studies'>
                 {[
                   { id: 'feasibilityStudies', label: 'How many feasibility/usability studies?' },
+                  { id: 'feasibilityStudiesLink', label: '', width: 500 },
                   {
                     id: 'feasibilityImpact',
                     label: 'What is the highest feasibility impact factor?',
                     tooltip: `What is the impact factor of the journal in which the feasibility study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
                   },
                   { id: 'efficacyStudies', label: 'How many evidence/efficacy studies?' },
+                  { id: 'efficacyStudiesLink', label: '', width: 500 },
                   {
                     id: 'efficacyImpact',
                     label: 'What is the highest efficacy impact factor?',
                     tooltip: `What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
                   }
-                ].map(({ label, id, tooltip }) => (
+                ].map(({ label, id, width = 94, tooltip }) => (
                   <Grid key={id} container alignItems='center' justify='space-between' spacing={2}>
                     <Grid item>
                       <Typography>{label}</Typography>
@@ -50,7 +52,7 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
                             </LightTooltip>
                           </Grid>
                         )}
-                        <Grid item style={{ width: 94 }}>
+                        <Grid item style={{ width }}>
                           {injectField(id)}
                         </Grid>
                       </Grid>

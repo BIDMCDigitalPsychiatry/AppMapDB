@@ -20,6 +20,7 @@ import ApplicationInfo from './templates/ApplicationInfo';
 import AndroidStore from '../../DialogField/AndroidStore';
 import AppleStore from '../../DialogField/AppleStore';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
+import TextLink from '../../DialogField/TextLink';
 import YesNoGroup from '../../DialogField/YesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
 import ClinicalFoundationInfo from './templates/ClinicalFoundationInfo';
@@ -183,6 +184,13 @@ const steps = (type = undefined) => [
         initialValue: 0
       },
       {
+        id: 'feasibilityStudiesLink',
+        label: 'Please enter the link of the supporting study',
+        Field: TextLink,
+        fullWidth: true,
+        hidden: values => (values?.applications?.feasibilityStudies !== undefined && parseInt(values?.applications?.feasibilityStudies) > 0 ? false : true)
+      },
+      {
         id: 'feasibilityImpact',
         label: null,
         Field: WholeNumberUpDown,
@@ -203,6 +211,13 @@ const steps = (type = undefined) => [
         max: 999,
         required: true,
         initialValue: 0
+      },
+      {
+        id: 'efficacyStudiesLink',
+        label: 'Please enter the link of the supporting study',
+        Field: TextLink,
+        fullWidth: true,
+        hidden: values => (values?.applications?.efficacyStudies !== undefined && parseInt(values?.applications?.efficacyStudies) > 0 ? false : true)
       },
       {
         id: 'efficacyImpact',
