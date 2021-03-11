@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Divider, Grid } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FilterContentLeftDrawer from '../application/GenericContent/Filter/FilterContentLeftDrawer';
-import { useTableFilterValues } from '../application/GenericTable/store';
 import { useFilterCount } from './useFilterCount';
 import StyledBadge from './StyledBadge';
+import FilterButtons from '../application/GenericContent/FilterButtons';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,15 +24,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const steps = [{ label: 'Pre-Survey' }, { label: 'Lessons' }, { label: 'Post-Survey' }, { label: 'Resources' }];
-
 export default function LeftDrawerContent({ table = 'Applications' }) {
   const classes = useStyles();
 
-  const [, setValues] = useTableFilterValues(table);
   const filterCount = useFilterCount(table);
-
-  const handleReset = React.useCallback(() => setValues({}), [setValues]);
 
   return (
     <>
@@ -53,10 +47,11 @@ export default function LeftDrawerContent({ table = 'Applications' }) {
         <Divider />
       </Box>
       <FilterContentLeftDrawer />
-      <Box textAlign='center' mb={2}>
-        <Button variant='outlined' onClick={handleReset} className={classes.button}>
-          Reset All Filters
-        </Button>
+      <Box ml={1} mr={1} mb={1}>
+        <Divider />
+      </Box>
+      <Box m={1}>
+        <FilterButtons />
       </Box>
     </>
   );

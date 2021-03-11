@@ -292,6 +292,10 @@ const DialogButton = React.forwardRef(function DialogButton(
             <Button fullWidth={true} variant={variant} color={color as any} {...shared}>
               {children}
             </Button>
+          ) : variant === 'smallOutlined' ? (
+            <Button size='small' variant='outlined' style={{ width: 96 }} {...shared}>
+              {children}
+            </Button>
           ) : variant === 'standard' ? (
             <Button color={color as any} {...shared}>
               {children}

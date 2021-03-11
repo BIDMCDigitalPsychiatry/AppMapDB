@@ -68,8 +68,9 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
   );
 
   const items = Object.keys(filters)
-    .filter(k => k !== 'Platforms')
+    .filter(k => k !== 'Platforms' && k !== 'SavedFilter')
     .map(k => ({ key: k, label: filters[k].name, value: filters[k] }));
+  
 
   const handleDelete = React.useCallback(
     (key, value) => event => {
@@ -123,26 +124,30 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
         <Grid container justify='space-between' alignItems='center'>
           <Grid item xs>
             <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
-              {items.map((item, i) => {
+              {items.map((item, i) => {                
                 const category = categories[item.key];
                 if (item.value.length > 0) {
                   showClear = true;
                 }
-                return item.value.map((label, i2) => (
-                  <Grid item>
-                    <Chip
-                      key={`${label}-${i}-${i2}`}
-                      style={{ background: category?.color, color: 'white', marginRight: 8 }}
-                      variant='outlined'
-                      size='small'
-                      label={label}
-                      onDelete={handleDelete(item.key, label)}
-                      classes={{
-                        deleteIcon: classes.deleteIcon
-                      }}
-                    />
-                  </Grid>
-                ));
+                return !Array.isArray(item?.value) ? (
+                  <></>
+                ) : (
+                  item.value.map((label, i2) => (
+                    <Grid item>
+                      <Chip
+                        key={`${label}-${i}-${i2}`}
+                        style={{ background: category?.color, color: 'white', marginRight: 8 }}
+                        variant='outlined'
+                        size='small'
+                        label={label}
+                        onDelete={handleDelete(item.key, label)}
+                        classes={{
+                          deleteIcon: classes.deleteIcon
+                        }}
+                      />
+                    </Grid>
+                  ))
+                );
               })}
               {showClear && (
                 <Grid item>
