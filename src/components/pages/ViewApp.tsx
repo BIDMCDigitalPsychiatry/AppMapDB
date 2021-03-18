@@ -180,7 +180,7 @@ export default function ViewApp() {
                     <Grid container spacing={1}>
                       <Grid item>
                         <Typography color='textSecondary' variant='caption'>
-                          Last App Rating:
+                          Last Rating:
                         </Typography>
                       </Grid>
                       <Grid item>

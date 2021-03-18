@@ -268,14 +268,15 @@ export function getDayTimeFromTimestamp(timestamp: number) {
   var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
   d.setUTCMilliseconds(timestamp); //utc time
   var day = dayAbbrOfWeek(d.getDay());
-  var year = d.getDate() + nth(d.getDate());
+  var dayNumber = d.getDate() + nth(d.getDate());
+  var year = d.getFullYear();
   var h = d.getHours();
   var m = addZero(d.getMinutes());
   var isPM = h > 12 ? true : false;
   h = isPM ? h - 12 : h === 0 ? 12 : h; //If PM, subtract 12.  If we are 0 or midnight, then set to 12, otherwise use the normal hour index
   var month = monthAbbrOfYear(d.getMonth());
-
-  return `${day} ${month} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
+  
+  return `${day} ${month} ${dayNumber} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
 
 export function isDev() {

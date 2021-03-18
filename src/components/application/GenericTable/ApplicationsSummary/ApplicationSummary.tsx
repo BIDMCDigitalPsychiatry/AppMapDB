@@ -87,7 +87,7 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
               </Grid>
               <Grid item xs={12}>
                 <Typography noWrap color='textSecondary' variant='caption'>
-                  Last App Rating: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                  Last Rating: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
                 </Typography>
               </Grid>
             </Grid>
