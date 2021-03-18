@@ -18,7 +18,8 @@ import Application, {
   EngagementQuestions,
   Conditions,
   DeveloperTypes,
-  DeveloperTypeQuestions
+  DeveloperTypeQuestions,
+  withReplacement
 } from '../../../../database/models/Application';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
@@ -39,7 +40,8 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export const name = 'Applications';
-const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
+
+const center = text => <div style={{ textAlign: 'center' }}>{withReplacement(text)}</div>;
 
 export const CenterRadio = ({ checked = false }) => {
   const Icon = checked ? Icons.RadioButtonChecked : Icons.RadioButtonUnchecked;

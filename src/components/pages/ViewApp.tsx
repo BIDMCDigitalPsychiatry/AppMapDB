@@ -5,7 +5,7 @@ import DialogButton, { EditDialogButton } from '../application/GenericDialog/Dia
 import { useRouteState } from '../layout/store';
 import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
 import { useHandleChangeRoute } from '../layout/hooks';
-import { getDayTimeFromTimestamp, publicUrl } from '../../helpers';
+import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
 import { AppState } from '../../store';
@@ -16,6 +16,7 @@ import ImageCarousel from '../general/ImageCarousel';
 import { useAppHistoryData } from '../application/GenericTable/ApplicationHistory/selectors';
 import { Pagination } from '@material-ui/lab';
 import ViewAppRating from './ViewAppRating';
+import ArrowButtonCaption from '../general/ArrowButtonCaption';
 
 const imageHeight = 144;
 
@@ -54,7 +55,9 @@ export default function ViewApp() {
     androidStore,
     costs = [],
     updated,
-    created
+    created,
+    feasibilityStudiesLink = undefined,
+    efficacyStudiesLink = undefined
   } = state;
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
   const name = getAppName(state);
@@ -81,6 +84,8 @@ export default function ViewApp() {
   );
 
   const rating = history[page - 1];
+
+  const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
@@ -199,11 +204,21 @@ export default function ViewApp() {
                       </Grid>
                       <Grid item>
                         <Typography className={classes.primaryLightText} variant='caption'>
-                          {clinicalFoundations.includes('Supporting Studies') ? 'Yes' : 'No'}
+                          {hasSupportingStudies ? 'Yes' : 'No'}
                         </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
+                  {hasSupportingStudies && !isEmpty(feasibilityStudiesLink) && (
+                    <Grid item>
+                      <ArrowButtonCaption label='See Feasability Studies' link={feasibilityStudiesLink} />
+                    </Grid>
+                  )}
+                  {hasSupportingStudies && !isEmpty(efficacyStudiesLink) && (
+                    <Grid item>
+                      <ArrowButtonCaption label='See Efficacy Studies' link={efficacyStudiesLink} />
+                    </Grid>
+                  )}
                 </Grid>
               </Grid>
             </Grid>

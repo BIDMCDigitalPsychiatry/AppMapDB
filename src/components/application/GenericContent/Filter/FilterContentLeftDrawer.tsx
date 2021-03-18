@@ -10,7 +10,8 @@ import {
   Functionalities,
   DeveloperTypes,
   Engagements,
-  Uses
+  Uses,
+  withReplacement
 } from '../../../../database/models/Application';
 import { Grid } from '@material-ui/core';
 import { InjectField } from '../../GenericDialog/Fields';
@@ -79,7 +80,7 @@ export default function FilterContentLeftDrawer({ id = title, ...other }) {
       {
         id: 'Features',
         Field: MultiSelectCheckExpandable,
-        items: Features.map(label => ({ value: label, label }))
+        items: Features.map(label => ({ value: label, label: withReplacement(label) }))
       },
       {
         id: 'Functionalities',

@@ -398,6 +398,11 @@ export const FeatureQuestions = [
   }
 ];
 
+// Requests were made to change certain hard coded values.  This handles this display logic
+export const withReplacement = text => {
+  return text === 'Bbot Interaction' ? 'Chatbot Interaction' : text;
+};
+
 export const FeatureImages = [
   { value: 'Track Mood', label: 'Mood Tracking', image: moodtracking },
   { value: 'Journaling', label: 'Journaling', image: journaling },
@@ -408,7 +413,18 @@ export const FeatureImages = [
 
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);
 
-export type Condition = 'Mood Disorders' | 'Stress & Anxiety' | 'Sleep' | 'Phobias' | 'OCD' | 'Schizophrenia' | 'Eating Disorders' | 'Personality Disorders' | 'Self-Harm' | 'PTSD' | 'Substance Use';
+export type Condition =
+  | 'Mood Disorders'
+  | 'Stress & Anxiety'
+  | 'Sleep'
+  | 'Phobias'
+  | 'OCD'
+  | 'Schizophrenia'
+  | 'Eating Disorders'
+  | 'Personality Disorders'
+  | 'Self-Harm'
+  | 'PTSD'
+  | 'Substance Use';
 export const Conditions: Condition[] = [
   'Mood Disorders',
   'Stress & Anxiety',

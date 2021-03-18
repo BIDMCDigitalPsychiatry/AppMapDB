@@ -4,6 +4,7 @@ import { evalFunc, isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { categoryArray } from '../../../../constants';
 import LightTooltip from '../../../general/LightTooltip/LightTooltip';
+import { withReplacement } from '../../../../database/models/Application';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +48,7 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
   return (
     <>
       {filtered.map((row: any, i) => {
-        const values = evalFunc(row.valueItems, other);        
+        const values = evalFunc(row.valueItems, other);
         return (
           <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
             <Grid item style={{ width: 172 }}>
@@ -75,7 +76,7 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
                       style={{ background: row.color, color: 'white', marginRight: 8 }}
                       variant='outlined'
                       size='small'
-                      label={label}
+                      label={withReplacement(label)}
                     />
                   </LightTooltip>
                 )

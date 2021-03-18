@@ -4,7 +4,7 @@ import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
-import { Platforms } from '../../database/models/Application';
+import { Platforms, withReplacement } from '../../database/models/Application';
 import { useTableFilterValues, useTableValues } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
@@ -70,7 +70,6 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
   const items = Object.keys(filters)
     .filter(k => k !== 'Platforms' && k !== 'SavedFilter')
     .map(k => ({ key: k, label: filters[k].name, value: filters[k] }));
-  
 
   const handleDelete = React.useCallback(
     (key, value) => event => {
@@ -124,7 +123,7 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
         <Grid container justify='space-between' alignItems='center'>
           <Grid item xs>
             <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
-              {items.map((item, i) => {                
+              {items.map((item, i) => {
                 const category = categories[item.key];
                 if (item.value.length > 0) {
                   showClear = true;
@@ -139,7 +138,7 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
                         style={{ background: category?.color, color: 'white', marginRight: 8 }}
                         variant='outlined'
                         size='small'
-                        label={label}
+                        label={withReplacement(label)}
                         onDelete={handleDelete(item.key, label)}
                         classes={{
                           deleteIcon: classes.deleteIcon
