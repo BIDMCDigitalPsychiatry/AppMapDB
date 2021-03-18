@@ -389,7 +389,7 @@ export const FeatureQuestions = [
     label: 'Does app have physical health exercises?',
     tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT exercise tracking.'
   },
-  { value: 'Bbot Interaction', label: 'Does app have chat interaction?', tooltip: 'An example would be interaction with a virtual character.' },
+  { value: 'Bbot Interaction', label: 'Does app have chatbot interaction?', tooltip: 'An example would be interaction with a virtual character.' },
   {
     value: 'Bio Feedback with Sense Data',
     label: 'Does app have bio feedback with sense data?',
