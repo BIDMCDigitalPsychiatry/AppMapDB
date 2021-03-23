@@ -75,7 +75,7 @@ const PaperWithHeight = ({ maxHeight = undefined, index, date, title, subTitle, 
             </Grid>
             <Grid item xs>
               <Typography variant='caption'>
-                {subTitle} {subTitle} {subTitle}
+                {subTitle}
               </Typography>
             </Grid>
           </Grid>
