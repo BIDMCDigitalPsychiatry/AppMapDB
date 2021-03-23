@@ -136,7 +136,7 @@ export const PrivacyQuestions = [
   {
     value: 'Can Opt Out of Data Collection',
     short: 'Data Collection Opt Out',
-    label: 'Can you opt out of data colleciton?',
+    label: 'Can you opt out of data collection?',
     tooltip: 'Is there a way for a user to indicate that they don’t want to app to collect or share their data?',
     hidden: hasPrivacyPolicy
   },
