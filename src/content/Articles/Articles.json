@@ -1,12 +1,13 @@
 {
   "articles": [
+    { "file": "Article9.md", "title": "Mental Health Commission of Canada Conference", "subTitle": "MIND shared to participants at the National Forum on the Standardization of Mental Health Apps", "date": "3/24/2021" },
     { "file": "Article1.md", "title": "MIND News", "subTitle": "About the MIND Database", "date": "1/20/2021" },
-    { "file": "Article2.md", "title": "Partnership with BridgingApps", "subTitle": "MIND has partnered with BridgingApps", "date": "10/05/2020" },
-    { "file": "Article3.md", "title": "FTC Presentation", "subTitle": "Federal Trade Commission Presentation", "date": "7/21/2020" },
-    { "file": "Article4.md", "title": "NAMI Webinar", "subTitle": "Webinar with NAMI", "date": "5/14/2020" },
-    { "file": "Article5.md", "title": "STAT News Feature", "subTitle": "A new tool aims to help patients sort through 200 mental health apps — and counting", "date": "7/10/2020" },
-    { "file": "Article6.md", "title": "Psychology Today Features", "subTitle": "MIND featured on Psychology Today Blogs", "date": "9/29/2020" },
     { "file": "Article7.md", "title": "Papers and More", "subTitle": "Learn about academic studies with MIND.", "date": "1/26/2021" },
     { "file": "Article8.md", "title": "Washington Post Feature", "subTitle": "How to navigate the ‘chaotic’ world of mental health apps.", "date": "12/29/2020" }
+    { "file": "Article2.md", "title": "Partnership with BridgingApps", "subTitle": "MIND has partnered with BridgingApps", "date": "10/05/2020" },
+    { "file": "Article6.md", "title": "Psychology Today Features", "subTitle": "MIND featured on Psychology Today Blogs", "date": "9/29/2020" }
+    { "file": "Article3.md", "title": "FTC Presentation", "subTitle": "Federal Trade Commission Presentation", "date": "7/21/2020" },
+    { "file": "Article5.md", "title": "STAT News Feature", "subTitle": "A new tool aims to help patients sort through 200 mental health apps — and counting", "date": "7/10/2020" },
+    { "file": "Article4.md", "title": "NAMI Webinar", "subTitle": "Webinar with NAMI", "date": "5/14/2020" },
   ]
 }
