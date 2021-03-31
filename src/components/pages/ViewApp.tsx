@@ -5,7 +5,7 @@ import DialogButton, { EditDialogButton } from '../application/GenericDialog/Dia
 import { useRouteState } from '../layout/store';
 import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
 import { useHandleChangeRoute } from '../layout/hooks';
-import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../helpers';
+import { getDayTimeFromTimestamp, isEmpty, publicUrl, uuid } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
 import { AppState } from '../../store';
@@ -159,7 +159,16 @@ export default function ViewApp() {
                     size='large'
                     id='Rate an App V2'
                     onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
-                    initialValues={{ [tables.applications]: initialValues }}
+                    initialValues={{
+                      [tables.applications]: {
+                        ...initialValues,
+                        _id: uuid(),
+                        parent: initialValues._id,
+                        approved: false,
+                        approverEmail: undefined,
+                        created: new Date().getTime()
+                      }
+                    }}
                     tooltip='Rate App'
                     placement='bottom'
                   >
