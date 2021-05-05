@@ -1,4 +1,4 @@
-﻿import { AppState } from '../../../../store';
+import { AppState } from '../../../../store';
 import Application from '../../../../database/models/Application';
 import { isEmpty, getDayTimeFromTimestamp, onlyUnique } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
@@ -157,7 +157,7 @@ export const usePendingAppData = (table, showDeleted = false, email = undefined,
             (includeDrafts ? true : apps[k].draft !== true) &&
             (email !== undefined ? (apps[k]?.email ?? '').toLowerCase() === email.toLowerCase() : true) &&
             (showDeleted ? apps[k].delete === true : apps[k].delete !== true) &&
-            (includeApproved ? true : apps[k].approved !== true)
+            (showDeleted || (includeApproved ? true : apps[k].approved !== true)) // show archived items regardles of approved status
         )
         .map(k => {
           const app: Application = apps[k];
