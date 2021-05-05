@@ -1,9 +1,9 @@
 {
   "name": "app-map-db",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "private": true,
   "homepage": "https://apps.digitalpsych.org",
-  "adminUsers": "team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com",
+  "adminUsers": "team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu",
   "emailUser": "slagan@bidmc.harvard.edu",
   "contactEmail": "team@digitalpsych.org",
   "identityPoolId": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
