@@ -2,14 +2,16 @@
 import { GenericTableContainerProps } from './GenericTableContainer';
 import * as TableStore from './store';
 import { spread } from '../../../helpers';
+import Decimal from 'decimal.js-light';
 
 ///////////////////////////////////////////
 /////////////// Table Sorters  ////////////
 //////////////////////////////////////////
 
-export type SortComparator = 'text';
+export type SortComparator = 'text' | 'decimal';
 const sortComparators = {
-  text: desc
+  text: desc,
+  decimal: descDecimal
 };
 
 ///////////////////////////////////////////
@@ -105,6 +107,21 @@ function desc(a, b, orderBy) {
     return -1;
   }
   if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function descDecimal(a, b, orderBy) {
+  const A = a?.getValues();
+  const B = b?.getValues();
+  var dA = new Decimal(A[orderBy] ?? 0);
+  var dB = new Decimal(B[orderBy] ?? 0);
+  console.log({ orderBy, a, b, A, B, dA, dB });
+  if (dB.lessThan(dA)) {
+    return -1;
+  }
+  if (dB.greaterThan(dA)) {
     return 1;
   }
   return 0;

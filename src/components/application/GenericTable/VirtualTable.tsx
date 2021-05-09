@@ -176,7 +176,7 @@ export default function VirtualTable(props: VirtualTableProps) {
     onHeaderClick: c.sort
       ? (event, props) => {
           handleSort(c.name, c.sort);
-          onHeaderClick(event, props);
+          onHeaderClick && onHeaderClick(event, props);
         }
       : onHeaderClick
   })); //;== true && handleSort() }));

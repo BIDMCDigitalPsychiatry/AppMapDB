@@ -1,6 +1,6 @@
 {
   "name": "app-map-db",
-  "version": "1.1.20",
+  "version": "1.1.21",
   "private": true,
   "homepage": "https://apps.digitalpsych.org",
   "adminUsers": "team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu",
@@ -52,7 +52,8 @@
     "password-validator": "5.0.3",
     "clsx": "1.1.1",
     "react-elastic-carousel": "0.11.0",
-    "styled-components": "5.2.1"
+    "styled-components": "5.2.1",
+    "decimal.js-light": "2.5.1"
   },
   "devDependencies": {
     "fs-extra": "9.0.0"

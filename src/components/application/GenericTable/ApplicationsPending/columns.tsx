@@ -29,9 +29,16 @@ export const useColumns = ({ email }) => {
   const columns = [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false },
     { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false },
-    { name: 'updated', header: 'Last Updated', width: 165, Cell: LastUpdated, hoverable: false },
+    {
+      name: 'updated',
+      header: 'Last Updated',
+      width: 165,
+      Cell: LastUpdated,
+      hoverable: false,
+      sort: 'decimal'
+    },
     { name: 'rating', header: 'Rating', width: 180, Cell: RatingsColumnPending, hoverable: false }
   ];
 
-  return columns
+  return columns;
 };
