@@ -40,9 +40,9 @@ External image
 
 ---
 
-Image from this projects /public directory.  If you add an image to the /public directory, it will be available via the apps.digitalpsych.org domain
+Image from this projects /public directory.  If you add an image to the /public directory, it will be available via the mindapps.org domain
 
-<img src= "https://apps.digitalpsych.org/apple_test.png" />
+<img src= "https://mindapps.org/apple_test.png" />
 
 ---
 
