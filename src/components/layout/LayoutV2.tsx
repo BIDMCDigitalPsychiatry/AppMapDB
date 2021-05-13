@@ -6,6 +6,7 @@ import ApplicationBarV2 from './ApplicationBarV2';
 import FooterV2 from './FooterV2';
 import { useLocation } from 'react-router';
 import LeftDrawer from './LeftDrawer';
+import KeyWords from './KeyWords';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -75,6 +76,7 @@ export default function LayoutV2({ children }) {
         <div className={classes.innerContent}>{children}</div>
         {!noFooterPaths.find(p => p === pathname) && <FooterV2 variant={variant} />}
         <SnackBar />
+        <KeyWords />
       </main>
     </div>
   );
