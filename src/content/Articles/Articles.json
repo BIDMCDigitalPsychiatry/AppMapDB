@@ -1,5 +1,6 @@
 {
   "articles": [
+    { "file": "Article13.md", "title": "App eval reaches 300 apps rated", "subTitle": "New Milestone", "date": "5/14/2021" },
     { "file": "Article11.md", "title": "Press Coverage", "subTitle": "MIND featured in popular press articles", "date": "5/01/2021" },
     { "file": "Article12.md", "title": "Honoring App Raters", "subTitle": "Acknowledging the app raters who are integral to MIND", "date": "4/21/2021" },
     { "file": "Article10.md", "title": "Recent Research With MIND", "subTitle": "Published research using MIND", "date": "4/01/2021" },
