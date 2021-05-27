@@ -246,6 +246,7 @@ export default function RegisterDialog({ id = title }) {
         {
           id: 'email',
           label: 'Email',
+          autoFocus: true,
           required: true,
           email: true,
           Field: TextLabel,

@@ -90,58 +90,59 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   const setUser = useSetUser();
 
   const handleLogin = React.useCallback(
-    ({ forgotPassword, confirmationCode, newPassword, email, password } = {}) => () => {
-      if (forgotPassword) {
-        if (enterNewPassword) {
-          Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
-            .then(data => {
-              alert('Successfully updated password.');
-              Auth.signIn(email, newPassword)
-                .then(user => {
-                  console.log('Login success!');
-                  setUser(user);
-                  setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
-                })
-                .catch(err => {
-                  console.error('Error with Login');
-                  console.error(err);
-                  const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
-                  setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
-                });
+    ({ forgotPassword, confirmationCode, newPassword, email, password } = {}) =>
+      () => {
+        if (forgotPassword) {
+          if (enterNewPassword) {
+            Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
+              .then(data => {
+                alert('Successfully updated password.');
+                Auth.signIn(email, newPassword)
+                  .then(user => {
+                    console.log('Login success!');
+                    setUser(user);
+                    setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
+                  })
+                  .catch(err => {
+                    console.error('Error with Login');
+                    console.error(err);
+                    const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
+                    setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+                  });
+              })
+              .catch(err => {
+                console.error('Error resetting password');
+                console.error(err);
+                const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
+                setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+              });
+          } else {
+            Auth.forgotPassword(email)
+              .then(data => {
+                alert('An email has been sent with instructions for resetting your password.');
+                setState(prev => ({ ...prev, loading: false, enterNewPassword: true }));
+              })
+              .catch(err => {
+                console.error('Error requesting reset');
+                const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
+                setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
+              });
+          }
+        } else {
+          Auth.signIn(email, password)
+            .then(user => {
+              console.log('Login success!');
+              setUser(user);
+              setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
             })
             .catch(err => {
-              console.error('Error resetting password');
+              console.error('Error with Login');
               console.error(err);
               const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
               setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
             });
-        } else {
-          Auth.forgotPassword(email)
-            .then(data => {
-              alert('An email has been sent with instructions for resetting your password.');
-              setState(prev => ({ ...prev, loading: false, enterNewPassword: true }));
-            })
-            .catch(err => {
-              console.error('Error requesting reset');
-              const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
-              setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
-            });
         }
-      } else {
-        Auth.signIn(email, password)
-          .then(user => {
-            console.log('Login success!');
-            setUser(user);
-            setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
-          })
-          .catch(err => {
-            console.error('Error with Login');
-            console.error(err);
-            const newErrors = handleValidation({ ...errors, message: err.message }, JSON.parse(dialogStateStr));
-            setState(prev => ({ ...prev, loading: false, showErrors: true, errors: newErrors }));
-          });
-      }
-    },
+      },
     [enterNewPassword, setUser, dialogStateStr, setState, errors]
   );
 
@@ -222,6 +223,7 @@ export default function LoginDialog({ id = title }) {
           placeholder: 'Email Address',
           label: 'Email address',
           Field: TextLabel,
+          autoFocus: true,
           required: true,
           email: true,
           hidden: enterNewPassword,

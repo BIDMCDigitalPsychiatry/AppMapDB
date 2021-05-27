@@ -7,7 +7,7 @@ import { useAppBarHeightRef, useChangeRoute } from './hooks';
 import { publicUrl, useHandleToggleLayout } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
-import DialogButton from '../application/GenericDialog/DialogButton';
+import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
@@ -115,75 +115,80 @@ export default function ApplicationBarV2({ trigger }) {
   const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
 
   return (
-    <Slide appear={false} direction='down' in={!trigger}>
-      <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
-        <Toolbar className={classes.toolbar} disableGutters={true}>
-          {leftDrawerEnabled && (
-            <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton}>
-              <Icons.Menu />
-            </IconButton>
-          )}
-          <Grid container alignItems='center' spacing={0}>
-            <Grid item>
-              <Logo />
-            </Grid>
-            <Grid item xs style={{ minWidth: 0 }}>
-              <AppBarTabSelector onChange={handleTabChange} />
-            </Grid>
-            <Grid item>
-              <Grid container justify='flex-end' alignItems='center'>
-                <Grid item>
-                  <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu}>
-                    {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
-                  </IconButton>
-                  <Menu
-                    id='menu-appbar'
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right'
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right'
-                    }}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
-                  >
-                    {signedIn
-                      ? [
-                          <MenuItem key='email' className={classes.accountMenuItem}>
-                            {email}
-                          </MenuItem>,
-                          <Divider key='divider' />,
-                          <MenuItem key='logout' onClick={handleLogout}>
-                            Logout
-                          </MenuItem>,
-                          isAdmin ? (
-                            <DialogButton key='Toggle Layout' onClick={handleToggleLayout} variant='menuitem' tooltip=''>
-                              Toggle Layout
+    <>
+      {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
+      {renderDialogModule(LoginDialog)}
+      {renderDialogModule(RegisterDialog)}
+      <Slide appear={false} direction='down' in={!trigger}>
+        <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
+          <Toolbar className={classes.toolbar} disableGutters={true}>
+            {leftDrawerEnabled && (
+              <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton}>
+                <Icons.Menu />
+              </IconButton>
+            )}
+            <Grid container alignItems='center' spacing={0}>
+              <Grid item>
+                <Logo />
+              </Grid>
+              <Grid item xs style={{ minWidth: 0 }}>
+                <AppBarTabSelector onChange={handleTabChange} />
+              </Grid>
+              <Grid item>
+                <Grid container justify='flex-end' alignItems='center'>
+                  <Grid item>
+                    <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu}>
+                      {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
+                    </IconButton>
+                    <Menu
+                      id='menu-appbar'
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                      }}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
+                    >
+                      {signedIn
+                        ? [
+                            <MenuItem key='email' className={classes.accountMenuItem}>
+                              {email}
+                            </MenuItem>,
+                            <Divider key='divider' />,
+                            <MenuItem key='logout' onClick={handleLogout}>
+                              Logout
+                            </MenuItem>,
+                            isAdmin ? (
+                              <DialogButton key='Toggle Layout' onClick={handleToggleLayout} variant='menuitem' tooltip=''>
+                                Toggle Layout
+                              </DialogButton>
+                            ) : (
+                              <></>
+                            )
+                          ]
+                        : [
+                            { label: 'Login', Module: LoginDialog, onClick: handleClose },
+                            { label: 'Signup', Module: RegisterDialog, onClick: handleClose }
+                          ].map(({ label, Module, onClick }) => (
+                            <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
+                              {label}
                             </DialogButton>
-                          ) : (
-                            <></>
-                          )
-                        ]
-                      : [
-                          { label: 'Login', Module: LoginDialog, onClick: handleClose },
-                          { label: 'Signup', Module: RegisterDialog, onClick: handleClose }
-                        ].map(({ label, Module, onClick }) => (
-                          <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip=''>
-                            {label}
-                          </DialogButton>
-                        ))}
-                  </Menu>
+                          ))}
+                    </Menu>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-    </Slide>
+          </Toolbar>
+        </AppBar>
+      </Slide>
+    </>
   );
 }
