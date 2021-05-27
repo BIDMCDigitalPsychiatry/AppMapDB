@@ -4,7 +4,7 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useAppBarHeightRef, useChangeRoute } from './hooks';
-import { publicUrl, useHandleToggleLayout } from '../../helpers';
+import { isDev, publicUrl, useHandleToggleLayout } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
@@ -53,8 +53,9 @@ const tabs = [
   { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
   { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
   { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
-  { id: 'News', icon: Icons.Announcement, route: '/News' }
-];
+  { id: 'News', icon: Icons.Announcement, route: '/News' },
+  isDev() && { id: 'Community', icon: Icons.Forum, route: '/Community' }
+].filter(t => t);
 
 const AppBarTabSelector = props => {
   const isAdmin = useIsAdmin();
