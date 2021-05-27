@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';

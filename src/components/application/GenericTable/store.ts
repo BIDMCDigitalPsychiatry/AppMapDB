@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Reducer } from 'redux';
 import { evalFunc } from '../../../helpers';
 import { AppState } from '../../../store';

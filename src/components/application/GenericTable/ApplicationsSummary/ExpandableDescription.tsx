@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Typography } from '@material-ui/core';
 import { isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';

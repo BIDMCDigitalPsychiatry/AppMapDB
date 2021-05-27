@@ -105,7 +105,7 @@ export default function GenericPopover({
   children,
   ...other
 }: ComponentProps) {
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { open, type, loading, submitting } = state;
   const title = state.title ? state.title : Title;

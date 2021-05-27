@@ -1,4 +1,4 @@
-﻿import { updateState } from '../../../helpers';
+import { updateState } from '../../../helpers';
 
 export const defaultState = {};
 

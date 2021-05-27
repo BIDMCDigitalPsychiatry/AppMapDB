@@ -1,4 +1,4 @@
-﻿export * from './Applications/table';
+export * from './Applications/table';
 export * from './ApplicationsList/table';
 export * from './ApplicationsSummary/table';
 export * from './ApplicationListHistory/table';

@@ -85,7 +85,7 @@ export default function Home() {
 
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
 
   var contentHeight =
     height -

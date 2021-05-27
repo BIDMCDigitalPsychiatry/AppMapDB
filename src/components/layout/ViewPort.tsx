@@ -41,7 +41,7 @@ const ViewPort = ({ children }) => {
   const classes = useStyles({});
   const [height, width] = LayoutStore.useDimensions();
   const resizeViewPort = LayoutStore.useResizeViewPort();
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   return (
     <>
       <div className={classes.dimensions}>

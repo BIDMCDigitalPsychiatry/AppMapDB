@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import * as Icons from '@material-ui/icons';
 import { useViewMode } from '../../../layout/store';
 import { makeStyles, createStyles, Fab, Tooltip } from '@material-ui/core';

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import * as Icons from '@material-ui/icons';
 import { useViewMode } from '../../../layout/store';
 import { makeStyles, createStyles, Grid, Button } from '@material-ui/core';

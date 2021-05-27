@@ -1,4 +1,4 @@
-﻿import { AppState } from '../../../../store';
+import { AppState } from '../../../../store';
 import Application from '../../../../database/models/Application';
 import { isEmpty, getDayTimeFromTimestamp } from '../../../../helpers';
 import { useTableFilter } from '../helpers';

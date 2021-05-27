@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
 import { getAppName, getAppCompany, getAppIcon } from './selectors';
 import Application from '../../../../database/models/Application';

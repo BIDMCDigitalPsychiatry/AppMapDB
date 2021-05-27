@@ -144,7 +144,7 @@ const GenericDialogContent = ({
   children,
   ...other
 }: ComponentProps & any) => {
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { type, open, loading, submitting } = state;
 

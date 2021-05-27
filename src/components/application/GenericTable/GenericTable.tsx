@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store';
 import TablePlaceHolder from './TablePlaceHolder';
@@ -38,7 +38,7 @@ const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
 export default function GenericTable(props: GenericTableProps) {
   const { elevation = 4, placeholder, footer, name, selector, data: Data = [], height: Height, isList, ...other } = props;
   const classes = useStyles(props);
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const data = useSelector((state: AppState) => (selector ? selector(state, props) : Data));
   const length = data && data.length ? data.length : 0;
   const height = footer ? Height - layout.tablefooterheight : Height;

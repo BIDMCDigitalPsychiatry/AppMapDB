@@ -60,7 +60,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     ...tableProps
   } = props;
 
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const layoutHeight = useHeight();
   const height = Height ? Height : layoutHeight;
   const columns = evalFunc(Columns, props);

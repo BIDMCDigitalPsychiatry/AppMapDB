@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';

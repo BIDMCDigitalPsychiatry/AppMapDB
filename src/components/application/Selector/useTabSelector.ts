@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../store';
 import { defaultState, updateSelector } from './store';

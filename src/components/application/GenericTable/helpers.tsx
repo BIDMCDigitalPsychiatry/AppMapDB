@@ -1,4 +1,4 @@
-﻿import { AppState } from '../../../store';
+import { AppState } from '../../../store';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import * as TableStore from './store';
 import { spread } from '../../../helpers';

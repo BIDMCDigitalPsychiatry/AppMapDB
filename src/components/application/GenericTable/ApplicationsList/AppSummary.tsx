@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Grid, Box, Typography, Link, makeStyles, Theme, createStyles } from '@material-ui/core';
 import Application, { DeveloperTypeQuestions } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';

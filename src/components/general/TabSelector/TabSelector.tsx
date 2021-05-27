@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Paper, Typography, createStyles, makeStyles } from '@material-ui/core';
 import useTabSelector from '../../application/Selector/useTabSelector';

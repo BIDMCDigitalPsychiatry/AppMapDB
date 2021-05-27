@@ -72,7 +72,7 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
 function TableToolbar(props: TableToolbarProps) {
   const classes = useStyles({});
   const [searchOpen, setSearchOpen] = React.useState(false);
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const { name, buttons = [], square, title, inputplaceholder, Icon, search, showicon = true, buttonPosition = 'top' } = props;
 
   const { searchtext = '' } = useTable(name);

@@ -36,7 +36,7 @@ export const ContentBox = ({ p = 2, children }) => {
 };
 
 const ArticleContent = ({ file, title, subTitle, date }) => {
-  const contentPath = require(`../../../content/Articles/${file}`);
+  const contentPath = require(`../../../content/Articles/${file}`).default;
   const [state, setState] = React.useState({ markdown: '' });
   React.useEffect(() => {
     fetch(contentPath)

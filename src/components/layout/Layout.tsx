@@ -38,7 +38,7 @@ export default function Layout({ children }) {
   const height = useHeight();
   const appBarHeight = useAppBarHeight();
 
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const componentsOnPage = [appBarHeight, layout.footerheight];
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 

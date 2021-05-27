@@ -74,8 +74,8 @@ export default function MuliSelectCheckExpandable({
       <Box ml={1} mr={1}>
         <Grid container>
           <Collapse in={expand}>
-            {items.map(i => (
-              <Grid item>
+            {items.map((i, index) => (
+              <Grid key={index} item>
                 <Check
                   label={(<Typography variant='body2'>{i.label}</Typography>) as any}
                   style={{ color }}

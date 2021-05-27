@@ -74,9 +74,7 @@ const PaperWithHeight = ({ maxHeight = undefined, index, date, title, subTitle, 
               </Typography>
             </Grid>
             <Grid item xs>
-              <Typography variant='caption'>
-                {subTitle}
-              </Typography>
+              <Typography variant='caption'>{subTitle}</Typography>
             </Grid>
           </Grid>
         </CardContent>
@@ -107,14 +105,14 @@ export default function NewsV2() {
 
   return (
     <section>
-      <Container maxWidth='xl' style={{ padding: 24}}>
+      <Container maxWidth='xl' style={{ padding: 24 }}>
         <Typography variant='h5' className={classes.primaryHeaderText}>
           News
         </Typography>
         <Typography variant='body2'>Learn more about how our database is being used around the world.</Typography>
         <Grid container justify='center' style={{ marginTop: 24 }} spacing={3}>
           {articles.map((props, index) => (
-            <Grid item>
+            <Grid key={index} item>
               <PaperWithHeight {...props} index={index} handleChangeRoute={handleChangeRoute} handleSize={handleSize} maxHeight={maxHeight} />
             </Grid>
           ))}

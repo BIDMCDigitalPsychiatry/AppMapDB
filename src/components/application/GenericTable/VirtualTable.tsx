@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import * as Icons from '@material-ui/icons';
 import { makeStyles, useTheme, Typography, Collapse, Checkbox, Grid, createStyles } from '@material-ui/core';
 import MuiTable from 'mui-virtualized-table';
@@ -136,7 +136,7 @@ export function getRowData(selectedRowIds, data) {
 
 export default function VirtualTable(props: VirtualTableProps) {
   const classes = useStyles(props);
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const {
     name,
     includeHeaders = true,

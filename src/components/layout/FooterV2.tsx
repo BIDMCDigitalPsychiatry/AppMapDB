@@ -65,7 +65,7 @@ export default function FooterV2({ variant = 'normal' }) {
             {tabs
               .filter(t => (!isAdmin ? (t.id === 'Admin' ? false : true) : true))
               .map(({ id, route }) => (
-                <Grid item>
+                <Grid key={id} item>
                   <Link className={classes.link} onClick={handleChangeRoute(route)} variant='h1'>
                     {id}
                   </Link>

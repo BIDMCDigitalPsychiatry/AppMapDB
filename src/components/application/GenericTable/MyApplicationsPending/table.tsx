@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import * as Icons from '@material-ui/icons';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';

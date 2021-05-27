@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import GenericTableContainer from '../GenericTableContainer';
 import { defaultApplicationsListProps } from '../ApplicationsList/table';
 import { useAppHistoryData } from '../ApplicationHistory/selectors';

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { defaultApplicationsProps } from '../Applications/table';
 import { useSignedIn } from '../../../../hooks';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';

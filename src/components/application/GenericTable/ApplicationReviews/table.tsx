@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import AppReview from './AppReview';
 import { useAppReviewData } from './useAppReviewData';

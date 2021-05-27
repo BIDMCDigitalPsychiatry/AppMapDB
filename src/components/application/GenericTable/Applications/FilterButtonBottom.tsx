@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import * as Icons from '@material-ui/icons';
 import { makeStyles, createStyles, Badge, withStyles, Fab } from '@material-ui/core';
 import { useTableFilterValues } from '../store';

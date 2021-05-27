@@ -126,7 +126,7 @@ const GenericStepper = ({
   disableInitialize = undefined,
   ...other
 }: ComponentProps & any) => {
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [state, setState] = useDialogState(id);

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import { Status } from '../../GenericTable/MyApplicationsPending/columns';

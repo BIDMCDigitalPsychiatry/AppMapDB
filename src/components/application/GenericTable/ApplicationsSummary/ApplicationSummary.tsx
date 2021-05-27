@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import Application from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';

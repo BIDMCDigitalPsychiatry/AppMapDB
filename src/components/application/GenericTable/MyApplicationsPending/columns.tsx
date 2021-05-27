@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import * as Icons from '@material-ui/icons';
 import MyRatingsColumnPending from './MyRatingsColumnPending';
 import { Chip, createStyles, makeStyles, Typography } from '@material-ui/core';

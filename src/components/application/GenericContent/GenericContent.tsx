@@ -82,7 +82,7 @@ export default function GenericContent({
   children,
   ...other
 }: ComponentProps) {
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { open, type, loading, submitting } = state;
 

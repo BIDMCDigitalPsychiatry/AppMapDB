@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Grid, Box, Typography } from '@material-ui/core';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import { getDayTimeFromTimestamp } from '../../../../helpers';

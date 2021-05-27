@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Box, Grid } from '@material-ui/core';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as ApplicationHistoryDialogV2WithDrafts from '../../GenericDialog/ApplicationHistoryDialogV2WithDrafts';

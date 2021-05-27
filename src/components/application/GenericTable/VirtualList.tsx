@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import { useTheme } from '@material-ui/core';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Component from '@reactions/component';
@@ -14,7 +14,7 @@ export interface VirtualListProps {
 }
 
 export default function VirtualList(props: VirtualListProps) {
-  const { layout } = useTheme();
+  const { layout } = useTheme() as any;
   const { rowHeight = layout.tableRowHeight, data, columns, height } = props;
 
   const sortinjectedcolumns = evalFunc(columns, props);

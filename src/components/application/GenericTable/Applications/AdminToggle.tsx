@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import * as Icons from '@material-ui/icons';
 import { useAdminMode } from '../../../layout/store';
 import { useIsAdmin } from '../../../../hooks';
