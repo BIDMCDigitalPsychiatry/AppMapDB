@@ -46,7 +46,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   })
 );
 
-export default function SearchHeaderRedux({ title = 'App Library' }) {
+export default function SearchHeaderRedux({ title = 'App Library', onExport = undefined }) {
   const [{ searchtext, filters = {} }, setValues] = useTableValues('Applications');
   const [, setFilterValues] = useTableFilterValues('Applications');
 
@@ -94,7 +94,7 @@ export default function SearchHeaderRedux({ title = 'App Library' }) {
             </Typography>
           </Grid>
           <Grid item>
-            <ViewModeButtons />
+            <ViewModeButtons onExport={onExport} />
           </Grid>
         </Grid>
       </Grid>

@@ -9,6 +9,8 @@ import AdminToggle from './AdminToggle';
 import { useColumns } from './columns';
 import FilterButton from './FilterButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
+import { useHandleExport } from '../../../../database/hooks';
+import { useIsAdmin } from '../../../../hooks';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -28,9 +30,14 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
 
 export const Applications = props => {
   const columns = useColumns();
-  const { showButtons = true } = props;
+  const { showButtons = true, HeaderComponent } = props;
+  const data = useAppData(name);
+  const handleExport = useHandleExport(data, columns);
+  const isAdmin = useIsAdmin();
+
   return (
     <>
+      {HeaderComponent && <HeaderComponent onExport={isAdmin && handleExport} />}
       {showButtons && (
         <>
           <AdminToggle />
@@ -38,7 +45,7 @@ export const Applications = props => {
           <ViewModeButton mode='table' />
         </>
       )}
-      <GenericTableContainer {...defaultApplicationsProps} data={useAppData(name)} columns={columns} showScroll={true} fixedColumnCount={1} {...props} />
+      <GenericTableContainer {...defaultApplicationsProps} data={data} columns={columns} showScroll={true} fixedColumnCount={1} {...props} />
     </>
   );
 };

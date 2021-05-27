@@ -29,13 +29,30 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function ViewModeButtons() {
+export default function ViewModeButtons({ onExport = undefined }) {
   const classes = useStyles();
   const [viewMode, setViewMode] = useViewMode() as any;
   const handleClick = React.useCallback(mode => () => setViewMode(mode), [setViewMode]);
+  const handleExport = React.useCallback(isTableData => () => onExport && onExport(isTableData), [onExport]);
 
   return (
     <Grid container spacing={1}>
+      {onExport && (
+        <>
+          <Grid item>
+            <Button size='small' className={classes.primaryButton} onClick={handleExport(false)}>
+              <Icons.GetApp style={{ marginRight: 4 }} />
+              Export Database
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button size='small' className={classes.primaryButton} onClick={handleExport(true)}>
+              <Icons.GetApp style={{ marginRight: 4 }} />
+              Export Table Data
+            </Button>
+          </Grid>
+        </>
+      )}
       <Grid item>
         <Button
           disableRipple={viewMode === 'list'}

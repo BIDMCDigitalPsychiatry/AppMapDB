@@ -51,8 +51,11 @@ export default function AppsV2() {
       {renderDialogModule(ApplicationHistoryDialog)}
       {renderDialogModule(SuggestEditDialog)}
       {renderDialogModule(ApplicationDialog)}
-      <SearchHeaderRedux />
-      {viewMode === 'table' ? <Tables.Applications height={tableHeight} showButtons={false} /> : <Tables.ApplicationsSummary height={tableHeight} />}
+      {viewMode === 'table' ? (
+        <Tables.Applications HeaderComponent={SearchHeaderRedux} height={tableHeight} showButtons={false} />
+      ) : (
+        <Tables.ApplicationsSummary HeaderComponent={SearchHeaderRedux} height={tableHeight} />
+      )}
     </>
   );
 }

@@ -82,6 +82,13 @@ export const useAppData = table => {
               return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
             },
             getValues: () => app,
+            getExportValues: () => ({
+              ...appSearchable,
+              app: appSearchable.name,
+              cost: appSearchable.costs,
+              functionality: appSearchable.functionalities,
+              developerType: appSearchable.developerTypes
+            }),
             created: app.created,
             approved: app.approved,
             groupId: isEmpty(app.groupId) ? app._id : app.groupId
