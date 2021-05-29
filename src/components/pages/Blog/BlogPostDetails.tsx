@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import type { FC } from 'react';
+import React from 'react';
 import { format, subHours } from 'date-fns';
 import { Box, Chip, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
-import { blogApi } from '../../../__fakeApi__/blogApi';
 import PencilAltIcon from '../../icons/PencilAlt';
-import useMounted from '../../hooks/useMounted';
 import BlogPostComment from '../../application/Blog/BlogPostComment';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
@@ -13,6 +10,8 @@ import marked from 'marked';
 import DOMPurify from 'dompurify';
 import { isEmpty } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
+import useValues from './useValues';
+import { useIsAdmin } from '../../../hooks';
 
 const comments = [
   {
@@ -31,6 +30,13 @@ const comments = [
 
 const useStyles = makeStyles(theme =>
   createStyles({
+    deleteButton: {
+      color: theme.palette.error.main,
+      borderColor: theme.palette.error.main,
+      '&:hover': {
+        borderColor: theme.palette.error.main
+      }
+    },
     wrapper: {
       color: theme.palette.text.primary,
       fontFamily: theme.typography.fontFamily,
@@ -60,29 +66,18 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const BlogPostDetails: FC = () => {
+const BlogPostDetails = () => {
   const classes = useStyles();
-  const mounted = useMounted();
-  const [post, setPost] = useState() as any;
+  const isAdmin = useIsAdmin();
+
   const handleChangeRoute = useHandleChangeRoute();
   const [{ id }] = useRouteState();
 
-  const getPost = useCallback(async () => {
-    try {
-      const data = await blogApi.getPost(id);
-      mounted.current && setPost(data);
-    } catch (err) {
-      console.error(err);
-    }
-  }, [id, mounted]);
+  const { values, handleDelete } = useValues({ type: 'view', values: { id } });
 
-  useEffect(() => {
-    getPost();
-  }, [getPost]);
+  const purifiedContent = DOMPurify.sanitize(marked(isEmpty(values?.content) ? '' : values?.content)) ?? '';
 
-  const purifiedContent = DOMPurify.sanitize(marked(isEmpty(post?.content) ? '' : post?.content)) ?? '';
-
-  return !post ? null : (
+  return !values ? null : (
     <>
       <Box
         style={{
@@ -102,12 +97,29 @@ const BlogPostDetails: FC = () => {
                   startIcon: <Icons.ArrowBack fontSize='small' />,
                   onClick: handleChangeRoute('/blog', { blogLayout: 'list' })
                 },
-                {
+                isAdmin &&
+                  values?.deleted && {
+                    label: 'Restore this post',
+                    startIcon: <Icons.RestoreFromTrash fontSize='small' />,
+                    onClick: () => {
+                      handleDelete({ deleted: false, onSuccess: handleChangeRoute('/blog', { blogLayout: 'list' }) });
+                    }
+                  },
+                isAdmin &&
+                  !values?.deleted && {
+                    label: 'Archive this post',
+                    startIcon: <Icons.Delete fontSize='small' />,
+                    onClick: () => {
+                      handleDelete({ onSuccess: handleChangeRoute('/blog', { blogLayout: 'list' }) });
+                    },
+                    className: classes.deleteButton
+                  },
+                !values?.deleted && {
                   label: 'Edit this post',
                   startIcon: <PencilAltIcon fontSize='small' />,
-                  onClick: handleChangeRoute('/blog', { blogLayout: 'edit', values: post })
+                  onClick: handleChangeRoute('/blog', { blogLayout: 'edit', values })
                 }
-              ]}
+              ].filter(b => b)}
             />
           </Container>
         </div>
@@ -120,7 +132,7 @@ const BlogPostDetails: FC = () => {
                 justifyContent: 'center'
               }}
             >
-              <Chip label={post.category} variant='outlined' />
+              <Chip label={values.category} variant='outlined' />
             </Box>
             <Typography
               align='center'
@@ -131,11 +143,11 @@ const BlogPostDetails: FC = () => {
               }}
               variant='h2'
             >
-              {post.title}
+              {values.title}
             </Typography>
-            {!isEmpty(post.shortDescription) && (
+            {!isEmpty(values.shortDescription) && (
               <Typography align='center' color='textSecondary' style={{ marginTop: 24 }} variant='subtitle1'>
-                {post.shortDescription}
+                {values.shortDescription}
               </Typography>
             )}
             <Box
@@ -153,16 +165,16 @@ const BlogPostDetails: FC = () => {
                 }}
               >
                 <Grid container>
-                  {!isEmpty(post.authorName) && (
+                  {!isEmpty(values.authorName) && (
                     <Grid item xs={12}>
                       <Typography align='center' color='textPrimary' variant='subtitle2'>
-                        {post.authorName}
+                        {values.authorName}
                       </Typography>
                     </Grid>
                   )}
                   <Grid item xs={12}>
                     <Typography align='center' color='textSecondary' variant='body2'>
-                      {`${format(post.publishedAt, 'dd MMM')} · ${post.readTime} read`}
+                      {`${values?.publishedAt ? format(values?.publishedAt, 'dd MMM') : ''} · ${values.readTime} read`}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -170,12 +182,12 @@ const BlogPostDetails: FC = () => {
             </Box>
           </Container>
         </Box>
-        {post.cover && (
-          <Box mt={2} onClick={handleChangeRoute('/blog', { blogLayout: 'edit', values: post })}>
+        {values.cover && (
+          <Box mt={2} onClick={handleChangeRoute('/blog', { blogLayout: 'edit', values })}>
             <Container maxWidth='lg'>
               <Box
                 style={{
-                  backgroundImage: `url(${post.cover})`,
+                  backgroundImage: `url(${values.cover})`,
                   backgroundPosition: 'center',
                   backgroundSize: 'cover',
                   borderRadius: '20px',
