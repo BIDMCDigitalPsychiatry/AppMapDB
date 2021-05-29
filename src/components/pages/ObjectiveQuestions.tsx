@@ -11,7 +11,7 @@ import * as GenericObjectiveQuestionDialog from '../application/GenericDialog/Ob
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
-const contentPath = require('../../content/ObjectiveQuestions.md');
+const contentPath = require('../../content/ObjectiveQuestions.md').default;
 
 const useStyles = makeStyles(() =>
   createStyles({

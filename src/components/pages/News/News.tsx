@@ -4,7 +4,7 @@ import { useFullScreen } from '../../../hooks';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 
-const contentPath = require('../../../content/News.md');
+const contentPath = require('../../../content/News.md').default;
 
 export const ContentBox = ({ p = 2, children }) => {
   const fullScreen = useFullScreen();
