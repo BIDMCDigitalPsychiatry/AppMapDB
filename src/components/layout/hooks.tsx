@@ -2,6 +2,7 @@ import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
 import { useResizeAppBar, useResizeFooter, useResizeHeader, useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
 
 export const useAppBarHeightRef = () => {
   let ref = React.useRef(null);
@@ -35,7 +36,12 @@ export const useFooterHeightRef = () => {
 
 export const useHandleChangeRoute = () => {
   const changeRoute = useChangeRoute();
-  return React.useCallback((route, state = undefined) => event => changeRoute(route, state), [changeRoute]);
+  return React.useCallback(
+    (route, state = undefined) =>
+      event =>
+        changeRoute(route, state),
+    [changeRoute]
+  );
 };
 
 export const useChangeRoute = () => {
@@ -44,9 +50,13 @@ export const useChangeRoute = () => {
   const [, setState] = useRouteState();
   return React.useCallback(
     (route: string, state = undefined) => {
-      pathname !== route && history && history.push(route);
-      if (state !== undefined) setState(state);
+      pathname !== route && history && history.push(route);      
+      setState(state ?? {});
     },
     [history, pathname, setState]
   );
 };
+
+export const useUserEmail = () => {  
+  return useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
+}

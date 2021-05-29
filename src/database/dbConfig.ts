@@ -11,10 +11,11 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 export const dynamo = new AWS.DynamoDB.DocumentClient();
 
 export type DataModel = Application;
-export type TableName = 'applications' | 'filters';
+export type TableName = 'applications' | 'filters' | 'posts' | 'comments';
 
 export const tables = {
   applications: 'applications' as TableName,
-  filters: 'filters' as TableName
+  filters: 'filters' as TableName,
+  posts: 'posts' as TableName,
+  comments: 'comments' as TableName
 };
-

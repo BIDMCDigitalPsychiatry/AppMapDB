@@ -10,8 +10,8 @@ import DOMPurify from 'dompurify';
 import ReactPlayer from 'react-player';
 import { useWidth } from '../layout/store';
 
-const contentPath = require('../../content/FrameworkQuestions.md');
-const videoPath = require('../../content/zoom_1.mp4');
+const contentPath = require('../../content/FrameworkQuestions.md').default;
+const videoPath = require('../../content/zoom_1.mp4').default;
 
 const useStyles = makeStyles(() =>
   createStyles({

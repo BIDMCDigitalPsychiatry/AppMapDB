@@ -12,6 +12,8 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import CssBaselineCustom from './components/layout/CssBaselineCustom';
 import { useLayoutTheme } from './helpers';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
@@ -23,7 +25,7 @@ Amplify.configure(awsconfig);
 
 function ThemedViewPort(props: any) {
   const { children } = props;
-  const layoutTheme = useLayoutTheme();  
+  const layoutTheme = useLayoutTheme();
 
   return (
     <MuiThemeProvider theme={layoutTheme}>
@@ -38,7 +40,9 @@ function AppWrapper(props: any) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ThemedViewPort>{children}</ThemedViewPort>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <ThemedViewPort>{children}</ThemedViewPort>
+        </MuiPickersUtilsProvider>
       </PersistGate>
     </Provider>
   );

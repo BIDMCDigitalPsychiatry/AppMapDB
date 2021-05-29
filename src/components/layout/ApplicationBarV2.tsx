@@ -54,7 +54,7 @@ const tabs = [
   { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
   { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
   { id: 'News', icon: Icons.Announcement, route: '/News' },
-  isDev() && { id: 'Community', icon: Icons.Forum, route: '/Community' }
+  isDev() && { id: 'Community', icon: Icons.Forum, route: '/blog' }
 ].filter(t => t);
 
 const AppBarTabSelector = props => {
