@@ -6,7 +6,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import ArrowButton from '../../general/ArrowButton';
 import useComponentSize from '@rehooks/component-size';
 
-const articleFile = require('../../../content/Articles/Articles.json').default;
+const articleFile = require('../../../content/Articles/Articles.json');
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({

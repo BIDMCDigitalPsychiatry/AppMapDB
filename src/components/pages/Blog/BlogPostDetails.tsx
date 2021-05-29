@@ -74,11 +74,11 @@ const BlogPostDetails: FC = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [mounted]);
+  }, [id, mounted]);
 
   useEffect(() => {
     getPost();
-  }, [id, getPost]);
+  }, [getPost]);
 
   const purifiedContent = DOMPurify.sanitize(marked(isEmpty(post?.content) ? '' : post?.content)) ?? '';
 

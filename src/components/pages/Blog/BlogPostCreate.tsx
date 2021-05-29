@@ -2,52 +2,16 @@ import React from 'react';
 import { Box, Container, Divider } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import BlogPostCreateForm from '../../application/Blog/BlogPostCreateForm';
-import { useChangeRoute, useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
+import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';
-import { categories } from '../../application/Blog/post';
-import { blogApi } from '../../../__fakeApi__/blogApi';
+import useValues from './useValues';
 
 const BlogPostCreate = () => {
   const handleChangeRoute = useHandleChangeRoute();
-  const changeRoute = useChangeRoute();
-
-  const email = useUserEmail();
-
-  const [values, setValues] = React.useState({
-    title: '',
-    shortDescription: '',
-    category: categories[0],
-    content: '',
-    readTime: '5 min',
-    publishedAt: new Date().getTime(),
-    publishedGlobally: true,
-    enableComments: true,
-    authorName: email
-  });
-
-  const [errors, setErrors] = React.useState({});
-
-  const handleSave = React.useCallback(async () => {
-    console.log('Saving post...');
-    const post = { ...values, createdBy: email, created: new Date().getTime() };
-    try {
-      const result = await blogApi.updatePost(post);
-      result && changeRoute('/blog');
-    } catch (err) {
-      console.log('Error saving post');
-      alert('Error publishing content.');
-      console.error(err);
-    }
-  }, [JSON.stringify(values), JSON.stringify(errors), changeRoute, email]);
+  const { values, setValues, errors, handleSave } = useValues({ type: 'create' });
 
   return (
-    <>
-      <Box
-        style={{
-          backgroundColor: 'background.paper',
-          minHeight: '100%'
-        }}
-      >
+      <Box minHeight='100%'>
         <div>
           <Container maxWidth='lg'>
             <BlogToolbar
@@ -72,11 +36,10 @@ const BlogPostCreate = () => {
         <Divider />
         <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
           <Container maxWidth='lg'>
-            <BlogPostCreateForm values={values} setValues={setValues} errors={errors} handleSave={handleSave} />
+            <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
           </Container>
         </Box>
       </Box>
-    </>
   );
 };
 

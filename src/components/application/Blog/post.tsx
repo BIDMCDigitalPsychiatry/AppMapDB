@@ -5,11 +5,16 @@ export interface Post {
   authorName: string;
   category: string;
   content?: string;
-  cover: string;
+  cover?: string;
   publishedAt: number;
   readTime: string;
   shortDescription: string;
   title: string;
+  createdBy?: string;
+  updatedBy?: string;
+  created?: number;
+  updated?: number;
+  deleted?: boolean;
 }
 
 export const useDefaultValues = () => {

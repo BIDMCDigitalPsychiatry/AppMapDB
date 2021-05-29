@@ -4,6 +4,7 @@ import FilesDropzone from '../FilesDropzone';
 import { categories, readTimes } from './post';
 import Check from '../DialogField/Check';
 import DateTimePicker from '../DialogField/DateTimePicker';
+import Text from '../DialogField/Text';
 
 const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
   new Promise((resolve, reject) => {
@@ -13,8 +14,8 @@ const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
     reader.onerror = error => reject(error);
   });
 
-const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {}, handleSave }) => {
-  const { title = '', authorName, category, content = '', cover, shortDescription = '', publishedAt, readTime } = values;
+const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
+  const { title = '', authorName, category, content = '', cover, shortDescription = '', readTime } = values;
 
   const handleDropCover = async ([file]: File[]) => {
     const cover = (await toBase64(file)) as string;
@@ -33,16 +34,16 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {}, handle
         <Grid item lg={8} md={6} xl={9} xs={12}>
           <Card variant='outlined'>
             <CardContent>
-              <TextField fullWidth label='Post title' name='title' variant='outlined' value={title} onChange={handleChange('title')} />
+              <Text label='Post title' margin='normal' name='title' value={title} error={errors['title']} onChange={handleChange('title')} />
               <Box mt={3}>
-                <TextField
-                  fullWidth
+                <Text
+                  margin='normal'
                   multiline
                   label='Short description'
                   rows={6}
-                  variant='outlined'
                   value={shortDescription}
                   onChange={handleChange('shortDescription')}
+                  error={errors['shortDescription']}
                 />
               </Box>
               <Typography

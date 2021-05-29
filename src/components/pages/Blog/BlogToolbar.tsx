@@ -39,7 +39,7 @@ const BlogToolbar = ({ title = undefined, subtitle = undefined, showGreeting = f
         <Grid item>
           <Grid container spacing={spacing}>
             {buttons.map(({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
-              <Grid item>
+              <Grid item key={label}>
                 <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
                   {label}
                 </Button>
