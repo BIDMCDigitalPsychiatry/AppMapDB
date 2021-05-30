@@ -20,7 +20,7 @@ var posts: Post[] = [
   {
     id: 'a9c19d0caf2ca91020aacd1f',
     authorName: 'Omar Darobe',
-    category: 'Productivity',
+    category: 'Announcements',
     cover: '/static/mock-images/covers/cover_5.jpeg',
     publishedAt: subHours(subMinutes(subSeconds(now, 29), 51), 6).getTime(),
     readTime: '6 min',
@@ -31,7 +31,7 @@ var posts: Post[] = [
   {
     id: '44df90cbf89963b8aa625c7d',
     authorName: 'Siegbert Gottfried',
-    category: 'Entrepreneurs',
+    category: 'Educational',
     cover: '/static/mock-images/covers/cover_6.jpeg',
     publishedAt: subHours(subMinutes(subSeconds(now, 6), 46), 16).getTime(),
     readTime: '3 min',
@@ -42,7 +42,7 @@ var posts: Post[] = [
   {
     id: 'c597c300fe3f817c41a2f01d',
     authorName: 'Iulia Albu',
-    category: 'Innovation',
+    category: 'News',
     cover: '/static/mock-images/covers/cover_7.jpeg',
     publishedAt: subDays(subHours(subMinutes(subSeconds(now, 52), 39), 7), 5).getTime(),
     readTime: '1 min',

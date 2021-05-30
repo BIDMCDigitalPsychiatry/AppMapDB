@@ -3,7 +3,7 @@ import { format, subHours } from 'date-fns';
 import { Box, Chip, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import PencilAltIcon from '../../icons/PencilAlt';
 import BlogPostComment from '../../application/Blog/BlogPostComment';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 import BlogToolbar from './BlogToolbar';
 import marked from 'marked';
@@ -69,60 +69,60 @@ const useStyles = makeStyles(theme =>
 const BlogPostDetails = () => {
   const classes = useStyles();
   const isAdmin = useIsAdmin();
+  const changeRoute = useChangeRoute();
 
-  const handleChangeRoute = useHandleChangeRoute();
   const [{ id }] = useRouteState();
-
   const { values, handleDelete } = useValues({ type: 'view', values: { id } });
+
+  const handleBack = React.useCallback(() => {
+    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
+  }, [changeRoute]);
+
+  const handleEdit = React.useCallback(() => {
+    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'edit', values }));
+    // eslint-disable-next-line
+  }, [changeRoute, JSON.stringify(values)]);
 
   const purifiedContent = DOMPurify.sanitize(marked(isEmpty(values?.content) ? '' : values?.content)) ?? '';
 
   return !values ? null : (
     <>
-      <Box
-        style={{
-          backgroundColor: 'background.paper',
-          minHeight: '100%'
-        }}
-      >
-        <div>
-          <Container maxWidth='lg'>
-            <BlogToolbar
-              title='Post Details'
-              subtitle='View additional information'
-              showGreeting={false}
-              buttons={[
-                {
-                  label: 'Back',
-                  startIcon: <Icons.ArrowBack fontSize='small' />,
-                  onClick: handleChangeRoute('/blog', { blogLayout: 'list' })
-                },
-                isAdmin &&
-                  values?.deleted && {
-                    label: 'Restore this post',
-                    startIcon: <Icons.RestoreFromTrash fontSize='small' />,
-                    onClick: () => {
-                      handleDelete({ deleted: false, onSuccess: handleChangeRoute('/blog', { blogLayout: 'list' }) });
-                    }
-                  },
-                isAdmin &&
-                  !values?.deleted && {
-                    label: 'Archive this post',
-                    startIcon: <Icons.Delete fontSize='small' />,
-                    onClick: () => {
-                      handleDelete({ onSuccess: handleChangeRoute('/blog', { blogLayout: 'list' }) });
-                    },
-                    className: classes.deleteButton
-                  },
-                !values?.deleted && {
-                  label: 'Edit this post',
-                  startIcon: <PencilAltIcon fontSize='small' />,
-                  onClick: handleChangeRoute('/blog', { blogLayout: 'edit', values })
+      <Container maxWidth='lg'>
+        <BlogToolbar
+          title='Post Details'
+          subtitle='View additional information'
+          showGreeting={false}
+          buttons={[
+            {
+              label: 'Back',
+              startIcon: <Icons.ArrowBack fontSize='small' />,
+              onClick: handleBack
+            },
+            isAdmin &&
+              values?.deleted && {
+                label: 'Restore this post',
+                startIcon: <Icons.RestoreFromTrash fontSize='small' />,
+                onClick: () => {
+                  handleDelete({ deleted: false, onSuccess: handleBack });
                 }
-              ].filter(b => b)}
-            />
-          </Container>
-        </div>
+              },
+            isAdmin &&
+              !values?.deleted && {
+                label: 'Archive this post',
+                startIcon: <Icons.Delete fontSize='small' />,
+                onClick: () => {
+                  handleDelete({ onSuccess: handleBack });
+                },
+                className: classes.deleteButton
+              },
+            isAdmin &&
+              !values?.deleted && {
+                label: 'Edit this post',
+                startIcon: <PencilAltIcon fontSize='small' />,
+                onClick: handleEdit
+              }
+          ].filter(b => b)}
+        />
         <Divider />
         <Box py={3}>
           <Container maxWidth='md'>
@@ -183,8 +183,8 @@ const BlogPostDetails = () => {
           </Container>
         </Box>
         {values.cover && (
-          <Box mt={2} onClick={handleChangeRoute('/blog', { blogLayout: 'edit', values })}>
-            <Container maxWidth='lg'>
+          <Box mt={2}>
+            <Container maxWidth='xl'>
               <Box
                 style={{
                   backgroundImage: `url(${values.cover})`,
@@ -216,7 +216,7 @@ const BlogPostDetails = () => {
             </Box>
           </Container>
         </div>
-      </Box>
+      </Container>
     </>
   );
 };

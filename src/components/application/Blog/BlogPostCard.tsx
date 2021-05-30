@@ -1,8 +1,8 @@
-import type { FC } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { Box, CardMedia, Chip, Grid, Link, Typography } from '@material-ui/core';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useChangeRoute } from '../../layout/hooks';
 import { isEmpty } from '../../../helpers';
 import { grey } from '@material-ui/core/colors';
 
@@ -17,9 +17,14 @@ interface BlogPostCardProps {
   title: string;
 }
 
-const BlogPostCard: FC<BlogPostCardProps> = props => {
+const BlogPostCard: React.FC<BlogPostCardProps> = props => {
   const { id, authorName, category, cover, publishedAt, readTime, shortDescription, title, ...other } = props;
-  const handleChangeRoute = useHandleChangeRoute();
+
+  const changeRoute = useChangeRoute();
+
+  const handleClick = React.useCallback(() => {
+    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'view', id })); // Keep previous category for back button
+  }, [changeRoute, id]);
 
   return (
     <div {...other}>
@@ -31,7 +36,7 @@ const BlogPostCard: FC<BlogPostCardProps> = props => {
       >
         {cover ? (
           <CardMedia
-            onClick={handleChangeRoute('/blog', { blogLayout: 'view', id })}
+            onClick={handleClick}
             image={cover}
             style={{
               height: '100%',
@@ -42,7 +47,7 @@ const BlogPostCard: FC<BlogPostCardProps> = props => {
           />
         ) : (
           <div
-            onClick={handleChangeRoute('/blog', { blogLayout: 'view', id })}
+            onClick={handleClick}
             style={{
               padding: 24,
               height: '100%',
@@ -85,7 +90,7 @@ const BlogPostCard: FC<BlogPostCardProps> = props => {
             </Grid>
           </Grid>
         </Box>
-        <Link color='textPrimary' onClick={handleChangeRoute('/blog', { blogLayout: 'view', id })} variant='h5'>
+        <Link color='textPrimary' onClick={handleClick} variant='h5'>
           {title}
         </Link>
         <Typography

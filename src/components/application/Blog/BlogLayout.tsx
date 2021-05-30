@@ -1,3 +1,4 @@
+import * as React from 'react';
 import BlogPostList from '../../pages/Blog/BlogPostList';
 import BlogPostDetails from '../../pages/Blog/BlogPostDetails';
 import BlogPostCreate from '../../pages/Blog/BlogPostCreate';

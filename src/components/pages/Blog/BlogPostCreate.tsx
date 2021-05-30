@@ -11,35 +11,30 @@ const BlogPostCreate = () => {
   const { values, setValues, errors, handleSave } = useValues({ type: 'create' });
 
   return (
-      <Box minHeight='100%'>
-        <div>
-          <Container maxWidth='lg'>
-            <BlogToolbar
-              title='Create Post'
-              showGreeting={true}
-              buttons={[
-                {
-                  label: 'Cancel',
-                  onClick: handleChangeRoute('/blog'),
-                  color: 'secondary'
-                },
-                {
-                  label: 'Publish Changes',
-                  startIcon: <Icons.Save />,
-                  onClick: handleSave,
-                  variant: 'contained'
-                }
-              ]}
-            />
-          </Container>
-        </div>
-        <Divider />
-        <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
-          <Container maxWidth='lg'>
-            <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
-          </Container>
-        </Box>
+    <Container maxWidth='lg'>
+      <BlogToolbar
+        title='Create Post'
+        showGreeting={true}
+        buttons={[
+          {
+            label: 'Cancel',
+            onClick: handleChangeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' })),
+            color: 'secondary'
+          },
+          {
+            label: 'Publish Changes',
+            startIcon: <Icons.Save />,
+            onClick: handleSave,
+            variant: 'contained'
+          }
+        ]}
+      />
+
+      <Divider />
+      <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
+        <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
       </Box>
+    </Container>
   );
 };
 

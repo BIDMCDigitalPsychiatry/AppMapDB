@@ -11,35 +11,29 @@ const BlogPostEdit = ({ values: Values }) => {
   const { values, setValues, errors, handleSave } = useValues({ type: 'edit', values: Values });
 
   return (
-    <Box minHeight='100%'>
-      <div>
-        <Container maxWidth='lg'>
-          <BlogToolbar
-            title='Edit Post'
-            showGreeting={true}
-            buttons={[
-              {
-                label: 'Cancel',
-                onClick: handleChangeRoute('/blog'),
-                color: 'secondary'
-              },
-              {
-                label: 'Publish Changes',
-                startIcon: <Icons.Save />,
-                onClick: handleSave,
-                variant: 'contained'
-              }
-            ]}
-          />
-        </Container>
-      </div>
+    <Container maxWidth='lg'>
+      <BlogToolbar
+        title='Edit Post'
+        showGreeting={true}
+        buttons={[
+          {
+            label: 'Cancel',
+            onClick: handleChangeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' })),
+            color: 'secondary'
+          },
+          {
+            label: 'Publish Changes',
+            startIcon: <Icons.Save />,
+            onClick: handleSave,
+            variant: 'contained'
+          }
+        ]}
+      />
       <Divider />
       <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <Container maxWidth='lg'>
-          <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
-        </Container>
+        <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
       </Box>
-    </Box>
+    </Container>
   );
 };
 

@@ -1,4 +1,5 @@
-import { Button, createStyles, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { Button, createStyles, Divider, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import BlogLayoutSelector from '../../application/Blog/BlogLayoutSelector';
 import { useUserEmail } from '../../layout/hooks';
 
 const spacing = 3;
@@ -26,29 +27,33 @@ const BlogToolbar = ({ title = undefined, subtitle = undefined, showGreeting = f
   );
 
   return (
-    <Toolbar disableGutters style={{ paddingBottom: 16 }}>
-      <Grid alignItems='center' container justify='space-between' spacing={spacing}>
-        <Grid item>
-          {title && (
-            <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
-              {title}
-            </Typography>
-          )}
-          {SubTitle}
-        </Grid>
-        <Grid item>
-          <Grid container spacing={spacing}>
-            {buttons.map(({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
-              <Grid item key={label}>
-                <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
-                  {label}
-                </Button>
-              </Grid>
-            ))}
+    <>
+      <BlogLayoutSelector />
+      <Divider style={{ marginTop: 16 }} />
+      <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
+        <Grid alignItems='center' container justify='space-between' spacing={spacing}>
+          <Grid item>
+            {title && (
+              <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
+                {title}
+              </Typography>
+            )}
+            {SubTitle}
+          </Grid>
+          <Grid item>
+            <Grid container spacing={spacing}>
+              {buttons.map(({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
+                <Grid item key={label}>
+                  <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
+                    {label}
+                  </Button>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Toolbar>
+      </Toolbar>
+    </>
   );
 };
 
