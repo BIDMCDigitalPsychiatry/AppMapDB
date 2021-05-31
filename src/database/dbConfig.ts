@@ -1,5 +1,6 @@
 import Application from './models/Application';
 import { identityPoolId, region } from '../../package.json';
+import { Post } from '../components/application/Blog/post';
 export const AWS = require('aws-sdk'); // Load the AWS SDK for Node.js
 
 // Initialize the Amazon Cognito credentials provider
@@ -10,7 +11,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 
 export const dynamo = new AWS.DynamoDB.DocumentClient();
 
-export type DataModel = Application;
+export type DataModel = Application | Post;
 export type TableName = 'applications' | 'filters' | 'posts' | 'comments';
 
 export const tables = {

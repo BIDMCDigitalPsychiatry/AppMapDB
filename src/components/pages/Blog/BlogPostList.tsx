@@ -1,18 +1,17 @@
 import React from 'react';
 import { Box, Button, Container, createStyles, Grid, IconButton, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core';
-import { blogApi } from '../../../__fakeApi__/blogApi';
 import PlusIcon from '../../icons/Plus';
 import SortAscendingIcon from '../../icons/SortAscending';
 import SortDescendingIcon from '../../icons/SortDescending';
 import SearchIcon from '../../icons/Search';
-import useMounted from '../../hooks/useMounted';
-import { Post, useDefaultValues } from '../../application/Blog/post';
+import { useDefaultValues } from '../../application/Blog/post';
 import BlogPostCard from '../../application/Blog/BlogPostCard';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';
 import * as Icons from '@material-ui/icons';
 import { searchPosts, sortPosts } from './helpers';
 import { useIsAdmin } from '../../../hooks';
+import { usePosts } from '../../../database/usePosts';
 
 const sortOptions = {
   desc: { label: 'Newest', SortOptionIcon: SortDescendingIcon },
@@ -33,9 +32,9 @@ const useStyles = makeStyles(theme =>
 
 const BlogPostList = ({ category = 'News' }) => {
   const classes = useStyles({});
-  const mounted = useMounted();
   const sortRef = React.useRef<HTMLButtonElement | null>(null);
-  const [posts, setPosts] = React.useState<Post[]>([]);
+  const { posts, handleRefresh } = usePosts();
+
   const [sortOption, setSortOption] = React.useState<string>(Object.keys(sortOptions)[0]);
   const [search, setSearch] = React.useState('');
   const [showArchived, setShowArchived] = React.useState(false);
@@ -46,21 +45,9 @@ const BlogPostList = ({ category = 'News' }) => {
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  const getPosts = React.useCallback(async () => {
-    try {
-      const data = await blogApi.getPosts();
-
-      if (mounted.current) {
-        setPosts(data);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }, [mounted]);
-
   React.useEffect(() => {
-    getPosts();
-  }, [getPosts]);
+    handleRefresh();
+  }, [handleRefresh]);
 
   const handleToggleSortDirection = (): void => {
     setSortOption(prev => (prev === 'desc' ? 'asc' : 'desc'));
@@ -78,7 +65,9 @@ const BlogPostList = ({ category = 'News' }) => {
 
   const filtered = sortPosts(
     searchPosts(
-      posts.filter(p => p.category === category && (showArchived ? p.deleted : !p.deleted)),
+      Object.keys(posts)
+        .filter(k => posts[k].category === category && (showArchived ? posts[k].deleted : !posts[k].deleted))
+        .map(k => posts[k]),
       search
     ),
     sortOption
@@ -178,9 +167,9 @@ const BlogPostList = ({ category = 'News' }) => {
               </Box>
             ) : (
               filtered.map(post => (
-                <Grid item key={post.id} lg={4} md={6} xs={12}>
+                <Grid item key={post._id} lg={4} md={6} xs={12}>
                   <BlogPostCard
-                    id={post.id}
+                    _id={post._id}
                     authorName={post.authorName}
                     category={post.category}
                     cover={post.cover}

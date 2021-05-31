@@ -1,8 +1,8 @@
 import { useUserEmail } from '../../layout/hooks';
 
 export interface Post {
-  id: string;
-  authorName: string;
+  _id: string;
+  authorName?: string;
   category: string;
   content?: string;
   cover?: string;

@@ -16,6 +16,7 @@ const components = {
 const BlogLayout = () => {
   const [{ blogLayout = 'list', ...other } = {}] = useRouteState();
   const BlogComponent = components[blogLayout];
+
   return (
     <Box pt={3}>
       <BlogComponent {...other} />

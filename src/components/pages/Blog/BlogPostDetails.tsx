@@ -71,8 +71,8 @@ const BlogPostDetails = () => {
   const isAdmin = useIsAdmin();
   const changeRoute = useChangeRoute();
 
-  const [{ id }] = useRouteState();
-  const { values, handleDelete } = useValues({ type: 'view', values: { id } });
+  const [{ _id }] = useRouteState();
+  const { values, handleDelete } = useValues({ type: 'view', values: { _id } });
 
   const handleBack = React.useCallback(() => {
     changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));

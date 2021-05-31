@@ -1,10 +1,11 @@
 import React from 'react';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
 import { categories } from '../../application/Blog/post';
-import { blogApi } from '../../../__fakeApi__/blogApi';
 import { isEmpty, uuid } from '../../../helpers';
-import { useCallback, useEffect } from 'react';
-import useMounted from '../../hooks/useMounted';
+import { useEffect } from 'react';
+import { useDatabaseRow } from '../../../database/useTableState';
+import { tables } from '../../../database/dbConfig';
+import useProcessData from '../../../database/useProcessData';
 
 const validate = values => {
   const newErrors = {};
@@ -16,12 +17,11 @@ const validate = values => {
   return newErrors;
 };
 
-const useValues = ({ type = 'create', values: Values = undefined }) => {
+const useValues = ({ type = 'create', trigger = false, values: Values = undefined }) => {
   const changeRoute = useChangeRoute();
   const email = useUserEmail();
-  const mounted = useMounted();
 
-  const initialValues = Values ?? {
+  var initialValues = Values ?? {
     title: '',
     shortDescription: '',
     category: categories[0],
@@ -35,29 +35,68 @@ const useValues = ({ type = 'create', values: Values = undefined }) => {
     updated: undefined
   };
 
-  const id = initialValues?.id;
+  const _id = initialValues?._id;
+
+  const [cachedValues] = useDatabaseRow(tables.posts, _id);
+
+  if (!isEmpty(_id) && !isEmpty(cachedValues)) {
+    initialValues = { ...initialValues, ...cachedValues }; // Load cached values if present, for faster page loads
+  }
 
   const [values, setValues] = React.useState(initialValues);
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
 
-  const getPost = useCallback(
-    async (postId = undefined) => {
+  const processData = useProcessData();
+  const getPost = React.useCallback(
+    _id => {
       setLoading(true);
-      try {
-        const data = await blogApi.getPost(postId ?? id);
-        mounted.current && setValues(data);
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-      }
+      processData({
+        Action: 'r',
+        Model: tables.posts,
+        Snackbar: null,
+        Data: {
+          _id
+        } as any,
+        onSuccess: result => {
+          setValues(result.Item);
+          setLoading(false);
+        },
+        onError: err => {
+          setLoading(false);
+        }
+      });
     },
-    [id, mounted, setLoading]
+    [processData]
+  );
+
+  const updatePost = React.useCallback(
+    ({ post, onSuccess: OnSuccess, onError: OnError }) => {
+      setLoading(true);
+      processData({
+        Action: 'u',
+        Model: tables.posts,
+        Snackbar: null,
+        Data: {
+          ...post
+        } as any,
+        onSuccess: result => {
+          setValues(result?.Item);
+          setLoading(false);
+          OnSuccess && OnSuccess(result);
+        },
+        onError: err => {
+          setLoading(false);
+          OnError && OnError(err);
+        }
+      });
+    },
+    [processData]
   );
 
   useEffect(() => {
-    type === 'view' && id && !loading && getPost(id);
-  }, [id, type, getPost, loading]);
+    trigger === true && type === 'view' && _id && getPost(_id);
+  }, [trigger, _id, type, getPost]);
 
   const handleSave = React.useCallback(
     async ({ values: Values = undefined, onSuccess = undefined, onError = undefined }) => {
@@ -80,15 +119,18 @@ const useValues = ({ type = 'create', values: Values = undefined }) => {
         setErrors(newErrors);
         onError && onError(newErrors);
       } else {
-        try {
-          const result = await blogApi.updatePost(post);
-          result && changeRoute('/blog');
-          result && onSuccess && onSuccess(result);
-        } catch (err) {
-          alert('Error publishing content.');
-          console.error(err);
-          onError && onError(err);
-        }
+        updatePost({
+          post,
+          onSuccess: result => {
+            changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
+            onSuccess && onSuccess(result);
+          },
+          onError: err => {
+            alert('Error publishing content.');
+            changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
+            onError && onError(err);
+          }
+        });
       }
     },
     // eslint-disable-next-line

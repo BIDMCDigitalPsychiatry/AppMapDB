@@ -7,7 +7,7 @@ import { isEmpty } from '../../../helpers';
 import { grey } from '@material-ui/core/colors';
 
 interface BlogPostCardProps {
-  id: string;
+  _id: string;
   authorName: string;
   category: string;
   cover: string;
@@ -18,13 +18,13 @@ interface BlogPostCardProps {
 }
 
 const BlogPostCard: React.FC<BlogPostCardProps> = props => {
-  const { id, authorName, category, cover, publishedAt, readTime, shortDescription, title, ...other } = props;
+  const { _id, authorName, category, cover, publishedAt, readTime, shortDescription, title, ...other } = props;
 
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(() => {
-    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'view', id })); // Keep previous category for back button
-  }, [changeRoute, id]);
+    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
+  }, [changeRoute, _id]);
 
   return (
     <div {...other}>

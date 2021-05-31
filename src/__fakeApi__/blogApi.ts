@@ -5,7 +5,7 @@ const now = new Date();
 
 var posts: Post[] = [
   {
-    id: '24b76cac9a128cd949747080',
+    _id: '24b76cac9a128cd949747080',
     authorName: 'Jie Yan Song',
     category: 'News',
     cover: '/static/mock-images/covers/cover_4.jpeg',
@@ -18,7 +18,7 @@ var posts: Post[] = [
     title: 'Press Coverage - MIND featured in popular press articles'
   },
   {
-    id: 'a9c19d0caf2ca91020aacd1f',
+    _id: 'a9c19d0caf2ca91020aacd1f',
     authorName: 'Omar Darobe',
     category: 'Announcements',
     cover: '/static/mock-images/covers/cover_5.jpeg',
@@ -29,7 +29,7 @@ var posts: Post[] = [
     title: 'Scrum Has Hit the Glass Ceiling'
   },
   {
-    id: '44df90cbf89963b8aa625c7d',
+    _id: '44df90cbf89963b8aa625c7d',
     authorName: 'Siegbert Gottfried',
     category: 'Educational',
     cover: '/static/mock-images/covers/cover_6.jpeg',
@@ -40,7 +40,7 @@ var posts: Post[] = [
     title: 'How Model View Controller (MVC) Architectures Work'
   },
   {
-    id: 'c597c300fe3f817c41a2f01d',
+    _id: 'c597c300fe3f817c41a2f01d',
     authorName: 'Iulia Albu',
     category: 'News',
     cover: '/static/mock-images/covers/cover_7.jpeg',
@@ -58,7 +58,7 @@ class BlogApi {
   }
 
   getPost(id): Promise<Post> {
-    return Promise.resolve(posts.find(p => p.id === id));
+    return Promise.resolve(posts.find(p => p._id === id));
   }
 
   addPost(post): Promise<Post> {
@@ -67,7 +67,7 @@ class BlogApi {
   }
 
   updatePost(post): Promise<Post> {
-    var filtered = posts.filter(p => p.id !== post.id);
+    var filtered = posts.filter(p => p._id !== post._id);
     posts = [...filtered, post];
     return Promise.resolve(post);
   }
