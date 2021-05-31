@@ -16,6 +16,7 @@ import * as Icons from '@material-ui/icons';
 import { useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
 import { grey } from '@material-ui/core/colors';
+import useTabSelector from '../application/Selector/useTabSelector';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -48,22 +49,30 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   })
 );
 
-const tabs = [
-  { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
-  { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
-  { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
-  { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
-  { id: 'News', icon: Icons.Announcement, route: '/News' },
-  isDev() && { id: 'Community', icon: Icons.Forum, route: '/blog' }
-].filter(t => t);
+const useTabs = () => {
+  const [, setTabSelector] = useTabSelector('BlogLayoutSelector');
+  const handleClick = React.useCallback(() => {
+    setTabSelector({ value: 'News' });
+  }, [setTabSelector]);
+  return [
+    { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
+    { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
+    { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
+    { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
+    { id: 'News', icon: Icons.Announcement, route: '/News' },
+    isDev() && { id: 'Community', icon: Icons.Forum, route: '/blog', routeState: { blogLayout: 'list', category: 'News' }, onClick: handleClick }
+  ].filter(t => t);
+};
 
+const id = 'AppBar';
 const AppBarTabSelector = props => {
   const isAdmin = useIsAdmin();
   const signedIn = useSignedIn();
+  const tabs = useTabs();
 
   return (
     <TabSelectorToolBarV2
-      id='AppBar'
+      id={id}
       tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
       {...props}
     />
@@ -92,12 +101,14 @@ export default function ApplicationBarV2({ trigger }) {
 
   const changeRoute = useChangeRoute();
 
+  const tabs = useTabs();
+
   const handleTabChange = React.useCallback(
     value => {
       const { route } = tabs.find(t => t.id === value);
       changeRoute(publicUrl(route));
     },
-    [changeRoute]
+    [tabs, changeRoute]
   );
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

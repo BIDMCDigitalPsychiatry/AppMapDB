@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ palette }) =>
   })
 );
 
-const BlogToolbar = ({ title = undefined, subtitle = undefined, showGreeting = false, buttons = [] }) => {
+const BlogToolbar = ({ category = 'News', title = undefined, subtitle = undefined, showGreeting = false, buttons = [] }) => {
   const email = useUserEmail();
   const classes = useStyles();
 
@@ -28,7 +28,7 @@ const BlogToolbar = ({ title = undefined, subtitle = undefined, showGreeting = f
 
   return (
     <>
-      <BlogLayoutSelector />
+      <BlogLayoutSelector category={category} />
       <Divider style={{ marginTop: 16 }} />
       <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
         <Grid alignItems='center' container justify='space-between' spacing={spacing}>

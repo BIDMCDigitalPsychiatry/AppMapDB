@@ -3,6 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, createStyles, makeStyles, Container } from '@material-ui/core';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
+import { useChangeRoute } from '../../layout/hooks';
 
 export interface ComponentProps {
   id?: string;
@@ -74,6 +75,8 @@ const TabSelectorToolBarV2 = ({ id, tabs = [], orientation, wrapped, minHeight =
   const tabRoute = tabs.find(t => t.id === selected)?.route;
   const tabToSelect = pathname !== tabRoute && tabs.find(t => t.route === pathname);
 
+  const changeRoute = useChangeRoute();
+
   React.useEffect(() => {
     if (tabToSelect === undefined) {
       setTabSelector({ value: tabToSelect });
@@ -98,15 +101,25 @@ const TabSelectorToolBarV2 = ({ id, tabs = [], orientation, wrapped, minHeight =
 
   const { value = undefined } = tabSelector;
 
+  const handleClick = React.useCallback(
+    (route, state, onClick = undefined) =>
+      () => {
+        changeRoute(route, state);
+        onClick && onClick();
+      },
+    [changeRoute]
+  );
+
   return (
     <Container className={classes.root}>
       <Tabs variant='fullWidth' className={classes.tabs} scrollButtons='off' value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
         {!tabs ? (
           <></>
         ) : (
-          tabs.map(t => (
+          tabs.map((t: any) => (
             <Tab
               key={t.id}
+              onClick={handleClick(t.route, t?.routeState, t?.onClick)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
