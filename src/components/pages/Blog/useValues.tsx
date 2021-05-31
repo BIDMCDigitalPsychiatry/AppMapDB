@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useDatabaseRow } from '../../../database/useTableState';
 import { tables } from '../../../database/dbConfig';
 import useProcessData from '../../../database/useProcessData';
+import Decimal from 'decimal.js-light';
 
 const validate = values => {
   const newErrors = {};
@@ -14,6 +15,24 @@ const validate = values => {
       newErrors[k] = 'Required';
     }
   });
+
+  if (!isEmpty(values['cover'])) {
+    //size = (n * (3/4)) - y
+    //size is the size of file in bytes
+    //n is the length of the Base64 String
+    //y will be 2 if Base64 ends with '==' and 1 if Base64 ends with '='.
+    var n = values['cover'].length;
+    var y = values['cover'].endsWith('==') ? 2 : 1;
+    var isValid = new Decimal(n)
+      .times(new Decimal(3 / 4))
+      .minus(y)
+      .lessThanOrEqualTo(350000); // <= 350 kb
+
+    if (!isValid) {
+      newErrors['cover'] = 'Image exceeds maximum size limit.  Size must be less than or equal to 300 kB.  Please select a new image';
+    }
+  }
+
   return newErrors;
 };
 
@@ -127,7 +146,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
           },
           onError: err => {
             alert('Error publishing content.');
-            changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
+            console.error({ err });
             onError && onError(err);
           }
         });

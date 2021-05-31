@@ -5,6 +5,7 @@ import { categories, readTimes } from './post';
 import Check from '../DialogField/Check';
 import DateTimePicker from '../DialogField/DateTimePicker';
 import Text from '../DialogField/Text';
+import { isEmpty } from '../../../helpers';
 
 const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
   new Promise((resolve, reject) => {
@@ -66,6 +67,13 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                       height: 420
                     }}
                   />
+                  {!isEmpty(errors['cover']) && (
+                    <Box mt={2}>
+                      <Typography align='right' color='error'>
+                        {errors['cover']}
+                      </Typography>
+                    </Box>
+                  )}
                   <Box
                     style={{
                       display: 'flex',
