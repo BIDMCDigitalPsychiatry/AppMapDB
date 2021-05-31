@@ -1,25 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { Box, CardMedia, Chip, Grid, Link, Typography } from '@material-ui/core';
+import { Box, CardMedia, Chip, createStyles, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { useChangeRoute } from '../../layout/hooks';
-import { isEmpty } from '../../../helpers';
+import { bool, isEmpty } from '../../../helpers';
 import { grey } from '@material-ui/core/colors';
 
-interface BlogPostCardProps {
-  _id: string;
-  authorName: string;
-  category: string;
-  cover: string;
-  publishedAt: number;
-  readTime: string;
-  shortDescription: string;
-  title: string;
-}
+const useStyles = makeStyles(({ palette }: any) =>
+  createStyles({
+    archived: {
+      color: palette.error.main,
+      borderColor: palette.error.main
+    },
+    adminOnly: {
+      color: palette.primary.main,
+      borderColor: palette.primary.main
+    }
+  })
+);
 
-const BlogPostCard: React.FC<BlogPostCardProps> = props => {
-  const { _id, authorName, category, cover, publishedAt, readTime, shortDescription, title, ...other } = props;
-
+const BlogPostCard = ({
+  _id,
+  authorName,
+  category,
+  adminOnly = undefined,
+  cover,
+  publishedAt,
+  readTime,
+  shortDescription,
+  title,
+  deleted = undefined,
+  ...other
+}) => {
+  const classes = useStyles({});
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(() => {
@@ -64,9 +77,21 @@ const BlogPostCard: React.FC<BlogPostCardProps> = props => {
         )}
       </div>
       <Box mt={2}>
-        <div>
-          <Chip label={category} variant='outlined' />
-        </div>
+        <Grid container spacing={1}>
+          <Grid item>
+            <Chip label={category} variant='outlined' />
+          </Grid>
+          {bool(adminOnly) && (
+            <Grid item>
+              <Chip label='Admin Only' variant='outlined' className={classes.adminOnly} />
+            </Grid>
+          )}
+          {bool(deleted) && (
+            <Grid item>
+              <Chip label='Archived' variant='outlined' className={classes.archived} />
+            </Grid>
+          )}
+        </Grid>
         <Box
           style={{
             display: 'flex',

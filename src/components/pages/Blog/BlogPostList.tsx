@@ -171,16 +171,7 @@ const BlogPostList = ({ category = 'News' }) => {
             ) : (
               filtered.map(post => (
                 <Grid item key={post._id} lg={4} md={6} xs={12}>
-                  <BlogPostCard
-                    _id={post._id}
-                    authorName={post.authorName}
-                    category={post.category}
-                    cover={post.cover}
-                    publishedAt={post.publishedAt}
-                    readTime={post.readTime}
-                    shortDescription={post.shortDescription}
-                    title={post.title}
-                  />
+                  <BlogPostCard {...post} />
                 </Grid>
               ))
             )}
