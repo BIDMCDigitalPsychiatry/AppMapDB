@@ -12,6 +12,7 @@ import * as Icons from '@material-ui/icons';
 import { searchPosts, sortPosts } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { usePosts } from '../../../database/usePosts';
+import { bool } from '../../../helpers';
 
 const sortOptions = {
   desc: { label: 'Newest', SortOptionIcon: SortDescendingIcon },
@@ -66,7 +67,9 @@ const BlogPostList = ({ category = 'News' }) => {
   const filtered = sortPosts(
     searchPosts(
       Object.keys(posts)
-        .filter(k => posts[k].category === category && (showArchived ? posts[k].deleted : !posts[k].deleted))
+        .filter(
+          k => (isAdmin || (!isAdmin && !bool(posts[k]?.adminOnly))) && posts[k].category === category && (showArchived ? posts[k].deleted : !posts[k].deleted)
+        )
         .map(k => posts[k]),
       search
     ),

@@ -9,6 +9,8 @@ export interface Post {
   publishedAt: number;
   readTime: string;
   shortDescription: string;
+  adminOnly: boolean;
+  enableComments: boolean;
   title: string;
   createdBy?: string;
   updatedBy?: string;
@@ -25,7 +27,7 @@ export const useDefaultValues = () => {
     category: categories[0],
     content: '',
     readTime: '5 min',
-    publishedGlobally: true,
+    adminOnly: false,
     enableComments: true,
     authorName: email
   };

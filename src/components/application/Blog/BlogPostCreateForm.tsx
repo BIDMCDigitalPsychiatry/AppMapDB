@@ -152,15 +152,15 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
               />
               <Box mt={0}>
                 <Check
-                  id='publishedGlobally'
-                  label='Published Globally'
+                  id='adminOnly'
+                  label='Admin Only'
                   color='primary'
-                  onChange={handleChange('publishedGlobally')}
-                  value={values['publishedGlobally']}
-                  error={errors['publishedGlobally']}
+                  onChange={handleChange('adminOnly')}
+                  value={values['adminOnly']}
+                  error={errors['adminOnly']}
                 />
                 <Check
-                  id='enableComments'
+                  id='enableComments'                  
                   label='Enable Comments'
                   color='primary'
                   onChange={handleChange('enableComments')}

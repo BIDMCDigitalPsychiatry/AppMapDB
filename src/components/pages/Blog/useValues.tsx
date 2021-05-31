@@ -28,7 +28,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
     content: '',
     readTime: '5 min',
     publishedAt: new Date().getTime(),
-    publishedGlobally: true,
+    adminOnly: true,
     enableComments: true,
     authorName: email,
     created: undefined,

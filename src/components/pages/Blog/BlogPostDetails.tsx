@@ -8,7 +8,7 @@ import { useRouteState } from '../../layout/store';
 import BlogToolbar from './BlogToolbar';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
-import { isEmpty } from '../../../helpers';
+import { bool, isEmpty } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import useValues from './useValues';
 import { useIsAdmin } from '../../../hooks';
@@ -73,6 +73,8 @@ const BlogPostDetails = () => {
 
   const [{ _id }] = useRouteState();
   const { values, handleDelete } = useValues({ type: 'view', values: { _id } });
+
+  const { enableComments } = values;
 
   const handleBack = React.useCallback(() => {
     changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
@@ -204,18 +206,20 @@ const BlogPostDetails = () => {
             </div>
           </Container>
         </Box>
-        <div>
-          <Container maxWidth='lg'>
-            <Typography color='textPrimary' variant='h6'>
-              {`Comments (${comments.length})`}
-            </Typography>
-            <Box mt={3}>
-              {comments.map(comment => (
-                <BlogPostComment key={comment.id} {...comment} />
-              ))}
-            </Box>
-          </Container>
-        </div>
+        {bool(enableComments) && (
+          <div>
+            <Container maxWidth='lg'>
+              <Typography color='textPrimary' variant='h6'>
+                {`Comments (${comments.length})`}
+              </Typography>
+              <Box mt={3}>
+                {comments.map(comment => (
+                  <BlogPostComment key={comment.id} {...comment} />
+                ))}
+              </Box>
+            </Container>
+          </div>
+        )}
       </Container>
     </>
   );
