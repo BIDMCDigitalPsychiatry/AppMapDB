@@ -72,7 +72,7 @@ const BlogPostDetails = () => {
   const changeRoute = useChangeRoute();
 
   const [{ _id }] = useRouteState();
-  const { values, handleDelete } = useValues({ type: 'view', values: { _id } });
+  const { values = {}, handleDelete } = useValues({ type: 'view', values: { _id } });
 
   const { enableComments } = values;
 
@@ -117,12 +117,11 @@ const BlogPostDetails = () => {
                 },
                 className: classes.deleteButton
               },
-            isAdmin &&
-              !values?.deleted && {
-                label: 'Edit this post',
-                startIcon: <PencilAltIcon fontSize='small' />,
-                onClick: handleEdit
-              }
+            isAdmin && {
+              label: 'Edit this post',
+              startIcon: <PencilAltIcon fontSize='small' />,
+              onClick: handleEdit
+            }
           ].filter(b => b)}
         />
         <Divider />

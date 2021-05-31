@@ -119,7 +119,6 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
 
   const handleSave = React.useCallback(
     async ({ values: Values = undefined, onSuccess = undefined, onError = undefined }) => {
-      console.log(`${type} post...`);
       const post = { ...(Values ?? values) };
 
       if (type === 'create') {

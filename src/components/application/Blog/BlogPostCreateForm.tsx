@@ -6,6 +6,8 @@ import Check from '../DialogField/Check';
 import DateTimePicker from '../DialogField/DateTimePicker';
 import Text from '../DialogField/Text';
 import { isEmpty } from '../../../helpers';
+import * as StockImageSelectorDialog from '../GenericDialog/StockImageSelector';
+import DialogButton from '../GenericDialog/DialogButton';
 
 const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
   new Promise((resolve, reject) => {
@@ -26,6 +28,7 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
   const handleRemoveCover = () => setValues(prev => ({ ...prev, cover: undefined }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
+  const handleSelectCover = cover => setValues(prev => ({ ...prev, cover }));
 
   const theme = useTheme();
 
@@ -82,12 +85,25 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                     }}
                   >
                     <Button color='primary' onClick={handleRemoveCover} variant='text'>
-                      Change Cover
+                      Remove Cover
                     </Button>
                   </Box>
                 </div>
               ) : (
-                <FilesDropzone accept='image/*' maxFiles={1} onDrop={handleDropCover} />
+                <>
+                  <FilesDropzone accept='image/*' maxFiles={1} onDrop={handleDropCover} />
+                  <Box
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      marginTop: 16
+                    }}
+                  >
+                    <DialogButton variant='default' Module={StockImageSelectorDialog} onChange={handleSelectCover}>
+                      Select From Stock Images
+                    </DialogButton>
+                  </Box>
+                </>
               )}
               <Box style={{ marginTop: 24 }}>
                 <Typography color='textSecondary' style={{ marginBottom: 16 }} variant='subtitle2'>
@@ -168,13 +184,14 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   error={errors['adminOnly']}
                 />
                 <Check
-                  id='enableComments'                  
+                  id='enableComments'
                   label='Enable Comments'
                   color='primary'
                   onChange={handleChange('enableComments')}
                   value={values['enableComments']}
                   error={errors['enableComments']}
                 />
+                <Check id='deleted' label='Archived' color='primary' onChange={handleChange('deleted')} value={values['deleted']} error={errors['deleted']} />
               </Box>
             </CardContent>
           </Card>

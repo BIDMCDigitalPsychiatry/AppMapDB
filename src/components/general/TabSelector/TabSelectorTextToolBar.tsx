@@ -99,7 +99,6 @@ const TabSelectorTextToolBar = ({ id, tabs = [], orientation, wrapped, minHeight
 
   const handleChange = React.useCallback(
     (event, value) => {
-      console.log('setting');
       setTabSelector({ value });
       onChange && onChange(value);
     },
