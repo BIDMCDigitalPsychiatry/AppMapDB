@@ -300,6 +300,10 @@ const DialogButton = React.forwardRef(function DialogButton(
             <Button size='small' variant='outlined' style={{ width: 96 }} {...shared}>
               {children}
             </Button>
+          ) : variant === 'outlined' ? (
+            <Button variant='outlined' color={color} startIcon={<Icon />} {...shared}>
+              {children}
+            </Button>
           ) : variant === 'standard' ? (
             <Button color={color as any} {...shared}>
               {children}

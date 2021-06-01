@@ -26,33 +26,39 @@ const BlogToolbar = ({ category = 'News', title = undefined, subtitle = undefine
     <></>
   );
 
+  const showToolbar = title || showGreeting || subtitle || (buttons && buttons.length > 0);
+
   return (
     <>
       <BlogLayoutSelector category={category} />
       <Divider style={{ marginTop: 16 }} />
-      <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
-        <Grid alignItems='center' container justify='space-between' spacing={spacing}>
-          <Grid item>
-            {title && (
-              <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
-                {title}
-              </Typography>
-            )}
-            {SubTitle}
-          </Grid>
-          <Grid item>
-            <Grid container spacing={spacing}>
-              {buttons.map(({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
-                <Grid item key={label}>
-                  <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
-                    {label}
-                  </Button>
-                </Grid>
-              ))}
+      {showToolbar && (
+        <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
+          <Grid alignItems='center' container justify='space-between' spacing={spacing}>
+            <Grid item>
+              {title && (
+                <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
+                  {title}
+                </Typography>
+              )}
+              {SubTitle}
+            </Grid>
+            <Grid item>
+              <Grid container spacing={spacing}>
+                {buttons.map(
+                  ({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
+                    <Grid item key={label}>
+                      <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
+                        {label}
+                      </Button>
+                    </Grid>
+                  )
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Toolbar>
+        </Toolbar>
+      )}
     </>
   );
 };

@@ -4,7 +4,7 @@ import { isEmpty, isError } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import { useHandleLink } from '../../../hooks';
 
-const TextLink = ({
+const TextLinkStyled = ({
   value = '',
   margin = 'dense',
   variant = 'outlined',
@@ -13,6 +13,7 @@ const TextLink = ({
   initialValue = undefined,
   InputProps = undefined,
   disabled = undefined,
+  fullWidth = undefined,
   ...other
 }) => {
   const handleMouseDown = event => {
@@ -28,7 +29,8 @@ const TextLink = ({
       helperText={forceErrorMargin ? error || ' ' : error} // Forces a constant helper text margin
       margin={margin as any}
       variant={variant as any}
-      fullWidth
+      fullWidth={fullWidth}
+      style={{ width: 500 - 8 }}
       InputLabelProps={{
         shrink: true
       }}
@@ -50,4 +52,4 @@ const TextLink = ({
   );
 };
 
-export default TextLink;
+export default TextLinkStyled;

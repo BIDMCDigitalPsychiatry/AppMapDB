@@ -93,7 +93,7 @@ const FileDropzone: FC<FileDropzoneProps> = props => {
       <Box className={classes.container} {...getRootProps()}>
         <input {...getInputProps()} />
         <Box className={classes.img}>
-          <img alt='Select file' src='/undraw_add_file2_gvbb.svg' />
+          <img alt='Select file' src='/images/undraw_add_file2_gvbb.svg' />
         </Box>
         <Box p={2}>
           <Typography color='textPrimary' variant='h6'>

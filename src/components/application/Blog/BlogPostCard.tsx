@@ -24,7 +24,7 @@ const BlogPostCard = ({
   authorName,
   category,
   adminOnly = undefined,
-  cover,
+  cover = '/images/covers/cover_default.jpg', // set default cover
   publishedAt,
   readTime,
   shortDescription,

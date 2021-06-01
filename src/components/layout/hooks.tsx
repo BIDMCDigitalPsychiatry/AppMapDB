@@ -2,7 +2,7 @@ import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
 import { useResizeAppBar, useResizeFooter, useResizeHeader, useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useSelector } from 'react-redux';
 import { evalFunc } from '../../helpers';
 
 export const useAppBarHeightRef = () => {
@@ -66,4 +66,12 @@ export const useChangeRoute = () => {
 
 export const useUserEmail = () => {
   return useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
+};
+
+export const useLayoutKey = key => useSelector((state: any) => state.layout[key], shallowEqual);
+export const useAuth = () => useLayoutKey('auth') || {};
+
+export const useUserId = ({ userId = undefined } = {}) => {
+  const auth = useAuth();
+  return userId ? userId : auth.username;
 };

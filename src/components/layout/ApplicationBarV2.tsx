@@ -4,7 +4,7 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useAppBarHeightRef, useChangeRoute } from './hooks';
-import { isDev, publicUrl, useHandleToggleLayout } from '../../helpers';
+import { publicUrl, useHandleToggleLayout } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
@@ -60,7 +60,7 @@ const useTabs = () => {
     { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
     { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
     { id: 'News', icon: Icons.Announcement, route: '/News' },
-    isDev() && { id: 'Community', icon: Icons.Forum, route: '/blog', routeState: { blogLayout: 'list', category: 'News' }, onClick: handleClick }
+    { id: 'Community', icon: Icons.Forum, route: '/blog', routeState: { blogLayout: 'list', category: 'News' }, onClick: handleClick }
   ].filter(t => t);
 };
 

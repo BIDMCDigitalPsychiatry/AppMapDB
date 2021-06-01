@@ -5,7 +5,7 @@ const tabs = [
   { id: 'News', route: '/blog', routeState: { blogLayout: 'list', cateogory: 'News' } },
   { id: 'Announcements', route: '/blog', routeState: { blogLayout: 'list', category: 'Announcements' } },
   { id: 'Educational', route: '/blog', routeState: { blogLayout: 'list', category: 'Educational' } },
-  { id: 'Calendar', route: '/calendar', routeState: { blogLayout: 'list', category: 'Calendar' } }
+  { id: 'Calendar', route: '/blog', routeState: { blogLayout: 'calendar' } }
 ].filter(t => t);
 
 const BlogLayoutSelector = props => {
