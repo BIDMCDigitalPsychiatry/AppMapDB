@@ -1,4 +1,4 @@
-import { useUserEmail } from '../../layout/hooks';
+import { useUserEmail } from '../../components/layout/hooks';
 
 export interface Post {
   _id: string;

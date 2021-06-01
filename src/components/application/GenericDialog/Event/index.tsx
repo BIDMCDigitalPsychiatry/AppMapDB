@@ -25,7 +25,7 @@ const frequencyItems = [
 ];
 
 export default function EventDialog({ id = title, onClose }) {
-  const userId = useUserId(); // Only instructors can currently create events, so grab the user id
+  const userId = useUserId(); 
 
   const [, setState] = useDialogState(id);
   const handleClose = React.useCallback(

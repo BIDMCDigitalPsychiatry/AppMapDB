@@ -1,5 +1,5 @@
 import { subDays, subHours, subMinutes, subSeconds } from 'date-fns';
-import { Post } from '../components/application/Blog/post';
+import { Post } from '../database/models/Post';
 
 const now = new Date();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
-import { categories } from '../../application/Blog/post';
+import { categories } from '../../../database/models/Post';
 import { isEmpty, uuid } from '../../../helpers';
 import { useEffect } from 'react';
 import { useDatabaseRow } from '../../../database/useTableState';

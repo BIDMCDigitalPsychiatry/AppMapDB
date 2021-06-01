@@ -4,7 +4,7 @@ import PlusIcon from '../../icons/Plus';
 import SortAscendingIcon from '../../icons/SortAscending';
 import SortDescendingIcon from '../../icons/SortDescending';
 import SearchIcon from '../../icons/Search';
-import { useDefaultValues } from '../../application/Blog/post';
+import { useDefaultValues } from '../../../database/models/Post';
 import BlogPostCard from '../../application/Blog/BlogPostCard';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';

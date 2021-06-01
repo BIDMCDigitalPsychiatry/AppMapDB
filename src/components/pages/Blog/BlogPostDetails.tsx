@@ -3,7 +3,7 @@ import { format, subHours } from 'date-fns';
 import { Box, Chip, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import PencilAltIcon from '../../icons/PencilAlt';
 import BlogPostComment from '../../application/Blog/BlogPostComment';
-import { useChangeRoute } from '../../layout/hooks';
+import { useChangeRoute, useUserEmail } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 import BlogToolbar from './BlogToolbar';
 import marked from 'marked';
@@ -12,6 +12,8 @@ import { bool, isEmpty } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import useValues from './useValues';
 import { useIsAdmin } from '../../../hooks';
+import DialogButton from '../../application/GenericDialog/DialogButton';
+import * as CommentDialog from '../../application/GenericDialog/Comment';
 
 const comments = [
   {
@@ -70,6 +72,8 @@ const BlogPostDetails = () => {
   const classes = useStyles();
   const isAdmin = useIsAdmin();
   const changeRoute = useChangeRoute();
+
+  const userEmail = useUserEmail();
 
   const [{ _id }] = useRouteState();
   const { values = {}, handleDelete } = useValues({ type: 'view', values: { _id } });
@@ -208,13 +212,28 @@ const BlogPostDetails = () => {
         {bool(enableComments) && (
           <div>
             <Container maxWidth='lg'>
-              <Typography color='textPrimary' variant='h6'>
-                {`Comments (${comments.length})`}
-              </Typography>
+              <Grid container justify='space-between' spacing={2}>
+                <Grid item>
+                  <Typography color='textPrimary' variant='h6'>
+                    {`Comments (${comments.length})`}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <DialogButton
+                    Module={CommentDialog}
+                    initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
+                    variant='default'
+                  >
+                    Add Comment
+                  </DialogButton>
+                </Grid>
+              </Grid>
               <Box mt={3}>
-                {comments.map(comment => (
-                  <BlogPostComment key={comment.id} {...comment} />
-                ))}
+                {comments.length === 0 ? (
+                  <Typography color='textSecondary'>There are no comments</Typography>
+                ) : (
+                  comments.map(comment => <BlogPostComment key={comment.id} {...comment} />)
+                )}
               </Box>
             </Container>
           </div>

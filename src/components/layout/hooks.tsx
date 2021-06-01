@@ -69,9 +69,9 @@ export const useUserEmail = () => {
 };
 
 export const useLayoutKey = key => useSelector((state: any) => state.layout[key], shallowEqual);
-export const useAuth = () => useLayoutKey('auth') || {};
+export const useUser = () => useLayoutKey('user') || {};
 
 export const useUserId = ({ userId = undefined } = {}) => {
-  const auth = useAuth();
-  return userId ? userId : auth.username;
+  const user = useUser();
+  return userId ? userId : user.username;
 };

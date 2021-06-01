@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from '@material-ui/core';
 import QuillEditor from '../QuillEditor';
 import FilesDropzone from '../FilesDropzone';
-import { categories, readTimes } from './post';
+import { categories, readTimes } from '../../../database/models/Post';
 import Check from '../DialogField/Check';
 import DateTimePicker from '../DialogField/DateTimePicker';
 import Text from '../DialogField/Text';
