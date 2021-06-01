@@ -7,4 +7,5 @@ export interface Comment {
   updatedBy: string;
   createdAt: number;
   updatedAt: number;
+  deleted?: boolean;
 }

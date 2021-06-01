@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { dynamo } from './dbConfig';
 
-export default function useTable({ TableName }) {
+export default function useTable({ TableName, idKey = 'id' }) {
   const [state, setState] = React.useState({ data: [], loading: false, success: false });
 
   const handleRequest = React.useCallback(
@@ -26,7 +26,7 @@ export default function useTable({ TableName }) {
           loading: false,
           success: true,
           data: scanResults.reduce((f, c: any) => {
-            f[c.id] = c;
+            f[c[idKey]] = c;
             return f;
           }, {})
         }));
@@ -34,7 +34,7 @@ export default function useTable({ TableName }) {
       setState(prev => ({ ...prev, data: [], loading: true, success: false }));
       getRows();
     },
-    [TableName, setState]
+    [idKey, TableName, setState]
   );
 
   return { state, setState, handleRequest };

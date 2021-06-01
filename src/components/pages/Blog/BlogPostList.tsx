@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Button, Container, createStyles, Grid, IconButton, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core';
 import PlusIcon from '../../icons/Plus';
-import SortAscendingIcon from '../../icons/SortAscending';
-import SortDescendingIcon from '../../icons/SortDescending';
 import SearchIcon from '../../icons/Search';
 import { useDefaultValues } from '../../../database/models/Post';
 import BlogPostCard from '../../application/Blog/BlogPostCard';
@@ -13,11 +11,7 @@ import { searchPosts, sortPosts } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { usePosts } from '../../../database/usePosts';
 import { bool } from '../../../helpers';
-
-const sortOptions = {
-  desc: { label: 'Newest', SortOptionIcon: SortDescendingIcon },
-  asc: { label: 'Older', SortOptionIcon: SortAscendingIcon }
-};
+import useSortOptions from '../../hooks/useSortOptions';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -32,11 +26,11 @@ const useStyles = makeStyles(theme =>
 );
 
 const BlogPostList = ({ category = 'News' }) => {
-  const classes = useStyles({});
-  const sortRef = React.useRef<HTMLButtonElement | null>(null);
+  const classes = useStyles({});  
   const { posts, handleRefresh } = usePosts();
 
-  const [sortOption, setSortOption] = React.useState<string>(Object.keys(sortOptions)[0]);
+  const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
+
   const [search, setSearch] = React.useState('');
   const [showArchived, setShowArchived] = React.useState(false);
   const isAdmin = useIsAdmin();
@@ -50,15 +44,9 @@ const BlogPostList = ({ category = 'News' }) => {
     handleRefresh();
   }, [handleRefresh]);
 
-  const handleToggleSortDirection = (): void => {
-    setSortOption(prev => (prev === 'desc' ? 'asc' : 'desc'));
-  };
-
   const handleToggleShowArchived = (): void => {
     setShowArchived(prev => !prev);
   };
-
-  const { label, SortOptionIcon } = sortOptions[sortOption];
 
   const values = useDefaultValues();
 
@@ -128,8 +116,7 @@ const BlogPostList = ({ category = 'News' }) => {
                 <Grid item>
                   <Button
                     color='primary'
-                    onClick={handleToggleShowArchived}
-                    ref={sortRef}
+                    onClick={handleToggleShowArchived}                    
                     size='small'
                     startIcon={<ArchiveIcon fontSize='small' />}
                     variant='text'
@@ -141,13 +128,12 @@ const BlogPostList = ({ category = 'News' }) => {
               <Grid item>
                 <Button
                   color='primary'
-                  onClick={handleToggleSortDirection}
-                  ref={sortRef}
+                  onClick={handleToggleSortDirection}                  
                   size='small'
                   startIcon={<SortOptionIcon fontSize='small' />}
                   variant='text'
                 >
-                  {label}
+                  {sortLabel}
                 </Button>
               </Grid>
             </Grid>

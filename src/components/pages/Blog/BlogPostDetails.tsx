@@ -1,6 +1,6 @@
 import React from 'react';
-import { format, subHours } from 'date-fns';
-import { Box, Chip, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { format } from 'date-fns';
+import { Box, Button, Chip, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import PencilAltIcon from '../../icons/PencilAlt';
 import BlogPostComment from '../../application/Blog/BlogPostComment';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
@@ -14,21 +14,9 @@ import useValues from './useValues';
 import { useIsAdmin } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CommentDialog from '../../application/GenericDialog/Comment';
-
-const comments = [
-  {
-    id: 'd0ab3d02ef737fa6b007e35d',
-    authorName: 'Alcides Antonio',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    createdAt: subHours(new Date(), 2).getTime()
-  },
-  {
-    id: '3ac1e17289e38a84108efdf3',
-    authorName: 'Jie Yan Song',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
-    createdAt: subHours(new Date(), 8).getTime()
-  }
-];
+import { useCommentsByPostId } from '../../../database/useComments';
+import { sortComments } from './helpers';
+import useSortOptions from '../../hooks/useSortOptions';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -90,6 +78,15 @@ const BlogPostDetails = () => {
   }, [changeRoute, JSON.stringify(values)]);
 
   const purifiedContent = DOMPurify.sanitize(marked(isEmpty(values?.content) ? '' : values?.content)) ?? '';
+
+  const { data: comments, handleRefresh } = useCommentsByPostId({ postId: _id });
+
+  const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
+
+  const filtered = sortComments(
+    comments.filter(e => !e.deleted),
+    sortOption
+  );
 
   return !values ? null : (
     <>
@@ -215,24 +212,35 @@ const BlogPostDetails = () => {
               <Grid container justify='space-between' spacing={2}>
                 <Grid item>
                   <Typography color='textPrimary' variant='h6'>
-                    {`Comments (${comments.length})`}
+                    {`Comments (${filtered.length})`}
                   </Typography>
                 </Grid>
+
                 <Grid item>
-                  <DialogButton
-                    Module={CommentDialog}
-                    initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
-                    variant='default'
-                  >
-                    Add Comment
-                  </DialogButton>
+                  <Grid container spacing={1}>
+                    <Grid item>
+                      <Button color='primary' onClick={handleToggleSortDirection} size='small' startIcon={<SortOptionIcon fontSize='small' />} variant='text'>
+                        {sortLabel}
+                      </Button>
+                    </Grid>
+                    <Grid item>
+                      <DialogButton
+                        Module={CommentDialog}
+                        onClose={handleRefresh}
+                        initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
+                        variant='default'
+                      >
+                        Add Comment
+                      </DialogButton>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
               <Box mt={3}>
-                {comments.length === 0 ? (
+                {filtered.length === 0 ? (
                   <Typography color='textSecondary'>There are no comments</Typography>
                 ) : (
-                  comments.map(comment => <BlogPostComment key={comment.id} {...comment} />)
+                  filtered.map(comment => <BlogPostComment key={comment.id} {...comment} />)
                 )}
               </Box>
             </Container>

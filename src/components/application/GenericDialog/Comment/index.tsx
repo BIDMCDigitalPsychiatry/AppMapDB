@@ -40,13 +40,16 @@ export default function CommentDialog({ id = title, onClose }) {
     [setState, processData, userId, type, handleClose]
   );
 
+  const handleDelete = React.useCallback(values => handleSubmit({ ...values, deleted: true }), [handleSubmit]);
+
   return (
     <GenericDialog
       id={id}
       title={id}
       onSubmit={handleSubmit}
-      submitLabel='Add'
+      submitLabel={type === 'Add' ? 'Add' : 'Save'}
       onClose={onClose}
+      onDelete={type === 'Edit' && handleDelete}
       fields={[
         {
           id: '_id',
@@ -64,6 +67,7 @@ export default function CommentDialog({ id = title, onClose }) {
         {
           id: 'content',
           label: 'Comment',
+          autoFocus: true,
           multiline: true,
           rows: 4
         }
