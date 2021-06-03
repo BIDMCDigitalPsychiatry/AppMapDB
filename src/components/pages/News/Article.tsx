@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { Box, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
-import { useFullScreen } from '../../../hooks';
+import { Box, Button, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { useFullScreen, useIsAdmin } from '../../../hooks';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 import { Pagination } from '@material-ui/lab';
-import { isEmpty, publicUrl } from '../../../helpers';
+import { isDev, isEmpty, publicUrl, uuid } from '../../../helpers';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
+import { tables } from '../../../database/dbConfig';
+import useProcessData from '../../../database/useProcessData';
 
 const articleFile = require('../../../content/Articles/Articles.json');
 
@@ -52,6 +54,32 @@ const ArticleContent = ({ file, title, subTitle, date }) => {
 
   const classes = useStyles();
 
+  const content = state.markdown;
+  const processData = useProcessData();
+
+  // Script to upload existing news articles to the new database implementation
+  const handleUpload = () => {
+    if (date) {
+      var parts = date.split('/');
+      var newDate = new Date(parts[2], parts[0] - 1, parts[1]);
+
+      const uploadObj = {
+        _id: uuid(),
+        category: 'News',
+        title,
+        content,
+        publishedAt: newDate.getTime(),
+        readTime: '5 min',
+        shortDescription: subTitle,
+        createdBy: 'cvanem@gmail.com',
+        created: new Date().getTime()
+      };
+      processData({ Action: 'c', Model: tables.posts, Data: uploadObj as any });
+    }
+  };
+
+  const isAdmin = useIsAdmin();
+
   return (
     <>
       <section>
@@ -59,6 +87,11 @@ const ArticleContent = ({ file, title, subTitle, date }) => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Grid container justify='space-between'>
+                {isDev() && isAdmin && (
+                  <Grid item>
+                    <Button onClick={handleUpload}>Upload Article</Button>
+                  </Grid>
+                )}
                 <Grid item>
                   <Typography className={classes.primaryText} variant='h6'>
                     {[title, subTitle].filter(t => !isEmpty(t)).join(' - ')}

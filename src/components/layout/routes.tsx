@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Route, Switch } from 'react-router';
 import RatingProcess from '../pages/RatingProcess';
 import Apps from '../pages/Apps';
@@ -20,7 +19,7 @@ import VersionComponent from './VersionComponent';
 import RateAnApp from '../pages/RateAnApp';
 import Admin from '../pages/Admin/Admin';
 import Article from '../pages/News/Article';
-import Community from '../pages/Community';
+import BlogLayout from '../application/Blog/BlogLayout';
 
 const Routes = () => (
   <Switch>
@@ -39,7 +38,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/RateAnApp')} component={RateAnApp} />
     <Route exact path={publicUrl('/RateNewAppIntro')} component={RateNewAppIntro} />
     <Route exact path={publicUrl('/ViewApp')} component={ViewApp} />
-    <Route exact path={publicUrl('/Community')} component={Community} />
+    <Route exact path={publicUrl('/blog')} component={BlogLayout} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
   </Switch>
 );

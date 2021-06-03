@@ -2,6 +2,8 @@ import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
 import { useResizeAppBar, useResizeFooter, useResizeHeader, useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
+import { shallowEqual, useSelector } from 'react-redux';
+import { evalFunc } from '../../helpers';
 
 export const useAppBarHeightRef = () => {
   let ref = React.useRef(null);
@@ -35,18 +37,41 @@ export const useFooterHeightRef = () => {
 
 export const useHandleChangeRoute = () => {
   const changeRoute = useChangeRoute();
-  return React.useCallback((route, state = undefined) => event => changeRoute(route, state), [changeRoute]);
+  return React.useCallback(
+    (route, state = undefined) =>
+      event => {
+        changeRoute(route, state);
+      },
+    [changeRoute]
+  );
 };
 
 export const useChangeRoute = () => {
   const { pathname } = useLocation();
   const history = useHistory();
-  const [, setState] = useRouteState();
+  const [statePrev, setState] = useRouteState(); // setState doesn't support a function as a parameter to setState
   return React.useCallback(
     (route: string, state = undefined) => {
       pathname !== route && history && history.push(route);
-      if (state !== undefined) setState(state);
+      if (state) {
+        setState(evalFunc(state, statePrev)); // Must manually use previous State instead of (prev) => {...prev} as useRouteState.setState doesn't support functions
+      } else {
+        setState({});
+      }
     },
-    [history, pathname, setState]
+    // eslint-disable-next-line
+    [JSON.stringify(statePrev), history, pathname, setState]
   );
+};
+
+export const useUserEmail = () => {
+  return useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
+};
+
+export const useLayoutKey = key => useSelector((state: any) => state.layout[key], shallowEqual);
+export const useUser = () => useLayoutKey('user') || {};
+
+export const useUserId = ({ userId = undefined } = {}) => {
+  const user = useUser();
+  return userId ? userId : user.username;
 };

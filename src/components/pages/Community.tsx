@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Container, createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
+import BlogLayout from '../application/Blog/BlogLayout';
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
@@ -20,7 +20,10 @@ export default function Community() {
         Community
       </Typography>
       <Typography variant='body2'>Learn more about how our database is being used around the world.</Typography>
-      <Grid container justify='center' style={{ marginTop: 24 }} spacing={3}></Grid>
+      <Grid container justify='center' style={{ marginTop: 24 }} spacing={3}>
+        <BlogLayout />
+      </Grid>
     </Container>
   );
 }
+ 

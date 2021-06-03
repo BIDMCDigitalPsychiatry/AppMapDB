@@ -250,7 +250,11 @@ const DialogButton = React.forwardRef(function DialogButton(
         }
       >
         <span>
-          {variant === 'arrowButton' ? (
+          {variant === 'default' ? (
+            <Button {...shared} color={color}>
+              {children}
+            </Button>
+          ) : variant === 'arrowButton' ? (
             <ArrowButton label={label} {...shared} size='normal' />
           ) : variant === 'primaryButton' ? (
             <Button {...shared} className={classes.primaryButton} fullWidth={true}>
@@ -294,6 +298,10 @@ const DialogButton = React.forwardRef(function DialogButton(
             </Button>
           ) : variant === 'smallOutlined' ? (
             <Button size='small' variant='outlined' style={{ width: 96 }} {...shared}>
+              {children}
+            </Button>
+          ) : variant === 'outlined' ? (
+            <Button variant='outlined' color={color} startIcon={<Icon />} {...shared}>
               {children}
             </Button>
           ) : variant === 'standard' ? (

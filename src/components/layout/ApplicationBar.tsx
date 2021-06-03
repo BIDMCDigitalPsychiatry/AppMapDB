@@ -4,12 +4,11 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import logo from '../../images/logo.png';
-import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute } from './hooks';
+import { useAppBarHeightRef, useHandleChangeRoute, useChangeRoute, useUserEmail } from './hooks';
 import { publicUrl, useHandleToggleLayout } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/Login';
 import * as RegisterDialog from '../application/GenericDialog/Register';
 import DialogButton from '../application/GenericDialog/DialogButton';
-import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
 import { beta } from '../../constants';
@@ -82,7 +81,7 @@ export default function ApplicationBar() {
     setAnchorEl(null);
   }, [setUser, registerOpen, loginOpen, setRegisterState, setLoginState, setAnchorEl]);
 
-  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
+  const email = useUserEmail();
 
   const changeRoute = useChangeRoute();
 

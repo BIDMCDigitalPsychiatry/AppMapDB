@@ -13,7 +13,6 @@ const TextLink = ({
   initialValue = undefined,
   InputProps = undefined,
   disabled = undefined,
-  fullWidth = undefined,
   ...other
 }) => {
   const handleMouseDown = event => {
@@ -29,8 +28,7 @@ const TextLink = ({
       helperText={forceErrorMargin ? error || ' ' : error} // Forces a constant helper text margin
       margin={margin as any}
       variant={variant as any}
-      fullWidth={fullWidth}
-      style={{ width: 500 - 8 }}
+      fullWidth
       InputLabelProps={{
         shrink: true
       }}

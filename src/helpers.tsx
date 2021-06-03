@@ -195,7 +195,7 @@ export function minutesToTimeAgo(minutes) {
 
 export const timeAgo = time => (time ? minutesToTimeAgo(minutesFrom(time)) : '');
 
-export function sortDescending(a = 0, b = 0) {
+export function sortDescending(a = 0 as any, b = 0 as any) {
   if (a < b) return 1;
   if (a > b) return -1;
   return 0;
@@ -275,7 +275,7 @@ export function getDayTimeFromTimestamp(timestamp: number) {
   var isPM = h > 12 ? true : false;
   h = isPM ? h - 12 : h === 0 ? 12 : h; //If PM, subtract 12.  If we are 0 or midnight, then set to 12, otherwise use the normal hour index
   var month = monthAbbrOfYear(d.getMonth());
-  
+
   return `${day} ${month} ${dayNumber} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
 
@@ -300,3 +300,15 @@ export function useHandleToggleLayout() {
     changeRoute(publicUrl('/Home'));
   }, [layoutMode, setLayoutMode, changeRoute]);
 }
+
+/* eslint-disable no-restricted-properties */
+export const bytesToSize = (bytes: number, decimals: number = 2) => {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};

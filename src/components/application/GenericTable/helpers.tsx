@@ -23,7 +23,9 @@ export interface ColumnFilter {
   column: string;
 }
 
-const isMatch = (obj, re) => {
+export const escapeRegex = searchtext => new RegExp(searchtext.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'gi'); // Ensures that all possible regex characters in searchtext are escaped before searching
+
+export const isMatch = (obj, re) => {
   if (obj.getSearchValues) {
     return obj.getSearchValues().match(re);
   } else {
@@ -92,7 +94,8 @@ export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', 
   if (columnfilter) if (columnfilter.column) if (columnfilter.value !== 'All' && columnfilter.value !== '') performcolumnfilter = true;
 
   const performtextfilter = searchtext && searchtext !== '' ? true : false;
-  const re = new RegExp(searchtext.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1'), 'gi'); // Ensures that all possible regex characters in searchtext are escaped before searching
+
+  const re = escapeRegex(searchtext);
 
   return data.filter(
     x =>
