@@ -36,14 +36,14 @@ const validate = values => {
   return newErrors;
 };
 
-const useValues = ({ type = 'create', trigger = false, values: Values = undefined }) => {
+const useValues = ({ type = 'create', trigger = false, values: Values = undefined, category: Category = undefined }) => {
   const changeRoute = useChangeRoute();
   const email = useUserEmail();
 
   var initialValues = Values ?? {
     title: '',
     shortDescription: '',
-    category: categories[0],
+    category: Category ?? categories[0],
     content: '',
     readTime: '5 min',
     publishedAt: new Date().getTime(),
@@ -118,11 +118,11 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
   }, [trigger, _id, type, getPost]);
 
   const handleSave = React.useCallback(
-    async ({ values: Values = undefined, onSuccess = undefined, onError = undefined }) => {
+    async ({ values: Values = undefined, onSuccess = undefined, onError = undefined, idKey = '_id' }) => {
       const post = { ...(Values ?? values) };
 
       if (type === 'create') {
-        post.id = uuid();
+        post[idKey] = uuid();
         post.created = new Date().getTime();
         post.createdBy = email;
       } else {

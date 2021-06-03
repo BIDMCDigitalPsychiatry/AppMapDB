@@ -19,7 +19,7 @@ export interface Post {
   deleted?: boolean;
 }
 
-export const useDefaultValues = () => {
+export const useDefaultValues = props => {
   const email = useUserEmail();
   return {
     title: '',
@@ -29,10 +29,11 @@ export const useDefaultValues = () => {
     readTime: '5 min',
     adminOnly: false,
     enableComments: true,
-    authorName: email
+    authorName: email,
+    ...props
   };
 };
 
-export const categories = ['News', 'Annoucements', 'Education'];
+export const categories = ['News', 'Announcements', 'Educational'];
 
 export const readTimes = ['1 min', '2 min', '3 min', '4 min', '5 min', '6 min', '7 min', '8 min', '9 min', '10 min', '15 min', '> 15 min'];

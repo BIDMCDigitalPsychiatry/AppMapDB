@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme =>
 );
 
 const BlogPostList = ({ category = 'News' }) => {
-  const classes = useStyles({});  
+  const classes = useStyles({});
   const { posts, handleRefresh } = usePosts();
 
   const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
@@ -48,7 +48,7 @@ const BlogPostList = ({ category = 'News' }) => {
     setShowArchived(prev => !prev);
   };
 
-  const values = useDefaultValues();
+  const values = useDefaultValues({ category });
 
   const ArchiveIcon = !showArchived ? Icons.VisibilityOff : Icons.Visibility;
 
@@ -114,25 +114,13 @@ const BlogPostList = ({ category = 'News' }) => {
             <Grid container spacing={2}>
               {isAdmin && (
                 <Grid item>
-                  <Button
-                    color='primary'
-                    onClick={handleToggleShowArchived}                    
-                    size='small'
-                    startIcon={<ArchiveIcon fontSize='small' />}
-                    variant='text'
-                  >
+                  <Button color='primary' onClick={handleToggleShowArchived} size='small' startIcon={<ArchiveIcon fontSize='small' />} variant='text'>
                     {showArchived ? 'Hide Archived' : 'Show Archived'}
                   </Button>
                 </Grid>
               )}
               <Grid item>
-                <Button
-                  color='primary'
-                  onClick={handleToggleSortDirection}                  
-                  size='small'
-                  startIcon={<SortOptionIcon fontSize='small' />}
-                  variant='text'
-                >
+                <Button color='primary' onClick={handleToggleSortDirection} size='small' startIcon={<SortOptionIcon fontSize='small' />} variant='text'>
                   {sortLabel}
                 </Button>
               </Grid>

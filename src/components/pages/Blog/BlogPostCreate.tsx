@@ -5,10 +5,12 @@ import BlogPostCreateForm from '../../application/Blog/BlogPostCreateForm';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';
 import useValues from './useValues';
+import { useRouteState } from '../../layout/store';
 
 const BlogPostCreate = () => {
   const handleChangeRoute = useHandleChangeRoute();
-  const { values, setValues, errors, handleSave } = useValues({ type: 'create' });
+  const [{ category }] = useRouteState(); // Get initial category
+  const { values, setValues, errors, handleSave } = useValues({ type: 'create', category });
 
   return (
     <Container maxWidth='lg'>
