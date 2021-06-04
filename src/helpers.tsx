@@ -236,7 +236,7 @@ export function onlyUnique(value, index, self) {
 }
 
 function dayAbbrOfWeek(dayIndex) {
-  return ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][dayIndex];
+  return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dayIndex];
 }
 
 function monthAbbrOfYear(monthIndex) {

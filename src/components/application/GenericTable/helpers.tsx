@@ -119,8 +119,7 @@ function descDecimal(a, b, orderBy) {
   const A = a?.getValues();
   const B = b?.getValues();
   var dA = new Decimal(A[orderBy] ?? 0);
-  var dB = new Decimal(B[orderBy] ?? 0);
-  console.log({ orderBy, a, b, A, B, dA, dB });
+  var dB = new Decimal(B[orderBy] ?? 0);  
   if (dB.lessThan(dA)) {
     return -1;
   }
