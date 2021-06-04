@@ -11,7 +11,7 @@ import DOMPurify from 'dompurify';
 import { bool, isEmpty } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import useValues from './useValues';
-import { useIsAdmin } from '../../../hooks';
+import { useIsAdmin, useSignedIn } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CommentDialog from '../../application/GenericDialog/Comment';
 import { useCommentsByPostId } from '../../../database/useComments';
@@ -67,6 +67,8 @@ const BlogPostDetails = () => {
   const { values = {}, handleDelete } = useValues({ type: 'view', values: { _id } });
 
   const { enableComments } = values;
+
+  const signedIn = useSignedIn();
 
   const handleBack = React.useCallback(() => {
     changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
@@ -223,16 +225,18 @@ const BlogPostDetails = () => {
                         {sortLabel}
                       </Button>
                     </Grid>
-                    <Grid item>
-                      <DialogButton
-                        Module={CommentDialog}
-                        onClose={handleRefresh}
-                        initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
-                        variant='default'
-                      >
-                        Add Comment
-                      </DialogButton>
-                    </Grid>
+                    {signedIn && (
+                      <Grid item>
+                        <DialogButton
+                          Module={CommentDialog}
+                          onClose={handleRefresh}
+                          initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
+                          variant='default'
+                        >
+                          Add Comment
+                        </DialogButton>
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
