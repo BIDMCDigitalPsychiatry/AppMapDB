@@ -30,6 +30,8 @@ export const useDefaultValues = props => {
     adminOnly: false,
     enableComments: true,
     authorName: email,
+    publishedAt: new Date().getTime(),
+    created: new Date().getTime(),
     ...props
   };
 };

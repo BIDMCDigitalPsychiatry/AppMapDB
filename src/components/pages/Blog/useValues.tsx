@@ -1,6 +1,6 @@
 import React from 'react';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
-import { categories } from '../../../database/models/Post';
+import { categories, useDefaultValues } from '../../../database/models/Post';
 import { isEmpty, uuid } from '../../../helpers';
 import { useEffect } from 'react';
 import { useDatabaseRow } from '../../../database/useTableState';
@@ -40,19 +40,11 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
   const changeRoute = useChangeRoute();
   const email = useUserEmail();
 
-  var initialValues = Values ?? {
-    title: '',
-    shortDescription: '',
-    category: Category ?? categories[0],
-    content: '',
-    readTime: '5 min',
-    publishedAt: new Date().getTime(),
-    adminOnly: true,
-    enableComments: true,
-    authorName: email,
-    created: undefined,
-    updated: undefined
-  };
+  var initialValues = useDefaultValues(
+    Values ?? {
+      category: Category ?? categories[0]
+    }
+  );
 
   const _id = initialValues?._id;
 
