@@ -3,7 +3,7 @@ import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from '@material-ui/pi
 import DateFnsUtils from '@date-io/date-fns';
 import { isError } from '../../../helpers';
 
-const DateTimePicker = ({ onChange, value, error, forceErrorMargin = false, ...other }) => {
+const DateTimePicker = ({ onChange, value, error, getTime = false, forceErrorMargin = false, ...other }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
@@ -16,9 +16,9 @@ const DateTimePicker = ({ onChange, value, error, forceErrorMargin = false, ...o
         value={value}
         onChange={React.useCallback(
           value => {
-            onChange({ target: { value } });
+            onChange({ target: { value: getTime && value ? value.getTime() : value } });
           },
-          [onChange]
+          [getTime, onChange]
         )}
         error={isError(error)}
         helperText={forceErrorMargin ? error || ' ' : error && error} // Forces a constant helper text margin
