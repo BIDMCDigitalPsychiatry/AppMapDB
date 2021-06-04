@@ -5,6 +5,7 @@ import packageJson from '../package.json';
 import { useAdminMode, useLayoutMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
 import { useChangeRoute } from './components/layout/hooks';
+import { format } from 'date-fns';
 
 export function hostAddress(append?) {
   return (
@@ -311,4 +312,14 @@ export const bytesToSize = (bytes: number, decimals: number = 2) => {
   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};
+
+export const formatWithDefault = (publishedAt, textFormat, textDefault) => {
+  var text = textDefault;
+  try {
+    text = format(publishedAt, textFormat);
+  } catch (err) {
+    console.error(err);
+  }
+  return text;
 };

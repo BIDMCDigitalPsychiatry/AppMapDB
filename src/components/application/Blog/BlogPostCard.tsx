@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import { Box, CardMedia, Chip, createStyles, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { useChangeRoute } from '../../layout/hooks';
-import { bool, isEmpty } from '../../../helpers';
+import { bool, isEmpty, formatWithDefault } from '../../../helpers';
 import { grey } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(({ palette }: any) =>
@@ -38,6 +37,8 @@ const BlogPostCard = ({
   const handleClick = React.useCallback(() => {
     changeRoute('/blog', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
   }, [changeRoute, _id]);
+
+  console.log({ publishedAt });
 
   return (
     <div {...other}>
@@ -110,7 +111,7 @@ const BlogPostCard = ({
             )}
             <Grid item>
               <Typography color='textSecondary' variant='caption'>
-                {`${format(publishedAt, 'dd MMM')} · ${readTime} read`}
+                {`${formatWithDefault(publishedAt, 'dd MMM', 'Unknown Date')} · ${readTime} read`}
               </Typography>
             </Grid>
           </Grid>
