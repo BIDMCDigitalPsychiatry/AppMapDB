@@ -22,7 +22,7 @@ var posts: Post[] = [
   {
     _id: 'a9c19d0caf2ca91020aacd1f',
     authorName: 'Omar Darobe',
-    category: 'Announcements',
+    category: 'News',
     cover: '/images/covers/cover_5.jpg',
     publishedAt: subHours(subMinutes(subSeconds(now, 29), 51), 6).getTime(),
     readTime: '6 min',
@@ -35,7 +35,7 @@ var posts: Post[] = [
   {
     _id: '44df90cbf89963b8aa625c7d',
     authorName: 'Siegbert Gottfried',
-    category: 'Educational',
+    category: 'Forum',
     cover: '/images/covers/cover_6.jpg',
     publishedAt: subHours(subMinutes(subSeconds(now, 6), 46), 16).getTime(),
     readTime: '3 min',

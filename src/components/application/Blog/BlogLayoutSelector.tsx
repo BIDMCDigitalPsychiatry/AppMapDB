@@ -3,8 +3,7 @@ import TabSelectorTextToolBar from '../../general/TabSelector/TabSelectorTextToo
 
 const tabs = [
   { id: 'News', route: '/blog', routeState: { blogLayout: 'list', cateogory: 'News' } },
-  { id: 'Announcements', route: '/blog', routeState: { blogLayout: 'list', category: 'Announcements' } },
-  { id: 'Educational', route: '/blog', routeState: { blogLayout: 'list', category: 'Educational' } },
+  { id: 'Forum', route: '/blog', routeState: { blogLayout: 'list', category: 'Forum' } },
   { id: 'Calendar', route: '/blog', routeState: { blogLayout: 'calendar' } }
 ].filter(t => t);
 
