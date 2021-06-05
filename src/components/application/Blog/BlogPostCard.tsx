@@ -38,8 +38,6 @@ const BlogPostCard = ({
     changeRoute('/blog', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
   }, [changeRoute, _id]);
 
-  console.log({ publishedAt });
-
   return (
     <div {...other}>
       <div

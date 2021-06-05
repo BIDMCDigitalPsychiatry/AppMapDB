@@ -124,8 +124,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
 
       setErrors({});
       const newErrors = validate(values);
-      if (Object.keys(newErrors).length > 0) {
-        console.log({ newErrors });
+      if (Object.keys(newErrors).length > 0) {        
         setErrors(newErrors);
         onError && onError(newErrors);
       } else {
