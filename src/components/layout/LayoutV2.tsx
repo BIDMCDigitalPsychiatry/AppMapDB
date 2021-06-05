@@ -40,6 +40,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 const smallRoutes = ['/Apps', 'Admin', '/MyRatings'];
 const noScrollPaths = ['/Apps', '/Admin', '/MyRatings'];
 const noFooterPaths = ['/Apps', '/Admin', '/MyRatings'];
+export const noPadPaths = ['/Home', '/', '/Apps'];
 
 export default function LayoutV2({ children }) {
   const [leftDrawerOpen] = useLeftDrawer();

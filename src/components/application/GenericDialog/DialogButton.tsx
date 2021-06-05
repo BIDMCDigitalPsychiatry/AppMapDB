@@ -301,7 +301,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               {children}
             </Button>
           ) : variant === 'outlined' ? (
-            <Button variant='outlined' color={color} startIcon={<Icon />} {...shared}>
+            <Button variant='outlined' color={color} startIcon={Icon && <Icon />} {...shared}>
               {children}
             </Button>
           ) : variant === 'standard' ? (

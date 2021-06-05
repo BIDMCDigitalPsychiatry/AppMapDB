@@ -1,10 +1,8 @@
-import React from 'react';
 import { AppState } from './store';
-import { theme, themeV2, adminTheme, adminThemeV2 } from './constants';
+import { themeV2, adminThemeV2 } from './constants';
 import packageJson from '../package.json';
-import { useAdminMode, useLayoutMode } from './components/layout/store';
+import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
-import { useChangeRoute } from './components/layout/hooks';
 import { format } from 'date-fns';
 
 export function hostAddress(append?) {
@@ -42,7 +40,7 @@ export function printHeader() {
 ██████╔╝██║██████╔╝██║ ╚═╝ ██║╚██████╗   Version: ${packageJson.version}
 ╚═════╝ ╚═╝╚═════╝ ╚═╝     ╚═╝ ╚═════╝                            
 `,
-    'font-family:monospace;color:' + theme.palette.primary.main + ';font-size:12px;'
+    'font-family:monospace;color:' + themeV2.palette.primary.main + ';font-size:12px;'
   );
 }
 
@@ -285,21 +283,11 @@ export function isDev() {
 }
 
 export function useLayoutTheme() {
-  const [layoutMode] = useLayoutMode();
   const isAdmin = useIsAdmin();
   const [adminMode] = useAdminMode();
-  const adminLayoutTheme = !isAdmin ? adminThemeV2 : layoutMode === 'v2' ? adminThemeV2 : adminTheme;
-  const layoutTheme = !isAdmin ? themeV2 : layoutMode === 'v2' ? themeV2 : theme;
+  const adminLayoutTheme = adminThemeV2;
+  const layoutTheme = themeV2;
   return isAdmin && adminMode ? adminLayoutTheme : layoutTheme;
-}
-
-export function useHandleToggleLayout() {
-  const [layoutMode, setLayoutMode] = useLayoutMode() as any;
-  const changeRoute = useChangeRoute();
-  return React.useCallback(() => {
-    setLayoutMode(layoutMode === 'v2' ? 'v1' : 'v2');
-    changeRoute(publicUrl('/Home'));
-  }, [layoutMode, setLayoutMode, changeRoute]);
 }
 
 /* eslint-disable no-restricted-properties */

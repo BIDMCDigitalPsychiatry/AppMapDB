@@ -8,7 +8,7 @@ import { evalFunc } from '../../../helpers';
 import { useHeight, useAppBarHeight } from '../../layout/store';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
 import { useLocation } from 'react-router';
-import { noPadPaths } from '../../layout/Layout';
+import { noPadPaths } from '../../layout/LayoutV2';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
 

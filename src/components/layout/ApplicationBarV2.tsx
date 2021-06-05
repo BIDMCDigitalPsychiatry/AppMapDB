@@ -4,7 +4,7 @@ import { createStyles } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useAppBarHeightRef, useChangeRoute } from './hooks';
-import { publicUrl, useHandleToggleLayout } from '../../helpers';
+import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
@@ -85,7 +85,6 @@ export default function ApplicationBarV2({ trigger }) {
   const signedIn = useSignedIn();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const isAdmin = useIsAdmin();
 
   const setUser = useSetUser();
 
@@ -119,8 +118,6 @@ export default function ApplicationBarV2({ trigger }) {
   };
 
   const fullScreen = useFullScreen('xs');
-
-  const handleToggleLayout = useHandleToggleLayout();
 
   const [, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
   const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
@@ -175,14 +172,7 @@ export default function ApplicationBarV2({ trigger }) {
                             <Divider key='divider' />,
                             <MenuItem key='logout' onClick={handleLogout}>
                               Logout
-                            </MenuItem>,
-                            isAdmin ? (
-                              <DialogButton key='Toggle Layout' onClick={handleToggleLayout} variant='menuitem' tooltip=''>
-                                Toggle Layout
-                              </DialogButton>
-                            ) : (
-                              <></>
-                            )
+                            </MenuItem>
                           ]
                         : [
                             { label: 'Login', Module: LoginDialog, onClick: handleClose },

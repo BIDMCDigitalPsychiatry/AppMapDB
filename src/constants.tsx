@@ -124,23 +124,6 @@ const sharedV2 = {
   }
 } as Theme & any;
 
-export const adminTheme = createMuiTheme({
-  ...shared,
-  palette: {
-    ...shared.palette,
-    primary: {
-      main: '#c62828',
-      light: '#ff5f52',
-      dark: '#8e0000'
-    },
-    secondary: {
-      main: '#388e3c',
-      light: '#6abf69',
-      dark: '#00600f'
-    }
-  }
-});
-
 export const adminThemeV2 = createMuiTheme({
   ...sharedV2,
   palette: {
@@ -158,7 +141,6 @@ export const adminThemeV2 = createMuiTheme({
   }
 });
 
-export const theme = createMuiTheme(shared);
 export const themeV2 = createMuiTheme(sharedV2);
 
 const colorLevel = 700;

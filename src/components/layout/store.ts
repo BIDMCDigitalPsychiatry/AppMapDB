@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Reducer } from 'redux';
 import { AppState } from '../../store';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { theme } from '../../constants';
+import { themeV2 } from '../../constants';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import { useLocation } from 'react-router';
 import { useTheme } from '@material-ui/core';
@@ -15,8 +15,7 @@ export interface State {
   width?: number;
   appBarHeight?: number;
   footerHeight?: number;
-  headerHeight?: number;
-  layoutMode?: string;
+  headerHeight?: number;  
   viewMode?: ViewMode;
   adminMode?: boolean;
   routeState: any;
@@ -25,11 +24,10 @@ export interface State {
 const defaultState = {
   width: 0,
   height: 0,
-  appBarHeight: (theme as any).layout.toolbarheight,
-  footerHeight: (theme as any).layout.footerHeight,
-  headerHeight: (theme as any).layout.headerHeight,
-  viewMode: 'table',
-  layoutMode: 'v2',
+  appBarHeight: (themeV2 as any).layout.toolbarheight,
+  footerHeight: (themeV2 as any).layout.footerHeight,
+  headerHeight: (themeV2 as any).layout.headerHeight,
+  viewMode: 'table',  
   adminMode: false,
   routeState: {},
   leftDrawerOpen: false
@@ -42,7 +40,6 @@ const resizeFooter = (height: number | undefined) => ({ type: 'RESIZE_FOOTER', h
 const resizeHeader = (height: number | undefined) => ({ type: 'RESIZE_HEADER', height });
 const changeViewMode = (mode: ViewMode) => ({ type: 'CHANGE_VIEW_MODE', mode });
 const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', adminMode });
-const changeLayoutMode = (layoutMode: string) => ({ type: 'CHANGE_LAYOUT_MODE', layoutMode });
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
@@ -171,13 +168,6 @@ export const useAdminMode = () => {
   const setAdminMode = React.useCallback(adminMode => dispatch(changeAdminMode(adminMode)), [dispatch]);
   const adminMode = useSelector((state: AppState) => state.layout.adminMode);
   return [isAdmin && adminMode, setAdminMode];
-};
-
-export const useLayoutMode = () => {
-  const dispatch = useDispatch();
-  const setLayoutMode = React.useCallback((layoutMode: string) => dispatch(changeLayoutMode(layoutMode)), [dispatch]);
-  const layoutMode = useSelector((state: AppState) => state.layout.layoutMode);
-  return [layoutMode, setLayoutMode];
 };
 
 export const useLayout = (): any[] => {
