@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Reducer } from 'redux';
 import { AppState } from '../../store';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { themeV2 } from '../../constants';
+import { theme } from '../../constants';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import { useLocation } from 'react-router';
 import { useTheme } from '@material-ui/core';
@@ -24,9 +24,9 @@ export interface State {
 const defaultState = {
   width: 0,
   height: 0,
-  appBarHeight: (themeV2 as any).layout.toolbarheight,
-  footerHeight: (themeV2 as any).layout.footerHeight,
-  headerHeight: (themeV2 as any).layout.headerHeight,
+  appBarHeight: (theme as any).layout.toolbarheight,
+  footerHeight: (theme as any).layout.footerHeight,
+  headerHeight: (theme as any).layout.headerHeight,
   viewMode: 'table',  
   adminMode: false,
   routeState: {},

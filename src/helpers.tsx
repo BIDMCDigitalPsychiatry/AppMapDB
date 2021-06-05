@@ -1,5 +1,5 @@
 import { AppState } from './store';
-import { themeV2, adminThemeV2 } from './constants';
+import { theme, adminTheme } from './constants';
 import packageJson from '../package.json';
 import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
@@ -40,7 +40,7 @@ export function printHeader() {
 ██████╔╝██║██████╔╝██║ ╚═╝ ██║╚██████╗   Version: ${packageJson.version}
 ╚═════╝ ╚═╝╚═════╝ ╚═╝     ╚═╝ ╚═════╝                            
 `,
-    'font-family:monospace;color:' + themeV2.palette.primary.main + ';font-size:12px;'
+    'font-family:monospace;color:' + theme.palette.primary.main + ';font-size:12px;'
   );
 }
 
@@ -285,8 +285,8 @@ export function isDev() {
 export function useLayoutTheme() {
   const isAdmin = useIsAdmin();
   const [adminMode] = useAdminMode();
-  const adminLayoutTheme = adminThemeV2;
-  const layoutTheme = themeV2;
+  const adminLayoutTheme = adminTheme;
+  const layoutTheme = theme;
   return isAdmin && adminMode ? adminLayoutTheme : layoutTheme;
 }
 

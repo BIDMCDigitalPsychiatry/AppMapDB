@@ -21,9 +21,25 @@ export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amaz
 const basetheme = createMuiTheme({});
 export const beta = true;
 
-const shared = {
+const themeProps = {
   palette: {
-    type: 'light'
+    type: 'light',
+    primary: {
+      main: '#2278CF',
+      light: '#38B6FF',
+      dark: '#0C4476'
+    },
+    secondary: {
+      main: '#737373',
+      light: '#F2F2F2',
+      dark: '#2C2A2C'
+    }
+  },
+  typography: {
+    fontFamily: 'Lato',
+    button: {
+      textTransform: 'none'
+    }
   },
   layout: {
     drawerPaths: ['/Apps'], // Routes where the drawer should be shown
@@ -41,6 +57,11 @@ const shared = {
     footerHeight: 186 //v2 footer
   },
   overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '@font-face': [lato, notoSans]
+      }
+    },
     MuiTooltip: {
       // Name of the component ⚛️ / style sheet
       tooltip: {
@@ -93,41 +114,10 @@ const shared = {
   }
 } as Theme & any;
 
-const sharedV2 = {
-  ...shared,
+export const adminTheme = createMuiTheme({
+  ...themeProps,
   palette: {
-    ...shared.palette,
-    primary: {
-      main: '#2278CF',
-      light: '#38B6FF',
-      dark: '#0C4476'
-    },
-    secondary: {
-      main: '#737373',
-      light: '#F2F2F2',
-      dark: '#2C2A2C'
-    }
-  },
-  typography: {
-    fontFamily: 'Lato',
-    button: {
-      textTransform: 'none'
-    }
-  },
-  overrides: {
-    ...shared.overrides,
-    MuiCssBaseline: {
-      '@global': {
-        '@font-face': [lato, notoSans]
-      }
-    }
-  }
-} as Theme & any;
-
-export const adminThemeV2 = createMuiTheme({
-  ...sharedV2,
-  palette: {
-    ...sharedV2.palette,
+    ...themeProps.palette,
     primary: {
       main: '#c62828',
       light: '#ff5f52',
@@ -141,7 +131,7 @@ export const adminThemeV2 = createMuiTheme({
   }
 });
 
-export const themeV2 = createMuiTheme(sharedV2);
+export const theme = createMuiTheme(themeProps);
 
 const colorLevel = 700;
 
