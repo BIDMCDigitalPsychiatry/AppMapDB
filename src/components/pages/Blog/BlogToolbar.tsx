@@ -1,5 +1,4 @@
-import { Button, createStyles, Divider, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import BlogLayoutSelector from '../../application/Blog/BlogLayoutSelector';
+import { Button, createStyles, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import { useUserEmail } from '../../layout/hooks';
 
 const spacing = 3;
@@ -14,7 +13,7 @@ const useStyles = makeStyles(({ palette }) =>
   })
 );
 
-const BlogToolbar = ({ category = 'News', title = undefined, subtitle = undefined, showGreeting = false, buttons = [] }) => {
+const BlogToolbar = ({ title = undefined, subtitle = undefined, showGreeting = false, buttons = [] }) => {
   const email = useUserEmail();
   const classes = useStyles();
 
@@ -29,9 +28,7 @@ const BlogToolbar = ({ category = 'News', title = undefined, subtitle = undefine
   const showToolbar = title || showGreeting || subtitle || (buttons && buttons.length > 0);
 
   return (
-    <>
-      <BlogLayoutSelector category={category} />
-      <Divider style={{ marginTop: 16 }} />
+    <>      
       {showToolbar && (
         <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
           <Grid alignItems='center' container justify='space-between' spacing={spacing}>
