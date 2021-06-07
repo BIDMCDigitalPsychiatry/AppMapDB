@@ -8,7 +8,7 @@ import { useWidth } from './store';
 
 const spacing = 3;
 
-const useStyles = makeStyles(({ breakpoints, palette, spacing }) =>
+const useStyles = makeStyles(({ palette, spacing }) =>
   createStyles({
     root: {
       background: palette.secondary.light,
@@ -30,7 +30,7 @@ const tabs = [
   { id: 'Find an APP', route: '/Home' },
   { id: 'App Library', route: '/Apps' },
   { id: 'Framework', route: '/FrameworkQuestions' },
-  { id: 'News', route: '/News' }
+  { id: 'Community', route: '/blog' }
   // { id: 'Privacy Policy', route: '/Apps' }
 ];
 
