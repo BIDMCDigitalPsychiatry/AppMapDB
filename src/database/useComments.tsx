@@ -40,3 +40,17 @@ export const useCommentsByPostId = ({ postId }) => {
     }
   });
 };
+
+export const useCommentsByParentId = ({ parentId }) => {
+  return useComments({
+    requestParams: {
+      FilterExpression: '#parentId = :parentId',
+      ExpressionAttributeNames: {
+        '#parentId': 'parentId'
+      },
+      ExpressionAttributeValues: {
+        ':parentId': parentId
+      }
+    }
+  });
+};

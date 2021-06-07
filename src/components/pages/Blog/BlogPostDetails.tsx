@@ -86,7 +86,7 @@ const BlogPostDetails = () => {
   const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
 
   const filtered = sortComments(
-    comments.filter(e => !e.deleted),
+    comments.filter(e => !e.deleted && isEmpty(e.parentId)),
     sortOption
   );
 
@@ -244,7 +244,9 @@ const BlogPostDetails = () => {
                 {filtered.length === 0 ? (
                   <Typography color='textSecondary'>There are no comments</Typography>
                 ) : (
-                  filtered.map(comment => <BlogPostComment key={comment.id} {...comment} />)
+                  filtered.map((comment, i) => (
+                    <BlogPostComment key={comment.id} {...comment} sortOption={sortOption} onRefresh={handleRefresh} mountDialog={i === 0} />
+                  ))
                 )}
               </Box>
             </Container>
