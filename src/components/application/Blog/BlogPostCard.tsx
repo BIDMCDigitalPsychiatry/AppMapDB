@@ -35,7 +35,7 @@ const BlogPostCard = ({
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(() => {
-    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
+    changeRoute('/connect', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
   }, [changeRoute, _id]);
 
   return (

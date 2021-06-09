@@ -71,11 +71,11 @@ const BlogPostDetails = () => {
   const signedIn = useSignedIn();
 
   const handleBack = React.useCallback(() => {
-    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
+    changeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' }));
   }, [changeRoute]);
 
   const handleEdit = React.useCallback(() => {
-    changeRoute('/blog', prev => ({ ...prev, blogLayout: 'edit', values }));
+    changeRoute('/connect', prev => ({ ...prev, blogLayout: 'edit', values }));
     // eslint-disable-next-line
   }, [changeRoute, JSON.stringify(values)]);
 

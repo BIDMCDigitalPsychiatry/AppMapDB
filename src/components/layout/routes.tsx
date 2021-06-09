@@ -28,7 +28,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/RateAnApp')} component={RateAnApp} />
     <Route exact path={publicUrl('/RateNewAppIntro')} component={RateNewAppIntro} />
     <Route exact path={publicUrl('/ViewApp')} component={ViewApp} />
-    <Route exact path={publicUrl('/blog')} component={BlogLayout} />
+    <Route exact path={publicUrl('/connect')} component={BlogLayout} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
   </Switch>
 );

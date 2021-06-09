@@ -124,14 +124,14 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
 
       setErrors({});
       const newErrors = validate(values);
-      if (Object.keys(newErrors).length > 0) {        
+      if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);
         onError && onError(newErrors);
       } else {
         updatePost({
           post,
           onSuccess: result => {
-            changeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' }));
+            changeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' }));
             onSuccess && onSuccess(result);
           },
           onError: err => {

@@ -30,7 +30,7 @@ const tabs = [
   { id: 'Find an APP', route: '/Home' },
   { id: 'App Library', route: '/Apps' },
   { id: 'Framework', route: '/FrameworkQuestions' },
-  { id: 'Community', route: '/blog' }
+  { id: 'Community', route: '/connect' }
   // { id: 'Privacy Policy', route: '/Apps' }
 ];
 

@@ -59,7 +59,7 @@ const useTabs = () => {
     { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
     { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
     { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
-    { id: 'Community', icon: Icons.Forum, route: '/blog', routeState: { blogLayout: 'list', category: 'News' }, onClick: handleClick }
+    { id: 'Community', icon: Icons.Forum, route: '/connect', routeState: { blogLayout: 'list', category: 'News' }, onClick: handleClick }
   ].filter(t => t);
 };
 

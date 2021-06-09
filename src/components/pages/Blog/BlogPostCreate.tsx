@@ -20,7 +20,7 @@ const BlogPostCreate = () => {
         buttons={[
           {
             label: 'Cancel',
-            onClick: handleChangeRoute('/blog', prev => ({ ...prev, blogLayout: 'list' })),
+            onClick: handleChangeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' })),
             color: 'secondary'
           },
           {

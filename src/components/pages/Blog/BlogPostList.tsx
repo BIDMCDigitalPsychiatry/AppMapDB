@@ -74,7 +74,7 @@ const BlogPostList = ({ category = 'News' }) => {
             ? [
                 {
                   label: 'Add new post',
-                  onClick: handleChangeRoute('/blog', prev => ({ ...prev, blogLayout: 'create', values })),
+                  onClick: handleChangeRoute('/connect', prev => ({ ...prev, blogLayout: 'create', values })),
                   startIcon: <PlusIcon fontSize='small' />
                 }
               ]
