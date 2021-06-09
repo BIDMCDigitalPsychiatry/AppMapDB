@@ -153,7 +153,7 @@ export const useColumns = () => {
 
   const columns = [
     { name: 'app', header: 'Application', minWidth: 330, Cell: AppSummary, hoverable: false },
-    { name: 'updated', header: 'Last Updated', width: 195, Cell: LastUpdated, hoverable: false },
+    { name: 'updated', header: 'Last Updated', width: 225, Cell: LastUpdated, hoverable: false },
     { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn, hoverable: false },
     {
       name: 'platforms',

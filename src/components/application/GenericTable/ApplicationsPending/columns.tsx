@@ -32,7 +32,7 @@ export const useColumns = ({ email }) => {
     {
       name: 'updated',
       header: 'Last Updated',
-      width: 165,
+      width: 225,
       Cell: LastUpdated,
       hoverable: false,
       sort: 'decimal'
