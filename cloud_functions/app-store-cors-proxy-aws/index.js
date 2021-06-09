@@ -22,10 +22,11 @@ exports.handler = (event, context, callback) => {
       success => {
         console.log({ Success: appId });
         response.statusCode = 200;
-        response.body = JSON.stringify(success);        
+        response.body = JSON.stringify(success);
         callback(undefined, response);
       },
       error => {
+        console.log({ Error: appId, error });
         response.statusCode = 400;
         response.body = JSON.stringify(error);
         callback(response);
