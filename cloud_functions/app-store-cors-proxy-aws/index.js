@@ -7,6 +7,7 @@ exports.handler = (event, context, callback) => {
 
   const key = type === 'apple' ? 'id' : 'appId';
   const store = type === 'apple' ? apple : gplay;
+  const props = type !== 'apple' ? { [key]: appId } : { [key]: appId, country: 'US' };
 
   const response = {
     statusCode: 400,
@@ -18,7 +19,7 @@ exports.handler = (event, context, callback) => {
   };
 
   if (appId) {
-    store.app({ [key]: appId }).then(
+    store.app(props).then(
       success => {
         console.log({ Success: appId });
         response.statusCode = 200;
