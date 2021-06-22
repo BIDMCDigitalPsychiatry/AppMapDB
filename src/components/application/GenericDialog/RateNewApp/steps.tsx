@@ -104,7 +104,8 @@ const steps = (type = undefined) => [
         id: 'conditions',
         label: 'Supported Conditions',
         Field: MultiSelectCheck,
-        items: Conditions.map(value => ({ value, label: value }))
+        items: Conditions.map(value => ({ value, label: value })),
+        required: true
       }
     ].map(f => ({ ...f, container: tables.applications }))
   },
