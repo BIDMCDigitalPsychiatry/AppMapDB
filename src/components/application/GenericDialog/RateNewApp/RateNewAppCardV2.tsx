@@ -9,6 +9,7 @@ import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 import { useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
+import { useAppData } from '../../GenericTable/Applications/selectors';
 
 export const title = 'Rate an App V2';
 
@@ -19,10 +20,12 @@ export interface ComponentProps {
 
 export default function RateNewAppCardV2({ id = title, onClose }: ComponentProps) {
   const [{ type }, setDialogState] = useDialogState(id);
-  const [_steps, setSteps] = React.useState(steps(type));
+  const data = useAppData('');
+  const [_steps, setSteps] = React.useState(steps(type, data));
   React.useEffect(() => {
-    setSteps(steps(type));
-  }, [type]);
+    setSteps(steps(type, data));
+    // eslint-disable-next-line
+  }, [type, JSON.stringify(data)]);
 
   const processData = useProcessData();
   const changeRoute = useChangeRoute();

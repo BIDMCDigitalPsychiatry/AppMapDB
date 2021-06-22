@@ -26,7 +26,7 @@ import PrivacyInfo from './templates/PrivacyInfo';
 import ClinicalFoundationInfo from './templates/ClinicalFoundationInfo';
 import Review from './templates/Review';
 
-const steps = (type = undefined) => [
+const steps = (type = undefined, data = []) => [
   {
     label: 'For each platform, enter associated link or remove if unsupported. Click next to continue.',
     Template: SupportedPlatforms,
@@ -44,7 +44,14 @@ const steps = (type = undefined) => [
         label: 'Enter link to app on Google Play store',
         required: true,
         http: true,
-        validate: values => isEmpty(getAndroidIdFromUrl(values.applications['androidLink'])) && 'Invalid Url format.  Must contain the application id.',
+        validate: values => {
+          const links = data.map(d => d?.getValues()?.androidLink?.toLowerCase());
+          const link = values.applications['androidLink'];
+          if (type === 'Add' && !isEmpty(link) && links.find(al => al === link.toLowerCase())) {
+            return 'Rating already exists for this URL.';
+          }
+          return isEmpty(getAndroidIdFromUrl(link)) && 'Invalid Url format.  Must contain the application id.';
+        },
         hidden: values => !(Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('Android'))
       },
       {
@@ -52,7 +59,14 @@ const steps = (type = undefined) => [
         label: 'Enter link to app on the Apple App store',
         required: true,
         http: true,
-        validate: values => isEmpty(getAppleIdFromUrl(values.applications['iosLink'])) && 'Invalid Url format.  Must contain the application id.',
+        validate: values => {
+          const links = data.map(d => d?.getValues()?.iosLink?.toLowerCase());
+          const link = values.applications['iosLink'];
+          if (type === 'Add' && !isEmpty(link) && links.find(al => al === link.toLowerCase())) {
+            return 'Rating already exists for this URL.';
+          }
+          return isEmpty(getAppleIdFromUrl(link)) && 'Invalid Url format.  Must contain the application id.';
+        },
         hidden: values => !(Array.isArray(values[tables.applications]?.platforms) && values[tables.applications]?.platforms.includes('iOS'))
       },
       {
