@@ -58,6 +58,7 @@ export const useAppData = table => {
 
           const appSearchable = {
             name: getAppName(app),
+            app: getAppName(app), // For sorting application column by text
             updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
             company: getAppCompany(app),
             costs: app.costs?.join(' '),
@@ -172,6 +173,7 @@ export const usePendingAppData = (table, showDeleted = false, email = undefined,
           const appSearchable = {
             email: app.email,
             name: getAppName(app),
+            app: getAppName(app), // For sorting application column
             updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
             company: getAppCompany(app),
             costs: app.costs?.join(' '),

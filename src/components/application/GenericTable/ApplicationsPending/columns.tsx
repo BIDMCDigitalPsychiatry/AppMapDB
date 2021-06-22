@@ -27,8 +27,8 @@ const RatedBy = ({ email }) => (
 
 export const useColumns = ({ email }) => {
   const columns = [
-    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false },
-    { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false, sort: 'text' },
+    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false, sort: 'textLower' },
+    { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
       header: 'Last Updated',

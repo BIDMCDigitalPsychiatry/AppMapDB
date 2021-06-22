@@ -1,16 +1,17 @@
 import { AppState } from '../../../store';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import * as TableStore from './store';
-import { spread } from '../../../helpers';
+import { isEmpty, spread } from '../../../helpers';
 import Decimal from 'decimal.js-light';
 
 ///////////////////////////////////////////
 /////////////// Table Sorters  ////////////
 //////////////////////////////////////////
 
-export type SortComparator = 'text' | 'decimal';
+export type SortComparator = 'text' | 'textLower' | 'decimal';
 const sortComparators = {
   text: desc,
+  textLower: lowerDesc,
   decimal: descDecimal
 };
 
@@ -105,6 +106,18 @@ export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', 
   );
 };
 
+export function lowerDesc(a, b, orderBy) {
+  var aTxt = !isEmpty(a[orderBy]) ? a[orderBy].toLowerCase() : a[orderBy];
+  var bTxt = !isEmpty(b[orderBy]) ? b[orderBy].toLowerCase() : b[orderBy];
+  if (bTxt < aTxt) {
+    return -1;
+  }
+  if (bTxt > aTxt) {
+    return 1;
+  }
+  return 0;
+}
+
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -119,7 +132,7 @@ function descDecimal(a, b, orderBy) {
   const A = a?.getValues();
   const B = b?.getValues();
   var dA = new Decimal(A[orderBy] ?? 0);
-  var dB = new Decimal(B[orderBy] ?? 0);  
+  var dB = new Decimal(B[orderBy] ?? 0);
   if (dB.lessThan(dA)) {
     return -1;
   }

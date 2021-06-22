@@ -72,8 +72,8 @@ const MyRatingsColumn = props => {
 
 export const useColumns = () => {
   const columns = [
-    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false },
-    { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false, sort: 'text' },
+    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false, sort: 'textLower' },
+    { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     { name: 'updated', header: 'Last Updated', width: 225, Cell: LastUpdated, hoverable: false, sort: 'decimal' },
     { name: 'status', header: 'Status', width: 148, Cell: Status, hoverable: false },
     { name: 'rating', header: 'Rating', width: 120, Cell: MyRatingsColumn, hoverable: false }

@@ -65,11 +65,11 @@ const buildRadios = (items, values, paddingRight = undefined) => (
 );
 
 const isLabelMatch = (label, items, values = []) => {
-  var item = items.find(i => i.value === label || i.label === label || i.short === label);  
+  var item = items.find(i => i.value === label || i.label === label || i.short === label);
   return item ? values.includes(item.short) || values.includes(item.value) || values.includes(label) : values.includes(label);
 };
 
-const buildRadiosWithLabels = (items, labels, values, paddingRight = undefined) => {  
+const buildRadiosWithLabels = (items, labels, values, paddingRight = undefined) => {
   return (
     <Grid container style={{ paddingRight }}>
       {labels.map((label, index) => (
@@ -106,32 +106,65 @@ const EngagementLabels = Engagements.map(t => {
   return s ? (s.short ? s.short : s.value) : t;
 });
 
-const PlatformRadios = pinned => ({ platforms = [] }: Application) => buildRadios(sortPinned(Platforms, 'platforms', pinned), platforms);
+const PlatformRadios =
+  pinned =>
+  ({ platforms = [] }: Application) =>
+    buildRadios(sortPinned(Platforms, 'platforms', pinned), platforms);
 
-const UsesRadios = pinned => ({ uses = [] }: Application) => buildRadios(sortPinned(Uses, 'uses', pinned), uses);
+const UsesRadios =
+  pinned =>
+  ({ uses = [] }: Application) =>
+    buildRadios(sortPinned(Uses, 'uses', pinned), uses);
 
-const DeveloperTypeRadios = pinned => ({ developerTypes = [] }: Application) =>
-buildRadiosWithLabels(DeveloperTypeQuestions, sortPinned(DeveloperTypeLabels, 'developerTypes', pinned), developerTypes);
+const DeveloperTypeRadios =
+  pinned =>
+  ({ developerTypes = [] }: Application) =>
+    buildRadiosWithLabels(DeveloperTypeQuestions, sortPinned(DeveloperTypeLabels, 'developerTypes', pinned), developerTypes);
 
-const CostRadios = pinned => ({ costs = [] }) => buildRadios(sortPinned(Costs, 'cost', pinned), costs);
+const CostRadios =
+  pinned =>
+  ({ costs = [] }) =>
+    buildRadios(sortPinned(Costs, 'cost', pinned), costs);
 
-const ConditionRadios = pinned => ({ conditions = [] }: Application) => buildRadios(sortPinned(Conditions, 'conditions', pinned), conditions);
+const ConditionRadios =
+  pinned =>
+  ({ conditions = [] }: Application) =>
+    buildRadios(sortPinned(Conditions, 'conditions', pinned), conditions);
 
-const EngagementRadios = pinned => ({ engagements = [] }: Application) => buildRadiosWithLabels(EngagementQuestions, sortPinned(EngagementLabels, 'engagements', pinned), engagements);
+const EngagementRadios =
+  pinned =>
+  ({ engagements = [] }: Application) =>
+    buildRadiosWithLabels(EngagementQuestions, sortPinned(EngagementLabels, 'engagements', pinned), engagements);
 
-const FunctionalityRadios = pinned => ({ functionalities = [] }: Application) =>
-  buildRadiosWithLabels(FunctionalityQuestions, sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities);
+const FunctionalityRadios =
+  pinned =>
+  ({ functionalities = [] }: Application) =>
+    buildRadiosWithLabels(FunctionalityQuestions, sortPinned(FunctionalityLabels, 'functionality', pinned), functionalities);
 
-const ClinicalFoundationRadios = pinned => ({ clinicalFoundations = [] }: Application) =>
-buildRadiosWithLabels(ClinicalFoundationQuestions, sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned), clinicalFoundations);
+const ClinicalFoundationRadios =
+  pinned =>
+  ({ clinicalFoundations = [] }: Application) =>
+    buildRadiosWithLabels(ClinicalFoundationQuestions, sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned), clinicalFoundations);
 
-const PrivacyRadios = pinned => ({ privacies = [] }: Application) => buildRadiosWithLabels(PrivacyQuestions, sortPinned(PrivacyLabels, 'privacies', pinned), privacies);
+const PrivacyRadios =
+  pinned =>
+  ({ privacies = [] }: Application) =>
+    buildRadiosWithLabels(PrivacyQuestions, sortPinned(PrivacyLabels, 'privacies', pinned), privacies);
 
-const FeaturesRadios = pinned => ({ features = [] }) => buildRadios(sortPinned(Features, 'features', pinned), features, 16);
+const FeaturesRadios =
+  pinned =>
+  ({ features = [] }) =>
+    buildRadios(sortPinned(Features, 'features', pinned), features, 16);
 
-const InputRadios = pinned => ({ inputs = [] }: Application) => buildRadios(sortPinned(Inputs, 'inputs', pinned), inputs);
+const InputRadios =
+  pinned =>
+  ({ inputs = [] }: Application) =>
+    buildRadios(sortPinned(Inputs, 'inputs', pinned), inputs);
 
-const OutputRadios = pinned => ({ outputs = [] }: Application) => buildRadios(sortPinned(Outputs, 'outputs', pinned), outputs);
+const OutputRadios =
+  pinned =>
+  ({ outputs = [] }: Application) =>
+    buildRadios(sortPinned(Outputs, 'outputs', pinned), outputs);
 
 const sortPinned = (columns, column, pinned) => {
   const pinnedColumns = pinned[column] ?? [];
@@ -152,8 +185,8 @@ export const useColumns = () => {
   );
 
   const columns = [
-    { name: 'app', header: 'Application', minWidth: 330, Cell: AppSummary, hoverable: false },
-    { name: 'updated', header: 'Last Updated', width: 225, Cell: LastUpdated, hoverable: false },
+    { name: 'app', header: 'Application', minWidth: 330, Cell: AppSummary, hoverable: false, sort: 'textLower' },
+    { name: 'updated', header: 'Last Updated', width: 225, Cell: LastUpdated, hoverable: false, sort: 'decimal' },
     { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn, hoverable: false },
     {
       name: 'platforms',
