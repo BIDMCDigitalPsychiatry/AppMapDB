@@ -187,17 +187,13 @@ const BlogPostDetails = () => {
           </Container>
         </Box>
         {values.cover && (
-          <Box mt={2}>
+          <Box mt={0}>
             <Container maxWidth='xl'>
-              <Box
-                style={{
-                  backgroundImage: `url(${values.cover})`,
-                  backgroundPosition: 'center',
-                  backgroundSize: 'cover',
-                  borderRadius: '20px',
-                  height: 600
-                }}
-              />
+              <Grid container justify='center'>
+                <Grid item>
+                  <img alt='cover' src={values.cover} style={{ maxHeight: 350 }} />
+                </Grid>
+              </Grid>
             </Container>
           </Box>
         )}
