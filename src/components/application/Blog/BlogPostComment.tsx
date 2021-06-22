@@ -8,7 +8,7 @@ import { isEmpty } from '../../../helpers';
 import { sortComments } from '../../pages/Blog/helpers';
 import { useCommentsByParentId } from '../../../database/useComments';
 
-const BlogPostComment = ({ mountDialog = true, sortOption, onRefresh = undefined, ...props }) => {
+const BlogPostComment = ({ mountDialog = true, sortOption, onRefresh = undefined, level = 0, ...props }) => {
   const { _id, parentId, authorName, content, createdAt, createdBy } = props;
 
   const isAdmin = useIsAdmin();
@@ -32,7 +32,8 @@ const BlogPostComment = ({ mountDialog = true, sortOption, onRefresh = undefined
       <Box
         style={{
           display: 'flex',
-          paddingBottom: 24
+          paddingBottom: 24,
+          paddingLeft: Math.min(level * 32, 128)
         }}
       >
         <Paper
@@ -100,7 +101,7 @@ const BlogPostComment = ({ mountDialog = true, sortOption, onRefresh = undefined
         </Paper>
       </Box>
       {filtered.map(comment => (
-        <BlogPostComment key={comment.id} {...comment} sortOption={sortOption} onRefresh={handleRefresh} mountDialog={false} />
+        <BlogPostComment key={comment.id} {...comment} sortOption={sortOption} onRefresh={handleRefresh} mountDialog={false} level={level + 1} />
       ))}
     </>
   );
