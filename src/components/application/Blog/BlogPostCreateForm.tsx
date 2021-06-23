@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from '@material-ui/core';
 import QuillEditor from '../QuillEditor';
 import FilesDropzone from '../FilesDropzone';
@@ -8,6 +9,7 @@ import Text from '../DialogField/Text';
 import { isEmpty } from '../../../helpers';
 import * as StockImageSelectorDialog from '../GenericDialog/StockImageSelector';
 import DialogButton from '../GenericDialog/DialogButton';
+import Image from '../DialogField/Image';
 
 const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
   new Promise((resolve, reject) => {
@@ -25,10 +27,19 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
     setValues(prev => ({ ...prev, cover }));
   };
 
+  const [resizing, setResizing] = React.useState(false);
+
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
   const handleRemoveCover = () => setValues(prev => ({ ...prev, cover: undefined }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
-  const handleSelectCover = cover => setValues(prev => ({ ...prev, cover }));
+  const handleSelectCover = cover => {
+    console.log({ cover });
+    setValues(prev => ({ ...prev, cover }));
+    setResizing(false);
+  };
+  const handleResizeCover = () => setResizing(prev => !prev);
+
+  console.log({ values });
 
   const theme = useTheme();
 
@@ -61,15 +72,8 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                 Cover
               </Typography>
               {cover ? (
-                <div>
-                  <Box
-                    style={{
-                      backgroundImage: `url(${cover})`,
-                      backgroundPosition: 'center',
-                      backgroundSize: 'cover',
-                      height: 420
-                    }}
-                  />
+                <div style={{ textAlign: 'center' }}>
+                  {resizing ? <Image value={cover} onChange={handleSelectCover} /> : <img src={cover} alt='cover' style={{ width: 350 }} />}
                   {!isEmpty(errors['cover']) && (
                     <Box mt={2}>
                       <Typography align='right' color='error'>
@@ -84,8 +88,11 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                       marginTop: 16
                     }}
                   >
+                    <Button color='primary' onClick={handleResizeCover} variant='text'>
+                      {resizing ? 'Cancel Resize Image' : 'Resize Cover Image'}
+                    </Button>
                     <Button color='primary' onClick={handleRemoveCover} variant='text'>
-                      Remove Cover
+                      Remove Cover Image
                     </Button>
                   </Box>
                 </div>

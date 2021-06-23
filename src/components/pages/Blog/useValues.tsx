@@ -23,13 +23,15 @@ const validate = values => {
     //y will be 2 if Base64 ends with '==' and 1 if Base64 ends with '='.
     var n = values['cover'].length;
     var y = values['cover'].endsWith('==') ? 2 : 1;
-    var isValid = new Decimal(n)
+    const sizeKB = new Decimal(n)
       .times(new Decimal(3 / 4))
       .minus(y)
-      .lessThanOrEqualTo(350000); // <= 350 kb
+      .dividedBy(1000)
+      .toInteger();
+    var isValid = sizeKB.lessThanOrEqualTo(350); // <= 350 kb - Dynamo has a size limit of 400kb per database row
 
     if (!isValid) {
-      newErrors['cover'] = 'Image exceeds maximum size limit.  Size must be less than or equal to 300 kB.  Please select a new image';
+      newErrors['cover'] = `Image size of ${sizeKB.toString()} kB exceeds maxium size of 300 kB.  Please select a new image.`;
     }
   }
 
