@@ -85,6 +85,8 @@ const BlogPostDetails = () => {
 
   const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
 
+  const commentCount = comments.filter(e => !e.deleted).length;
+
   const filtered = sortComments(
     comments.filter(e => !e.deleted && isEmpty(e.parentId)),
     sortOption
@@ -210,7 +212,7 @@ const BlogPostDetails = () => {
               <Grid container justify='space-between' spacing={2}>
                 <Grid item>
                   <Typography color='textPrimary' variant='h6'>
-                    {`Comments (${filtered.length})`}
+                    {`Comments (${commentCount})`}
                   </Typography>
                 </Grid>
 

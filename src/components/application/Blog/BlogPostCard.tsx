@@ -4,6 +4,7 @@ import { Box, CardMedia, Chip, createStyles, Grid, Link, makeStyles, Typography 
 import { useChangeRoute } from '../../layout/hooks';
 import { bool, isEmpty, formatWithDefault } from '../../../helpers';
 import { grey } from '@material-ui/core/colors';
+import { useCommentsByPostId } from '../../../database/useComments';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -37,6 +38,9 @@ const BlogPostCard = ({
   const handleClick = React.useCallback(() => {
     changeRoute('/connect', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
   }, [changeRoute, _id]);
+
+  const { data: comments } = useCommentsByPostId({ postId: _id });
+  const filtered = comments.filter(e => !e.deleted);
 
   return (
     <div {...other}>
@@ -108,9 +112,23 @@ const BlogPostCard = ({
               </Grid>
             )}
             <Grid item>
-              <Typography color='textSecondary' variant='caption'>
-                {`${formatWithDefault(publishedAt, 'dd MMM', 'Unknown Date')} · ${readTime} read`}
-              </Typography>
+              <Grid container spacing={1}>
+                {[
+                  `${formatWithDefault(publishedAt, 'dd MMM', 'Unknown Date')}`,
+                  `·`,
+                  `${readTime} read`,
+                  filtered.length > 0 && `·`,
+                  filtered.length > 0 && `${filtered.length} comments`
+                ]
+                  .filter(t => t)
+                  .map(t => (
+                    <Grid item>
+                      <Typography color='textSecondary' variant='caption'>
+                        {t}
+                      </Typography>
+                    </Grid>
+                  ))}
+              </Grid>
             </Grid>
           </Grid>
         </Box>
