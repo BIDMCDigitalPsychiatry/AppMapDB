@@ -425,9 +425,12 @@ export type Condition =
   | 'Self-Harm'
   | 'PTSD'
   | 'Substance Use'
+  | 'Substance Use (Alcohol)'
+  | 'Substance Use (Smoking & Tobacco)'
   | 'Headache'
-  | 'Pain';
-  
+  | 'Pain'
+  | 'Non-Specific';
+
 export const Conditions: Condition[] = [
   'Mood Disorders',
   'Stress & Anxiety',
@@ -440,8 +443,11 @@ export const Conditions: Condition[] = [
   'Self-Harm',
   'PTSD',
   'Substance Use',
+  'Substance Use (Alcohol)',
+  'Substance Use (Smoking & Tobacco)',
   'Headache',
-  'Pain'
+  'Pain',
+  'Non-Specific'
 ];
 
 export type DeveloperType = 'Government' | 'For Profit Company' | 'Non-Profit Company' | 'Healthcare Company' | 'Academic Institution';

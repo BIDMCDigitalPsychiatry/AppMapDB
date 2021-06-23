@@ -337,7 +337,7 @@ export const useColumns = () => {
     },
     {
       name: 'conditions',
-      width: 850,
+      width: 2000,
       header: (
         <>
           <Grid container>
