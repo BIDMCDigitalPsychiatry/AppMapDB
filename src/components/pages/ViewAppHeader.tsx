@@ -1,0 +1,198 @@
+import * as React from 'react';
+import { Grid, Typography, createStyles, makeStyles } from '@material-ui/core';
+import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
+import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
+import { getDayTimeFromTimestamp, isEmpty, publicUrl, uuid } from '../../helpers';
+import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
+import { tables } from '../../database/dbConfig';
+import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
+import ArrowButtonCaption from '../general/ArrowButtonCaption';
+import { useSignedIn } from '../../hooks';
+import { useHandleChangeRoute } from '../layout/hooks';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
+
+const useStyles = makeStyles(({ palette }: any) =>
+  createStyles({
+    primaryLightText: {
+      fontWeight: 700,
+      color: palette.primary.light
+    }
+  })
+);
+
+const imageHeight = 144;
+
+export default function ViewAppHeader({ app, type = 'view' }) {
+  const classes = useStyles();
+  const {
+    _id,
+    privacies = [],
+    platforms,
+    androidLink,
+    iosLink,
+    webLink,
+    costs = [],
+    updated,
+    created,
+    feasibilityStudiesLink = undefined,
+    efficacyStudiesLink = undefined,
+    clinicalFoundations = []
+  } = app;
+
+  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
+  const name = getAppName(app);
+  const company = getAppCompany(app);
+  const icon = getAppIcon(app);
+  const signedIn = useSignedIn();
+
+  const handleChangeRoute = useHandleChangeRoute();
+  const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
+
+  return (
+    <Grid container spacing={4}>
+      <Grid item style={{ width: imageHeight + 16 }}>
+        <img style={{ height: imageHeight, borderRadius: 15 }} src={icon} alt='logo' />
+      </Grid>
+      <Grid item xs>
+        <Grid container spacing={4}>
+          <Grid item zeroMinWidth xs>
+            <Grid container style={{ minWidth: 300 }}>
+              <Grid item xs={12}>
+                <Typography className={classes.primaryLightText} variant='h5'>
+                  {name || 'Unknown Name'}
+                </Typography>
+                <Typography color='textSecondary'>{company}</Typography>
+              </Grid>
+              <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
+                <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography color='textSecondary' variant='caption'>
+                      Costs:
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography noWrap className={classes.primaryLightText} variant='caption'>
+                      {costs.length === 0 ? (
+                        'Unknown Cost'
+                      ) : costs.length > 2 ? (
+                        <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
+                          Multiple Associated Costs
+                        </DialogButton>
+                      ) : (
+                        costs.join(' | ')
+                      )}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography color='textSecondary' variant='caption'>
+                      App Has Privacy Policy:
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.primaryLightText} variant='caption'>
+                      {privacies.includes('Has Privacy Policy') ? 'Yes' : 'No'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item style={{ width: 256 }}>
+        <Grid container spacing={1}>
+          {type !== 'survey' && (
+            <>
+              <Grid item xs={12}>
+                {signedIn ? (
+                  <EditDialogButton
+                    variant='primaryButton2'
+                    size='large'
+                    id='Rate an App V2'
+                    onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
+                    initialValues={{
+                      [tables.applications]: {
+                        ...initialValues,
+                        _id: uuid(),
+                        parent: initialValues._id,
+                        approved: false,
+                        approverEmail: undefined,
+                        created: new Date().getTime()
+                      }
+                    }}
+                    tooltip='Rate App'
+                    placement='bottom'
+                  >
+                    Submit New App Rating
+                  </EditDialogButton>
+                ) : (
+                  <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateAnApp'))}>
+                    Rate an App
+                  </DialogButton>
+                )}
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: 'right' }}>
+                <DialogButton
+                  Module={SuggestEditDialog}
+                  initialValues={{ [tables.applications]: initialValues }}
+                  variant='arrowButton'
+                  label='Flag/Suggest an Edit'
+                />
+              </Grid>
+            </>
+          )}
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography color='textSecondary' variant='caption'>
+                      Last Rating:
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography noWrap className={classes.primaryLightText} variant='caption'>
+                      {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography color='textSecondary' variant='caption'>
+                      App Has Supported Studies:
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.primaryLightText} variant='caption'>
+                      {hasSupportingStudies ? 'Yes' : 'No'}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+              {hasSupportingStudies && !isEmpty(feasibilityStudiesLink) && (
+                <Grid item>
+                  <ArrowButtonCaption label='See Feasability Studies' link={feasibilityStudiesLink} />
+                </Grid>
+              )}
+              {hasSupportingStudies && !isEmpty(efficacyStudiesLink) && (
+                <Grid item>
+                  <ArrowButtonCaption label='See Efficacy Studies' link={efficacyStudiesLink} />
+                </Grid>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+}

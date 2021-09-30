@@ -70,7 +70,7 @@ export default function LayoutV2({ children }) {
 
   return (
     <div data-testid='app-container' className={classes.root}>
-      <main ref={ref} className={classes.content}>
+      <main id='app-content' ref={ref} className={classes.content}>
         <ApplicationBarV2 trigger={trigger} />
         <LeftDrawer />
         <div className={classes.toolbar} />
