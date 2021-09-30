@@ -310,8 +310,9 @@ export default function Survey() {
   };
 
   const handleSubmit = () => {
+    const created = new Date().getTime();
     handleSave({
-      values: { ...state, app },
+      values: { ...state, created, updated: created, app },
       validate,
       onError: errors => console.error('Error submiting survey', errors),
       onSuccess: () => {
