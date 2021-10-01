@@ -58,7 +58,7 @@ export const useColumns = () => {
   const columns = [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummaryMapped, hoverable: false, sort: 'textLower' },
     { name: 'actions', header: 'Actions', width: 240, Cell: Actions },
-    { name: 'What is your email address?', header: 'Submitted By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
+    { name: 'email', header: 'Submitted By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
       header: 'Last Updated',

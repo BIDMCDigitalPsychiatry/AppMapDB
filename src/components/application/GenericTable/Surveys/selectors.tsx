@@ -81,7 +81,7 @@ export const useSurveyData = table => {
         const { app = {} } = survey;        
 
         const searchableProps = {
-          name: getAppName(app),
+          app: getAppName(app),          
           updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
           company: getAppCompany(app),
           costs: app.costs?.join(' '),
