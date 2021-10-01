@@ -84,8 +84,8 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
 
   const tabId = tabs[0] && tabs[0].id;
   const tab = tabs.find(t => t.id === selected);
-  const tabRoute = tabs.find(t => t.id === selected)?.route;
-  const tabSubRoute = tabs.find(t => t.id === selected)?.routeState?.subRoute;
+  const tabRoute = tab?.route;
+  const tabSubRoute = tab?.routeState?.subRoute;
   const tabToSelect = !(pathname === tabRoute && subRoute === tabSubRoute) && tabs.find(t => t.route === pathname && t?.routeState?.subRoute === subRoute);
   const handleChangeRoute = useHandleChangeRoute();
   const selectedId = selected ? selected : tabId;

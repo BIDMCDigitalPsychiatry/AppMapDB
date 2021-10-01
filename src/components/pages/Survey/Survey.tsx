@@ -291,11 +291,12 @@ export default function Survey() {
 
   React.useEffect(() => {
     if (mode === 'view') {
-      getRow(_id, result => {        
+      getRow(_id, result => {
         setState(prev => ({ ...prev, ...result?.Item, step: 0 }));
       });
     }
-  }, [_id, JSON.stringify(app), mode, getRow]);
+    // eslint-disable-next-line
+  }, [_id, JSON.stringify(app), mode, getRow, setState]);
 
   const changeRoute = useChangeRoute();
 
