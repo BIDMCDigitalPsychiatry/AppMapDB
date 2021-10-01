@@ -10,7 +10,7 @@ import * as Icons from '@material-ui/icons';
 import { searchPosts, sortPosts } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { usePosts } from '../../../database/usePosts';
-import { bool } from '../../../helpers';
+import { bool, publicUrl } from '../../../helpers';
 import useSortOptions from '../../hooks/useSortOptions';
 
 const useStyles = makeStyles(theme =>
@@ -74,7 +74,7 @@ const BlogPostList = ({ category = 'News' }) => {
             ? [
                 {
                   label: 'Add new post',
-                  onClick: handleChangeRoute('/connect', prev => ({ ...prev, blogLayout: 'create', values })),
+                  onClick: handleChangeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'create', values })),
                   startIcon: <PlusIcon fontSize='small' />
                 }
               ]

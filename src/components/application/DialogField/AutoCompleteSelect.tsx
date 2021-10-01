@@ -8,7 +8,15 @@ const getSelectedOption = (value, options) =>
   Array.isArray(options) ? options.find(o => (typeof o === 'object' ? o.value === value : o === value)) ?? '' : '';
 
 // Accepts either an option array of strings, numbers, or { value, label } objects. Reports only the value (not the object) to parent onChange
-export default function AutoCompleteSelect({ items: options = [], value = '', onChange = undefined, size = 'small' as 'small', freeSolo = true, ...other }) {
+export default function AutoCompleteSelect({
+  items: options = [],
+  value = '',
+  onChange = undefined,
+  disabled = false,
+  size = 'small' as 'small',
+  freeSolo = true,
+  ...other
+}) {
   const handleChange = React.useCallback(
     (e, option) => {
       onChange && onChange({ target: { value: getValue(option) } }); // Inject value to mimic behavior of other input on change events
@@ -18,6 +26,7 @@ export default function AutoCompleteSelect({ items: options = [], value = '', on
 
   return (
     <Autocomplete
+      disabled={disabled}
       value={getSelectedOption(value, options)} // convert value to ption
       options={options}
       autoHighlight
@@ -34,6 +43,7 @@ export default function AutoCompleteSelect({ items: options = [], value = '', on
           InputLabelProps={{
             shrink: true
           }}
+          disabled={disabled}
           {...other}
         />
       )}

@@ -16,6 +16,5 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
 export const Surveys = props => {
   const columns = useColumns();
   const data = useSurveyData(name);
-  console.log({ data });
   return <GenericTableContainer {...defaultApplicationsProps} data={data} columns={columns} showScroll={true} {...props} />;
 };

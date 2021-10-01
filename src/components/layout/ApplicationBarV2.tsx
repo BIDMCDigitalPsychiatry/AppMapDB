@@ -57,9 +57,9 @@ const useTabs = () => {
   return [
     { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
     { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
-    { id: 'Admin', icon: Icons.Dashboard, route: '/Admin' },
+    { id: 'Admin', icon: Icons.Dashboard, route: '/Admin', routeState: { subRoute: 'pending' } },
     { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
-    { id: 'Community', icon: Icons.Forum, route: '/connect', routeState: { blogLayout: 'list', category: 'News' }, onClick: handleClick }
+    { id: 'Community', icon: Icons.Forum, route: '/connect', routeState: { subRoute: 'list', category: 'News' }, onClick: handleClick }
   ].filter(t => t);
 };
 
@@ -103,8 +103,8 @@ export default function ApplicationBarV2({ trigger }) {
 
   const handleTabChange = React.useCallback(
     value => {
-      const { route } = tabs.find(t => t.id === value);
-      changeRoute(publicUrl(route));
+      const { route, routeState = {} } = tabs.find(t => t.id === value);
+      changeRoute(publicUrl(route), routeState);
     },
     [tabs, changeRoute]
   );

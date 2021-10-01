@@ -55,32 +55,34 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
               <Typography variant={titleVariant}>{row.label}:</Typography>
             </Grid>
             <Grid item zeroMinWidth xs className={classes.chipRoot}>
-              {values.map(({ label, tooltip }, i) =>
-                isExpandable && i === 3 && values.length > 4 && state[row.label] !== true ? (
-                  <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
-                    <Chip
-                      key={`${label}-${i}`}
-                      style={{ background: row.color, color: 'white', marginRight: 8 }}
-                      variant='outlined'
-                      size='small'
-                      label={`${values.length - 3} More ...`}
-                      onClick={handleExpand(row.label)}
-                    />
-                  </LightTooltip>
-                ) : isExpandable && i > 3 && values.length > 4 && state[row.label] !== true ? (
-                  <div key={`${label}-${i}`}></div>
-                ) : (
-                  <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
-                    <Chip
-                      key={`${label}-${i}`}
-                      style={{ background: row.color, color: 'white', marginRight: 8 }}
-                      variant='outlined'
-                      size='small'
-                      label={withReplacement(label)}
-                    />
-                  </LightTooltip>
-                )
-              )}
+              {values.map(({ label, tooltip }, i) => (
+                <div key={label}>
+                  {isExpandable && i === 3 && values.length > 4 && state[row.label] !== true ? (
+                    <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
+                      <Chip
+                        key={`${label}-${i}`}
+                        style={{ background: row.color, color: 'white', marginRight: 8 }}
+                        variant='outlined'
+                        size='small'
+                        label={`${values.length - 3} More ...`}
+                        onClick={handleExpand(row.label)}
+                      />
+                    </LightTooltip>
+                  ) : isExpandable && i > 3 && values.length > 4 && state[row.label] !== true ? (
+                    <div key={`${label}-${i}`}></div>
+                  ) : (
+                    <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
+                      <Chip
+                        key={`${label}-${i}`}
+                        style={{ background: row.color, color: 'white', marginRight: 8 }}
+                        variant='outlined'
+                        size='small'
+                        label={withReplacement(label)}
+                      />
+                    </LightTooltip>
+                  )}
+                </div>
+              ))}
             </Grid>
           </Grid>
         );

@@ -5,10 +5,11 @@ import TextLabel from '../../application/DialogField/TextLabel';
 import WholeNumber from '../../application/DialogField/WholeNumber';
 import AutoCompleteSelect from '../../application/DialogField/AutoCompleteSelect';
 import RadioRow from '../../application/DialogField/RadioRow';
-import { useChangeRoute, useUserEmail } from '../../layout/hooks';
+import { useChangeRoute, useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
 import useSurvey from './useSurvey';
 import { useRouteState } from '../../layout/store';
 import ViewAppHeader from '../ViewAppHeader';
+import { publicUrl } from '../../../helpers';
 
 const width = 300;
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-const Step0 = ({ state, onChange, errors = {} }) => {
+const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {
     'What is your email address?': {},
     'Have you contracted COVID-19 before?': {
@@ -86,7 +87,7 @@ const Step0 = ({ state, onChange, errors = {} }) => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
           <Box mt={2} key={label}>
-            <Field label={label} value={state[label]} onChange={onChange(label)} {...other} />
+            <Field label={label} value={state[label]} onChange={onChange(label)} disabled={disabled} {...other} />
           </Box>
         );
       })}
@@ -116,7 +117,7 @@ const items3 = [
   { value: 'Strongly agree', label: 'Strongly agree' }
 ];
 
-const Step1 = ({ state, onChange, errors = {} }) => {
+const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
 
   const questions = {};
@@ -146,7 +147,7 @@ const Step1 = ({ state, onChange, errors = {} }) => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
           <Box mt={2} key={label}>
-            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} {...other} />
+            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
           </Box>
         );
       })}
@@ -154,7 +155,7 @@ const Step1 = ({ state, onChange, errors = {} }) => {
   );
 };
 
-const Step2 = ({ state, onChange, errors = {} }) => {
+const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
 
   const questions = {};
@@ -182,7 +183,7 @@ const Step2 = ({ state, onChange, errors = {} }) => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
           <Box mt={2} key={label}>
-            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} {...other} />
+            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
           </Box>
         );
       })}
@@ -190,7 +191,7 @@ const Step2 = ({ state, onChange, errors = {} }) => {
   );
 };
 
-const Step3 = ({ state, onChange, errors = {} }) => {
+const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {};
   [
     'I think that I would like to use this app frequently.',
@@ -211,7 +212,7 @@ const Step3 = ({ state, onChange, errors = {} }) => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
           <Box mt={2} key={label}>
-            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} {...other} />
+            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
           </Box>
         );
       })}
@@ -219,7 +220,7 @@ const Step3 = ({ state, onChange, errors = {} }) => {
   );
 };
 
-const Step4 = ({ state, onChange, errors = {} }) => {
+const Step4 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {};
   [
     'I trust this app to guide me towards my personal goals.',
@@ -236,7 +237,7 @@ const Step4 = ({ state, onChange, errors = {} }) => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
           <Box mt={2} key={label}>
-            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} {...other} />
+            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
           </Box>
         );
       })}
@@ -276,11 +277,7 @@ export default function Survey() {
   const classes = useStyles();
   var sm = useFullScreen('sm');
 
-  const [app] = useRouteState();
-
-  const changeRoute = useChangeRoute();
-
-  const { handleSave, errors } = useSurvey();
+  const { handleSave, getRow, errors } = useSurvey();
   const email = useUserEmail();
 
   const [state, setState] = React.useState({
@@ -288,6 +285,19 @@ export default function Survey() {
     errors: {},
     'What is your email address?': email // if user is logged in, auto fill the email field
   });
+
+  const [routeState] = useRouteState();
+  const { _id, app = {}, mode } = routeState;
+
+  React.useEffect(() => {
+    if (mode === 'view') {
+      getRow(_id, result => {        
+        setState(prev => ({ ...prev, ...result?.Item, step: 0 }));
+      });
+    }
+  }, [_id, JSON.stringify(app), mode, getRow]);
+
+  const changeRoute = useChangeRoute();
 
   const handleChange = React.useCallback(
     key => event => {
@@ -317,7 +327,7 @@ export default function Survey() {
       onError: errors => console.error('Error submiting survey', errors),
       onSuccess: () => {
         console.log('Successfully saved survey');
-        changeRoute('/ViewApp', { ...app, fromRoute: 'Survey' });
+        changeRoute(publicUrl('/ViewApp'), { app, from: 'Survey' });
       }
     });
   };
@@ -329,10 +339,19 @@ export default function Survey() {
 
   const Step = Steps[state.step];
 
+  const disabled = mode === 'view';
+
+  const handleChangeRoute = useHandleChangeRoute();
+
   return (
     <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
       <Grid item>
         <Grid container className={classes.whiteHeader} spacing={1}>
+          {mode === 'view' && (
+            <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
+              <Typography>{`<   Back To Surveys`}</Typography>
+            </Grid>
+          )}
           <Grid item style={{ width }} xs={12}>
             <Grid container alignItems='flex-end' justify='space-between'>
               <Grid item>
@@ -356,7 +375,7 @@ export default function Survey() {
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Step state={state} onChange={handleChange} errors={errors} />
+          <Step state={state} onChange={handleChange} errors={errors} disabled={disabled} />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2} style={{ marginTop: 16 }} justify='flex-end'>
@@ -369,7 +388,7 @@ export default function Survey() {
             )}
             <Grid item>
               {state.step === Steps.length - 1 ? (
-                <Button variant='contained' color='primary' onClick={handleSubmit}>
+                <Button disabled={disabled} variant='contained' color='primary' onClick={handleSubmit}>
                   Submit
                 </Button>
               ) : (

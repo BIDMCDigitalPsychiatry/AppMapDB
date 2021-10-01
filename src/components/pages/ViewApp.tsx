@@ -32,9 +32,10 @@ export default function ViewApp() {
   var sm = useFullScreen('sm');
 
   const [state] = useRouteState();
-  const { _id, appleStore, androidStore, fromRoute } = state;
+  const { app = {}, from } = state;
+  const { _id, appleStore, androidStore } = app;
 
-  const fromSurvey = fromRoute === 'Survey';
+  const fromSurvey = from === 'Survey';
 
   const handleChangeRoute = useHandleChangeRoute();
 
@@ -66,7 +67,7 @@ export default function ViewApp() {
         <Typography>{`<   Back To Results`}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <ViewAppHeader app={state} />
+        <ViewAppHeader app={app} />
       </Grid>
       <Grid item xs={12}>
         <Divider />
@@ -108,7 +109,7 @@ export default function ViewApp() {
               >
                 Are you currently using this App? If so, would you like to participate in a survey to help improve this web application?
                 <DialogButton
-                  onClick={handleChangeRoute('/Survey', state)}
+                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, mode: 'add' })}
                   variant='primaryButton2'
                   fullWidth={false}
                   style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}

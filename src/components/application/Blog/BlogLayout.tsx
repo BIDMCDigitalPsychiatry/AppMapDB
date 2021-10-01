@@ -17,8 +17,8 @@ const components = {
 };
 
 const BlogLayout = () => {
-  const [{ blogLayout = 'list', category = 'News', ...other } = {}] = useRouteState();
-  const BlogComponent = components[blogLayout];
+  const [{ subRoute = 'list', category = 'News', ...other } = {}] = useRouteState();
+  const BlogComponent = components[subRoute];
 
   return (
     <Box pt={3}>

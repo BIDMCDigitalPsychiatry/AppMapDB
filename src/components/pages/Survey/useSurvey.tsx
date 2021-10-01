@@ -25,7 +25,7 @@ const useSurvey = ({ type = 'create', trigger = false, values: Values = undefine
 
   const processData = useProcessData();
   const getRow = React.useCallback(
-    _id => {
+    (_id, onSuccess = undefined) => {
       setLoading(true);
       processData({
         Action: 'r',
@@ -37,6 +37,7 @@ const useSurvey = ({ type = 'create', trigger = false, values: Values = undefine
         onSuccess: result => {
           setValues(result.Item);
           setLoading(false);
+          onSuccess && onSuccess(result);
         },
         onError: err => {
           setLoading(false);

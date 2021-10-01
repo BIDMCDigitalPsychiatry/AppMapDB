@@ -31,7 +31,7 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
     icon = getAppIcon(props),
     created,
     updated
-  } = props;
+  } = props;  
 
   const { handleRefresh } = props as any;
 
@@ -92,7 +92,12 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
               </Grid>
             </Grid>
             <Grid item xs={12} style={{ paddingTop: 16 }}>
-              <DialogButton tooltip='' variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/ViewApp'), props)}>
+              <DialogButton
+                tooltip=''
+                variant='primaryButton2'
+                size='large'
+                onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationSummary' })}
+              >
                 View
               </DialogButton>
             </Grid>

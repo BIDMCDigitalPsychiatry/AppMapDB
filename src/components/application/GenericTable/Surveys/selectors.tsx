@@ -1,12 +1,14 @@
+import * as React from 'react';
 import { AppState } from '../../../../store';
 import Application from '../../../../database/models/Application';
 import { isEmpty, getDayTimeFromTimestamp } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
-import { tables } from '../../../../database/dbConfig';
+import { dynamo, tables } from '../../../../database/dbConfig';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
 import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
+import { useSurveys } from '../../../../database/useSurveys';
 
 export const getAppName = app => {
   const androidStore: AndroidStoreProps = app.androidStore;
@@ -46,10 +48,37 @@ export const getAppIcon = (app: Application) => {
 
 export const useSurveyData = table => {
   const surveys = useSelector((s: AppState) => s.database[tables.surveys] ?? {});
+
+  const [, setRows] = useSurveys();
+
+  // Load data from the database
+  React.useEffect(() => {
+    const getItems = async () => {
+      let scanResults = [];
+      let items;
+      var params = {
+        TableName: tables.surveys,
+        ExclusiveStartKey: undefined
+      };
+      do {
+        items = await dynamo.scan(params).promise();
+        items.Items.forEach(i => scanResults.push(i));
+        params.ExclusiveStartKey = items.LastEvaluatedKey;
+      } while (typeof items.LastEvaluatedKey != 'undefined');
+      setRows(
+        scanResults.reduce((f, c: any) => {
+          f[c._id] = c;
+          return f;
+        }, {})
+      );
+    };
+    getItems();
+  }, [setRows]);
+
   var data = surveys
     ? Object.keys(surveys).map(k => {
         const survey = surveys[k];
-        const { app } = survey;
+        const { app = {} } = survey;        
 
         const searchableProps = {
           name: getAppName(app),

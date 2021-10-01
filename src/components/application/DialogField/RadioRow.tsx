@@ -13,9 +13,10 @@ const RadioRow = ({
   onChange,
   forceErrorMargin,
   initialValue = undefined,
+  disabled = false,
   ...other
 }) => (
-  <FormControl component='fieldset' variant={variant} error={isError(error)} fullWidth margin={margin}>
+  <FormControl component='fieldset' variant={variant} error={isError(error)} fullWidth margin={margin} disabled={disabled}>
     <Box mb={1}>
       <Typography variant='body2'>{label}</Typography>
     </Box>

@@ -6,6 +6,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';
 import useValues from './useValues';
 import { useRouteState } from '../../layout/store';
+import { publicUrl } from '../../../helpers';
 
 const BlogPostCreate = () => {
   const handleChangeRoute = useHandleChangeRoute();
@@ -20,7 +21,7 @@ const BlogPostCreate = () => {
         buttons={[
           {
             label: 'Cancel',
-            onClick: handleChangeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' })),
+            onClick: handleChangeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'list' })),
             color: 'secondary'
           },
           {

@@ -7,7 +7,7 @@ import { Surveys } from '../../application/GenericTable/Surveys/table';
 
 export default function Admin() {
   const headerHeight = useHeaderHeight();
-  const [{ adminLayout = 'pending' }] = useRouteState();
+  const [{ subRoute = 'pending' }] = useRouteState();
 
   const height = useHeight();
   const { layout, palette } = useTheme() as any;
@@ -19,9 +19,9 @@ export default function Admin() {
 
   return (
     <Box pt={3} bgcolor={palette.primary.light}>
-      <AdminLayoutSelector />
+      <AdminLayoutSelector subRoute={subRoute} />
       <Divider style={{ marginTop: 16 }} />
-      {adminLayout === 'surveys' ? <Surveys height={tableHeight + headerHeight} /> : <AdminPendingApprovals height={tableHeight} />}
+      {subRoute === 'surveys' ? <Surveys height={tableHeight + headerHeight} /> : <AdminPendingApprovals height={tableHeight} />}
     </Box>
   );
 }
