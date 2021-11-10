@@ -8,7 +8,7 @@ import { useRouteState } from '../../layout/store';
 import BlogToolbar from './BlogToolbar';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
-import { bool, isEmpty } from '../../../helpers';
+import { bool, isEmpty, isEmptyObject } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import useValues from './useValues';
 import { useIsAdmin, useSignedIn } from '../../../hooks';
@@ -180,7 +180,7 @@ const BlogPostDetails = () => {
                   )}
                   <Grid item xs={12}>
                     <Typography align='center' color='textSecondary' variant='body2'>
-                      {`${values?.publishedAt ? format(values?.publishedAt, 'dd MMM') : ''} · ${values.readTime} read`}
+                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM') : ''} · ${values.readTime} read`}
                     </Typography>
                   </Grid>
                 </Grid>
