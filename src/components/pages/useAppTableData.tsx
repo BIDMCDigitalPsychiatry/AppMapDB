@@ -15,14 +15,15 @@ export default function useAppTableData() {
       do {
         items = await dynamo.scan(params).promise();
         items.Items.forEach(i => scanResults.push(i));
-        params.ExclusiveStartKey = items.LastEvaluatedKey;
+        params.ExclusiveStartKey = items.LastEvaluatedKey;        
+        setApps(prev => ({
+          ...prev,
+          ...scanResults.reduce((f, c: any) => {
+            f[c._id] = c;
+            return f;
+          }, {})
+        }));
       } while (typeof items.LastEvaluatedKey != 'undefined');
-      setApps(
-        scanResults.reduce((f, c: any) => {
-          f[c._id] = c;
-          return f;
-        }, {})
-      );
     };
     getItems();
   }, [setApps]);
