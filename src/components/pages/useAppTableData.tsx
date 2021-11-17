@@ -15,8 +15,7 @@ export default function useAppTableData() {
         let scanResults = [];
         items = await dynamo.scan(params).promise();
         items.Items.forEach(i => scanResults.push(i));
-        params.ExclusiveStartKey = items.LastEvaluatedKey;
-        console.log({ scanResults });
+        params.ExclusiveStartKey = items.LastEvaluatedKey;        
         setApps(prev => ({
           ...prev,
           ...scanResults.reduce((f, c: any) => {
