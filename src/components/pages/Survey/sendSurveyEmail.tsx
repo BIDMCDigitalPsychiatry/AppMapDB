@@ -1,0 +1,100 @@
+import { surveyNotificationEmail } from '../../../../package.json';
+import { AWS } from '../../../database/dbConfig';
+
+export function sendSurveyNotificationEmail({ email, appName }) {
+  const sourceEmailAddress = 'appmap@psych.digital';
+
+  const body = `Notice: ${email} has submitted a survey for ${appName}.`;
+
+  // Create sendEmail params
+  var params = {
+    Destination: {
+      /* required */ CcAddresses: [],
+      ToAddresses: [surveyNotificationEmail]
+    },
+    Message: {
+      /* required */
+      Body: {
+        /* required */
+        Html: {
+          Charset: 'UTF-8',
+          Data: body
+        },
+        Text: {
+          Charset: 'UTF-8',
+          Data: body
+        }
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: 'AppMapDB - App Rating Interest'
+      }
+    },
+    Source: sourceEmailAddress /* required */,
+    ReplyToAddresses: [sourceEmailAddress]
+  };
+
+  // Create the promise and SES service object
+  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise
+    .then(function (data) {
+      console.log(data.MessageId);
+    })
+    .catch(function (err) {
+      console.error(err, err.stack);
+    });
+}
+
+export function sendSurveyEmail({ email }) {
+  const sourceEmailAddress = 'appmap@psych.digital';
+
+  const body = `Hi,
+    
+    <p>Thank you for agreeing to participate in our study! We look forward to hearing your thoughts about this app.</p>
+    <p>If you have any questions regarding this study, please contact Erica Camacho at ecamach1@bidmc.harvard.edu.</p>
+    <p></p>
+    <p>Best,</p>
+    <p>The Division of Digital Psychiatry</p>`;
+
+  // Create sendEmail params
+  var params = {
+    Destination: {
+      /* required */ CcAddresses: [],
+      ToAddresses: [email]
+    },
+    Message: {
+      /* required */
+      Body: {
+        /* required */
+        Html: {
+          Charset: 'UTF-8',
+          Data: body
+        },
+        Text: {
+          Charset: 'UTF-8',
+          Data: body
+        }
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: 'AppMapDB - App Rating Interest'
+      }
+    },
+    Source: sourceEmailAddress /* required */,
+    ReplyToAddresses: [sourceEmailAddress]
+  };
+
+  // Create the promise and SES service object
+  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise
+    .then(function (data) {
+      console.log(data.MessageId);
+    })
+    .catch(function (err) {
+      console.error(err, err.stack);
+    });
+}

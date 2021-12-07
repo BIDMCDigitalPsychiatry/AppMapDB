@@ -9,6 +9,8 @@ import useSurvey from './useSurvey';
 import { useRouteState } from '../../layout/store';
 import ViewAppHeader from '../ViewAppHeader';
 import { publicUrl } from '../../../helpers';
+import { sendSurveyEmail, sendSurveyNotificationEmail } from './sendSurveyEmail';
+import { getAppName } from '../../application/GenericTable/Applications/selectors';
 
 const width = 300;
 
@@ -392,6 +394,8 @@ export default function Survey() {
     'What is the best email address we can reach you at?': email // if user is logged in, auto fill the email field
   });
 
+  const surveyEmail = state['What is the best email address we can reach you at?'];
+
   const [routeState] = useRouteState();
   const { _id, app = {}, mode } = routeState;
 
@@ -434,6 +438,8 @@ export default function Survey() {
       onError: errors => console.error('Error submiting survey', errors),
       onSuccess: () => {
         console.log('Successfully saved survey');
+        sendSurveyEmail({ email: surveyEmail });
+        sendSurveyNotificationEmail({ email: surveyEmail, appName: getAppName(app) });
         changeRoute(publicUrl('/ViewApp'), { app, from: 'Survey' });
       }
     });
