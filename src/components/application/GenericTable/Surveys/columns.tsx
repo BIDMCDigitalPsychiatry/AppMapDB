@@ -22,7 +22,7 @@ const LastUpdated = ({ updated }) => (
 
 const RatedBy = (props = {}) => (
   <Typography variant='body2' color='textSecondary'>
-    {props['What is your email address?']}
+    {props['What is the best email address we can reach you at?']}
   </Typography>
 );
 

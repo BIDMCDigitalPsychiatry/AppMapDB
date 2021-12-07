@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Box, Divider, Button } from '@material-ui/core';
 import { useFullScreen } from '../../../hooks';
 import TextLabel from '../../application/DialogField/TextLabel';
-import WholeNumber from '../../application/DialogField/WholeNumber';
-import AutoCompleteSelect from '../../application/DialogField/AutoCompleteSelect';
+import MultiSelectCheck from '../../application/DialogField/MultiSelectCheck';
 import RadioRow from '../../application/DialogField/RadioRow';
 import { useChangeRoute, useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
 import useSurvey from './useSurvey';
@@ -35,54 +34,79 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {
-    'What is your email address?': {},
-    'Have you contracted COVID-19 before?': {
+    'What is the best email address we can reach you at?': {},
+    'Sex (assigned at birth)?': {
       Field: RadioRow,
       items: [
-        { value: 'No', label: 'No' },
-        { value: 'Yes', label: 'Yes' },
-        { value: 'Maybe but not confirmed', label: 'Maybe but not confirmed' }
+        { value: 'Male', label: 'Male' },
+        { value: 'Female', label: 'Female' },
+        { value: 'Intersex', label: 'Intersex' }
       ]
     },
-    'Were you hospitalized as a result of COVID-19 infection?': {
+    'Gender Identity?': {
       Field: RadioRow,
       items: [
-        { value: 'No', label: 'No' },
-        { value: 'Yes', label: 'Yes' }
-      ]
-    },
-    'If you were diagnosed with COVID-19, or if you think you contracted COVID-19 at any point, approximately what were the dates of your illness?': {},
-    'What is your age in years?': {
-      Field: WholeNumber,
-      min: 1,
-      max: 130
-    },
-    'What is your gender?': {
-      Field: AutoCompleteSelect,
-      items: [
-        { value: 'Prefer not to say', label: 'Prefer not to say' },
         { value: 'Female', label: 'Female' },
         { value: 'Male', label: 'Male' },
-        { value: 'Gender non-binary', label: 'Gender non-binary' },
+        { value: 'Non-binary', label: 'Non-binary' },
+        { value: 'Transgender female', label: 'Transgender female' },
+        { value: 'Transgender male', label: 'Transgender male' },
         { value: 'Other', label: 'Other' }
       ]
     },
-    'How would you describe yourself?': {
-      Field: AutoCompleteSelect,
+    'Race?': {
+      Field: RadioRow,
       items: [
+        { value: 'African-American', label: 'African-American' },
         { value: 'American Indian or Alaskan Native', label: 'American Indian or Alaskan Native' },
         { value: 'Asian', label: 'Asian' },
-        { value: 'Black or African American', label: 'Black or African American' },
-        { value: 'Latinx', label: 'Latinx' },
-        { value: 'Native Hawaiian or Pacific Islander', label: 'Native Hawaiian or Pacific Islander' },
+        { value: 'Native Hawaiian or other Pacific Islander', label: 'Native Hawaiian or other Pacific Islander' },
         { value: 'White', label: 'White' },
         { value: 'Other', label: 'Other' }
+      ]
+    },
+    'Ethnicity?': {
+      Field: RadioRow,
+      items: [
+        { value: 'Hispanic or Latino/a', label: 'Hispanic or Latino/a' },
+        { value: 'Not Hispanic or Latino/a', label: 'Not Hispanic or Latino/a' }
+      ]
+    },
+    'Annual household income?': {
+      Field: RadioRow,
+      items: [
+        { value: 'Less than $25,000', label: 'Less than $25,000' },
+        { value: '$25,000-$59,000', label: '$25,000-$59,000' },
+        { value: '$60,000-$84,000', label: '$60,000-$84,000' },
+        { value: '$85,000-$99,000', label: '$85,000-$99,000' },
+        { value: '$100,000+', label: '$100,000+' }
+      ]
+    },
+    'Is this your first time attending therapy?': {
+      Field: RadioRow,
+      items: [
+        { value: 'Yes', label: 'Yes' },
+        { value: 'No', label: 'No' }
+      ]
+    },
+    'How much school have you completed?': {
+      Field: RadioRow,
+      required: true,
+      items: [
+        { value: 'Eighth grade or less', label: 'Eighth grade or less' },
+        { value: 'Some high school', label: 'Some high school' },
+        { value: 'High school graduate/GED', label: 'High school graduate/GED' },
+        { value: 'Some college', label: 'Some college' },
+        { value: '4-year college graduate or higher', label: '4-year college graduate or higher' }
       ]
     }
   };
 
+  const classes = useStyles();
+
   return (
-    <>
+    <Box mt={2}>
+      <Typography className={classes.primaryTextMedium}>Demographics:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -91,22 +115,32 @@ const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
           </Box>
         );
       })}
-    </>
+    </Box>
   );
 };
 
-const items = [
-  { value: 'Not at all', label: 'Not at all' },
-  { value: 'Several days', label: 'Several days' },
-  { value: 'More than half the days', label: 'More than half the days' },
-  { value: 'Nearly every day', label: 'Nearly every day' }
+const yesNoItems = [
+  { value: 'Yes', label: 'Yes' },
+  { value: 'No', label: 'No' }
 ];
 
-const items2 = [
-  { value: 'Not difficult at all', label: 'Not difficult at all' },
-  { value: 'Somewhat difficult', label: 'Somewhat difficult' },
-  { value: 'Very difficult', label: 'Very difficult' },
-  { value: 'Extremely difficult', label: 'Extremely difficult' }
+const phoneItems = [
+  { value: 'Apple (iPhone)', label: 'Apple (iPhone)' },
+  { value: 'Google', label: 'Google' },
+  { value: 'Samsung', label: 'Samsung' },
+  { value: 'LG', label: 'LG' },
+  { value: 'Motorola', label: 'Motorola' },
+  { value: 'HTC', label: 'HTC' },
+  { value: 'Other', label: 'Other' },
+  { value: `I don't own a smartphone`, label: `I don't own a smartphone` }
+];
+
+const comfortableItems = [
+  { value: 'I cannot do it on my own', label: 'I cannot do it on my own' },
+  { value: 'I can do it on my own, but with step by step instructions', label: 'I can do it on my own, but with step by step instructions' },
+  { value: 'I can do it mostly on my own, but may have a few questions', label: 'I can do it mostly on my own, but may have a few questions' },
+  { value: 'I can do it on my own with ease', label: 'I can do it on my own with ease' },
+  { value: 'I can do it and teach someone else', label: 'I can do it and teach someone else' }
 ];
 
 const items3 = [
@@ -117,32 +151,38 @@ const items3 = [
   { value: 'Strongly agree', label: 'Strongly agree' }
 ];
 
+const items4 = [
+  { value: 'Not at all true', label: 'Not at all true' },
+  { value: 'Hardly true', label: 'Hardly true' },
+  { value: 'Moderately true', label: 'Moderately true' },
+  { value: 'Exactly true', label: 'Exactly true' }
+];
+
 const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
 
   const questions = {};
-  [
-    'Little interest or pleasure in doing things?',
-    'Feeling down, depressed, or hopeless',
-    'Trouble falling or staying asleep, or sleeping too much?',
-    'Feeling tired or having little energy?',
-    'Poor appetitie or overeating?',
-    'Feeling bad about yourself - or that you are a failure or have let yourself or your family down?',
-    'Trouble concentrating on things, such as reading the newspaper or watching television?',
-    'Moving or speaking so slowly that other people could have noticed.  Or the opposite; being so fidgety or restless that you have been moving around a lot more than usual?',
-    'Thoughts that you would be better off dead, or thoughts of hurting yourself in some way?'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items }));
-
-  questions[
-    'If you checked off any problems on this questionnaire, how difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?'
-  ] = {
+  questions['What is the make of your phone?'] = {
     Field: RadioRow,
-    items: items2
+    items: phoneItems
   };
+
+  questions['What is the model of your phone? (eg. 8, XR, Galaxy S8, Pixel 4, etc.)'] = {};
+
+  ['How comfortable are you connecting your phone to Wi-Fi?', 'How comfortable are you downloading an app from the app store'].forEach(
+    qt => (questions[qt] = { Field: RadioRow, items: comfortableItems })
+  );
+
+  questions['Have you used a smartphone app for your mental health in the past?'] = {
+    Field: RadioRow,
+    items: yesNoItems
+  };
+
+  questions['If yes, which app?'] = {};
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Over the past 2 weeks, how often have you been bothered by:</Typography>
+      <Typography className={classes.primaryTextMedium}>Technology Usage:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -159,26 +199,11 @@ const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
 
   const questions = {};
-  [
-    'Feeling nervous, anxious, or on edge',
-    'Not being able to stop or control worrying',
-    'Worrying too much about different things',
-    'Trouble relaxing',
-    `Being so restless that it's hard to sit still`,
-    'Becoming easily annoyed or irritable',
-    'Feeling afraid as if something awful might happen'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items }));
-
-  questions[
-    'If you checked off any problems on this questionnaire, how difficult have these made it for you to do your work, take care of things at home, or get along with other people?'
-  ] = {
-    Field: RadioRow,
-    items: items2
-  };
+  ['Do you have health insurance?', 'Have you been diagnosed with a mental illness?'].forEach(qt => (questions[qt] = { Field: RadioRow, items: yesNoItems }));
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Over the past 2 weeks, how often have you been bothered by:</Typography>
+      <Typography className={classes.primaryTextMedium}>Access to Health</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -193,21 +218,34 @@ const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
 
 const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {};
-  [
-    'I think that I would like to use this app frequently.',
-    'I found this app unnecessarily complex.',
-    'I thought this app was easy to use.',
-    'I think that I would need the support of a technical person to be able to use this app.',
-    'I found the various functions to be well integrated in this app.',
-    'I thought there was too much inconsistency in this app.',
-    'I would imagine that most people would learn to use this app very quickly.',
-    'I found this app to be very cumbersome (awkward) to use.',
-    'I felt very confident using this app.',
-    'I needed to learn a lot of things before I could get going with this app.'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items3 }));
+
+  questions['Which filters were most important to you when choosing a mobile app?'] = {
+    Field: MultiSelectCheck,
+    items: [
+      'Cost',
+      'Developer type (e.g. for-profit, non-profit, healthcare company, academic institution)',
+      'Supported Condition (e.g. anxiety, sleep, OCD, mood disorder, substance use, etc.)',
+      'Functionality (e.g. available in Spanish, functions offline, email or export data, etc.)',
+      'Uses (e.g. self-help, reference, hybrid)',
+      'Features (e.g. track mood, journaling, mindfulness, CBT, peer support, chatbot, etc.)',
+      'Engagements (e.g. user generated data, messaging, gamification, network support, etc.)',
+      'Evidence & Clinical Foundations (e.g. patient facing, risk of harm, warning, supporting studies, etc.)',
+      'Privacy (e.g. has privacy policy, delete data, personal health information shared, meets HIPAA, etc.)'
+    ].map(value => ({ value, label: value }))
+  };
+
+  questions['Did outside factors impact your app decision (e.g. star ratings, reviews)?'] = {
+    Field: RadioRow,
+    items: yesNoItems
+  };
+
+  questions['If yes, which specific aspects?'] = {};
+
+  const classes = useStyles();
 
   return (
     <Box mt={2}>
+      <Typography className={classes.primaryTextMedium}>App Selection Information</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -223,6 +261,35 @@ const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
 const Step4 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {};
   [
+    'I think that I would like to use Recommended App frequently.',
+    'I found Recommended App unnecessarily complex.',
+    'I thought Recommended App was easy to use.',
+    'I think that I wouldn eed the support of a technical person to be able to use Recommended App.',
+    'I found the various functions in Recommended App were well integrated.',
+    'I thought there was too much inconsistency in Recommended App.',
+    'I would imagine that most people would learn to use Recommended App very quickly.',
+    'I found Recommended App very cumbersome (akward) to use.',
+    'I felt very confident using Recommended App.',
+    'I needed to learn a lot of things before I could get going with Recommended App.'
+  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items3 }));
+
+  return (
+    <Box mt={2}>
+      {Object.keys(questions).map(label => {
+        const { Field = TextLabel, ...other } = questions[label];
+        return (
+          <Box mt={2} key={label}>
+            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
+          </Box>
+        );
+      })}
+    </Box>
+  );
+};
+
+const Step5 = ({ state, onChange, errors = {}, disabled = false }) => {
+  const questions = {};
+  [
     'I trust this app to guide me towards my personal goals.',
     'I believe this app tasks will help me to address my problem.',
     'This app encourages me to accomplish tasks and make progress.',
@@ -230,6 +297,35 @@ const Step4 = ({ state, onChange, errors = {}, disabled = false }) => {
     'This app is easy to use and operate.',
     'This app supports me to overcome challenges.'
   ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items3 }));
+
+  return (
+    <Box mt={2}>
+      {Object.keys(questions).map(label => {
+        const { Field = TextLabel, ...other } = questions[label];
+        return (
+          <Box mt={2} key={label}>
+            <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
+          </Box>
+        );
+      })}
+    </Box>
+  );
+};
+
+const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
+  const questions = {};
+  [
+    'I can always manage to solve difficult problems if I try hard enough.',
+    'If someone opposes me, I can find the means and ways to get what I want.',
+    'It is easy for me to stick to my aims and accomplish my goals.',
+    'I am confident that I could deal efficiently with unexpected events.',
+    'Thanks to my resourcefulness, I know how to handle unforeseen situations.',
+    'I can solve most problems if I invest the necessary effort.',
+    'I can remain calm when facing difficulties because I can rely on my coping abilities',
+    'When I am confirted with a problem, I can usually find several solutions.',
+    'If I am in trouble, I can usually think of a solution.',
+    'I can usually handle whatever comes my way.'
+  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items4 }));
 
   return (
     <Box mt={2}>
@@ -270,8 +366,18 @@ const validateStep4 = values => {
   return newErrors;
 };
 
-const Steps = [Step0, Step1, Step2, Step3, Step4];
-const validations = [validateStep0, validateStep1, validateStep2, validateStep3, validateStep4];
+const validateStep5 = values => {
+  const newErrors = {};
+  return newErrors;
+};
+
+const validateStep6 = values => {
+  const newErrors = {};
+  return newErrors;
+};
+
+const Steps = [Step0, Step1, Step2, Step3, Step4, Step5, Step6];
+const validations = [validateStep0, validateStep1, validateStep2, validateStep3, validateStep4, validateStep5, validateStep6];
 
 export default function Survey() {
   const classes = useStyles();
@@ -283,7 +389,7 @@ export default function Survey() {
   const [state, setState] = React.useState({
     step: 0,
     errors: {},
-    'What is your email address?': email // if user is logged in, auto fill the email field
+    'What is the best email address we can reach you at?': email // if user is logged in, auto fill the email field
   });
 
   const [routeState] = useRouteState();

@@ -106,7 +106,7 @@ export const useSurveyData = table => {
             return Object.keys(searchableProps).reduce((f, c) => (f = [f, searchableProps[c]].join(' ')), ''); // Optimize search performance
           },
           getValues: () => survey,
-          email: survey['What is your email address?'],
+          email: survey['What is the best email address we can reach you at?'],
           created: survey.created,
           updated: survey.updated
         };
