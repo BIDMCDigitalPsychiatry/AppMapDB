@@ -1,12 +1,14 @@
 import React from 'react';
 import * as Icons from '@material-ui/icons';
 import { Grid, Typography } from '@material-ui/core';
-import { getDayTimeFromTimestamp, publicUrl } from '../../../../helpers';
+import { getDayTimeFromTimestamp, publicUrl, uuid } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { getAppName } from '../Applications/selectors';
 import { sendSurveyFollowUpEmail } from '../../../pages/Survey/sendSurveyEmail';
+import { tables } from '../../../../database/dbConfig';
+import useProcessData from '../../../../database/useProcessData';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -34,8 +36,11 @@ const Actions = ({ _id = undefined, app = {}, ...other } = {}) => {
   const email = other['What is the best email address we can reach you at?'];
   const appName = getAppName(app);
 
+  const processData = useProcessData();
+
   const handleFollowUp = () => {
     sendSurveyFollowUpEmail({ email, appName, _id });
+    processData({ Model: tables.surveyReminders, Data: { _id: uuid(), parentId: _id, email, appName, time: new Date().getTime() } });
     alert('Follow up email sent');
   };
   return (
