@@ -5,6 +5,8 @@ import { getDayTimeFromTimestamp, publicUrl } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { useHandleChangeRoute } from '../../../layout/hooks';
+import { getAppName } from '../Applications/selectors';
+import { sendSurveyFollowUpEmail } from '../../../pages/Survey/sendSurveyEmail';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -26,8 +28,16 @@ const RatedBy = (props = {}) => (
   </Typography>
 );
 
-const Actions = ({ _id = undefined, app = {} } = {}) => {
+const Actions = ({ _id = undefined, app = {}, ...other } = {}) => {
   const handleChangeRoute = useHandleChangeRoute();
+
+  const email = other['What is the best email address we can reach you at?'];
+  const appName = getAppName(app);
+
+  const handleFollowUp = () => {
+    sendSurveyFollowUpEmail({ email, appName, _id });
+    alert('Follow up email sent');
+  };
   return (
     <Grid container spacing={1}>
       <Grid item>
@@ -44,7 +54,7 @@ const Actions = ({ _id = undefined, app = {} } = {}) => {
         </DialogButton>
       </Grid>
       <Grid item>
-        <DialogButton variant='link' underline='always' onClick={() => alert('To be implemented')}>
+        <DialogButton variant='link' underline='always' onClick={handleFollowUp}>
           Send Follow Up Reminder
         </DialogButton>
       </Grid>

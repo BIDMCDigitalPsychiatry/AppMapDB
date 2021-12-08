@@ -1,5 +1,6 @@
 import { surveyNotificationEmail } from '../../../../package.json';
 import { AWS } from '../../../database/dbConfig';
+import { hostAddress } from '../../../helpers';
 
 export function sendSurveyNotificationEmail({ email, appName }) {
   const sourceEmailAddress = 'appmap@psych.digital';
@@ -27,7 +28,7 @@ export function sendSurveyNotificationEmail({ email, appName }) {
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: 'AppMapDB - App Rating Interest'
+        Data: 'MIND - Survey Completed Notification'
       }
     },
     Source: sourceEmailAddress /* required */,
@@ -79,7 +80,59 @@ export function sendSurveyEmail({ email }) {
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: 'AppMapDB - App Rating Interest'
+        Data: 'MIND - Survey Complete'
+      }
+    },
+    Source: sourceEmailAddress /* required */,
+    ReplyToAddresses: [sourceEmailAddress]
+  };
+
+  // Create the promise and SES service object
+  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+
+  // Handle promise's fulfilled/rejected states
+  sendPromise
+    .then(function (data) {
+      console.log(data.MessageId);
+    })
+    .catch(function (err) {
+      console.error(err, err.stack);
+    });
+}
+
+export function sendSurveyFollowUpEmail({ email, appName, _id }) {
+  const sourceEmailAddress = 'appmap@psych.digital';
+
+  const body = `Hello,    
+    <p>Thank you for participating in our study! We appreciate hearing your thoughts about the application: ${appName}. Would you be willing to participate in a follow up survey?  Please <a href="${hostAddress(
+    `/Survey?surveyId=${_id}`
+  )}">click here to participate in the follow up survey!</a></p>
+    <p></p>
+    <p>Best,</p>
+    <p>The Division of Digital Psychiatry</p>`;
+
+  // Create sendEmail params
+  var params = {
+    Destination: {
+      /* required */ CcAddresses: [],
+      ToAddresses: [email]
+    },
+    Message: {
+      /* required */
+      Body: {
+        /* required */
+        Html: {
+          Charset: 'UTF-8',
+          Data: body
+        },
+        Text: {
+          Charset: 'UTF-8',
+          Data: body
+        }
+      },
+      Subject: {
+        Charset: 'UTF-8',
+        Data: 'MIND - Survey Follow Up'
       }
     },
     Source: sourceEmailAddress /* required */,
