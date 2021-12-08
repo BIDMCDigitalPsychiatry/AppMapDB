@@ -6,7 +6,7 @@
   "adminUsers": "team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu",
   "emailUser": "jmelcher@bidmc.harvard.edu",
   "contactEmail": "team@digitalpsych.org",
-  "surveyNotificationEmail": "ecamach1@bidmc.harvard.edu",  
+  "surveyNotificationEmail": "ecamach1@bidmc.harvard.edu",
   "identityPoolId": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
   "keyWords": "mental health apps, therapy app, depression apps, free apps, anxiety apps, stress apps, psych app, psychiatry apps",
   "region": "us-east-1",

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Theme, Tabs, makeStyles, Tab } from '@material-ui/core';
+import { Typography, Tabs, makeStyles, Tab } from '@material-ui/core';
 import google_play_store from '../../../../../images/google_play_store.png';
 import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';
@@ -16,7 +16,7 @@ async function getAppInfo(appId, type) {
   return data;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: any) => ({
   root: {
     flexGrow: 1
   },
