@@ -7,6 +7,9 @@ import FooterV2 from './FooterV2';
 import { useLocation } from 'react-router';
 import LeftDrawer from './LeftDrawer';
 import KeyWords from './KeyWords';
+import { useUrlParameter } from '../../hooks';
+import { useChangeRoute } from './hooks';
+import { isEmpty, publicUrl } from '../../helpers';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -67,6 +70,17 @@ export default function LayoutV2({ children }) {
   });
 
   const trigger = useScrollTrigger({ target: ref.current });
+
+  const surveyId = useUrlParameter('surveyId');
+  const appId = useUrlParameter('appId');
+
+  const changeRoute = useChangeRoute();
+
+  React.useEffect(() => {
+    if (!isEmpty(surveyId) && !isEmpty(appId)) {
+      changeRoute(publicUrl('/SurveyFollowUp'), { surveyId, appId });
+    }
+  }, [changeRoute, surveyId, appId]);
 
   return (
     <div data-testid='app-container' className={classes.root}>

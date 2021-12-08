@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Divider, Box, Collapse, IconButton } from '@material-ui/core';
-import { useFullScreen } from '../../hooks';
+import { useFullScreen, useIsAdmin } from '../../hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
 import { useHandleChangeRoute } from '../layout/hooks';
@@ -61,6 +61,8 @@ export default function ViewApp() {
     setTimeout(() => setOpen(true), 1000);
   }, [setOpen]);
 
+  const isAdmin = useIsAdmin();
+
   return (
     <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
       <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl('/Apps'), {})}>
@@ -69,58 +71,60 @@ export default function ViewApp() {
       <Grid item xs={12}>
         <ViewAppHeader app={app} />
       </Grid>
-      <Grid item xs={12}>
-        <Divider />
-        <Collapse in={open}>
-          <Box mt={2}>
-            {fromSurvey ? (
-              <Alert
-                severity='success'
-                action={
-                  <IconButton
-                    aria-label='close'
-                    color='inherit'
-                    size='small'
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <Icons.Close fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                Thank you for participating in our survey!
-              </Alert>
-            ) : (
-              <Alert
-                severity='info'
-                action={
-                  <IconButton
-                    aria-label='close'
-                    color='inherit'
-                    size='small'
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <Icons.Close fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                Are you currently using this App? If so, would you like to participate in a survey to help improve this web application?
-                <DialogButton
-                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, mode: 'add' })}
-                  variant='primaryButton2'
-                  fullWidth={false}
-                  style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}
+      {isAdmin && (
+        <Grid item xs={12}>
+          <Divider />
+          <Collapse in={open}>
+            <Box mt={2}>
+              {fromSurvey ? (
+                <Alert
+                  severity='success'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <Icons.Close fontSize='inherit' />
+                    </IconButton>
+                  }
                 >
-                  Click Here to Take Survey
-                </DialogButton>
-              </Alert>
-            )}
-          </Box>
-        </Collapse>
-      </Grid>
+                  Thank you for participating in our survey!
+                </Alert>
+              ) : (
+                <Alert
+                  severity='info'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <Icons.Close fontSize='inherit' />
+                    </IconButton>
+                  }
+                >
+                  Are you currently using this App? If so, would you like to participate in a survey to help improve this web application?
+                  <DialogButton
+                    onClick={handleChangeRoute(publicUrl('/Survey'), { app, mode: 'add' })}
+                    variant='primaryButton2'
+                    fullWidth={false}
+                    style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}
+                  >
+                    Click Here to Take Survey
+                  </DialogButton>
+                </Alert>
+              )}
+            </Box>
+          </Collapse>
+        </Grid>
+      )}
       <Grid item xs={12}>
         <Grid container spacing={1}>
           <Grid item xs={12}>

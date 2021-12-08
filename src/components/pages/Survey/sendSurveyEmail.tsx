@@ -100,12 +100,12 @@ export function sendSurveyEmail({ email }) {
     });
 }
 
-export function sendSurveyFollowUpEmail({ email, appName, _id }) {
+export function sendSurveyFollowUpEmail({ email, appName, _id, surveyId, appId }) {
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const body = `Hello,    
     <p>Thank you for participating in our study! We appreciate hearing your thoughts about the application: ${appName}. Would you be willing to participate in a follow up survey?  Please <a href="${hostAddress(
-    `/Survey?surveyId=${_id}`
+    `/Survey?surveyId=${surveyId}&appId=${appId}`
   )}">click here to participate in the follow up survey!</a></p>
     <p></p>
     <p>Best,</p>

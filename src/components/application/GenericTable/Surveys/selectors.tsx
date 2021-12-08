@@ -108,7 +108,7 @@ export const useSurveyData = table => {
         const { app = {} } = survey;
 
         const surveyReminderKeys = Object.keys(surveyReminders)
-          .filter(k => surveyReminders[k].parentId === survey._id)
+          .filter(k => surveyReminders[k].surveyId === survey._id)
           .sort((a, b) => sortDescending(surveyReminders[a].time, surveyReminders[b].time)) as any;
 
         const surveyReminder = !isEmpty(surveyReminderKeys[0]) ? surveyReminders[surveyReminderKeys[0]] : {};
@@ -133,14 +133,18 @@ export const useSurveyData = table => {
           developerTypes: app.developerTypes
         };
 
+        const followUpCompleted = !isEmpty(survey.parentId) ? 'N/A' : Object.keys(surveys).find(k => surveys[k].parentId === survey._id) ? 'True' : 'False';
+
         return {
           _id: survey._id,
           app,
+          isFollowUp: !isEmpty(survey.parentId) ? 'True' : 'False',
+          followUpCompleted,
           ...searchableProps,
           getSearchValues: () => {
             return Object.keys(searchableProps).reduce((f, c) => (f = [f, searchableProps[c]].join(' ')), ''); // Optimize search performance
           },
-          getValues: () => ({ ...survey, lastReminderSent }),
+          getValues: () => ({ ...survey, followUpCompleted, lastReminderSent }),
           email: survey['What is the best email address we can reach you at?'],
           created: survey.created,
           updated: survey.updated

@@ -397,7 +397,7 @@ export default function Survey() {
   const surveyEmail = state['What is the best email address we can reach you at?'];
 
   const [routeState] = useRouteState();
-  const { _id, app = {}, mode } = routeState;
+  const { _id, surveyId, app = {}, mode } = routeState;
 
   React.useEffect(() => {
     if (mode === 'view') {
@@ -433,7 +433,7 @@ export default function Survey() {
   const handleSubmit = () => {
     const created = new Date().getTime();
     handleSave({
-      values: { ...state, created, updated: created, app },
+      values: { ...state, parentId: surveyId, created, updated: created, app },
       validate,
       onError: errors => console.error('Error submiting survey', errors),
       onSuccess: () => {
