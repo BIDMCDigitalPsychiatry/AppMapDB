@@ -1,4 +1,4 @@
-import { isEmpty, onlyUnique, sortAscendingToLower } from '../helpers';
+import { evalFunc, isEmpty, onlyUnique, sortAscendingToLower } from '../helpers';
 
 // Inserts or updates item payload with table and id keys.  If action.payload is a function, then it is called with the previous props as a parameter
 function updateState(state, { table, id, payload }) {
@@ -96,7 +96,7 @@ export function reducer(state = initialState, action) {
   switch (action.type) {
     case 'SET_DATABASE_TABLE':
       var newState = { ...state };
-      newState[action.table] = action.payload;
+      newState[action.table] = evalFunc(action.payload, state[action.table]);
       return newState;
     case 'UPDATE_DATABASE':
       return updateState(state, action);

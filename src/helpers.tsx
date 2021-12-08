@@ -311,3 +311,16 @@ export const formatWithDefault = (publishedAt, textFormat, textDefault) => {
   }
   return text;
 };
+
+export function isEmptyObject(obj) {
+  if (isEmpty(obj)) {
+    return true;
+  } else if(typeof obj === 'object') {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  } else {
+    return false; // Is not empty and is not an object
+  }
+}

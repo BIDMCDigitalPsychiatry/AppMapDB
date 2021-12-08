@@ -180,6 +180,7 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                 value={values['publishedAt']}
                 error={errors['publishedAt']}
                 margin='normal'
+                getTime={true}
               />
               <Box mt={0}>
                 <Check
