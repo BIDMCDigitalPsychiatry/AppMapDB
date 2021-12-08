@@ -180,6 +180,8 @@ const DialogButton = React.forwardRef(function DialogButton(
     setValues = undefined,
     className = undefined,
     disabledColor = undefined,
+    fullWidth = true,
+    style = undefined,
     children,
     ...other
   }: DialogButtonProps & any,
@@ -257,11 +259,11 @@ const DialogButton = React.forwardRef(function DialogButton(
           ) : variant === 'arrowButton' ? (
             <ArrowButton label={label} {...shared} size='normal' />
           ) : variant === 'primaryButton' ? (
-            <Button {...shared} className={classes.primaryButton} fullWidth={true}>
+            <Button {...shared} className={classes.primaryButton} fullWidth={fullWidth} style={style}>
               {children}
             </Button>
           ) : variant === 'primaryButton2' ? (
-            <Button {...shared} className={classes.primaryButton2} fullWidth={true}>
+            <Button {...shared} className={classes.primaryButton2} fullWidth={fullWidth} style={style}>
               {children}
             </Button>
           ) : variant === 'menuitem' ? (
@@ -293,7 +295,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               {Icon && <Icon style={{ margin: -4 }} />}
             </Button>
           ) : variant === 'contained' ? (
-            <Button fullWidth={true} variant={variant} color={color as any} {...shared}>
+            <Button fullWidth={fullWidth} variant={variant} color={color as any} {...shared} style={style}>
               {children}
             </Button>
           ) : variant === 'smallOutlined' ? (

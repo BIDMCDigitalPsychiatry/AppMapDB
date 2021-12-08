@@ -5,8 +5,8 @@ const callback = (a, response) => console.log({ a, response });
 
 https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db?appId=&type=apple
 
-var appId = '1424248915'
-var type = 'apple'
+var appId = 'com.journeylive'
+var type = 'google'
 
 const key = type === 'apple' ? 'id' : 'appId';
 const store = type === 'apple' ? apple : gplay;

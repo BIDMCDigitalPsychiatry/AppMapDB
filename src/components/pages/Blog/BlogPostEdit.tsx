@@ -5,6 +5,7 @@ import BlogPostCreateForm from '../../application/Blog/BlogPostCreateForm';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';
 import useValues from './useValues';
+import { publicUrl } from '../../../helpers';
 
 const BlogPostEdit = ({ values: Values }) => {
   const handleChangeRoute = useHandleChangeRoute();
@@ -18,7 +19,7 @@ const BlogPostEdit = ({ values: Values }) => {
         buttons={[
           {
             label: 'Cancel',
-            onClick: handleChangeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' })),
+            onClick: handleChangeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'list' })),
             color: 'secondary'
           },
           {

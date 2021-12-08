@@ -8,7 +8,7 @@ import { useRouteState } from '../../layout/store';
 import BlogToolbar from './BlogToolbar';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
-import { bool, isEmpty, isEmptyObject } from '../../../helpers';
+import { bool, isEmpty, isEmptyObject, publicUrl } from '../../../helpers';
 import * as Icons from '@material-ui/icons';
 import useValues from './useValues';
 import { useIsAdmin, useSignedIn } from '../../../hooks';
@@ -71,11 +71,11 @@ const BlogPostDetails = () => {
   const signedIn = useSignedIn();
 
   const handleBack = React.useCallback(() => {
-    changeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' }));
+    changeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'list' }));
   }, [changeRoute]);
 
   const handleEdit = React.useCallback(() => {
-    changeRoute('/connect', prev => ({ ...prev, blogLayout: 'edit', values }));
+    changeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'edit', values }));
     // eslint-disable-next-line
   }, [changeRoute, JSON.stringify(values)]);
 

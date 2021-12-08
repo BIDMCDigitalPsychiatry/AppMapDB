@@ -4,12 +4,14 @@ import { Tabs, Tab, Typography, createStyles, makeStyles, Container } from '@mat
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
 import { useHandleChangeRoute } from '../../layout/hooks';
+import { useRouteState } from '../../layout/store';
 
 export interface ComponentProps {
   id?: string;
   tab?: string;
   tabs?: TabSelectorItem[];
   orientation?: string;
+  labelColor?: any;
   rounded?: boolean;
   wrapped?: boolean;
   minHeight?: number;
@@ -37,9 +39,9 @@ const useStyles = makeStyles(({ palette }: any) =>
     labelActive: {
       color: 'white'
     },
-    label: {
+    label: ({ labelColor }) => ({
       color: palette.text.primary
-    },
+    }),
     labelIcon: ({ minHeight }: any) => ({
       zIndex: 1,
       minHeight
@@ -66,20 +68,25 @@ export interface TabSelectorItem {
   label?: string;
   icon?: any;
   route?: any;
+  routeState?: any;
   Component?: any;
 }
 
-const TabSelectorTextToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
-  const classes = useStyles({ minHeight, rounded });
+const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
+  const classes = useStyles({ minHeight, rounded, labelColor });
 
   const [tabSelector, setTabSelector] = useTabSelector(id);
   const selected = tabSelector.value;
 
+  const [{ subRoute }] = useRouteState();
+
   const { pathname } = useLocation();
 
   const tabId = tabs[0] && tabs[0].id;
-  const tabRoute = tabs.find(t => t.id === selected)?.route;
-  const tabToSelect = pathname !== tabRoute && tabs.find(t => t.route === pathname);
+  const tab = tabs.find(t => t.id === selected);
+  const tabRoute = tab?.route;
+  const tabSubRoute = tab?.routeState?.subRoute;
+  const tabToSelect = !(pathname === tabRoute && subRoute === tabSubRoute) && tabs.find(t => t.route === pathname && t?.routeState?.subRoute === subRoute);
   const handleChangeRoute = useHandleChangeRoute();
   const selectedId = selected ? selected : tabId;
 

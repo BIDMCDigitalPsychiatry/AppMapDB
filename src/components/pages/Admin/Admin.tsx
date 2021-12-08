@@ -1,26 +1,27 @@
 import * as React from 'react';
-import { useTheme } from '@material-ui/core';
-import { useHeaderHeight, useHeight } from '../../layout/store';
-import SearchHeaderReduxPending from '../SearchHeaderReduxPending';
-import AppsPending from './AppsPending';
+import { Box, Divider, useTheme } from '@material-ui/core';
+import { useHeaderHeight, useHeight, useRouteState } from '../../layout/store';
+import AdminLayoutSelector from './AdminLayoutSelector';
+import AdminPendingApprovals from './AdminPendingApprovals';
+import { Surveys } from '../../application/GenericTable/Surveys/table';
 
 export default function Admin() {
-  const [showArchived, setShowArchived] = React.useState(false);
   const headerHeight = useHeaderHeight();
+  const [{ subRoute = 'pending' }] = useRouteState();
 
   const height = useHeight();
-  const { layout } = useTheme() as any;
+  const { layout, palette } = useTheme() as any;
   const { tablefooterheight } = layout;
 
-  const tableHeight = height - headerHeight + tablefooterheight + 18;
+  const selectorHeight = 104;
 
-  const handleToggle = React.useCallback(() => {
-    setShowArchived(prev => !prev);
-  }, [setShowArchived]);
+  const tableHeight = height - headerHeight - selectorHeight + tablefooterheight + 18;
+
   return (
-    <>
-      <SearchHeaderReduxPending showArchived={showArchived} onToggleArchive={handleToggle} />
-      <AppsPending height={tableHeight} showArchived={showArchived}/>
-    </>
+    <Box pt={3} bgcolor={palette.primary.light}>
+      <AdminLayoutSelector subRoute={subRoute} />
+      <Divider style={{ marginTop: 16 }} />
+      {subRoute === 'surveys' ? <Surveys height={tableHeight + headerHeight} /> : <AdminPendingApprovals height={tableHeight} />}
+    </Box>
   );
 }

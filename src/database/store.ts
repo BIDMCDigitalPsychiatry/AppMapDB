@@ -18,7 +18,14 @@ function updateState(state, { table, id, payload }) {
   }
 }
 
-const initialState = {};
+const initialState = {
+  applications: {},
+  surveys: {},
+  filters: {},
+  events: {},
+  posts: {},
+  comments: {}
+};
 
 export const updateDatabase = (table, id, payload) => ({ type: 'UPDATE_DATABASE', table, id, payload });
 export const setDatabaseTable = (table, payload) => ({ type: 'SET_DATABASE_TABLE', table, payload });

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, CardMedia, Chip, createStyles, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import { useChangeRoute } from '../../layout/hooks';
-import { bool, isEmpty, formatWithDefault } from '../../../helpers';
+import { bool, isEmpty, formatWithDefault, publicUrl } from '../../../helpers';
 import { grey } from '@material-ui/core/colors';
 import { useCommentsByPostId } from '../../../database/useComments';
 
@@ -36,7 +36,7 @@ const BlogPostCard = ({
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(() => {
-    changeRoute('/connect', prev => ({ ...prev, blogLayout: 'view', _id })); // Keep previous category for back button
+    changeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'view', _id })); // Keep previous category for back button
   }, [changeRoute, _id]);
 
   const { data: comments } = useCommentsByPostId({ postId: _id });

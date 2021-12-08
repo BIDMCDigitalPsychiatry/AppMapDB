@@ -1,7 +1,7 @@
 import React from 'react';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
 import { categories, useDefaultValues } from '../../../database/models/Post';
-import { isEmpty, uuid } from '../../../helpers';
+import { isEmpty, publicUrl, uuid } from '../../../helpers';
 import { useEffect } from 'react';
 import { useDatabaseRow } from '../../../database/useTableState';
 import { tables } from '../../../database/dbConfig';
@@ -133,7 +133,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
         updatePost({
           post,
           onSuccess: result => {
-            changeRoute('/connect', prev => ({ ...prev, blogLayout: 'list' }));
+            changeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'list' }));
             onSuccess && onSuccess(result);
           },
           onError: err => {

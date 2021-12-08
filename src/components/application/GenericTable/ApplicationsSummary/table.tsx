@@ -19,7 +19,7 @@ export const defaultApplicationsSummaryProps: GenericTableContainerProps = {
 };
 
 export const ApplicationsSummary = ({ HeaderComponent, ...other }) => {
-  const { columns, ...defaultProps } = defaultApplicationsSummaryProps;
+  const { columns, ...defaultProps } = defaultApplicationsSummaryProps;  
   const data = useAppData(name);
   const handleExport = useHandleExport(data, columns);
   const isAdmin = useIsAdmin();

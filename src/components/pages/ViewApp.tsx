@@ -1,24 +1,17 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Divider, Box } from '@material-ui/core';
-import { useFullScreen, useSignedIn } from '../../hooks';
-import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
+import { Grid, Typography, createStyles, makeStyles, Divider, Box, Collapse, IconButton } from '@material-ui/core';
+import { useFullScreen, useIsAdmin } from '../../hooks';
+import DialogButton from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
-import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
 import { useHandleChangeRoute } from '../layout/hooks';
-import { getDayTimeFromTimestamp, isEmpty, publicUrl, uuid } from '../../helpers';
-import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
+import { publicUrl } from '../../helpers';
 import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
-import { AppState } from '../../store';
-import { useSelector } from 'react-redux';
-import { tables } from '../../database/dbConfig';
-import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import ImageCarousel from '../general/ImageCarousel';
 import { useAppHistoryData } from '../application/GenericTable/ApplicationHistory/selectors';
-import { Pagination } from '@material-ui/lab';
+import { Pagination, Alert } from '@material-ui/lab';
 import ViewAppRating from './ViewAppRating';
-import ArrowButtonCaption from '../general/ArrowButtonCaption';
-
-const imageHeight = 144;
+import * as Icons from '@material-ui/icons';
+import ViewAppHeader from './ViewAppHeader';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -26,10 +19,6 @@ const useStyles = makeStyles(({ palette }: any) =>
       fontSize: 18,
       fontWeight: 700,
       color: palette.primary.dark
-    },
-    primaryLightText: {
-      fontWeight: 700,
-      color: palette.primary.light
     },
     bold: {
       fontWeight: 900,
@@ -43,30 +32,12 @@ export default function ViewApp() {
   var sm = useFullScreen('sm');
 
   const [state] = useRouteState();
-  const {
-    _id,
-    privacies = [],
-    clinicalFoundations = [],
-    platforms,
-    androidLink,
-    iosLink,
-    webLink,
-    appleStore,
-    androidStore,
-    costs = [],
-    updated,
-    created,
-    feasibilityStudiesLink = undefined,
-    efficacyStudiesLink = undefined
-  } = state;
-  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
-  const name = getAppName(state);
-  const company = getAppCompany(state);
-  const icon = getAppIcon(state);
+  const { app = {}, from } = state;
+  const { _id, appleStore, androidStore } = app;
+
+  const fromSurvey = from === 'Survey';
 
   const handleChangeRoute = useHandleChangeRoute();
-
-  const signedIn = useSignedIn();
 
   const appleScreenshots = appleStore?.screenshots ?? [];
   const androidScreenshots = androidStore?.screenshots ?? [];
@@ -85,7 +56,12 @@ export default function ViewApp() {
 
   const rating = history[page - 1];
 
-  const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
+  const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    setTimeout(() => setOpen(true), 1000);
+  }, [setOpen]);
+
+  const isAdmin = useIsAdmin();
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
@@ -93,150 +69,62 @@ export default function ViewApp() {
         <Typography>{`<   Back To Results`}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Grid container spacing={4}>
-          <Grid item style={{ width: imageHeight + 16 }}>
-            <img style={{ height: imageHeight, borderRadius: 15 }} src={icon} alt='logo' />
-          </Grid>
-          <Grid item xs>
-            <Grid container spacing={4}>
-              <Grid item zeroMinWidth xs>
-                <Grid container style={{ minWidth: 300 }}>
-                  <Grid item xs={12}>
-                    <Typography className={classes.primaryLightText} variant='h5'>
-                      {name || 'Unknown Name'}
-                    </Typography>
-                    <Typography color='textSecondary'>{company}</Typography>
-                  </Grid>
-                  <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
-                    <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <Typography color='textSecondary' variant='caption'>
-                          Costs:
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography noWrap className={classes.primaryLightText} variant='caption'>
-                          {costs.length === 0 ? (
-                            'Unknown Cost'
-                          ) : costs.length > 2 ? (
-                            <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
-                              Multiple Associated Costs
-                            </DialogButton>
-                          ) : (
-                            costs.join(' | ')
-                          )}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <Typography color='textSecondary' variant='caption'>
-                          App Has Privacy Policy:
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography className={classes.primaryLightText} variant='caption'>
-                          {privacies.includes('Has Privacy Policy') ? 'Yes' : 'No'}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item style={{ width: 256 }}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                {signedIn ? (
-                  <EditDialogButton
+        <ViewAppHeader app={app} />
+      </Grid>
+      {isAdmin && (
+        <Grid item xs={12}>
+          <Divider />
+          <Collapse in={open}>
+            <Box mt={2}>
+              {fromSurvey ? (
+                <Alert
+                  severity='success'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <Icons.Close fontSize='inherit' />
+                    </IconButton>
+                  }
+                >
+                  Thank you for participating in our survey!
+                </Alert>
+              ) : (
+                <Alert
+                  severity='info'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <Icons.Close fontSize='inherit' />
+                    </IconButton>
+                  }
+                >
+                  Are you currently using this App? If so, would you like to participate in a survey to help improve this web application?
+                  <DialogButton
+                    onClick={handleChangeRoute(publicUrl('/Survey'), { app, mode: 'add' })}
                     variant='primaryButton2'
-                    size='large'
-                    id='Rate an App V2'
-                    onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
-                    initialValues={{
-                      [tables.applications]: {
-                        ...initialValues,
-                        _id: uuid(),
-                        parent: initialValues._id,
-                        approved: false,
-                        approverEmail: undefined,
-                        created: new Date().getTime()
-                      }
-                    }}
-                    tooltip='Rate App'
-                    placement='bottom'
+                    fullWidth={false}
+                    style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}
                   >
-                    Submit New App Rating
-                  </EditDialogButton>
-                ) : (
-                  <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateAnApp'))}>
-                    Rate an App
+                    Click Here to Take Survey
                   </DialogButton>
-                )}
-              </Grid>
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
-                <DialogButton
-                  Module={SuggestEditDialog}
-                  initialValues={{ [tables.applications]: initialValues }}
-                  variant='arrowButton'
-                  label='Flag/Suggest an Edit'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <Typography color='textSecondary' variant='caption'>
-                          Last Rating:
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography noWrap className={classes.primaryLightText} variant='caption'>
-                          {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <Typography color='textSecondary' variant='caption'>
-                          App Has Supported Studies:
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography className={classes.primaryLightText} variant='caption'>
-                          {hasSupportingStudies ? 'Yes' : 'No'}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  {hasSupportingStudies && !isEmpty(feasibilityStudiesLink) && (
-                    <Grid item>
-                      <ArrowButtonCaption label='See Feasability Studies' link={feasibilityStudiesLink} />
-                    </Grid>
-                  )}
-                  {hasSupportingStudies && !isEmpty(efficacyStudiesLink) && (
-                    <Grid item>
-                      <ArrowButtonCaption label='See Efficacy Studies' link={efficacyStudiesLink} />
-                    </Grid>
-                  )}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
+                </Alert>
+              )}
+            </Box>
+          </Collapse>
         </Grid>
-      </Grid>
-      <Grid item xs={12}>
-        <Divider />
-      </Grid>
+      )}
       <Grid item xs={12}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
