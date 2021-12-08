@@ -24,6 +24,12 @@ const LastUpdated = ({ updated }) => (
   </Typography>
 );
 
+const LastReminderSent = ({ lastReminderSent }) => (
+  <Typography variant='body2' color='textSecondary'>
+    {lastReminderSent ? getDayTimeFromTimestamp(lastReminderSent) : ''}
+  </Typography>
+);
+
 const RatedBy = (props = {}) => (
   <Typography variant='body2' color='textSecondary'>
     {props['What is the best email address we can reach you at?']}
@@ -73,6 +79,14 @@ export const useColumns = () => {
   const columns = [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummaryMapped, hoverable: false, sort: 'textLower' },
     { name: 'actions', header: 'Actions', width: 240, Cell: Actions },
+    {
+      name: 'lastReminderSent',
+      header: 'Last Reminder Sent',
+      width: 225,
+      Cell: LastReminderSent,
+      hoverable: false,
+      sort: 'decimal'
+    }, 
     { name: 'email', header: 'Submitted By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
