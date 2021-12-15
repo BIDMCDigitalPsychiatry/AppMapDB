@@ -59,7 +59,7 @@ const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
     'Race?': {
       Field: RadioRow,
       items: [
-        { value: 'African-American', label: 'African-American' },
+        { value: 'Black or African American', label: 'Black or African American' },
         { value: 'American Indian or Alaskan Native', label: 'American Indian or Alaskan Native' },
         { value: 'Asian', label: 'Asian' },
         { value: 'Native Hawaiian or other Pacific Islander', label: 'Native Hawaiian or other Pacific Islander' },
@@ -84,13 +84,13 @@ const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
         { value: '$100,000+', label: '$100,000+' }
       ]
     },
-    'Is this your first time attending therapy?': {
+    /*'Is this your first time attending therapy?': {
       Field: RadioRow,
       items: [
         { value: 'Yes', label: 'Yes' },
         { value: 'No', label: 'No' }
       ]
-    },
+    },*/
     'How much school have you completed?': {
       Field: RadioRow,
       required: true,
@@ -153,6 +153,15 @@ const items3 = [
   { value: 'Strongly agree', label: 'Strongly agree' }
 ];
 
+const items3b = [
+  { value: 'Strongly disagree', label: 'Strongly disagree' },
+  { value: 'Disagree', label: 'Disagree' },
+  { value: 'Neutral', label: 'Neutral' },
+  { value: 'Agree', label: 'Agree' },
+  { value: 'Strongly agree', label: 'Strongly agree' },
+  { value: 'Not applicable', label: 'Not applicable' }
+];
+
 const items4 = [
   { value: 'Not at all true', label: 'Not at all true' },
   { value: 'Hardly true', label: 'Hardly true' },
@@ -171,7 +180,7 @@ const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
 
   questions['What is the model of your phone? (eg. 8, XR, Galaxy S8, Pixel 4, etc.)'] = {};
 
-  ['How comfortable are you connecting your phone to Wi-Fi?', 'How comfortable are you downloading an app from the app store'].forEach(
+  ['How comfortable are you connecting your phone to Wi-Fi?', 'How comfortable are you downloading an app from the app store?'].forEach(
     qt => (questions[qt] = { Field: RadioRow, items: comfortableItems })
   );
 
@@ -205,7 +214,7 @@ const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Access to Health</Typography>
+      <Typography className={classes.primaryTextMedium}>Access to Health:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -247,7 +256,7 @@ const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>App Selection Information</Typography>
+      <Typography className={classes.primaryTextMedium}>App Selection:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -260,23 +269,20 @@ const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
   );
 };
 
-const Step4 = ({ state, onChange, errors = {}, disabled = false }) => {
+const Step4 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = false }) => {
   const questions = {};
   [
-    'I think that I would like to use Recommended App frequently.',
-    'I found Recommended App unnecessarily complex.',
-    'I thought Recommended App was easy to use.',
-    'I think that I wouldn eed the support of a technical person to be able to use Recommended App.',
-    'I found the various functions in Recommended App were well integrated.',
-    'I thought there was too much inconsistency in Recommended App.',
-    'I would imagine that most people would learn to use Recommended App very quickly.',
-    'I found Recommended App very cumbersome (akward) to use.',
-    'I felt very confident using Recommended App.',
-    'I needed to learn a lot of things before I could get going with Recommended App.'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items3 }));
+    'I think that I would like to use this app frequently.',
+    'I think that I would need the support of a technical person to be able to use this app.',
+    'I felt very confident using this app.',
+    'I needed to learn a lot of things before I could get going with this app.'
+  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
+
+  const classes = useStyles();
 
   return (
     <Box mt={2}>
+      <Typography className={classes.primaryTextMedium}>System Usability Scale:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -289,7 +295,7 @@ const Step4 = ({ state, onChange, errors = {}, disabled = false }) => {
   );
 };
 
-const Step5 = ({ state, onChange, errors = {}, disabled = false }) => {
+const Step5 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = false }) => {
   const questions = {};
   [
     'I trust this app to guide me towards my personal goals.',
@@ -298,10 +304,13 @@ const Step5 = ({ state, onChange, errors = {}, disabled = false }) => {
     'I agree that the tasks within this app are important for my goals.',
     'This app is easy to use and operate.',
     'This app supports me to overcome challenges.'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items3 }));
+  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
+
+  const classes = useStyles();
 
   return (
     <Box mt={2}>
+      <Typography className={classes.primaryTextMedium}>Digital Working Alliance Inventory:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -317,20 +326,23 @@ const Step5 = ({ state, onChange, errors = {}, disabled = false }) => {
 const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {};
   [
-    'I can always manage to solve difficult problems if I try hard enough.',
+    //'I can always manage to solve difficult problems if I try hard enough.',
     'If someone opposes me, I can find the means and ways to get what I want.',
     'It is easy for me to stick to my aims and accomplish my goals.',
     'I am confident that I could deal efficiently with unexpected events.',
     'Thanks to my resourcefulness, I know how to handle unforeseen situations.',
-    'I can solve most problems if I invest the necessary effort.',
+    //'I can solve most problems if I invest the necessary effort.',
     'I can remain calm when facing difficulties because I can rely on my coping abilities',
-    'When I am confirted with a problem, I can usually find several solutions.',
-    'If I am in trouble, I can usually think of a solution.',
+    //'When I am confirted with a problem, I can usually find several solutions.',
+    //'If I am in trouble, I can usually think of a solution.',
     'I can usually handle whatever comes my way.'
   ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items4 }));
 
+  const classes = useStyles();
+
   return (
     <Box mt={2}>
+      <Typography className={classes.primaryTextMedium}>General Self-Efficacy Scale-6:</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -397,7 +409,7 @@ export default function Survey() {
   const surveyEmail = state['What is the best email address we can reach you at?'];
 
   const [routeState] = useRouteState();
-  const { _id, surveyId, app = {}, mode } = routeState;
+  const { _id, surveyId, app = {}, mode, isFollowUp } = routeState;
 
   React.useEffect(() => {
     if (mode === 'view') {
@@ -488,7 +500,7 @@ export default function Survey() {
           <Divider />
         </Grid>
         <Grid item xs={12}>
-          <Step state={state} onChange={handleChange} errors={errors} disabled={disabled} />
+          <Step state={state} onChange={handleChange} errors={errors} disabled={disabled} isFollowUp={isFollowUp} />
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2} style={{ marginTop: 16 }} justify='flex-end'>

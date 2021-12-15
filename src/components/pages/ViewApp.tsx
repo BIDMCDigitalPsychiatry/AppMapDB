@@ -112,7 +112,7 @@ export default function ViewApp() {
                 >
                   Are you currently using this App? If so, would you like to participate in a survey to help improve this web application?
                   <DialogButton
-                    onClick={handleChangeRoute(publicUrl('/Survey'), { app, mode: 'add' })}
+                    onClick={handleChangeRoute(publicUrl('/Survey'), { app, mode: 'add', isFollowUp: false })}
                     variant='primaryButton2'
                     fullWidth={false}
                     style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}

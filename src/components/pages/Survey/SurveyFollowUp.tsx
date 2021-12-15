@@ -121,7 +121,7 @@ export default function SurveyFollowUp() {
               >
                 Thank you for participating in our survey! Would you like to participate in our follow up survey to help improve this web application?
                 <DialogButton
-                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, mode: 'add' })}
+                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, mode: 'add', isFollowUp: true })}
                   variant='primaryButton2'
                   fullWidth={false}
                   style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}
