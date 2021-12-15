@@ -2,13 +2,14 @@ import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Box, Divider, Button } from '@material-ui/core';
 import { useFullScreen } from '../../../hooks';
 import TextLabel from '../../application/DialogField/TextLabel';
+import Check from '../../application/DialogField/Check';
 import MultiSelectCheck from '../../application/DialogField/MultiSelectCheck';
 import RadioRow from '../../application/DialogField/RadioRow';
 import { useChangeRoute, useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
 import useSurvey from './useSurvey';
 import { useRouteState } from '../../layout/store';
 import ViewAppHeader from '../ViewAppHeader';
-import { publicUrl } from '../../../helpers';
+import { isEmpty, publicUrl } from '../../../helpers';
 import { sendSurveyEmail, sendSurveyNotificationEmail } from './sendSurveyEmail';
 import { getAppName } from '../../application/GenericTable/Applications/selectors';
 
@@ -34,77 +35,108 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
+const StepTOS = ({ state, onChange, errors = {}, disabled = false }) => {
+  const classes = useStyles();
+
   const questions = {
-    'What is the best email address we can reach you at?': {},
-    'Sex (assigned at birth)?': {
-      Field: RadioRow,
-      items: [
-        { value: 'Male', label: 'Male' },
-        { value: 'Female', label: 'Female' },
-        { value: 'Intersex', label: 'Intersex' }
-      ]
-    },
-    'Gender Identity?': {
-      Field: RadioRow,
-      items: [
-        { value: 'Female', label: 'Female' },
-        { value: 'Male', label: 'Male' },
-        { value: 'Non-binary', label: 'Non-binary' },
-        { value: 'Transgender female', label: 'Transgender female' },
-        { value: 'Transgender male', label: 'Transgender male' },
-        { value: 'Other', label: 'Other' }
-      ]
-    },
-    'Race?': {
-      Field: RadioRow,
-      items: [
-        { value: 'Black or African American', label: 'Black or African American' },
-        { value: 'American Indian or Alaskan Native', label: 'American Indian or Alaskan Native' },
-        { value: 'Asian', label: 'Asian' },
-        { value: 'Native Hawaiian or other Pacific Islander', label: 'Native Hawaiian or other Pacific Islander' },
-        { value: 'White', label: 'White' },
-        { value: 'Other', label: 'Other' }
-      ]
-    },
-    'Ethnicity?': {
-      Field: RadioRow,
-      items: [
-        { value: 'Hispanic or Latino/a', label: 'Hispanic or Latino/a' },
-        { value: 'Not Hispanic or Latino/a', label: 'Not Hispanic or Latino/a' }
-      ]
-    },
-    'Annual household income?': {
-      Field: RadioRow,
-      items: [
-        { value: 'Less than $25,000', label: 'Less than $25,000' },
-        { value: '$25,000-$59,000', label: '$25,000-$59,000' },
-        { value: '$60,000-$84,000', label: '$60,000-$84,000' },
-        { value: '$85,000-$99,000', label: '$85,000-$99,000' },
-        { value: '$100,000+', label: '$100,000+' }
-      ]
-    },
-    /*'Is this your first time attending therapy?': {
-      Field: RadioRow,
-      items: [
-        { value: 'Yes', label: 'Yes' },
-        { value: 'No', label: 'No' }
-      ]
-    },*/
-    'How much school have you completed?': {
-      Field: RadioRow,
-      required: true,
-      items: [
-        { value: 'Eighth grade or less', label: 'Eighth grade or less' },
-        { value: 'Some high school', label: 'Some high school' },
-        { value: 'High school graduate/GED', label: 'High school graduate/GED' },
-        { value: 'Some college', label: 'Some college' },
-        { value: '4-year college graduate or higher', label: '4-year college graduate or higher' }
-      ]
+    TOS: {
+      Field: Check,
+      label: 'I agree to the terms of service'
     }
   };
 
+  return (
+    <Box mt={2}>
+      <Typography className={classes.primaryTextMedium}>Terms of Service:</Typography>
+      <Box mt={1}>
+        {`Thank you for your interest in completing our survey! The surveys will take less than 10 minutes to complete total. You will be asked to complete these surveys three times over the course of six weeks. Once now, once two weeks from now, and once four weeks from the two week mark (i.e. six weeks from now). By completing the following surveys, you are granting consent to use your anonymous survey information.`}
+        <Grid container justify='flex-end'>
+          <Grid item>
+            {Object.keys(questions).map(label => {
+              const { Field = TextLabel, ...other } = questions[label];
+              return (
+                <Box mt={2} key={label}>
+                  <Field label={label} value={state[label]} onChange={onChange(label)} error={errors[label]} disabled={disabled} {...other} />
+                </Box>
+              );
+            })}
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
+  );
+};
+
+const step0Questions = {
+  'What is the best email address we can reach you at?': {},
+  'Sex (assigned at birth)?': {
+    Field: RadioRow,
+    required: true,
+    items: [
+      { value: 'Male', label: 'Male' },
+      { value: 'Female', label: 'Female' },
+      { value: 'Intersex', label: 'Intersex' }
+    ]
+  },
+  'Gender Identity?': {
+    Field: RadioRow,
+    required: true,
+    items: [
+      { value: 'Female', label: 'Female' },
+      { value: 'Male', label: 'Male' },
+      { value: 'Non-binary', label: 'Non-binary' },
+      { value: 'Transgender female', label: 'Transgender female' },
+      { value: 'Transgender male', label: 'Transgender male' },
+      { value: 'Other', label: 'Other' }
+    ]
+  },
+  'Race?': {
+    Field: RadioRow,
+    required: true,
+    items: [
+      { value: 'Black or African American', label: 'Black or African American' },
+      { value: 'American Indian or Alaskan Native', label: 'American Indian or Alaskan Native' },
+      { value: 'Asian', label: 'Asian' },
+      { value: 'Native Hawaiian or other Pacific Islander', label: 'Native Hawaiian or other Pacific Islander' },
+      { value: 'White', label: 'White' },
+      { value: 'Other', label: 'Other' }
+    ]
+  },
+  'Ethnicity?': {
+    Field: RadioRow,
+    required: true,
+    items: [
+      { value: 'Hispanic or Latino/a', label: 'Hispanic or Latino/a' },
+      { value: 'Not Hispanic or Latino/a', label: 'Not Hispanic or Latino/a' }
+    ]
+  },
+  'Annual household income?': {
+    Field: RadioRow,
+    required: true,
+    items: [
+      { value: 'Less than $25,000', label: 'Less than $25,000' },
+      { value: '$25,000-$59,000', label: '$25,000-$59,000' },
+      { value: '$60,000-$84,000', label: '$60,000-$84,000' },
+      { value: '$85,000-$99,000', label: '$85,000-$99,000' },
+      { value: '$100,000+', label: '$100,000+' }
+    ]
+  },
+  'How much school have you completed?': {
+    Field: RadioRow,
+    required: true,
+    items: [
+      { value: 'Eighth grade or less', label: 'Eighth grade or less' },
+      { value: 'Some high school', label: 'Some high school' },
+      { value: 'High school graduate/GED', label: 'High school graduate/GED' },
+      { value: 'Some college', label: 'Some college' },
+      { value: '4-year college graduate or higher', label: '4-year college graduate or higher' }
+    ]
+  }
+};
+
+const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
+  const questions = step0Questions;
 
   return (
     <Box mt={2}>
@@ -113,7 +145,7 @@ const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
           <Box mt={2} key={label}>
-            <Field label={label} value={state[label]} onChange={onChange(label)} disabled={disabled} {...other} />
+            <Field label={label} value={state[label]} onChange={onChange(label)} disabled={disabled} error={errors[label]} {...other} />
           </Box>
         );
       })}
@@ -169,27 +201,27 @@ const items4 = [
   { value: 'Exactly true', label: 'Exactly true' }
 ];
 
+const step1Questions = {
+  'What is the make of your phone?': {
+    Field: RadioRow,
+    items: phoneItems,
+    required: true
+  },
+  'What is the model of your phone? (eg. 8, XR, Galaxy S8, Pixel 4, etc.)': { required: true },
+  'How comfortable are you connecting your phone to Wi-Fi?': { Field: RadioRow, items: comfortableItems, required: true },
+  'How comfortable are you downloading an app from the app store?': { Field: RadioRow, items: comfortableItems, required: true },
+  'Have you used a smartphone app for your mental health in the past?': {
+    Field: RadioRow,
+    items: yesNoItems,
+    required: true
+  },
+  'If yes, which app?': {}
+};
+
 const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
 
-  const questions = {};
-  questions['What is the make of your phone?'] = {
-    Field: RadioRow,
-    items: phoneItems
-  };
-
-  questions['What is the model of your phone? (eg. 8, XR, Galaxy S8, Pixel 4, etc.)'] = {};
-
-  ['How comfortable are you connecting your phone to Wi-Fi?', 'How comfortable are you downloading an app from the app store?'].forEach(
-    qt => (questions[qt] = { Field: RadioRow, items: comfortableItems })
-  );
-
-  questions['Have you used a smartphone app for your mental health in the past?'] = {
-    Field: RadioRow,
-    items: yesNoItems
-  };
-
-  questions['If yes, which app?'] = {};
+  const questions = step1Questions;
 
   return (
     <Box mt={2}>
@@ -206,12 +238,14 @@ const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
   );
 };
 
+const step2Questions = {
+  'Do you have health insurance?': { Field: RadioRow, items: yesNoItems, required: true },
+  'Have you been diagnosed with a mental illness?': { Field: RadioRow, items: yesNoItems, required: true }
+};
+
 const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
-
-  const questions = {};
-  ['Do you have health insurance?', 'Have you been diagnosed with a mental illness?'].forEach(qt => (questions[qt] = { Field: RadioRow, items: yesNoItems }));
-
+  const questions = step2Questions;
   return (
     <Box mt={2}>
       <Typography className={classes.primaryTextMedium}>Access to Health:</Typography>
@@ -227,11 +261,10 @@ const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
   );
 };
 
-const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
-  const questions = {};
-
-  questions['Which filters were most important to you when choosing a mobile app?'] = {
+const step3Questions = {
+  'Which filters were most important to you when choosing a mobile app?': {
     Field: MultiSelectCheck,
+    required: true,
     items: [
       'Cost',
       'Developer type (e.g. for-profit, non-profit, healthcare company, academic institution)',
@@ -243,15 +276,17 @@ const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
       'Evidence & Clinical Foundations (e.g. patient facing, risk of harm, warning, supporting studies, etc.)',
       'Privacy (e.g. has privacy policy, delete data, personal health information shared, meets HIPAA, etc.)'
     ].map(value => ({ value, label: value }))
-  };
-
-  questions['Did outside factors impact your app decision (e.g. star ratings, reviews)?'] = {
+  },
+  'Did outside factors impact your app decision (e.g. star ratings, reviews)?': {
     Field: RadioRow,
-    items: yesNoItems
-  };
+    items: yesNoItems,
+    required: true
+  },
+  'If yes, which specific aspects?': {}
+};
 
-  questions['If yes, which specific aspects?'] = {};
-
+const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
+  const questions = step3Questions;
   const classes = useStyles();
 
   return (
@@ -269,14 +304,15 @@ const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
   );
 };
 
+const step4Keys = [
+  'I think that I would like to use this app frequently.',
+  'I think that I would need the support of a technical person to be able to use this app.',
+  'I felt very confident using this app.',
+  'I needed to learn a lot of things before I could get going with this app.'
+];
 const Step4 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = false }) => {
   const questions = {};
-  [
-    'I think that I would like to use this app frequently.',
-    'I think that I would need the support of a technical person to be able to use this app.',
-    'I felt very confident using this app.',
-    'I needed to learn a lot of things before I could get going with this app.'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
+  step4Keys.forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
 
   const classes = useStyles();
 
@@ -295,16 +331,18 @@ const Step4 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = fa
   );
 };
 
+const step5Keys = [
+  'I trust this app to guide me towards my personal goals.',
+  'I believe this app tasks will help me to address my problem.',
+  'This app encourages me to accomplish tasks and make progress.',
+  'I agree that the tasks within this app are important for my goals.',
+  'This app is easy to use and operate.',
+  'This app supports me to overcome challenges.'
+];
+
 const Step5 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = false }) => {
   const questions = {};
-  [
-    'I trust this app to guide me towards my personal goals.',
-    'I believe this app tasks will help me to address my problem.',
-    'This app encourages me to accomplish tasks and make progress.',
-    'I agree that the tasks within this app are important for my goals.',
-    'This app is easy to use and operate.',
-    'This app supports me to overcome challenges.'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
+  step5Keys.forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
 
   const classes = useStyles();
 
@@ -323,20 +361,22 @@ const Step5 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = fa
   );
 };
 
+const step6Keys = [
+  //'I can always manage to solve difficult problems if I try hard enough.',
+  'If someone opposes me, I can find the means and ways to get what I want.',
+  'It is easy for me to stick to my aims and accomplish my goals.',
+  'I am confident that I could deal efficiently with unexpected events.',
+  'Thanks to my resourcefulness, I know how to handle unforeseen situations.',
+  //'I can solve most problems if I invest the necessary effort.',
+  'I can remain calm when facing difficulties because I can rely on my coping abilities',
+  //'When I am confirted with a problem, I can usually find several solutions.',
+  //'If I am in trouble, I can usually think of a solution.',
+  'I can usually handle whatever comes my way.'
+];
+
 const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = {};
-  [
-    //'I can always manage to solve difficult problems if I try hard enough.',
-    'If someone opposes me, I can find the means and ways to get what I want.',
-    'It is easy for me to stick to my aims and accomplish my goals.',
-    'I am confident that I could deal efficiently with unexpected events.',
-    'Thanks to my resourcefulness, I know how to handle unforeseen situations.',
-    //'I can solve most problems if I invest the necessary effort.',
-    'I can remain calm when facing difficulties because I can rely on my coping abilities',
-    //'When I am confirted with a problem, I can usually find several solutions.',
-    //'If I am in trouble, I can usually think of a solution.',
-    'I can usually handle whatever comes my way.'
-  ].forEach(qt => (questions[qt] = { Field: RadioRow, items: items4 }));
+  step6Keys.forEach(qt => (questions[qt] = { Field: RadioRow, items: items4 }));
 
   const classes = useStyles();
 
@@ -355,49 +395,99 @@ const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
   );
 };
 
+const validateStepTOS = values => {
+  const newErrors = {};
+  if (!(values['TOS'] === true || values['TOS'] === 1 || values['TOS'] === '1' || values['TOS'] === 'true')) {
+    newErrors['TOS'] = 'You must agree to continue.';
+  }  
+  return newErrors;
+};
+
 const validateStep0 = values => {
   const newErrors = {};
+  Object.keys(step0Questions).forEach(key => {
+    if (step0Questions[key].required && isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
   return newErrors;
 };
 
 const validateStep1 = values => {
   const newErrors = {};
+  Object.keys(step1Questions).forEach(key => {
+    if (step1Questions[key].required && isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
+
+  if (values['Have you used a smartphone app for your mental health in the past?'] === 'Yes') {
+    if (isEmpty(values['If yes, which app?'])) {
+      newErrors['If yes, which app?'] = 'Required';
+    }
+  }
+
   return newErrors;
 };
 
 const validateStep2 = values => {
   const newErrors = {};
+  Object.keys(step2Questions).forEach(key => {
+    if (step2Questions[key].required && isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
   return newErrors;
 };
 
 const validateStep3 = values => {
   const newErrors = {};
+  Object.keys(step3Questions).forEach(key => {
+    if (step3Questions[key].required && isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
   return newErrors;
 };
 
 const validateStep4 = values => {
   const newErrors = {};
+  step4Keys.forEach(key => {
+    if (isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
   return newErrors;
 };
 
 const validateStep5 = values => {
   const newErrors = {};
+  step5Keys.forEach(key => {
+    if (isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
   return newErrors;
 };
 
 const validateStep6 = values => {
   const newErrors = {};
+  step6Keys.forEach(key => {
+    if (isEmpty(values[key])) {
+      newErrors[key] = 'Required';
+    }
+  });
   return newErrors;
 };
 
-const Steps = [Step0, Step1, Step2, Step3, Step4, Step5, Step6];
-const validations = [validateStep0, validateStep1, validateStep2, validateStep3, validateStep4, validateStep5, validateStep6];
+const SharedSteps = [Step0, Step1, Step2, Step3, Step4, Step5, Step6];
+const sharedValidations = [validateStep0, validateStep1, validateStep2, validateStep3, validateStep4, validateStep5, validateStep6];
 
 export default function Survey() {
   const classes = useStyles();
   var sm = useFullScreen('sm');
 
-  const { handleSave, getRow, errors } = useSurvey();
+  const { handleSave, getRow } = useSurvey();
   const email = useUserEmail();
 
   const [state, setState] = React.useState({
@@ -405,6 +495,7 @@ export default function Survey() {
     errors: {},
     'What is the best email address we can reach you at?': email // if user is logged in, auto fill the email field
   });
+  const { errors } = state;
 
   const surveyEmail = state['What is the best email address we can reach you at?'];
 
@@ -430,6 +521,9 @@ export default function Survey() {
     [setState]
   );
 
+  const Steps = isFollowUp ? SharedSteps : [StepTOS, ...SharedSteps];
+  const validations = isFollowUp ? sharedValidations : [validateStepTOS, ...sharedValidations];
+
   const validate = validations[state.step];
 
   const handleNext = () => {
@@ -443,18 +537,22 @@ export default function Survey() {
   };
 
   const handleSubmit = () => {
-    const created = new Date().getTime();
-    handleSave({
-      values: { ...state, parentId: surveyId, created, updated: created, app },
-      validate,
-      onError: errors => console.error('Error submiting survey', errors),
-      onSuccess: () => {
-        console.log('Successfully saved survey');
-        sendSurveyEmail({ email: surveyEmail });
-        sendSurveyNotificationEmail({ email: surveyEmail, appName: getAppName(app) });
-        changeRoute(publicUrl('/ViewApp'), { app, from: 'Survey' });
-      }
-    });
+    const newErrors = validate(state);
+    if (Object.keys(newErrors).length > 0) {
+      setState(prev => ({ ...prev, errors: newErrors }));
+    } else {
+      const created = new Date().getTime();
+      handleSave({
+        values: { ...state, parentId: surveyId, created, updated: created, app },
+        onError: errors => console.error('Error submiting survey', errors),
+        onSuccess: () => {
+          console.log('Successfully saved survey');
+          sendSurveyEmail({ email: surveyEmail });
+          sendSurveyNotificationEmail({ email: surveyEmail, appName: getAppName(app) });
+          changeRoute(publicUrl('/ViewApp'), { app, from: 'Survey' });
+        }
+      });
+    }
   };
 
   const handleBack = () => {
@@ -466,7 +564,7 @@ export default function Survey() {
 
   const disabled = mode === 'view';
 
-  const handleChangeRoute = useHandleChangeRoute();
+  const handleChangeRoute = useHandleChangeRoute();  
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
