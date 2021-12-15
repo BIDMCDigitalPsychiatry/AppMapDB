@@ -39,7 +39,7 @@ export default function SurveyFollowUp() {
 
   const [state] = useRouteState();
 
-  const { surveyId, appId, from } = state;
+  const { surveyId, followUpSurveyType, appId, from } = state;
 
   useAppData(name);
 
@@ -121,7 +121,7 @@ export default function SurveyFollowUp() {
               >
                 Thank you for participating in our survey! Would you like to participate in our follow up survey to help improve this web application?
                 <DialogButton
-                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, mode: 'add', isFollowUp: true })}
+                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, surveyType: followUpSurveyType, mode: 'add' })}
                   variant='primaryButton2'
                   fullWidth={false}
                   style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}

@@ -72,15 +72,16 @@ export default function LayoutV2({ children }) {
   const trigger = useScrollTrigger({ target: ref.current });
 
   const surveyId = useUrlParameter('surveyId');
+  const followUpSurveyType = useUrlParameter('followUpSurveyType');
   const appId = useUrlParameter('appId');
 
   const changeRoute = useChangeRoute();
 
   React.useEffect(() => {
     if (!isEmpty(surveyId) && !isEmpty(appId)) {
-      changeRoute(publicUrl('/SurveyFollowUp'), { surveyId, appId });
+      changeRoute(publicUrl('/SurveyFollowUp'), { surveyId, followUpSurveyType, appId });
     }
-  }, [changeRoute, surveyId, appId]);
+  }, [changeRoute, surveyId, followUpSurveyType, appId]);
 
   return (
     <div data-testid='app-container' className={classes.root}>

@@ -25,8 +25,6 @@ const BlogPostComment = ({ mountDialog = true, sortOption, onRefresh = undefined
     sortOption
   );
 
-  console.log({ parentId, props });
-
   return (
     <>
       <Box

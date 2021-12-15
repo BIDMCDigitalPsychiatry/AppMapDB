@@ -9,7 +9,6 @@ import { getAppName } from '../Applications/selectors';
 import { sendSurveyFollowUpEmail } from '../../../pages/Survey/sendSurveyEmail';
 import { tables } from '../../../../database/dbConfig';
 import useProcessData from '../../../../database/useProcessData';
-import { isEmpty } from '@aws-amplify/core';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -37,7 +36,7 @@ const RatedBy = (props = {}) => (
   </Typography>
 );
 
-const Actions = ({ _id = undefined, parentId = undefined, followUpCompleted = undefined, app = {} as any, ...other } = {}) => {
+const Actions = ({ _id = undefined, parentId = undefined, surveyType = undefined, followUpCompleted = undefined, app = {} as any, ...other } = {}) => {
   const handleChangeRoute = useHandleChangeRoute();
 
   const email = other['What is the best email address we can reach you at?'];
@@ -45,12 +44,15 @@ const Actions = ({ _id = undefined, parentId = undefined, followUpCompleted = un
 
   const processData = useProcessData();
 
+  const followUpSurveyType = surveyType === 'Initial' ? '2 Week' : surveyType === '2 Week' ? '6 Week' : 'Unknown';
+
   const handleFollowUp = () => {
     const followUpId = uuid();
-    sendSurveyFollowUpEmail({ email, appName, _id: followUpId, surveyId: _id, appId: app._id });
+    sendSurveyFollowUpEmail({ email, appName, _id: followUpId, surveyId: _id, appId: app._id, followUpSurveyType });
     processData({ Model: tables.surveyReminders, Data: { _id: followUpId, surveyId: _id, email, appId: app._id, appName, time: new Date().getTime() } });
     alert('Follow up email sent');
   };
+
   return (
     <Grid container spacing={1}>
       <Grid item>
@@ -60,16 +62,18 @@ const Actions = ({ _id = undefined, parentId = undefined, followUpCompleted = un
           onClick={handleChangeRoute(publicUrl('/Survey'), {
             _id,
             app,
+            // For view, manually set the follow up survey type since we are viewing the existing record
+            surveyType,
             mode: 'view'
           })}
         >
           View
         </DialogButton>
       </Grid>
-      {isEmpty(parentId) && (
+      {surveyType !== '6 Week' && (
         <Grid item>
           <DialogButton variant='link' underline='always' onClick={handleFollowUp} disabled={followUpCompleted === 'True'}>
-            {followUpCompleted === 'True' ? 'Follow Up Completed' : 'Send Follow Up Reminder'}
+            {followUpCompleted === 'True' ? `${followUpSurveyType} Follow Up Completed` : `Send ${followUpSurveyType} Reminder`}
           </DialogButton>
         </Grid>
       )}
@@ -82,6 +86,7 @@ const AppSummaryMapped = ({ app, ...other }) => <AppSummary {...app} {...other} 
 export const useColumns = () => {
   const columns = [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummaryMapped, hoverable: false, sort: 'textLower' },
+    { name: 'surveyType', header: 'Survey Type', width: 140 },
     { name: 'actions', header: 'Actions', width: 240, Cell: Actions },
     {
       name: 'lastReminderSent',
@@ -91,7 +96,6 @@ export const useColumns = () => {
       hoverable: false,
       sort: 'decimal'
     },
-    { name: 'isFollowUp', header: 'Is Follow Up Survey' },
     // { name: 'followUpCompleted', header: 'Follow Up Completed' },
     { name: 'email', header: 'Submitted By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {

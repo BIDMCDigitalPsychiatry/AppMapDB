@@ -32,15 +32,12 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
   const handleRemoveCover = () => setValues(prev => ({ ...prev, cover: undefined }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
-  const handleSelectCover = cover => {
-    console.log({ cover });
+  const handleSelectCover = cover => {    
     setValues(prev => ({ ...prev, cover }));
     setResizing(false);
   };
   const handleResizeCover = () => setResizing(prev => !prev);
-
-  console.log({ values });
-
+  
   const theme = useTheme();
 
   return (

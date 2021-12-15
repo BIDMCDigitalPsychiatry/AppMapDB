@@ -100,13 +100,13 @@ export function sendSurveyEmail({ email }) {
     });
 }
 
-export function sendSurveyFollowUpEmail({ email, appName, _id, surveyId, appId }) {
+export function sendSurveyFollowUpEmail({ email, appName, _id, surveyId = '', appId, followUpSurveyType }) {
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const body = `Hello,    
     <p>Thank you for participating in our study! We appreciate hearing your thoughts about the application: ${appName}. Would you be willing to participate in a follow up survey?  Please <a href="${hostAddress(
-    `/Survey?surveyId=${surveyId}&appId=${appId}`
-  )}">click here to participate in the follow up survey!</a></p>
+    `/Survey?surveyId=${surveyId}&followUpSurveyType=${followUpSurveyType}&appId=${appId}`
+  )}">click here to participate in the ${followUpSurveyType} Follow Up Survey!</a></p>
     <p></p>
     <p>Best,</p>
     <p>The Division of Digital Psychiatry</p>`;
@@ -132,7 +132,7 @@ export function sendSurveyFollowUpEmail({ email, appName, _id, surveyId, appId }
       },
       Subject: {
         Charset: 'UTF-8',
-        Data: 'MIND - Survey Follow Up'
+        Data: `MIND - ${followUpSurveyType} Survey Follow Up`
       }
     },
     Source: sourceEmailAddress /* required */,

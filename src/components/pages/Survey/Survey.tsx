@@ -82,8 +82,8 @@ const step0Questions = {
     Field: RadioRow,
     required: true,
     items: [
-      { value: 'Female', label: 'Female' },
       { value: 'Male', label: 'Male' },
+      { value: 'Female', label: 'Female' },      
       { value: 'Non-binary', label: 'Non-binary' },
       { value: 'Transgender female', label: 'Transgender female' },
       { value: 'Transgender male', label: 'Transgender male' },
@@ -399,7 +399,7 @@ const validateStepTOS = values => {
   const newErrors = {};
   if (!(values['TOS'] === true || values['TOS'] === 1 || values['TOS'] === '1' || values['TOS'] === 'true')) {
     newErrors['TOS'] = 'You must agree to continue.';
-  }  
+  }
   return newErrors;
 };
 
@@ -500,7 +500,9 @@ export default function Survey() {
   const surveyEmail = state['What is the best email address we can reach you at?'];
 
   const [routeState] = useRouteState();
-  const { _id, surveyId, app = {}, mode, isFollowUp } = routeState;
+  const { _id, surveyId, surveyType, app = {}, mode } = routeState;
+
+  const isFollowUp = !isEmpty(surveyId) || surveyType !== 'Initial';  
 
   React.useEffect(() => {
     if (mode === 'view') {
@@ -543,7 +545,7 @@ export default function Survey() {
     } else {
       const created = new Date().getTime();
       handleSave({
-        values: { ...state, parentId: surveyId, created, updated: created, app },
+        values: { ...state, parentId: surveyId, surveyType, created, updated: created, app },
         onError: errors => console.error('Error submiting survey', errors),
         onSuccess: () => {
           console.log('Successfully saved survey');
@@ -564,7 +566,7 @@ export default function Survey() {
 
   const disabled = mode === 'view';
 
-  const handleChangeRoute = useHandleChangeRoute();  
+  const handleChangeRoute = useHandleChangeRoute();
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
@@ -578,7 +580,9 @@ export default function Survey() {
           <Grid item style={{ width }} xs={12}>
             <Grid container alignItems='flex-end' justify='space-between'>
               <Grid item>
-                <Typography className={classes.primaryText}>{`Survey`}</Typography>
+                <Typography className={classes.primaryText}>
+                  {isEmpty(surveyType) || surveyType === 'Initial' ? `Survey` : `${surveyType} Follow Up Survey`}
+                </Typography>
               </Grid>
               <Grid item>
                 <Typography className={classes.primaryTextMedium}>{`${state.step + 1} of ${Steps.length}`}</Typography>
