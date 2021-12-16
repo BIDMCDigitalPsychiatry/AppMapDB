@@ -10,6 +10,7 @@ import KeyWords from './KeyWords';
 import { useUrlParameter } from '../../hooks';
 import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
+import useAppTableData from '../pages/useAppTableData';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -70,6 +71,8 @@ export default function LayoutV2({ children }) {
   });
 
   const trigger = useScrollTrigger({ target: ref.current });
+
+  useAppTableData(); // Trigger data query
 
   const surveyId = useUrlParameter('surveyId');
   const followUpSurveyType = useUrlParameter('followUpSurveyType');

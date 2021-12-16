@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const imageHeight = 144;
 
-export default function ViewAppHeader({ app, type = 'view' }) {
+export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
   const classes = useStyles();
   const {
     _id,

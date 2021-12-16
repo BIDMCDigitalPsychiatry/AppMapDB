@@ -100,7 +100,7 @@ export function sendSurveyEmail({ email }) {
     });
 }
 
-export function sendSurveyFollowUpEmail({ email, appName, _id, surveyId = '', appId, followUpSurveyType }) {
+export function sendSurveyFollowUpEmail({ email, appName, surveyId = '', appId, followUpSurveyType }) {
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const body = `Hello,    

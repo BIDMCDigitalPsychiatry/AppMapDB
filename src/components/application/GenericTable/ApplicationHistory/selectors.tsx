@@ -49,7 +49,7 @@ export const getAppIcon = (app: Application) => {
 
 export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted = false, includeDrafts = false) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
-  const node = apps[id];
+  const node = apps[id] ?? {};
   var { groupId } = node;
   groupId = isEmpty(groupId) ? node._id : groupId; // If we don't have a group id, then use the _id by default, for backwards compatability
 

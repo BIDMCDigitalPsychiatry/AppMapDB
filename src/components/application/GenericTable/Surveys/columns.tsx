@@ -47,9 +47,9 @@ const Actions = ({ _id = undefined, parentId = undefined, surveyType = undefined
   const followUpSurveyType = surveyType === 'Initial' ? '2 Week' : surveyType === '2 Week' ? '6 Week' : 'Unknown';
 
   const handleFollowUp = () => {
-    const followUpId = uuid();
-    sendSurveyFollowUpEmail({ email, appName, _id: followUpId, surveyId: _id, appId: app._id, followUpSurveyType });
-    processData({ Model: tables.surveyReminders, Data: { _id: followUpId, surveyId: _id, email, appId: app._id, appName, time: new Date().getTime() } });
+    const reminderId = uuid();
+    sendSurveyFollowUpEmail({ email, appName, surveyId: _id, appId: app._id, followUpSurveyType });
+    processData({ Model: tables.surveyReminders, Data: { _id: reminderId, surveyId: _id, email, appId: app._id, appName, time: new Date().getTime() } });
     alert('Follow up email sent');
   };
 

@@ -154,7 +154,7 @@ export default function SurveyFollowUp() {
           </Grid>
           <Grid item xs={12}>
             <Box mt={2}>
-              <ViewAppRating {...rating.getValues()} />
+              {rating && <ViewAppRating {...rating.getValues()} />}
             </Box>
           </Grid>
           {history.length > 1 && (
