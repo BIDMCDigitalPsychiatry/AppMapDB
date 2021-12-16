@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Box, Divider, useTheme } from '@material-ui/core';
 import { useHeaderHeight, useHeight, useRouteState } from '../../layout/store';
 import AdminLayoutSelector from './AdminLayoutSelector';
