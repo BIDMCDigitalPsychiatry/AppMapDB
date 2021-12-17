@@ -86,7 +86,7 @@ const AppSummaryMapped = ({ app, ...other }) => <AppSummary {...app} {...other} 
 export const useColumns = () => {
   const columns = [
     { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummaryMapped, hoverable: false, sort: 'textLower' },
-    { name: 'surveyType', header: 'Survey Type', width: 140 },
+    { name: 'surveyType', header: 'Survey Type', width: 140, sort: 'text' },
     { name: 'actions', header: 'Actions', width: 240, Cell: Actions },
     {
       name: 'lastReminderSent',
@@ -96,7 +96,6 @@ export const useColumns = () => {
       hoverable: false,
       sort: 'decimal'
     },
-    // { name: 'followUpCompleted', header: 'Follow Up Completed' },
     { name: 'email', header: 'Submitted By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
