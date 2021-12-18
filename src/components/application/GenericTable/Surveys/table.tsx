@@ -4,8 +4,7 @@ import { useSurveyData } from './selectors';
 import { Box } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { makeStyles, createStyles, Grid, Button } from '@material-ui/core';
-import { useHandleExport } from '../../../../database/hooks';
-import { tables } from '../../../../database/dbConfig';
+import { useSurveyExport } from './useSurveyExport';
 
 export const name = 'Surveys';
 
@@ -48,9 +47,7 @@ export const Surveys = ({ height: Height, ...other }) => {
   const data = useSurveyData(name);
   const classes = useStyles();
 
-  const handleExport = useHandleExport(data, columns);
-
-  const handleClick = () => handleExport(false, tables.surveys);
+  const handleExport = useSurveyExport(name);
 
   const height = Height - 48;
   return (
@@ -58,9 +55,9 @@ export const Surveys = ({ height: Height, ...other }) => {
       <Box p={1}>
         <Grid container spacing={1} justify='flex-end'>
           <Grid item>
-            <Button size='small' className={classes.primaryButton} onClick={handleClick}>
+            <Button size='small' className={classes.primaryButton} onClick={handleExport}>
               <Icons.GetApp style={{ marginRight: 4 }} />
-              Export Surveys Database
+              Export Surveys
             </Button>
           </Grid>
         </Grid>

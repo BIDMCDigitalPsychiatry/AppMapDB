@@ -83,7 +83,7 @@ const step0Questions = {
     required: true,
     items: [
       { value: 'Male', label: 'Male' },
-      { value: 'Female', label: 'Female' },      
+      { value: 'Female', label: 'Female' },
       { value: 'Non-binary', label: 'Non-binary' },
       { value: 'Transgender female', label: 'Transgender female' },
       { value: 'Transgender male', label: 'Transgender male' },
@@ -483,6 +483,16 @@ const validateStep6 = values => {
 const SharedSteps = [Step0, Step1, Step2, Step3, Step4, Step5, Step6];
 const sharedValidations = [validateStep0, validateStep1, validateStep2, validateStep3, validateStep4, validateStep5, validateStep6];
 
+export const surveyQuestionKeys = [
+  ...Object.keys(step0Questions),
+  ...Object.keys(step1Questions),
+  ...Object.keys(step2Questions),
+  ...Object.keys(step3Questions),
+  ...step4Keys,
+  ...step5Keys,
+  ...step6Keys
+];
+
 export default function Survey() {
   const classes = useStyles();
   var sm = useFullScreen('sm');
@@ -502,7 +512,7 @@ export default function Survey() {
   const [routeState] = useRouteState();
   const { _id, surveyId, surveyType, app = {}, mode } = routeState;
 
-  const isFollowUp = !isEmpty(surveyId) || surveyType !== 'Initial';  
+  const isFollowUp = !isEmpty(surveyId) || surveyType !== 'Initial';
 
   React.useEffect(() => {
     if (mode === 'view') {
