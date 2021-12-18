@@ -8,7 +8,7 @@ import { publicUrl } from '../../../helpers';
 import ExpandableDescription from '../../application/GenericTable/ApplicationsSummary/ExpandableDescription';
 import ImageCarousel from '../../general/ImageCarousel';
 import { useAppHistoryData } from '../../application/GenericTable/ApplicationHistory/selectors';
-import { Pagination, Alert } from '@material-ui/lab';
+import { Pagination, Alert, AlertTitle } from '@material-ui/lab';
 import * as Icons from '@material-ui/icons';
 import ViewAppHeader from '../ViewAppHeader';
 import ViewAppRating from '../ViewAppRating';
@@ -105,7 +105,7 @@ export default function SurveyFollowUp() {
               </Alert>
             ) : (
               <Alert
-                severity='info'
+                severity='success'
                 action={
                   <IconButton
                     aria-label='close'
@@ -119,15 +119,22 @@ export default function SurveyFollowUp() {
                   </IconButton>
                 }
               >
-                Thank you for participating in our survey! Would you like to participate in our follow up survey to help improve this web application?
-                <DialogButton
-                  onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, surveyType: followUpSurveyType, mode: 'add' })}
-                  variant='primaryButton2'
-                  fullWidth={false}
-                  style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}
-                >
-                  Click Here to Take Follow Up Survey
-                </DialogButton>
+                <Grid container spacing={4} justify='space-between'>
+                  <Grid item>
+                    <AlertTitle>
+                      <strong>Thank you for participating in our previous survey!</strong>
+                    </AlertTitle>
+                    Would you like to participate in our follow up survey to help improve this web application?
+                  </Grid>
+                  <Grid item xs>
+                    <DialogButton
+                      onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, surveyType: followUpSurveyType, mode: 'add' })}
+                      variant='surveyButton'
+                    >
+                      Click Here to Take Follow Up Survey
+                    </DialogButton>
+                  </Grid>
+                </Grid>
               </Alert>
             )}
           </Box>
@@ -153,9 +160,7 @@ export default function SurveyFollowUp() {
             <Typography variant='caption'>{`Explore the app's qualitative ratings & reviews`}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Box mt={2}>
-              {rating && <ViewAppRating {...rating.getValues()} />}
-            </Box>
+            <Box mt={2}>{rating && <ViewAppRating {...rating.getValues()} />}</Box>
           </Grid>
           {history.length > 1 && (
             <Grid item xs={12}>

@@ -150,6 +150,21 @@ const useStyles = makeStyles(({ palette, spacing }: any) =>
       '&:hover': {
         background: palette.primary.main
       }
+    },
+    surveyButton: {
+      fontSize: 16,
+      fontWeigt: 800,
+      borderRadius: 7,
+      color: palette.common.white,
+      background: 'green',
+      '&:hover': {
+        background: 'green',
+        opacity: 0.8
+      },
+      paddingLeft: 16,
+      paddingRight: 16,
+      height: 48,
+      width: 300
     }
   })
 );
@@ -264,6 +279,10 @@ const DialogButton = React.forwardRef(function DialogButton(
             </Button>
           ) : variant === 'primaryButton2' ? (
             <Button {...shared} className={classes.primaryButton2} fullWidth={fullWidth} style={style}>
+              {children}
+            </Button>
+          ) : variant === 'surveyButton' ? (
+            <Button {...shared} className={classes.surveyButton} fullWidth={fullWidth} style={style}>
               {children}
             </Button>
           ) : variant === 'menuitem' ? (

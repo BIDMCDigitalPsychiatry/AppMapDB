@@ -8,7 +8,7 @@ import { publicUrl } from '../../helpers';
 import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
 import ImageCarousel from '../general/ImageCarousel';
 import { useAppHistoryData } from '../application/GenericTable/ApplicationHistory/selectors';
-import { Pagination, Alert } from '@material-ui/lab';
+import { Pagination, Alert, AlertTitle } from '@material-ui/lab';
 import ViewAppRating from './ViewAppRating';
 import * as Icons from '@material-ui/icons';
 import ViewAppHeader from './ViewAppHeader';
@@ -96,7 +96,7 @@ export default function ViewApp() {
                 </Alert>
               ) : (
                 <Alert
-                  severity='info'
+                  severity='success'
                   action={
                     <IconButton
                       aria-label='close'
@@ -110,21 +110,28 @@ export default function ViewApp() {
                     </IconButton>
                   }
                 >
-                  Are you currently using this App? If so, would you like to participate in a survey to help improve this web application?
-                  <DialogButton
-                    onClick={handleChangeRoute(publicUrl('/Survey'), {
-                      app,
-                      mode: 'add',
-                      surveyType: 'Initial',
-                      surveyId: undefined,
-                      followUpSurveyType: undefined
-                    })}
-                    variant='primaryButton2'
-                    fullWidth={false}
-                    style={{ marginLeft: 16, paddingLeft: 12, paddingRight: 12 }}
-                  >
-                    Click Here to Take Survey
-                  </DialogButton>
+                  <Grid container spacing={4} justify='space-between'>
+                    <Grid item>
+                      <AlertTitle>
+                        <strong>Are you currently using this App?</strong>
+                      </AlertTitle>
+                      If so, would you like to participate in a survey to help improve this web application?
+                    </Grid>
+                    <Grid item xs>
+                      <DialogButton
+                        onClick={handleChangeRoute(publicUrl('/Survey'), {
+                          app,
+                          mode: 'add',
+                          surveyType: 'Initial',
+                          surveyId: undefined,
+                          followUpSurveyType: undefined
+                        })}
+                        variant='surveyButton'
+                      >
+                        Click Here to Take Survey
+                      </DialogButton>
+                    </Grid>
+                  </Grid>
                 </Alert>
               )}
             </Box>
