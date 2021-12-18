@@ -47,7 +47,7 @@ const StepTOS = ({ state, onChange, errors = {}, disabled = false }) => {
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Terms of Service:</Typography>
+      <Typography className={classes.primaryTextMedium}>Participate in Research:</Typography>
       <Box mt={1}>
         {`Thank you for your interest in completing our survey! The surveys will take less than 10 minutes to complete total. You will be asked to complete these surveys three times over the course of six weeks. Once now, once two weeks from now, and once four weeks from the two week mark (i.e. six weeks from now). By completing the following surveys, you are granting consent to use your anonymous survey information.`}
         <Grid container justify='flex-end'>
