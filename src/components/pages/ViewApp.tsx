@@ -71,73 +71,72 @@ export default function ViewApp() {
       <Grid item xs={12}>
         <ViewAppHeader app={app} />
       </Grid>
-      {isAdmin && (
-        <Grid item xs={12}>
-          <Divider />
-          <Collapse in={open}>
-            <Box mt={2}>
-              {fromSurvey ? (
-                <Alert
-                  severity='success'
-                  action={
-                    <IconButton
-                      aria-label='close'
-                      color='inherit'
-                      size='small'
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                    >
-                      <Icons.Close fontSize='inherit' />
-                    </IconButton>
-                  }
-                >
-                  Thank you for participating in our survey!
-                </Alert>
-              ) : (
-                <Alert
-                  severity='success'
-                  action={
-                    <IconButton
-                      aria-label='close'
-                      color='inherit'
-                      size='small'
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                    >
-                      <Icons.Close fontSize='inherit' />
-                    </IconButton>
-                  }
-                >
-                  <Grid container spacing={4} justify='space-between'>
-                    <Grid item>
-                      <AlertTitle>
-                        <strong>Are you currently using this App?</strong>
-                      </AlertTitle>
-                      If so, would you like to participate in a survey to help improve this web application?
-                    </Grid>
-                    <Grid item xs>
-                      <DialogButton
-                        onClick={handleChangeRoute(publicUrl('/Survey'), {
-                          app,
-                          mode: 'add',
-                          surveyType: 'Initial',
-                          surveyId: undefined,
-                          followUpSurveyType: undefined
-                        })}
-                        variant='surveyButton'
-                      >
-                        Click Here to Take Survey
-                      </DialogButton>
-                    </Grid>
+
+      <Grid item xs={12}>
+        <Divider />
+        <Collapse in={open}>
+          <Box mt={2}>
+            {fromSurvey ? (
+              <Alert
+                severity='success'
+                action={
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <Icons.Close fontSize='inherit' />
+                  </IconButton>
+                }
+              >
+                Thank you for participating in our survey!
+              </Alert>
+            ) : (
+              <Alert
+                severity='success'
+                action={
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <Icons.Close fontSize='inherit' />
+                  </IconButton>
+                }
+              >
+                <Grid container spacing={4} justify='space-between'>
+                  <Grid item>
+                    <AlertTitle>
+                      <strong>Are you currently using this App?</strong>
+                    </AlertTitle>
+                    If so, would you like to participate in a survey to help improve this web application?
                   </Grid>
-                </Alert>
-              )}
-            </Box>
-          </Collapse>
-        </Grid>
-      )}
+                  <Grid item xs>
+                    <DialogButton
+                      onClick={handleChangeRoute(publicUrl('/Survey'), {
+                        app,
+                        mode: 'add',
+                        surveyType: 'Initial',
+                        surveyId: undefined,
+                        followUpSurveyType: undefined
+                      })}
+                      variant='surveyButton'
+                    >
+                      Click Here to Take Survey
+                    </DialogButton>
+                  </Grid>
+                </Grid>
+              </Alert>
+            )}
+          </Box>
+        </Collapse>
+      </Grid>
       <Grid item xs={12}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
