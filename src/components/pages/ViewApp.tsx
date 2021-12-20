@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Divider, Box, Collapse, IconButton } from '@material-ui/core';
-import { useFullScreen, useIsAdmin } from '../../hooks';
+import { useFullScreen } from '../../hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
 import { useHandleChangeRoute } from '../layout/hooks';
@@ -60,8 +60,6 @@ export default function ViewApp() {
   React.useEffect(() => {
     setTimeout(() => setOpen(true), 1000);
   }, [setOpen]);
-
-  const isAdmin = useIsAdmin();
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
