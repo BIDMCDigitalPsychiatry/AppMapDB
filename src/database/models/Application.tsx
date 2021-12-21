@@ -169,7 +169,7 @@ export type Engagement =
 export const EngagementQuestions = [
   { value: 'User Generated Data', label: 'User generated data?', tooltip: 'Examples include mood tracking, diary app, etc.' },
   { value: 'Chat/Message', label: 'Chat/message based?' },
-  { value: 'Assessments/Screenings', label: 'Does app have have screeners/assesments?', tooltip: 'Examples include PHQ9, GAS7, etc.' },
+  { value: 'Assessments/Screenings', label: 'Does app have have screeners/assesments?', tooltip: 'Examples include PHQ9, GAD7, etc.' },
   { value: 'Real Time Response', label: 'Real time response?', tooltip: 'Someone will reply to your chat right away.' },
   {
     value: 'Asynchronous Response',
@@ -188,7 +188,7 @@ export const EngagementQuestions = [
     label: 'Audio/music/scripts?',
     tooltip: 'Does the app provide music or audio experiences? Some meditation apps, for example, utilize audio.'
   },
-  { value: 'AI Support', label: 'AI support', tooltip: 'Interaction is not with a real person but with a but.' },
+  { value: 'AI Support', label: 'AI support', tooltip: 'Interaction is not with a real person but with a bot.' },
   {
     value: 'Peer Support',
     label: 'Peer support?',
