@@ -82,7 +82,7 @@ export default function MuliSelectCheckExpandable({
                   margin='none'
                   value={value.find(v => v === i.value) ? true : false}
                   onChange={handleChange(i.value, value)}
-                  color={color}
+                  //color={color}
                   size='small'
                 />
               </Grid>

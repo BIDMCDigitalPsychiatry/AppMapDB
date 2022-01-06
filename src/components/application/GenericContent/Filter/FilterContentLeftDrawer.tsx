@@ -46,7 +46,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
       <Grid item xs={12} zeroMinWidth={true}>
         {Object.keys(sections).map(k => {
           const { fields } = sections[k];
-          return <>{fields.map(f => injectField(f))}</>;
+          return <div key={k}>{fields.map(id => injectField(id))}</div>;
         })}
       </Grid>
     </Grid>
