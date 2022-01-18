@@ -503,9 +503,10 @@ export default function Survey() {
   const [state, setState] = React.useState({
     step: 0,
     errors: {},
+    submitting: false,
     'What is the best email address we can reach you at?': email // if user is logged in, auto fill the email field
   });
-  const { errors } = state;
+  const { submitting, errors } = state;
 
   const surveyEmail = state['What is the best email address we can reach you at?'];
 
@@ -550,17 +551,22 @@ export default function Survey() {
 
   const handleSubmit = () => {
     const newErrors = validate(state);
+    setState(prev => ({ ...prev, submitting: true }));
     if (Object.keys(newErrors).length > 0) {
-      setState(prev => ({ ...prev, errors: newErrors }));
+      setState(prev => ({ ...prev, errors: newErrors, submitting: false }));
     } else {
       const created = new Date().getTime();
       handleSave({
         values: { ...state, parentId: surveyId, surveyType, created, updated: created, app },
-        onError: errors => console.error('Error submiting survey', errors),
+        onError: errors => {
+          setState(prev => ({ ...prev, submitting: false }));
+          console.error('Error submiting survey', errors);
+        },
         onSuccess: () => {
           console.log('Successfully saved survey');
           sendSurveyEmail({ email: surveyEmail });
           sendSurveyNotificationEmail({ email: surveyEmail, appName: getAppName(app) });
+          setState(prev => ({ ...prev, submitting: false }));
           changeRoute(publicUrl('/ViewApp'), { app, from: 'Survey' });
         }
       });
@@ -574,7 +580,7 @@ export default function Survey() {
 
   const Step = Steps[state.step];
 
-  const disabled = mode === 'view';
+  const disabled = submitting || mode === 'view';
 
   const handleChangeRoute = useHandleChangeRoute();
 
