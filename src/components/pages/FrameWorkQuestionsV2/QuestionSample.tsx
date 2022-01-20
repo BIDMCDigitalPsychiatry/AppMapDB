@@ -12,8 +12,8 @@ export default function QuestionSample({ title, color = 'white', background, row
       <Grid item xs={12}>
         <ul style={{ marginLeft: -24, fontSize: 12, fontWeight: 700, color: theme.palette.text.secondary }}>
           <Grid container spacing={1}>
-            {rows.map(text => (
-              <Grid item xs={12}>
+            {rows.map((text, i) => (
+              <Grid key={`qs-${i}`} item xs={12}>
                 <li>
                   <Typography style={{ fontWeight: 700, fontSize: 14 }} color='textSecondary'>
                     {text}

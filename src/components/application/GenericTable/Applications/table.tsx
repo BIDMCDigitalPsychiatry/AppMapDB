@@ -1,10 +1,8 @@
-import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import * as Icons from '@material-ui/icons';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import ViewModeButton from './ViewModeButton';
-import { useAppData } from './selectors';
 import AdminToggle from './AdminToggle';
 import { useColumns } from './columns';
 import FilterButton from './FilterButton';
@@ -28,10 +26,9 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
   search: false
 };
 
-export const Applications = props => {
+export const Applications = ({ data, ...props }) => {
   const columns = useColumns();
   const { showButtons = true, HeaderComponent } = props;
-  const data = useAppData(name);
   const handleExport = useHandleExport(data, columns);
   const isAdmin = useIsAdmin();
 

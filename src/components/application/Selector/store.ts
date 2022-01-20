@@ -1,6 +1,10 @@
 import { updateState } from '../../../helpers';
 
-export const defaultState = {};
+export const defaultState = {
+  AppBar: {
+    value: 'Application Library'
+  }
+};
 
 export const updateSelector = (id, payload) => ({ type: 'UPDATE_SELECTOR', id, payload });
 

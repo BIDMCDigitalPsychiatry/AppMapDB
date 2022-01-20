@@ -44,9 +44,15 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
   return (
     <Grid container justify='flex-start'>
       <Grid item xs={12} zeroMinWidth={true}>
-        {Object.keys(sections).map(k => {
+        {Object.keys(sections).map((k, i) => {
           const { fields } = sections[k];
-          return <div key={k}>{fields.map(id => injectField(id))}</div>;
+          return (
+            <div key={`${k}-${i}`}>
+              {fields.map((id, i) => (
+                <div key={`${id}-${i}-field`}>{injectField(id)}</div>
+              ))}
+            </div>
+          );
         })}
       </Grid>
     </Grid>

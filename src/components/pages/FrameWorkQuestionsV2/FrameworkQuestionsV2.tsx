@@ -130,8 +130,8 @@ export default function FrameworkQuestionsV2() {
                 'Some apps may even sell personal data without clearly disclosing it to users.',
                 'Apps may offer incorrect or misleading information, including potentially harmful recommendations.  Without stringent regulations, some apps may not securely protect the personal information that they collect.',
                 'Apps continue to emerge and evolve, there are still many unknowns about the efficacy of technology-based interventions.'
-              ].map(text => (
-                <Grid item xs={sm ? 12 : 6}>
+              ].map((text, i) => (
+                <Grid key={`text1-${i}`} item xs={sm ? 12 : 6}>
                   <li>
                     <Typography variant='h6' color='textSecondary'>
                       {text}
@@ -174,8 +174,8 @@ export default function FrameworkQuestionsV2() {
                 'Clinical Foundation: Is the app supported by research?',
                 'Engagement Style: Is the app usable and customizable?',
                 'Data Sharing Towards Therapeutic Goal: How easily can the app share data in a clinically meaningful way?'
-              ].map(text => (
-                <Grid item xs={sm ? 12 : 6}>
+              ].map((text, i) => (
+                <Grid key={`text2-${i}`} item xs={sm ? 12 : 6}>
                   <li style={{ paddingLeft: 4 }}>
                     <Typography variant='h6' color='textSecondary'>
                       {text}
@@ -251,8 +251,8 @@ export default function FrameworkQuestionsV2() {
             background: '#FD4B4B',
             rows: ['Is the app able to share data with external parties, like family and providers?']
           }
-        ].map(({ title, background, rows }) => (
-          <Grid item style={{ width: 280 }}>
+        ].map(({ title, background, rows }, i) => (
+          <Grid key={`text3-${i}`} item style={{ width: 280 }}>
             <QuestionSample title={title} background={background} rows={rows} />
           </Grid>
         ))}
@@ -297,8 +297,8 @@ export default function FrameworkQuestionsV2() {
           description: 'Objective Standards to Guide Assessment and Implementation of Digital Health Intervations.',
           url: videoPath
         }
-      ].map(({ title, description, url }) => (
-        <Grid item>
+      ].map(({ title, description, url }, i) => (
+        <Grid item key={`text4-${i}`}>
           <Box style={{ width: Math.min(vw - 32, 640) }}>
             <Box pb={2}>
               <ReactPlayer url={url} controls={true} width={Math.min(vw - 32, 640)} />
@@ -315,8 +315,10 @@ export default function FrameworkQuestionsV2() {
 
   return (
     <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
-      {[Framework, HowChoose, AppRegulation, ReviewApproach, ObjectiveQuestions, QuestionSamples, ExploreQuestions, Videos].map(C => (
-        <Grid item>{C}</Grid>
+      {[Framework, HowChoose, AppRegulation, ReviewApproach, ObjectiveQuestions, QuestionSamples, ExploreQuestions, Videos].map((C, i) => (
+        <Grid key={`gi-${i}`} item>
+          {C}
+        </Grid>
       ))}
     </Grid>
   );

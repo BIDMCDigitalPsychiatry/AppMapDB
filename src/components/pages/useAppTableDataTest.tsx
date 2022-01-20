@@ -12,28 +12,39 @@ import { useAdminMode } from '../layout/store';
 const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
-export default function useAppTableData() {
+export default function useAppTableDataTest() {
   const [apps, setApps] = useApplications();
   const handleRefresh = React.useCallback(() => {
     const getItems = async () => {
+      let scanResults = [];
       let items;
       var params = {
         TableName: tables.applications,
         ExclusiveStartKey: undefined
       };
+      var firstPass = true;
       do {
-        let scanResults = [];
         items = await dynamo.scan(params).promise();
         items.Items.forEach(i => scanResults.push(i));
         params.ExclusiveStartKey = items.LastEvaluatedKey;
-        setApps(prev => ({
-          ...prev,
-          ...scanResults.reduce((f, c: any) => {
-            f[c._id] = c;
-            return f;
-          }, {})
-        }));
+        if (firstPass) {
+          firstPass = false; // Show the first results so the user doesn't see an empty screen
+          setApps(prev => ({
+            ...prev,
+            ...scanResults.reduce((f, c: any) => {
+              f[c._id] = c;
+              return f;
+            }, {})
+          }));
+        }
       } while (typeof items.LastEvaluatedKey != 'undefined');
+      setApps(prev => ({
+        ...prev,
+        ...scanResults.reduce((f, c: any) => {
+          f[c._id] = c;
+          return f;
+        }, {})
+      }));
     };
     getItems();
   }, [setApps]);

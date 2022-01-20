@@ -9,7 +9,7 @@ import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
 import { useAdminMode } from '../../../layout/store';
 
-const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
+export const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
 export const getAppName = app => {
   const androidStore: AndroidStoreProps = app?.androidStore;
