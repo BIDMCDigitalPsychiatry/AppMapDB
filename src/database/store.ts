@@ -32,13 +32,14 @@ export const setDatabaseTable = (table, payload) => ({ type: 'SET_DATABASE_TABLE
 export const exportDatabase = (table, ids) => ({ type: 'EXPORT_DATABASE', table, ids });
 
 export const saveCsv = csv => {
-  const fileName = `export_${Date.now()}.csv`;
+  let id = Date.now();
+  const fileName = `export_${id}.csv`;
   let link = document.createElement('a');
-  link.id = 'download-csv';
+  link.id = `download-csv-${id}`;
   link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csv));
   link.setAttribute('download', fileName);
   document.body.appendChild(link);
-  var node = document.querySelector('#download-csv') as any;
+  var node = document.querySelector(`#download-csv-${id}`) as any;
   node && node.click();
 };
 
