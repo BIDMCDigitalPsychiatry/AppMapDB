@@ -9,7 +9,7 @@ import { useChangeRoute, useHandleChangeRoute, useUserEmail } from '../../layout
 import useSurvey from './useSurvey';
 import { useRouteState } from '../../layout/store';
 import ViewAppHeader from '../ViewAppHeader';
-import { isEmpty, publicUrl } from '../../../helpers';
+import { isEmpty, publicUrl, validateEmail } from '../../../helpers';
 import { sendSurveyEmail, sendSurveyNotificationEmail } from './sendSurveyEmail';
 import { getAppName } from '../../application/GenericTable/Applications/selectors';
 
@@ -68,7 +68,10 @@ const StepTOS = ({ state, onChange, errors = {}, disabled = false }) => {
 };
 
 const step0Questions = {
-  'What is the best email address we can reach you at?': {},
+  'What is the best email address we can reach you at?': {
+    required: true,
+    email: true
+  },
   'Sex (assigned at birth)?': {
     Field: RadioRow,
     required: true,
@@ -408,6 +411,8 @@ const validateStep0 = values => {
   Object.keys(step0Questions).forEach(key => {
     if (step0Questions[key].required && isEmpty(values[key])) {
       newErrors[key] = 'Required';
+    } else if (step0Questions[key].email && !validateEmail(values[key])) {
+      newErrors[key] = 'Invalid email';
     }
   });
   return newErrors;
