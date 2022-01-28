@@ -132,27 +132,29 @@ exports.handler = async event => {
       if (!hasFollowUp && !hasReminder) {
         // No reminder has been sent and no follow up survey has been completed so go ahead and send the reminder email
         const email = survey['What is the best email address we can reach you at?'];
-        const appName = getAppName(app);
-        const appId = app._id;
-        const followUpSurveyType = surveyType === 'Initial' ? '2 Week' : surveyType === '2 Week' ? '6 Week' : 'Unknown';
+        if (!isEmpty(email)) {
+          const appName = getAppName(app);
+          const appId = app._id;
+          const followUpSurveyType = surveyType === 'Initial' ? '2 Week' : surveyType === '2 Week' ? '6 Week' : 'Unknown';
 
-        const insertReminderResult = await insertReminder({ appId, email, appName, key });
-        const sendReminderResult = await sendSurveyFollowUpEmail({
-          email,
-          appName,
-          appId,
-          surveyId: key,
-          followUpSurveyType
-        });
+          const insertReminderResult = await insertReminder({ appId, email, appName, key });
+          const sendReminderResult = await sendSurveyFollowUpEmail({
+            email,
+            appName,
+            appId,
+            surveyId: key,
+            followUpSurveyType
+          });
 
-        remindersSent[key] = {
-          email,
-          appName,
-          appId,
-          insertReminderResult,
-          sendReminderResult,
-          followUpSurveyType
-        };
+          remindersSent[key] = {
+            email,
+            appName,
+            appId,
+            insertReminderResult,
+            sendReminderResult,
+            followUpSurveyType
+          };
+        }
       }
     }
   }
