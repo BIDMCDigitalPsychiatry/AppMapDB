@@ -12,10 +12,10 @@ import { Pagination, Alert, AlertTitle } from '@material-ui/lab';
 import * as Icons from '@material-ui/icons';
 import ViewAppHeader from '../ViewAppHeader';
 import ViewAppRating from '../ViewAppRating';
-import { useAppData } from '../../application/GenericTable/Applications/selectors';
 import { tables } from '../../../database/dbConfig';
 import { AppState } from '../../../store';
 import { useSelector } from 'react-redux';
+import useAppTableDataTest from '../useAppTableDataTest';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -31,8 +31,6 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-const name = 'Applications';
-
 export default function SurveyFollowUp() {
   const classes = useStyles();
   var sm = useFullScreen('sm');
@@ -41,7 +39,10 @@ export default function SurveyFollowUp() {
 
   const { surveyId, followUpSurveyType, appId, from } = state;
 
-  useAppData(name);
+  const { handleGetRow } = useAppTableDataTest({ trigger: false });
+  React.useEffect(() => {
+    handleGetRow(appId);
+  }, [handleGetRow, appId]);
 
   const app = useSelector((s: AppState) => s.database[tables.applications][appId]);
 

@@ -12,47 +12,77 @@ import { useAdminMode } from '../layout/store';
 const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
-export default function useAppTableDataTest() {
+export default function useAppTableDataTest({ trigger = true } = {}) {
   const [apps, setApps] = useApplications();
-  const handleRefresh = React.useCallback(() => {
-    const getItems = async () => {
-      let scanResults = [];
-      let items;
-      var params = {
-        TableName: tables.applications,
-        ExclusiveStartKey: undefined
-      };
-      var firstPass = true;
-      do {
-        items = await dynamo.scan(params).promise();
-        items.Items.forEach(i => scanResults.push(i));
-        params.ExclusiveStartKey = items.LastEvaluatedKey;
-        if (firstPass) {
-          firstPass = false; // Show the first results so the user doesn't see an empty screen
+
+  const handleGetRow = React.useCallback(
+    id => {
+      const getRow = async id => {
+        var params = {
+          TableName: tables.applications,
+          Key: { _id: id }
+        };
+        try {
+          var row = await dynamo.get(params).promise();
+        } catch (err) {
+          console.error('Error querying row id: ' + id);
+          return;
+        }
+        if (row?.Item && row?.Item._id) {
           setApps(prev => ({
             ...prev,
-            ...scanResults.reduce((f, c: any) => {
-              f[c._id] = c;
-              return f;
-            }, {})
+            [row.Item?._id]: row.Item
           }));
         }
-      } while (typeof items.LastEvaluatedKey != 'undefined');
-      setApps(prev => ({
-        ...prev,
-        ...scanResults.reduce((f, c: any) => {
-          f[c._id] = c;
-          return f;
-        }, {})
-      }));
-    };
-    getItems();
-  }, [setApps]);
+      };
+      getRow(id);
+    },
+    [setApps]
+  );
+
+  const handleRefresh = React.useCallback(
+    ({ requestParams = undefined } = {}) => {
+      const getItems = async () => {
+        let scanResults = [];
+        let items;
+        var params = {
+          TableName: tables.applications,
+          ExclusiveStartKey: undefined,
+          ...requestParams
+        };
+        var firstPass = true;
+        do {
+          items = await dynamo.scan(params).promise();
+          items.Items.forEach(i => scanResults.push(i));
+          params.ExclusiveStartKey = items.LastEvaluatedKey;
+          if (firstPass) {
+            firstPass = false; // Show the first results so the user doesn't see an empty screen
+            setApps(prev => ({
+              ...prev,
+              ...scanResults.reduce((f, c: any) => {
+                f[c._id] = c;
+                return f;
+              }, {})
+            }));
+          }
+        } while (typeof items.LastEvaluatedKey != 'undefined');
+        setApps(prev => ({
+          ...prev,
+          ...scanResults.reduce((f, c: any) => {
+            f[c._id] = c;
+            return f;
+          }, {})
+        }));
+      };
+      getItems();
+    },
+    [setApps]
+  );
 
   // Load data from the database
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+    trigger && handleRefresh();
+  }, [trigger, handleRefresh]);
 
   const [adminMode] = useAdminMode();
   var data = apps
@@ -155,5 +185,5 @@ export default function useAppTableDataTest() {
 
   var filtered = useTableFilter(filteredData, table, customFilter);
 
-  return { filtered, apps, setApps, handleRefresh };
+  return { filtered, apps, setApps, handleRefresh, handleGetRow };
 }

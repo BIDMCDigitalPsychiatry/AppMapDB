@@ -4,10 +4,10 @@ import * as ApplicationDialog from '../../application/GenericDialog/ApplicationD
 import { renderDialogModule } from '../../application/GenericDialog/DialogButton';
 import { MyApplicationsPending } from '../../application/GenericTable/MyApplicationsPending/table';
 import { useSelector } from 'react-redux';
-import useAppTableData from '../useAppTableData';
+import useAppTableDataTest from '../useAppTableDataTest';
 
 export default function MyAppRatings({ height = undefined, showArchived = false }) {
-  const { handleRefresh } = useAppTableData();
+  const { handleRefresh } = useAppTableDataTest();
 
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 

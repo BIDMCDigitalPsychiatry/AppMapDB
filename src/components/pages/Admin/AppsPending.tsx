@@ -3,10 +3,10 @@ import * as ApplicationHistoryDialogV2 from '../../application/GenericDialog/App
 import * as ApplicationDialog from '../../application/GenericDialog/ApplicationDialog';
 import { renderDialogModule } from '../../application/GenericDialog/DialogButton';
 import { ApplicationsPending } from '../../application/GenericTable/ApplicationsPending/table';
-import useAppTableData from '../useAppTableData';
+import useAppTableDataTest from '../useAppTableDataTest';
 
 export default function AppsPending({ height = undefined, showArchived = false }) {
-  const { handleRefresh } = useAppTableData();
+  const { handleRefresh } = useAppTableDataTest();
 
   return (
     <>
