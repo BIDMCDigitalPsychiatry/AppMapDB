@@ -71,6 +71,8 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
     [setSearchText, setFilterValues]
   );
 
+  const fullScreen = useFullScreen();
+
   return (
     <Grid ref={useHeaderHeightRef()} container className={classes.header}>
       <Grid item xs={12}>
@@ -94,16 +96,18 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
               <Grid item xs>
                 <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
               </Grid>
-              <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
-                <MultiSelectCheck
-                  value={filters['Platforms']}
-                  onChange={handleChange('Platforms')}
-                  placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
-                  InputProps={{ style: { background: 'white' } }}
-                  items={Platforms.map(label => ({ value: label, label })) as any}
-                  fullWidth={true}
-                />
-              </Grid>
+              {!fullScreen && (
+                <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                  <MultiSelectCheck
+                    value={filters['Platforms']}
+                    onChange={handleChange('Platforms')}
+                    placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                    InputProps={{ style: { background: 'white' } }}
+                    items={Platforms.map(label => ({ value: label, label })) as any}
+                    fullWidth={true}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

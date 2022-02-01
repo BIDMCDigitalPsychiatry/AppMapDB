@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Grid, Typography, createStyles, makeStyles, Chip } from '@material-ui/core';
-import { useFullScreen } from '../../hooks';
+import { useFullScreen, useIsAdmin } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
@@ -10,6 +10,7 @@ import { useHeaderHeightRef } from '../layout/hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
 import { categories } from '../../constants';
+import { useWidth } from '../layout/store';
 
 const padding = 32;
 const spacing = 1;
@@ -57,6 +58,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
   useFilterList();
 
   var sm = useFullScreen('sm');
+  const fullScreen = useFullScreen();
 
   const handleChange = React.useCallback(
     id => (event: any) => {
@@ -71,7 +73,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
   );
 
   const items = Object.keys(filters)
-    .filter(k => k !== 'Platforms' && k !== 'SavedFilter')
+    .filter(k => (k !== 'Platforms' && k !== 'SavedFilter') || (k === 'Platforms' && fullScreen))
     .map(k => ({ key: k, label: k, value: filters[k] }));
 
   const handleDelete = React.useCallback(
@@ -81,37 +83,51 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
 
   let showClear = false;
 
+  const width = useWidth();
+  const isAdmin = useIsAdmin();
+  const collapseMobile = width < 420;
+  const collapsed = collapseMobile || (isAdmin && !fullScreen && width < 1050) || (isAdmin && fullScreen && width < 720);
+
   return (
-    <Grid ref={useHeaderHeightRef()} container className={classes.header}>
-      <Grid item xs={12}>
-        <Grid container justify='space-between' alignItems='flex-end'>
-          <Grid>
-            <Typography variant='h1' className={classes.primaryText}>
-              {title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <ViewModeButtons onExport={onExport} />
+    <Grid ref={useHeaderHeightRef()} container style={{ paddingTop: collapseMobile ? 0 : undefined }} className={classes.header}>
+      {!collapseMobile && (
+        <Grid item xs={12}>
+          <Grid container justify='space-between' alignItems='flex-end'>
+            <Grid>
+              <Typography variant='h1' className={classes.primaryText}>
+                {title}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <ViewModeButtons onExport={onExport} collapsed={collapsed} />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
       <Grid item xs={12}>
         <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
           <Grid item xs={12} sm style={{ marginTop: -4 }}>
-            <Grid container spacing={spacing}>
+            <Grid container alignItems='center' spacing={spacing}>
               <Grid item xs>
                 <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
               </Grid>
-              <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
-                <MultiSelectCheck
-                  value={filters['Platforms']}
-                  onChange={handleChange('Platforms')}
-                  placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
-                  InputProps={{ style: { background: 'white' } }}
-                  items={Platforms.map(label => ({ value: label, label })) as any}
-                  fullWidth={true}
-                />
-              </Grid>
+              {collapseMobile && (
+                <Grid item>
+                  <ViewModeButtons onExport={onExport} collapsed={collapsed} />
+                </Grid>
+              )}
+              {!fullScreen && (
+                <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                  <MultiSelectCheck
+                    value={filters['Platforms']}
+                    onChange={handleChange('Platforms')}
+                    placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                    InputProps={{ style: { background: 'white' } }}
+                    items={Platforms.map(label => ({ value: label, label })) as any}
+                    fullWidth={true}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -132,7 +148,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                     <Grid item key={label}>
                       <Chip
                         key={`${label}-${i}-${i2}`}
-                        style={{ background: category?.color, color: 'white', marginRight: 8 }}
+                        style={{ background: category?.color ?? 'grey', color: 'white', marginRight: 8 }}
                         variant='outlined'
                         size='small'
                         label={withReplacement(label)}

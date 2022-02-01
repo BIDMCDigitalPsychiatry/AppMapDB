@@ -11,16 +11,18 @@ import {
   DeveloperTypes,
   Engagements,
   Uses,
-  withReplacement
+  withReplacement,
+  Platforms
 } from '../../../../database/models/Application';
 import { Grid } from '@material-ui/core';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
 import { categories } from '../../../../constants';
+import { useFullScreen } from '../../../../hooks';
 
 const sections = {
   Accessibility: {
-    fields: ['Cost', 'DeveloperTypes', 'Conditions']
+    fields: ['Platforms', 'Cost', 'DeveloperTypes', 'Conditions']
   },
   Interoperability: {
     fields: ['Functionalities', 'Uses']
@@ -41,6 +43,8 @@ export const title = 'Apply Filters';
 function Content({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
 
+  const fullScreen = useFullScreen();
+
   return (
     <Grid container justify='flex-start'>
       <Grid item xs={12} zeroMinWidth={true}>
@@ -48,9 +52,11 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
           const { fields } = sections[k];
           return (
             <div key={`${k}-${i}`}>
-              {fields.map((id, i) => (
-                <div key={`${id}-${i}-field`}>{injectField(id)}</div>
-              ))}
+              {fields
+                .filter(f => (f === 'Platforms' ? fullScreen : true))
+                .map((id, i) => (
+                  <div key={`${id}-${i}-field`}>{injectField(id)}</div>
+                ))}
             </div>
           );
         })}
@@ -72,6 +78,11 @@ export default function FilterContentLeftDrawer({ id = title, ...other }) {
     submitLabel: null,
     cancelLabel: 'Close',
     fields: [
+      {
+        id: 'Platforms',
+        Field: MultiSelectCheckExpandable,
+        items: Platforms.map(label => ({ value: label, label }))
+      },
       {
         id: 'Cost',
         Field: MultiSelectCheckExpandable,

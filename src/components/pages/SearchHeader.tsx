@@ -82,6 +82,8 @@ export default function SearchHeader({ title = 'App Library', state, setState = 
     changeRoute(publicUrl('/Apps'));
   }, [changeRoute, setTableState]);
 
+  const fullScreen = useFullScreen();
+
   return (
     <Grid container className={classes.header}>
       <Grid item xs={12}>
@@ -96,16 +98,18 @@ export default function SearchHeader({ title = 'App Library', state, setState = 
               <Grid item xs>
                 <TableSearchV2 value={state['searchtext']} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
               </Grid>
-              <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
-                <MultiSelectCheck
-                  value={state['Platforms']}
-                  onChange={handleChange('Platforms')}
-                  placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
-                  InputProps={{ style: { background: 'white' } }}
-                  items={Platforms.map(label => ({ value: label, label })) as any}
-                  fullWidth={true}
-                />
-              </Grid>
+              {!fullScreen && (
+                <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                  <MultiSelectCheck
+                    value={state['Platforms']}
+                    onChange={handleChange('Platforms')}
+                    placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                    InputProps={{ style: { background: 'white' } }}
+                    items={Platforms.map(label => ({ value: label, label })) as any}
+                    fullWidth={true}
+                  />
+                </Grid>
+              )}
             </Grid>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>

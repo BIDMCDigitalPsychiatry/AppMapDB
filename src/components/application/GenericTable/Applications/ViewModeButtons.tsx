@@ -29,50 +29,56 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function ViewModeButtons({ onExport = undefined }) {
+export default function ViewModeButtons({ onExport = undefined, collapsed = false }) {
   const classes = useStyles();
   const [viewMode, setViewMode] = useViewMode() as any;
   const handleClick = React.useCallback(mode => () => setViewMode(mode), [setViewMode]);
   const handleExport = React.useCallback(isTableData => () => onExport && onExport(isTableData), [onExport]);
+
+  const style = { marginRight: collapsed ? 0 : 4 };
+  const buttonStyle = { height: 34, minWidth: collapsed ? 24 : undefined };
 
   return (
     <Grid container spacing={1}>
       {onExport && (
         <>
           <Grid item>
-            <Button size='small' className={classes.primaryButton} onClick={handleExport(false)}>
-              <Icons.GetApp style={{ marginRight: 4 }} />
-              Export Database
+            <Button style={buttonStyle} size='small' className={classes.primaryButton} onClick={handleExport(false)}>
+              <Icons.GetApp style={style} />
+              {!collapsed && 'Export Database'}
             </Button>
           </Grid>
           <Grid item>
-            <Button size='small' className={classes.primaryButton} onClick={handleExport(true)}>
-              <Icons.GetApp style={{ marginRight: 4 }} />
-              Export Table Data
+            <Button style={buttonStyle} size='small' className={classes.primaryButton} onClick={handleExport(true)}>
+              <Icons.GetApp style={style} />
+
+              {!collapsed && 'Export Table Data'}
             </Button>
           </Grid>
         </>
       )}
       <Grid item>
         <Button
+          style={buttonStyle}
           disableRipple={viewMode === 'grid'}
           size='small'
           className={viewMode === 'grid' ? classes.primaryButtonDisabled : classes.primaryButton}
           onClick={handleClick('grid')}
         >
-          <Icons.Apps style={{ marginRight: 4 }} />
-          Grid View
+          <Icons.Apps style={style} />
+          {!collapsed && 'Grid View'}
         </Button>
       </Grid>
       <Grid item>
         <Button
+          style={buttonStyle}
           disableRipple={viewMode === 'table'}
           size='small'
           className={viewMode === 'table' ? classes.primaryButtonDisabled : classes.primaryButton}
           onClick={handleClick('table')}
         >
-          <Icons.List style={{ marginRight: 4 }} />
-          Table View
+          <Icons.List style={style} />
+          {!collapsed && 'Table View'}
         </Button>
       </Grid>
     </Grid>
