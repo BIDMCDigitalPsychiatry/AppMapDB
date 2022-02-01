@@ -17,7 +17,7 @@ export interface Table {
   orderBy?: string;
   orderDirection?: 'asc' | 'desc';
   sortComparator?: SortComparator;
-  filters?: [];
+  filters?: {};
 }
 
 // Actions
@@ -96,5 +96,5 @@ export function useTableSearchText(id): any {
 
 export function useHandleTableReset(id) {
   const tableUpdate = useTableUpdate();
-  return React.useCallback(() => tableUpdate({ id, searchtext: '', filters: [] }), [id, tableUpdate]);
+  return React.useCallback(() => tableUpdate({ id, searchtext: '', filters: {} }), [id, tableUpdate]);
 }

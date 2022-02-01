@@ -18,7 +18,7 @@ const getMobilePadding = breakpoints => ({
   padding,
   fontWeight: 900,
   [breakpoints.down('sm')]: {
-    padding: getPadding('sm') 
+    padding: getPadding('sm')
   },
   [breakpoints.down('xs')]: {
     padding: getPadding('xs')
@@ -64,7 +64,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
       if (id === 'searchtext') {
         setSearchText(value);
       } else {
-        setFilterValues(prev => ({ searchtext: prev.searchtext, filters: { ...prev.filters, [id]: value } }));
+        setFilterValues(prev => ({ ...prev, [id]: value }));
       }
     },
     [setSearchText, setFilterValues]
@@ -72,7 +72,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
 
   const items = Object.keys(filters)
     .filter(k => k !== 'Platforms' && k !== 'SavedFilter')
-    .map(k => ({ key: k, label: filters[k].name, value: filters[k] }));
+    .map(k => ({ key: k, label: k, value: filters[k] }));
 
   const handleDelete = React.useCallback(
     (key, value) => () => setFilterValues(prev => ({ ...prev, [key]: (prev[key] ?? []).filter(v => v !== value) })),
@@ -129,7 +129,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                   <></>
                 ) : (
                   item.value.map((label, i2) => (
-                    <Grid item>
+                    <Grid item key={label}>
                       <Chip
                         key={`${label}-${i}-${i2}`}
                         style={{ background: category?.color, color: 'white', marginRight: 8 }}

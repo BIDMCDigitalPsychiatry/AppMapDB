@@ -5,7 +5,7 @@ import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
-import { useTableValues } from '../application/GenericTable/store';
+import { useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
 
 const padding = 32;
@@ -49,9 +49,10 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
     }
   })
 );
-
+const tableId = 'Applications';
 export default function SearchHeaderReduxPending({ title = 'Pending Approvals', showArchived = undefined, onToggleArchive = undefined }) {
-  const [{ searchtext, filters = {} }, setValues] = useTableValues('Applications');
+  const [searchtext, setSearchText] = useTableSearchText(tableId);
+  const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
 
   const classes = useStyles();
   useFilterList();
@@ -62,12 +63,12 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
     id => (event: any) => {
       const value = event?.target?.value;
       if (id === 'searchtext') {
-        setValues(prev => ({ searchtext: value, filters: prev.filters }));
+        setSearchText(value);
       } else {
-        setValues(prev => ({ searchtext: prev.searchtext, filters: { ...prev.filters, [id]: value } }));
+        setFilterValues(prev => ({ ...prev, [id]: value }));
       }
     },
-    [setValues]
+    [setSearchText, setFilterValues]
   );
 
   return (
