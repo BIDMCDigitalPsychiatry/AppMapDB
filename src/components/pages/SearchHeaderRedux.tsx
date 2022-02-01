@@ -5,7 +5,7 @@ import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms, withReplacement } from '../../database/models/Application';
-import { useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
+import { useHandleTableReset, useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
@@ -18,7 +18,7 @@ const getMobilePadding = breakpoints => ({
   padding,
   fontWeight: 900,
   [breakpoints.down('sm')]: {
-    padding: getPadding('sm')
+    padding: getPadding('sm') 
   },
   [breakpoints.down('xs')]: {
     padding: getPadding('xs')
@@ -46,9 +46,12 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   })
 );
 
+const tableId = 'Applications';
+
 export default function SearchHeaderRedux({ title = 'App Library', onExport = undefined }) {
-  const [searchtext, setSearchText] = useTableSearchText('Applications');
-  const [filters = {}, setFilterValues] = useTableFilterValues('Applications');
+  const [searchtext, setSearchText] = useTableSearchText(tableId);
+  const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
+  const handleReset = useHandleTableReset(tableId);
 
   const classes = useStyles();
   useFilterList();
@@ -75,8 +78,6 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
     (key, value) => () => setFilterValues(prev => ({ ...prev, [key]: (prev[key] ?? []).filter(v => v !== value) })),
     [setFilterValues]
   );
-
-  const handleReset = React.useCallback(() => setFilterValues({}), [setFilterValues]);
 
   let showClear = false;
 

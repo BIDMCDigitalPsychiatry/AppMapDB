@@ -83,13 +83,18 @@ export function useTableFilterValues(name): any {
   return [values, setValues];
 }
 
-export function useTableSearchText(name): any {
+export function useTableSearchText(id): any {
   const searchText = useSelector((state: AppState) => {
-    const table = state.table[name] ?? { id: name, searchtext: '' };
+    const table = state.table[id] ?? { id, searchtext: '' };
     return table?.searchtext;
   });
 
   const tableUpdate = useTableUpdate();
-  const setSearchText = React.useCallback(searchtext => tableUpdate({ id: name, searchtext }), [name, tableFilterUpdate]);
+  const setSearchText = React.useCallback(searchtext => tableUpdate({ id, searchtext }), [id, tableUpdate]);
   return [searchText, setSearchText];
+}
+
+export function useHandleTableReset(id) {
+  const tableUpdate = useTableUpdate();
+  return React.useCallback(() => tableUpdate({ id, searchtext: '', filters: [] }), [id, tableUpdate]);
 }

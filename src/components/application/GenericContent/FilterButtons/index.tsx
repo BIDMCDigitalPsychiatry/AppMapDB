@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSignedIn } from '../../../../hooks';
 import { Grid, Typography } from '@material-ui/core';
-import { useTableFilterValues } from '../../GenericTable/store';
+import { useTableFilterValues, useHandleTableReset } from '../../GenericTable/store';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as DeleteFilterDialog from '../../GenericDialog/DeleteFilter';
 import * as SaveFilterDialog from '../../GenericDialog/SaveFilter';
@@ -10,14 +10,13 @@ import * as LoadFilterDialog from '../../GenericDialog/LoadFilter';
 export default function FilterButtons({ variant = 'smallOutlined', underline = 'always' }) {
   const signedIn = useSignedIn();
   const [values, setValues] = useTableFilterValues('Applications');
+  const handleReset = useHandleTableReset('Applications');
   const { SavedFilter } = values;
   const SavedFilterStr = JSON.stringify(SavedFilter);
 
   React.useEffect(() => {
     SavedFilterStr && setValues(prev => ({ ...JSON.parse(SavedFilterStr), SavedFilter: prev.SavedFilter })); // If we changed the selected saved filter then update the filters on the page
   }, [SavedFilterStr, setValues]);
-
-  const handleReset = React.useCallback(() => setValues({}), [setValues]);
 
   return (
     <Grid container spacing={2} justify='space-around' alignItems='center'>
