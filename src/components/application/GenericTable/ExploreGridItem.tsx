@@ -100,6 +100,7 @@ export default function ExploreGridItem(props: any) {
       onMouseOver={() => setState({ raised: true })}
       onMouseOut={() => setState({ raised: false })}
       raised={state.raised}
+      elevation={state.raised ? 8 : 4}
     >
       <CardMedia className={classes.media} image={icon} component='img' height='200' width='100%' alt='cover image' />
       <CardContent className={classes.cardContent}>
