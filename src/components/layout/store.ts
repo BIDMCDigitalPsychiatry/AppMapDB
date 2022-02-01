@@ -8,14 +8,14 @@ import { useLocation } from 'react-router';
 import { useTheme } from '@material-ui/core';
 import { homepage } from '../../../package.json';
 
-export type ViewMode = 'table' | 'list';
+export type ViewMode = 'table' | 'grid';
 
 export interface State {
   height?: number;
   width?: number;
   appBarHeight?: number;
   footerHeight?: number;
-  headerHeight?: number;  
+  headerHeight?: number;
   viewMode?: ViewMode;
   adminMode?: boolean;
   routeState: any;
@@ -27,7 +27,7 @@ const defaultState = {
   appBarHeight: (theme as any).layout.toolbarheight,
   footerHeight: (theme as any).layout.footerHeight,
   headerHeight: (theme as any).layout.headerHeight,
-  viewMode: 'table',  
+  viewMode: 'grid',
   adminMode: false,
   routeState: {},
   leftDrawerOpen: false

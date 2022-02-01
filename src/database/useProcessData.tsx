@@ -61,8 +61,8 @@ const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: a
   const Data = { ...DataProp, delete: Action === 'c' ? false : Action === 'd' ? true : (DataProp as any).delete };
   try {
     executeTransaction(pdi, Data, updateDatabase, dispatch);
-  } catch (error) {
-    if (error.statusCode === 409) {
+  } catch (error: any) {
+    if (error?.statusCode === 409) {
       //Document update conflict.  This can happen if someone updated the document at the server while another user's browser is editing an earlier revision
       //Just show an error for now, as the applications will rarely be edited and the tables are constantly refreshed with new data.
       //The correct logic would get the most recent document from the database, inform the user that the document is out of date, update the revision number and allow the user to review changes or force the update.

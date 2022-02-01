@@ -4,7 +4,7 @@ import { AppState } from '../../../store';
 import TablePlaceHolder from './TablePlaceHolder';
 import VirtualTable, { VirtualTableProps } from './VirtualTable';
 import { Typography, Divider, useTheme, makeStyles, createStyles, Paper, Grid } from '@material-ui/core';
-import VirtualList from './VirtualList';
+import ExploreGrid from './ExploreGrid';
 
 export interface GenericTableProps extends VirtualTableProps {
   footer?: boolean;
@@ -12,7 +12,7 @@ export interface GenericTableProps extends VirtualTableProps {
   placeholder?: string | React.ReactNode;
   selector?(state, props): [];
   length?: number;
-  isList?: boolean;
+  isGrid?: boolean;
 }
 
 const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
@@ -36,14 +36,14 @@ const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
 );
 
 export default function GenericTable(props: GenericTableProps) {
-  const { elevation = 4, placeholder, footer, name, selector, data: Data = [], height: Height, isList, ...other } = props;
+  const { elevation = 4, placeholder, footer, name, selector, data: Data = [], height: Height, isGrid, ...other } = props;
   const classes = useStyles(props);
   const { layout } = useTheme() as any;
   const data = useSelector((state: AppState) => (selector ? selector(state, props) : Data));
   const length = data && data.length ? data.length : 0;
   const height = footer ? Height - layout.tablefooterheight : Height;
 
-  const VirtualComponent = isList ? VirtualList : VirtualTable;
+  const VirtualComponent = isGrid ? ExploreGrid : VirtualTable; 
 
   return (
     <Paper elevation={elevation} className={classes.paper}>

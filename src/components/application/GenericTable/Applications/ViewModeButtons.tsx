@@ -55,13 +55,13 @@ export default function ViewModeButtons({ onExport = undefined }) {
       )}
       <Grid item>
         <Button
-          disableRipple={viewMode === 'list'}
+          disableRipple={viewMode === 'grid'}
           size='small'
-          className={viewMode === 'list' ? classes.primaryButtonDisabled : classes.primaryButton}
-          onClick={handleClick('list')}
+          className={viewMode === 'grid' ? classes.primaryButtonDisabled : classes.primaryButton}
+          onClick={handleClick('grid')}
         >
-          <Icons.List style={{ marginRight: 4 }} />
-          List View
+          <Icons.Apps style={{ marginRight: 4 }} />
+          Grid View
         </Button>
       </Grid>
       <Grid item>
@@ -71,7 +71,7 @@ export default function ViewModeButtons({ onExport = undefined }) {
           className={viewMode === 'table' ? classes.primaryButtonDisabled : classes.primaryButton}
           onClick={handleClick('table')}
         >
-          <Icons.TableChart style={{ marginRight: 4 }} />
+          <Icons.List style={{ marginRight: 4 }} />
           Table View
         </Button>
       </Grid>

@@ -11,7 +11,7 @@ import FilterButton from '../Applications/FilterButton';
 
 const name = 'Applications';
 export const defaultApplicationsListProps: GenericTableContainerProps = {
-  isList: true,
+  isGrid: true,
   name,
   dialogs: [renderDialogModule(RateNewAppDialog)],
   columns: [{ name: 'app', header: 'Application', Cell: AppSummary }],

@@ -11,7 +11,7 @@ const Content = props => {
   const [viewMode] = useViewMode();
   return (
     <DialogTableContent
-      Table={viewMode === 'list' ? Tables.ApplicationListHistory : Tables.ApplicationHistory}
+      Table={viewMode === 'grid' ? Tables.ApplicationListHistory : Tables.ApplicationHistory}
       buttonPosition='bottom'
       title={title}
       {...props}

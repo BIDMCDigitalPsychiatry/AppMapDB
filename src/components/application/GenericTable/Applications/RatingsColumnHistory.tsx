@@ -61,7 +61,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
   return (
     <>
       <Grid container alignItems='center' spacing={1}>
-        <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'list' ? 12 : 5}>
+        <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'grid' ? 12 : 5}>
           {signedIn && (
             <EditDialogButton
               Module={RateNewAppDialog}
@@ -76,7 +76,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
           )}
         </Grid>
         {(IsAdmin || (isAdmin && adminMode === true)) && (
-          <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'list' ? 12 : 7}>
+          <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'grid' ? 12 : 7}>
             <div style={{ marginBottom: -12 }}>
               {draft ? (
                 <Status draft={draft} approved={approved} />

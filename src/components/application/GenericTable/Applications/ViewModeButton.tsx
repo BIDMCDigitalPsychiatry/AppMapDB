@@ -14,12 +14,12 @@ const useStyles = makeStyles(({ spacing }: any) =>
   })
 );
 
-export default function ViewModeButton({ mode = 'list' }) {
+export default function ViewModeButton({ mode = 'grid' }) {
   const classes = useStyles();
   const [, setViewMode] = useViewMode() as any;
-  const handleClick = React.useCallback(() => setViewMode(mode === 'list' ? 'table' : 'list'), [mode, setViewMode]);
-  const tooltip = `Switch to ${mode === 'list' ? 'Grid' : 'List'} View`;
-  const Icon = mode === 'list' ? Icons.List : Icons.HorizontalSplit;
+  const handleClick = React.useCallback(() => setViewMode(mode === 'grid' ? 'table' : 'grid'), [mode, setViewMode]);
+  const tooltip = `Switch to ${mode === 'grid' ? 'Table' : 'Grid'} View`;
+  const Icon = mode === 'grid' ? Icons.List : Icons.HorizontalSplit;
   return (
     <Tooltip title={tooltip} placement='left'>
       <Fab className={classes.viewmode} size='large' color='primary' aria-label='view-mode' onClick={handleClick}>

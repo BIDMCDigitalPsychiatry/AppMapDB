@@ -31,7 +31,7 @@ export interface DialogModuleProps {
   props?: any;
 }
 
-export const renderDialogModule = ({ default: Dialog, title, ...props }) => Dialog && <Dialog id={title} {...props} />;
+export const renderDialogModule = ({ default: Dialog, title = undefined, ...props }) => Dialog && <Dialog id={title} {...props} />;
 
 export const EditDialogButton = ({
   variant = 'iconbutton',

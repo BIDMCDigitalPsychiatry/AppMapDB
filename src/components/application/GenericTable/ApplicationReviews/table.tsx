@@ -5,7 +5,7 @@ import { useAppReviewData } from './useAppReviewData';
 
 const name = 'Reviews';
 export const defaultAppReviewProps: GenericTableContainerProps = {
-  isList: true,
+  isGrid: true,
   name,
   columns: [{ name: 'appreview', header: 'Application Review', Cell: AppReview }],
   toolbar: false,

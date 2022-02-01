@@ -19,6 +19,7 @@ export default function PlatformButtons({ platforms = [], androidLink, iosLink, 
 
   const handleLink = React.useCallback(
     platform => event => {
+      event && event.stopPropagation && event.stopPropagation();
       const url = platform === 'Android' ? androidLink : platform === 'iOS' ? iosLink : webLink;
       var win = window.open(url, '_blank');
       win.focus();

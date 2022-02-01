@@ -7,7 +7,7 @@ import { useIsAdmin } from '../../../../hooks';
 
 const name = 'Applications';
 export const defaultApplicationsSummaryProps: GenericTableContainerProps = {
-  isList: true,
+  isGrid: true,
   name,
   dialogs: [renderDialogModule(RateNewAppDialog)],
   columns: [{ name: 'app', header: 'Application', Cell: ApplicationSummary }],

@@ -315,7 +315,7 @@ export const formatWithDefault = (publishedAt, textFormat, textDefault) => {
 export function isEmptyObject(obj) {
   if (isEmpty(obj)) {
     return true;
-  } else if(typeof obj === 'object') {
+  } else if (typeof obj === 'object') {
     for (var key in obj) {
       if (obj.hasOwnProperty(key)) return false;
     }
@@ -323,4 +323,11 @@ export function isEmptyObject(obj) {
   } else {
     return false; // Is not empty and is not an object
   }
+}
+
+export const lineClamp = (purifiedHtml, lines) =>
+  `<div style='width: 100%;display: -webkit-box;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: ${lines};  overflow: hidden; '>${purifiedHtml}</div>`;
+
+export function stripTags(str) {
+  return isEmpty(str) ? '' : str.toString().replace(/(<([^>]+)>)/gi, '');
 }
