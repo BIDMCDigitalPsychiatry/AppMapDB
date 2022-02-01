@@ -8,20 +8,20 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({
-    logo: ({ autoHide }: any) => ({
-      paddingLeft: 8,
-      paddingRight: 16,
+    logo: ({ condensed, autoHide }: any) => ({
+      paddingLeft: condensed ? 0 : 8,
+      paddingRight: condensed ? 8 : 16,
       height: layout.toolbarheight - 32,
       [breakpoints.down('xs')]: {
         display: autoHide ? 'none' : 'flex'
       },
       cursor: 'pointer'
     }),
-    logoText: ({ autoHide }: any) => ({
-      width: 240,
+    logoText: ({ condensed, autoHide }: any) => ({
+      width: condensed ? 148 : 240,
       color: '#1D1D1D',
-      marginTop: -6,
-      letterSpacing: 4,
+      marginTop: condensed ? undefined : -6,
+      letterSpacing: condensed ? .5 : 4,
       [breakpoints.down('sm')]: {
         display: autoHide ? 'none' : 'flex'
       },
@@ -33,8 +33,8 @@ const useStyles = makeStyles(({ breakpoints, layout }: any) =>
 const logoText = 'M-HEALTH INDEX &';
 const logoTextSecondary = 'NAVIGATION DATABASE';
 
-export default function Logo({ autoHide = true, showText = true }) {
-  const classes = useStyles({ autoHide });
+export default function Logo({ condensed = false, autoHide = true, showText = true }) {
+  const classes = useStyles({ autoHide, condensed });
   const handleChangeRoute = useHandleChangeRoute();
 
   return (

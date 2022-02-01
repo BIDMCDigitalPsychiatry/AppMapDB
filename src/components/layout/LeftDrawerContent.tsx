@@ -6,6 +6,8 @@ import FilterContentLeftDrawer from '../application/GenericContent/Filter/Filter
 import { useFilterCount } from './useFilterCount';
 import StyledBadge from './StyledBadge';
 import FilterButtons from '../application/GenericContent/FilterButtons';
+import Logo from './Logo';
+import { useFullScreen } from '../../hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,10 +31,18 @@ export default function LeftDrawerContent({ table = 'Applications' }) {
 
   const filterCount = useFilterCount(table);
 
+  const xs = useFullScreen('xs');
+
   return (
     <>
       <div className={classes.header}>
         <Grid container justify='space-between'>
+          {xs && (
+            <Grid item xs={12}>
+              <Logo condensed={true} autoHide={false} showText={true} />
+              <Divider style={{ marginTop: 8, marginBottom: 8 }} />
+            </Grid>
+          )}
           <Grid item xs>
             <Typography variant='caption' color='textPrimary' className={classes.primaryText}>
               Search Filters
