@@ -3,7 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, createStyles, makeStyles, Container } from '@material-ui/core';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 
 export interface ComponentProps {
@@ -87,7 +87,7 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
   const tabRoute = tab?.route;
   const tabSubRoute = tab?.routeState?.subRoute;
   const tabToSelect = !(pathname === tabRoute && subRoute === tabSubRoute) && tabs.find(t => t.route === pathname && t?.routeState?.subRoute === subRoute);
-  const handleChangeRoute = useHandleChangeRoute();
+  const changeRoute = useChangeRoute();
   const selectedId = selected ? selected : tabId;
 
   React.useEffect(() => {
@@ -114,6 +114,13 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
 
   const { value = undefined } = tabSelector;
 
+  const handleClick =
+    ({ onClick, route, routeState }) =>
+    () => {
+      onClick && onClick();
+      !isEmpty(route) && changeRoute(route, routeState);
+    };
+
   return (
     <Container className={classes.root}>
       <Tabs variant='fullWidth' className={classes.tabs} scrollButtons='off' value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
@@ -123,7 +130,7 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
           tabs.map((t: any) => (
             <Tab
               key={t.id}
-              onClick={handleChangeRoute(t.route, t?.routeState)}
+              onClick={handleClick(t)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
