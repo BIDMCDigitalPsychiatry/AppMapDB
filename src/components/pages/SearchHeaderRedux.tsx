@@ -5,7 +5,7 @@ import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms, withReplacement } from '../../database/models/Application';
-import { useTableFilterValues, useTableValues } from '../application/GenericTable/store';
+import { useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
 import { useHeaderHeightRef } from '../layout/hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
@@ -47,8 +47,8 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 );
 
 export default function SearchHeaderRedux({ title = 'App Library', onExport = undefined }) {
-  const [{ searchtext, filters = {} }, setValues] = useTableValues('Applications');
-  const [, setFilterValues] = useTableFilterValues('Applications');
+  const [searchtext, setSearchText] = useTableSearchText('Applications');
+  const [filters = {}, setFilterValues] = useTableFilterValues('Applications');
 
   const classes = useStyles();
   useFilterList();
@@ -59,12 +59,12 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
     id => (event: any) => {
       const value = event?.target?.value;
       if (id === 'searchtext') {
-        setValues(prev => ({ searchtext: value, filters: prev.filters }));
+        setSearchText(value);
       } else {
-        setValues(prev => ({ searchtext: prev.searchtext, filters: { ...prev.filters, [id]: value } }));
+        setFilterValues(prev => ({ searchtext: prev.searchtext, filters: { ...prev.filters, [id]: value } }));
       }
     },
-    [setValues]
+    [setSearchText, setFilterValues]
   );
 
   const items = Object.keys(filters)
@@ -72,12 +72,8 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
     .map(k => ({ key: k, label: filters[k].name, value: filters[k] }));
 
   const handleDelete = React.useCallback(
-    (key, value) => event => {
-      setValues(prev => {
-        return { searchtext: prev.searchtext, filters: { ...prev.filters, [key]: (prev?.filters[key] ?? []).filter(v => v !== value) } };
-      });
-    },
-    [setValues]
+    (key, value) => () => setFilterValues(prev => ({ ...prev, [key]: (prev[key] ?? []).filter(v => v !== value) })),
+    [setFilterValues]
   );
 
   const handleReset = React.useCallback(() => setFilterValues({}), [setFilterValues]);

@@ -69,7 +69,10 @@ export function useTableValues(name): any {
 }
 
 export function useTableFilterValues(name): any {
-  const { filters: values = {} } = useTable(name);
+  const values = useSelector((state: AppState) => {
+    const table = state.table[name] ?? { id: name, filters: {} };
+    return table?.filters ?? {};
+  });
   const tableFilterUpdate = useTableFilterUpdate();
   const setValues = React.useCallback(
     values => {
@@ -78,4 +81,15 @@ export function useTableFilterValues(name): any {
     [name, tableFilterUpdate]
   );
   return [values, setValues];
+}
+
+export function useTableSearchText(name): any {
+  const searchText = useSelector((state: AppState) => {
+    const table = state.table[name] ?? { id: name, searchtext: '' };
+    return table?.searchtext;
+  });
+
+  const tableUpdate = useTableUpdate();
+  const setSearchText = React.useCallback(searchtext => tableUpdate({ id: name, searchtext }), [name, tableFilterUpdate]);
+  return [searchText, setSearchText];
 }
