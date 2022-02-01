@@ -9,6 +9,7 @@ import FilterButton from './FilterButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import { useHandleExport } from '../../../../database/hooks';
 import { useIsAdmin } from '../../../../hooks';
+import { useWidth } from '../../../layout/store';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -32,6 +33,9 @@ export const Applications = ({ data, ...props }) => {
   const handleExport = useHandleExport(data, columns);
   const isAdmin = useIsAdmin();
 
+  const width = useWidth();
+  const fixedColumnCount = width >= 900 ? 1 : 0;
+
   return (
     <>
       {HeaderComponent && <HeaderComponent onExport={isAdmin && handleExport} />}
@@ -42,7 +46,7 @@ export const Applications = ({ data, ...props }) => {
           <ViewModeButton mode='table' />
         </>
       )}
-      <GenericTableContainer {...defaultApplicationsProps} data={data} columns={columns} showScroll={true} fixedColumnCount={1} {...props} />
+      <GenericTableContainer {...defaultApplicationsProps} data={data} columns={columns} showScroll={true} fixedColumnCount={fixedColumnCount} {...props} />
     </>
   );
 };
