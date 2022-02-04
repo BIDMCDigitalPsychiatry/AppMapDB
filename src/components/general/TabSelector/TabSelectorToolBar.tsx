@@ -3,6 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, createStyles, makeStyles, Container } from '@material-ui/core';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
+import { useChangeRoute } from '../../layout/hooks';
 
 export interface ComponentProps {
   id?: string;
@@ -19,7 +20,6 @@ export interface ComponentProps {
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     root: ({ rounded }) => ({
-      background: palette.primary.main,
       borderRadius: rounded ? undefined : 0,
       padding: 0
     }),
@@ -28,19 +28,18 @@ const useStyles = makeStyles(({ palette }: any) =>
       borderRadius: 'inherit'
     }),
     indicator: {
-      background: palette.primary.dark,
-      height: '100%',
+      background: palette.primary.light,
+      marginBottom: 4,
+      height: 4,
       zIndex: 0,
-      borderRadius: 'inherit'
+      borderRadius: 5
     },
     labelIcon: ({ minHeight }: any) => ({
-      color: palette.common.white,
       zIndex: 1,
       minHeight
     }),
     tabroot: ({ minHeight }: any) => ({
       padding: 0,
-      color: palette.common.white,
       zIndex: 1,
       minWidth: 0,
       minHeight
@@ -73,12 +72,18 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
   const { pathname } = useLocation();
 
   const tabId = tabs[0] && tabs[0].id;
-  const tabRoute = tabs.find((t) => t.id === selected)?.route;
-  const tabToSelect = pathname !== tabRoute && tabs.find((t) => t.route === pathname);
+  const tabRoute = tabs.find(t => t.id === selected)?.route;
+  const tabToSelect = pathname !== tabRoute && tabs.find(t => t.route === pathname);
+
+  const changeRoute = useChangeRoute();
 
   React.useEffect(() => {
-    isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
-    tabToSelect && setTabSelector({ value: tabToSelect.id });
+    if (tabToSelect === undefined) {
+      setTabSelector({ value: tabToSelect });
+    } else {
+      isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
+      tabToSelect && setTabSelector({ value: tabToSelect.id });
+    }
     triggerResize();
   }, [setTabSelector, selected, tabId, tabToSelect]);
 
@@ -94,7 +99,16 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
     [setTabSelector, onChange]
   );
 
-  const { value = tabs[0].id } = tabSelector;
+  const { value = undefined } = tabSelector;
+
+  const handleClick = React.useCallback(
+    (route, state, onClick = undefined) =>
+      () => {
+        changeRoute(route, state);
+        onClick && onClick();
+      },
+    [changeRoute]
+  );
 
   return (
     <Container className={classes.root}>
@@ -102,9 +116,10 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
         {!tabs ? (
           <></>
         ) : (
-          tabs.map((t) => (
+          tabs.map((t: any) => (
             <Tab
               key={t.id}
+              onClick={handleClick(t.route, t?.routeState, t?.onClick)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,

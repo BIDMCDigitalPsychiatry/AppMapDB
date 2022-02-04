@@ -18,7 +18,7 @@ const BlogNavbar: FC = props => (
       <Link color='textSecondary' component={RouterLink} to='/' underline='none' variant='body1'>
         Home
       </Link>
-      <Link color='textPrimary' component={RouterLink} to='/connect' underline='none' style={{ marginLeft: 16, marginRight: 16 }} variant='body1'>
+      <Link color='textPrimary' component={RouterLink} to='/Community' underline='none' style={{ marginLeft: 16, marginRight: 16 }} variant='body1'>
         Blog
       </Link>
       <Link color='textSecondary' component={RouterLink} to='/contact' underline='none' variant='body1'>

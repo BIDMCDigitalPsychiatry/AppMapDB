@@ -8,7 +8,7 @@ import SearchHeaderRedux from './SearchHeaderRedux';
 import { useTheme } from '@material-ui/core';
 import useAppTableDataTest from './useAppTableDataTest';
 
-export default function AppsV2() {
+export default function Apps() {
   const [viewMode] = useViewMode() as any;
   const headerHeight = useHeaderHeight();
   const height = useHeight();

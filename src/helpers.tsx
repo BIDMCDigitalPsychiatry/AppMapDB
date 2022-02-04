@@ -4,6 +4,8 @@ import packageJson from '../package.json';
 import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
 import { format } from 'date-fns';
+import marked from 'marked';
+import DOMPurify from 'dompurify';
 
 export function hostAddress(append?) {
   return (
@@ -331,3 +333,17 @@ export const lineClamp = (purifiedHtml, lines) =>
 export function stripTags(str) {
   return isEmpty(str) ? '' : str.toString().replace(/(<([^>]+)>)/gi, '');
 }
+
+export const stripContent = content => '<p>' + stripTags(DOMPurify.sanitize(marked(isEmpty(content) ? '' : content)) ?? '') + '</p>';
+
+export const getFileName = file => {
+  return (file?.name ?? 'unknown').split(' ').join('_'); // Get filename and remove any spaces
+};
+
+export const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });

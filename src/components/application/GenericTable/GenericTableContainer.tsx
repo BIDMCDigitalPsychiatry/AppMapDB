@@ -8,7 +8,7 @@ import { evalFunc } from '../../../helpers';
 import { useHeight, useAppBarHeight } from '../../layout/store';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
 import { useLocation } from 'react-router';
-import { noPadPaths } from '../../layout/LayoutV2';
+import { noPadPaths } from '../../layout/Layout';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
 
@@ -33,6 +33,8 @@ export interface GenericTableContainerProps extends TabSelectorProps, GenericTab
   showScroll?: boolean;
   buttonPosition?: string;
   FilterContainer?: any;
+  GridItem?: any;
+  scrollElement?: HTMLElement; // for explore grid
 }
 
 const injectValues = (Component, { getValues, handleRefresh }) => <Component {...getValues()} handleRefresh={handleRefresh} />;

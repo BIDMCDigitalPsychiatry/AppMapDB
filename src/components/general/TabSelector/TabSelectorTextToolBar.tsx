@@ -92,7 +92,7 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
 
   React.useEffect(() => {
     if (tabToSelect === undefined) {
-      setTabSelector({ value: tabToSelect });
+      //setTabSelector({ value: tabToSelect });
     } else {
       isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
       tabToSelect && setTabSelector({ value: tabToSelect.id });

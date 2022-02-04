@@ -3,7 +3,7 @@ import Routes from './routes';
 import { ConnectedRouter } from 'connected-react-router';
 import { AppState } from '../../store';
 import { connect } from 'react-redux';
-import LayoutV2 from './LayoutV2';
+import Layout from './Layout';
 import useLogRocketUser from './useLogRocketUser';
 
 export interface AppRouterProps {
@@ -15,9 +15,9 @@ function AppRouter(props: AppRouterProps) {
   useLogRocketUser(); 
   return (
     <ConnectedRouter history={history}>
-      <LayoutV2>
+      <Layout>
         <Routes />
-      </LayoutV2>
+      </Layout>
     </ConnectedRouter>
   );
 }

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Card, CardContent, CardMedia, createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
-import marked from 'marked';
-import DOMPurify from 'dompurify';
-import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripTags } from '../../../helpers';
+import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../helpers';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { getAppCompany, getAppIcon, getAppName } from './Applications/selectors';
 import PlatformButtons from './ApplicationsSummary/PlatformButtons';
@@ -60,8 +58,6 @@ const useStyles = makeStyles(theme =>
     }
   })
 );
-
-const stripContent = content => '<p>' + stripTags(DOMPurify.sanitize(marked(isEmpty(content) ? '' : content)) ?? '') + '</p>';
 
 export default function ExploreGridItem(props: any) {
   const {

@@ -226,6 +226,7 @@ const DialogButton = React.forwardRef(function DialogButton(
 
   const handleClick = React.useCallback(
     event => {
+      event && event.stopPropagation && event.stopPropagation();
       setAnchorEl(event.currentTarget);
       onClick && onClick(event);
       handleUpdate();

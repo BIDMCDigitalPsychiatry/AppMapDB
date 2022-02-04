@@ -74,7 +74,7 @@ const BlogPostList = ({ category = 'News' }) => {
             ? [
                 {
                   label: 'Add new post',
-                  onClick: handleChangeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'create', values })),
+                  onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'create', values })),
                   startIcon: <PlusIcon fontSize='small' />
                 }
               ]

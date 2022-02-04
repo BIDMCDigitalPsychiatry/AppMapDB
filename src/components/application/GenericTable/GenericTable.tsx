@@ -43,7 +43,7 @@ export default function GenericTable(props: GenericTableProps) {
   const { layout } = useTheme() as any;
   const data = useSelector((state: AppState) => (selector ? selector(state, props) : Data));
   const length = data && data.length ? data.length : 0;
-  const height = footer ? Height - layout.tablefooterheight : Height;
+  const height = footer ? (Height ? Height - layout.tablefooterheight : Height) : Height;
 
   const VirtualComponent = isList ? VirtualList : isGrid ? ExploreGrid : VirtualTable;
 

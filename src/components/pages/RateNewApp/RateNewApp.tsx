@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RateNewAppCardV2, { title } from '../../application/GenericDialog/RateNewApp/RateNewAppCardV2';
+import RateNewAppCard, { title } from '../../application/GenericDialog/RateNewApp/RateNewAppCard';
 import { useDialogState } from '../../application/GenericDialog/useDialogState';
 
 export function RateExistingApp() {
@@ -16,10 +16,10 @@ export function RateExistingApp() {
     });
   }, [setState]);
 
-  return <RateNewAppCardV2 onClose={handleReset} />;
+  return <RateNewAppCard onClose={handleReset} />;
 }
 
-export default function RateNewAppV2(props) {
+export default function RateNewApp(props) {
   const [, setState] = useDialogState(title);
   React.useEffect(() => {
     setState({

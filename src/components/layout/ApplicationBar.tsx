@@ -11,7 +11,7 @@ import DialogButton, { renderDialogModule } from '../application/GenericDialog/D
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
-import TabSelectorToolBarV2 from '../general/TabSelector/TabSelectorToolBarV2';
+import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@material-ui/icons';
 import { useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
@@ -59,7 +59,7 @@ const useTabs = () => {
     { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
     { id: 'Admin', icon: Icons.Dashboard, route: '/Admin', routeState: { subRoute: 'pending' } },
     { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
-    { id: 'Community', icon: Icons.Forum, route: '/connect', routeState: { subRoute: 'list', category: 'News' }, onClick: handleClick }
+    { id: 'Community', icon: Icons.Forum, route: '/Community', routeState: { subRoute: 'list', category: 'News' }, onClick: handleClick }
   ].filter(t => t);
 };
 
@@ -70,15 +70,11 @@ const AppBarTabSelector = props => {
   const tabs = useTabs();
 
   return (
-    <TabSelectorToolBarV2
-      id={id}
-      tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
-      {...props}
-    />
+    <TabSelectorToolBar id={id} tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))} {...props} />
   );
 };
 
-export default function ApplicationBarV2({ trigger }) {
+export default function ApplicationBar({ trigger }) {
   const classes = useStyles();
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
   const [{ open: loginOpen }, setLoginState] = useDialogState(LoginDialog.title);

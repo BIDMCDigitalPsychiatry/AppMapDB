@@ -19,7 +19,7 @@ const BlogPostEdit = ({ values: Values }) => {
         buttons={[
           {
             label: 'Cancel',
-            onClick: handleChangeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'list' })),
+            onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'list' })),
             color: 'secondary'
           },
           {

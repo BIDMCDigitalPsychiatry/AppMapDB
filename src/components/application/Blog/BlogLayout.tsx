@@ -1,4 +1,3 @@
-import * as React from 'react';
 import BlogPostList from '../../pages/Blog/BlogPostList';
 import BlogPostDetails from '../../pages/Blog/BlogPostDetails';
 import BlogPostCreate from '../../pages/Blog/BlogPostCreate';
@@ -7,13 +6,21 @@ import BlogPostEdit from '../../pages/Blog/BlogPostEdit';
 import { Box, Divider } from '@material-ui/core';
 import BlogCalendar from '../../pages/Blog/BlogCalendar';
 import BlogLayoutSelector from './BlogLayoutSelector';
+import TeamMemberCreate from '../../pages/Team/TeamMemberCreate';
+import TeamMemberEdit from '../../pages/Team/TeamMemberEdit';
+import TeamMemberView from '../../pages/Team/TeamMemberView';
+import TeamList from '../../pages/Team/TeamList';
 
 const components = {
   create: BlogPostCreate,
   edit: BlogPostEdit,
   view: BlogPostDetails,
   list: BlogPostList,
-  calendar: BlogCalendar
+  calendar: BlogCalendar,
+  team: TeamList,
+  createTeamMember: TeamMemberCreate,
+  editTeamMember: TeamMemberEdit,
+  viewTeamMember: TeamMemberView
 };
 
 const BlogLayout = () => {

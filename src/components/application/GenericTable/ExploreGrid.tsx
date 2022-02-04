@@ -1,5 +1,6 @@
 import ExploreGridItem from './ExploreGridItem';
-import { VirtuosoGrid } from 'react-virtuoso';
+import { VirtuosoGrid } from '../../../react-virtuoso/src';
+//import {VirtuosoGrid} from 'react-virtuoso'
 import styled from '@emotion/styled';
 
 const ItemContainer = styled.div`
@@ -27,32 +28,32 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-export default function ExploreGrid({ data, height, ...other }) {
+export default function ExploreGrid({ data, height, GridItem = ExploreGridItem, scrollElement = undefined }) {  
   return (
-    <>
-      <VirtuosoGrid
-        totalCount={data.length}
-        style={{ height }}
-        overscan={20}
-        components={{
-          Item: ItemContainer,
-          List: ListContainer as any,
-          ScrollSeekPlaceholder: ({ height, width, index }) => (
-            <ItemContainer>
-              <ExploreGridItem>--</ExploreGridItem>
-            </ItemContainer>
-          )
-        }}
-        itemContent={index => {
-          const item = data[index] ?? {};
-          return item && item.getValues && <ExploreGridItem index={index} {...item.getValues()} />;
-        }}
-        scrollSeekConfiguration={{
-          enter: velocity => Math.abs(velocity) > 1200,
-          exit: velocity => Math.abs(velocity) < 30,
-          // change: (_, range) => console.log({ range })
-        }}
-      />
-    </>
+    <VirtuosoGrid
+      scrollElement={scrollElement}
+      totalCount={data.length}
+      style={{ height: scrollElement ? undefined : height }}
+      components={{
+        Item: ItemContainer,
+        List: ListContainer as any,
+        ScrollSeekPlaceholder: ({ height, width, index }) => (
+          <ItemContainer>
+            <ExploreGridItem>--</ExploreGridItem>
+          </ItemContainer>
+        )
+      }}
+      itemContent={index => {
+        const item = data[index] ?? {};
+        const values = item.getValues ? item.getValues() : item;        
+        return values && <GridItem index={index} {...values} />;
+      }}
+      /*scrollSeekConfiguration={{
+        enter: velocity => Math.abs(velocity) > 1200,
+        exit: velocity => Math.abs(velocity) < 30
+        // change: (_, range) => console.log({ range })
+      }}
+      */
+    />
   );
 }

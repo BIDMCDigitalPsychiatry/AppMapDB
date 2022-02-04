@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, createStyles, makeStyles, Typography, Link } from '@material-ui/core';
-import Logo from '../layout/Logo';
-import Questions from '../layout/Questions';
+import Logo from './Logo';
+import Questions from './Questions';
 import { useFooterHeightRef, useHandleChangeRoute } from './hooks';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import { useWidth } from './store';
@@ -30,11 +30,11 @@ const tabs = [
   { id: 'Find an APP', route: '/Home' },
   { id: 'App Library', route: '/Apps' },
   { id: 'Framework', route: '/FrameworkQuestions' },
-  { id: 'Community', route: '/connect' }
+  { id: 'Community', route: '/Community' }
   // { id: 'Privacy Policy', route: '/Apps' }
 ];
 
-export default function FooterV2({ variant = 'normal' }) {
+export default function Footer({ variant = 'normal' }) {
   const classes = useStyles();
   const fs = useFullScreen();
 

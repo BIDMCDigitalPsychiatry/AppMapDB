@@ -36,7 +36,7 @@ const BlogPostCard = ({
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(() => {
-    changeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'view', _id })); // Keep previous category for back button
+    changeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'view', _id })); // Keep previous category for back button
   }, [changeRoute, _id]);
 
   const { data: comments } = useCommentsByPostId({ postId: _id });

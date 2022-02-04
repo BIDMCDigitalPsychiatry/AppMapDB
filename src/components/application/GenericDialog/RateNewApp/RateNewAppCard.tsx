@@ -4,12 +4,14 @@ import Application from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
 import { uuid, publicUrl } from '../../../../helpers';
-import GenericStepperCard from '../GenericCardStepper';
+import GenericStepper from '../GenericStepper';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 import { useSelector } from 'react-redux';
+import { Box } from '@material-ui/core';
+import { useAppData } from '../../GenericTable/Applications/selectors';
 
-export const title = 'Rate an App';
+export const title = 'Rate an App V2';
 
 export interface ComponentProps {
   id?: string;
@@ -18,10 +20,12 @@ export interface ComponentProps {
 
 export default function RateNewAppCard({ id = title, onClose }: ComponentProps) {
   const [{ type }, setDialogState] = useDialogState(id);
-  const [_steps, setSteps] = React.useState(steps(type));
+  const data = useAppData('');
+  const [_steps, setSteps] = React.useState(steps(type, data));
   React.useEffect(() => {
-    setSteps(steps(type));
-  }, [type]);
+    setSteps(steps(type, data));
+    // eslint-disable-next-line
+  }, [type, JSON.stringify(data)]);
 
   const processData = useProcessData();
   const changeRoute = useChangeRoute();
@@ -29,7 +33,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
   const uid = useSelector((s: any) => s.layout.user?.username);
 
-  const handleProcessData = (values, Action, handleReset = undefined, draft = false) => {
+  const handleProcessData = (values, Action, handleReset = undefined, draft = undefined) => {
     const application: Application = values[tables.applications];
     const timestamp = new Date().getTime();
 
@@ -50,14 +54,14 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
       onSuccess: () => {
         handleReset && handleReset();
-        changeRoute(publicUrl('/Apps'));
+        changeRoute(publicUrl('/MyRatings'));
         handleClose();
       }
     });
   };
 
-  const handleSubmit = (values, handleReset) => {
-    handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset, false);
+  const handleSubmit = (values, handleReset, draft) => {
+    handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset, draft);
   };
   const handleDelete = values => handleProcessData(values, 'd');
 
@@ -66,5 +70,9 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
     onClose && onClose();
   }, [setDialogState, onClose]);
 
-  return <GenericStepperCard id={id} title={title} onSubmit={handleSubmit} onDelete={handleDelete} steps={_steps} onClose={onClose} open={true} />;
+  return (
+    <Box mb={1}>
+      <GenericStepper id={id} title={title} onSubmit={handleSubmit} onDelete={handleDelete} steps={_steps} onClose={onClose} open={true} />;
+    </Box>
+  );
 }

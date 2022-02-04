@@ -70,7 +70,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   })
 );
 
-export default function FrameworkQuestionsV2() {
+export default function FrameworkQuestions() {
   const classes = useStyles();
   var sm = useFullScreen('sm');
   const theme = useTheme();
