@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from '@material-ui/core';
-import { useHeight } from '../../layout/store';
+import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 const DialogTableContent = ({ Table, breakpoint = 'sm' as any, toolbar = true, square = true, elevation = 0, ...other }) => {
   const theme = useTheme();

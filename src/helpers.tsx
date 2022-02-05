@@ -1,4 +1,3 @@
-import { AppState } from './store';
 import { theme, adminTheme } from './constants';
 import packageJson from '../package.json';
 import { useAdminMode } from './components/layout/store';
@@ -44,14 +43,6 @@ export function printHeader() {
 `,
     'font-family:monospace;color:' + theme.palette.primary.main + ';font-size:12px;'
   );
-}
-
-export function getViewPortHeight(state: AppState) {
-  return state.layout.height;
-}
-
-export function getLayoutHeight(state: AppState) {
-  return getViewPortHeight(state);
 }
 
 export const setIfEmpty = value => (value === undefined || value === null ? '' : value);

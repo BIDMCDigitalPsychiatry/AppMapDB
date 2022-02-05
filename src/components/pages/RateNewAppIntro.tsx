@@ -4,7 +4,7 @@ import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import { useSignedIn } from '../../hooks';
 import ReactPlayer from 'react-player';
-import { useWidth } from '../layout/store';
+import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const contentPath = require('../../content/zoom_0.mp4').default;
 

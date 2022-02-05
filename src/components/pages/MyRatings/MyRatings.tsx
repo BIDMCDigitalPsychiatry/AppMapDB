@@ -1,8 +1,9 @@
 import * as React from 'react';
 import RateAnAppHeader from '../RateAnAppHeader';
 import { useTheme } from '@material-ui/core';
-import { useHeaderHeight, useHeight } from '../../layout/store';
+import { useHeaderHeight } from '../../layout/store';
 import MyAppRatings from './MyAppRatings';
+import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 export default function MyRatings() {
   const [showArchived, setShowArchived] = React.useState(false);

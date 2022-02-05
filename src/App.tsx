@@ -6,7 +6,6 @@ import configureStore from './storeConfig';
 import { createBrowserHistory } from 'history';
 import { AppState } from './store';
 import { persistStore } from 'redux-persist';
-import ViewPort from './components/layout/ViewPort';
 import AppRouter from './components/layout/AppRouter';
 import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -16,6 +15,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import LogRocket from 'logrocket';
 import pkg from '../package.json';
+import ViewPort from './components/layout/ViewPort/ViewPort';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.

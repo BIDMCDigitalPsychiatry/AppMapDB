@@ -4,7 +4,8 @@ import Drawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
 import LeftDrawerContent from './LeftDrawerContent';
 import { useFullScreen } from '../../hooks';
-import { useAppBarHeight, useHeight, useLeftDrawer } from './store';
+import { useAppBarHeight, useLeftDrawer } from './store';
+import useHeight from './ViewPort/hooks/useHeight';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({

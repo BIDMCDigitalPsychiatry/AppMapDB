@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '../../../store';
 import TabSelector, { TabSelectorItem } from '../../general/TabSelector/TabSelector';
+import useOrientation from '../../layout/ViewPort/hooks/useOrientation';
 
 export interface ComponentProps {
   name?: string; //Unique name
@@ -12,16 +12,10 @@ export interface ComponentProps {
   classes?: any;
 }
 
-const TableTabSelector = ({ tabs, tab, orientation }: ComponentProps) => <TabSelector tab={tab} tabs={tabs} orientation={orientation} />;
-
-const mapStateToProps = (state: AppState, ownProp: ComponentProps): ComponentProps => {
-  const storeTable = state.table[ownProp.name];
-  return {
-    ...ownProp,
-    name: ownProp.name,
-    tab: ownProp.tab || (storeTable && storeTable.tab), //Use provide value, then store value or default to 'All' if neither are provided
-    orientation: state.layout.height > state.layout.width ? 'potrait' : 'landscape'
-  };
+const TableTabSelector = ({ name, tabs, tab }: ComponentProps) => {
+  const orientation = useOrientation();
+  const storeTab = useSelector((state: AppState) => state.table[name]?.tab);
+  return <TabSelector tab={tab || storeTab} tabs={tabs} orientation={orientation} />;
 };
 
-export default connect(mapStateToProps)(TableTabSelector);
+export default TableTabSelector;

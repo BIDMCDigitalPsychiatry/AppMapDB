@@ -11,8 +11,6 @@ import { homepage } from '../../../package.json';
 export type ViewMode = 'table' | 'grid';
 
 export interface State {
-  height?: number;
-  width?: number;
   appBarHeight?: number;
   footerHeight?: number;
   headerHeight?: number;
@@ -22,8 +20,6 @@ export interface State {
 }
 
 const defaultState = {
-  width: 0,
-  height: 0,
   appBarHeight: (theme as any).layout.toolbarheight,
   footerHeight: (theme as any).layout.footerHeight,
   headerHeight: (theme as any).layout.headerHeight,
@@ -34,7 +30,6 @@ const defaultState = {
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
-const resizeViewPort = (height: number | undefined, width: number | undefined) => ({ type: 'RESIZE_VIEWPORT', height: height, width: width });
 const resizeAppBar = (height: number | undefined) => ({ type: 'RESIZE_APPBAR', height });
 const resizeFooter = (height: number | undefined) => ({ type: 'RESIZE_FOOTER', height });
 const resizeHeader = (height: number | undefined) => ({ type: 'RESIZE_HEADER', height });
@@ -72,12 +67,6 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
       return {
         ...state,
         ...action.payload
-      };
-    case 'RESIZE_VIEWPORT':
-      return {
-        ...state,
-        height: action.height,
-        width: action.width
       };
     case 'CHANGE_VIEW_MODE':
       return {
@@ -129,23 +118,6 @@ export const useFooterHeight = (): number => {
 
 export const useHeaderHeight = (): number => {
   return useSelector((state: AppState) => state.layout.headerHeight);
-};
-
-export const useResizeViewPort = () => {
-  const dispatch = useDispatch();
-  return React.useCallback((height, width) => dispatch(resizeViewPort(height, width)), [dispatch]);
-};
-
-export const useHeight = (): number => {
-  return useSelector((state: AppState) => state.layout.height);
-};
-
-export const useWidth = (): number => {
-  return useSelector((state: AppState) => state.layout.width);
-};
-
-export const useDimensions = () => {
-  return [useHeight(), useWidth()];
 };
 
 export const useRouteState = () => {

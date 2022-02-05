@@ -10,7 +10,7 @@ import { useHeaderHeightRef } from '../layout/hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
 import { categories } from '../../constants';
-import { useWidth } from '../layout/store';
+import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const padding = 32;
 const spacing = 1;

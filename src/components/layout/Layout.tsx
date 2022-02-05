@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { makeStyles, createStyles, useScrollTrigger } from '@material-ui/core';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useAppBarHeight, useFooterHeight, useHeight, useLeftDrawer } from './store';
+import { useAppBarHeight, useFooterHeight, useLeftDrawer } from './store';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import { useLocation } from 'react-router';
@@ -11,6 +11,7 @@ import { useUrlParameter } from '../../hooks';
 import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
+import useHeight from './ViewPort/hooks/useHeight';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({

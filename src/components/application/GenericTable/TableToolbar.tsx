@@ -2,12 +2,13 @@ import * as React from 'react';
 import { Grid, Paper, Input, Tooltip } from '@material-ui/core';
 import { FormControl, InputAdornment, IconButton, Typography } from '@material-ui/core';
 import { useTable, useTableUpdate } from './store';
-import { useWidth } from '../../layout/store';
 import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
 import * as Icons from '@material-ui/icons';
 import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import { useFullScreen } from '../../../hooks';
+import useWidth from '../../layout/ViewPort/hooks/useWidth';
+
 
 export interface TableToolbarProps {
   name?: string;

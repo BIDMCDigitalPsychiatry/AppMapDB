@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { createStyles, Grid, IconButton, Link, makeStyles, Paper, Typography } from '@material-ui/core';
-import { useWidth } from '../layout/store';
 import Carousel from 'react-elastic-carousel';
 import * as Icons from '@material-ui/icons';
 import { grey } from '@material-ui/core/colors';
+import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const Arrow = ({ type, onClick }) => {
   const Icon = type === 'PREV' ? Icons.NavigateBefore : Icons.NavigateNext;

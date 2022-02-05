@@ -9,7 +9,7 @@ import FilterButton from './FilterButton';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import { useHandleExport } from '../../../../database/hooks';
 import { useIsAdmin } from '../../../../hooks';
-import { useWidth } from '../../../layout/store';
+import useWidth from '../../../layout/ViewPort/hooks/useWidth';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;

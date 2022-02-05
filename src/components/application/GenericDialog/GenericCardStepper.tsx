@@ -27,7 +27,8 @@ import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
 import ErrorGate from './ErrorGate';
-import { useAppBarHeight, useHeight } from '../../layout/store';
+import { useAppBarHeight } from '../../layout/store';
+import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -235,7 +236,7 @@ const GenericStepperCard = ({
   var calculatedheight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 
   if (title === null) {
-    calculatedheight = calculatedheight + 54 ; // Adjustment if title/header is hidden
+    calculatedheight = calculatedheight + 54; // Adjustment if title/header is hidden
   }
 
   return (

@@ -4,7 +4,7 @@ import Logo from './Logo';
 import Questions from './Questions';
 import { useFooterHeightRef, useHandleChangeRoute } from './hooks';
 import { useFullScreen, useIsAdmin } from '../../hooks';
-import { useWidth } from './store';
+import useWidth from './ViewPort/hooks/useWidth';
 
 const spacing = 3;
 
@@ -85,8 +85,8 @@ export default function Footer({ variant = 'normal' }) {
             {!fs && (
               <Grid item xs={7} zeroMinWidth>
                 <Typography noWrap align='center'>
-                  <Link href='https://www.argosyfnd.org/' variant='caption' target='_blank' color='inherit'>                    
-                    This website is mode possible by support from the Argosy Foundation                    
+                  <Link href='https://www.argosyfnd.org/' variant='caption' target='_blank' color='inherit'>
+                    This website is mode possible by support from the Argosy Foundation
                   </Link>
                 </Typography>
               </Grid>

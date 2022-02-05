@@ -5,10 +5,11 @@ import { GenericTableProps } from './GenericTable';
 import TableTabSelector from './TableTabSelector';
 import { Paper, CircularProgress, useTheme } from '@material-ui/core';
 import { evalFunc } from '../../../helpers';
-import { useHeight, useAppBarHeight } from '../../layout/store';
+import { useAppBarHeight } from '../../layout/store';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
 import { useLocation } from 'react-router';
 import { noPadPaths } from '../../layout/Layout';
+import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
 

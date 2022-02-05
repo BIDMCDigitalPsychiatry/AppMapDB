@@ -6,7 +6,7 @@ import QuestionSample from './QuestionSample';
 import * as ExploreQuestionsDialog from '../../application/GenericDialog/ExploreQuestions';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import ReactPlayer from 'react-player';
-import { useWidth } from '../../layout/store';
+import useWidth from '../../layout/ViewPort/hooks/useWidth';
 const videoPath = require('../../../content/zoom_1.mp4').default;
 const videoPath2 = require('../../../content/zoom_0.mp4').default;
 

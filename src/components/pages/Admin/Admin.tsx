@@ -1,8 +1,9 @@
 import { Box, Divider, useTheme } from '@material-ui/core';
-import { useHeaderHeight, useHeight, useRouteState } from '../../layout/store';
+import { useHeaderHeight, useRouteState } from '../../layout/store';
 import AdminLayoutSelector from './AdminLayoutSelector';
 import AdminPendingApprovals from './AdminPendingApprovals';
 import { Surveys } from '../../application/GenericTable/Surveys/table';
+import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 export default function Admin() {
   const headerHeight = useHeaderHeight();
