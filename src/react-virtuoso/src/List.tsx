@@ -173,14 +173,21 @@ export const Items = React.memo(function VirtuosoItems({ showTopList = false }: 
   const scrollElement = useEmitterValue('scrollElement')
   const windowScrollContainerStateCallback = usePublisher('windowScrollContainerState')
   const _scrollContainerStateCallback = usePublisher('scrollContainerState')
-  const scrollContainerStateCallback = (scrollElement || useWindowScroll) ? windowScrollContainerStateCallback : _scrollContainerStateCallback
+  const scrollContainerStateCallback = scrollElement || useWindowScroll ? windowScrollContainerStateCallback : _scrollContainerStateCallback
   const itemContent = useEmitterValue('itemContent')
   const groupContent = useEmitterValue('groupContent')
   const trackItemSizes = useEmitterValue('trackItemSizes')
   const itemSize = useEmitterValue('itemSize')
   const log = useEmitterValue('log')
 
-  const ref = useChangedListContentsSizes(sizeRanges, itemSize, trackItemSizes, showTopList ? noop : scrollContainerStateCallback, log, scrollElement)
+  const ref = useChangedListContentsSizes(
+    sizeRanges,
+    itemSize,
+    trackItemSizes,
+    showTopList ? noop : scrollContainerStateCallback,
+    log,
+    scrollElement
+  )
   const EmptyPlaceholder = useEmitterValue('EmptyPlaceholder')
   const ScrollSeekPlaceholder = useEmitterValue('ScrollSeekPlaceholder') || DefaultScrollSeekPlaceholder
   const ListComponent = useEmitterValue('ListComponent')!
@@ -209,7 +216,7 @@ export const Items = React.memo(function VirtuosoItems({ showTopList = false }: 
   return createElement(
     ListComponent,
     { ref, style: containerStyle, 'data-test-id': showTopList ? 'virtuoso-top-item-list' : 'virtuoso-item-list' },
-    (showTopList ? listState.topItems : listState.items).map((item :any) => {
+    (showTopList ? listState.topItems : listState.items).map((item: any) => {
       const index = item.originalIndex!
       const key = computeItemKey(index + firstItemIndex, item.data)
 
@@ -347,7 +354,7 @@ export function buildWindowScroller({ usePublisher, useEmitter, useEmitterValue 
       scrollElement
     )
 
-    useIsomorphicLayoutEffect(() => {      
+    useIsomorphicLayoutEffect(() => {
       scrollerRef.current = scrollElement ? scrollElement : window
       return () => {
         scrollerRef.current = null
@@ -404,8 +411,8 @@ const ListRoot: FC<ListRootProps> = React.memo(function VirtuosoRoot(props) {
   const useWindowScroll = useEmitterValue('useWindowScroll')
   const showTopList = useEmitterValue('topItemsIndexes').length > 0
   const scrollElement = useEmitterValue('scrollElement')
-  const TheScroller = (scrollElement || useWindowScroll) ? WindowScroller : Scroller
-  const TheViewport = (scrollElement || useWindowScroll) ? WindowViewport : Viewport
+  const TheScroller = scrollElement || useWindowScroll ? WindowScroller : Scroller
+  const TheViewport = scrollElement || useWindowScroll ? WindowViewport : Viewport
   return (
     <TheScroller {...props}>
       <TheViewport>

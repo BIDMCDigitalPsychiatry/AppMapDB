@@ -91,7 +91,7 @@ export const followOutputSystem = u.system(
         u.withLatestFrom(followOutput, totalCount)
       ),
       ([, followOutput]) => {
-        const cancel = u.handleNext(atBottomState, (state:any) => {
+        const cancel = u.handleNext(atBottomState, (state: any) => {
           if (followOutput && !state.atBottom && state.notAtBottomBecause === 'SIZE_INCREASED' && !pendingScrollHandle) {
             u.getValue(log)('scrolling to bottom due to increased size', {}, LogLevel.DEBUG)
             scrollToBottom('auto')
@@ -101,7 +101,7 @@ export const followOutputSystem = u.system(
       }
     )
 
-    u.subscribe(u.combineLatest(u.duc(followOutput), atBottomState), ([followOutput, state] :any) => {
+    u.subscribe(u.combineLatest(u.duc(followOutput), atBottomState), ([followOutput, state]: any) => {
       if (followOutput && !state.atBottom && state.notAtBottomBecause === 'VIEWPORT_HEIGHT_DECREASING') {
         scrollToBottom('auto')
       }

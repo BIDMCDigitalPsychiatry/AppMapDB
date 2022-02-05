@@ -1,17 +1,18 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { useSizeWithElRef } from './useSize'
 import { WindowViewportInfo } from '../interfaces'
+import useResizeObserver from './useResizeObserver'
 
 const getScrollElementInfo = (element: HTMLElement, scrollElement: HTMLElement) => {
   const rect = element.getBoundingClientRect()
   const seRect = scrollElement.getBoundingClientRect()
-  var deltaTop = rect.top - seRect.top  
+  const deltaTop = rect.top - seRect.top
   return {
     offsetTop: deltaTop + scrollElement.scrollTop,
-    visibleHeight: seRect.height - Math.max(0, deltaTop),
-    visibleWidth: rect.width
+    visibleHeight: Math.max(0, seRect.height - Math.max(0, deltaTop)),
+    visibleWidth: rect.width,
   }
-} 
+}
 
 export default function useWindowViewportRectRef(callback: (info: WindowViewportInfo) => void, scrollElement?: HTMLElement) {
   const viewportInfo = useRef<WindowViewportInfo | null>(null)
@@ -22,15 +23,17 @@ export default function useWindowViewportRectRef(callback: (info: WindowViewport
         return
       }
       const rect = element.getBoundingClientRect()
-      const visibleHeight = window.innerHeight - Math.max(0, rect.top)
+      const visibleHeight = Math.max(0, window.innerHeight - Math.max(0, rect.top))
 
       const visibleWidth = rect.width
       const offsetTop = rect.top + window.pageYOffset
-      viewportInfo.current = scrollElement ? getScrollElementInfo(element, scrollElement) : {
-        offsetTop,
-        visibleHeight,
-        visibleWidth,
-      }
+      viewportInfo.current = scrollElement
+        ? getScrollElementInfo(element, scrollElement)
+        : {
+            offsetTop,
+            visibleHeight,
+            visibleWidth,
+          }
       callback(viewportInfo.current)
     },
     [callback, scrollElement]
@@ -42,14 +45,15 @@ export default function useWindowViewportRectRef(callback: (info: WindowViewport
     calculateInfo(ref.current)
   }, [calculateInfo, ref])
 
-  useEffect(() => {    
-    var element = scrollElement ? scrollElement : window
+  useResizeObserver(scrollElement, windowEH) // resize events do not trigger on elements so use an observer
+  useEffect(() => {
+    const element = scrollElement ? scrollElement : window
 
     element?.addEventListener('scroll', windowEH)
-    element?.addEventListener('resize', windowEH)
-    return () => {      
+    !scrollElement && window.addEventListener('resize', windowEH)
+    return () => {
       element?.removeEventListener('scroll', windowEH)
-      element?.removeEventListener('resize', windowEH)
+      !scrollElement && window.removeEventListener('resize', windowEH)
     }
   }, [windowEH, scrollElement])
 

@@ -42,7 +42,7 @@ export default function useScrollTop(
     [scrollContainerStateCallback, smoothScrollTargetReached]
   )
 
-  useEffect(() => {    
+  useEffect(() => {
     const localRef = scrollElement ? scrollElement : scrollerRef.current!
 
     scrollerRefCallback(scrollElement ? scrollElement : scrollerRef.current)

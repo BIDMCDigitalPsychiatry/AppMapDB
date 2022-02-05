@@ -42,61 +42,22 @@ export const sizeRangeSystem = u.system(
           u.duc(scrollTop),
           u.duc(viewportHeight),
           u.duc(headerHeight),
-          u.duc(listBoundary, tupleComparator),
           u.duc(overscan),
-          u.duc(topListHeight),
           u.duc(fixedHeaderHeight),
           u.duc(deviation),
           u.duc(increaseViewportBy)
         ),
-        u.map(
-          ([
-            scrollTop,
-            viewportHeight,
-            headerHeight,
-            [listTop, listBottom],
-            overscan,
-            topListHeight,
-            fixedHeaderHeight,
-            deviation,
-            increaseViewportBy,
-          ]) => {
-            const top = scrollTop - deviation
-            const stickyHeaderHeight = topListHeight + fixedHeaderHeight
-            const headerVisible = Math.max(headerHeight - top, 0)
-            let direction: ChangeDirection = NONE
-            const topViewportAddition = getViewportIncrease(increaseViewportBy, TOP)
-            const bottomViewportAddition = getViewportIncrease(increaseViewportBy, BOTTOM)
-
-            listTop -= deviation
-            listTop += headerHeight
-            listBottom += headerHeight
-            listBottom -= deviation
-
-            if (listTop > scrollTop + stickyHeaderHeight - topViewportAddition) {
-              direction = UP
-            }
-
-            if (listBottom < scrollTop - headerVisible + viewportHeight + bottomViewportAddition) {
-              direction = DOWN
-            }
-
-            if (direction !== NONE) {
-              return [
-                Math.max(top - headerHeight - getOverscan(overscan, TOP, direction) - topViewportAddition, 0),
-                top -
-                  headerVisible -
-                  fixedHeaderHeight +
-                  viewportHeight +
-                  getOverscan(overscan, BOTTOM, direction) +
-                  bottomViewportAddition,
-              ] as NumberTuple
-            }
-
-            return null
-          }
-        ),
-        u.filter((value) => value != null),
+        u.map(([scrollTop, viewportHeight, headerHeight, overscan, fixedHeaderHeight, deviation, increaseViewportBy]) => {
+          const top = scrollTop - deviation
+          const headerVisible = Math.max(headerHeight - top, 0)
+          let direction: ChangeDirection = NONE
+          const topViewportAddition = getViewportIncrease(increaseViewportBy, TOP)
+          const bottomViewportAddition = getViewportIncrease(increaseViewportBy, BOTTOM)
+          return [
+            Math.max(top - headerHeight - getOverscan(overscan, TOP, direction) - topViewportAddition, 0),
+            top - headerVisible - fixedHeaderHeight + viewportHeight + getOverscan(overscan, BOTTOM, direction) + bottomViewportAddition,
+          ]
+        }),
         u.distinctUntilChanged(tupleComparator as any)
       ),
       [0, 0]
