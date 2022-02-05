@@ -261,7 +261,7 @@ const GenericDialog = ({
       </ErrorGate>
       {dialogActions && !confirmDelete && (
         <DialogActions className={classes.actions}>
-          {type === 'Edit' && onDelete !== undefined && (
+          {type?.toLowerCase() === 'edit' && onDelete !== undefined && (
             <Button disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
               {deleteLabel}
             </Button>

@@ -32,7 +32,8 @@ export const useSurveyExport = table => {
     ...surveyQuestionKeys.map(name => ({ name })),
     { name: 'created' },
     { name: 'updated' },
-    { name: '_id' }
+    { name: 'deleted' },
+    { name: '_id' }    
   ];
 
   var data = surveys

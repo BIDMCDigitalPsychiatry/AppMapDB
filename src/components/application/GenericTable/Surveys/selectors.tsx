@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AppState } from '../../../../store';
 import Application from '../../../../database/models/Application';
-import { isEmpty, getDayTimeFromTimestamp, sortDescending } from '../../../../helpers';
+import { isEmpty, getDayTimeFromTimestamp, sortDescending, getSurveyEmail } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { dynamo, tables } from '../../../../database/dbConfig';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
@@ -54,9 +54,8 @@ export const useSurveyData = table => {
   const [, setRows] = useSurveys();
   const [, setReminderRows] = useSurveyReminders();
 
-  // Load data from the database
-  React.useEffect(() => {
-    const getItems = async () => {
+  const handleRefresh = React.useCallback(() => {
+    const getSurveys = async () => {
       let scanResults = [];
       let items;
       var params = {
@@ -75,12 +74,7 @@ export const useSurveyData = table => {
         }, {})
       );
     };
-    getItems();
-  }, [setRows]);
-
-  // Load data from the database
-  React.useEffect(() => {
-    const getItems = async () => {
+    const getReminders = async () => {
       let scanResults = [];
       let items;
       var params = {
@@ -99,8 +93,14 @@ export const useSurveyData = table => {
         }, {})
       );
     };
-    getItems();
-  }, [setReminderRows]);
+    getSurveys();
+    getReminders();
+  }, [setReminderRows, setRows]);
+
+  // Load data from the database
+  React.useEffect(() => {
+    handleRefresh();
+  }, [handleRefresh]);
 
   var data = surveys
     ? Object.keys(surveys).map(k => {
@@ -145,12 +145,16 @@ export const useSurveyData = table => {
             return Object.keys(searchableProps).reduce((f, c) => (f = [f, searchableProps[c]].join(' ')), ''); // Optimize search performance
           },
           getValues: () => ({ ...survey, followUpCompleted, surveyType, lastReminderSent }),
-          email: survey['What is the best email address we can reach you at?'],
+          email: getSurveyEmail(survey),
           created: survey.created,
-          updated: survey.updated
+          updated: survey.updated,
+          deleted: survey.deleted
         };
       })
     : [];
 
-  return useTableFilter(data, table);
+  return {
+    data: useTableFilter(data, table),
+    handleRefresh
+  };
 };

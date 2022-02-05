@@ -347,3 +347,5 @@ export const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
   });
+
+export const getSurveyEmail = survey => survey['What is the best email address we can reach you at?'];
