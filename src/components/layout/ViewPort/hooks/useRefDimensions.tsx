@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useResizeObserver from '../../../../react-virtuoso/src/hooks/useResizeObserver';
+import useResizeObserver from '../../../../utils/useResizeObserver';
 
 const getDimensions = ({ contentRect }) => ({
   height: contentRect.height,

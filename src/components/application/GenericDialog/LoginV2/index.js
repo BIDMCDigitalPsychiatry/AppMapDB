@@ -29,10 +29,10 @@ const handleValidation = ({ message }, dialogState) => {
   return errors;
 };
 
-const ForgotPassword = ({ value = false, onChange }) => {
+const ForgotPassword = ({ value = false, onChange, disabled }) => {
   const handleClick = () => onChange({ target: { value: !value } });
   return (
-    <DialogButton color='white' variant='link' tooltip='' onClick={handleClick}>
+    <DialogButton color='white' variant='link' tooltip='' disabled={disabled} onClick={handleClick}>
       {value ? 'Back' : 'Forgot Password'}
     </DialogButton>
   );
@@ -82,9 +82,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
 
   const classes = useStyles();
   const fs = useFullScreen('sm');
-
   const [state, setState] = useDialogState(title);
-
   const { enterNewPassword, errors } = state;
   const dialogStateStr = JSON.stringify(state);
   const setUser = useSetUser();
@@ -92,6 +90,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   const handleLogin = React.useCallback(
     ({ forgotPassword, confirmationCode, newPassword, email, password } = {}) =>
       () => {
+        setState(prev => ({ ...prev, loading: true, errors: {} }));
         if (forgotPassword) {
           if (enterNewPassword) {
             Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
@@ -183,7 +182,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
               </Grid>
             </Grid>
             <Grid item xs={12} style={{ textAlign: 'center' }}>
-              <Button onClick={handleLogin(values)} className={classes.primaryButton}>
+              <Button disabled={state.loading} onClick={handleLogin(values)} className={classes.primaryButton}>
                 {submitLabel}
               </Button>
             </Grid>
@@ -202,6 +201,8 @@ export default function LoginDialog({ id = title }) {
   const { enterNewPassword } = dialogState;
 
   const fs = useFullScreen('sm');
+
+  const { loading: disabled } = dialogState;
 
   return (
     <GenericDialog
@@ -229,7 +230,8 @@ export default function LoginDialog({ id = title }) {
           hidden: enterNewPassword,
           InputProps: {
             style: { background: 'white' }
-          }
+          },
+          disabled
         },
         {
           id: 'password',
@@ -242,7 +244,8 @@ export default function LoginDialog({ id = title }) {
           hidden: values => values.forgotPassword || enterNewPassword,
           InputProps: {
             style: { background: 'white' }
-          }
+          },
+          disabled
         },
         {
           id: 'forgotPasswordLabel',
@@ -256,7 +259,8 @@ export default function LoginDialog({ id = title }) {
           label: 'Forgot Password',
           Field: ForgotPassword,
           initialValue: false,
-          hidden: enterNewPassword
+          hidden: enterNewPassword,
+          disabled
         },
         {
           id: 'confirmationCode',
@@ -267,7 +271,8 @@ export default function LoginDialog({ id = title }) {
           initialValue: '',
           InputProps: {
             style: { background: 'white' }
-          }
+          },
+          disabled
         },
         {
           id: 'newPassword',
@@ -280,7 +285,8 @@ export default function LoginDialog({ id = title }) {
           hidden: !enterNewPassword,
           InputProps: {
             style: { background: 'white' }
-          }
+          },
+          disabled
         }
       ]}
     />
