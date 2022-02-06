@@ -1,6 +1,6 @@
 {
   "name": "app-map-db",
-  "version": "1.5.6",
+  "version": "1.5.7",
   "private": true,
   "homepage": "https://mindapps.org",
   "enableLogRocket": true,
@@ -72,7 +72,7 @@
     "react-scripts": "4.0.3",
     "react-swipeable-views": "0.13.9",
     "react-virtualized": "9.21.2",
-    "react-virtuoso": "2.5.2",
+    "react-virtuoso": "2.6.0",
     "redux": "4.1.0",
     "redux-persist": "6.0.0",
     "redux-thunk": "2.3.0",

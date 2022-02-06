@@ -1,6 +1,5 @@
 import ExploreGridItem from './ExploreGridItem';
-import { VirtuosoGrid } from '../../../react-virtuoso/src';
-//import {VirtuosoGrid} from 'react-virtuoso'
+import {VirtuosoGrid} from 'react-virtuoso'
 import styled from '@emotion/styled';
 
 const ItemContainer = styled.div`
@@ -31,7 +30,7 @@ const ListContainer = styled.div`
 export default function ExploreGrid({ data, height, GridItem = ExploreGridItem, scrollElement = undefined }) {  
   return (
     <VirtuosoGrid
-      scrollElement={scrollElement}
+      customScrollParent={scrollElement}
       totalCount={data.length}
       style={{ height: scrollElement ? undefined : height }}
       components={{
