@@ -5,10 +5,12 @@ import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import MultiFeatureSelect from '../application/DialogField/MultiFeatureSelect';
 import { Features } from '../../database/models/Application';
-import { useHandleChangeRoute } from '../layout/hooks';
+import { useChangeRoute, useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import SearchHeader from './SearchHeader';
 import ArrowButton from '../general/ArrowButton';
+import { internalKeys } from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
+import { useTableValues } from '../application/GenericTable/store';
 
 const padding = 32;
 const spacing = 1;
@@ -210,9 +212,32 @@ export default function Home() {
     </Grid>
   );
 
+  const [, setValues] = useTableValues('Applications');
+
+  // Sets the associated values in the redux store
+  const setTableState = React.useCallback(() => {
+    const { searchtext, ...filters } = state;
+    var filteredFilters = Object.keys(filters)
+      .filter(k => !internalKeys.includes(k))
+      .reduce((o, k) => {
+        o[k] = filters[k];
+        return o;
+      }, {});
+
+    setValues({ searchtext, filters: filteredFilters });
+    // eslint-disable-next-line
+  }, [setValues, JSON.stringify(state)]);
+
+  const changeRoute = useChangeRoute();
+
+  const handleSearch = React.useCallback(() => {
+    setTableState();
+    changeRoute(publicUrl('/Apps'));
+  }, [changeRoute, setTableState]);
+
   return (
     <>
-      <SearchHeader title='Explore relevant apps and reviews' state={state} setState={setState} />
+      <SearchHeader title='Explore relevant apps and reviews' handleSearch={handleSearch} state={state} setState={setState} />
       {FeatureSection}
       {Cards}
     </>

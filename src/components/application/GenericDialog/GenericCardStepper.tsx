@@ -27,8 +27,6 @@ import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
 import ErrorGate from './ErrorGate';
-import { useAppBarHeight } from '../../layout/store';
-import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -36,7 +34,9 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       display: 'flex',
       flexDirection: 'column',
       outline: 'none',
-      border: `5px solid ${palette.primary}`
+      border: `5px solid ${palette.primary}`,
+      color: 'inherit',
+      background: 'inherit'
     },
     capitalize: {
       textTransform: 'capitalize'
@@ -109,7 +109,7 @@ export interface ComponentProps {
   elevation?: any;
 }
 
-const contentPaddingTop = 20;
+const contentPaddingTop = 8;
 
 const GenericStepperCard = ({
   id,
@@ -126,6 +126,7 @@ const GenericStepperCard = ({
   onDelete,
   onClose,
   validate,
+  height: Height = undefined,
   fullHeight = true,
   values: externalValues,
   setValues: externalSetValues,
@@ -137,7 +138,8 @@ const GenericStepperCard = ({
   disableInitialize = undefined,
   ...other
 }: ComponentProps & any) => {
-  const { layout } = useTheme() as any;
+  const theme = useTheme() as any;
+  const { layout } = theme;
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [state, setState] = useDialogState(id);
@@ -216,29 +218,6 @@ const GenericStepperCard = ({
   const inProgress = loading || submitting;
   const disabled = inProgress || errors['loading'];
 
-  const height = useHeight();
-  const appBarHeight = useAppBarHeight();
-
-  const componentsOnPage = [
-    appBarHeight,
-    layout.contentpadding * 2, // Top and bottom inner content padding
-    54, // Header height
-    1, // Header divider
-    1, // Title divider
-    //16, // Top and bottom dialog content padding
-    contentPaddingTop,
-    8, // Bottom dialog content padding
-    48, // Stepper info bar height
-    56, // Actions height
-    layout.footerheight
-  ];
-
-  var calculatedheight = height - componentsOnPage.reduce((t, c) => t + c, 0);
-
-  if (title === null) {
-    calculatedheight = calculatedheight + 54; // Adjustment if title/header is hidden
-  }
-
   return (
     <Card
       open={open}
@@ -286,15 +265,20 @@ const GenericStepperCard = ({
           <Divider />
         </>
       )}
-      <DialogContent style={{ paddingTop: contentPaddingTop, height: fullHeight ? calculatedheight : undefined }}>
+      <DialogContent
+        style={{
+          paddingTop: contentPaddingTop,
+          color: 'inherit'
+        }}
+      >
         <ErrorGate error={errors['loading']}>
           {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
           <Collapse in={!confirmDelete}>
-            {activeSteps.map(({ Template, fields = [], label, onActivate }, i) => {
+            {activeSteps.map(({ Template, minHeight = undefined, fields = [], label, onActivate }, i) => {
               const FieldsComponent = Template ?? Fields;
               return (
                 <Collapse key={i} in={activeStep === i}>
-                  <Step key={label}>
+                  <Step key={label} style={{ minHeight }}>
                     <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
                       <Grid container alignItems='center' spacing={1}>
                         <FieldsComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />

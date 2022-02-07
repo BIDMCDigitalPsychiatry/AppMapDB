@@ -10,21 +10,21 @@ const useStyles = makeStyles(({ palette, shadows }: any) =>
       position: 'relative',
       width: '100%'
     },
-    container: {
-      position: 'relative'
-    },
-    content: {
+    content: ({ active }: any) => ({
+      position: 'relative',
       minHeight: 40,
       paddingLeft: 16,
       paddingRight: 16,
       paddingTop: 8,
       paddingBottom: 8,
       borderRadius: 30,
-      borderColor: palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)',
+      background: palette.primary.light,
+      color: palette.primary.dark,
+      opacity: active ? 1 : 0.8,
       '&:hover': {
-        borderColor: palette.text.primary
+        boxShadow: active ? undefined : shadows[2]
       }
-    },
+    }),
     inputLabel: {
       position: 'absolute',
       left: 0,
@@ -33,9 +33,8 @@ const useStyles = makeStyles(({ palette, shadows }: any) =>
       transform: 'translate(0, 24px) scale(1)'
     },
     notchedOutline: ({ error, active }: any) => ({
-      borderColor: isError(error) ? palette.error.main : active ? palette.primary.main : 'inherit',
+      borderColor: isError(error) ? palette.error.main : active ? palette.primary.dark : palette.primary.dark,
       borderWidth: isError(error) || active ? 4 : 1,
-      color: palette.text.primary,
       boxShadow: shadows[1]
     })
   })
@@ -67,14 +66,12 @@ export default function OutlinedDivActive({
       <InputLabel ref={labelRef} htmlFor={label} variant='outlined' className={classes.inputLabel} shrink>
         {label}
       </InputLabel>
-      <div className={classes.container}>
-        <Grid container id={label} className={classes.content} alignItems='center'>
-          <Grid item xs={12}>
-            {children}
-          </Grid>
-          <NotchedOutline className={classes.notchedOutline} notched labelWidth={labelWidth} />
+      <Grid container id={label} className={classes.content} alignItems='center'>
+        <Grid item xs={12}>
+          {children}
         </Grid>
-      </div>
+        <NotchedOutline className={classes.notchedOutline} notched labelWidth={labelWidth} />
+      </Grid>
     </div>
   );
 }

@@ -1,7 +1,5 @@
 import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
-import android from '../../images/android.png';
-import apple from '../../images/apple.png';
 import moodtracking from '../../images/moodtracking.png';
 import journaling from '../../images/journaling.png';
 import mindfulness from '../../images/mindfulness.png';
@@ -11,8 +9,9 @@ import psychoeducation from '../../images/psychoeducation.png';
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
 export const PlatformImages = [
-  { value: 'Android', label: 'Android', image: android },
-  { value: 'iOS', label: 'iOS', image: apple }
+  { value: 'Android', label: 'Android', image: '/images/android.png' },
+  { value: 'iOS', label: 'iOS', image: '/images/apple.png' },
+  { value: 'Web', label: 'Web', image: '/images/web2.png' }
 ];
 
 export type Cost = 'Totally Free' | 'Free to Download' | 'In-App Purchase' | 'Payment' | 'Subscription';

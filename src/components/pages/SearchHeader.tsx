@@ -5,9 +5,8 @@ import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
-import { useChangeRoute } from '../layout/hooks';
-import { publicUrl } from '../../helpers';
-import { useTableValues } from '../application/GenericTable/store';
+import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
+import { useIsAdmin } from '../../hooks';
 
 const padding = 32;
 const spacing = 1;
@@ -52,9 +51,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
   })
 );
 
-export default function SearchHeader({ title = 'App Library', state, setState = undefined }) {
-  const [, setValues] = useTableValues('Applications');
-
+export default function SearchHeader({ title = 'App Library', handleSearch, state, setState = undefined }) {
   const classes = useStyles();
   useFilterList();
 
@@ -68,57 +65,47 @@ export default function SearchHeader({ title = 'App Library', state, setState = 
     [setState]
   );
 
-  // Sets the associated values in the redux store
-  const setTableState = React.useCallback(() => {
-    const { searchtext, ...filters } = state;
-    setValues(prev => ({ searchtext, filters: { ...prev.filters, ...filters } }));
-    // eslint-disable-next-line
-  }, [setValues, JSON.stringify(state)]);
-
-  const changeRoute = useChangeRoute();
-
-  const handleSearch = React.useCallback(() => {
-    setTableState();
-    changeRoute(publicUrl('/Apps'));
-  }, [changeRoute, setTableState]);
-
   const fullScreen = useFullScreen();
+  const isAdmin = useIsAdmin();
 
   return (
-    <Grid container className={classes.header}>
-      <Grid item xs={12}>
-        <Typography variant='h1' className={classes.primaryText}>
-          {title}
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
-          <Grid item xs={12} sm style={{ marginTop: -4 }}>
-            <Grid container spacing={spacing}>
-              <Grid item xs>
-                <TableSearchV2 value={state['searchtext']} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
-              </Grid>
-              {!fullScreen && (
-                <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
-                  <MultiSelectCheck
-                    value={state['Platforms']}
-                    onChange={handleChange('Platforms')}
-                    placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
-                    InputProps={{ style: { background: 'white' } }}
-                    items={Platforms.map(label => ({ value: label, label })) as any}
-                    fullWidth={true}
-                  />
+    <>
+      <Grid container className={classes.header}>
+        <Grid item xs={12}>
+          <Typography variant='h1' className={classes.primaryText}>
+            {title}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
+            <Grid item xs={12} sm style={{ marginTop: -4 }}>
+              <Grid container spacing={spacing}>
+                <Grid item xs>
+                  <TableSearchV2 value={state['searchtext']} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
                 </Grid>
-              )}
+                {!fullScreen && (
+                  <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                    <MultiSelectCheck
+                      value={state['Platforms']}
+                      onChange={handleChange('Platforms')}
+                      placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                      InputProps={{ style: { background: 'white' } }}
+                      items={Platforms.map(label => ({ value: label, label })) as any}
+                      fullWidth={true}
+                    />
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-            <Button className={classes.primaryButton} onClick={handleSearch}>
-              Search
-            </Button>
+            <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
+              <Button className={classes.primaryButton} onClick={handleSearch}>
+                Search
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+      {isAdmin && <InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />}
+    </>
   );
 }
