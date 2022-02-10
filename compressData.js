@@ -1,22 +1,69 @@
-import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
-import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
-import moodtracking from '../../images/moodtracking.png';
-import journaling from '../../images/journaling.png';
-import mindfulness from '../../images/mindfulness.png';
-import peersupport from '../../images/peersupport.png';
-import psychoeducation from '../../images/psychoeducation.png';
+const AWS = require('aws-sdk');
 
-export type Platform = 'Android' | 'iOS' | 'Web';
-export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
-export const PlatformImages = [
-  { value: 'Android', label: 'Android', image: '/images/android.png' },
-  { value: 'iOS', label: 'iOS', image: '/images/apple.png' },
-  { value: 'Web', label: 'Web', image: '/images/web2.png' }
-];
+AWS.config.region = 'us-east-1';
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+  IdentityPoolId: 'us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe'
+});
 
-export type Cost = 'Totally Free' | 'Free to Download' | 'In-App Purchase' | 'Payment' | 'Subscription';
+const dynamo = new AWS.DynamoDB.DocumentClient();
 
-export const CostQuestions = [
+const TableName = 'applications-test';
+
+function isEmpty(str) {
+  return !str || 0 === str.length;
+}
+
+const getRows = async TableName => {
+  let scanResults = [];
+  let items;
+  var params = {
+    TableName,
+    ExclusiveStartKey: undefined
+  };
+  var rows = {};
+  do {
+    items = await dynamo.scan(params).promise();
+    items.Items.forEach(i => scanResults.push(i));
+    params.ExclusiveStartKey = items.LastEvaluatedKey;
+  } while (typeof items.LastEvaluatedKey != 'undefined');
+  rows = scanResults.reduce((f, c) => {
+    f[c._id] = c;
+    return f;
+  }, {});
+
+  return rows;
+};
+
+function updateRow(Data) {
+  return new Promise(function (resolve, reject) {
+    console.log('Updating row: ' + Data?._id);
+    dynamo.put({ TableName, Item: Data }, function (err, data) {
+      if (err) {
+        var message = `(Error processing data.  Table: ${TableName}`;
+        console.error({ message, err, TableName, Data });
+        reject(err);
+      } else {
+        console.log('Updated application: ' + Data?._id);
+        resolve(true);
+      }
+    });
+  });
+}
+
+const isEmptyObject = obj => {
+  if (isEmpty(obj)) {
+    return true;
+  } else if (typeof obj === 'object') {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  } else {
+    return false; // Is not empty and is not an object
+  }
+};
+
+const CostQuestions = [
   { value: 'Free to Download', label: 'Is the app free to download?', tooltip: 'Some apps may be free up front but then have in app purchases.' },
   { value: 'Totally Free', label: 'Is the app totally free?', tooltip: 'No cost up front, no in app purchases.' },
   { value: 'Payment', label: 'Is there a one time payment?' },
@@ -24,17 +71,7 @@ export const CostQuestions = [
   { value: 'Subscription', label: 'Is there a subscription (recurrent/monthly/annual)?' }
 ];
 
-export const Costs: Cost[] = CostQuestions.map(cq => cq.value as Cost);
-
-export type ClinicalFoundation =
-  | 'Well Written Relevant Content'
-  | 'Does What it Claims'
-  | 'Patient Facing'
-  | 'Can Cause Harm'
-  | 'Supporting Studies'
-  | 'Use Warning';
-
-export const ClinicalFoundationQuestions = [
+const ClinicalFoundationQuestions = [
   {
     value: 'Well Written Relevant Content',
     short: 'Well Written',
@@ -61,25 +98,9 @@ export const ClinicalFoundationQuestions = [
   { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' }
 ];
 
-export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFoundationQuestions.map(cfq => cfq.value as ClinicalFoundation);
-
-export type Privacy =
-  | 'Has Privacy Policy'
-  | 'Data Stored on Device'
-  | 'Data Stored on Server'
-  | 'Can Delete Data'
-  | 'App Declares Data Use and Purpose'
-  | 'App Reports Security Measures in Place'
-  | 'Is PHI Shared'
-  | 'Is De-Identified Data Shared'
-  | 'Is Anonymized/Aggregate Data Shared'
-  | 'Can Opt Out of Data Collection'
-  | 'Meets HIPAA'
-  | 'Has Crisis Management Feature';
-
 const hasPrivacyPolicy = value => !value.includes('Has Privacy Policy');
 
-export const PrivacyQuestions = [
+const PrivacyQuestions = [
   { value: 'Has Privacy Policy', short: 'Has Policy', label: 'Is there a privacy policy?' },
   {
     value: 'Data Stored on Device',
@@ -149,23 +170,7 @@ export const PrivacyQuestions = [
   }
 ];
 
-export const Privacies: Privacy[] = PrivacyQuestions.map(pq => pq.value as Privacy);
-
-export type Engagement =
-  | 'User Generated Data'
-  | 'Chat/Message'
-  | 'Assessments/Screenings'
-  | 'Real Time Response'
-  | 'Asynchronous Response'
-  | 'Gamification (Points/Badges)'
-  | 'Videos'
-  | 'Audio/Music/Scripts'
-  | 'AI Support'
-  | 'Peer Support'
-  | 'Network Support'
-  | 'Collaborative With Provider/Other';
-
-export const EngagementQuestions = [
+const EngagementQuestions = [
   { value: 'User Generated Data', label: 'User generated data?', tooltip: 'Examples include mood tracking, diary app, etc.' },
   { value: 'Chat/Message', label: 'Chat/message based?' },
   { value: 'Assessments/Screenings', label: 'Does app have have screeners/assesments?', tooltip: 'Examples include PHQ9, GAD7, etc.' },
@@ -202,11 +207,7 @@ export const EngagementQuestions = [
   }
 ];
 
-export const Engagements: Engagement[] = EngagementQuestions.map(eq => eq.value as Engagement);
-
-export type Functionality = 'Spanish' | 'Offline' | 'Accessibility' | 'Own Your Own Data' | 'Email or Export Your Data' | 'Send Your Data to a Medical Record';
-
-export const FunctionalityQuestions = [
+const FunctionalityQuestions = [
   { value: 'Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store.' },
   { value: 'Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
   {
@@ -235,10 +236,7 @@ export const FunctionalityQuestions = [
   }
 ];
 
-export const Functionalities: Functionality[] = FunctionalityQuestions.map(fq => fq.value as Functionality);
-
-export type Input = 'Surveys' | 'Diary' | 'Geolocation' | 'Contact List' | 'Camera' | 'Microphone' | 'Step Count' | 'External Devices' | 'Social Network';
-export const InputQuestions = [
+const InputQuestions = [
   { value: 'Surveys', label: 'Surveys?', tooltip: 'Does the app enable a user to enter surveys such as mood or symptom surveys?' },
   { value: 'Diary', label: 'Diary?', tooltip: 'Does the app have a journaling, diary, or free writing feature?' },
   { value: 'Geolocation', label: 'Geolocation?', tooltip: 'Does the app enable location services from the phone?' },
@@ -262,18 +260,7 @@ export const InputQuestions = [
   }
 ];
 
-export const Inputs: Input[] = InputQuestions.map(iq => iq.value as Input);
-
-export type Output =
-  | 'Notifications'
-  | 'References/Information'
-  | 'Social Network'
-  | 'Reminders'
-  | 'Graphs of Data'
-  | 'Summary of Data'
-  | 'Link to Formal Care/Coaching';
-
-export const OutputQuestions = [
+const OutputQuestions = [
   {
     value: 'Notifications',
     label: 'Notifications?',
@@ -300,41 +287,7 @@ export const OutputQuestions = [
   }
 ];
 
-export const Outputs: Output[] = [
-  'Notifications',
-  'References/Information',
-  'Social Network',
-  'Reminders',
-  'Graphs of Data',
-  'Summary of Data',
-  'Link to Formal Care/Coaching'
-];
-
-export type Feature =
-  | 'Track Mood'
-  | 'Track Medication'
-  | 'Track Sleep'
-  | 'Track Symptoms'
-  | 'Productivity'
-  | 'Physical Health'
-  | 'Psychoeducation'
-  | 'Journaling'
-  | 'Mindfulness'
-  | 'Deep Breathing'
-  | 'Picture Gallery/Hope Board'
-  | 'iCBT or Sleep Therapy'
-  | 'CBT'
-  | 'ACT'
-  | 'DBT'
-  | 'Peer Support'
-  | 'Coach/Therapist Connection'
-  | 'Biodata'
-  | 'Goal Setting/Habits'
-  | 'Physical Health Exercises'
-  | 'Bbot Interaction'
-  | 'Bio Feedback with Sense Data';
-
-export const FeatureQuestions = [
+const FeatureQuestions = [
   { value: 'Track Mood', label: 'Does app have mood tracking?' },
   { value: 'Track Medication', label: 'Does app have medication tracking?' },
   {
@@ -397,40 +350,7 @@ export const FeatureQuestions = [
   }
 ];
 
-// Requests were made to change certain hard coded values.  This handles this display logic
-export const withReplacement = text => {
-  return text === 'Bbot Interaction' ? 'Chatbot Interaction' : text;
-};
-
-export const FeatureImages = [
-  { value: 'Track Mood', label: 'Mood Tracking', image: moodtracking },
-  { value: 'Journaling', label: 'Journaling', image: journaling },
-  { value: 'Mindfulness', label: 'Mindfulness', image: mindfulness },
-  { value: 'Peer Support', label: 'Peer Support', image: peersupport },
-  { value: 'Psychoeducation', label: 'Psychoeducation', image: psychoeducation }
-];
-
-export const Features = FeatureQuestions.map(fq => fq.value as Feature);
-
-export type Condition =
-  | 'Mood Disorders'
-  | 'Stress & Anxiety'
-  | 'Sleep'
-  | 'Phobias'
-  | 'OCD'
-  | 'Schizophrenia'
-  | 'Eating Disorders'
-  | 'Personality Disorders'
-  | 'Self-Harm'
-  | 'PTSD'
-  | 'Substance Use'
-  | 'Substance Use (Alcohol)'
-  | 'Substance Use (Smoking & Tobacco)'
-  | 'Headache'
-  | 'Pain'
-  | 'Non-Specific';
-
-export const Conditions: Condition[] = [
+const Conditions = [
   'Mood Disorders',
   'Stress & Anxiety',
   'Sleep',
@@ -449,9 +369,7 @@ export const Conditions: Condition[] = [
   'Non-Specific'
 ];
 
-export type DeveloperType = 'Government' | 'For Profit Company' | 'Non-Profit Company' | 'Healthcare Company' | 'Academic Institution';
-
-export const DeveloperTypeQuestions = [
+const DeveloperTypeQuestions = [
   { value: 'Government', label: 'Does it come from the government?' },
   { value: 'For Profit Company', short: 'For Profit', label: 'Does it come from a for-profit company?' },
   { value: 'Non-Profit Company', short: 'Non-Profit', label: 'Does it come from a non-profit company?' },
@@ -459,11 +377,7 @@ export const DeveloperTypeQuestions = [
   { value: 'Academic Institution', short: 'Academic', label: 'Does it come from an academic institution?' }
 ];
 
-export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
-
-export type Use = 'Self Help' | 'Reference' | 'Hybrid';
-
-export const UseQuestions = [
+const UseQuestions = [
   {
     value: 'Self Help',
     label: 'Is app a self-help/self-managment tool?',
@@ -482,50 +396,61 @@ export const UseQuestions = [
   }
 ];
 
-export const Uses = UseQuestions.map(uq => uq.value as Use);
+const toProcess = [
+  { key: 'outputs', list: OutputQuestions },
+  { key: 'functionalities', list: FunctionalityQuestions },
+  { key: 'uses', list: UseQuestions },
+  { key: 'privacies', list: PrivacyQuestions },
+  { key: 'features', list: FeatureQuestions },
+  { key: 'engagements', list: EngagementQuestions },
+  { key: 'costs', list: CostQuestions },
+  { key: 'developerTypes', list: DeveloperTypeQuestions },
+  { key: 'inputs', list: InputQuestions },
+  { key: 'clinicalFoundations', list: ClinicalFoundationQuestions }
+  //conditions: Condition[]; // Conditions (no value just value)
+];
 
-export default interface Application {
-  _id: string;
-  _rev: string;
-  groupId: string; // groupId for app so we can track the rating/approval chain more easily
-  name: string;
-  company: string;
-  icon: string;
-  androidLink: string;
-  iosLink: string;
-  webLink: string;
+const compress = app => {
+  toProcess.forEach(({ key, list }) => {
+    if (!isEmpty(app[key])) {
+      var newValues = [];
+      app[key].forEach(v => {
+        const idx = list.findIndex(li => li.value === v);
+        if (idx > 0) {
+          newValues.push(idx);
+        } else {
+          newValues.push(v);
+        }
+      });
+      app[key] = '[' + newValues.join(',') + ']';
+      console.log('Compressed ' + app[key]);
+    }
+  });
+  return app;
+};
 
-  outputs: Output[]; //OutputQuestions
-  platforms: Platform[];
-  functionalities: Functionality[]; //FunctionalityQuestions
-  uses: Use[]; //UseQuestions
-  privacies: Privacy[]; // PrivacyQuestions
-  features: Feature[]; // FeatureQuestions
-  engagements: Engagement[]; // EngagementQuestions
-  costs: Cost[]; // CostQuestions
-  developerTypes: DeveloperType[]; //DeveloperTypeQuestions
-  inputs: Input[]; // InputQuestions
+// This syncs the exclude column.
+// Items that have exclude = true do not need to be included in the initial snapshot for display in the applications table.
+// If an item is restored that was previosly deleted this function may need to be re-executed
+const syncAppStoreData = async () => {
+  const rows = await getRows(TableName);
+  const rowKeys = Object.keys(rows);
+  for (let i = 0; i < rowKeys.length; i++) {
+    const k = rowKeys[i];
+    const { childId, androidStore, appleStore, ...remaining } = rows[k];
+    await updateRow({ ...compress(remaining) });
 
-  clinicalFoundations: ClinicalFoundation[]; // ClinicalFoundationQuestions
-  conditions: Condition[]; // Conditions (no value just value)
+    /*if (isEmpty(childId)) {
+      // find the newest child and then link that id
+      const child = Object.keys(rows).find(k2 => rows[k2].parent?._id === k && rows[k2].approved === true && rows[k2].delete !== true);
+      if (child) {
+        await updateRow({ ...remaining, childId: child._id });
+      }
+    }
+    */
+  }
 
-  androidStore: AndroidStoreProps; // Meta information from the store
-  appleStore: AppleStoreProps; // Meta information from the store
-  readingLevel: number; // Reading level of the privacy policy (what grade reading level)?
-  feasibilityStudies: number; // How many feasibility/usability studies?
-  feasibilityStudiesLink: string;
-  feasibilityImpact: number; // What is the highest feasibility impact factor?
-  efficacyStudies: number; // How many evidence/efficacy studies?
-  efficacyStudiesLink: string; // How many evidence/efficacy studies?
-  efficacyImpact: number; //What is the highest efficacy impact factor?
-  review: string;
-  email: string; // User's email
-  uid: string; // Uid for user
-  approverEmail: string; // User's email who approved
-  parent: any; // If object was created from a parent, keep the link to it
-  created: number;
-  updated: number;
-  delete: boolean; // If set to true item has been deleted, keep in database
-  approved: boolean;
-  draft: boolean;
-}
+  return;
+};
+
+syncAppStoreData();
