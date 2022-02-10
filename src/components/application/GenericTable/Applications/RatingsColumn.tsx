@@ -12,7 +12,7 @@ import { useSignedIn } from '../../../../hooks';
 import * as Icons from '@material-ui/icons';
 
 export default function RatingsColumn({ _id }) {
-  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
+  const initialValues = useSelector((s: AppState) => s.database[tables.applications][_id]);
   const signedIn = useSignedIn();
 
   return (

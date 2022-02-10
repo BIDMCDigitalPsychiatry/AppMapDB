@@ -14,6 +14,7 @@ const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.in
 
 export default function useAppTableDataTest({ trigger = true } = {}) {
   const [apps, setApps] = useApplications();
+  const [loading, setLoading] = React.useState(false);
 
   const handleGetRow = React.useCallback(
     id => {
@@ -23,9 +24,11 @@ export default function useAppTableDataTest({ trigger = true } = {}) {
           Key: { _id: id }
         };
         try {
+          setLoading(true);
           var row = await dynamo.get(params).promise();
         } catch (err) {
           console.error('Error querying row id: ' + id);
+          setLoading(false);
           return;
         }
         if (row?.Item && row?.Item._id) {
@@ -34,6 +37,7 @@ export default function useAppTableDataTest({ trigger = true } = {}) {
             [row.Item?._id]: row.Item
           }));
         }
+        setLoading(false);
       };
       getRow(id);
     },
@@ -51,6 +55,7 @@ export default function useAppTableDataTest({ trigger = true } = {}) {
           ...requestParams
         };
         var firstPass = true;
+        setLoading(true);
         do {
           items = await dynamo.scan(params).promise();
           items.Items.forEach(i => scanResults.push(i));
@@ -73,6 +78,7 @@ export default function useAppTableDataTest({ trigger = true } = {}) {
             return f;
           }, {})
         }));
+        setLoading(false);
       };
       getItems();
     },
@@ -185,5 +191,5 @@ export default function useAppTableDataTest({ trigger = true } = {}) {
 
   var filtered = useTableFilter(filteredData, table, customFilter);
 
-  return { filtered, apps, setApps, handleRefresh, handleGetRow };
+  return { filtered, loading, apps, setApps, handleRefresh, handleGetRow };
 }

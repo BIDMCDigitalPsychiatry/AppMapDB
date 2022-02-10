@@ -5,6 +5,7 @@ import { DialogContent } from '@material-ui/core';
 import { ApplicationTabsView } from '../RateNewApp/templates/ApplicationTabsView';
 import { useDialogState } from '../useDialogState';
 import { ApplicationReviews } from '../../GenericTable/ApplicationReviews/table';
+import { tables } from '../../../../database/dbConfig';
 
 export const title = 'Application Information';
 
@@ -27,7 +28,7 @@ const useStyles = makeStyles(({ palette, spacing }) =>
 export default function ApplicationDialog({ id = title }) {
   const classes = useStyles({});
   const [{ initialValues = {} }] = useDialogState(id);
-  const { applications = {} } = initialValues;
+  const applications = initialValues[tables.applications] ?? {};
   const { groupId } = applications;
 
   return (

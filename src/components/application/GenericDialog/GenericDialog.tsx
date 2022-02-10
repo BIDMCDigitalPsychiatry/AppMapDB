@@ -129,6 +129,7 @@ const GenericDialog = ({
   onSubmit,
   onDelete,
   onClose,
+  loading: Loading = undefined,
   Content,
   ContentProps,
   validate,
@@ -178,16 +179,18 @@ const GenericDialog = ({
     onClose && onClose();
   }, [setState, onClose]);
 
+  const inProgress = loading || submitting || Loading;
+  const disabled = inProgress || errors['loading'];
+
   const contentProps = {
+    inProgress,
+    disabled,
     fields,
     mapField,
     values,
     setValues,
     ...ContentProps
   };
-
-  const inProgress = loading || submitting;
-  const disabled = inProgress || errors['loading'];
 
   return (
     <Dialog
