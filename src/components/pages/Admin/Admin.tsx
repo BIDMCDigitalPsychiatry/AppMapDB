@@ -1,4 +1,4 @@
-import { Box, Divider, useTheme } from '@material-ui/core';
+import { Box, Divider, useTheme } from '@mui/material';
 import { useHeaderHeight, useRouteState } from '../../layout/store';
 import AdminLayoutSelector from './AdminLayoutSelector';
 import AdminPendingApprovals from './AdminPendingApprovals';

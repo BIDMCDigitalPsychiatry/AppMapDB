@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, Box, Grid, Divider, DialogContent } from '@material-ui/core';
+import { Typography, Box, Grid, Divider, DialogContent } from '@mui/material';
 import { useFullScreen } from '../../../hooks';
 
 export default function GenericDialogContent({ questions = [], title = '', img = undefined }) {

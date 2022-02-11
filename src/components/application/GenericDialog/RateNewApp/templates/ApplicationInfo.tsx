@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { InjectField } from '../../Fields';
 import { tables } from '../../../../../database/dbConfig';
 import { ApplicationTabs } from './ApplicationTabs';
@@ -9,7 +9,7 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
   const platforms = values[tables.applications].platforms ?? [];
 
   return (
-    <Grid container justify='center' spacing={3}>
+    <Grid container justifyContent='center' spacing={3}>
       <Grid item xs style={{ maxWidth: 700 }}>
         <ApplicationTabs state={state} values={values} injectField={injectField} fields={fields} setValues={setValues} setState={setState} />
       </Grid>

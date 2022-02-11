@@ -1,15 +1,15 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles } from '@material-ui/styles';
-import { Grid, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, CardActions, Box } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Grid, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, CardActions, Box } from '@mui/material';
 import { useDialogState } from './useDialogState';
 import merge from 'deepmerge';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import CheckIcon from '@material-ui/icons/CheckCircleOutline';
-import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import CheckIcon from '@mui/icons-material/CheckCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
@@ -218,115 +218,113 @@ const GenericStepper = ({
   const inProgress = loading || submitting;
   const disabled = inProgress || errors['loading'];
 
-  return (
-    <>
-      <RateNewAppHeader onSave={handleSaveDraft} onReset={handleReset} />
+  return <>
+    <RateNewAppHeader onSave={handleSaveDraft} onReset={handleReset} />
 
-      {title !== null && (
-        <>
-          {!confirmDelete && (
-            <CardActions className={classes.stepSummary}>
-              <Grid container style={{ paddingLeft: 12, paddingRight: 12 }} alignItems='center'>
-                <Grid item zeroMinWidth xs>
-                  <Typography noWrap color='textPrimary' variant='body1'>
-                    {currentStep.label ? currentStep.label : currentStep.id}
-                  </Typography>
+    {title !== null && (
+      <>
+        {!confirmDelete && (
+          <CardActions className={classes.stepSummary}>
+            <Grid container style={{ paddingLeft: 12, paddingRight: 12 }} alignItems='center'>
+              <Grid item zeroMinWidth xs>
+                <Typography noWrap color='textPrimary' variant='body1'>
+                  {currentStep.label ? currentStep.label : currentStep.id}
+                </Typography>
+              </Grid>
+              {activeSteps.length > 1 && (
+                <Grid item>
+                  <Chip color='primary' label={`${activeStep + 1} of ${activeSteps.length}`} />
                 </Grid>
-                {activeSteps.length > 1 && (
-                  <Grid item>
-                    <Chip color='primary' label={`${activeStep + 1} of ${activeSteps.length}`} />
-                  </Grid>
-                )}
-              </Grid>
-            </CardActions>
-          )}
-          <Divider />
-        </>
-      )}
-      <Box mt={5} mb={5}>
-        <ErrorGate error={errors['loading']}>
-          {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
-          <Collapse in={!confirmDelete}>
-            {activeSteps.map(({ Template, fields = [], label, onActivate }, i) => {
-              const FieldsComponent = Template ?? Fields;
-              return (
-                <Collapse key={i} in={activeStep === i}>
-                  <Step key={label}>
-                    <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
-                      <Grid container alignItems='center' spacing={1}>
-                        <FieldsComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
-                        {FieldActions ? (
-                          <Grid item xs={12}>
-                            <FieldActions handleNext={handleNext} handleBack={handleBack} handleSubmit={handleSubmit} activeStep={activeStep} />
-                          </Grid>
-                        ) : (
-                          <></>
-                        )}
-                      </Grid>
-                    </OnActivate>
-                  </Step>
-                </Collapse>
-              );
-            })}
-          </Collapse>
-          {confirmDelete && (
-            <Grid container spacing={2} justify='center' alignItems='center'>
-              <Grid item>
-                <Button onClick={handleConfirmDelete} color='secondary'>
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button onClick={handleDelete} className={classes.deleteButton}>
-                  <DeleteIcon style={{ marginRight: 4 }} />
-                  Confirm {deleteLabel}
-                </Button>
-              </Grid>
+              )}
             </Grid>
-          )}
-        </ErrorGate>
-      </Box>
-      <Grid container justify='center'>
-        <Grid item>
-          <MobileStepper
-            variant='dots'
-            steps={activeSteps.length}
-            position='static'
-            activeStep={activeStep}
-            className={classes.mobileStepper}
-            nextButton={
-              activeStep === activeSteps.length - 1 ? (
-                <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
-                  {submitLabel}
-                  <SubmitIcon style={{ marginLeft: 4 }} />
+          </CardActions>
+        )}
+        <Divider />
+      </>
+    )}
+    <Box mt={5} mb={5}>
+      <ErrorGate error={errors['loading']}>
+        {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
+        <Collapse in={!confirmDelete}>
+          {activeSteps.map(({ Template, fields = [], label, onActivate }, i) => {
+            const FieldsComponent = Template ?? Fields;
+            return (
+              <Collapse key={i} in={activeStep === i}>
+                <Step key={label}>
+                  <OnActivate key={label} index={i} activeIndex={activeStep} onActivate={onActivate} values={values} setValues={setValues}>
+                    <Grid container alignItems='center' spacing={1}>
+                      <FieldsComponent fields={fields} mapField={mapField} values={values} state={state} setState={setState} setValues={setValues} />
+                      {FieldActions ? (
+                        <Grid item xs={12}>
+                          <FieldActions handleNext={handleNext} handleBack={handleBack} handleSubmit={handleSubmit} activeStep={activeStep} />
+                        </Grid>
+                      ) : (
+                        <></>
+                      )}
+                    </Grid>
+                  </OnActivate>
+                </Step>
+              </Collapse>
+            );
+          })}
+        </Collapse>
+        {confirmDelete && (
+          <Grid container spacing={2} justifyContent='center' alignItems='center'>
+            <Grid item>
+              <Button onClick={handleConfirmDelete} color='secondary'>
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={handleDelete} className={classes.deleteButton}>
+                <DeleteIcon style={{ marginRight: 4 }} />
+                Confirm {deleteLabel}
+              </Button>
+            </Grid>
+          </Grid>
+        )}
+      </ErrorGate>
+    </Box>
+    <Grid container justifyContent='center'>
+      <Grid item>
+        <MobileStepper
+          variant='dots'
+          steps={activeSteps.length}
+          position='static'
+          activeStep={activeStep}
+          className={classes.mobileStepper}
+          nextButton={
+            activeStep === activeSteps.length - 1 ? (
+              <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
+                {submitLabel}
+                <SubmitIcon style={{ marginLeft: 4 }} />
+              </Button>
+            ) : (
+              <>
+                <Button color='primary' size='small' variant='contained' onClick={handleNext} disabled={disabled}>
+                  Next
+                  <KeyboardArrowRight />
                 </Button>
-              ) : (
-                <>
-                  <Button color='primary' size='small' variant='contained' onClick={handleNext} disabled={disabled}>
-                    Next
-                    <KeyboardArrowRight />
-                  </Button>
-                </>
-              )
-            }
-            backButton={
-              activeStep === 0 && type === 'Edit' && onDelete !== undefined ? (
-                <Button className={classes.deleteButton} size='small' variant='contained' onClick={handleConfirmDelete} disabled={disabled}>
-                  <DeleteIcon style={{ marginRight: 4 }} />
-                  {deleteLabel}
-                </Button>
-              ) : (
-                <Button size='small' onClick={handleBack} disabled={activeStep === 0 || disabled}>
-                  <KeyboardArrowLeft />
-                  Back
-                </Button>
-              )
-            }
-          />
-        </Grid>
+              </>
+            )
+          }
+          backButton={
+            activeStep === 0 && type === 'Edit' && onDelete !== undefined ? (
+              <Button className={classes.deleteButton} size='small' variant='contained' onClick={handleConfirmDelete} disabled={disabled}>
+                <DeleteIcon style={{ marginRight: 4 }} />
+                {deleteLabel}
+              </Button>
+            ) : (
+              <Button size='small' onClick={handleBack} disabled={activeStep === 0 || disabled}>
+                <KeyboardArrowLeft />
+                Back
+              </Button>
+            )
+          }
+        />
       </Grid>
-    </>
-  );
+    </Grid>
+  </>;
 };
 
 export default GenericStepper;

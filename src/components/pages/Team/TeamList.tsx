@@ -1,10 +1,21 @@
 import React from 'react';
-import { Box, Button, Container, createStyles, Grid, IconButton, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import PlusIcon from '../../icons/Plus';
 import SearchIcon from '../../icons/Search';
 import { useDefaultValues } from '../../../database/models/Team';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { searchRows, sortRows } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { bool, publicUrl } from '../../../helpers';
@@ -82,7 +93,7 @@ const TeamList = () => {
         }
       />
       <Box py={0}>
-        <Grid container justify='space-between' alignItems='center'>
+        <Grid container justifyContent='space-between' alignItems='center'>
           <Grid item>
             <Box style={{ width: 500 }}>
               <TextField
@@ -96,7 +107,10 @@ const TeamList = () => {
                   ),
                   endAdornment: (
                     <InputAdornment position='start'>
-                      <IconButton style={{ padding: 8, marginRight: -16 }} onClick={handleClearSearch}>
+                      <IconButton
+                        style={{ padding: 8, marginRight: -16 }}
+                        onClick={handleClearSearch}
+                        size="large">
                         <Icons.Clear fontSize='small' />
                       </IconButton>
                     </InputAdornment>

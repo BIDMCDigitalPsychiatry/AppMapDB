@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl, Box, FormHelperText, Typography } from '@material-ui/core';
+import { FormControl, Box, FormHelperText, Typography } from '@mui/material';
 import { isError, isTrue, onlyUnique, evalFunc } from '../../../helpers';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 import YesNo from './YesNo';

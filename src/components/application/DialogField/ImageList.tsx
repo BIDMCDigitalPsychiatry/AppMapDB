@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { isEmpty } from '../../../helpers';
 
 const useStyles = makeStyles(({ palette }: any) =>
@@ -29,7 +31,7 @@ const ImageList = ({ value = '', label = undefined, error = undefined, items = [
   );
 
   return (
-    <Grid container justify='center' spacing={4} alignItems='center'>
+    <Grid container justifyContent='center' spacing={4} alignItems='center'>
       {!isEmpty(label) && (
         <Grid item xs={12}>
           <Typography variant='h6'>{label}</Typography>

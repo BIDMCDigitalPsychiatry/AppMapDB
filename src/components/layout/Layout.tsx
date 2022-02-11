@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { makeStyles, createStyles, useScrollTrigger } from '@material-ui/core';
+import { useScrollTrigger } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAppBarHeight, useFooterHeight, useLeftDrawer } from './store';
 import ApplicationBar from './ApplicationBar';

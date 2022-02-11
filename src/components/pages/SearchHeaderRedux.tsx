@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Chip } from '@material-ui/core';
+import { Grid, Typography, Chip } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
@@ -92,7 +94,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
     <Grid ref={useHeaderHeightRef()} container style={{ paddingTop: collapseMobile ? 0 : undefined }} className={classes.header}>
       {!collapseMobile && (
         <Grid item xs={12}>
-          <Grid container justify='space-between' alignItems='flex-end'>
+          <Grid container justifyContent='space-between' alignItems='flex-end'>
             <Grid>
               <Typography variant='h1' className={classes.primaryText}>
                 {title}
@@ -133,7 +135,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Grid container justify='space-between' alignItems='center'>
+        <Grid container justifyContent='space-between' alignItems='center'>
           <Grid item xs>
             <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
               {items.map((item, i) => {

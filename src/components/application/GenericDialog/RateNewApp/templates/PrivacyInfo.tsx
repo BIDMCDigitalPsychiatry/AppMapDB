@@ -1,8 +1,8 @@
 import React from 'react';
-import { Grid, Typography, Collapse } from '@material-ui/core';
+import { Grid, Typography, Collapse } from '@mui/material';
 import { InjectField } from '../../Fields';
 import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import LightTooltip from '../../../../general/LightTooltip/LightTooltip';
 import { ApplicationTabs } from './ApplicationTabs';
 
@@ -11,7 +11,7 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
   const privacies = values.applications.privacies || [];
 
   return (
-    <Grid container justify='center' spacing={3}>
+    <Grid container justifyContent='center' spacing={3}>
       <Grid item xs style={{ maxWidth: 700 }}>
         <ApplicationTabs state={state} values={values} injectField={injectField} fields={fields} setValues={setValues} setState={setState} />
       </Grid>
@@ -23,12 +23,12 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
           <Grid item xs={12}>
             <Collapse in={privacies.includes('Has Privacy Policy')}>
               <OutlinedDiv label='Privacy Policy Reading Level'>
-                <Grid container alignItems='center' justify='space-between' spacing={2}>
+                <Grid container alignItems='center' justifyContent='space-between' spacing={2}>
                   <Grid item>
                     <Typography>Reading grade level of the privacy policy?</Typography>
                   </Grid>
                   <Grid item>
-                    <Grid container justify='flex-end' alignItems='center' spacing={1}>
+                    <Grid container justifyContent='flex-end' alignItems='center' spacing={1}>
                       <Grid item>
                         <LightTooltip
                           title={

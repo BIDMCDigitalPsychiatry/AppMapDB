@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Grid } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import Application, {
   Costs,
   Platforms,
@@ -23,9 +23,10 @@ import Application, {
 } from '../../../../database/models/Application';
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
-import { makeStyles, createStyles } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -195,7 +196,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'platforms')}>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 Platforms
               </Grid>
             </Grid>
@@ -216,7 +217,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'developerType')}>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 Developer Type
               </Grid>
             </Grid>
@@ -237,7 +238,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'cost')}>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 Cost
               </Grid>
             </Grid>
@@ -258,7 +259,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'functionality')}>
+              <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'functionality')}>
                 Access
               </Grid>
             </Grid>
@@ -279,7 +280,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' onClick={handlePinColumn('root', 'privacies')} className={classes.hover}>
+              <Grid container justifyContent='center' onClick={handlePinColumn('root', 'privacies')} className={classes.hover}>
                 Privacies
               </Grid>
             </Grid>
@@ -300,7 +301,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' onClick={handlePinColumn('root', 'clinicalFoundations')} className={classes.hover}>
+              <Grid container justifyContent='center' onClick={handlePinColumn('root', 'clinicalFoundations')} className={classes.hover}>
                 Clinical Foundations
               </Grid>
             </Grid>
@@ -321,7 +322,7 @@ export const useColumns = () => {
         <>
           <Grid container style={{ paddingRight: 16 }}>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'features')}>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 Features
               </Grid>
             </Grid>
@@ -342,7 +343,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'conditions')}>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 Supported Conditions
               </Grid>
             </Grid>
@@ -363,7 +364,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'engagements')}>
+              <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'engagements')}>
                 Engagements
               </Grid>
             </Grid>
@@ -384,7 +385,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'inputs')}>
+              <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'inputs')}>
                 Inputs
               </Grid>
             </Grid>
@@ -405,7 +406,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'outputs')}>
+              <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'outputs')}>
                 Outputs
               </Grid>
             </Grid>
@@ -426,7 +427,7 @@ export const useColumns = () => {
         <>
           <Grid container>
             <Grid item xs={12}>
-              <Grid container justify='center' className={classes.hover} onClick={handlePinColumn('root', 'uses')}>
+              <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'uses')}>
                 Uses
               </Grid>
             </Grid>

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Checkbox from '@material-ui/core/Checkbox';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import Checkbox from '@mui/material/Checkbox';
+import Autocomplete from '@mui/material/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Text from './Text';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='small' />;
@@ -15,7 +15,7 @@ export default function MuliSelectCheck({
   placeholder = undefined,
   fullWidth = true,
   disabled = false,
-  size = 'small' as 'small',
+  size = 'small' as any,
   items = [],
   disableCloseOnSelect = true,
   initialValue = undefined, // prevent passing down
@@ -26,16 +26,16 @@ export default function MuliSelectCheck({
 
   return (
     <Autocomplete
-      size='small'
+      size={size}
       multiple
       options={items}
       disableCloseOnSelect={disableCloseOnSelect}
       getOptionLabel={option => option.label}
-      renderOption={(option, { selected }) => (
-        <>
+      renderOption={(props, option, { selected }) => (
+        <li {...props}>
           <Checkbox icon={icon} checkedIcon={checkedIcon} style={{ marginRight: 8 }} checked={selected} />
           {option.label}
-        </>
+        </li>
       )}
       renderInput={params => (
         <Text
@@ -50,7 +50,6 @@ export default function MuliSelectCheck({
           {...other}
         />
       )}
-      
       disabled={disabled}
       value={items.filter(i => value.includes(i.value))}
       onChange={handleChange}

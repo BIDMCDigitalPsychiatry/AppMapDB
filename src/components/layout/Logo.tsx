@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { makeStyles, Grid } from '@material-ui/core';
-import { createStyles } from '@material-ui/core';
+import { Grid } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import logo from '../../images/logoV2.png';
 import { useHandleChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({

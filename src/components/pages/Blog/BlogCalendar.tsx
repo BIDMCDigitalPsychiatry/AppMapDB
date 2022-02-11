@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container } from '@material-ui/core';
+import { Box, Container } from '@mui/material';
 import BlogToolbar from './BlogToolbar';
 import CommunityCalendar from '../Calendar/CommunityCalendar';
 

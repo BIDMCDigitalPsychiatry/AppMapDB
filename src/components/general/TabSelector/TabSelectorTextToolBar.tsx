@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { triggerResize, isEmpty } from '../../../helpers';
-import { Tabs, Tab, Typography, createStyles, makeStyles, Container } from '@material-ui/core';
+import { Tabs, Tab, Typography, Container } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
-import { useChangeRoute } from '../../layout/hooks';
+import { useHandleChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 
 export interface ComponentProps {
@@ -87,12 +89,12 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
   const tabRoute = tab?.route;
   const tabSubRoute = tab?.routeState?.subRoute;
   const tabToSelect = !(pathname === tabRoute && subRoute === tabSubRoute) && tabs.find(t => t.route === pathname && t?.routeState?.subRoute === subRoute);
-  const changeRoute = useChangeRoute();
+  const handleChangeRoute = useHandleChangeRoute();
   const selectedId = selected ? selected : tabId;
 
   React.useEffect(() => {
     if (tabToSelect === undefined) {
-      //setTabSelector({ value: tabToSelect });
+      setTabSelector({ value: tabToSelect });
     } else {
       isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
       tabToSelect && setTabSelector({ value: tabToSelect.id });
@@ -114,27 +116,20 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
 
   const { value = undefined } = tabSelector;
 
-  const handleClick =
-    ({ onClick, route, routeState }) =>
-    () => {
-      onClick && onClick();
-      !isEmpty(route) && changeRoute(route, routeState);
-    };
-
   return (
     <Container className={classes.root}>
-      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons='off' value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
+      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons={false} value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
         {!tabs ? (
           <></>
         ) : (
           tabs.map((t: any) => (
             <Tab
               key={t.id}
-              onClick={handleClick(t)}
+              onClick={handleChangeRoute(t.route, t?.routeState)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
-                wrapper: classes.wrapper,
+                //wrapper: classes.wrapper,
                 wrapped: classes.labelIcon
               }}
               icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}

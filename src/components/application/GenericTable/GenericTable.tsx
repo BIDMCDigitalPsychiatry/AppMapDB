@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../../store';
 import TablePlaceHolder from './TablePlaceHolder';
 import VirtualTable, { VirtualTableProps } from './VirtualTable';
-import { Typography, Divider, useTheme, makeStyles, createStyles, Paper, Grid } from '@material-ui/core';
+import { Typography, Divider, useTheme, Paper, Grid } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import ExploreGrid from './ExploreGrid';
 import VirtualList from './VirtualList';
 
@@ -50,7 +52,7 @@ export default function GenericTable(props: GenericTableProps) {
   return (
     <Paper elevation={elevation} className={classes.paper}>
       {length === 0 ? (
-        <Grid style={{ height: height }} container className={classes.placeholder} alignItems='center' justify='center'>
+        <Grid style={{ height: height }} container className={classes.placeholder} alignItems='center' justifyContent='center'>
           <Grid item xs>
             <TablePlaceHolder {...props} />
           </Grid>
@@ -62,8 +64,8 @@ export default function GenericTable(props: GenericTableProps) {
       {footer && (
         <>
           <Divider />
-          <Grid container className={classes.footer} alignContent='center' alignItems='center' justify='flex-end'>
-            <Grid item container alignItems='center' justify='flex-end'>
+          <Grid container className={classes.footer} alignContent='center' alignItems='center' justifyContent='flex-end'>
+            <Grid item container alignItems='center' justifyContent='flex-end'>
               <Typography align='right' variant='caption'>
                 Viewing {length} {name}
               </Typography>

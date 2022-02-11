@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Card, CardContent, CardMedia, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardContent, CardMedia, Divider, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
 import { useChangeRoute } from '../../../layout/hooks';
 import { getObjectUrl } from '../../../../aws-exports';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as SortKeyDialog from '../../GenericDialog/SortKey';
 
@@ -108,7 +110,7 @@ export default function TeamMemberGridItem({
           {showSortKey ? (
             <>
               <Grid item xs={12}>
-                <Grid container justify='center' alignItems='center' spacing={0}>
+                <Grid container justifyContent='center' alignItems='center' spacing={0}>
                   <Grid item xs={12}>
                     <Typography color='textSecondary' align='center' variant='caption' noWrap>
                       Sort Key

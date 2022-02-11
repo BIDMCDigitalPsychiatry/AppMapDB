@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Box, Paper } from '@material-ui/core';
+import { Grid, Typography, Box, Paper } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
 import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
 
@@ -22,7 +24,7 @@ export default function ViewAppRating(props) {
 
   return (
     <Paper style={{ padding: 24, paddingTop: 8 }}>
-      <Grid container justify='space-between' alignItems='center' spacing={0}>
+      <Grid container justifyContent='space-between' alignItems='center' spacing={0}>
         <Grid item xs>
           <Grid container spacing={1}>
             <Grid item>
@@ -54,7 +56,7 @@ export default function ViewAppRating(props) {
           </div>
         </Grid>
       </Grid>
-      <Grid container style={{ marginTop: 4 }} justify='space-between' alignItems='center' spacing={2}>
+      <Grid container style={{ marginTop: 4 }} justifyContent='space-between' alignItems='center' spacing={2}>
         <Grid item xs={12}>
           <Typography variant='body1' className={classes.bold}>
             Qualitative Review

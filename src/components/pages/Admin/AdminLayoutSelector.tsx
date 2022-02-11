@@ -1,4 +1,4 @@
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import * as React from 'react';
 import TabSelectorTextToolBar from '../../general/TabSelector/TabSelectorTextToolBar';
 

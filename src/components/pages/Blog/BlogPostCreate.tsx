@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Container, Divider } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Box, Container, Divider } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import BlogPostCreateForm from '../../application/Blog/BlogPostCreateForm';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Switch as MuiSwitch, FormControlLabel } from '@material-ui/core';
+import { Switch as MuiSwitch, FormControlLabel } from '@mui/material';
 import { bool } from '../../../helpers';
 
 export default function Switch({ value = undefined, forceErrorMargin = false, error = undefined, getFieldState = undefined, label = '', onChange = undefined, ...other }) {

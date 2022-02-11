@@ -1,5 +1,5 @@
-import { Box, Container, Divider } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Box, Container, Divider } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import useValues from './useValues';
 import { publicUrl } from '../../../helpers';

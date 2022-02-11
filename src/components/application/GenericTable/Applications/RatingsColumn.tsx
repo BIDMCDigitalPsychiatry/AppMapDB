@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import * as ApplicationHistoryDialog from '../../GenericDialog/ApplicationHistoryDialog';
@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
 import { useSignedIn } from '../../../../hooks';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 
 export default function RatingsColumn({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database[tables.applications][_id]);

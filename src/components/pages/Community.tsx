@@ -1,4 +1,6 @@
-import { Container, createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import BlogLayout from '../application/Blog/BlogLayout';
 
 const useStyles = makeStyles(({ palette }) =>
@@ -20,7 +22,7 @@ export default function Community() {
         Community
       </Typography>
       <Typography variant='body2'>Learn more about how our database is being used around the world.</Typography>
-      <Grid container justify='center' style={{ marginTop: 24 }} spacing={3}>
+      <Grid container justifyContent='center' style={{ marginTop: 24 }} spacing={3}>
         <BlogLayout />
       </Grid>
     </Container>

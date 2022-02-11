@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import * as Icons from '@mui/icons-material';
 import { useHandleLink } from '../../hooks';
 
 const useStyles = makeStyles(({ palette }: any) =>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@mui/material';
 import { isError } from '../../../helpers';
 
 const Text = ({ value = '', forceErrorMargin = false, error = undefined, initialValue = undefined, ...other }) => (

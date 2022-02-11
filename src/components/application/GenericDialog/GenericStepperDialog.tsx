@@ -1,22 +1,22 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles } from '@material-ui/styles';
-import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, duration } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import { makeStyles, createStyles } from '@mui/styles';
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, duration } from '@mui/material';
 import { useDialogState } from './useDialogState';
-import Paper from '@material-ui/core/Paper';
+import Paper from '@mui/material/Paper';
 import Draggable from 'react-draggable';
 import merge from 'deepmerge';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import CheckIcon from '@material-ui/icons/CheckCircleOutline';
-import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import CheckIcon from '@mui/icons-material/CheckCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
@@ -207,8 +207,8 @@ const GenericStepperDialog = ({
     >
       {title !== null && (
         <>
-          <DialogTitle id={`${id}-dialog-title`} disableTypography className={classes.dialogTitle}>
-            <Grid container justify='space-between' alignItems='center'>
+          <DialogTitle id={`${id}-dialog-title`} className={classes.dialogTitle}>
+            <Grid container justifyContent='space-between' alignItems='center'>
               <Grid item>
                 <Typography variant='h6' className={classes.capitalize}>
                   {title ? title : [type, id].join(' ')}
@@ -216,7 +216,11 @@ const GenericStepperDialog = ({
               </Grid>
               <Grid item>
                 <Tooltip title='Close' placement='left'>
-                  <IconButton aria-label='close' className={classes.closeButton} onClick={handleClose}>
+                  <IconButton
+                    aria-label='close'
+                    className={classes.closeButton}
+                    onClick={handleClose}
+                    size="large">
                     <CloseIcon />
                   </IconButton>
                 </Tooltip>
@@ -260,7 +264,7 @@ const GenericStepperDialog = ({
             })}
           </Collapse>
           {confirmDelete && (
-            <Grid container spacing={2} justify='center' alignItems='center'>
+            <Grid container spacing={2} justifyContent='center' alignItems='center'>
               <Grid item>
                 <Button onClick={handleConfirmDelete} color='secondary'>
                   Cancel

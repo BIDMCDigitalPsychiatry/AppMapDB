@@ -1,10 +1,10 @@
 import React from 'react';
 import Fields from './Fields';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 
 const FieldsTemplate = ({ Template, ...other }: any) =>
   Template ? (
-    <Grid container alignItems='center' justify='center'>
+    <Grid container alignItems='center' justifyContent='center'>
       <Template {...other} />
     </Grid>
   ) : (

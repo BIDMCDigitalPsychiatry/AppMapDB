@@ -10,7 +10,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import listPlugin from '@fullcalendar/list';
 import timelinePlugin from '@fullcalendar/timeline';
-import { Container, Paper, useTheme, useMediaQuery, makeStyles } from '@material-ui/core';
+import { Container, Paper, useTheme, useMediaQuery } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import Header from './Header';
 import Toolbar from './Toolbar';
 import * as EditEventDialog from '../GenericDialog/EditEvent';
@@ -115,7 +116,7 @@ const CalendarView = ({ events, readSetRow, handleRefresh, create = false, edit 
   const classes = useStyles();
   const calendarRef = useRef<FullCalendar | null>(null);
   const theme = useTheme();
-  const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+  const mobileDevice = useMediaQuery(theme.breakpoints.down('md'));
 
   const [date, setDate] = useState<Date>(moment().toDate());
   const [view, setView] = useState<View>(mobileDevice ? 'listWeek' : 'dayGridMonth');

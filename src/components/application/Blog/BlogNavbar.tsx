@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { AppBar, Box, Divider, Link, Toolbar } from '@material-ui/core';
+import { AppBar, Box, Divider, Link, Toolbar } from '@mui/material';
 
 const BlogNavbar: FC = props => (
   <AppBar elevation={0} style={{ backgroundColor: 'background.paper' }} {...props}>

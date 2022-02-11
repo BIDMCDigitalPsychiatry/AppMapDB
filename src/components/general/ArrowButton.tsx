@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Button } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Grid, Typography, Button } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import * as Icons from '@mui/icons-material';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({

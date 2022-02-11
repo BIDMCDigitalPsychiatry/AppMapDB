@@ -1,30 +1,35 @@
 import * as React from 'react';
-import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { TextField } from '@mui/material';
+import MuiDateTimePicker from '@mui/lab/DateTimePicker';
 import { isError } from '../../../helpers';
 
 const DateTimePicker = ({ onChange, value, error, getTime = false, forceErrorMargin = false, ...other }) => {
+  const handleChange = React.useCallback(
+    (value: any) => {
+      onChange({ target: { value: getTime && value ? value.getTime() : value } });
+    },
+    [getTime, onChange]
+  );
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDateTimePicker
-        fullWidth={true}
-        margin='dense'
-        inputVariant='outlined'
-        KeyboardButtonProps={{
-          'aria-label': 'change date'
-        }}
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <MuiDateTimePicker
         value={value}
-        onChange={React.useCallback(
-          value => {
-            onChange({ target: { value: getTime && value ? value.getTime() : value } });
-          },
-          [getTime, onChange]
+        onChange={handleChange}
+        renderInput={({ error: iError, helperText: iHelperText, ...remaining }) => (
+          <TextField
+            error={isError(error) || iError}
+            helperText={forceErrorMargin ? (error ?? iHelperText) || ' ' : (error ?? iHelperText) && (error ?? iHelperText)} // Forces a constant helper text margin
+            fullWidth={true}
+            margin='dense'
+            variant='outlined'
+            {...(remaining as any)}
+          />
         )}
-        error={isError(error)}
-        helperText={forceErrorMargin ? error || ' ' : error && error} // Forces a constant helper text margin
         {...other}
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 };
 

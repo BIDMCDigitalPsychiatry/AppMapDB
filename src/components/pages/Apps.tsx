@@ -5,7 +5,7 @@ import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import * as ApplicationDialog from '../application/GenericDialog/ApplicationDialog';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import SearchHeaderRedux from './SearchHeaderRedux';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import useAppTableDataTest from './useAppTableDataTest';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 

@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core';
-import { createStyles } from '@material-ui/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '@mui/styles';
 import clsx from 'clsx';
 import Quill from 'react-quill';
 

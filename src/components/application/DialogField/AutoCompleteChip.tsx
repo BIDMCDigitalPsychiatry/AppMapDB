@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Chip } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Chip } from '@mui/material';
+import Autocomplete from '@mui/material/Autocomplete';
 import Text from './Text';
 
 const AutoCompleteChip = ({ value = [], items: options = [], size = 'small' as 'small', disabled, onChange, ...other }) => {

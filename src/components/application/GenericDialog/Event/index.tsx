@@ -8,7 +8,7 @@ import { isEmpty, uuid } from '../../../../helpers';
 import { useUserId } from '../../../layout/hooks';
 import Switch from '../../DialogField/Switch';
 import DateTimePicker from '../../DialogField/DateTimePicker';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import Select from '../../DialogField/Select';
 import DatePicker from '../../DialogField/DatePicker';
 import TextLink from '../../DialogField/TextLink';
@@ -25,7 +25,7 @@ const frequencyItems = [
 ];
 
 export default function EventDialog({ id = title, onClose }) {
-  const userId = useUserId(); 
+  const userId = useUserId();
 
   const [, setState] = useDialogState(id);
   const handleClose = React.useCallback(
@@ -135,11 +135,11 @@ export default function EventDialog({ id = title, onClose }) {
           label: 'Description',
           multiline: true,
           rows: 4
-        },        
+        },
         {
           id: 'link',
           label: 'Link',
-          Field: TextLink,
+          Field: TextLink
         },
         {
           id: 'allDay',
@@ -154,7 +154,11 @@ export default function EventDialog({ id = title, onClose }) {
         {
           id: 'end',
           label: 'End',
-          Field: DateTimePicker
+          Field: DateTimePicker,
+          validate: values => {
+            const { start, end } = values;
+            return moment(end) < moment(start) ? 'Must be after start date' : undefined;
+          }
         },
         {
           id: 'frequency',

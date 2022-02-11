@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box } from '@mui/material';
 import logo from '../../../images/logo.png';
 import NewWindowLink from './NewWindowLink';
 import DialogButton from '../GenericDialog/DialogButton';

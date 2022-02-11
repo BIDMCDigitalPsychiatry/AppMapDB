@@ -1,7 +1,7 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import Framework from '../../../pages/Framework';
-import { DialogContent } from '@material-ui/core';
+import { DialogContent } from '@mui/material';
 
 export const title = 'APA App Evaluation Model';
 

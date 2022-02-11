@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { triggerResize, isEmpty } from '../../../helpers';
-import { Tabs, Tab, Paper, Typography, createStyles, makeStyles } from '@material-ui/core';
+import { Tabs, Tab, Paper, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import useTabSelector from '../../application/Selector/useTabSelector';
 
 export interface ComponentProps {
@@ -87,7 +89,7 @@ const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, roun
 
   return (
     <Paper className={classes.root}>
-      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons='off' value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
+      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons={false} value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
         {!tabs ? (
           <></>
         ) : (
@@ -97,7 +99,7 @@ const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, roun
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
-                wrapper: classes.wrapper,
+                //wrapper: classes.wrapper,
                 wrapped: classes.labelIcon
               }}
               icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}

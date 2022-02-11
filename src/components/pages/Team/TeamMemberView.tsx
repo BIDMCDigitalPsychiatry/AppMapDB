@@ -1,13 +1,15 @@
 import React from 'react';
-import { Box, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Container, Divider, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import PencilAltIcon from '../../icons/PencilAlt';
 import { useChangeRoute, useHandleChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import useValues from './useValues';
 import { useIsAdmin } from '../../../hooks';
 import BlogToolbar from '../Blog/BlogToolbar';
-import { Card, CardContent, CardMedia } from '@material-ui/core';
+import { Card, CardContent, CardMedia } from '@mui/material';
 import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../../helpers';
 import { getObjectUrl } from '../../../aws-exports';
 

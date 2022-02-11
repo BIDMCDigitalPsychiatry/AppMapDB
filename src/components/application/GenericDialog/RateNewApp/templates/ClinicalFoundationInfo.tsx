@@ -1,9 +1,9 @@
 import React from 'react';
-import { Grid, Typography, Collapse } from '@material-ui/core';
+import { Grid, Typography, Collapse } from '@mui/material';
 import { InjectField } from '../../Fields';
 import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
 import LightTooltip from '../../../../general/LightTooltip/LightTooltip';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { ApplicationTabs } from './ApplicationTabs';
 
 export default function ClinicalFoundationInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
@@ -11,7 +11,7 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
   const clinicalFoundations = values.applications.clinicalFoundations || [];
 
   return (
-    <Grid container justify='center' spacing={3}>
+    <Grid container justifyContent='center' spacing={3}>
       <Grid item xs style={{ maxWidth: 700 }}>
         <ApplicationTabs state={state} values={values} injectField={injectField} fields={fields} setValues={setValues} setState={setState} />
       </Grid>
@@ -39,12 +39,12 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
                     tooltip: `What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
                   }
                 ].map(({ label, id, width = 94, tooltip }) => (
-                  <Grid key={id} container alignItems='center' justify='space-between' spacing={2}>
+                  <Grid key={id} container alignItems='center' justifyContent='space-between' spacing={2}>
                     <Grid item>
                       <Typography>{label}</Typography>
                     </Grid>
                     <Grid item>
-                      <Grid container justify='flex-end' alignItems='center' spacing={1}>
+                      <Grid container justifyContent='flex-end' alignItems='center' spacing={1}>
                         {tooltip && (
                           <Grid item>
                             <LightTooltip title={tooltip}>

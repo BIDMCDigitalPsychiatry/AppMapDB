@@ -3,11 +3,12 @@ import type { ElementType, FC, ReactNode } from 'react';
 import clsx from 'clsx';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Button, ButtonGroup, Grid, Hidden, IconButton, Tooltip, Typography, makeStyles } from '@material-ui/core';
-import ViewConfigIcon from '@material-ui/icons/ViewComfyOutlined';
-import ViewWeekIcon from '@material-ui/icons/ViewWeekOutlined';
-import ViewDayIcon from '@material-ui/icons/ViewDayOutlined';
-import ViewAgendaIcon from '@material-ui/icons/ViewAgendaOutlined';
+import { Button, ButtonGroup, Grid, Hidden, IconButton, Tooltip, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import ViewConfigIcon from '@mui/icons-material/ViewComfyOutlined';
+import ViewWeekIcon from '@mui/icons-material/ViewWeekOutlined';
+import ViewDayIcon from '@mui/icons-material/ViewDayOutlined';
+import ViewAgendaIcon from '@mui/icons-material/ViewAgendaOutlined';
 import { View } from '../../../database/models/Event';
 
 interface ToolbarProps {
@@ -59,7 +60,7 @@ const Toolbar: FC<ToolbarProps> = ({ className, date, onDateNext, onDatePrev, on
   const classes = useStyles();
 
   return (
-    <Grid className={clsx(classes.root, className)} alignItems='center' container justify='space-between' spacing={3} {...rest}>
+    <Grid className={clsx(classes.root, className)} alignItems='center' container justifyContent='space-between' spacing={3} {...rest}>
       <Grid item>
         <ButtonGroup size='small'>
           <Button onClick={onDatePrev}>Prev</Button>
@@ -67,7 +68,7 @@ const Toolbar: FC<ToolbarProps> = ({ className, date, onDateNext, onDatePrev, on
           <Button onClick={onDateNext}>Next</Button>
         </ButtonGroup>
       </Grid>
-      <Hidden smDown>
+      <Hidden mdDown>
         <Grid item>
           <Typography variant='h3' color='textPrimary'>
             {moment(date).format('MMMM YYYY')}
@@ -79,7 +80,10 @@ const Toolbar: FC<ToolbarProps> = ({ className, date, onDateNext, onDatePrev, on
 
             return (
               <Tooltip key={viewOption.value} title={viewOption.label}>
-                <IconButton color={viewOption.value === view ? 'secondary' : 'default'} onClick={() => onViewChange(viewOption.value)}>
+                <IconButton
+                  color={viewOption.value === view ? 'secondary' : 'default'}
+                  onClick={() => onViewChange(viewOption.value)}
+                  size="large">
                   <Icon />
                 </IconButton>
               </Tooltip>

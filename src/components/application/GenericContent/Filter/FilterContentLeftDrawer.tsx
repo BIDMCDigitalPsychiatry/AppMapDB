@@ -14,7 +14,7 @@ import {
   withReplacement,
   Platforms
 } from '../../../../database/models/Application';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
 import { categories } from '../../../../constants';
@@ -46,7 +46,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
   const fullScreen = useFullScreen();
 
   return (
-    <Grid container justify='flex-start'>
+    <Grid container justifyContent='flex-start'>
       <Grid item xs={12} zeroMinWidth={true}>
         {Object.keys(sections).map((k, i) => {
           const { fields } = sections[k];

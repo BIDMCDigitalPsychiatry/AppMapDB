@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { createStyles } from '@material-ui/core';
-import Drawer from '@material-ui/core/Drawer';
-import { makeStyles } from '@material-ui/core/styles';
+import createStyles from '@mui/styles/createStyles';
+import Drawer from '@mui/material/Drawer';
+import makeStyles from '@mui/styles/makeStyles';
 import LeftDrawerContent from './LeftDrawerContent';
 import { useFullScreen } from '../../hooks';
 import { useAppBarHeight, useLeftDrawer } from './store';

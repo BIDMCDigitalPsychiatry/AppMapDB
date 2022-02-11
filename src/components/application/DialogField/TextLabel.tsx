@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField, Typography } from '@material-ui/core';
+import { TextField, Typography } from '@mui/material';
 import { isError } from '../../../helpers';
 
 export default function TextLabel({ value = '', label, forceErrorMargin = false, error = undefined, initialValue = undefined, ...other }) {

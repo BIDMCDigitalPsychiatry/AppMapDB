@@ -1,6 +1,6 @@
 import React from 'react';
-import AddIcon from '@material-ui/icons/Add';
-import { Tooltip, Grid, Typography, Fab, useTheme } from '@material-ui/core';
+import AddIcon from '@mui/icons-material/Add';
+import { Tooltip, Grid, Typography, Fab, useTheme } from '@mui/material';
 
 const ExtendedButton = ({
   onClick = undefined,
@@ -46,7 +46,7 @@ const ExtendedButton = ({
             width: fullWidth ? '100%' : undefined
           }}
         >
-          <Grid container justify='space-between' alignItems='center'>
+          <Grid container justifyContent='space-between' alignItems='center'>
             <Grid item>
               <Icon style={{ marginBottom: -4 }} />
             </Grid>

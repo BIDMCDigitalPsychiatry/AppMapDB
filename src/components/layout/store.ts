@@ -5,7 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { theme } from '../../constants';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import { useLocation } from 'react-router';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import { homepage } from '../../../package.json';
 
 export type ViewMode = 'table' | 'grid';

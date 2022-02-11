@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Card, CardContent, CardMedia, createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../helpers';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { getAppCompany, getAppIcon, getAppName } from './Applications/selectors';
@@ -7,7 +9,7 @@ import PlatformButtons from './ApplicationsSummary/PlatformButtons';
 import DialogButton from '../GenericDialog/DialogButton';
 
 const height = 520;
-const useStyles = makeStyles(theme =>
+const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: {
       flex: '1',
@@ -114,7 +116,7 @@ export default function ExploreGridItem(props: any) {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Grid container justify='center' spacing={0}>
+                <Grid container justifyContent='center' spacing={0}>
                   <Grid item>
                     <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
                   </Grid>

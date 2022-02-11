@@ -1,9 +1,10 @@
 import React from 'react';
-import { Grid, Box, Typography } from '@material-ui/core';
+import { Grid, Box, Typography } from '@mui/material';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
-import { makeStyles, createStyles } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import { grey } from '@mui/material/colors';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -43,7 +44,7 @@ export default function AppReview({ updated, review, handleRefresh, index }) {
                       <Typography noWrap={!expand}>{review}</Typography>
                     </Grid>
                     <Grid item xs={12}>
-                      <Grid container justify='space-between'>
+                      <Grid container justifyContent='space-between'>
                         <Typography noWrap color='textSecondary' variant='caption'>
                           Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
                         </Typography>

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Grid, Typography, Chip, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Typography, Chip, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import { evalFunc, isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { categoryArray } from '../../../../constants';

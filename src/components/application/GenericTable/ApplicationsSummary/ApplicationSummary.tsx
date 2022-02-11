@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, Box, Typography } from '@material-ui/core';
+import { Grid, Box, Typography } from '@mui/material';
 import Application from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 import { getDayTimeFromTimestamp, publicUrl } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
-import { grey } from '@material-ui/core/colors';
+import { grey } from '@mui/material/colors';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import PlatformButtons from './PlatformButtons';
 import ExpandableDescription from './ExpandableDescription';
@@ -38,7 +38,7 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
-    <Box mt={2} ml={2} mr={2} bgcolor={grey[100]} borderColor={grey[300]} border='2px solid' borderRadius={15}>
+    <Box mt={2} ml={2} mr={2} bgcolor={grey[100]} borderColor={grey[300]} border='2px solid' borderRadius="15px">
       <Box p={2}>
         <Grid container spacing={4}>
           <Grid item xs style={{ minWidth: 300 }}>

@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { triggerResize, isEmpty } from '../../../helpers';
-import { Tabs, Tab, Typography, createStyles, makeStyles, Container } from '@material-ui/core';
+import { Tabs, Tab, Typography, Container } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
-import { useChangeRoute } from '../../layout/hooks';
 
 export interface ComponentProps {
   id?: string;
@@ -29,10 +30,9 @@ const useStyles = makeStyles(({ palette }: any) =>
     }),
     indicator: {
       background: palette.primary.light,
-      marginBottom: 4,
       height: 4,
-      zIndex: 0,
-      borderRadius: 5
+      marginBottom: 4,
+      borderRadius: 'inherit'
     },
     labelIcon: ({ minHeight }: any) => ({
       zIndex: 1,
@@ -75,15 +75,9 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
   const tabRoute = tabs.find(t => t.id === selected)?.route;
   const tabToSelect = pathname !== tabRoute && tabs.find(t => t.route === pathname);
 
-  const changeRoute = useChangeRoute();
-
   React.useEffect(() => {
-    if (tabToSelect === undefined) {
-      setTabSelector({ value: tabToSelect });
-    } else {
-      isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
-      tabToSelect && setTabSelector({ value: tabToSelect.id });
-    }
+    isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
+    tabToSelect && setTabSelector({ value: tabToSelect.id });
     triggerResize();
   }, [setTabSelector, selected, tabId, tabToSelect]);
 
@@ -99,31 +93,21 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
     [setTabSelector, onChange]
   );
 
-  const { value = undefined } = tabSelector;
-
-  const handleClick = React.useCallback(
-    (route, state, onClick = undefined) =>
-      () => {
-        changeRoute(route, state);
-        onClick && onClick();
-      },
-    [changeRoute]
-  );
+  const { value = tabs[0].id } = tabSelector;
 
   return (
     <Container className={classes.root}>
-      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons='off' value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
+      <Tabs variant='fullWidth' className={classes.tabs} scrollButtons={false} value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
         {!tabs ? (
           <></>
         ) : (
-          tabs.map((t: any) => (
+          tabs.map(t => (
             <Tab
               key={t.id}
-              onClick={handleClick(t.route, t?.routeState, t?.onClick)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
-                wrapper: classes.wrapper,
+                //wrapper: classes.wrapper,
                 wrapped: classes.labelIcon
               }}
               icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}

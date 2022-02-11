@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Grid, Link } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Link } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import { contactEmail } from '../../../package.json';
 
 const primaryText = 'Questions or Concerns?';

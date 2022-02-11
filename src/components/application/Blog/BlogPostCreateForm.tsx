@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from '@material-ui/core';
+import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from '@mui/material';
 import QuillEditor from '../QuillEditor';
 import FilesDropzone from '../FilesDropzone';
 import { categories, readTimes } from '../../../database/models/Post';
@@ -32,12 +32,12 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
   const handleRemoveCover = () => setValues(prev => ({ ...prev, cover: undefined }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
-  const handleSelectCover = cover => {    
+  const handleSelectCover = cover => {
     setValues(prev => ({ ...prev, cover }));
     setResizing(false);
   };
   const handleResizeCover = () => setResizing(prev => !prev);
-  
+
   const theme = useTheme();
 
   return (
@@ -169,16 +169,18 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   ))}
                 </TextField>
               </Box>
-              <DateTimePicker
-                id='publishedAt'
-                label='Date Published'
-                color='primary'
-                onChange={handleChange('publishedAt')}
-                value={values['publishedAt']}
-                error={errors['publishedAt']}
-                margin='normal'
-                getTime={true}
-              />
+              <Box mt={2}>
+                <DateTimePicker
+                  id='publishedAt'
+                  label='Date Published'
+                  color='primary'
+                  onChange={handleChange('publishedAt')}
+                  value={values['publishedAt']}
+                  error={errors['publishedAt']}
+                  margin='normal'
+                  getTime={true}
+                />
+              </Box>
               <Box mt={0}>
                 <Check
                   id='adminOnly'

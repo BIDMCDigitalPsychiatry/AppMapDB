@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
+import { List, ListItem, ListItemAvatar, ListItemText } from '@mui/material';
 import { getAppName, getAppCompany, getAppIcon } from './selectors';
 import Application from '../../../../database/models/Application';
 

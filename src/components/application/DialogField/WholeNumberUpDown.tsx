@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid, IconButton } from '@mui/material';
 import WholeNumber from '../../application/DialogField/WholeNumber';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 
 const WholeNumberUpDown = ({
   value = undefined,

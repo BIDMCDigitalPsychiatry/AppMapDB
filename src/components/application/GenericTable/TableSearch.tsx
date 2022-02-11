@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { InputAdornment, IconButton } from '@material-ui/core';
+import { InputAdornment, IconButton } from '@mui/material';
 import { useTable, useTableUpdate } from './store';
-import { makeStyles, createStyles } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import * as Icons from '@mui/icons-material';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import Text from '../DialogField/Text';
 
@@ -63,7 +64,7 @@ export default function TableSearch({ name = 'Applications', label = 'Enter Text
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <IconButton className={classes.endIcon} onClick={handleClear}>
+            <IconButton className={classes.endIcon} onClick={handleClear} size="large">
               <Icons.Close />{' '}
             </IconButton>{' '}
           </InputAdornment>

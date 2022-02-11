@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { chainPropTypes } from '@material-ui/utils';
-import { withStyles } from '@material-ui/core/styles';
-import { capitalize } from '@material-ui/core/utils';
-import Star from '@material-ui/icons/Star';
+import { chainPropTypes } from '@mui/utils';
+import withStyles from '@mui/styles/withStyles';
+import { capitalize } from '@mui/material/utils';
+import Star from '@mui/icons-material/Star';
 
 function getDecimalPrecision(num) {
   const decimalPart = num.toString().split('.')[1];

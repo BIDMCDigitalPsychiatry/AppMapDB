@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { makeStyles, Grid, IconButton, Menu, MenuItem, Divider, Slide } from '@material-ui/core';
-import { createStyles } from '@material-ui/core';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import { Grid, IconButton, Menu, MenuItem, Divider, Slide } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import { useAppBarHeightRef, useChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
@@ -12,10 +13,10 @@ import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
-import { grey } from '@material-ui/core/colors';
+import { grey } from '@mui/material/colors';
 import useTabSelector from '../application/Selector/useTabSelector';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
@@ -118,74 +119,82 @@ export default function ApplicationBar({ trigger }) {
   const [, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
   const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
 
-  return (
-    <>
-      {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
-      {renderDialogModule(LoginDialog)}
-      {renderDialogModule(RegisterDialog)}
-      <Slide appear={false} direction='down' in={!trigger}>
-        <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
-          <Toolbar className={classes.toolbar} disableGutters={true}>
-            {leftDrawerEnabled && (
-              <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton}>
-                <Icons.Menu />
-              </IconButton>
-            )}
-            <Grid container alignItems='center' spacing={0}>
-              <Grid item>
-                <Logo />
-              </Grid>
-              <Grid item xs style={{ minWidth: 0 }}>
-                <AppBarTabSelector onChange={handleTabChange} />
-              </Grid>
-              <Grid item>
-                <Grid container justify='flex-end' alignItems='center'>
-                  <Grid item>
-                    <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu}>
-                      {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
-                    </IconButton>
-                    <Menu
-                      id='menu-appbar'
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right'
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right'
-                      }}
-                      open={open}
-                      onClose={handleClose}
-                      MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
-                    >
-                      {signedIn
-                        ? [
-                            <MenuItem key='email' className={classes.accountMenuItem}>
-                              {email}
-                            </MenuItem>,
-                            <Divider key='divider' />,
-                            <MenuItem key='logout' onClick={handleLogout}>
-                              Logout
-                            </MenuItem>
-                          ]
-                        : [
-                            { label: 'Login', Module: LoginDialog, onClick: handleClose },
-                            { label: 'Signup', Module: RegisterDialog, onClick: handleClose }
-                          ].map(({ label, Module, onClick }) => (
-                            <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
-                              {label}
-                            </DialogButton>
-                          ))}
-                    </Menu>
-                  </Grid>
+  return <>
+    {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
+    {renderDialogModule(LoginDialog)}
+    {renderDialogModule(RegisterDialog)}
+    <Slide appear={false} direction='down' in={!trigger}>
+      <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
+        <Toolbar className={classes.toolbar} disableGutters={true}>
+          {leftDrawerEnabled && (
+            <IconButton
+              aria-label='open drawer'
+              edge='start'
+              onClick={handleOpenLeftDrawer}
+              className={classes.menuButton}
+              size="large">
+              <Icons.Menu />
+            </IconButton>
+          )}
+          <Grid container alignItems='center' spacing={0}>
+            <Grid item>
+              <Logo />
+            </Grid>
+            <Grid item xs style={{ minWidth: 0 }}>
+              <AppBarTabSelector onChange={handleTabChange} />
+            </Grid>
+            <Grid item>
+              <Grid container justifyContent='flex-end' alignItems='center'>
+                <Grid item>
+                  <IconButton
+                    color='inherit'
+                    aria-label='account of current user'
+                    aria-haspopup='true'
+                    onClick={handleMenu}
+                    size="large">
+                    {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
+                  </IconButton>
+                  <Menu
+                    id='menu-appbar'
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right'
+                    }}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
+                  >
+                    {signedIn
+                      ? [
+                          <MenuItem key='email' className={classes.accountMenuItem}>
+                            {email}
+                          </MenuItem>,
+                          <Divider key='divider' />,
+                          <MenuItem key='logout' onClick={handleLogout}>
+                            Logout
+                          </MenuItem>
+                        ]
+                      : [
+                          { label: 'Login', Module: LoginDialog, onClick: handleClose },
+                          { label: 'Signup', Module: RegisterDialog, onClick: handleClose }
+                        ].map(({ label, Module, onClick }) => (
+                          <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
+                            {label}
+                          </DialogButton>
+                        ))}
+                  </Menu>
                 </Grid>
               </Grid>
             </Grid>
-          </Toolbar>
-        </AppBar>
-      </Slide>
-    </>
-  );
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    </Slide>
+  </>;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { DialogContent } from '@material-ui/core';
+import { DialogContent } from '@mui/material';
 import ExploreQuestions from '../../../pages/ExploreQuestions';
 
 export const title = 'Explore Questions';

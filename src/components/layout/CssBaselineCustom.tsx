@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { exactProp } from '@material-ui/utils';
-import { withStyles } from '@material-ui/core';
+import { exactProp } from '@mui/utils';
+import withStyles from '@mui/styles/withStyles';
 
 export const html = {
   WebkitFontSmoothing: 'antialiased', // Antialiasing.

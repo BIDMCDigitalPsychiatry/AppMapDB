@@ -1,4 +1,6 @@
-import { makeStyles, createStyles, useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import HeightProvider from './Providers/HeightProvider';
 import WidthProvider from './Providers/WidthProvider';
 import useRefDimensions from './hooks/useRefDimensions';

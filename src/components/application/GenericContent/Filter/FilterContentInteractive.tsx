@@ -14,10 +14,10 @@ import {
   Uses
 } from '../../../../database/models/Application';
 import { useFullScreen, useSignedIn } from '../../../../hooks';
-import { Divider, Container, Typography, Box } from '@material-ui/core';
+import { Divider, Container, Typography, Box } from '@mui/material';
 import { useFilters } from '../../../../database/useFilters';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
 
@@ -30,7 +30,7 @@ const spacing = 6;
 function Content({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
   return (
-    <Grid container justify='center' spacing={spacing}>
+    <Grid container justifyContent='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
         <Typography variant='h6'>Accessibility</Typography>
         <Divider style={{ marginBottom: 8 }} />

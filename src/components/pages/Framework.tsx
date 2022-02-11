@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Link, Typography, Box, Grid } from '@material-ui/core';
+import { Link, Typography, Box, Grid } from '@mui/material';
 import appModel from '../../images/app_model.png';
 import { useFullScreen } from '../../hooks';
 import NavPills from '../general/NavPills/NavPills';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 
 export const ContentBox = ({ p = 2, children }) => {
   const fullScreen = useFullScreen();

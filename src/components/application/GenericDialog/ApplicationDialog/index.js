@@ -1,7 +1,9 @@
 import React from 'react';
-import { Container, Grid, makeStyles, createStyles, Typography, Paper } from '@material-ui/core';
+import { Container, Grid, Typography, Paper } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import GenericDialog from '../GenericDialog';
-import { DialogContent } from '@material-ui/core';
+import { DialogContent } from '@mui/material';
 import { ApplicationTabsView } from '../RateNewApp/templates/ApplicationTabsView';
 import { useDialogState } from '../useDialogState';
 import { ApplicationReviews } from '../../GenericTable/ApplicationReviews/table';
@@ -35,7 +37,7 @@ export default function ApplicationDialog({ id = title }) {
     <GenericDialog id={id} title={id} submitLabel={null} cancelLabel='Close' maxWidth='lg'>
       <DialogContent dividers>
         <Container className={classes.root}>
-          <Grid container justify='center' spacing={3}>
+          <Grid container justifyContent='center' spacing={3}>
             <Grid item xs style={{ minWidth: 280, maxWidth: 700 }}>
               <ApplicationTabsView {...applications} />
             </Grid>

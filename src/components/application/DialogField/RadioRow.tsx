@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, FormControl, FormControlLabel, FormHelperText, Radio as MuiRadio, RadioGroup, Typography } from '@material-ui/core';
+import { Box, FormControl, FormControlLabel, FormHelperText, Radio as MuiRadio, RadioGroup, Typography } from '@mui/material';
 import { isError } from '../../../helpers';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 

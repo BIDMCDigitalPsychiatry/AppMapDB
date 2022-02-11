@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Typography, Grid, Box } from '@material-ui/core';
+import { Button, Typography, Grid, Box } from '@mui/material';
 import { googlePlayProxyUrl } from '../../constants';
 import axios from 'axios';
 import Text from '../application/DialogField/Text';

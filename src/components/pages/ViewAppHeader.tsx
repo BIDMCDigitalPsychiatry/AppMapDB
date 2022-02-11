@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
 import { getDayTimeFromTimestamp, isEmpty, publicUrl, uuid } from '../../helpers';

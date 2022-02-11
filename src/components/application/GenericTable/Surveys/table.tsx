@@ -2,9 +2,11 @@ import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import { useColumns } from './columns';
 import { useSurveyData } from './selectors';
-import { Box } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
-import { makeStyles, createStyles, Grid, Button } from '@material-ui/core';
+import { Box } from '@mui/material';
+import * as Icons from '@mui/icons-material';
+import { Grid, Button } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import { useSurveyExport } from './useSurveyExport';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as DeleteSurveyDialog from '../../GenericDialog/DeleteSurvey';
@@ -55,33 +57,31 @@ export const Surveys = ({ height: Height, ...other }) => {
   const handleShowArchived = () => setShowArchived(prev => !prev);
 
   const height = Height - 48;
-  return (
-    <>
-      {renderDialogModule({ ...DeleteSurveyDialog, handleRefresh })}
-      <Box p={1}>
-        <Grid container spacing={1} justify='flex-end'>
-          <Grid item>
-            <Button size='small' className={classes.primaryButton} onClick={handleShowArchived}>
-              <Icons.Delete style={{ marginRight: 4 }} />
-              {showArchived ? 'Hide Archived' : 'Show Archived'}
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button size='small' className={classes.primaryButton} onClick={handleExport}>
-              <Icons.GetApp style={{ marginRight: 4 }} />
-              Export Surveys
-            </Button>
-          </Grid>
+  return <>
+    {renderDialogModule({ ...DeleteSurveyDialog, handleRefresh })}
+    <Box p={1}>
+      <Grid container spacing={1} justifyContent='flex-end'>
+        <Grid item>
+          <Button size='small' className={classes.primaryButton} onClick={handleShowArchived}>
+            <Icons.Delete style={{ marginRight: 4 }} />
+            {showArchived ? 'Hide Archived' : 'Show Archived'}
+          </Button>
         </Grid>
-      </Box>
-      <GenericTableContainer
-        {...defaultApplicationsProps}
-        data={data.filter(r => (showArchived ? r.deleted : true))}
-        columns={columns}
-        showScroll={true}
-        height={height}
-        {...other}
-      />
-    </>
-  );
+        <Grid item>
+          <Button size='small' className={classes.primaryButton} onClick={handleExport}>
+            <Icons.GetApp style={{ marginRight: 4 }} />
+            Export Surveys
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
+    <GenericTableContainer
+      {...defaultApplicationsProps}
+      data={data.filter(r => (showArchived ? r.deleted : true))}
+      columns={columns}
+      showScroll={true}
+      height={height}
+      {...other}
+    />
+  </>;
 };

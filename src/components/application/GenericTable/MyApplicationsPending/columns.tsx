@@ -1,10 +1,12 @@
 import React from 'react';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import MyRatingsColumnPending from './MyRatingsColumnPending';
-import { Chip, createStyles, makeStyles, Typography } from '@material-ui/core';
+import { Chip, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
-import { green, orange, red, yellow } from '@material-ui/core/colors';
+import { green, orange, red, yellow } from '@mui/material/colors';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;

@@ -1,7 +1,9 @@
 import * as React from 'react';
-import * as Icons from '@material-ui/icons';
-import { makeStyles, useTheme, Typography, Collapse, Checkbox, Grid, createStyles } from '@material-ui/core';
-import MuiTable from 'mui-virtualized-table';
+import * as Icons from '@mui/icons-material';
+import { useTheme, Typography, Collapse, Checkbox, Grid } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import MuiTable from '../MuiTable/MuiTable';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Component from '@reactions/component';
 import classNames from 'classnames';
@@ -111,7 +113,7 @@ const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
     },
     selectedHeader: {
       paddingLeft: spacing(1),
-      paddingRight: spacing(1),
+      //paddingRight: spacing(1),
       color: palette.common.white,
       backgroundColor: palette.primary.main,
       height: layout.multiselectbarheight,
@@ -133,6 +135,8 @@ export function getRowData(selectedRowIds, data) {
     .filter(row => row)
     .map(row => (row.getRowData ? { ...row.getRowData(row) } : { id: row.id }));
 }
+
+const defaultState = { selectedRowIds: [] };
 
 export default function VirtualTable(props: VirtualTableProps) {
   const classes = useStyles(props);
@@ -182,27 +186,30 @@ export default function VirtualTable(props: VirtualTableProps) {
   })); //;== true && handleSort() }));
   return (
     <div style={{ height: height }}>
-      <Component initialState={{ selectedRowIds: [] }}>
+      <Component initialState={defaultState}>
         {({ state, setState }) => {
           const selectedRowIds = state.selectedRowIds;
           const length = selectedRowIds.length;
           const itemtxt = length === 0 ? '' : length === 1 ? length + ' item' : length + ' items';
-          const adjustedheight = length > 0 ? height - layout.multiselectbarheight - layout.contentrowspacing : height;
+          const adjustedheight = length > 0 ? height - layout.tabletoolbarheight - layout.contentrowspacing : height;
+          const handleReset = () => setState(defaultState);
           return (
             <AutoSizer>
               {({ width }) => (
                 <>
                   <div style={{ width: width }}>
                     <Collapse className={classes.collapse} in={length > 0}>
-                      <Grid className={classes.selectedHeader} container direction='row' justify='space-between' alignItems='center' spacing={0}>
+                      <Grid className={classes.selectedHeader} container direction='row' justifyContent='space-between' alignItems='center' spacing={0}>
                         <Grid item xs zeroMinWidth>
                           <Typography noWrap color='inherit' variant='h5'>
                             {itemtxt}
                           </Typography>
                         </Grid>
                         <Grid item xs>
-                          <Grid container justify='flex-end' alignItems='center' alignContent='center'>
-                            <Grid item>{length > 0 && MultiSelectToolbar && <MultiSelectToolbar rowData={getRowData(selectedRowIds, data)} />}</Grid>
+                          <Grid container justifyContent='flex-end' alignItems='center' alignContent='center'>
+                            <Grid item>
+                              {length > 0 && MultiSelectToolbar && <MultiSelectToolbar handleReset={handleReset} rowData={getRowData(selectedRowIds, data)} />}
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>

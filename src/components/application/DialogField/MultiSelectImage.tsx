@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Box, Typography, makeStyles, createStyles } from '@material-ui/core';
+import { Grid, Box, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import OutlinedDivActive from '../../general/OutlinedDiv/OutlinedDivActive';
 
 const useStyles = makeStyles(() =>
@@ -35,13 +37,13 @@ export default function MultiSelectImage({
   );
 
   return (
-    <Grid container alignItems='center' justify='center' spacing={2}>
+    <Grid container alignItems='center' justifyContent='center' spacing={2}>
       {items.map(b => {
         const active = value.findIndex(v => v === b.value) > -1;
         return (
           <Grid item key={b.value} style={{ width: 216, cursor: 'pointer' }} onClick={handleChange(b.value, active)}>
             <OutlinedDivActive active={active}>
-              <Grid container style={{ minHeight: 36 }} justify='center' alignItems='center'>
+              <Grid container style={{ minHeight: 36 }} justifyContent='center' alignItems='center'>
                 {b.image && (
                   <Grid item style={{ textAlign: 'center', padding: 8, height: 120 }}>
                     <img draggable='false' className={classes.img} src={b.image} alt={b.label} />

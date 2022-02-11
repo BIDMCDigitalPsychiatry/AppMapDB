@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@mui/material';
 import FilesDropzone from '../../application/FilesDropzone';
 import { getFileName, isEmpty, toBase64, uuid } from '../../../helpers';
 import Image from './Image';
 import { getObjectUrl } from '../../../aws-exports';
 import { isObject } from '../../application/GenericTable/helpers';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import SharedButton from '../../general/SharedButton';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 
@@ -98,7 +98,7 @@ const ImageBase64 = ({
                 marginTop: 16
               }}
             >
-              <Grid container justify='flex-end' spacing={2}>
+              <Grid container justifyContent='flex-end' spacing={2}>
                 {isBase64 && ( // Only allow resizing when working with local base64 copy because of cross origin editing limitations
                   <Grid item>
                     {resizing ? (

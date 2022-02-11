@@ -3,8 +3,6 @@ import {
   Card,
   Popover,
   useTheme,
-  makeStyles,
-  createStyles,
   CardContent,
   Divider,
   CardActions,
@@ -14,12 +12,14 @@ import {
   IconButton,
   CircularProgress,
   Collapse,
-  CardHeader
-} from '@material-ui/core';
+  CardHeader,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import { useDialogState } from '../GenericDialog/useDialogState';
 import { useValues, FieldProps } from '../GenericDialog/helpers';
 import ErrorGate from '../GenericDialog/ErrorGate';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import Fields from '../GenericDialog/Fields';
 
 export interface ComponentProps {
@@ -186,7 +186,7 @@ export default function GenericPopover({
               action={
                 handleClose && (
                   <Tooltip title='Close' placement='left'>
-                    <IconButton aria-label='close' onClick={handleClose}>
+                    <IconButton aria-label='close' onClick={handleClose} size="large">
                       <Icons.Close />
                     </IconButton>
                   </Tooltip>
@@ -212,7 +212,7 @@ export default function GenericPopover({
                     </Grid>
                   </Collapse>
                   {confirmDelete && (
-                    <Grid container spacing={2} justify='center' alignItems='center'>
+                    <Grid container spacing={2} justifyContent='center' alignItems='center'>
                       <Grid item>
                         <Button onClick={handleConfirmDelete} color='secondary'>
                           Cancel
@@ -233,7 +233,7 @@ export default function GenericPopover({
         </CardContent>
         <Divider />
         <CardActions>
-          <Button size='small' color='default' onClick={handleReset}>
+          <Button size='small' onClick={handleReset}>
             Reset
           </Button>
           {type === 'Edit' && onDelete !== undefined && (
@@ -242,7 +242,7 @@ export default function GenericPopover({
             </Button>
           )}
           {cancelLabel !== null && (
-            <Button size='small' color='default' onClick={handleClose}>
+            <Button size='small' onClick={handleClose}>
               {cancelLabel}
             </Button>
           )}

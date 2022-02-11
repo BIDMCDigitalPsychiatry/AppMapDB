@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Divider, Box, Collapse, IconButton } from '@material-ui/core';
+import { Grid, Typography, Divider, Box, Collapse, IconButton } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
@@ -8,9 +10,9 @@ import { publicUrl } from '../../helpers';
 import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
 import ImageCarousel from '../general/ImageCarousel';
 import { useAppHistoryData } from '../application/GenericTable/ApplicationHistory/selectors';
-import { Pagination, Alert, AlertTitle } from '@material-ui/lab';
+import { Pagination, Alert, AlertTitle } from '@mui/material';
 import ViewAppRating from './ViewAppRating';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import ViewAppHeader from './ViewAppHeader';
 
 const useStyles = makeStyles(({ palette }: any) =>
@@ -62,7 +64,7 @@ export default function ViewApp() {
   }, [setOpen]);
 
   return (
-    <Grid container justify='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
+    <Grid container justifyContent='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
       <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl('/Apps'), {})}>
         <Typography>{`<   Back To Results`}</Typography>
       </Grid>
@@ -108,7 +110,7 @@ export default function ViewApp() {
                   </IconButton>
                 }
               >
-                <Grid container spacing={4} justify='space-between'>
+                <Grid container spacing={4} justifyContent='space-between'>
                   <Grid item>
                     <AlertTitle>
                       <strong>Are you currently using this App?</strong>
@@ -161,7 +163,7 @@ export default function ViewApp() {
           </Grid>
           {history.length > 1 && (
             <Grid item xs={12}>
-              <Grid container justify='flex-end'>
+              <Grid container justifyContent='flex-end'>
                 <Pagination page={page} count={history.length} variant='outlined' shape='rounded' onChange={handlePageChange} />
               </Grid>
             </Grid>

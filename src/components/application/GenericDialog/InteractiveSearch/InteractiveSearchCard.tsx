@@ -3,8 +3,10 @@ import { evalFunc } from '../../../../helpers';
 import GenericStepperCard from '../GenericCardStepper';
 import steps from './steps';
 import { setMappedValue } from '../helpers';
-import * as Icons from '@material-ui/icons';
-import { Button, Collapse, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import * as Icons from '@mui/icons-material';
+import { Button, Collapse, Divider, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { variableFilters } from '../../../pages/Home';
 
 export const title = 'Interactive Search';
@@ -59,7 +61,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 const FieldActions = ({ handleNext, handleBack, handleSubmit, handleCancel, activeStep }) => {
   const classes = useStyles();
   return (
-    <Grid container justify='center' spacing={4} style={{ marginTop: 16, marginBottom: 0 }}>
+    <Grid container justifyContent='center' spacing={4} style={{ marginTop: 16, marginBottom: 0 }}>
       {activeStep > 0 && (
         <Grid item>
           <Button className={classes.primaryMainButton} onClick={handleBack} disabled={activeStep === 0}>
@@ -119,38 +121,36 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
 
   const classes = useStyles();
 
-  return (
-    <>
-      <Collapse in={open}>
-        <div className={classes.container}>
-          <Divider />
-          <GenericStepperCard
-            id={id}
-            submitLabel='Search'
-            SubmitIcon={Icons.Search}
-            onSubmit={handleSearch}
-            onChange={handleChange}
-            steps={steps}
-            onClose={onClose}
-            open={true}
-            title={null}
-            values={state}
-            setValues={setState}
-            showActions={false}
-            elevation={0}
-            FieldActions={props => <FieldActions handleCancel={handleOpen} {...props} />}
-            disableInitialize={true}
-            {...other}
-          />
+  return <>
+    <Collapse in={open}>
+      <div className={classes.container}>
+        <Divider />
+        <GenericStepperCard
+          id={id}
+          submitLabel='Search'
+          SubmitIcon={Icons.Search}
+          onSubmit={handleSearch}
+          onChange={handleChange}
+          steps={steps}
+          onClose={onClose}
+          open={true}
+          title={null}
+          values={state}
+          setValues={setState}
+          showActions={false}
+          elevation={0}
+          FieldActions={props => <FieldActions handleCancel={handleOpen} {...props} />}
+          disableInitialize={true}
+          {...other}
+        />
+      </div>
+    </Collapse>
+    <Grid container alignItems='center' style={{ background: 'transparent' }} justifyContent='center'>
+      <Grid item alignContent='center' style={{ width: 320 }}>
+        <div color='primary' className={classes.tabButton} onClick={handleOpen}>
+          <Typography>{open ? 'Close wizard' : `Not sure? Try the interactive wizard!`}</Typography>
         </div>
-      </Collapse>
-      <Grid container alignItems='center' style={{ background: 'transparent' }} justify='center'>
-        <Grid item alignContent='center' style={{ width: 320 }}>
-          <div color='primary' className={classes.tabButton} onClick={handleOpen}>
-            <Typography>{open ? 'Close wizard' : `Not sure? Try the interactive wizard!`}</Typography>
-          </div>
-        </Grid>
       </Grid>
-    </>
-  );
+    </Grid>
+  </>;
 }

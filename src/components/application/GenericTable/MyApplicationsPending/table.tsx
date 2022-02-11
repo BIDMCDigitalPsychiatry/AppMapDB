@@ -1,6 +1,6 @@
 import React from 'react';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';
 import { useColumns } from './columns';

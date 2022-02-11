@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { FormControl, FormHelperText, Grid, Typography, ButtonGroup, Button } from '@material-ui/core';
+import { FormControl, FormHelperText, Grid, Typography, ButtonGroup, Button } from '@mui/material';
 import { isError, isTrue, isFalse } from '../../../helpers';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import LightTooltip from '../../general/LightTooltip/LightTooltip';
 
 const YesNo = ({
@@ -30,10 +30,10 @@ const YesNo = ({
 
   return (
     <FormControl variant={variant} error={isError(error)} fullWidth margin={margin}>
-      <Grid container justify='space-between' alignItems='center' spacing={3}>
+      <Grid container justifyContent='space-between' alignItems='center' spacing={3}>
         {labelPlacement === 'start' && Label}
         <Grid item>
-          <Grid container justify='flex-end' alignItems='center' spacing={1}>
+          <Grid container justifyContent='flex-end' alignItems='center' spacing={1}>
             {tooltip && (
               <Grid item>
                 <LightTooltip title={tooltip}>

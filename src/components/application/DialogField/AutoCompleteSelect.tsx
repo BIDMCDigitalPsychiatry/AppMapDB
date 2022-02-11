@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import Text from './Text';
 
 const getLabel = option => ((typeof option === 'object' && option ? option.label : option) ?? '').toString();

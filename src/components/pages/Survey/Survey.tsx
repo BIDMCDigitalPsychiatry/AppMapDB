@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Box, Divider, Button } from '@material-ui/core';
+import { Grid, Typography, Box, Divider, Button } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../../hooks';
 import TextLabel from '../../application/DialogField/TextLabel';
 import Check from '../../application/DialogField/Check';
@@ -50,7 +52,7 @@ const StepTOS = ({ state, onChange, errors = {}, disabled = false }) => {
       <Typography className={classes.primaryTextMedium}>Participate in Research:</Typography>
       <Box mt={1}>
         {`Thank you for your interest in completing our survey! The surveys will take less than 10 minutes to complete total. You will be asked to complete these surveys three times over the course of six weeks. Once now, once two weeks from now, and once four weeks from the two week mark (i.e. six weeks from now). By completing the following surveys, you are granting consent to use your anonymous survey information.`}
-        <Grid container justify='flex-end'>
+        <Grid container justifyContent='flex-end'>
           <Grid item>
             {Object.keys(questions).map(label => {
               const { Field = TextLabel, ...other } = questions[label];
@@ -590,7 +592,7 @@ export default function Survey() {
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
-    <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
+    <Grid container justifyContent='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
       <Grid item>
         <Grid container className={classes.whiteHeader} spacing={1}>
           {mode === 'view' && (
@@ -599,7 +601,7 @@ export default function Survey() {
             </Grid>
           )}
           <Grid item style={{ width }} xs={12}>
-            <Grid container alignItems='flex-end' justify='space-between'>
+            <Grid container alignItems='flex-end' justifyContent='space-between'>
               <Grid item>
                 <Typography className={classes.primaryText}>
                   {isEmpty(surveyType) || surveyType === 'Initial' ? `Survey` : `${surveyType} Follow Up Survey`}
@@ -626,7 +628,7 @@ export default function Survey() {
           <Step state={state} onChange={handleChange} errors={errors} disabled={disabled} isFollowUp={isFollowUp} />
         </Grid>
         <Grid item xs={12}>
-          <Grid container spacing={2} style={{ marginTop: 16 }} justify='flex-end'>
+          <Grid container spacing={2} style={{ marginTop: 16 }} justifyContent='flex-end'>
             {state.step > 0 && (
               <Grid item>
                 <Button variant='contained' color='primary' onClick={handleBack}>

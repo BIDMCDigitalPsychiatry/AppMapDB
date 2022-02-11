@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, useTheme } from '@material-ui/core';
+import { Grid, Typography, useTheme } from '@mui/material';
 
 export default function QuestionSample({ title, color = 'white', background, rows = [] }) {
   const theme = useTheme();

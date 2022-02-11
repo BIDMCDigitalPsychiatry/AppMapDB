@@ -1,7 +1,7 @@
 import * as React from 'react';
-import MuiRating from '@material-ui/lab/Rating';
+import MuiRating from '@mui/material/Rating';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
-import { FormControl, FormHelperText } from '@material-ui/core';
+import { FormControl, FormHelperText } from '@mui/material';
 import { isError } from '../../../helpers';
 
 export default function Rating({

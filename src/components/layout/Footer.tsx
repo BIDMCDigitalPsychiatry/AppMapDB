@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, createStyles, makeStyles, Typography, Link } from '@material-ui/core';
+import { Grid, Typography, Link } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import Logo from './Logo';
 import Questions from './Questions';
 import { useFooterHeightRef, useHandleChangeRoute } from './hooks';
@@ -47,10 +49,10 @@ export default function Footer({ variant = 'normal' }) {
 
   return (
     <div ref={useFooterHeightRef()} className={classes.root}>
-      <Grid container justify='center' className={classes.container} spacing={1}>
+      <Grid container justifyContent='center' className={classes.container} spacing={1}>
         {variant !== 'small' && (
           <Grid item xs={12}>
-            <Grid container justify='space-between' spacing={spacing}>
+            <Grid container justifyContent='space-between' spacing={spacing}>
               <Grid item style={{ marginTop: 8, marginLeft: -8 }}>
                 <Logo autoHide={false} showText={showText} />
               </Grid>
@@ -61,7 +63,7 @@ export default function Footer({ variant = 'normal' }) {
           </Grid>
         )}
         <Grid item xs style={{ minWidth: 0 }}>
-          <Grid container justify='space-between' spacing={spacing}>
+          <Grid container justifyContent='space-between' spacing={spacing}>
             {tabs
               .filter(t => (!isAdmin ? (t.id === 'Admin' ? false : true) : true))
               .map(({ id, route }) => (
@@ -74,7 +76,7 @@ export default function Footer({ variant = 'normal' }) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Grid container justify='flex-start'>
+          <Grid container justifyContent='flex-start'>
             <Grid item xs={fs ? 5 : 2} zeroMinWidth>
               <Typography noWrap align='left'>
                 <Link href='https://www.digitalpsych.org/' variant='caption' target='_blank' color='inherit'>

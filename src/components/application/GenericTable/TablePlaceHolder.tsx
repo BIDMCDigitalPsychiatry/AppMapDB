@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../../store';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 export interface TablePlaceholderProps {
   name?: string;

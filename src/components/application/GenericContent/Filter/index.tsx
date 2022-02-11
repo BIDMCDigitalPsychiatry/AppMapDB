@@ -16,7 +16,7 @@ import {
 import { useProcessData } from '../../../../database/useProcessData';
 import { useFullScreen, useSignedIn } from '../../../../hooks';
 import { useHandleChangeRoute } from '../../../layout/hooks';
-import { Grid, Button, Divider, Typography, Box } from '@material-ui/core';
+import { Grid, Button, Divider, Typography, Box } from '@mui/material';
 import { publicUrl } from '../../../../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { useSelector } from 'react-redux';
@@ -37,7 +37,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
   const { advanced } = values;
   return (
-    <Grid container style={{ maxWidth: 1000 }} justify='center' spacing={spacing}>
+    <Grid container style={{ maxWidth: 1000 }} justifyContent='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
         <Typography variant='h6'>Text Search</Typography>
         <Divider style={{ marginBottom: 8 }} />
@@ -135,9 +135,9 @@ const FilterButtons = props => {
   }, [getFilters, filterName, uid, processData, values]);
 
   return (
-    <Grid container spacing={2} justify='flex-end' alignItems='center'>
+    <Grid container spacing={2} justifyContent='flex-end' alignItems='center'>
       <Grid item>
-        <Button variant='outlined' size='small' color='default' onClick={handleReset}>
+        <Button variant='outlined' size='small' onClick={handleReset}>
           Reset
         </Button>
       </Grid>

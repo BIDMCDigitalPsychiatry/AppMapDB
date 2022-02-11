@@ -1,31 +1,37 @@
 import * as React from 'react';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import { isError } from '../../../helpers';
+import MuiDatePicker from '@mui/lab/DatePicker';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { TextField } from '@mui/material';
 
 const DatePicker = ({ onChange, value, error, forceErrorMargin = false, ...other }) => {
+  const handleChange = React.useCallback(
+    value => {
+      onChange({ target: { value } });
+    },
+    [onChange]
+  );
+
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDatePicker
-        fullWidth={true}
-        margin='dense'
-        inputVariant='outlined'
-        format='MM/dd/yyyy'
-        KeyboardButtonProps={{
-          'aria-label': 'change date'
-        }}
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <MuiDatePicker
+        inputFormat='MM/dd/yyyy'
         value={value}
-        onChange={React.useCallback(
-          (e, value) => {
-            onChange({ target: { value } });
-          },
-          [onChange]
+        onChange={handleChange}
+        renderInput={({ error: iError, helperText: iHelperText, ...remaining }) => (
+          <TextField
+            error={isError(error) || iError}
+            helperText={forceErrorMargin ? (error ?? iHelperText) || ' ' : (error ?? iHelperText) && (error ?? iHelperText)} // Forces a constant helper text margin
+            fullWidth={true}
+            margin='dense'
+            variant='outlined'
+            {...(remaining as any)}
+          />
         )}
-        error={isError(error)}
-        helperText={forceErrorMargin ? error || ' ' : error && error} // Forces a constant helper text margin
         {...other}
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 };
 

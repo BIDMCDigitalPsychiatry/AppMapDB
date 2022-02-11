@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme, useMediaQuery } from '@material-ui/core';
+import { useTheme, useMediaQuery } from '@mui/material';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 const DialogTableContent = ({ Table, breakpoint = 'sm' as any, inProgress, toolbar = true, square = true, elevation = 0, ...other }) => {

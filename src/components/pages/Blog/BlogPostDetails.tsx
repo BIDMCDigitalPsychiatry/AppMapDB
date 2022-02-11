@@ -1,6 +1,8 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { Box, Button, Chip, Container, createStyles, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Container, Divider, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import PencilAltIcon from '../../icons/PencilAlt';
 import BlogPostComment from '../../application/Blog/BlogPostComment';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
@@ -9,7 +11,7 @@ import BlogToolbar from './BlogToolbar';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 import { bool, isEmpty, isEmptyObject, publicUrl } from '../../../helpers';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import useValues from './useValues';
 import { useIsAdmin, useSignedIn } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
@@ -191,7 +193,7 @@ const BlogPostDetails = () => {
         {values.cover && (
           <Box mt={0}>
             <Container maxWidth='xl'>
-              <Grid container justify='center'>
+              <Grid container justifyContent='center'>
                 <Grid item>
                   <img alt='cover' src={values.cover} style={{ maxHeight: 350 }} />
                 </Grid>
@@ -209,7 +211,7 @@ const BlogPostDetails = () => {
         {bool(enableComments) && (
           <div>
             <Container maxWidth='lg'>
-              <Grid container justify='space-between' spacing={2}>
+              <Grid container justifyContent='space-between' spacing={2}>
                 <Grid item>
                   <Typography color='textPrimary' variant='h6'>
                     {`Comments (${commentCount})`}

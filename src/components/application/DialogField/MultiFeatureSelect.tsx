@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Features } from '../../../database/models/Application';
-import { Chip, createStyles, emphasize, Grid, makeStyles, Typography } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Chip, emphasize, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
+import * as Icons from '@mui/icons-material';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -62,7 +64,7 @@ export default function MuliFeatureSelectCheck({
   );
 
   return (
-    <Grid container justify='flex-start' spacing={2}>
+    <Grid container justifyContent='flex-start' spacing={2}>
       {Features.map(f => {
         const isActive = value.find(v => v === f);
         const iconStyle = { color: 'white' };

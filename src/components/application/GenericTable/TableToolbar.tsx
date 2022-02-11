@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Grid, Paper, Input, Tooltip } from '@material-ui/core';
-import { FormControl, InputAdornment, IconButton, Typography } from '@material-ui/core';
+import { Grid, Paper, Input, Tooltip } from '@mui/material';
+import { FormControl, InputAdornment, IconButton, Typography } from '@mui/material';
 import { useTable, useTableUpdate } from './store';
-import { Fab, makeStyles, createStyles, useTheme } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { Fab, useTheme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import * as Icons from '@mui/icons-material';
 import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import { useFullScreen } from '../../../hooks';
@@ -159,7 +161,7 @@ function TableToolbar(props: TableToolbarProps) {
         }
         endAdornment={
           <InputAdornment position='end'>
-            <IconButton className={classes.searchIcon} onClick={handleClear}>
+            <IconButton className={classes.searchIcon} onClick={handleClear} size="large">
               <Icons.Close />{' '}
             </IconButton>{' '}
           </InputAdornment>
@@ -213,7 +215,7 @@ function TableToolbar(props: TableToolbarProps) {
 
   const ButtonGroup = (
     <Grid item>
-      <Grid container direction='row' justify='flex-end' alignItems='center' spacing={buttonspacing}>
+      <Grid container direction='row' justifyContent='flex-end' alignItems='center' spacing={buttonspacing}>
         <Grid item>
           <div style={{ display: searchOpen ? '' : 'none' }}>{Search}</div>
           {!searchOpen && (
@@ -230,45 +232,43 @@ function TableToolbar(props: TableToolbarProps) {
     </Grid>
   );
 
-  return (
-    <>
-      {buttonPosition === 'top' && (
-        <Paper elevation={0} square={square}>
-          <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
-            <Grid item xs zeroMinWidth>
-              <Grid container justify='flex-start' alignItems='center'></Grid>
-            </Grid>
-            {ButtonGroup}
-          </Grid>
-        </Paper>
-      )}
-      <Paper className={classes.paper} square={square}>
-        <Grid container spacing={0} justify='space-between' alignItems='center' className={classes.grid}>
+  return <>
+    {buttonPosition === 'top' && (
+      <Paper elevation={0} square={square}>
+        <Grid container spacing={0} justifyContent='space-between' alignItems='center' className={classes.grid}>
           <Grid item xs zeroMinWidth>
-            <Grid container justify='flex-start' alignItems='center'>
-              {tableiconvisible && showicon === true && (
-                <Grid item>
-                  <Tooltip title={title}>
-                    <IconComponent className={classes.titleicon} />
-                  </Tooltip>
-                </Grid>
-              )}
-              {tabletitlevisible && (
-                <Grid item xs zeroMinWidth>
-                  {title && (
-                    <Typography variant='body2' noWrap className={classes.title}>
-                      {title}
-                    </Typography>
-                  )}
-                </Grid>
-              )}
-            </Grid>
+            <Grid container justifyContent='flex-start' alignItems='center'></Grid>
           </Grid>
-          {buttonPosition !== 'top' && ButtonGroup}
+          {ButtonGroup}
         </Grid>
       </Paper>
-    </>
-  );
+    )}
+    <Paper className={classes.paper} square={square}>
+      <Grid container spacing={0} justifyContent='space-between' alignItems='center' className={classes.grid}>
+        <Grid item xs zeroMinWidth>
+          <Grid container justifyContent='flex-start' alignItems='center'>
+            {tableiconvisible && showicon === true && (
+              <Grid item>
+                <Tooltip title={title}>
+                  <IconComponent className={classes.titleicon} />
+                </Tooltip>
+              </Grid>
+            )}
+            {tabletitlevisible && (
+              <Grid item xs zeroMinWidth>
+                {title && (
+                  <Typography variant='body2' noWrap className={classes.title}>
+                    {title}
+                  </Typography>
+                )}
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+        {buttonPosition !== 'top' && ButtonGroup}
+      </Grid>
+    </Paper>
+  </>;
 }
 
 export default TableToolbar;

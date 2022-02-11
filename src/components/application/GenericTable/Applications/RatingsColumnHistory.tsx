@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import { Status } from '../../GenericTable/MyApplicationsPending/columns';
 import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDialog';

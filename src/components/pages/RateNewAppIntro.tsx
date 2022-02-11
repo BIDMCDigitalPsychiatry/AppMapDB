@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, Typography, Box, Divider, Button, Grid } from '@material-ui/core';
+import { Link, Typography, Box, Divider, Button, Grid } from '@mui/material';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import { useSignedIn } from '../../hooks';
@@ -38,14 +38,14 @@ export default function RateNewAppIntro() {
       </Box>
       <Divider />
       <Box pt={2}>
-        <Grid container justify='center'>
+        <Grid container justifyContent='center'>
           <Grid item xs={12}>
             <Typography variant='h6' align='center'>
               Instructional Video
             </Typography>
           </Grid>
           <Grid item style={{ paddingTop: 16 }} xs={12}>
-            <Grid container justify='center'>
+            <Grid container justifyContent='center'>
               <Grid item>
                 <ReactPlayer url={contentPath} controls={true} width={Math.min(width - 32, 640)} />
               </Grid>

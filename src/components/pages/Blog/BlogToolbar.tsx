@@ -1,4 +1,6 @@
-import { Button, createStyles, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { Button, Grid, Toolbar, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useUserEmail } from '../../layout/hooks';
 
 const spacing = 3;
@@ -27,37 +29,35 @@ const BlogToolbar = ({ title = undefined, subtitle = undefined, showGreeting = f
 
   const showToolbar = title || showGreeting || subtitle || (buttons && buttons.length > 0);
 
-  return (
-    <>      
-      {showToolbar && (
-        <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
-          <Grid alignItems='center' container justify='space-between' spacing={spacing}>
-            <Grid item>
-              {title && (
-                <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
-                  {title}
-                </Typography>
+  return <>      
+    {showToolbar && (
+      <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
+        <Grid alignItems='center' container justifyContent='space-between' spacing={spacing}>
+          <Grid item>
+            {title && (
+              <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
+                {title}
+              </Typography>
+            )}
+            {SubTitle}
+          </Grid>
+          <Grid item>
+            <Grid container spacing={spacing}>
+              {buttons.map(
+                ({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
+                  <Grid item key={label}>
+                    <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
+                      {label}
+                    </Button>
+                  </Grid>
+                )
               )}
-              {SubTitle}
-            </Grid>
-            <Grid item>
-              <Grid container spacing={spacing}>
-                {buttons.map(
-                  ({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
-                    <Grid item key={label}>
-                      <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
-                        {label}
-                      </Button>
-                    </Grid>
-                  )
-                )}
-              </Grid>
             </Grid>
           </Grid>
-        </Toolbar>
-      )}
-    </>
-  );
+        </Grid>
+      </Toolbar>
+    )}
+  </>;
 };
 
 export default BlogToolbar;

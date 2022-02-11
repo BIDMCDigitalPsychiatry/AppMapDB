@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles } from '@material-ui/styles';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import { makeStyles, createStyles } from '@mui/styles';
 import {
   Grid,
   Step,
@@ -16,13 +16,13 @@ import {
   CardHeader,
   DialogContent,
   DialogActions
-} from '@material-ui/core';
+} from '@mui/material';
 import { useDialogState } from './useDialogState';
 import merge from 'deepmerge';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import CheckIcon from '@material-ui/icons/CheckCircleOutline';
-import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import CheckIcon from '@mui/icons-material/CheckCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { isEnabled, useValues, isError, useStepFields } from './helpers';
 import Fields from './Fields';
 import OnActivate from './OnActivate';
@@ -297,7 +297,7 @@ const GenericStepperCard = ({
             })}
           </Collapse>
           {confirmDelete && (
-            <Grid container spacing={2} justify='center' alignItems='center'>
+            <Grid container spacing={2} justifyContent='center' alignItems='center'>
               <Grid item>
                 <Button onClick={handleConfirmDelete} color='secondary'>
                   Cancel

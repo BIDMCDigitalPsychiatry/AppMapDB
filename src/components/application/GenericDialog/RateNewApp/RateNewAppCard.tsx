@@ -8,7 +8,7 @@ import GenericStepper from '../GenericStepper';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 import { useSelector } from 'react-redux';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { useAppData } from '../../GenericTable/Applications/selectors';
 
 export const title = 'Rate an App V2';

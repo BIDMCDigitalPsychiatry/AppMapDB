@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Button, Box } from '@material-ui/core';
+import { Grid, Typography, Button, Box } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
 import { emailUser } from '../../../package.json';
 import { AWS } from '../../database/dbConfig';

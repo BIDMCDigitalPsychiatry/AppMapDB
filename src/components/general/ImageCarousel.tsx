@@ -1,16 +1,18 @@
 import * as React from 'react';
-import { createStyles, Grid, IconButton, Link, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Grid, IconButton, Link, Paper, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import Carousel from 'react-elastic-carousel';
-import * as Icons from '@material-ui/icons';
-import { grey } from '@material-ui/core/colors';
+import * as Icons from '@mui/icons-material';
+import { grey } from '@mui/material/colors';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const Arrow = ({ type, onClick }) => {
   const Icon = type === 'PREV' ? Icons.NavigateBefore : Icons.NavigateNext;
   return (
-    <Grid container style={{ maxWidth: 64 }} spacing={0} justify='center' direction='column'>
+    <Grid container style={{ maxWidth: 64 }} spacing={0} justifyContent='center' direction='column'>
       <Grid item>
-        <IconButton onClick={onClick}>
+        <IconButton onClick={onClick} size="large">
           <Icon style={{ color: '#38B6FF' }} fontSize='large' />
         </IconButton>
       </Grid>

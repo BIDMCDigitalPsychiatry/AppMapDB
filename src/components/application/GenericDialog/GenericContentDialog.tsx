@@ -1,20 +1,20 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Divider from '@material-ui/core/Divider';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createStyles } from '@material-ui/styles';
-import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Grid, Tooltip, CircularProgress, useTheme, Collapse } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import { makeStyles, createStyles } from '@mui/styles';
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton, Grid, Tooltip, CircularProgress, useTheme, Collapse } from '@mui/material';
 import { useDialogState } from './useDialogState';
 import { useValues } from './helpers';
-import DeleteIcon from '@material-ui/icons/Delete';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ErrorGate from './ErrorGate';
 import ExtendedButton from './ExtendedButton';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import FieldsTemplate from './FieldsTemplate';
 import { useFullScreen } from '../../../hooks';
 
@@ -246,8 +246,8 @@ const GenericDialogContent = ({
     >
       {dialogTitle !== null && (
         <>
-          <DialogTitle id={`${id}-dialog-title`} disableTypography className={classes.dialogTitle}>
-            <Grid container className={classes.dialogTitleGrid} justify='space-between' alignItems='center'>
+          <DialogTitle id={`${id}-dialog-title`} className={classes.dialogTitle}>
+            <Grid container className={classes.dialogTitleGrid} justifyContent='space-between' alignItems='center'>
               <Grid item>
                 <Typography variant='h6' className={classes.capitalize}>
                   {dialogTitle ? dialogTitle : [type, id].join(' ')}
@@ -256,7 +256,11 @@ const GenericDialogContent = ({
               <Grid item>
                 {handleClose ? (
                   <Tooltip title='Close' placement='left'>
-                    <IconButton aria-label='close' className={classes.closeButton} onClick={handleClose}>
+                    <IconButton
+                      aria-label='close'
+                      className={classes.closeButton}
+                      onClick={handleClose}
+                      size="large">
                       <CloseIcon />
                     </IconButton>
                   </Tooltip>
@@ -272,7 +276,7 @@ const GenericDialogContent = ({
           <div style={{ minHeight }}>
             {inProgress && <CircularProgress size={layout.progressSize} className={classes.submitProgress} />}
             <Collapse in={!confirmDelete}>
-              <Grid container alignItems='center' justify='center'>
+              <Grid container alignItems='center' justifyContent='center'>
                 <Grid item xs={12} style={{ maxWidth: maxContentWidth }}>
                   <Grid container alignItems='center' spacing={1}>
                     <FieldsTemplate {...contentProps} />
@@ -281,7 +285,7 @@ const GenericDialogContent = ({
               </Grid>
             </Collapse>
             {confirmDelete && (
-              <Grid container spacing={2} justify='center' alignItems='center'>
+              <Grid container spacing={2} justifyContent='center' alignItems='center'>
                 <Grid item>
                   <Button onClick={handleConfirmDelete} color='secondary'>
                     Cancel

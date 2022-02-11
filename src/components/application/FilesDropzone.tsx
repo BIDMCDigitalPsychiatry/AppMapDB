@@ -2,7 +2,20 @@ import type { FC } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 import type { DropzoneOptions } from 'react-dropzone';
-import { Box, Button, createStyles, IconButton, Link, List, ListItem, ListItemIcon, ListItemText, makeStyles, Tooltip, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  IconButton,
+  Link,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import DuplicateIcon from '../icons/Duplicate';
 import XIcon from '../icons/X';
 import { bytesToSize } from '../../helpers';
@@ -128,7 +141,7 @@ const FileDropzone: FC<FileDropzoneProps> = props => {
                   secondary={bytesToSize(file.size)}
                 />
                 <Tooltip title='Remove'>
-                  <IconButton edge='end' onClick={() => onRemove && onRemove(file)}>
+                  <IconButton edge='end' onClick={() => onRemove && onRemove(file)} size="large">
                     <XIcon fontSize='small' />
                   </IconButton>
                 </Tooltip>

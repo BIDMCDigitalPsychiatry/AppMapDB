@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Box, Grid, makeStyles, createStyles, Paper, Divider, Typography, useTheme } from '@material-ui/core';
+import { Box, Grid, Paper, Divider, Typography, useTheme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import DialogButton from '../application/GenericDialog/DialogButton';
 
 import i0 from '../../images/questions/0.png';
@@ -38,55 +40,53 @@ export default function ObjecttiveQuestions() {
 
   const hidden = !useFullScreen('xs');
 
-  return (
-    <>
-      <Grid container item xs={12} justify='space-between' alignItems='center' spacing={2}>
-        <Grid container item justify='center' xs>
-          <DialogButton
-            disabled={index <= 0 ? true : false}
-            className={classes.button}
-            size='large'
-            variant='outlined'
-            tooltip='Click to View Previous'
-            Icon={null}
-            onClick={handleBack}
-            disabledColor={theme.palette.text.disabled}
-          >
-            Back
-          </DialogButton>
-        </Grid>
-        {hidden && (
-          <Grid item xs>
-            <Typography align='center' color='textSecondary'>
-              {index + 1} of {images.length}
-            </Typography>
-          </Grid>
-        )}
-        <Grid container item justify='center' xs>
-          <DialogButton
-            disabled={index >= images.length - 1 ? true : false}
-            className={classes.button}
-            size='large'
-            variant='outlined'
-            tooltip='Click to View Next'
-            Icon={null}
-            onClick={handleNext}
-            disabledColor={theme.palette.text.disabled}
-          >
-            Next
-          </DialogButton>
-        </Grid>
+  return <>
+    <Grid container item xs={12} justifyContent='space-between' alignItems='center' spacing={2}>
+      <Grid container item justifyContent='center' xs>
+        <DialogButton
+          disabled={index <= 0 ? true : false}
+          className={classes.button}
+          size='large'
+          variant='outlined'
+          tooltip='Click to View Previous'
+          Icon={null}
+          onClick={handleBack}
+          disabledColor={theme.palette.text.disabled}
+        >
+          Back
+        </DialogButton>
       </Grid>
-      <Box mt={2} mb={2}>
-        <Divider />
-      </Box>
-      <Grid container item xs={12} justify='space-between' spacing={2}>
-        <Grid item>
-          <Paper>
-            <img style={{ width: '100%' }} src={images[index]} alt={`slide-${index}`} />
-          </Paper>
+      {hidden && (
+        <Grid item xs>
+          <Typography align='center' color='textSecondary'>
+            {index + 1} of {images.length}
+          </Typography>
         </Grid>
+      )}
+      <Grid container item justifyContent='center' xs>
+        <DialogButton
+          disabled={index >= images.length - 1 ? true : false}
+          className={classes.button}
+          size='large'
+          variant='outlined'
+          tooltip='Click to View Next'
+          Icon={null}
+          onClick={handleNext}
+          disabledColor={theme.palette.text.disabled}
+        >
+          Next
+        </DialogButton>
       </Grid>
-    </>
-  );
+    </Grid>
+    <Box mt={2} mb={2}>
+      <Divider />
+    </Box>
+    <Grid container item xs={12} justifyContent='space-between' spacing={2}>
+      <Grid item>
+        <Paper>
+          <img style={{ width: '100%' }} src={images[index]} alt={`slide-${index}`} />
+        </Paper>
+      </Grid>
+    </Grid>
+  </>;
 }

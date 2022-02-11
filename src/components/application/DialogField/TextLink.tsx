@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { TextField, InputAdornment, IconButton, Tooltip } from '@material-ui/core';
+import { TextField, InputAdornment, IconButton, Tooltip } from '@mui/material';
 import { isEmpty, isError } from '../../../helpers';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { useHandleLink } from '../../../hooks';
 
 const TextLink = ({
@@ -36,7 +36,13 @@ const TextLink = ({
         endAdornment: (
           <Tooltip title='Click to open'>
             <InputAdornment position='end'>
-              <IconButton disabled={isEmpty(value)} aria-label='open-link' onClick={handleLink} onMouseDown={handleMouseDown} edge='end'>
+              <IconButton
+                disabled={isEmpty(value)}
+                aria-label='open-link'
+                onClick={handleLink}
+                onMouseDown={handleMouseDown}
+                edge='end'
+                size="large">
                 <Icons.Link />
               </IconButton>
             </InputAdornment>

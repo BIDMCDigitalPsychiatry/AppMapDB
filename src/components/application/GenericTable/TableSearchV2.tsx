@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { InputAdornment, IconButton } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core';
-import * as Icons from '@material-ui/icons';
+import { InputAdornment, IconButton } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import * as Icons from '@mui/icons-material';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import Text from '../DialogField/Text';
 
@@ -40,6 +41,7 @@ export default function TableSearchV2({ value = '', label = undefined, placehold
   return (
     <Text
       margin='dense'
+      size='small'
       placeholder={placeholder}
       value={value}
       onChange={onChange}
@@ -53,7 +55,7 @@ export default function TableSearchV2({ value = '', label = undefined, placehold
         ),
         endAdornment: (
           <InputAdornment position='end'>
-            <IconButton className={classes.endIcon} onClick={handleClear}>
+            <IconButton className={classes.endIcon} onClick={handleClear} size="large">
               <Icons.Close />{' '}
             </IconButton>{' '}
           </InputAdornment>

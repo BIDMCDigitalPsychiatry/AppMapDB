@@ -1,5 +1,7 @@
 import React from 'react';
-import { Grid, Box, Typography, Link, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, Box, Typography, Link, Theme } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 import Application, { DeveloperTypeQuestions } from '../../../../database/models/Application';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import RatingsColumn from '../Applications/RatingsColumn';

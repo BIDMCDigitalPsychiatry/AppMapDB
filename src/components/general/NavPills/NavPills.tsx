@@ -1,7 +1,10 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
-import { Tab, Tabs, Grid, makeStyles, createStyles, Divider } from '@material-ui/core';
+import { Tab, Tabs, Grid, Divider } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 
 const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
   createStyles({
@@ -168,7 +171,8 @@ export default function NavPills(props: ComponentProps) {
       onChange={handleChange}
       centered={alignCenter}
       variant={scrollable ? 'scrollable' : 'fullWidth'}
-      scrollButtons={scrollable ? 'on' : 'off'}
+      scrollButtons={scrollable ? true : false}
+      allowScrollButtonsMobile={scrollable ? true : undefined}
     >
       {tabs.map((prop, key) => {
         var icon = {};

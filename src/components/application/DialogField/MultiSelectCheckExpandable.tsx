@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { Box, Collapse, createStyles, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, Collapse, Grid, IconButton, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import Check from './Check';
 import { bool } from '../../../helpers';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -59,7 +61,7 @@ export default function MuliSelectCheckExpandable({
 
   return (
     <Box ml={1} mr={1} style={{ paddingBottom: 8 }}>
-      <Grid container justify='space-between' alignItems='center' className={classes.container} style={{ cursor: 'pointer' }} onClick={handleClick}>
+      <Grid container justifyContent='space-between' alignItems='center' className={classes.container} style={{ cursor: 'pointer' }} onClick={handleClick}>
         <Grid item xs zeroMinWidth={true}>
           <Typography variant='body1' style={{ color, fontWeight: 600 }}>
             {label}

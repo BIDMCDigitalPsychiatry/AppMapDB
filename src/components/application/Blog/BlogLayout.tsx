@@ -3,7 +3,7 @@ import BlogPostDetails from '../../pages/Blog/BlogPostDetails';
 import BlogPostCreate from '../../pages/Blog/BlogPostCreate';
 import { useRouteState } from '../../layout/store';
 import BlogPostEdit from '../../pages/Blog/BlogPostEdit';
-import { Box, Divider } from '@material-ui/core';
+import { Box, Divider } from '@mui/material';
 import BlogCalendar from '../../pages/Blog/BlogCalendar';
 import BlogLayoutSelector from './BlogLayoutSelector';
 import TeamMemberCreate from '../../pages/Team/TeamMemberCreate';

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl, FormControlLabel, Checkbox, FormHelperText } from '@material-ui/core';
+import { FormControl, FormControlLabel, Checkbox, FormHelperText } from '@mui/material';
 import { bool, isError } from '../../../helpers';
 
 const Check = ({

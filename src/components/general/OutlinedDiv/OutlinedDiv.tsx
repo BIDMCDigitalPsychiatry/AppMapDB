@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Grid, InputLabel, makeStyles, createStyles } from '@material-ui/core';
-import NotchedOutline from '@material-ui/core/OutlinedInput/NotchedOutline';
+import { Grid, InputLabel } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import NotchedOutline from '@mui/material/OutlinedInput/NotchedOutline';
 import { isError } from '../../../helpers';
 
 const useStyles = makeStyles(({ palette, shape }: any) =>
@@ -20,7 +21,7 @@ const useStyles = makeStyles(({ palette, shape }: any) =>
       paddingTop: 8,
       paddingBottom: 8,
       borderRadius: shape.borderRadius,
-      borderColor: palette.type === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)',
+      borderColor: palette.mode === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)',
       '&:hover': {
         borderColor: palette.text.primary
       }
@@ -51,16 +52,10 @@ export default function OutlinedDiv({
   children = undefined
 }) {
   const classes = useStyles({ error });
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  const labelRef = React.useRef(null);
-  React.useEffect(() => {
-    const labelNode: any = ReactDOM.findDOMNode(labelRef.current);
-    setLabelWidth(labelNode != null ? labelNode.offsetWidth : 0);
-  }, [label]);
 
   return (
     <div className={classes.root} style={{ width, maxWidth, margin, marginTop, marginBottom, height }}>
-      <InputLabel ref={labelRef} htmlFor={label} variant='outlined' className={classes.inputLabel} shrink>
+      <InputLabel htmlFor={label} variant='outlined' className={classes.inputLabel} shrink>
         {label}
       </InputLabel>
       <div className={classes.container}>
@@ -68,7 +63,7 @@ export default function OutlinedDiv({
           <Grid item xs={12}>
             {children}
           </Grid>
-          <NotchedOutline className={classes.notchedOutline} notched labelWidth={labelWidth} />
+          <NotchedOutline className={classes.notchedOutline} notched />
         </Grid>
       </div>
     </div>

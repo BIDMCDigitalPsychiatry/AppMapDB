@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Icons from '@material-ui/icons';
-import { Grid, Typography } from '@material-ui/core';
+import * as Icons from '@mui/icons-material';
+import { Grid, Typography } from '@mui/material';
 import { getDayTimeFromTimestamp, publicUrl, uuid } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
 import DialogButton from '../../GenericDialog/DialogButton';

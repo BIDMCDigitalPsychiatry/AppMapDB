@@ -1,5 +1,5 @@
 import React from 'react';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@mui/icons-material/Add';
 import {
   Button,
   IconButton,
@@ -10,18 +10,18 @@ import {
   useTheme,
   ListItem,
   ListItemText,
-  makeStyles,
-  createStyles,
   Badge,
-  withStyles,
   Link,
-  MenuItem
-} from '@material-ui/core';
+  MenuItem,
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
+import withStyles from '@mui/styles/withStyles';
 import { useDialogState } from './useDialogState';
-import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from '@mui/icons-material/Edit';
 import { checkEmpty, evalFunc } from '../../../helpers';
 import { useTableFilterValues } from '../GenericTable/store';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { useFullScreen } from '../../../hooks';
 import ArrowButton from '../../general/ArrowButton';
 
@@ -295,7 +295,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               <ListItemText primary={label} />
             </ListItem>
           ) : variant === 'iconbutton' ? (
-            <IconButton className={classes.margin} color={color} {...shared}>
+            <IconButton className={classes.margin} color={color} {...shared} size="small">
               {Icon && <Icon fontSize='large' />}
             </IconButton>
           ) : variant === 'primarycontained' ? (

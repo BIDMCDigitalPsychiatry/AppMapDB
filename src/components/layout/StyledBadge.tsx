@@ -1,5 +1,7 @@
-import { createStyles } from '@material-ui/core/styles';
-import { Badge, withStyles } from '@material-ui/core';
+import createStyles from '@mui/styles/createStyles';
+import { Badge } from '@mui/material';
+
+import withStyles from '@mui/styles/withStyles';
 
 export default withStyles(theme =>
   createStyles({

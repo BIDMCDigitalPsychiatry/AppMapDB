@@ -1,8 +1,8 @@
 import React from 'react';
-import Slider from '@material-ui/core/Slider';
-import { Grid } from '@material-ui/core';
+import Slider from '@mui/material/Slider';
+import { Grid } from '@mui/material';
 import AvatarEditor from 'react-avatar-editor';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { isEmpty } from '../../../helpers';
 import SharedButton from '../../general/SharedButton';
 
@@ -15,7 +15,7 @@ const Image = ({ value = '', onChange = undefined, width = 500, height = 200 }) 
   };
 
   return (
-    <Grid container justify='center'>
+    <Grid container justifyContent='center'>
       <Grid item style={{ textAlign: 'center' }}>
         <AvatarEditor
           ref={editorRef}

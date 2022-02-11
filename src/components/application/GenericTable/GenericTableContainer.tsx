@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import TableToolbar, { TableToolbarProps } from './TableToolbar';
 import { GenericTableProps } from './GenericTable';
 import TableTabSelector from './TableTabSelector';
-import { Paper, CircularProgress, useTheme } from '@material-ui/core';
+import { Paper, CircularProgress, useTheme } from '@mui/material';
 import { evalFunc } from '../../../helpers';
 import { useAppBarHeight } from '../../layout/store';
 import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
@@ -133,7 +133,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
 
   const spinner = (
     <Paper elevation={0} style={{ height: calculatedheight }}>
-      <Grid container style={{ height: calculatedheight }} direction='column' alignItems='center' justify='center' spacing={0}>
+      <Grid container style={{ height: calculatedheight }} direction='column' alignItems='center' justifyContent='center' spacing={0}>
         <Grid item>
           <CircularProgress color='primary' size={calculatedheight / 6} thickness={3} />
         </Grid>

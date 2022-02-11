@@ -1,6 +1,6 @@
-import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { createTheme, Theme, adaptV4Theme } from '@mui/material/styles';
 import { notoSans, lato } from './fonts';
-import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@material-ui/core/colors';
+import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
 import { onlyUnique } from './helpers';
 import {
   ClinicalFoundationQuestions,
@@ -18,12 +18,12 @@ import {
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
 //export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
 
-const basetheme = createMuiTheme({});
+const basetheme = createTheme(adaptV4Theme({}));
 export const beta = true;
 
 const themeProps = {
   palette: {
-    type: 'light',
+    mode: 'light',
     primary: {
       main: '#2278CF',
       light: '#38B6FF',
@@ -49,8 +49,9 @@ const themeProps = {
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)
     tablefooterheight: 20, //The height of the table footer
     tablefilterbarheight: 52, //The height of the table filter selector (category selector)
-    tabletoolbarheight: basetheme.spacing(5.5) * 2, // The height of the top bar on the table, also the height of the secondary tabselector
-    tableRowHeight: basetheme.spacing(6), // Height of table rows
+    //tabletoolbarheight: basetheme.spacing(5.5) * 2, // The height of the top bar on the table, also the height of the secondary tabselector
+    tabletoolbarheight: 48, // The height of the top bar on the table, also the height of the secondary tabselector
+    tableRowHeight: 48, // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
     progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
     tabheight: 116, // Height of the nav pills tab section
@@ -114,24 +115,26 @@ const themeProps = {
   }
 } as Theme & any;
 
-export const adminTheme = createMuiTheme({
-  ...themeProps,
-  palette: {
-    ...themeProps.palette,
-    primary: {
-      main: '#c62828',
-      light: '#ff5f52',
-      dark: '#8e0000'
-    },
-    secondary: {
-      main: '#388e3c',
-      light: '#6abf69',
-      dark: '#00600f'
+export const adminTheme = createTheme(
+  adaptV4Theme({
+    ...themeProps,
+    palette: {
+      ...themeProps.palette,
+      primary: {
+        main: '#c62828',
+        light: '#ff5f52',
+        dark: '#8e0000'
+      },
+      secondary: {
+        main: '#388e3c',
+        light: '#6abf69',
+        dark: '#00600f'
+      }
     }
-  }
-});
+  })
+);
 
-export const theme = createMuiTheme(themeProps);
+export const theme = createTheme(adaptV4Theme(themeProps));
 
 const colorLevel = 700;
 

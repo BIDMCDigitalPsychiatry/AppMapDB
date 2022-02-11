@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Container } from '@material-ui/core';
+import { Box, Card, CardContent, Container } from '@mui/material';
 import Text from '../../application/DialogField/Text';
 import ImageBase64 from '../../application/DialogField/ImageBase64';
 import WholeNumberUpDown from '../../application/DialogField/WholeNumberUpDown';

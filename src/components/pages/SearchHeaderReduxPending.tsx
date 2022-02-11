@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Button } from '@material-ui/core';
+import { Grid, Typography, Button } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
@@ -76,7 +78,7 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
   return (
     <Grid ref={useHeaderHeightRef()} container className={classes.header}>
       <Grid item xs={12}>
-        <Grid container justify='space-between'>
+        <Grid container justifyContent='space-between'>
           <Grid item xs>
             <Typography variant='h1' className={classes.primaryText}>
               {title}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme, useMediaQuery } from '@material-ui/core';
+import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { adminUsers } from '../package.json';
 

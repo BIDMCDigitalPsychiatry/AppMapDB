@@ -1,8 +1,11 @@
 import React from 'react';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { useAdminMode } from '../../../layout/store';
 import { useIsAdmin } from '../../../../hooks';
-import { makeStyles, createStyles, Fab, Tooltip } from '@material-ui/core';
+import { Fab, Tooltip } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 
 const useStyles = makeStyles(({ spacing }: any) =>
   createStyles({

@@ -1,7 +1,10 @@
 import React from 'react';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import { useViewMode } from '../../../layout/store';
-import { makeStyles, createStyles, Grid, Button } from '@material-ui/core';
+import { Grid, Button } from '@mui/material';
+
+import makeStyles from '@mui/styles/makeStyles';
+import createStyles from '@mui/styles/createStyles';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({

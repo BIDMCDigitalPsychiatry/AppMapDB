@@ -7,7 +7,7 @@ import Switch from '../../DialogField/Switch';
 import DateTimePicker from '../../DialogField/DateTimePicker';
 import useTableRow from '../../../../database/useTableRow';
 import Label from '../../DialogField/Label';
-import { Divider } from '@material-ui/core';
+import { Divider } from '@mui/material';
 import TextLink from '../../DialogField/TextLink';
 
 export const title = 'Edit Event';

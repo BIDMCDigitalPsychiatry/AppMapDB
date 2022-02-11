@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Component from '@reactions/component';
 import { evalFunc } from '../../../helpers';

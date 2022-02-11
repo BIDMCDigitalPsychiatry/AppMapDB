@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Grid, Typography, createStyles, makeStyles, Box, useTheme } from '@material-ui/core';
+import { Grid, Typography, Box, useTheme } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../../hooks';
 import appEvaluationModel from '../../../images/appEvaluationModel.webp';
 import QuestionSample from './QuestionSample';
@@ -216,7 +218,7 @@ export default function FrameworkQuestions() {
 
   const QuestionSamples = (
     <Box m={4}>
-      <Grid container justify='space-evenly' className={classes.greyHeader} spacing={headerSpacing}>
+      <Grid container justifyContent='space-evenly' className={classes.greyHeader} spacing={headerSpacing}>
         <Grid item xs={12}>
           <Typography className={classes.primaryLightText}>Question Samples</Typography>
         </Grid>
@@ -281,7 +283,7 @@ export default function FrameworkQuestions() {
   );
 
   const Videos = (
-    <Grid container justify='space-evenly' className={classes.whiteHeader} spacing={headerSpacing}>
+    <Grid container justifyContent='space-evenly' className={classes.whiteHeader} spacing={headerSpacing}>
       <Grid item xs={12}>
         <Typography className={classes.primaryText}>Video Resources</Typography>
       </Grid>
@@ -314,7 +316,7 @@ export default function FrameworkQuestions() {
   );
 
   return (
-    <Grid container justify='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
+    <Grid container justifyContent='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
       {[Framework, HowChoose, AppRegulation, ReviewApproach, ObjectiveQuestions, QuestionSamples, ExploreQuestions, Videos].map((C, i) => (
         <Grid key={`gi-${i}`} item>
           {C}

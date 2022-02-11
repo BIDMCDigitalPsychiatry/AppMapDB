@@ -1,8 +1,10 @@
-import { Button, createStyles, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Button, Grid, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
 import { publicUrl } from '../../../../helpers';
 import { useChangeRoute } from '../../../layout/hooks';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 
 export const title = 'Sign Up';
 

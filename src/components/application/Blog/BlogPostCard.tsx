@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, CardMedia, Chip, createStyles, Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import { Box, CardMedia, Chip, Grid, Link, Typography } from '@mui/material';
+import createStyles from '@mui/styles/createStyles';
+import makeStyles from '@mui/styles/makeStyles';
 import { useChangeRoute } from '../../layout/hooks';
 import { bool, isEmpty, formatWithDefault, publicUrl } from '../../../helpers';
-import { grey } from '@material-ui/core/colors';
+import { grey } from '@mui/material/colors';
 import { useCommentsByPostId } from '../../../database/useComments';
 
 const useStyles = makeStyles(({ palette }: any) =>
