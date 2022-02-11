@@ -11,7 +11,7 @@ import { searchRows, sortRows } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { bool, publicUrl } from '../../../helpers';
 import useSortOptions from '../../hooks/useSortOptions';
-import BlogToolbar from '../Blog/BlogToolbar';
+import CommunityToolbar from '../Community/CommunityToolbar';
 import { tables } from '../../../database/dbConfig';
 import { useRows } from '../../../database/useRows';
 import { TeamMembers } from '../../application/GenericTable/TeamMembers/table';
@@ -68,7 +68,7 @@ const TeamList = () => {
 
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar
+      <CommunityToolbar
         title='Team Members'
         subtitle='Meet our team'
         buttons={

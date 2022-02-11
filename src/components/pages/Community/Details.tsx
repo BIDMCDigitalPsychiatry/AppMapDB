@@ -4,10 +4,10 @@ import { Box, Button, Chip, Container, Divider, Grid, Typography } from '@mui/ma
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import PencilAltIcon from '../../icons/PencilAlt';
-import BlogPostComment from '../../application/Blog/BlogPostComment';
+import Comment from './Comment';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
-import BlogToolbar from './BlogToolbar';
+import CommunityToolbar from './CommunityToolbar';
 import marked from 'marked';
 import DOMPurify from 'dompurify';
 import { bool, isEmpty, isEmptyObject, publicUrl } from '../../../helpers';
@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const BlogPostDetails = () => {
+const Details = () => {
   const classes = useStyles();
   const isAdmin = useIsAdmin();
   const changeRoute = useChangeRoute();
@@ -97,7 +97,7 @@ const BlogPostDetails = () => {
   return !values ? null : (
     <>
       <Container maxWidth='lg'>
-        <BlogToolbar
+        <CommunityToolbar
           title='Post Details'
           subtitle='View additional information'
           showGreeting={false}
@@ -245,7 +245,7 @@ const BlogPostDetails = () => {
                   <Typography color='textSecondary'>There are no comments</Typography>
                 ) : (
                   filtered.map((comment, i) => (
-                    <BlogPostComment key={comment.id} {...comment} sortOption={sortOption} onRefresh={handleRefresh} mountDialog={i === 0} />
+                    <Comment key={comment.id} {...comment} sortOption={sortOption} onRefresh={handleRefresh} mountDialog={i === 0} />
                   ))
                 )}
               </Box>
@@ -257,4 +257,4 @@ const BlogPostDetails = () => {
   );
 };
 
-export default BlogPostDetails;
+export default Details;

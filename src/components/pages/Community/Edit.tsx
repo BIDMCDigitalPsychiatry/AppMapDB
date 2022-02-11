@@ -1,19 +1,19 @@
 import React from 'react';
 import { Box, Container, Divider } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import BlogPostCreateForm from '../../application/Blog/BlogPostCreateForm';
+import CreateForm from '../../pages/Community/CreateForm';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import BlogToolbar from './BlogToolbar';
+import CommunityToolbar from './CommunityToolbar';
 import useValues from './useValues';
 import { publicUrl } from '../../../helpers';
 
-const BlogPostEdit = ({ values: Values }) => {
+const Edit = ({ values: Values }) => {
   const handleChangeRoute = useHandleChangeRoute();
   const { values, setValues, errors, handleSave } = useValues({ type: 'edit', values: Values });
 
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar
+      <CommunityToolbar
         title='Edit Post'
         showGreeting={true}
         buttons={[
@@ -32,10 +32,10 @@ const BlogPostEdit = ({ values: Values }) => {
       />
       <Divider />
       <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
+        <CreateForm values={values} setValues={setValues} errors={errors} />
       </Box>
     </Container>
   );
 };
 
-export default BlogPostEdit;
+export default Edit;

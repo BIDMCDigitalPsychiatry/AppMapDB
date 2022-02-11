@@ -1,7 +1,7 @@
 import { Container, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import BlogLayout from '../application/Blog/BlogLayout';
+import CommunityLayout from '../pages/Community/CommunityLayout';
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
@@ -23,9 +23,8 @@ export default function Community() {
       </Typography>
       <Typography variant='body2'>Learn more about how our database is being used around the world.</Typography>
       <Grid container justifyContent='center' style={{ marginTop: 24 }} spacing={3}>
-        <BlogLayout />
+        <CommunityLayout />
       </Grid>
     </Container>
   );
 }
- 

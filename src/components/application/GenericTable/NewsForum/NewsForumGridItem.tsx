@@ -133,8 +133,8 @@ export default function NewsForumGridItem({
                     filtered.length > 0 && `${filtered.length} comments`
                   ]
                     .filter(t => t)
-                    .map(t => (
-                      <Grid item>
+                    .map((t, i) => (
+                      <Grid item key={i}>
                         <Typography display='block' color='textSecondary' variant='caption' align='center'>
                           {t}
                         </Typography>

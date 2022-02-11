@@ -3,7 +3,7 @@ import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import useValues from './useValues';
 import { publicUrl } from '../../../helpers';
-import BlogToolbar from '../Blog/BlogToolbar';
+import CommunityToolbar from '../Community/CommunityToolbar';
 import TeamMemberCreateForm from './TeamMemberCreateForm';
 
 const TeamMemberEdit = ({ values: Values }) => {
@@ -12,7 +12,7 @@ const TeamMemberEdit = ({ values: Values }) => {
 
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar
+      <CommunityToolbar
         title='Edit Post'
         showGreeting={true}
         buttons={[

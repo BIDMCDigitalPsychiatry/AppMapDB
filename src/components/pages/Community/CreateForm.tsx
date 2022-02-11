@@ -1,15 +1,15 @@
 import React from 'react';
 import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from '@mui/material';
-import QuillEditor from '../QuillEditor';
-import FilesDropzone from '../FilesDropzone';
 import { categories, readTimes } from '../../../database/models/Post';
-import Check from '../DialogField/Check';
-import DateTimePicker from '../DialogField/DateTimePicker';
-import Text from '../DialogField/Text';
+import DateTimePicker from '../../application/DialogField/DateTimePicker';
+import Text from '../../application/DialogField/Text';
 import { isEmpty } from '../../../helpers';
-import * as StockImageSelectorDialog from '../GenericDialog/StockImageSelector';
-import DialogButton from '../GenericDialog/DialogButton';
-import Image from '../DialogField/Image';
+import * as StockImageSelectorDialog from '../../application/GenericDialog/StockImageSelector';
+import DialogButton from '../../application/GenericDialog/DialogButton';
+import Image from '../../application/DialogField/Image';
+import Check from '../../application/DialogField/Check';
+import QuillEditor from '../../application/QuillEditor';
+import FilesDropzone from '../../application/FilesDropzone';
 
 const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
   new Promise((resolve, reject) => {
@@ -19,7 +19,7 @@ const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
     reader.onerror = error => reject(error);
   });
 
-const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
+const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
   const { title = '', authorName, category, content = '', cover, shortDescription = '', readTime } = values;
 
   const handleDropCover = async ([file]: File[]) => {
@@ -208,4 +208,4 @@ const BlogPostCreateForm = ({ values = {} as any, setValues, errors = {} }) => {
   );
 };
 
-export default BlogPostCreateForm;
+export default CreateForm;

@@ -1,21 +1,21 @@
 import React from 'react';
 import { Box, Container, Divider } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import BlogPostCreateForm from '../../application/Blog/BlogPostCreateForm';
+import CreateForm from '../../pages/Community/CreateForm';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import BlogToolbar from './BlogToolbar';
+import CommunityToolbar from './CommunityToolbar';
 import useValues from './useValues';
 import { useRouteState } from '../../layout/store';
 import { publicUrl } from '../../../helpers';
 
-const BlogPostCreate = () => {
+const Create = () => {
   const handleChangeRoute = useHandleChangeRoute();
   const [{ category }] = useRouteState(); // Get initial category
   const { values, setValues, errors, handleSave } = useValues({ type: 'create', category });
 
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar
+      <CommunityToolbar
         title='Create Post'
         showGreeting={true}
         buttons={[
@@ -35,10 +35,10 @@ const BlogPostCreate = () => {
 
       <Divider />
       <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <BlogPostCreateForm values={values} setValues={setValues} errors={errors} />
+        <CreateForm values={values} setValues={setValues} errors={errors} />
       </Box>
     </Container>
   );
 };
 
-export default BlogPostCreate;
+export default Create;

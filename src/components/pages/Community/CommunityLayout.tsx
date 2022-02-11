@@ -1,39 +1,39 @@
-import NewsForumList from '../../pages/Blog/NewsForumList';
-import BlogPostDetails from '../../pages/Blog/BlogPostDetails';
-import BlogPostCreate from '../../pages/Blog/BlogPostCreate';
+import NewsForumList from '../../pages/Community/NewsForumList';
+import Details from '../../pages/Community/Details';
+import Create from '../../pages/Community/Create';
 import { useRouteState } from '../../layout/store';
-import BlogPostEdit from '../../pages/Blog/BlogPostEdit';
+import Edit from '../../pages/Community/Edit';
 import { Box, Divider } from '@mui/material';
-import BlogCalendar from '../../pages/Blog/BlogCalendar';
-import BlogLayoutSelector from './BlogLayoutSelector';
+import CommunityCalendarLayout from '../../pages/Community/CommunityCalendarLayout';
+import CommunitySelector from './CommunitySelector';
 import TeamMemberCreate from '../../pages/Team/TeamMemberCreate';
 import TeamMemberEdit from '../../pages/Team/TeamMemberEdit';
 import TeamMemberView from '../../pages/Team/TeamMemberView';
 import TeamList from '../../pages/Team/TeamList';
 
 const components = {
-  create: BlogPostCreate,
-  edit: BlogPostEdit,
-  view: BlogPostDetails,
+  create: Create,
+  edit: Edit,
+  view: Details,
   list: NewsForumList,
-  calendar: BlogCalendar,
+  calendar: CommunityCalendarLayout,
   team: TeamList,
   createTeamMember: TeamMemberCreate,
   editTeamMember: TeamMemberEdit,
   viewTeamMember: TeamMemberView
 };
 
-const BlogLayout = () => {
+const CommunityLayout = () => {
   const [{ subRoute = 'list', category = 'News', ...other } = {}] = useRouteState();
-  const BlogComponent = components[subRoute];
+  const Component = components[subRoute];
 
   return (
     <Box pt={3}>
-      <BlogLayoutSelector category={category} />
+      <CommunitySelector category={category} subRoute={subRoute} />
       <Divider style={{ marginTop: 16 }} />
-      <BlogComponent category={category} {...other} />
+      <Component category={category} {...other} />
     </Box>
   );
 };
 
-export default BlogLayout;
+export default CommunityLayout;

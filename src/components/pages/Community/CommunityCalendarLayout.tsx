@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, Container } from '@mui/material';
-import BlogToolbar from './BlogToolbar';
+import CommunityToolbar from './CommunityToolbar';
 import CommunityCalendar from '../Calendar/CommunityCalendar';
 
-const BlogCalendar = () => {
+const CommunityCalendarLayout = () => {
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar />
+      <CommunityToolbar />
       <Box py={3}>
         <CommunityCalendar />
       </Box>
@@ -14,4 +14,4 @@ const BlogCalendar = () => {
   );
 };
 
-export default BlogCalendar;
+export default CommunityCalendarLayout;

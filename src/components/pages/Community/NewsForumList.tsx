@@ -6,7 +6,7 @@ import PlusIcon from '../../icons/Plus';
 import SearchIcon from '../../icons/Search';
 import { useDefaultValues } from '../../../database/models/Post';
 import { useHandleChangeRoute } from '../../layout/hooks';
-import BlogToolbar from './BlogToolbar';
+import CommunityToolbar from './CommunityToolbar';
 import * as Icons from '@mui/icons-material';
 import { searchPosts, sortPosts } from './helpers';
 import { useIsAdmin } from '../../../hooks';
@@ -68,7 +68,7 @@ const NewsForumList = ({ category = 'News' }) => {
 
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar
+      <CommunityToolbar
         title={category}
         subtitle='Keep up to date with the latest news and community resources.'
         buttons={

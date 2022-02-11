@@ -60,7 +60,7 @@ var posts: Post[] = [
   }
 ];
 
-class BlogApi {
+class FakeApi {
   getPosts(): Promise<Post[]> {
     return Promise.resolve(posts);
   }
@@ -86,4 +86,4 @@ class BlogApi {
   }
 }
 
-export const blogApi = new BlogApi();
+export const fakeApi = new FakeApi();

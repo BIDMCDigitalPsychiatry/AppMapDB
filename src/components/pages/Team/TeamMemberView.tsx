@@ -8,7 +8,7 @@ import { useRouteState } from '../../layout/store';
 import * as Icons from '@mui/icons-material';
 import useValues from './useValues';
 import { useIsAdmin } from '../../../hooks';
-import BlogToolbar from '../Blog/BlogToolbar';
+import CommunityToolbar from '../Community/CommunityToolbar';
 import { Card, CardContent, CardMedia } from '@mui/material';
 import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../../helpers';
 import { getObjectUrl } from '../../../aws-exports';
@@ -69,7 +69,7 @@ const TeamMemberView = () => {
   return !values ? null : (
     <>
       <Container maxWidth='lg'>
-        <BlogToolbar
+        <CommunityToolbar
           title='Team Member Details'
           subtitle='View member'
           showGreeting={false}

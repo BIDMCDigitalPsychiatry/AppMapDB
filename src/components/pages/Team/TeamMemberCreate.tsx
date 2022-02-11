@@ -4,7 +4,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import useValues from './useValues';
 import { publicUrl } from '../../../helpers';
 import TeamMemberCreateForm from './TeamMemberCreateForm';
-import BlogToolbar from '../Blog/BlogToolbar';
+import CommunityToolbar from '../Community/CommunityToolbar';
 
 const TeamMemberCreate = () => {
   const handleChangeRoute = useHandleChangeRoute();
@@ -12,7 +12,7 @@ const TeamMemberCreate = () => {
 
   return (
     <Container maxWidth='lg'>
-      <BlogToolbar
+      <CommunityToolbar
         title='Create Team Member'
         showGreeting={true}
         buttons={[

@@ -11,7 +11,7 @@ import RateNewApp, { RateExistingApp } from '../pages/RateNewApp/RateNewApp';
 import ViewApp from '../pages/ViewApp';
 import RateAnApp from '../pages/RateAnApp';
 import Admin from '../pages/Admin/Admin';
-import BlogLayout from '../application/Blog/BlogLayout';
+import CommunityLayout from '../pages/Community/CommunityLayout';
 import Survey from '../pages/Survey/Survey';
 import SurveyFollowUp from '../pages/Survey/SurveyFollowUp';
 
@@ -30,7 +30,7 @@ const Routes = () => (
     <Route exact path={publicUrl('/RateAnApp')} component={RateAnApp} />
     <Route exact path={publicUrl('/RateNewAppIntro')} component={RateNewAppIntro} />
     <Route exact path={publicUrl('/ViewApp')} component={ViewApp} />
-    <Route exact path={publicUrl('/Community')} component={BlogLayout} />
+    <Route exact path={publicUrl('/Community')} component={CommunityLayout} />
     <Route exact path={publicUrl('/Survey')} component={Survey} />
     <Route exact path={publicUrl('/SurveyFollowUp')} component={SurveyFollowUp} />
     <Route exact path={publicUrl('/PlayGround')} component={PlayGround} />
