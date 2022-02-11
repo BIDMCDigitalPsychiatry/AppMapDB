@@ -1,4 +1,4 @@
-import BlogPostList from '../../pages/Blog/BlogPostList';
+import NewsForumList from '../../pages/Blog/NewsForumList';
 import BlogPostDetails from '../../pages/Blog/BlogPostDetails';
 import BlogPostCreate from '../../pages/Blog/BlogPostCreate';
 import { useRouteState } from '../../layout/store';
@@ -15,7 +15,7 @@ const components = {
   create: BlogPostCreate,
   edit: BlogPostEdit,
   view: BlogPostDetails,
-  list: BlogPostList,
+  list: NewsForumList,
   calendar: BlogCalendar,
   team: TeamList,
   createTeamMember: TeamMemberCreate,

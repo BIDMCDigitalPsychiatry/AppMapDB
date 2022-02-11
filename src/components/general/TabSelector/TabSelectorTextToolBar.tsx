@@ -5,7 +5,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
-import { useChangeRoute, useHandleChangeRoute } from '../../layout/hooks';
+import { useChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 
 export interface ComponentProps {
@@ -89,7 +89,6 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
   const tabRoute = tab?.route;
   const tabSubRoute = tab?.routeState?.subRoute;
   const tabToSelect = !(pathname === tabRoute && subRoute === tabSubRoute) && tabs.find(t => t.route === pathname && t?.routeState?.subRoute === subRoute);
-  const handleChangeRoute = useHandleChangeRoute();
   const selectedId = selected ? selected : tabId;
 
   React.useEffect(() => {

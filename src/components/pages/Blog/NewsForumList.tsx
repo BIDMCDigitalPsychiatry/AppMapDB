@@ -1,20 +1,10 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import PlusIcon from '../../icons/Plus';
 import SearchIcon from '../../icons/Search';
 import { useDefaultValues } from '../../../database/models/Post';
-import BlogPostCard from '../../application/Blog/BlogPostCard';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import BlogToolbar from './BlogToolbar';
 import * as Icons from '@mui/icons-material';
@@ -23,6 +13,7 @@ import { useIsAdmin } from '../../../hooks';
 import { usePosts } from '../../../database/usePosts';
 import { bool, publicUrl } from '../../../helpers';
 import useSortOptions from '../../hooks/useSortOptions';
+import { NewsForum } from '../../application/GenericTable/NewsForum/table';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -36,7 +27,7 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const BlogPostList = ({ category = 'News' }) => {
+const NewsForumList = ({ category = 'News' }) => {
   const classes = useStyles({});
   const { posts, handleRefresh } = usePosts();
 
@@ -109,10 +100,7 @@ const BlogPostList = ({ category = 'News' }) => {
                   ),
                   endAdornment: (
                     <InputAdornment position='start'>
-                      <IconButton
-                        style={{ padding: 8, marginRight: -16 }}
-                        onClick={handleClearSearch}
-                        size="large">
+                      <IconButton style={{ padding: 8, marginRight: -16 }} onClick={handleClearSearch} size='large'>
                         <Icons.Clear fontSize='small' />
                       </IconButton>
                     </InputAdornment>
@@ -141,8 +129,8 @@ const BlogPostList = ({ category = 'News' }) => {
             </Grid>
           </Grid>
         </Grid>
-        <Box mt={6}>
-          <Grid container spacing={6}>
+        <Box mt={2} mb={2}>
+          <Grid container>
             {showArchived && (
               <Grid item xs={12} className={classes.archiveBanner}>
                 <Typography variant='h6' style={{ color: 'white' }}>
@@ -157,11 +145,7 @@ const BlogPostList = ({ category = 'News' }) => {
                 </Typography>
               </Box>
             ) : (
-              filtered.map(post => (
-                <Grid item key={post._id} lg={4} md={6} xs={12}>
-                  <BlogPostCard {...post} />
-                </Grid>
-              ))
+              <NewsForum data={filtered} />
             )}
           </Grid>
         </Box>
@@ -170,4 +154,4 @@ const BlogPostList = ({ category = 'News' }) => {
   );
 };
 
-export default BlogPostList;
+export default NewsForumList;
