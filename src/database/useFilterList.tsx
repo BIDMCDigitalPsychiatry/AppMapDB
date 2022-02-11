@@ -3,6 +3,7 @@ import { useFilters } from './useFilters';
 import { dynamo, tables } from './dbConfig';
 import { useSignedIn } from '../hooks';
 import { useSelector } from 'react-redux';
+import { isEmpty } from '../helpers';
 
 export const useGetFilters = () => {
   const [, setFilters] = useFilters();
@@ -46,6 +47,6 @@ export default function useFilterList() {
   const uid = useSelector((s: any) => s.layout.user?.username);
   const getFilters = useGetFilters();
   React.useEffect(() => {
-    getFilters();
+    signedIn && !isEmpty(uid) && getFilters();
   }, [uid, signedIn, getFilters]);
 }

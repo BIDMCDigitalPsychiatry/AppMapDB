@@ -1,17 +1,19 @@
 import * as React from 'react';
 import useComponentSize from '@rehooks/component-size';
-import { useResizeAppBar, useResizeFooter, useResizeHeader, useRouteState } from './store';
+import { useAppBarHeight, useFooterHeight, useHeaderHeight, useResizeAppBar, useResizeFooter, useResizeHeader, useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
 import { shallowEqual, useSelector } from 'react-redux';
-import { evalFunc } from '../../helpers';
+import { evalFunc, isEmpty } from '../../helpers';
 
 export const useAppBarHeightRef = () => {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
   const resizeAppBar = useResizeAppBar();
+  const ah = useAppBarHeight();
+  const trigger = !isEmpty(height) && ah !== height;
   React.useEffect(() => {
-    resizeAppBar(height);
-  }, [resizeAppBar, height]);
+    trigger && resizeAppBar(height);
+  }, [resizeAppBar, trigger, height]);
   return ref;
 };
 
@@ -19,9 +21,11 @@ export const useHeaderHeightRef = () => {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
   const resizeHeader = useResizeHeader();
+  const hh = useHeaderHeight();
+  const trigger = !isEmpty(height) && hh !== height;
   React.useEffect(() => {
-    resizeHeader(height);
-  }, [resizeHeader, height]);
+    trigger && resizeHeader(height);
+  }, [resizeHeader, trigger, height]);
   return ref;
 };
 
@@ -29,9 +33,11 @@ export const useFooterHeightRef = () => {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
   const resizeFooter = useResizeFooter();
+  const fh = useFooterHeight();
+  const trigger = !isEmpty(height) && fh !== height;
   React.useEffect(() => {
-    resizeFooter(height);
-  }, [resizeFooter, height]);
+    trigger && resizeFooter(height);
+  }, [resizeFooter, trigger, height]);
   return ref;
 };
 
