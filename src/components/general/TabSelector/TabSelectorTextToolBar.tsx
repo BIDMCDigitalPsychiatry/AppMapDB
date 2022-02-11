@@ -5,7 +5,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
-import { useHandleChangeRoute } from '../../layout/hooks';
+import { useChangeRoute, useHandleChangeRoute } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 
 export interface ComponentProps {
@@ -116,6 +116,17 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
 
   const { value = undefined } = tabSelector;
 
+  const changeRoute = useChangeRoute();
+
+  const handleClick = React.useCallback(
+    ({ route, routeState, onClick } = {}) =>
+      () => {
+        !isEmpty(route) && changeRoute(route, routeState);
+        onClick && onClick();
+      },
+    [changeRoute]
+  );
+
   return (
     <Container className={classes.root}>
       <Tabs variant='fullWidth' className={classes.tabs} scrollButtons={false} value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
@@ -125,7 +136,7 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
           tabs.map((t: any) => (
             <Tab
               key={t.id}
-              onClick={handleChangeRoute(t.route, t?.routeState)}
+              onClick={handleClick(t)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
