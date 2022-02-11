@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import PlusIcon from '../../icons/Plus';
@@ -92,7 +83,7 @@ const TeamList = () => {
             : []
         }
       />
-      <Box py={0}>
+      <Box>
         <Grid container justifyContent='space-between' alignItems='center'>
           <Grid item>
             <Box style={{ width: 500 }}>
@@ -107,10 +98,7 @@ const TeamList = () => {
                   ),
                   endAdornment: (
                     <InputAdornment position='start'>
-                      <IconButton
-                        style={{ padding: 8, marginRight: -16 }}
-                        onClick={handleClearSearch}
-                        size="large">
+                      <IconButton style={{ padding: 8, marginRight: -16 }} onClick={handleClearSearch} size='large'>
                         <Icons.Clear fontSize='small' />
                       </IconButton>
                     </InputAdornment>
@@ -141,7 +129,7 @@ const TeamList = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Box mt={6} mb={6} pl={2} pr={2}>
+        <Box mt={6} mb={2} pl={2} pr={2}>
           <Grid container spacing={6}>
             {showArchived && (
               <Grid item xs={12} className={classes.archiveBanner}>
@@ -150,17 +138,17 @@ const TeamList = () => {
                 </Typography>
               </Grid>
             )}
-            {filtered.length === 0 ? (
-              <Box m={3}>
-                <Typography variant='h6' color='textSecondary' align='center'>
-                  {`There are no ${showArchived ? 'archived items' : 'items'} to view at this time.`}
-                </Typography>
-              </Box>
-            ) : (
-              <TeamMembers handleRefresh={handleRefresh} data={filtered} GridItem={isAdmin && showSortKeys ? TeamMemberGridItemSortKey : TeamMemberGridItem} />
-            )}
           </Grid>
         </Box>
+        {filtered.length === 0 ? (
+          <Box m={3}>
+            <Typography variant='h6' color='textSecondary' align='center'>
+              {`There are no ${showArchived ? 'archived items' : 'items'} to view at this time.`}
+            </Typography>
+          </Box>
+        ) : (
+          <TeamMembers handleRefresh={handleRefresh} data={filtered} GridItem={isAdmin && showSortKeys ? TeamMemberGridItemSortKey : TeamMemberGridItem} />
+        )}
       </Box>
     </Container>
   );
