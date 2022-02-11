@@ -3,11 +3,11 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, Container } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import useTabSelector from '../../application/Selector/useTabSelector';
-import { useLocation } from 'react-router';
+import useTabSelectorValue from '../../application/Selector/useTabSelectorValue';
 
 export interface ComponentProps {
   id?: string;
+  value?: string;
   tab?: string;
   tabs?: TabSelectorItem[];
   orientation?: string;
@@ -44,14 +44,6 @@ const useStyles = makeStyles(({ palette }: any) =>
       minWidth: 0,
       minHeight
     }),
-    wrapper: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
-      flexDirection: 'column',
-      borderRadius: 'inherit'
-    }
   })
 );
 
@@ -63,23 +55,13 @@ export interface TabSelectorItem {
   Component?: any;
 }
 
-const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
+const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
   const classes = useStyles({ minHeight, rounded });
 
-  const [tabSelector, setTabSelector] = useTabSelector(id);
-  const selected = tabSelector.value;
+  const [tsValue, setTabSelector] = useTabSelectorValue(id, tabs[0] && tabs[0].id);
 
-  const { pathname } = useLocation();
-
-  const tabId = tabs[0] && tabs[0].id;
-  const tabRoute = tabs.find(t => t.id === selected)?.route;
-  const tabToSelect = pathname !== tabRoute && tabs.find(t => t.route === pathname);
-
-  React.useEffect(() => {
-    isEmpty(selected) && setTabSelector({ value: tabId }); // Select the first tab by default when empty
-    tabToSelect && setTabSelector({ value: tabToSelect.id });
-    triggerResize();
-  }, [setTabSelector, selected, tabId, tabToSelect]);
+  // Priority: External, interal, else default first tab, support null as well
+  const value = Value !== undefined && Value !== '' ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
 
   React.useEffect(() => {
     triggerResize(); //User has roated the device, so trigger a resize so the indicator updates correctly
@@ -93,8 +75,6 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
     [setTabSelector, onChange]
   );
 
-  const { value = tabs[0].id } = tabSelector;
-
   return (
     <Container className={classes.root}>
       <Tabs variant='fullWidth' className={classes.tabs} scrollButtons={false} value={value} onChange={handleChange} classes={{ indicator: classes.indicator }}>
@@ -107,7 +87,6 @@ const TabSelectorToolBar = ({ id, tabs = [], orientation, wrapped, minHeight = 6
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
-                //wrapper: classes.wrapper,
                 wrapped: classes.labelIcon
               }}
               icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}

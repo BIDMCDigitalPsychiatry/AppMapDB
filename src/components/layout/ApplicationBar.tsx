@@ -18,6 +18,7 @@ import { useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
 import { grey } from '@mui/material/colors';
 import useTabSelector from '../application/Selector/useTabSelector';
+import { useLocation } from 'react-router';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -65,13 +66,21 @@ const useTabs = () => {
 };
 
 const id = 'AppBar';
+export const noTabPaths = ['/Home', '/'];
 const AppBarTabSelector = props => {
   const isAdmin = useIsAdmin();
   const signedIn = useSignedIn();
   const tabs = useTabs();
+  const { pathname } = useLocation();
+  const nullTab = noTabPaths.findIndex(p => p === pathname) > -1 ? true : false;
 
   return (
-    <TabSelectorToolBar id={id} tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))} {...props} />
+    <TabSelectorToolBar
+      id={id}
+      value={nullTab ? null : undefined}
+      tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
+      {...props}
+    />
   );
 };
 
