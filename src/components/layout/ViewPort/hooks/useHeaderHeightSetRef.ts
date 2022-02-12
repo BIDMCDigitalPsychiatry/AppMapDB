@@ -11,6 +11,5 @@ export const useHeaderHeightSetRef = () => {
   React.useEffect(() => {
     !isEmpty(height) && height !== hh && setHeight(height);
   }, [setHeight, hh, height]);
-  console.log('here');
   return setRef;
 };
