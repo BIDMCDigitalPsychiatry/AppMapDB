@@ -12,7 +12,7 @@ import { searchPosts, sortPosts } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { usePosts } from '../../../database/usePosts';
 import { bool, publicUrl } from '../../../helpers';
-import useSortOptions from '../../hooks/useSortOptions';
+import useSortOptions from '../../../utils/useSortOptions';
 import { NewsForum } from '../../application/GenericTable/NewsForum/table';
 
 const useStyles = makeStyles(theme =>

@@ -7,7 +7,7 @@ import DialogButton from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
-import ExpandableDescription from '../application/GenericTable/ApplicationsSummary/ExpandableDescription';
+import ExpandableDescription from '../application/GenericTable/ApplicationsGrid/ExpandableDescription';
 import ImageCarousel from '../general/ImageCarousel';
 import { useAppHistoryData } from '../application/GenericTable/ApplicationHistory/selectors';
 import { Pagination, Alert, AlertTitle } from '@mui/material';

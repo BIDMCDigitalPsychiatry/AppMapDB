@@ -37,7 +37,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function MuliFeatureSelectCheck({
+export default function MultiFeatureSelectCheck({
   value = [],
   onChange = undefined,
   label = undefined,
@@ -53,24 +53,25 @@ export default function MuliFeatureSelectCheck({
 }) {
   const classes = useStyles();
   const handleChange = React.useCallback(
-    (f, isActive = false) => event => {
-      var newValue = value.filter(v => v !== f);
-      if (!isActive) {
-        newValue = newValue.concat(f);
-      }      
-      onChange && onChange({ target: { value: newValue } });
-    },
+    (f, isActive = false) =>
+      event => {
+        var newValue = value.filter(v => v !== f);
+        if (!isActive) {
+          newValue = newValue.concat(f);
+        }
+        onChange && onChange({ target: { value: newValue } });
+      },
     [value, onChange]
   );
 
   return (
     <Grid container justifyContent='flex-start' spacing={2}>
-      {Features.map(f => {
+      {Features.map((f, i) => {
         const isActive = value.find(v => v === f);
         const iconStyle = { color: 'white' };
         const StartIcon = isActive ? Icons.Check : Icons.Add;
         return (
-          <Grid item>
+          <Grid item key={i}>
             <Chip
               color={isActive ? 'primary' : 'secondary'}
               classes={{ colorPrimary: classes.colorPrimary, colorSecondary: classes.colorSecondary }}

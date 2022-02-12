@@ -18,7 +18,7 @@ import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CommentDialog from '../../application/GenericDialog/Comment';
 import { useCommentsByPostId } from '../../../database/useComments';
 import { sortComments } from './helpers';
-import useSortOptions from '../../hooks/useSortOptions';
+import useSortOptions from '../../../utils/useSortOptions';
 
 const useStyles = makeStyles(theme =>
   createStyles({

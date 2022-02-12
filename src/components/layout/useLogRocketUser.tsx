@@ -10,7 +10,6 @@ const useLogRocketUser = () => {
 
   React.useEffect(() => {
     if (pkg.enableLogRocket && !isDev() && !isEmpty(userId) && !isEmpty(email)) {
-      console.log(`Setting logrocket identity ${userId}:${email}`);
       LogRocket.identify(userId, {
         email
       });

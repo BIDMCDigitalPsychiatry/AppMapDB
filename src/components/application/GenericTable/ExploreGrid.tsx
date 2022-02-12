@@ -1,5 +1,5 @@
-import ExploreGridItem from './ExploreGridItem';
-import {VirtuosoGrid} from 'react-virtuoso'
+import ExploreGridItem from './ApplicationsGrid/ApplicationsGridItem';
+import { VirtuosoGrid } from 'react-virtuoso';
 import styled from '@emotion/styled';
 
 const ItemContainer = styled.div`
@@ -27,7 +27,8 @@ const ListContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-export default function ExploreGrid({ data, height, GridItem = ExploreGridItem, scrollElement = undefined }) {  
+export default function ExploreGrid({ data, height, GridItem = undefined, scrollElement = undefined }) {
+  GridItem === undefined && console.error('Must provide the GridItem component');
   return (
     <VirtuosoGrid
       customScrollParent={scrollElement}
@@ -44,15 +45,9 @@ export default function ExploreGrid({ data, height, GridItem = ExploreGridItem, 
       }}
       itemContent={index => {
         const item = data[index] ?? {};
-        const values = item.getValues ? item.getValues() : item;        
+        const values = item.getValues ? item.getValues() : item;
         return values && <GridItem index={index} {...values} />;
       }}
-      /*scrollSeekConfiguration={{
-        enter: velocity => Math.abs(velocity) > 1200,
-        exit: velocity => Math.abs(velocity) < 30
-        // change: (_, range) => console.log({ range })
-      }}
-      */
     />
   );
 }

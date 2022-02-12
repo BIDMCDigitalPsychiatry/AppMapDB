@@ -1,6 +1,6 @@
 import React from 'react';
-import SortAscendingIcon from '../icons/SortAscending';
-import SortDescendingIcon from '../icons/SortDescending';
+import SortAscendingIcon from '../components/icons/SortAscending';
+import SortDescendingIcon from '../components/icons/SortDescending';
 
 const sortOptions = {
   desc: { label: 'Newest', SortOptionIcon: SortDescendingIcon },

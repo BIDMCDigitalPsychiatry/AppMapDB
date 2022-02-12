@@ -20,20 +20,25 @@ export interface Table {
   filters?: {};
 }
 
-// Actions
-const tableUpdate = (table: Table) => ({ type: 'TABLE_UPDATE', table });
 const tableFilterUpdate = (id: string, filters) => (dispatch, getState) =>
   dispatch({ type: 'TABLE_UPDATE', table: { id, filters: evalFunc(filters, (getState().table[id] || {}).filters || {}) } });
 
-const tableFilterValueUpdate = (tableId, filterId, value) => dispatch => dispatch({ type: 'TABLE_FILTER_UPDATE', tableId, filterId, value });
-
+const getTable = (state, id) => state[id] ?? { id, searchtext: '', filters: {} };
 export const reducer: Reducer<State> = (state: State, action): State => {
   switch (action.type) {
     case 'TABLE_UPDATE':
       return updateState(state, action.table);
+    case 'TABLE_SEARCH_TEXT_UPDATE':
+      return {
+        ...state,
+        [action.id]: {
+          ...getTable(state, action.id),
+          searchtext: action.searchtext
+        }
+      };
     case 'TABLE_FILTER_UPDATE':
       const { tableId, filterId, value } = action;
-      const prevTable = state[tableId] ?? { filters: {} };
+      const prevTable = getTable(state, tableId);
       const prevFilters = prevTable?.filters ?? {};
       return {
         ...state,
@@ -56,7 +61,7 @@ export const reducer: Reducer<State> = (state: State, action): State => {
 
 export const useTableUpdate = () => {
   const dispatch = useDispatch();
-  return React.useCallback((t: Table) => dispatch(tableUpdate(t)), [dispatch]);
+  return React.useCallback((table: Table) => dispatch({ type: 'TABLE_UPDATE', table }), [dispatch]);
 };
 
 export const useTableFilterUpdate = () => {
@@ -71,7 +76,7 @@ export const useTableFilterValue = (tableId, filterId) => {
     const filters = table?.filters ?? {};
     return filters[filterId] ?? [];
   }, stringifyEqual);
-  const setValue = React.useCallback(value => dispatch(tableFilterValueUpdate(tableId, filterId, value)), [tableId, filterId, dispatch]);
+  const setValue = React.useCallback(value => dispatch({ type: 'TABLE_FILTER_UPDATE', tableId, filterId, value }), [tableId, filterId, dispatch]);
   return [value, setValue];
 };
 
@@ -109,13 +114,9 @@ export function useTableFilterValues(name): any {
 }
 
 export function useTableSearchText(id): any {
-  const searchText = useSelector((state: AppState) => {
-    const table = state.table[id] ?? { id, searchtext: '' };
-    return table?.searchtext;
-  });
-
-  const tableUpdate = useTableUpdate();
-  const setSearchText = React.useCallback(searchtext => tableUpdate({ id, searchtext }), [id, tableUpdate]);
+  const searchText = useSelector((state: AppState) => getTable(state.table, id).searchtext);
+  const dispatch = useDispatch();
+  const setSearchText = React.useCallback(searchtext => dispatch({ type: 'TABLE_SEARCH_TEXT_UPDATE', id, searchtext }), [id, dispatch]);
   return [searchText, setSearchText];
 }
 

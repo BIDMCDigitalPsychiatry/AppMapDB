@@ -3,7 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
-import PlatformButtons from '../application/GenericTable/ApplicationsSummary/PlatformButtons';
+import PlatformButtons from '../application/GenericTable/ApplicationsGrid/PlatformButtons';
 import { getDayTimeFromTimestamp, isEmpty, publicUrl, uuid } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import { tables } from '../../database/dbConfig';

@@ -10,7 +10,7 @@ import * as Icons from '@mui/icons-material';
 import { searchRows, sortRows } from './helpers';
 import { useIsAdmin } from '../../../hooks';
 import { bool, publicUrl } from '../../../helpers';
-import useSortOptions from '../../hooks/useSortOptions';
+import useSortOptions from '../../../utils/useSortOptions';
 import CommunityToolbar from '../Community/CommunityToolbar';
 import { tables } from '../../../database/dbConfig';
 import { useRows } from '../../../database/useRows';

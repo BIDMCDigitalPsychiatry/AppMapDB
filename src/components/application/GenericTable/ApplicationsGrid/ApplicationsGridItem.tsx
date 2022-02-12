@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../helpers';
-import { useHandleChangeRoute } from '../../layout/hooks';
-import { getAppCompany, getAppIcon, getAppName } from './Applications/selectors';
-import PlatformButtons from './ApplicationsSummary/PlatformButtons';
-import DialogButton from '../GenericDialog/DialogButton';
+import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
+import { useHandleChangeRoute } from '../../../layout/hooks';
+import { getAppCompany, getAppIcon, getAppName } from '../Applications/selectors';
+import PlatformButtons from './PlatformButtons';
+import DialogButton from '../../GenericDialog/DialogButton';
 
 const height = 520;
 const useStyles = makeStyles((theme: any) =>
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: any) =>
   })
 );
 
-export default function ExploreGridItem(props: any) {
+export default function ApplicationsGridItem(props: any) {
   const {
     name = getAppName(props),
     company = getAppCompany(props),
@@ -93,7 +93,7 @@ export default function ExploreGridItem(props: any) {
     </Card>
   ) : (
     <Card
-      onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationSummary' })}
+      onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' })}
       className={classes.root}
       onMouseOver={() => setState({ raised: true })}
       onMouseOut={() => setState({ raised: false })}

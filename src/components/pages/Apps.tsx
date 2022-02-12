@@ -27,7 +27,7 @@ export default function Apps() {
       {viewMode === 'table' ? (
         <Tables.Applications data={filtered} HeaderComponent={SearchHeaderRedux} height={tableHeight} showButtons={false} />
       ) : (
-        <Tables.ApplicationsSummary data={filtered} HeaderComponent={SearchHeaderRedux} height={tableHeight} />
+        <Tables.ApplicationsGrid data={filtered} HeaderComponent={SearchHeaderRedux} height={tableHeight} />
       )}
     </>
   );

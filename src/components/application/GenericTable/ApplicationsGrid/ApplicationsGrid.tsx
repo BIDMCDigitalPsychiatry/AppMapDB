@@ -9,7 +9,7 @@ import { useHandleChangeRoute } from '../../../layout/hooks';
 import PlatformButtons from './PlatformButtons';
 import ExpandableDescription from './ExpandableDescription';
 
-interface AppSummaryProps {
+interface AppGridProps {
   ratingIds: string[];
   rating: number;
   RatingButtonsComponent: any;
@@ -17,7 +17,7 @@ interface AppSummaryProps {
 
 const imageHeight = 64;
 
-export default function ApplicationSummary(props: Application & AppSummaryProps) {
+export default function ApplicationsGrid(props: Application & AppGridProps) {
   const {
     name = getAppName(props),
     company = getAppCompany(props),
@@ -96,7 +96,7 @@ export default function ApplicationSummary(props: Application & AppSummaryProps)
                 tooltip=''
                 variant='primaryButton2'
                 size='large'
-                onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationSummary' })}
+                onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' })}
               >
                 View
               </DialogButton>
