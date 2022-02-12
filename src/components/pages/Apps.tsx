@@ -1,5 +1,5 @@
 import * as Tables from '../application/GenericTable';
-import { useHeaderHeight, useViewMode } from '../layout/store';
+import { useViewMode } from '../layout/store';
 import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import * as ApplicationDialog from '../application/GenericDialog/ApplicationDialog';
@@ -8,6 +8,7 @@ import SearchHeaderRedux from './SearchHeaderRedux';
 import { useTheme } from '@mui/material';
 import useAppTableDataTest from './useAppTableDataTest';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
+import useHeaderHeight from '../layout/ViewPort/hooks/useHeaderHeight';
 
 export default function Apps() {
   const [viewMode] = useViewMode() as any;

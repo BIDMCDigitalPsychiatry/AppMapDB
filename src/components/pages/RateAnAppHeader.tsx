@@ -4,8 +4,9 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
-import { useHandleChangeRoute, useHeaderHeightRef } from '../layout/hooks';
+import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
+import { useHeaderHeightSetRef } from '../layout/ViewPort/hooks/useHeaderHeightSetRef';
 
 const padding = 32;
 const borderRadius = 7;
@@ -63,7 +64,7 @@ export default function RateAnAppHeader({ showArchived = undefined, onToggleArch
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
-    <Grid ref={useHeaderHeightRef()} container className={classes.header}>
+    <Grid ref={useHeaderHeightSetRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
           My App Ratings

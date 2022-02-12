@@ -4,7 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../../hooks';
 import useFilterList from '../../../database/useFilterList';
-import { useHeaderHeightRef } from '../../layout/hooks';
+import { useHeaderHeightSetRef } from '../../layout/ViewPort/hooks/useHeaderHeightSetRef';
 
 const padding = 32;
 const borderRadius = 7;
@@ -60,7 +60,7 @@ export default function RateNewAppHeader({ onSave = undefined, onReset = undefin
   var sm = useFullScreen('sm');
 
   return (
-    <Grid ref={useHeaderHeightRef()} container className={classes.header}>
+    <Grid ref={useHeaderHeightSetRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
           Rate an App

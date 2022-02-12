@@ -8,11 +8,11 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms, withReplacement } from '../../database/models/Application';
 import { useHandleTableReset, useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
-import { useHeaderHeightRef } from '../layout/hooks';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
 import { categories } from '../../constants';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import { useHeaderHeightSetRef } from '../layout/ViewPort/hooks/useHeaderHeightSetRef';
 
 const padding = 32;
 const spacing = 1;
@@ -90,8 +90,10 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
   const collapseMobile = width < 420;
   const collapsed = collapseMobile || (isAdmin && !fullScreen && width < 1050) || (isAdmin && fullScreen && width < 720);
 
+  const setRef = useHeaderHeightSetRef();
+
   return (
-    <Grid ref={useHeaderHeightRef()} container style={{ paddingTop: collapseMobile ? 0 : undefined }} className={classes.header}>
+    <Grid ref={setRef} container style={{ paddingTop: collapseMobile ? 0 : undefined }} className={classes.header}>
       {!collapseMobile && (
         <Grid item xs={12}>
           <Grid container justifyContent='space-between' alignItems='flex-end'>

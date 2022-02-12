@@ -8,7 +8,7 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import { useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
-import { useHeaderHeightRef } from '../layout/hooks';
+import { useHeaderHeightSetRef } from '../layout/ViewPort/hooks/useHeaderHeightSetRef';
 
 const padding = 32;
 const spacing = 1;
@@ -76,7 +76,7 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
   const fullScreen = useFullScreen();
 
   return (
-    <Grid ref={useHeaderHeightRef()} container className={classes.header}>
+    <Grid ref={useHeaderHeightSetRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Grid container justifyContent='space-between'>
           <Grid item xs>

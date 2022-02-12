@@ -1,17 +1,22 @@
 import * as React from 'react';
 import useResizeObserver from '../../../../utils/useResizeObserver';
 
-const getDimensions = ({ contentRect }) => ({
-  height: contentRect.height,
-  width: contentRect.width
+// The borderbox size includes any padding while the content rect only includes the inner content size
+const getDimensions = ({ borderBoxSize, contentRect }) => ({
+  height: borderBoxSize !== undefined && borderBoxSize.length > 0 ? borderBoxSize[0].blockSize : contentRect.height,
+  width: borderBoxSize !== undefined && borderBoxSize.length > 0 ? borderBoxSize[0].inlineSize : contentRect.width
 });
-
-const setDimensions = setState => elements => elements && elements.length > 0 && setState(getDimensions(elements[0]));
 
 const useRefDimensions = () => {
   const [ref, setRef] = React.useState(null);
   const [{ height, width }, setState] = React.useState({ height: undefined, width: undefined });
-  useResizeObserver(ref, setDimensions(setState), true);
+  const callback = React.useCallback(
+    elements => {
+      elements && elements.length > 0 && setState(getDimensions(elements[0]));
+    },
+    [setState]
+  );
+  useResizeObserver(ref, callback, true);
   return { ref, setRef, height, width };
 };
 

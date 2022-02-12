@@ -14,6 +14,7 @@ import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
+import HeaderHeightProvider from './ViewPort/Providers/HeightHeightProvider';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -94,7 +95,9 @@ export default function Layout({ children }) {
           <ApplicationBar trigger={trigger} />
           <LeftDrawer />
           <div className={classes.toolbar} />
-          <div className={classes.innerContent}>{children}</div>
+          <div className={classes.innerContent}>
+            <HeaderHeightProvider>{children}</HeaderHeightProvider>
+          </div>
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
           <SnackBar />
           <KeyWords />
