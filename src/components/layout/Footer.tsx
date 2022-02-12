@@ -4,7 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Logo from './Logo';
 import Questions from './Questions';
-import { useFooterHeightRef, useHandleChangeRoute } from './hooks';
+import { useFooterHeightSetRef, useHandleChangeRoute } from './hooks';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import useWidth from './ViewPort/hooks/useWidth';
 
@@ -48,7 +48,7 @@ export default function Footer({ variant = 'normal' }) {
   const isAdmin = useIsAdmin();
 
   return (
-    <div ref={useFooterHeightRef()} className={classes.root}>
+    <div ref={useFooterHeightSetRef()} className={classes.root}>
       <Grid container justifyContent='center' className={classes.container} spacing={1}>
         {variant !== 'small' && (
           <Grid item xs={12}>

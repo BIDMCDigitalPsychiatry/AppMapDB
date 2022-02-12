@@ -19,7 +19,7 @@ import Logo from './Logo';
 import { grey } from '@mui/material/colors';
 import useTabSelector from '../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
-import { useAppBarHeightSetRef } from './ViewPort/hooks/useAppBarHeightSetRef';
+import { useAppBarHeightSetRef } from './hooks';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({

@@ -3,11 +3,11 @@ import RateAnAppHeader from '../RateAnAppHeader';
 import { useTheme } from '@mui/material';
 import MyAppRatings from './MyAppRatings';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
-import useHeaderHeight from '../../layout/ViewPort/hooks/useHeaderHeight';
+import { useHeaderHeight } from '../../layout/hooks';
 
 export default function MyRatings() {
   const [showArchived, setShowArchived] = React.useState(false);
-  const headerHeight = useHeaderHeight();
+  const [headerHeight] = useHeaderHeight();
 
   const height = useHeight();
   const { layout } = useTheme() as any;

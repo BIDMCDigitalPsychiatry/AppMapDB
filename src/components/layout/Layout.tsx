@@ -3,7 +3,8 @@ import { useScrollTrigger } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useFooterHeight, useLeftDrawer } from './store';
+import { useLeftDrawer } from './store';
+import { useAppBarHeight, useFooterHeight } from './hooks';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import { useLocation } from 'react-router';
@@ -14,7 +15,6 @@ import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
-import useAppBarHeight from './ViewPort/hooks/useAppBarHeight';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -53,8 +53,8 @@ export const noPadPaths = ['/Home', '/', '/Apps'];
 export default function Layout({ children }) {
   const [leftDrawerOpen] = useLeftDrawer();
   const height = useHeight();
-  const appBarHeight = useAppBarHeight();
-  const footerHeight = useFooterHeight();
+  const [appBarHeight] = useAppBarHeight();
+  const [footerHeight] = useFooterHeight();
   const componentsOnPage = [appBarHeight, footerHeight];
   const minHeight = height - appBarHeight - footerHeight - 1;
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);

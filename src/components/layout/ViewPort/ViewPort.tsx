@@ -4,8 +4,6 @@ import createStyles from '@mui/styles/createStyles';
 import HeightProvider from './Providers/HeightProvider';
 import WidthProvider from './Providers/WidthProvider';
 import useRefDimensions from './hooks/useRefDimensions';
-import AppBarHeightProvider from './Providers/AppBarHeightProvider';
-import HeaderHeightProvider from './Providers/HeaderHeightProvider';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -35,11 +33,7 @@ const ViewPort = ({ children }) => {
       <div ref={setRef} className={classes.dimensions} />
       <div id='viewport' className={classes.static} style={{ height, width, backgroundColor: layout.backgroundColor }}>
         <HeightProvider value={height}>
-          <WidthProvider value={width}>
-            <AppBarHeightProvider>
-              <HeaderHeightProvider>{children}</HeaderHeightProvider>
-            </AppBarHeightProvider>
-          </WidthProvider>
+          <WidthProvider value={width}>{children}</WidthProvider>
         </HeightProvider>
       </div>
     </>

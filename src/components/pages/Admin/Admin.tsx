@@ -4,10 +4,10 @@ import AdminLayoutSelector from './AdminLayoutSelector';
 import AdminPendingApprovals from './AdminPendingApprovals';
 import { Surveys } from '../../application/GenericTable/Surveys/table';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
-import useHeaderHeight from '../../layout/ViewPort/hooks/useHeaderHeight';
+import { useHeaderHeight } from '../../layout/hooks';
 
 export default function Admin() {
-  const headerHeight = useHeaderHeight();
+  const [headerHeight] = useHeaderHeight();
   const [{ subRoute = 'pending' }] = useRouteState();
 
   const height = useHeight();

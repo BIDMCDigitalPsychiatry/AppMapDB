@@ -1,21 +1,31 @@
 import * as React from 'react';
-import useComponentSize from '@rehooks/component-size';
-import { useFooterHeight, useResizeFooter, useRouteState } from './store';
+import { useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { evalFunc, isEmpty } from '../../helpers';
+import { AppState } from '../../store';
+import useRefDimensions from './ViewPort/hooks/useRefDimensions';
 
-export const useFooterHeightRef = () => {
-  let ref = React.useRef(null);
-  const { height } = useComponentSize(ref);
-  const resizeFooter = useResizeFooter();
-  const fh = useFooterHeight();
-  const trigger = !isEmpty(height) && fh !== height;
-  React.useEffect(() => {
-    trigger && resizeFooter(height);
-  }, [resizeFooter, trigger, height]);
-  return ref;
+const useLayoutResizeKey = (key): [number, any] => {
+  const dispatch = useDispatch();
+  return [useSelector((state: AppState) => state.layout[key]), React.useCallback(height => dispatch({ type: 'RESIZE', key, height }), [key, dispatch])];
 };
+
+const useLayoutHeightObserverKey = key => {
+  const { setRef, height } = useRefDimensions();
+  const [h, setHeight] = useLayoutResizeKey(key);
+  React.useEffect(() => {
+    !isEmpty(height) && height !== h && setHeight(height);
+  }, [setHeight, h, height]);
+  return setRef;
+};
+
+export const useAppBarHeight = () => useLayoutResizeKey('appBarHeight');
+export const useFooterHeight = () => useLayoutResizeKey('footerHeight');
+export const useHeaderHeight = () => useLayoutResizeKey('headerHeight');
+export const useAppBarHeightSetRef = () => useLayoutHeightObserverKey('appBarHeight');
+export const useFooterHeightSetRef = () => useLayoutHeightObserverKey('footerHeight');
+export const useHeaderHeightSetRef = () => useLayoutHeightObserverKey('headerHeight');
 
 export const useHandleChangeRoute = () => {
   const changeRoute = useChangeRoute();

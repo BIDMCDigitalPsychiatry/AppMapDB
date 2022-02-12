@@ -4,9 +4,8 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
-import { useHandleChangeRoute } from '../layout/hooks';
+import { useHandleChangeRoute, useHeaderHeightSetRef } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
-import { useHeaderHeightSetRef } from '../layout/ViewPort/hooks/useHeaderHeightSetRef';
 
 const padding = 32;
 const borderRadius = 7;

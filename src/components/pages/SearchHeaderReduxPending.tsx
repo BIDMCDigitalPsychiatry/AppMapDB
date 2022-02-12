@@ -8,7 +8,7 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import { useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
-import { useHeaderHeightSetRef } from '../layout/ViewPort/hooks/useHeaderHeightSetRef';
+import { useHeaderHeightSetRef } from '../layout/hooks';
 
 const padding = 32;
 const spacing = 1;

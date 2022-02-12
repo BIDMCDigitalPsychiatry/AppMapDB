@@ -8,11 +8,11 @@ import SearchHeaderRedux from './SearchHeaderRedux';
 import { useTheme } from '@mui/material';
 import useAppTableDataTest from './useAppTableDataTest';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
-import useHeaderHeight from '../layout/ViewPort/hooks/useHeaderHeight';
+import { useHeaderHeight } from '../layout/hooks';
 
 export default function Apps() {
   const [viewMode] = useViewMode() as any;
-  const headerHeight = useHeaderHeight();
+  const [headerHeight] = useHeaderHeight();
   const height = useHeight();
   const { layout } = useTheme() as any;
   const { tablefooterheight } = layout;

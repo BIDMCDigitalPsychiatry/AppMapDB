@@ -6,7 +6,7 @@ import LeftDrawerContent from './LeftDrawerContent';
 import { useFullScreen } from '../../../hooks';
 import { useLeftDrawer } from '../store';
 import useHeight from '../ViewPort/hooks/useHeight';
-import useAppBarHeight from '../ViewPort/hooks/useAppBarHeight';
+import { useAppBarHeight } from '../hooks';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({
@@ -34,7 +34,7 @@ const useStyles = makeStyles(({ breakpoints, layout }: any) =>
 const LeftDrawer = () => {
   const height = useHeight();
   const fullScreen = useFullScreen();
-  const appBarHeight = useAppBarHeight();
+  const [appBarHeight] = useAppBarHeight();
   const classes = useStyles({ height, appBarHeight });
   const [leftDrawer, setLeftDrawer] = useLeftDrawer();
   const handleLeftDrawerClose = React.useCallback(() => setLeftDrawer(false), [setLeftDrawer]);

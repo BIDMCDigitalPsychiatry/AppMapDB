@@ -9,7 +9,7 @@ import { TabSelectorItem } from '../../general/TabSelector/TabSelector';
 import { useLocation } from 'react-router';
 import { noPadPaths } from '../../layout/Layout';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
-import useAppBarHeight from '../../layout/ViewPort/hooks/useAppBarHeight';
+import { useAppBarHeight } from '../../layout/hooks';
 
 const GenericTable = React.lazy(() => import('./GenericTable'));
 
@@ -111,7 +111,7 @@ export default function GenericTableContainer(props: GenericTableContainerProps)
     }
   ].filter(x => x.component); //Remove any null components
 
-  const appBarHeight = useAppBarHeight();
+  const [appBarHeight] = useAppBarHeight();
 
   const { pathname } = useLocation();
   const excludePadding = noPadPaths.findIndex(p => p === pathname) > -1 ? true : false;

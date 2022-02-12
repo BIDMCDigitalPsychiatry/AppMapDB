@@ -10,15 +10,17 @@ import { homepage } from '../../../package.json';
 
 export type ViewMode = 'table' | 'grid';
 
-export interface State {  
-  footerHeight?: number;  
+export interface State {
+  appBarHeight?: number;
+  footerHeight?: number;
   viewMode?: ViewMode;
   adminMode?: boolean;
   routeState: any;
 }
 
-const defaultState = {  
-  footerHeight: (theme as any).layout.footerHeight,  
+const defaultState = {
+  appBarHeight: (theme as any).layout.toolbarheight,
+  footerHeight: (theme as any).layout.footerHeight,
   viewMode: 'grid',
   adminMode: false,
   routeState: {},
@@ -26,7 +28,6 @@ const defaultState = {
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
-const resizeFooter = (height: number | undefined) => ({ type: 'RESIZE_FOOTER', height });
 const changeViewMode = (mode: ViewMode) => ({ type: 'CHANGE_VIEW_MODE', mode });
 const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', adminMode });
 
@@ -41,11 +42,11 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
       return {
         ...state,
         user: action.user
-      };    
-    case 'RESIZE_FOOTER':
+      };
+    case 'RESIZE':
       return {
         ...state,
-        footerHeight: action.height
+        [action.key]: action.height
       };
     case 'UPDATE_LAYOUT':
       return {
@@ -75,15 +76,6 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
 export const useSetUser = () => {
   const dispatch = useDispatch();
   return React.useCallback(user => dispatch(setUser(user)), [dispatch]);
-};
-
-export const useResizeFooter = () => {
-  const dispatch = useDispatch();
-  return React.useCallback(height => dispatch(resizeFooter(height)), [dispatch]);
-};
-
-export const useFooterHeight = (): number => {
-  return useSelector((state: AppState) => state.layout.footerHeight);
 };
 
 export const useRouteState = () => {
