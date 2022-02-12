@@ -3,7 +3,7 @@ import { useScrollTrigger } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useAppBarHeight, useFooterHeight, useLeftDrawer } from './store';
+import { useFooterHeight, useLeftDrawer } from './store';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import { useLocation } from 'react-router';
@@ -14,7 +14,7 @@ import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
-import HeaderHeightProvider from './ViewPort/Providers/HeightHeightProvider';
+import useAppBarHeight from './ViewPort/hooks/useAppBarHeight';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -95,9 +95,7 @@ export default function Layout({ children }) {
           <ApplicationBar trigger={trigger} />
           <LeftDrawer />
           <div className={classes.toolbar} />
-          <div className={classes.innerContent}>
-            <HeaderHeightProvider>{children}</HeaderHeightProvider>
-          </div>
+          <div className={classes.innerContent}>{children}</div>
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
           <SnackBar />
           <KeyWords />

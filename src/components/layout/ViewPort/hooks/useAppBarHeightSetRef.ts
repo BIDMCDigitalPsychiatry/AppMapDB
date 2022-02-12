@@ -1,11 +1,11 @@
 import React from 'react';
 import { isEmpty } from '../../../../helpers';
 import useRefDimensions from './useRefDimensions';
-import { HeaderHeightContext } from '../Providers/HeaderHeightProvider';
+import { AppBarHeightContext } from '../Providers/AppBarHeightProvider';
 
-export const useHeaderHeightSetRef = () => {
+export const useAppBarHeightSetRef = () => {
   const { setRef, height } = useRefDimensions();
-  const { height: h, setHeight } = React.useContext(HeaderHeightContext);
+  const { height: h, setHeight } = React.useContext(AppBarHeightContext);
   React.useEffect(() => {
     !isEmpty(height) && height !== h && setHeight(height);
   }, [setHeight, h, height]);

@@ -1,8 +1,8 @@
 import React from 'react';
-import { HeaderHeightContext } from '../Providers/HeaderHeightProvider';
+import { AppBarHeightContext } from '../Providers/AppBarHeightProvider';
 
-export default function useHeaderHeight() {
-  const context = React.useContext(HeaderHeightContext);
+export default function useAppBarHeight() {
+  const context = React.useContext(AppBarHeightContext);
   if (context === undefined) {
     throw new Error('useHeaderHeight must be used within a HeaderHeightProvider');
   }

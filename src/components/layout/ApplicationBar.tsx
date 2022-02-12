@@ -4,7 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { useAppBarHeightRef, useChangeRoute } from './hooks';
+import { useChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
@@ -19,6 +19,7 @@ import Logo from './Logo';
 import { grey } from '@mui/material/colors';
 import useTabSelector from '../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
+import { useAppBarHeightSetRef } from './ViewPort/hooks/useAppBarHeightSetRef';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -128,13 +129,15 @@ export default function ApplicationBar({ trigger }) {
   const [, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
   const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
 
+  const setRef = useAppBarHeightSetRef();
+
   return (
     <>
       {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
       {renderDialogModule(LoginDialog)}
       {renderDialogModule(RegisterDialog)}
       <Slide appear={false} direction='down' in={!trigger}>
-        <AppBar ref={useAppBarHeightRef()} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
+        <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters={true}>
             {leftDrawerEnabled && (
               <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
