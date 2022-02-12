@@ -43,7 +43,7 @@ const useStyles = makeStyles(({ palette }: any) =>
       zIndex: 1,
       minWidth: 0,
       minHeight
-    }),
+    })
   })
 );
 
@@ -53,6 +53,7 @@ export interface TabSelectorItem {
   icon?: any;
   route?: any;
   Component?: any;
+  onClick?: any;
 }
 
 const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
@@ -92,6 +93,7 @@ const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientati
               icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
               value={t.id}
               wrapped={wrapped}
+              onClick={t?.onClick && t.onClick}
               label={
                 <Typography variant='caption' style={{ maxWidth: `calc(100% - ${2}px)` }} noWrap={!wrapped}>
                   {t.label ? t.label : t.id}
