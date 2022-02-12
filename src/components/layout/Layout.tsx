@@ -7,7 +7,7 @@ import { useAppBarHeight, useFooterHeight, useLeftDrawer } from './store';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import { useLocation } from 'react-router';
-import LeftDrawer from './LeftDrawer';
+import LeftDrawer from './LeftDrawer/LeftDrawer';
 import KeyWords from './KeyWords';
 import { useUrlParameter } from '../../hooks';
 import { useChangeRoute } from './hooks';

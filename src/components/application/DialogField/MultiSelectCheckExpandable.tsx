@@ -16,21 +16,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function MuliSelectCheckExpandable({
-  value = [],
-  onChange = undefined,
-  label = undefined,
-  placeholder = undefined,
-  fullWidth = true,
-  disabled = false,
-  size = 'small' as 'small',
-  items = [],
-  disableCloseOnSelect = true,
-  initialValue = undefined, // prevent passing down
-  InputProps = undefined,
-  color = undefined,
-  ...other
-}) {
+export default function MuliSelectCheckExpandable({ value = [], onChange = undefined, label = undefined, items = [], color = undefined }) {
   const classes = useStyles();
   const [expand, setExpand] = React.useState(value.length > 0 ? true : false);
   const handleChange = React.useCallback(
@@ -38,9 +24,9 @@ export default function MuliSelectCheckExpandable({
       const checked = e.target.value;
       const newValue = value.filter(v => v !== itemValue);
       if (!bool(checked)) {
-        onChange && onChange({ target: { value: newValue } });
+        onChange && onChange(newValue, e);
       } else {
-        onChange && onChange({ target: { value: newValue.concat(itemValue) } });
+        onChange && onChange(newValue.concat(itemValue), e);
       }
     },
     [onChange]
@@ -50,7 +36,7 @@ export default function MuliSelectCheckExpandable({
     e => {
       e.stopPropagation();
       if (expand) {
-        onChange && onChange({ target: { value: [] } });
+        onChange && onChange([], e);
       }
       setExpand(!expand);
     },
@@ -84,7 +70,6 @@ export default function MuliSelectCheckExpandable({
                   margin='none'
                   value={value.find(v => v === i.value) ? true : false}
                   onChange={handleChange(i.value, value)}
-                  //color={color}
                   size='small'
                 />
               </Grid>
