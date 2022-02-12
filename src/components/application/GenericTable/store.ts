@@ -1,6 +1,6 @@
 import React from 'react';
 import { Reducer } from 'redux';
-import { evalFunc } from '../../../helpers';
+import { evalFunc, stringifyEqual } from '../../../helpers';
 import { AppState } from '../../../store';
 import { SortComparator, updateState, setDefaults } from './helpers';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,7 +70,7 @@ export const useTableFilterValue = (tableId, filterId) => {
     const table = state.table[tableId] ?? { id: tableId, filters: {} };
     const filters = table?.filters ?? {};
     return filters[filterId] ?? [];
-  });
+  }, stringifyEqual);
   const setValue = React.useCallback(value => dispatch(tableFilterValueUpdate(tableId, filterId, value)), [tableId, filterId, dispatch]);
   return [value, setValue];
 };
