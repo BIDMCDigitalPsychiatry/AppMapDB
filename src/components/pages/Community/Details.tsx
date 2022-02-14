@@ -19,6 +19,7 @@ import * as CommentDialog from '../../application/GenericDialog/Comment';
 import { useCommentsByPostId } from '../../../database/useComments';
 import { sortComments } from './helpers';
 import useSortOptions from '../../../utils/useSortOptions';
+import { getObjectUrl } from '../../../aws-exports';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -195,7 +196,11 @@ const Details = () => {
             <Container maxWidth='xl'>
               <Grid container justifyContent='center'>
                 <Grid item>
-                  <img alt='cover' src={values.cover} style={{ maxHeight: 350 }} />
+                  <img
+                    alt='cover'
+                    src={isEmpty(values?.cover) ? '' : values?.cover?.startsWith('data:') ? values.cover : getObjectUrl(values.cover)}
+                    style={{ maxHeight: 350 }}
+                  />
                 </Grid>
               </Grid>
             </Container>
