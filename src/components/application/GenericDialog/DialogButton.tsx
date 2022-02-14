@@ -86,7 +86,7 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
   const fullScreen = useFullScreen();
 
   return (
-    <StyledBadge badgeContent={filterCount} color='error' overlap='circle' anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+    <StyledBadge badgeContent={filterCount} color='error' overlap='circular' anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
       <DialogButton
         Module={Module}
         Icon={Icon}

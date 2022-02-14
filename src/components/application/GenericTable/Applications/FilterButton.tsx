@@ -108,7 +108,7 @@ export default function FilterButton({
     <>
       {mount && Module && renderDialogModule({ ...Module, anchorEl, onClose: handleClose, onChange, onReset: handleReset, values, setValues })}
       <div className={classes.fab}>
-        <StyledBadge badgeContent={filterCount} color='error' overlap='circle' anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+        <StyledBadge badgeContent={filterCount} color='error' overlap='circular' anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
           <Fab size='large' color='primary' aria-label='view-mode' onClick={handleClick}>
             <Icon />
           </Fab>
