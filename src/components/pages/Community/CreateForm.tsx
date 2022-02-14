@@ -1,45 +1,17 @@
 import React from 'react';
-import { Box, Button, Card, CardContent, Grid, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Card, CardContent, Grid, TextField, Typography, useTheme } from '@mui/material';
 import { categories, readTimes } from '../../../database/models/Post';
 import DateTimePicker from '../../application/DialogField/DateTimePicker';
 import Text from '../../application/DialogField/Text';
-import { isEmpty } from '../../../helpers';
-import * as StockImageSelectorDialog from '../../application/GenericDialog/StockImageSelector';
-import DialogButton from '../../application/GenericDialog/DialogButton';
-import Image from '../../application/DialogField/Image';
 import Check from '../../application/DialogField/Check';
 import QuillEditor from '../../application/QuillEditor';
-import FilesDropzone from '../../application/FilesDropzone';
+import ImageBase64 from '../../application/DialogField/ImageBase64';
 
-const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
-
-const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
+const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = undefined }) => {
   const { title = '', authorName, category, content = '', cover, shortDescription = '', readTime } = values;
-
-  const handleDropCover = async ([file]: File[]) => {
-    const cover = (await toBase64(file)) as string;
-    setValues(prev => ({ ...prev, cover }));
-  };
-
-  const [resizing, setResizing] = React.useState(false);
-
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
-  const handleRemoveCover = () => setValues(prev => ({ ...prev, cover: undefined }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
-  const handleSelectCover = cover => {
-    setValues(prev => ({ ...prev, cover }));
-    setResizing(false);
-  };
-  const handleResizeCover = () => setResizing(prev => !prev);
-
   const theme = useTheme();
-
   return (
     <div>
       <Grid container spacing={3}>
@@ -56,59 +28,19 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   value={shortDescription}
                   onChange={handleChange('shortDescription')}
                   error={errors['shortDescription']}
+                  disabled={loading}
                 />
               </Box>
-              <Typography
-                color='textSecondary'
-                style={{
-                  marginBottom: 16,
-                  marginTop: 24
-                }}
-                variant='subtitle2'
-              >
-                Cover
-              </Typography>
-              {cover ? (
-                <div style={{ textAlign: 'center' }}>
-                  {resizing ? <Image value={cover} onChange={handleSelectCover} /> : <img src={cover} alt='cover' style={{ width: 350 }} />}
-                  {!isEmpty(errors['cover']) && (
-                    <Box mt={2}>
-                      <Typography align='right' color='error'>
-                        {errors['cover']}
-                      </Typography>
-                    </Box>
-                  )}
-                  <Box
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      marginTop: 16
-                    }}
-                  >
-                    <Button color='primary' onClick={handleResizeCover} variant='text'>
-                      {resizing ? 'Cancel Resize Image' : 'Resize Cover Image'}
-                    </Button>
-                    <Button color='primary' onClick={handleRemoveCover} variant='text'>
-                      Remove Cover Image
-                    </Button>
-                  </Box>
-                </div>
-              ) : (
-                <>
-                  <FilesDropzone accept='image/*' maxFiles={1} onDrop={handleDropCover} />
-                  <Box
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      marginTop: 16
-                    }}
-                  >
-                    <DialogButton variant='default' Module={StockImageSelectorDialog} onChange={handleSelectCover}>
-                      Select From Stock Images
-                    </DialogButton>
-                  </Box>
-                </>
-              )}
+              <ImageBase64
+                label='Cover Image'
+                description='This image will also be shown on the news page. 350 x 350 recommended.'
+                value={cover}
+                error={errors['cover']}
+                onChange={handleChange('cover')}
+                width={175}
+                height={175}
+                disabled={loading}
+              />
               <Box style={{ marginTop: 24 }}>
                 <Typography color='textSecondary' style={{ marginBottom: 16 }} variant='subtitle2'>
                   Content
@@ -122,6 +54,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   }}
                   onChange={changeValue('content')}
                   value={content}
+                  disabled={loading}
                 />
               </Box>
             </CardContent>
@@ -140,6 +73,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   select
                   SelectProps={{ native: true }}
                   variant='outlined'
+                  disabled={loading}
                 >
                   {categories.map(category => (
                     <option key={category} value={category}>
@@ -149,7 +83,15 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                 </TextField>
               </Box>
               <Box mt={2}>
-                <TextField fullWidth multiline label='Author Name' variant='outlined' value={authorName} onChange={handleChange('authorName')} />
+                <TextField
+                  fullWidth
+                  multiline
+                  label='Author Name'
+                  variant='outlined'
+                  value={authorName}
+                  onChange={handleChange('authorName')}
+                  disabled={loading}
+                />
               </Box>
               <Box mt={2}>
                 <TextField
@@ -161,6 +103,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   select
                   SelectProps={{ native: true }}
                   variant='outlined'
+                  disabled={loading}
                 >
                   {readTimes.map(rt => (
                     <option key={rt} value={rt}>
@@ -179,6 +122,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   error={errors['publishedAt']}
                   margin='normal'
                   getTime={true}
+                  disabled={loading}
                 />
               </Box>
               <Box mt={0}>
@@ -189,6 +133,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   onChange={handleChange('adminOnly')}
                   value={values['adminOnly']}
                   error={errors['adminOnly']}
+                  disabled={loading}
                 />
                 <Check
                   id='enableComments'
@@ -197,8 +142,17 @@ const CreateForm = ({ values = {} as any, setValues, errors = {} }) => {
                   onChange={handleChange('enableComments')}
                   value={values['enableComments']}
                   error={errors['enableComments']}
+                  disabled={loading}
                 />
-                <Check id='deleted' label='Archived' color='primary' onChange={handleChange('deleted')} value={values['deleted']} error={errors['deleted']} />
+                <Check
+                  id='deleted'
+                  label='Archived'
+                  color='primary'
+                  onChange={handleChange('deleted')}
+                  value={values['deleted']}
+                  error={errors['deleted']}
+                  disabled={loading}
+                />
               </Box>
             </CardContent>
           </Card>

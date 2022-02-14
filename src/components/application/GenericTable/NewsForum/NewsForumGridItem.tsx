@@ -5,6 +5,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { bool, formatWithDefault, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
 import { useChangeRoute } from '../../../layout/hooks';
 import { useCommentsByPostId } from '../../../../database/useComments';
+import { getObjectUrl } from '../../../../aws-exports';
 
 const height = 448;
 const useStyles = makeStyles(theme =>
@@ -91,7 +92,11 @@ export default function NewsForumGridItem({
       raised={state.raised}
       elevation={state.raised ? 8 : 4}
     >
-      <CardMedia className={classes.media} image={isEmpty(cover) ? '/images/avatars/empty-profile.png' : cover} component='img' />
+      <CardMedia
+        className={classes.media}
+        image={isEmpty(cover) ? '/images/avatars/empty-profile.png' : cover.startsWith('data:') ? cover : getObjectUrl(cover)}
+        component='img'
+      />
       <CardContent className={classes.cardContent}>
         <Box mt={1} mb={2}>
           <Grid container justifyContent='center' spacing={1}>

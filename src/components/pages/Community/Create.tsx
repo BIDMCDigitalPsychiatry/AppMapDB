@@ -11,7 +11,7 @@ import { publicUrl } from '../../../helpers';
 const Create = () => {
   const handleChangeRoute = useHandleChangeRoute();
   const [{ category }] = useRouteState(); // Get initial category
-  const { values, setValues, errors, handleSave } = useValues({ type: 'create', category });
+  const { values, setValues, errors, loading, handleSave } = useValues({ type: 'create', category });
 
   return (
     <Container maxWidth='lg'>
@@ -22,20 +22,22 @@ const Create = () => {
           {
             label: 'Cancel',
             onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'list' })),
-            color: 'secondary'
+            color: 'secondary',
+            disabled: loading
           },
           {
             label: 'Publish Changes',
             startIcon: <Icons.Save />,
             onClick: handleSave,
-            variant: 'contained'
+            variant: 'contained',
+            disabled: loading
           }
         ]}
       />
 
       <Divider />
       <Box style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <CreateForm values={values} setValues={setValues} errors={errors} />
+        <CreateForm values={values} setValues={setValues} errors={errors} loading={loading} />
       </Box>
     </Container>
   );

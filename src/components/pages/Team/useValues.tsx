@@ -137,7 +137,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
       });
     },
     // eslint-disable-next-line
-    [values, JSON.stringify(values), changeRoute, email, type]
+    [values, JSON.stringify(values), updateRow, changeRoute, email, type]
   );
 
   const handleDelete = React.useCallback(

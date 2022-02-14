@@ -6,8 +6,9 @@ import { useEffect } from 'react';
 import { useDatabaseRow } from '../../../database/useTableState';
 import { tables } from '../../../database/dbConfig';
 import useProcessData from '../../../database/useProcessData';
-import Decimal from 'decimal.js-light';
+import { uploadFiles } from '../../../database/utils';
 
+const Model = tables.posts;
 const validate = values => {
   const newErrors = {};
   ['title', 'shortDescription', 'category', 'readTime', 'publishedAt'].forEach(k => {
@@ -15,25 +16,6 @@ const validate = values => {
       newErrors[k] = 'Required';
     }
   });
-
-  if (!isEmpty(values['cover'])) {
-    //size = (n * (3/4)) - y
-    //size is the size of file in bytes
-    //n is the length of the Base64 String
-    //y will be 2 if Base64 ends with '==' and 1 if Base64 ends with '='.
-    var n = values['cover'].length;
-    var y = values['cover'].endsWith('==') ? 2 : 1;
-    const sizeKB = new Decimal(n)
-      .times(new Decimal(3 / 4))
-      .minus(y)
-      .dividedBy(1000)
-      .toInteger();
-    var isValid = sizeKB.lessThanOrEqualTo(350); // <= 350 kb - Dynamo has a size limit of 400kb per database row
-
-    if (!isValid) {
-      newErrors['cover'] = `Image size of ${sizeKB.toString()} kB exceeds maxium size of 300 kB.  Please select a new image.`;
-    }
-  }
 
   return newErrors;
 };
@@ -66,7 +48,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
       setLoading(true);
       processData({
         Action: 'r',
-        Model: tables.posts,
+        Model,
         Snackbar: null,
         Data: {
           _id
@@ -83,15 +65,15 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
     [processData]
   );
 
-  const updatePost = React.useCallback(
-    ({ post, onSuccess: OnSuccess, onError: OnError }) => {
+  const updateRow = React.useCallback(
+    ({ row, onSuccess: OnSuccess, onError: OnError }) => {
       setLoading(true);
       processData({
         Action: 'u',
-        Model: tables.posts,
+        Model,
         Snackbar: null,
         Data: {
-          ...post
+          ...row
         } as any,
         onSuccess: result => {
           setValues(result?.Item);
@@ -113,39 +95,53 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
 
   const handleSave = React.useCallback(
     async ({ values: Values = undefined, onSuccess = undefined, onError = undefined, idKey = '_id' }) => {
-      const post = { ...(Values ?? values) };
-
-      if (type === 'create') {
-        post[idKey] = uuid();
-        post.created = new Date().getTime();
-        post.createdBy = email;
-      } else {
-        post.updated = new Date().getTime();
-        post.updatedBy = email;
-      }
-
+      setLoading(true);
+      const row = { ...(Values ?? values) };
       setErrors({});
       const newErrors = validate(values);
       if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);
+        setLoading(false);
         onError && onError(newErrors);
-      } else {
-        updatePost({
-          post,
-          onSuccess: result => {
-            changeRoute(publicUrl('/connect'), prev => ({ ...prev, subRoute: 'list' }));
-            onSuccess && onSuccess(result);
-          },
-          onError: err => {
-            alert('Error publishing content.');
-            console.error({ err });
-            onError && onError(err);
-          }
-        });
+        return;
       }
+      const keysToUpload = ['cover'];
+      const { responses, errors } = await uploadFiles({ keysToUpload, values });
+      if (Object.keys(errors).length > 0) {
+        setErrors(errors);
+        setLoading(false);
+        onError && onError(errors);
+        return;
+      }
+      // Change all file objects to string key to signify that the file has been uploaded and store link
+      Object.keys(responses).forEach(k => (row[k] = responses[k].key));
+
+      if (type === 'create') {
+        row[idKey] = uuid();
+        row.created = new Date().getTime();
+        row.createdBy = email;
+      } else {
+        row.updated = new Date().getTime();
+        row.updatedBy = email;
+      }
+
+      updateRow({
+        row,
+        onSuccess: result => {
+          changeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'list' }));
+          setLoading(false);
+          onSuccess && onSuccess(result);
+        },
+        onError: err => {
+          alert('Error publishing content.');
+          console.error({ err });
+          setLoading(false);
+          onError && onError(err);
+        }
+      });
     },
     // eslint-disable-next-line
-    [values, JSON.stringify(values), changeRoute, email, type]
+    [values, JSON.stringify(values), changeRoute, email, type, updateRow]
   );
 
   const handleDelete = React.useCallback(
