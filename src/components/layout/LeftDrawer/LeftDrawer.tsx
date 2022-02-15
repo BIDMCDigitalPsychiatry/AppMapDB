@@ -52,7 +52,7 @@ const LeftDrawer = () => {
           keepMounted: true // Better open performance on mobile.
         }}
       >
-        <LeftDrawerContent />
+        {fullScreen && leftDrawer && <LeftDrawerContent />}
       </Drawer>
       <Drawer
         classes={{
