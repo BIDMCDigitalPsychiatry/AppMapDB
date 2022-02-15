@@ -75,7 +75,8 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     tooltip,
     replace,
     placeholder,
-    color
+    color,
+    size
   } = f; // Only pass necessary props to field
   const props = {
     autoFocus,
@@ -103,6 +104,7 @@ export const bindField = ({ f, values, initialValues, errors, touched, handleCha
     replace,
     placeholder,
     color,
+    size,
     ...(getProps && getProps(values)) // Allows the field to hook into the internal state values if needed
   };
   Object.keys(props).forEach(key => props[key] === undefined && delete props[key]); // Filter out any undefined props so they don't override any previously specified values
