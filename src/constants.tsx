@@ -48,9 +48,8 @@ const themeProps = {
     contentpadding: 8, //The padding around the inner layout content
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)
     tablefooterheight: 20, //The height of the table footer
-    tablefilterbarheight: 52, //The height of the table filter selector (category selector)
-    //tabletoolbarheight: basetheme.spacing(5.5) * 2, // The height of the top bar on the table, also the height of the secondary tabselector
-    tabletoolbarheight: 48, // The height of the top bar on the table, also the height of the secondary tabselector
+    tablefilterbarheight: 52, //The height of the table filter selector (category selector)    
+    tabletoolbarheight: 88, // The height of the top bar on the table, also the height of the secondary tabselector
     tableRowHeight: 48, // Height of table rows
     footerheight: 24, //The height of the bottom toolbar
     progressSize: 80, // size of the circulatr progress indicator shown when dialogs are submitting
