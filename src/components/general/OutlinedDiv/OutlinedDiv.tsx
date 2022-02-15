@@ -29,9 +29,7 @@ const useStyles = makeStyles(({ palette, shape }: any) =>
     inputLabel: {
       position: 'absolute',
       left: 0,
-      top: 0,
-      // slight alteration to spec spacing to match visual spec result
-      transform: 'translate(0, 24px) scale(1)'
+      top: 0
     },
     notchedOutline: ({ error }: any) => ({
       borderColor: isError(error) ? palette.error.main : 'inherit'
@@ -63,7 +61,7 @@ export default function OutlinedDiv({
           <Grid item xs={12}>
             {children}
           </Grid>
-          <NotchedOutline className={classes.notchedOutline} notched />
+          <NotchedOutline label={label} className={classes.notchedOutline} notched />
         </Grid>
       </div>
     </div>
