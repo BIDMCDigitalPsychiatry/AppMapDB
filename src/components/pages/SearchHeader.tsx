@@ -8,7 +8,6 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
-import { useIsAdmin } from '../../hooks';
 import TourStep from './Tour/TourStep';
 
 const padding = 32;
@@ -68,8 +67,6 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
     [setState]
   );
 
-  const isAdmin = useIsAdmin();
-
   return (
     <>
       <Grid container className={classes.header}>
@@ -115,7 +112,7 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
           </Grid>
         </Grid>
       </Grid>
-      {isAdmin && <InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />}
+      <InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />
     </>
   );
 }
