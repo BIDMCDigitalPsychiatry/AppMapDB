@@ -14,6 +14,7 @@ import ArrowButton from '../general/ArrowButton';
 import { internalKeys } from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import { useTableValues } from '../application/GenericTable/store';
 import TourStep from './TourStep';
+import useAppTableDataTest from './useAppTableDataTest';
 
 const padding = 32;
 const spacing = 1;
@@ -239,6 +240,8 @@ export default function Home() {
     setTableState();
     changeRoute(publicUrl('/Apps'));
   }, [changeRoute, setTableState]);
+
+  useAppTableDataTest({ trigger: false, triggerWhenEmpty: true }); // Pre load the database rows if we have an empty data set
 
   return (
     <TourStep id={1}>

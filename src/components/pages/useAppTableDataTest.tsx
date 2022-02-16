@@ -12,9 +12,10 @@ import { useAdminMode } from '../layout/store';
 const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
-export default function useAppTableDataTest({ trigger = true } = {}) {
+export default function useAppTableDataTest({ trigger = true, triggerWhenEmpty = false } = {}) {
   const [apps, setApps] = useApplications();
   const [loading, setLoading] = React.useState(false);
+  const count = Object.keys(apps).length;
 
   const handleGetRow = React.useCallback(
     id => {
@@ -89,6 +90,15 @@ export default function useAppTableDataTest({ trigger = true } = {}) {
   React.useEffect(() => {
     trigger && handleRefresh();
   }, [trigger, handleRefresh]);
+
+  React.useEffect(() => {
+    if (triggerWhenEmpty && !trigger) {
+      if (count === 0) {
+        console.log('Pre-loading database cache...');
+        handleRefresh();
+      }
+    }
+  }, [trigger, count, triggerWhenEmpty, handleRefresh]);
 
   const [adminMode] = useAdminMode();
   var data = apps
