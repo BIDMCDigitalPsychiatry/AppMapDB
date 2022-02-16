@@ -14,8 +14,6 @@ const useTour = () => {
     changeRoute(publicUrl('/Home'));
   }, [setStep, changeRoute]);
 
-  console.log({ tourCompleted });
-
   React.useEffect(() => {
     if (pkg.enableTour && !tourCompleted && step === 0) {
       handleTour(); // Automatically open the tour for first time users

@@ -12,7 +12,16 @@ const useRefDimensions = () => {
   const [{ height, width }, setState] = React.useState({ height: undefined, width: undefined });
   const callback = React.useCallback(
     elements => {
-      elements && elements.length > 0 && setState(getDimensions(elements[0]));
+      if (elements && elements.length > 0) {
+        const { height, width } = getDimensions(elements[0]);
+        if (height !== undefined && width !== undefined) {
+          setState({ height, width });
+        } else {
+          // Default to legacy method (Probably a Safari browser)
+          const { height, width } = elements[0].target.getBoundingClientRect();
+          setState({ height, width });
+        }
+      }
     },
     [setState]
   );
