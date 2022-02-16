@@ -7,7 +7,7 @@ import { useIsAdmin } from '../../../../hooks';
 import ApplicationsGridItem from './ApplicationsGridItem';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
-import TourStep from '../../../pages/TourStep';
+import TourStep from '../../../pages/Tour/TourStep';
 
 const name = 'Applications';
 export const defaultProps: GenericTableContainerProps = {

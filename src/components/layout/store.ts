@@ -17,6 +17,7 @@ export interface State {
   adminMode?: boolean;
   routeState: any;
   step?: number | null;
+  tourCompleted?: boolean;
 }
 
 const defaultState = {
@@ -26,7 +27,8 @@ const defaultState = {
   adminMode: false,
   routeState: {},
   leftDrawerOpen: false,
-  step: 0
+  step: 0,
+  tourCompleted: false
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
@@ -40,6 +42,12 @@ export const reducer: Reducer<State> = (state: State | any, action) => {
         ...state,
         step: action.step
       };
+    case 'TOUR_COMPLETED':
+      return {
+        ...state,
+        tourCompleted: action.completed
+      };
+
     case 'ROUTE_STATE':
       return {
         ...state,

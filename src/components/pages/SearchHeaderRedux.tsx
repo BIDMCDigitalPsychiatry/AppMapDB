@@ -13,7 +13,7 @@ import ViewModeButtons from '../application/GenericTable/Applications/ViewModeBu
 import { categories } from '../../constants';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 import { useChangeRoute, useHeaderHeightSetRef } from '../layout/hooks';
-import TourStep from './TourStep';
+import TourStep from './Tour/TourStep';
 import { publicUrl } from '../../helpers';
 
 const padding = 32;

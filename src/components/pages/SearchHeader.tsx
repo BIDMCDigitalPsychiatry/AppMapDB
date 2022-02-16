@@ -9,7 +9,7 @@ import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import { useIsAdmin } from '../../hooks';
-import TourStep from './TourStep';
+import TourStep from './Tour/TourStep';
 
 const padding = 32;
 const spacing = 1;

@@ -12,7 +12,7 @@ import { useIsAdmin } from '../../../../hooks';
 import useWidth from '../../../layout/ViewPort/hooks/useWidth';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
-import TourStep from '../../../pages/TourStep';
+import TourStep from '../../../pages/Tour/TourStep';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;

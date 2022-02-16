@@ -9,7 +9,7 @@ import FilterButtons from '../../application/GenericContent/FilterButtons';
 import Logo from '../Logo';
 import { useFullScreen } from '../../../hooks';
 import FilterCount from './FilterCount';
-import TourStep from '../../pages/TourStep';
+import TourStep from '../../pages/Tour/TourStep';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

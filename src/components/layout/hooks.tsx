@@ -75,3 +75,10 @@ export const useTourStep = () => {
   const handleStep = React.useCallback(step => () => setStep(step), [setStep]);
   return { step, setStep, handleStep };
 };
+
+export const useTourCompleted = () => {
+  const tourCompleted = useSelector((state: AppState) => state.layout.tourCompleted);
+  const dispatch = useDispatch();
+  const setTourCompleted = React.useCallback((completed = true) => dispatch({ type: 'TOUR_COMPLETED', completed }), [dispatch]);
+  return { tourCompleted, setTourCompleted };
+};

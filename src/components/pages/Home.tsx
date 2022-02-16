@@ -13,7 +13,7 @@ import SearchHeader from './SearchHeader';
 import ArrowButton from '../general/ArrowButton';
 import { internalKeys } from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import { useTableValues } from '../application/GenericTable/store';
-import TourStep from './TourStep';
+import TourStep from './Tour/TourStep';
 import useAppTableDataTest from './useAppTableDataTest';
 
 const padding = 32;

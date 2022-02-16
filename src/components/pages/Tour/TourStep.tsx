@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Typography, Button, Card, CardContent, CardActions, Popover, Grow, Grid, Divider } from '@mui/material';
-import { useTourStep } from '../layout/hooks';
+import { useTourCompleted, useTourStep } from '../../layout/hooks';
 import { Box } from '@mui/system';
-import { useScrollElement } from '../layout/ScrollElementProvider';
-import useHeight from '../layout/ViewPort/hooks/useHeight';
+import { useScrollElement } from '../../layout/ScrollElementProvider';
+import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 export const tourSteps = {
   1: {
@@ -82,14 +82,18 @@ const TourStep = ({ id, onNext = undefined, onPrev = undefined, onOpen = undefin
   } = tourSteps[id] ?? {};
   const [el, setEl] = React.useState(null);
   const { step, setStep } = useTourStep();
+  const { tourCompleted, setTourCompleted } = useTourCompleted();
+
   const handleClose = React.useCallback(() => {
+    !tourCompleted && setTourCompleted(true);
     setStep(0);
     onClose && onClose();
-  }, [setStep, onClose]);
+  }, [tourCompleted, setTourCompleted, setStep, onClose]);
   const handlePrev = React.useCallback(() => {
     onPrev && onPrev();
     setStep(step - 1);
   }, [step, setStep, onPrev]);
+
   const handleNext = React.useCallback(() => {
     onNext && onNext();
     setStep(step + 1);

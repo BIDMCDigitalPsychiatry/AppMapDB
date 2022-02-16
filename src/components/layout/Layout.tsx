@@ -15,6 +15,7 @@ import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
+import useTour from '../pages/Tour/useTour';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -87,6 +88,8 @@ export default function Layout({ children }) {
       changeRoute(publicUrl('/SurveyFollowUp'), { surveyId, followUpSurveyType, appId });
     }
   }, [changeRoute, surveyId, followUpSurveyType, appId]);
+
+  useTour();
 
   return (
     <div data-testid='app-container' className={classes.root}>
