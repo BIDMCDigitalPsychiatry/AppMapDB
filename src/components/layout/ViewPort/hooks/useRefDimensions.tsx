@@ -1,4 +1,3 @@
-import { CostExplorer } from 'aws-sdk';
 import * as React from 'react';
 import useResizeObserver from '../../../../utils/useResizeObserver';
 
@@ -13,23 +12,21 @@ const useRefDimensions = () => {
   const [{ height, width }, setState] = React.useState({ height: undefined, width: undefined });
   const callback = React.useCallback(
     elements => {
-      console.log('resize triggered', { elements });
       if (elements && elements.length > 0) {
-        const { height, width } = getDimensions(elements[0]);
-        console.log('normal', { height, width });
+        const { height, width } = getDimensions(elements[0]); // Try newest method for height and width first
         if (height !== undefined && width !== undefined) {
           setState({ height, width });
         } else {
           // Default to legacy method (Probably a Safari browser)
-          const { height, width } = elements[0].target.getBoundingClientRect();
-          console.log('legacy', { height, width });
+          const { height, width } = (elements[0].target ?? ref).getBoundingClientRect();
           setState({ height, width });
         }
-      } else {
-        console.error('Could not find resize element');
+      } else if (ref) {
+        const { height, width } = ref.getBoundingClientRect();
+        setState({ height, width });
       }
     },
-    [setState]
+    [setState, ref]
   );
   useResizeObserver(ref, callback, true);
   return { ref, setRef, height, width };
