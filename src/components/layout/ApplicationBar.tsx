@@ -4,7 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { useChangeRoute } from './hooks';
+import { useChangeRoute, useTourStep } from './hooks';
 import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
@@ -120,9 +120,9 @@ export default function ApplicationBar({ trigger }) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setAnchorEl(null);
-  };
+  }, [setAnchorEl]);
 
   const fullScreen = useFullScreen('xs');
 
@@ -130,6 +130,13 @@ export default function ApplicationBar({ trigger }) {
   const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
 
   const setRef = useAppBarHeightSetRef();
+  const { setStep } = useTourStep();
+
+  const handleTour = React.useCallback(() => {
+    setStep(1);
+    handleClose();
+    changeRoute(publicUrl('/Home'));
+  }, [setStep, changeRoute, handleClose]);
 
   return (
     <>
@@ -178,6 +185,7 @@ export default function ApplicationBar({ trigger }) {
                             <MenuItem key='email' className={classes.accountMenuItem}>
                               {email}
                             </MenuItem>,
+                            <MenuItem onClick={handleTour}>Take Tour</MenuItem>,
                             <Divider key='divider' />,
                             <MenuItem key='logout' onClick={handleLogout}>
                               Logout
@@ -185,7 +193,8 @@ export default function ApplicationBar({ trigger }) {
                           ]
                         : [
                             { label: 'Login', Module: LoginDialog, onClick: handleClose },
-                            { label: 'Signup', Module: RegisterDialog, onClick: handleClose }
+                            { label: 'Signup', Module: RegisterDialog, onClick: handleClose },
+                            { label: 'Take Tour', onClick: handleTour }
                           ].map(({ label, Module, onClick }) => (
                             <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
                               {label}

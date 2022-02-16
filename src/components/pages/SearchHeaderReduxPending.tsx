@@ -96,7 +96,7 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
           <Grid item xs={12} sm style={{ marginTop: -4 }}>
             <Grid container spacing={spacing}>
               <Grid item xs>
-                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
+                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
               </Grid>
               {!fullScreen && (
                 <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>

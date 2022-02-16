@@ -10,6 +10,9 @@ import * as FilterPopover from '../../GenericPopover/Filter';
 import { useHandleExport } from '../../../../database/hooks';
 import { useIsAdmin } from '../../../../hooks';
 import useWidth from '../../../layout/ViewPort/hooks/useWidth';
+import { useHandleChangeRoute } from '../../../layout/hooks';
+import { publicUrl } from '../../../../helpers';
+import TourStep from '../../../pages/TourStep';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -35,6 +38,7 @@ export const Applications = ({ data, ...props }) => {
 
   const width = useWidth();
   const fixedColumnCount = width >= 900 ? 1 : 0;
+  const handleChangeRoute = useHandleChangeRoute();
 
   return (
     <>
@@ -46,7 +50,9 @@ export const Applications = ({ data, ...props }) => {
           <ViewModeButton mode='table' />
         </>
       )}
-      <GenericTableContainer {...defaultApplicationsProps} data={data} columns={columns} showScroll={true} fixedColumnCount={fixedColumnCount} {...props} />
+      <TourStep id={6} onPrev={handleChangeRoute(publicUrl('/Home'))}>
+        <GenericTableContainer {...defaultApplicationsProps} data={data} columns={columns} showScroll={true} fixedColumnCount={fixedColumnCount} {...props} />
+      </TourStep>
     </>
   );
 };

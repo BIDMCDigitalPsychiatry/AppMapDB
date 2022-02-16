@@ -13,6 +13,7 @@ import SearchHeader from './SearchHeader';
 import ArrowButton from '../general/ArrowButton';
 import { internalKeys } from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import { useTableValues } from '../application/GenericTable/store';
+import TourStep from './TourStep';
 
 const padding = 32;
 const spacing = 1;
@@ -156,12 +157,14 @@ export default function Home() {
             <Grid container spacing={spacing}>
               <Grid item xs>
                 <Container maxWidth='xl'>
-                  <MultiFeatureSelect
-                    value={state['Features']}
-                    onChange={handleChange('Features')}
-                    items={Features.map(label => ({ value: label, label })) as any}
-                    fullWidth={true}
-                  />
+                  <TourStep id={4}>
+                    <MultiFeatureSelect
+                      value={state['Features']}
+                      onChange={handleChange('Features')}
+                      items={Features.map(label => ({ value: label, label })) as any}
+                      fullWidth={true}
+                    />
+                  </TourStep>
                 </Container>
               </Grid>
             </Grid>
@@ -238,10 +241,12 @@ export default function Home() {
   }, [changeRoute, setTableState]);
 
   return (
-    <>
-      <SearchHeader title='Explore relevant apps and reviews' handleSearch={handleSearch} state={state} setState={setState} />
-      {FeatureSection}
-      {Cards}
-    </>
+    <TourStep id={1}>
+      <TourStep id={9} onPrev={handleSearch}>
+        <SearchHeader title='Explore relevant apps and reviews' handleSearch={handleSearch} state={state} setState={setState} />
+        {FeatureSection}
+        {Cards}
+      </TourStep>
+    </TourStep>
   );
 }

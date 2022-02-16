@@ -12,7 +12,9 @@ import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
 import { categories } from '../../constants';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
-import { useHeaderHeightSetRef } from '../layout/hooks';
+import { useChangeRoute, useHeaderHeightSetRef } from '../layout/hooks';
+import TourStep from './TourStep';
+import { publicUrl } from '../../helpers';
 
 const padding = 32;
 const spacing = 1;
@@ -48,6 +50,18 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
     }
   })
 );
+
+const Buttons = ({ onExport, collapsed }) => {
+  const changeRoute = useChangeRoute();
+  const onNext = React.useCallback(() => {
+    changeRoute(publicUrl('/Home'));
+  }, [changeRoute]);
+  return (
+    <TourStep id={8} onNext={onNext} onClose={onNext}>
+      <ViewModeButtons onExport={onExport} collapsed={collapsed} />
+    </TourStep>
+  );
+};
 
 const tableId = 'Applications';
 
@@ -103,7 +117,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
               </Typography>
             </Grid>
             <Grid item>
-              <ViewModeButtons onExport={onExport} collapsed={collapsed} />
+              <Buttons onExport={onExport} collapsed={collapsed} />
             </Grid>
           </Grid>
         </Grid>
@@ -113,11 +127,11 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
           <Grid item xs={12} sm style={{ marginTop: -4 }}>
             <Grid container alignItems='center' spacing={spacing}>
               <Grid item xs>
-                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
+                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
               </Grid>
               {collapseMobile && (
                 <Grid item>
-                  <ViewModeButtons onExport={onExport} collapsed={collapsed} />
+                  <Buttons onExport={onExport} collapsed={collapsed} />
                 </Grid>
               )}
               {!fullScreen && (

@@ -52,7 +52,7 @@ const LeftDrawer = () => {
           keepMounted: true // Better open performance on mobile.
         }}
       >
-        {fullScreen && leftDrawer && <LeftDrawerContent />}
+        {fullScreen && leftDrawer && <LeftDrawerContent setLeftDrawer={setLeftDrawer} />}
       </Drawer>
       <Drawer
         classes={{
@@ -61,7 +61,7 @@ const LeftDrawer = () => {
         variant='persistent'
         open={leftDrawer}
       >
-        <LeftDrawerContent />
+        <LeftDrawerContent setLeftDrawer={setLeftDrawer} />
       </Drawer>
     </nav>
   );

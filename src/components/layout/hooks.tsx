@@ -67,3 +67,11 @@ export const useUserId = ({ userId = undefined } = {}) => {
   const user = useUser();
   return userId ? userId : user.username;
 };
+
+export const useTourStep = () => {
+  const step = useSelector((state: AppState) => state.layout.step);
+  const dispatch = useDispatch();
+  const setStep = React.useCallback((step: any) => dispatch({ type: 'STEP', step }), [dispatch]);
+  const handleStep = React.useCallback(step => () => setStep(step), [setStep]);
+  return { step, setStep, handleStep };
+};

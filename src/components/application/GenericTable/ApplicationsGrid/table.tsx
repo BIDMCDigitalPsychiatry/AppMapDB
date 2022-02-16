@@ -5,6 +5,9 @@ import ApplicationGrid from './ApplicationsGrid';
 import { useHandleExport } from '../../../../database/hooks';
 import { useIsAdmin } from '../../../../hooks';
 import ApplicationsGridItem from './ApplicationsGridItem';
+import { useHandleChangeRoute } from '../../../layout/hooks';
+import { publicUrl } from '../../../../helpers';
+import TourStep from '../../../pages/TourStep';
 
 const name = 'Applications';
 export const defaultProps: GenericTableContainerProps = {
@@ -22,10 +25,13 @@ export const ApplicationsGrid = ({ data, HeaderComponent, ...other }) => {
   const { columns, ...remaining } = defaultProps;
   const handleExport = useHandleExport(data, columns);
   const isAdmin = useIsAdmin();
+  const handleChangeRoute = useHandleChangeRoute();
   return (
     <>
       {HeaderComponent && <HeaderComponent onExport={isAdmin && handleExport} />}
-      <GenericTableContainer {...remaining} columns={columns} data={data} showScroll={true} {...other} />
+      <TourStep id={6} onPrev={handleChangeRoute(publicUrl('/Home'))}>
+        <GenericTableContainer {...remaining} columns={columns} data={data} showScroll={true} {...other} />
+      </TourStep>
     </>
   );
 };

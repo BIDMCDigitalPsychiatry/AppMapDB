@@ -9,6 +9,7 @@ import FilterButtons from '../../application/GenericContent/FilterButtons';
 import Logo from '../Logo';
 import { useFullScreen } from '../../../hooks';
 import FilterCount from './FilterCount';
+import TourStep from '../../pages/TourStep';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,9 +28,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function LeftDrawerContent() {
+export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
   const classes = useStyles();
   const xs = useFullScreen('xs');
+  const handleClose = React.useCallback(() => setLeftDrawer && setLeftDrawer(false), [setLeftDrawer]);
+  const handleOpen = React.useCallback(() => setLeftDrawer && setLeftDrawer(true), [setLeftDrawer]);
   return (
     <>
       <div className={classes.header}>
@@ -53,7 +56,9 @@ export default function LeftDrawerContent() {
       <Box ml={1} mr={1} mb={1}>
         <Divider />
       </Box>
-      <FilterContentLeftDrawer />
+      <TourStep id={7} onOpen={handleOpen} onPrev={handleClose} onNext={handleClose} onClose={handleClose}>
+        <FilterContentLeftDrawer />
+      </TourStep>
       <Box ml={1} mr={1} mb={1}>
         <Divider />
       </Box>

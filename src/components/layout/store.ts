@@ -16,6 +16,7 @@ export interface State {
   viewMode?: ViewMode;
   adminMode?: boolean;
   routeState: any;
+  step?: number | null;
 }
 
 const defaultState = {
@@ -24,7 +25,8 @@ const defaultState = {
   viewMode: 'grid',
   adminMode: false,
   routeState: {},
-  leftDrawerOpen: false
+  leftDrawerOpen: false,
+  step: 0
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
@@ -33,6 +35,11 @@ const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', ad
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
+    case 'STEP':
+      return {
+        ...state,
+        step: action.step
+      };
     case 'ROUTE_STATE':
       return {
         ...state,

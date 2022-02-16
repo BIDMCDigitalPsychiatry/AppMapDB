@@ -9,6 +9,7 @@ import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import { useIsAdmin } from '../../hooks';
+import TourStep from './TourStep';
 
 const padding = 32;
 const spacing = 1;
@@ -67,7 +68,6 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
     [setState]
   );
 
-  const fullScreen = useFullScreen();
   const isAdmin = useIsAdmin();
 
   return (
@@ -83,10 +83,16 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
             <Grid item xs={12} sm style={{ marginTop: -4 }}>
               <Grid container spacing={spacing}>
                 <Grid item xs>
-                  <TableSearchV2 value={state['searchtext']} onChange={handleChange('searchtext')} placeholder='Search by name, feature or platform' />
+                  <TourStep id={2}>
+                    <TableSearchV2
+                      value={state['searchtext']}
+                      onChange={handleChange('searchtext')}
+                      placeholder='Search by name, company, feature or platform'
+                    />
+                  </TourStep>
                 </Grid>
-                {!fullScreen && (
-                  <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                  <TourStep id={3}>
                     <MultiSelectCheck
                       value={state['Platforms']}
                       onChange={handleChange('Platforms')}
@@ -95,14 +101,16 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
                       items={Platforms.map(label => ({ value: label, label })) as any}
                       fullWidth={true}
                     />
-                  </Grid>
-                )}
+                  </TourStep>
+                </Grid>
               </Grid>
             </Grid>
             <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
-              <Button className={classes.primaryButton} onClick={handleSearch}>
-                Search
-              </Button>
+              <TourStep id={5} onNext={handleSearch}>
+                <Button className={classes.primaryButton} onClick={handleSearch}>
+                  Search
+                </Button>
+              </TourStep>
             </Grid>
           </Grid>
         </Grid>
