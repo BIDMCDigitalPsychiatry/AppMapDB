@@ -52,7 +52,7 @@ export const tourSteps = {
   },
   8: {
     title: 'Toggle View',
-    subTitle: 'Change the view type if you prefer the list view or grid view.',
+    subTitle: 'Change the view type if you prefer the table view or grid view.',
     arrowPosition: 'top-right'
   },
   9: {
