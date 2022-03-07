@@ -57,31 +57,33 @@ export const Surveys = ({ height: Height, ...other }) => {
   const handleShowArchived = () => setShowArchived(prev => !prev);
 
   const height = Height - 48;
-  return <>
-    {renderDialogModule({ ...DeleteSurveyDialog, handleRefresh })}
-    <Box p={1}>
-      <Grid container spacing={1} justifyContent='flex-end'>
-        <Grid item>
-          <Button size='small' className={classes.primaryButton} onClick={handleShowArchived}>
-            <Icons.Delete style={{ marginRight: 4 }} />
-            {showArchived ? 'Hide Archived' : 'Show Archived'}
-          </Button>
+  return (
+    <>
+      {renderDialogModule({ ...DeleteSurveyDialog, handleRefresh })}
+      <Box p={1}>
+        <Grid container spacing={1} justifyContent='flex-end'>
+          <Grid item>
+            <Button size='small' className={classes.primaryButton} onClick={handleShowArchived}>
+              <Icons.Delete style={{ marginRight: 4 }} />
+              {showArchived ? 'Hide Archived' : 'Show Archived'}
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button size='small' className={classes.primaryButton} onClick={handleExport}>
+              <Icons.GetApp style={{ marginRight: 4 }} />
+              Export Surveys
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Button size='small' className={classes.primaryButton} onClick={handleExport}>
-            <Icons.GetApp style={{ marginRight: 4 }} />
-            Export Surveys
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
-    <GenericTableContainer
-      {...defaultApplicationsProps}
-      data={data.filter(r => (showArchived ? r.deleted : true))}
-      columns={columns}
-      showScroll={true}
-      height={height}
-      {...other}
-    />
-  </>;
+      </Box>
+      <GenericTableContainer
+        {...defaultApplicationsProps}
+        data={data.filter(r => (showArchived ? r.deleted : true))}
+        columns={columns}
+        showScroll={true}
+        height={height}
+        {...other}
+      />
+    </>
+  );
 };

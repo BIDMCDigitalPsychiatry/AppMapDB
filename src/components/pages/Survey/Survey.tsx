@@ -521,6 +521,7 @@ export default function Survey() {
   const { _id, surveyId, surveyType, app = {}, mode } = routeState;
 
   const isFollowUp = !isEmpty(surveyId) || surveyType !== 'Initial';
+  const isAppEmpty = isEmpty(app) || isEmpty(routeState?.app);
 
   React.useEffect(() => {
     if (mode === 'view') {
@@ -591,7 +592,26 @@ export default function Survey() {
 
   const handleChangeRoute = useHandleChangeRoute();
 
-  return (
+  return mode === 'add' && isAppEmpty ? (
+    <>
+      <Grid container justifyContent='center' style={{ marginTop: 24, padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
+        <Grid item>
+          <Grid container className={classes.whiteHeader} spacing={1}>
+            <Grid item xs={12} style={{ cursor: 'pointer' }}>
+              <Button onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
+                <Typography>{`<   Back To Surveys`}</Typography>
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography align='center' color='error'>
+            Selected application is empty. Please go back and try to select the desired application again.
+          </Typography>
+        </Grid>
+      </Grid>
+    </>
+  ) : (
     <Grid container justifyContent='center' style={{ padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
       <Grid item>
         <Grid container className={classes.whiteHeader} spacing={1}>

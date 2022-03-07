@@ -145,7 +145,7 @@ export const useSurveyData = table => {
             return Object.keys(searchableProps).reduce((f, c) => (f = [f, searchableProps[c]].join(' ')), ''); // Optimize search performance
           },
           getValues: () => ({ ...survey, followUpCompleted, surveyType, lastReminderSent }),
-          email: getSurveyEmail(survey),
+          email: getSurveyEmail(survey) ?? '',
           created: survey.created,
           updated: survey.updated,
           deleted: survey.deleted
