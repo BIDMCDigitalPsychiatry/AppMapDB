@@ -138,7 +138,7 @@ export const useSurveyData = table => {
         return {
           _id: survey._id,
           app,
-          surveyType,
+          surveyType: surveyType ?? '',
           followUpCompleted,
           ...searchableProps,
           getSearchValues: () => {
