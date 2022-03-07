@@ -13,6 +13,7 @@ import { useSignedIn } from '../../hooks';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
+import { useRouteState } from '../layout/store';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -50,6 +51,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
 
   const handleChangeRoute = useHandleChangeRoute();
   const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
+  const [routeState] = useRouteState(); // Keep route state for back functionality
 
   return (
     <Grid container spacing={4}>
@@ -119,7 +121,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
                     variant='primaryButton2'
                     size='large'
                     id='Rate an App V2'
-                    onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
+                    onClick={handleChangeRoute(publicUrl('/RateExistingApp'), routeState)}
                     initialValues={{
                       [tables.applications]: {
                         ...initialValues,
@@ -136,7 +138,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
                     Submit New App Rating
                   </EditDialogButton>
                 ) : (
-                  <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateAnApp'))}>
+                  <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateAnApp'), routeState)}>
                     Rate an App
                   </DialogButton>
                 )}
