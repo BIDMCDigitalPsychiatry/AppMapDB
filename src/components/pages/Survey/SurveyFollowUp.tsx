@@ -131,7 +131,14 @@ export default function SurveyFollowUp() {
                   </Grid>
                   <Grid item xs>
                     <DialogButton
-                      onClick={handleChangeRoute(publicUrl('/Survey'), { app, surveyId, surveyType: followUpSurveyType, mode: 'add' })}
+                      onClick={handleChangeRoute(publicUrl('/Survey'), {
+                        app,
+                        appId,
+                        from,
+                        surveyId,
+                        surveyType: followUpSurveyType,
+                        mode: 'add'
+                      })}
                       variant='surveyButton'
                     >
                       Click Here to Take Follow Up Survey
