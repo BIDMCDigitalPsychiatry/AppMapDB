@@ -52,11 +52,13 @@ export const Surveys = ({ height: Height, ...other }) => {
   const { data, handleRefresh } = useSurveyData(name);
   const classes = useStyles();
 
-  const handleExport = useSurveyExport(name);
   const [showArchived, setShowArchived] = React.useState(false);
+  const handleExport = useSurveyExport(name,showArchived);
+  
   const handleShowArchived = () => setShowArchived(prev => !prev);
 
   const height = Height - 48;
+
   return (
     <>
       {renderDialogModule({ ...DeleteSurveyDialog, handleRefresh })}
@@ -78,7 +80,7 @@ export const Surveys = ({ height: Height, ...other }) => {
       </Box>
       <GenericTableContainer
         {...defaultApplicationsProps}
-        data={data.filter(r => (showArchived ? r.deleted : true))}
+        data={data.filter(r => (showArchived ? r.deleted : !r.deleted))}
         columns={columns}
         showScroll={true}
         height={height}

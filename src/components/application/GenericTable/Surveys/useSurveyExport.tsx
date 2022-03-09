@@ -20,7 +20,7 @@ export const getAppName = app => {
     : app.name;
 };
 
-export const useSurveyExport = table => {
+export const useSurveyExport = (table, showArchived) => {
   const surveys = useSelector((s: AppState) => s.database[tables.surveys] ?? {});
   const surveyReminders = useSelector((s: AppState) => s.database[tables.surveyReminders] ?? {});
 
@@ -33,33 +33,35 @@ export const useSurveyExport = table => {
     { name: 'created' },
     { name: 'updated' },
     { name: 'deleted' },
-    { name: '_id' }    
+    { name: '_id' }
   ];
 
   var data = surveys
-    ? Object.keys(surveys).map(k => {
-        const survey = surveys[k];
-        const { app = {}, surveyType } = survey;
+    ? Object.keys(surveys)
+        .filter(k => (showArchived ? surveys[k].deleted : !surveys[k].deleted))
+        .map(k => {
+          const survey = surveys[k];
+          const { app = {}, surveyType } = survey;
 
-        const surveyReminderKeys = Object.keys(surveyReminders)
-          .filter(k => surveyReminders[k].surveyId === survey._id)
-          .sort((a, b) => sortDescending(surveyReminders[a].time, surveyReminders[b].time)) as any;
+          const surveyReminderKeys = Object.keys(surveyReminders)
+            .filter(k => surveyReminders[k].surveyId === survey._id)
+            .sort((a, b) => sortDescending(surveyReminders[a].time, surveyReminders[b].time)) as any;
 
-        const surveyReminder = !isEmpty(surveyReminderKeys[0]) ? surveyReminders[surveyReminderKeys[0]] : {};
-        const lastReminderSent = !isEmpty(surveyReminder?.time) ? surveyReminder?.time : undefined;
-        const followUpCompleted = surveyType === '6 Week' ? 'N/A' : Object.keys(surveys).find(k => surveys[k].parentId === survey._id) ? 'True' : 'False';
+          const surveyReminder = !isEmpty(surveyReminderKeys[0]) ? surveyReminders[surveyReminderKeys[0]] : {};
+          const lastReminderSent = !isEmpty(surveyReminder?.time) ? surveyReminder?.time : undefined;
+          const followUpCompleted = surveyType === '6 Week' ? 'N/A' : Object.keys(surveys).find(k => surveys[k].parentId === survey._id) ? 'True' : 'False';
 
-        return {
-          _id: survey._id,
-          appName: getAppName(app),
-          surveyType,
-          followUpCompleted,
-          lastReminderSent: lastReminderSent ? getDayTimeFromTimestamp(lastReminderSent) : '',
-          ...survey,
-          created: survey?.created ? getDayTimeFromTimestamp(survey.created) : '',
-          updated: survey?.updated ? getDayTimeFromTimestamp(survey.updated) : ''
-        };
-      })
+          return {
+            _id: survey._id,
+            appName: getAppName(app),
+            surveyType,
+            followUpCompleted,
+            lastReminderSent: lastReminderSent ? getDayTimeFromTimestamp(lastReminderSent) : '',
+            ...survey,
+            created: survey?.created ? getDayTimeFromTimestamp(survey.created) : '',
+            updated: survey?.updated ? getDayTimeFromTimestamp(survey.updated) : ''
+          };
+        })
     : [];
 
   const handleExport = useHandleExport(data, columns);
