@@ -126,7 +126,7 @@ export default function Home() {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
 
-  const [state, setState] = React.useState({ searchtext: '', Platforms: [], Features: [] });
+  const [state, setState] = React.useState({ searchtext: '', Platforms: [], Features: [], hasClinicalFoundation: false, isSpanish: false, isOffline: false });
 
   const handleChange = React.useCallback(
     id => (event: any) => {
@@ -222,7 +222,7 @@ export default function Home() {
 
   // Sets the associated values in the redux store
   const setTableState = React.useCallback(() => {
-    const { searchtext, ...filters } = state;
+    const { searchtext, isSpanish, isOffline, hasClinicalFoundation, ...filters } = state;
     var filteredFilters = Object.keys(filters)
       .filter(k => !internalKeys.includes(k))
       .reduce((o, k) => {
@@ -230,6 +230,15 @@ export default function Home() {
         return o;
       }, {});
 
+    if (isSpanish === true) {
+      filteredFilters['Functionalities'] = [...(filteredFilters['Functionalities'] ?? []), 'Spanish'];
+    }
+    if (isOffline === true) {
+      filteredFilters['Functionalities'] = [...(filteredFilters['Functionalities'] ?? []), 'Offline'];
+    }
+    if (hasClinicalFoundation === true) {
+      filteredFilters['ClinicalFoundations'] = [...(filteredFilters['ClinicalFoundations'] ?? []), 'Supporting Studies'];
+    }
     setValues({ searchtext, filters: filteredFilters });
     // eslint-disable-next-line
   }, [setValues, JSON.stringify(state)]);

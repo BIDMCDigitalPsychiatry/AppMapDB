@@ -78,16 +78,18 @@ const FieldActions = ({ handleNext, handleBack, handleSubmit, handleCancel, acti
           </Button>
         </Grid>
       )}
-      <Grid item>
-        <Button className={classes.primaryButton} onClick={handleSubmit}>
-          Search Now
-        </Button>
-      </Grid>
+      {activeStep > 0 && (
+        <Grid item>
+          <Button className={classes.primaryButton} onClick={handleSubmit}>
+            Search Now
+          </Button>
+        </Grid>
+      )}
     </Grid>
   );
 };
 
-export const internalKeys = ['Free', 'YesNoPrivacy', 'YesNoFunctionality'];
+export const internalKeys = ['Free', 'YesNoPrivacy', 'YesNoFunctionality', 'YesNoSpanish', 'YesNoOffline', 'YesNoClinicalFoundation'];
 
 export default function InteractiveSearchCard({ id = title, onClose = undefined, state, setState, handleSearch, ...other }) {
   const [open, setOpen] = React.useState(false);
@@ -95,10 +97,20 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
   const handleChange = React.useCallback(
     vals => {
       setState(prev => {
-        const { Free = [], YesNoPrivacy = [], YesNoFunctionality = [] } = evalFunc(vals, prev);
+        const {
+          Free = [],
+          YesNoPrivacy = [],
+          YesNoFunctionality = [],
+          YesNoSpanish = [],
+          YesNoOffline = [],
+          YesNoClinicalFoundation = []
+        } = evalFunc(vals, prev);
         const isFree = Free.findIndex(i => i === true) > -1;
         const isPrivacy = YesNoPrivacy.findIndex(i => i === true) > -1;
         const isFunctionality = YesNoFunctionality.findIndex(i => i === true) > -1;
+        const isSpanish = YesNoSpanish.findIndex(i => i === true) > -1;
+        const isOffline = YesNoOffline.findIndex(i => i === true) > -1;
+        const hasClinicalFoundation = YesNoClinicalFoundation.findIndex(i => i === true) > -1;
 
         const conditionalMapping = {
           Cost: isFree,
@@ -106,10 +118,15 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
           Functionalities: isFunctionality
         };
 
-        return variableFilters.reduce(
+        var result = variableFilters.reduce(
           (t, c) => (t = setMappedValue({ field: { id: c.key }, value: conditionalMapping[c.key] ? c.availableFilters : [], prev: t })),
           { ...prev }
         );
+
+        result['isSpanish'] = isSpanish;
+        result['isOffline'] = isOffline;
+        result['hasClinicalFoundation'] = hasClinicalFoundation;
+        return result;
       });
     },
     [setState]
@@ -121,36 +138,38 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
 
   const classes = useStyles();
 
-  return <>
-    <Collapse in={open}>
-      <div className={classes.container}>
-        <Divider />
-        <GenericStepperCard
-          id={id}
-          submitLabel='Search'
-          SubmitIcon={Icons.Search}
-          onSubmit={handleSearch}
-          onChange={handleChange}
-          steps={steps}
-          onClose={onClose}
-          open={true}
-          title={null}
-          values={state}
-          setValues={setState}
-          showActions={false}
-          elevation={0}
-          FieldActions={props => <FieldActions handleCancel={handleOpen} {...props} />}
-          disableInitialize={true}
-          {...other}
-        />
-      </div>
-    </Collapse>
-    <Grid container alignItems='center' style={{ background: 'transparent' }} justifyContent='center'>
-      <Grid item alignContent='center' style={{ width: 320 }}>
-        <div color='primary' className={classes.tabButton} onClick={handleOpen}>
-          <Typography>{open ? 'Close wizard' : `Not sure? Try the interactive wizard!`}</Typography>
+  return (
+    <>
+      <Collapse in={open}>
+        <div className={classes.container}>
+          <Divider />
+          <GenericStepperCard
+            id={id}
+            submitLabel='Search'
+            SubmitIcon={Icons.Search}
+            onSubmit={handleSearch}
+            onChange={handleChange}
+            steps={steps}
+            onClose={onClose}
+            open={true}
+            title={null}
+            values={state}
+            setValues={setState}
+            showActions={false}
+            elevation={0}
+            FieldActions={props => <FieldActions handleCancel={handleOpen} {...props} />}
+            disableInitialize={true}
+            {...other}
+          />
         </div>
+      </Collapse>
+      <Grid container alignItems='center' style={{ background: 'transparent' }} justifyContent='center'>
+        <Grid item alignContent='center' style={{ width: 320 }}>
+          <div color='primary' className={classes.tabButton} onClick={handleOpen}>
+            <Typography>{open ? 'Close wizard' : `Not sure? Take this short quiz!`}</Typography>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
-  </>;
+    </>
+  );
 }

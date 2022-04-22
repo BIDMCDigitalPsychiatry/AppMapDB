@@ -1,12 +1,21 @@
 import MultiSelectImage from '../../DialogField/MultiSelectImage';
 import { PlatformImages, FeatureImages } from '../../../../database/models/Application';
 import LabelCenter from '../../DialogField/LabelCenter';
-import exportdata from '../../../../images/exportdata.png';
-import noexportdata from '../../../../images/noexportdata.png';
-import lock from '../../../../images/lock.png';
-import unlock from '../../../../images/unlock.png';
+import MultiSelectImageTwoLines from '../../DialogField/MultiSelectImageTwoLines';
 
 const steps = [
+  {
+    fields: [
+      {
+        id: 'label0',
+        label: `Take this brief quiz to help narrow down your app search! You can leave any questions blank by
+        clicking ‘next.’ If during the quiz you want to search based on the questions you have answered
+        thus far, then click on ‘search now.`,
+        Field: LabelCenter,
+        xs: 12
+      }
+    ]
+  },
   {
     fields: [
       {
@@ -37,8 +46,8 @@ const steps = [
         Field: MultiSelectImage,
         replace: true,
         items: [
-          { value: true, label: 'Yes, the app must be totally free!', image: '' },
-          { value: false, label: 'No, the app can cost money.', image: '' }
+          { value: true, label: 'Yes, the app must be totally free!', image: '/images/newfree.png' },
+          { value: false, label: 'No, the app can cost money.', image: '/images/newmoney.png' }
         ],
         tooltip: 'Selecting this option will not exclude any apps, even the totally free ones.'
       },
@@ -59,7 +68,7 @@ const steps = [
       {
         id: 'Features',
         label: 'Features',
-        Field: MultiSelectImage,
+        Field: MultiSelectImageTwoLines,
         items: FeatureImages
       }
     ]
@@ -78,8 +87,8 @@ const steps = [
         Field: MultiSelectImage,
         replace: true,
         items: [
-          { value: true, label: 'Yes!', image: lock },
-          { value: false, label: `No`, image: unlock }
+          { value: true, label: 'Yes!', image: '/images/newlock.png' },
+          { value: false, label: `No`, image: '/images/newunlock.png' }
         ]
       },
       {
@@ -102,8 +111,80 @@ const steps = [
         Field: MultiSelectImage,
         replace: true,
         items: [
-          { value: true, label: 'Yes!', image: exportdata },
-          { value: false, label: `No`, image: noexportdata }
+          { value: true, label: 'Yes!', image: '/images/www.png' },
+          { value: false, label: `No`, image: '/images/newstop.png' }
+        ]
+      },
+      {
+        id: 'Functionalities',
+        hidden: true
+      }
+    ]
+  },
+  {
+    fields: [
+      {
+        id: 'label6',
+        label: 'Would you like an app that is available in Spanish?',
+        Field: LabelCenter,
+        xs: 12
+      },
+      {
+        id: 'YesNoSpanish',
+        label: null,
+        Field: MultiSelectImage,
+        replace: true,
+        items: [
+          { value: true, label: 'Yes!', image: '/images/hello.png' },
+          { value: false, label: `No`, image: '/images/eng.png' }
+        ]
+      },
+      {
+        id: 'Functionalities',
+        hidden: true
+      }
+    ]
+  },
+  {
+    fields: [
+      {
+        id: 'label7',
+        label: 'Do you need an app that is available offline i.e, works without access to the interent?',
+        Field: LabelCenter,
+        xs: 12
+      },
+      {
+        id: 'YesNoOffline',
+        label: null,
+        Field: MultiSelectImage,
+        replace: true,
+        items: [
+          { value: true, label: 'Yes!', image: '/images/wifi.png' },
+          { value: false, label: `No`, image: '/images/nowifi.png' }
+        ]
+      },
+      {
+        id: 'Functionalities',
+        hidden: true
+      }
+    ]
+  },
+  {
+    fields: [
+      {
+        id: 'label8',
+        label: `Are you looking for an app that has published research on the app's abilities i.e., has clinical foundation to support claims?`,
+        Field: LabelCenter,
+        xs: 12
+      },
+      {
+        id: 'YesNoClinicalFoundation',
+        label: null,
+        Field: MultiSelectImage,
+        replace: true,
+        items: [
+          { value: true, label: 'Yes!', image: '/images/magnifyresults.png' },
+          { value: false, label: `No`, image: '/images/idk_mod.png' }
         ]
       },
       {
@@ -112,6 +193,7 @@ const steps = [
       }
     ]
   }
+
   /*{
     fields: [
       {

@@ -66,7 +66,7 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
     [setState, processData, onSuccess]
   );
 
-  const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSuccess, OnError: onError }), [submitData, onSuccess, onError]);
+  const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSuccess, OnError: onError } as any), [submitData, onSuccess, onError]);
 
   return (
     <GenericDialog
@@ -126,7 +126,7 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
           label: 'End',
           Field: DateTimePicker,
           disabled
-        },
+        }
       ]}
     />
   );

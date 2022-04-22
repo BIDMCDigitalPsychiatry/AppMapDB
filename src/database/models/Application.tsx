@@ -9,12 +9,16 @@ import psychoeducation from '../../images/psychoeducation.png';
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
 export const PlatformImages = [
-  { value: 'Android', label: 'Android', image: '/images/android.png' },
-  { value: 'iOS', label: 'iOS', image: '/images/apple.png' },
-  { value: 'Web', label: 'Web', image: '/images/web2.png' }
+  { value: 'Android', label: 'Android', image: '/images/newandroid.png' },
+  { value: 'iOS', label: 'iOS', image: '/images/newapple.png' },
+  { value: 'Web', label: 'Web', image: '/images/newweb.png' }
 ];
 
 export type Cost = 'Totally Free' | 'Free to Download' | 'In-App Purchase' | 'Payment' | 'Subscription';
+export const CostImages = [
+  { value: 'Android', label: 'Totally Free', image: '/images/free.png' },
+  { value: 'iOS', label: 'Can Cost Money', image: '/images/money.png' }
+];
 
 export const CostQuestions = [
   { value: 'Free to Download', label: 'Is the app free to download?', tooltip: 'Some apps may be free up front but then have in app purchases.' },
@@ -403,11 +407,14 @@ export const withReplacement = text => {
 };
 
 export const FeatureImages = [
-  { value: 'Track Mood', label: 'Mood Tracking', image: moodtracking },
-  { value: 'Journaling', label: 'Journaling', image: journaling },
-  { value: 'Mindfulness', label: 'Mindfulness', image: mindfulness },
-  { value: 'Peer Support', label: 'Peer Support', image: peersupport },
-  { value: 'Psychoeducation', label: 'Psychoeducation', image: psychoeducation }
+  { value: 'Track Mood', label: 'Mood Tracking', image: '/images/newsmile.png' },
+  { value: 'Journaling', label: 'Journaling', image: '/images/newbook.png' },
+  { value: 'Mindfulness', label: 'Mindfulness', image: '/images/newflower.png' },
+  { value: 'Peer Support', label: 'Peer Support', image: '/images/newpeople.png' },
+  { value: 'Psychoeducation', label: 'Psychoeducation', image: '/images/newlightbulb.png' },
+  { value: 'Track Medication', label: 'Medication Tracking', image: '/images/newpill.png' },
+  { value: 'Track Sleep', label: 'Sleep Tracking', image: '/images/newzzz.png' },
+  { value: 'CBT', label: 'Cognitive Behavioral Therapy', image: '/images/newmind.png' }
 ];
 
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);
