@@ -19,14 +19,6 @@ import ErrorGate from './ErrorGate';
 import { useFullScreen } from '../../../hooks';
 import { evalFunc } from '../../../helpers';
 
-function PaperComponent(props) {
-  return (
-    <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
-
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
     button: {
@@ -194,7 +186,7 @@ const GenericDialog = ({
 
   return (
     <Dialog
-      PaperComponent={!fullScreen && draggable ? PaperComponent : Paper}
+      PaperComponent={Paper}
       fullScreen={fullScreen}
       open={open}
       onClose={handleClose}
