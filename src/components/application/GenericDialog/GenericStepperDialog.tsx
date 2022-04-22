@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, duration } from '@mui/material';
 import { useDialogState } from './useDialogState';
 import Paper from '@mui/material/Paper';
-import Draggable from 'react-draggable';
 import merge from 'deepmerge';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
@@ -22,14 +21,6 @@ import Fields from './Fields';
 import OnActivate from './OnActivate';
 import { useFullScreen } from '../../../hooks';
 import ErrorGate from './ErrorGate';
-
-function PaperComponent(props) {
-  return (
-    <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  );
-}
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -193,7 +184,7 @@ const GenericStepperDialog = ({
 
   return (
     <Dialog
-      PaperComponent={!fullScreen && draggable ? PaperComponent : Paper}
+      PaperComponent={Paper}
       fullScreen={fullScreen}
       open={open}
       onClose={handleClose}

@@ -11,7 +11,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Grid, Tooltip, CircularProgress, useTheme, Collapse } from '@mui/material';
 import { useDialogState } from './useDialogState';
 import Paper from '@mui/material/Paper';
-import Draggable from 'react-draggable';
 import { useValues } from './helpers';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Fields from './Fields';
