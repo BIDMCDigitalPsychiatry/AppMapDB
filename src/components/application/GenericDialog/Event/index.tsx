@@ -107,7 +107,7 @@ export default function EventDialog({ id = title, onClose }) {
     handleClose({ open: true, variant: 'success', message: 'Success' });
   }, [handleClose]);
 
-  const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSuccess, OnError: onError }), [submitData, onSuccess, onError]);
+  const handleSubmit = React.useCallback(values => submitData({ values, OnSuccess: onSuccess, OnError: onError } as any), [submitData, onSuccess, onError]);
 
   return (
     <GenericDialog
