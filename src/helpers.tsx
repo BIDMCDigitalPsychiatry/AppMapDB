@@ -192,7 +192,6 @@ export function sortDescending(a = 0 as any, b = 0 as any) {
   if (a > b) return -1;
   return 0;
 }
-
 export function sortAscendingToLower(a = '' as any, b = '' as any) {
   if (a.toLowerCase() < b.toLowerCase()) return -1;
   if (a.toLowerCase() > b.toLowerCase()) return 1;

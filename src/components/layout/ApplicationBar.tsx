@@ -45,7 +45,7 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     menuButton: {
       marginLeft: 0,
       color: grey[900],
-      [breakpoints.up('md')]: {
+      [breakpoints.up('sm')]: {
         display: 'none'
       }
     }

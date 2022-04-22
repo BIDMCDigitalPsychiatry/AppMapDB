@@ -39,7 +39,7 @@ export default function configureStore(history: History, initialState?: AppState
   )(createStore) as any;
 
   // Combine all reducers and instantiate the app-wide store instance
-  const store = createStoreWithMiddleware(persistedReducer, initialState) as Store<AppState>;  
+  const store = createStoreWithMiddleware(persistedReducer, initialState) as Store<AppState>;
 
   // Enable Webpack hot module replacement for reducers
   if (module.hot) {

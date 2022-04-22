@@ -29,7 +29,7 @@ const YesNo = ({
   );
 
   return (
-    <FormControl variant={variant} error={isError(error)} fullWidth margin={margin}>
+    <FormControl variant={variant} error={isError(error)} fullWidth={true} margin={margin}>
       <Grid container justifyContent='space-between' alignItems='center' spacing={3}>
         {labelPlacement === 'start' && Label}
         <Grid item>

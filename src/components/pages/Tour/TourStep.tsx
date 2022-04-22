@@ -7,7 +7,7 @@ import useHeight from '../../layout/ViewPort/hooks/useHeight';
 
 export const tourSteps = {
   1: {
-    title: 'Welcome to MINDApp!',
+    title: 'Welcome to MINDApps!',
     subTitle: 'This tour will walk you through a few of the features in this web application.  Please click next to continue.',
     arrowPosition: 'none',
     anchorOrigin: {
@@ -17,7 +17,7 @@ export const tourSteps = {
   },
   2: {
     title: 'Search by Name',
-    subTitle: 'If you know the name or company of the app you are looking for then enter it here.',
+    subTitle: 'If you know the name or company of the app you are looking for, then enter it here.',
     arrowPosition: 'top-left'
   },
   3: {
@@ -45,7 +45,7 @@ export const tourSteps = {
     }
   },
   7: {
-    title: 'More filters',
+    title: 'More Filters',
     subTitle:
       'Use additional filters to refine your search results. When viewing on mobile, this can be opened by clicking the icon in the top left corner of the application bar.',
     arrowPosition: 'top-left'
