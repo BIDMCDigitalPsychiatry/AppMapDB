@@ -1,10 +1,5 @@
 import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
-import moodtracking from '../../images/moodtracking.png';
-import journaling from '../../images/journaling.png';
-import mindfulness from '../../images/mindfulness.png';
-import peersupport from '../../images/peersupport.png';
-import psychoeducation from '../../images/psychoeducation.png';
 
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
