@@ -241,6 +241,7 @@ const useCellRenderer = ({
         </span>
         <span style={{ float: 'right' }}>
           {isHeader && resizable && columnIndex < columns.length - 1 && (
+            // @ts-ignore
             <Draggable
               axis='x'
               defaultClassName={classes.dragHandle}
@@ -304,15 +305,18 @@ const useCellRenderer = ({
         ) : isHeader && column.resizable ? (
           <React.Fragment>
             {contents}
-            <Draggable
-              axis='x'
-              defaultClassName='DragHandle'
-              defaultClassNameDragging='DragHandleActive'
-              onDrag={handleDrag(column.name)}
-              position={{ x: 0, y: undefined }}
-            >
-              <span className='DragHandleIcon'>⋮</span>
-            </Draggable>
+            {
+              // @ts-ignore
+              <Draggable
+                axis='x'
+                defaultClassName='DragHandle'
+                defaultClassNameDragging='DragHandleActive'
+                onDrag={handleDrag(column.name)}
+                position={{ x: 0, y: undefined }}
+              >
+                <span className='DragHandleIcon'>⋮</span>
+              </Draggable>
+            }
           </React.Fragment>
         ) : (
           contents

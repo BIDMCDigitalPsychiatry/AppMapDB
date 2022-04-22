@@ -53,6 +53,7 @@ export default function ImageCarousel({ images = [] }) {
       No images available
     </Typography>
   ) : (
+    // @ts-ignore
     <Carousel focusOnSelect={false} renderPagination={() => <></>} renderArrow={Arrow} itemsToShow={itemsToShow} isRTL={false}>
       {images.map((ss, i) => (
         <Link key={i} href={ss} underline='always' target='_blank' variant='body1' color='primary' className={classes.link}>

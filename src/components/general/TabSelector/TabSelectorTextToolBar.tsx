@@ -118,7 +118,7 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(
-    ({ route, routeState, onClick } = {}) =>
+    ({ route = undefined, routeState = undefined, onClick = undefined } = {}) =>
       () => {
         !isEmpty(route) && changeRoute(route, routeState);
         onClick && onClick();

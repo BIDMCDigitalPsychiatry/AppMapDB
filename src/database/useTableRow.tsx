@@ -20,7 +20,7 @@ export default function useTableRow({
   const row_str = JSON.stringify(row) ?? '{}'; // Default to empty object string if undefined
 
   const handleRefresh = React.useCallback(
-    ({ id: _Id = undefined, onSuccess } = {}) => {
+    ({ id: _Id = undefined, onSuccess = undefined } = {}) => {
       const id = _Id ? _Id : Id;
       if (!isEmpty(id)) {
         setState(prev => ({ ...prev, loading: true, error: undefined, response: undefined }));

@@ -76,7 +76,7 @@ const useSurvey = ({ type = 'create', trigger = false, values: Values = undefine
   }, [trigger, _id, type, getRow]);
 
   const handleSave = React.useCallback(
-    async ({ values: Values = undefined, onSuccess = undefined, onError = undefined, idKey = '_id', validate }) => {
+    async ({ values: Values = undefined, onSuccess = undefined, onError = undefined, idKey = '_id', validate = undefined }) => {
       const row = { ...(Values ?? values) };
 
       if (type === 'create') {

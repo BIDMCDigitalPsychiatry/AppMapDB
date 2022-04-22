@@ -12,8 +12,9 @@ export interface AppRouterProps {
 
 function AppRouter(props: AppRouterProps) {
   const { history } = props;
-  useLogRocketUser(); 
+  useLogRocketUser();
   return (
+    // @ts-ignore
     <ConnectedRouter history={history}>
       <Layout>
         <Routes />
