@@ -13,7 +13,9 @@ jobs:
     - name: Build
       run: |
         npm install --force
-        npm run-script build
+        npm install yarn -g --force
+        yarn build
+
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
