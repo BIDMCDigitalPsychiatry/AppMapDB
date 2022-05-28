@@ -13,7 +13,7 @@ import DOMPurify from 'dompurify';
 import { bool, isEmpty, isEmptyObject, publicUrl } from '../../../helpers';
 import * as Icons from '@mui/icons-material';
 import useValues from './useValues';
-import { useIsAdmin, useSignedIn } from '../../../hooks';
+import { useIsAdmin } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CommentDialog from '../../application/GenericDialog/Comment';
 import { useCommentsByPostId } from '../../../database/useComments';
@@ -70,8 +70,6 @@ const Details = () => {
   const { values = {}, handleDelete } = useValues({ type: 'view', values: { _id } });
 
   const { enableComments } = values;
-
-  const signedIn = useSignedIn();
 
   const handleBack = React.useCallback(() => {
     changeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'list' }));
@@ -230,18 +228,17 @@ const Details = () => {
                         {sortLabel}
                       </Button>
                     </Grid>
-                    {signedIn && (
-                      <Grid item>
-                        <DialogButton
-                          Module={CommentDialog}
-                          onClose={handleRefresh}
-                          initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
-                          variant='default'
-                        >
-                          Add Comment
-                        </DialogButton>
-                      </Grid>
-                    )}
+
+                    <Grid item>
+                      <DialogButton
+                        Module={CommentDialog}
+                        onClose={handleRefresh}
+                        initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
+                        variant='default'
+                      >
+                        Add Comment
+                      </DialogButton>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
