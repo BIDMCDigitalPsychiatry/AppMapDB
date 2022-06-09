@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import Text from './Text';
+import { Box } from '@mui/material';
 
 const getLabel = option => ((typeof option === 'object' && option ? option.label : option) ?? '').toString();
 const getValue = option => (typeof option === 'object' && option ? option.value : option) ?? '';
@@ -11,10 +12,10 @@ const getSelectedOption = (value, options) =>
 export default function AutoCompleteSelect({
   items: options = [],
   value = '',
-  onChange = undefined,
+  onChange,
   disabled = false,
   size = 'small' as 'small',
-  freeSolo = true,
+  freeSolo = undefined,
   ...other
 }) {
   const handleChange = React.useCallback(
@@ -26,12 +27,17 @@ export default function AutoCompleteSelect({
 
   return (
     <Autocomplete
-      disabled={disabled}
-      value={getSelectedOption(value, options)} // convert value to ption
-      options={options}
+      freeSolo={freeSolo}
       autoHighlight
       getOptionLabel={option => getLabel(option)}
-      renderOption={option => getLabel(option)}
+      disabled={disabled}
+      value={getSelectedOption(value, options)} // convert value to option
+      options={options}
+      renderOption={(props, option) => (
+        <Box component='li' {...props}>
+          {getLabel(option)}
+        </Box>
+      )}
       onChange={handleChange}
       renderInput={params => (
         <Text

@@ -2,6 +2,11 @@
 
 # dependencies
 /node_modules
+/cloud_functions/app-store-cors-proxy-aws/node_modules
+/cloud_functions/app-map-db-survey-reminders/node_modules
+/cloud_functions/app-store-cors-proxy-gcp/node_modules
+
+
 /.pnp
 .pnp.js
 
