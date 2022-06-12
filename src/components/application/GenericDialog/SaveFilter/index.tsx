@@ -5,6 +5,7 @@ import { useFilters } from '../../../../database/useFilters';
 import useProcessData from '../../../../database/useProcessData';
 import { isEmpty, uuid } from '../../../../helpers';
 import Label from '../../DialogField/Label';
+import YesNo from '../../DialogField/YesNo';
 import { useTableFilterValues } from '../../GenericTable/store';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
@@ -23,9 +24,9 @@ export default function SaveFilter({ id = title }) {
 
   const filterName = SavedFilter ? SavedFilter.name : '';
 
-  const handleSubmit = ({ name }) => {
+  const handleSubmit = ({ name, isPublic }) => {
     if (name) {
-      var Data = { ...values, uid, name, time: new Date().getTime() };
+      var Data = { ...values, uid, isPublic, name, time: new Date().getTime() };
       if (name !== filterName) {
         // If we are creating a new filter, then remove the id and rev so we don't update the old one
         const { _id, _rev, ...other } = Data;
@@ -57,7 +58,14 @@ export default function SaveFilter({ id = title }) {
         {
           id: 'name',
           label: 'Filter Name',
-          items
+          items,
+          required: true
+        },
+        {
+          id: 'isPublic',
+          label: 'Visible to the public?',
+          Field: YesNo,
+          initialValue: false
         }
       ]}
     />

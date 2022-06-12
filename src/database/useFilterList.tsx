@@ -3,7 +3,6 @@ import { useFilters } from './useFilters';
 import { dynamo, tables } from './dbConfig';
 import { useSignedIn } from '../hooks';
 import { useSelector } from 'react-redux';
-import { isEmpty } from '../helpers';
 
 export const useGetFilters = () => {
   const [, setFilters] = useFilters();
@@ -26,7 +25,7 @@ export const useGetFilters = () => {
       } while (typeof items.LastEvaluatedKey != 'undefined');
       setFilters(
         scanResults
-          .filter((d: any) => d.uid === uid && d.delete !== true)
+          .filter((d: any) => (signedIn ? d.uid === uid && d.delete !== true : d.isPublic === true && d.delte !== true))
           .reduce((f, c: any) => {
             f[c._id] = c;
             return f;
@@ -34,19 +33,15 @@ export const useGetFilters = () => {
       );
     };
 
-    if (signedIn) {
-      getItems();
-    }
+    getItems();
   }, [uid, signedIn, setFilters]);
 
   return getFilters;
 };
 
 export default function useFilterList() {
-  const signedIn = useSignedIn();
-  const uid = useSelector((s: any) => s.layout.user?.username);
   const getFilters = useGetFilters();
   React.useEffect(() => {
-    signedIn && !isEmpty(uid) && getFilters();
-  }, [uid, signedIn, getFilters]);
+    getFilters();
+  }, [getFilters]);
 }

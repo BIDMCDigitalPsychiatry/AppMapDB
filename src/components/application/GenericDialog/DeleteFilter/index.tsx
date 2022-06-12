@@ -25,7 +25,7 @@ export default function DeleteFilter({ id = title }) {
 
   const [filters] = useFilters();
 
-  const items = Object.keys(filters).map(k => ({ label: filters[k].name, value: filters[k] }));
+  const items = Object.keys(filters).map(k => ({ label: filters[k].isPublic ? `Public Filter | ${filters[k].name}` : filters[k].name, value: filters[k] }));
 
   return (
     <GenericDialog

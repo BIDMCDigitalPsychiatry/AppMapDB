@@ -9,10 +9,10 @@ import { useDialogState } from '../useDialogState';
 export const title = 'Load Filter';
 
 export default function LoadFilter({ id = title }) {
-  const [, setState] = useDialogState(id);  
+  const [, setState] = useDialogState(id);
   const [, setValues] = useTableFilterValues('Applications');
   const [filters] = useFilters();
-  const items = Object.keys(filters).map(k => ({ label: filters[k].name, value: filters[k] }));
+  const items = Object.keys(filters).map(k => ({ label: filters[k].isPublic ? `Public Filter | ${filters[k].name}` : filters[k].name, value: filters[k] }));
 
   const handleSubmit = values => {
     setValues(prev => ({ ...prev, SavedFilter: values?.SavedFilter }));

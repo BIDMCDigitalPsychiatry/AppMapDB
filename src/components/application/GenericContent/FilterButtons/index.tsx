@@ -27,7 +27,7 @@ export default function FilterButtons({ variant = 'smallOutlined', underline = '
           </DialogButton>
         </Grid>
         <Grid item>
-          <DialogButton disabled={!signedIn} Module={LoadFilterDialog} variant={variant} underline={underline}>
+          <DialogButton Module={LoadFilterDialog} variant={variant} underline={underline}>
             Load Filter
           </DialogButton>
         </Grid>
