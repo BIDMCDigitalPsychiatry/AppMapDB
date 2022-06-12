@@ -29,6 +29,10 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
   const uid = useSelector((s: any) => s.layout.user?.username);
 
+  // If you need to impersonate a user for the edit dialog, use below code:
+  //const email = 'wooseok.kwon@vanderbilt.edu';
+  //const uid = '4921e472-a03e-4752-a469-2ed3d483f1c3';
+
   const handleProcessData = (values, Action, handleReset = undefined, draft = false) => {
     const application: Application = values[tables.applications];
     const timestamp = new Date().getTime();
