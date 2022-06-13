@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 export const useGetFilters = () => {
   const [, setFilters] = useFilters();
-  const signedIn = useSignedIn();
+  const signedIn = useSignedIn();  
   const uid = useSelector((s: any) => s.layout.user?.username);
 
   // Load data from the database
@@ -25,7 +25,7 @@ export const useGetFilters = () => {
       } while (typeof items.LastEvaluatedKey != 'undefined');
       setFilters(
         scanResults
-          .filter((d: any) => (signedIn ? d.uid === uid && d.delete !== true : d.isPublic === true && d.delte !== true))
+          .filter((d: any) => (signedIn ? (d.isPublic === true || d.uid === uid) && d.delete !== true : d.isPublic === true && d.delte !== true))
           .reduce((f, c: any) => {
             f[c._id] = c;
             return f;

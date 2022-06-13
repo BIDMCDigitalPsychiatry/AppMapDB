@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { tables } from '../../../../database/dbConfig';
 import { useGetFilters } from '../../../../database/useFilterList';
 import { useFilters } from '../../../../database/useFilters';
 import useProcessData from '../../../../database/useProcessData';
+import { useIsAdmin } from '../../../../hooks';
 import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import Label from '../../DialogField/Label';
 import GenericDialog from '../GenericDialog';
@@ -25,7 +27,12 @@ export default function DeleteFilter({ id = title }) {
 
   const [filters] = useFilters();
 
-  const items = Object.keys(filters).map(k => ({ label: filters[k].isPublic ? `Public Filter | ${filters[k].name}` : filters[k].name, value: filters[k] }));
+  const isAdmin = useIsAdmin();
+  const uid = useSelector((s: any) => s.layout.user?.username);
+
+  const items = Object.keys(filters)
+    .filter(k => (isAdmin ? true : filters[k].uid === uid)) // Only show public filters for deltion if the user is an admin or the managing user
+    .map(k => ({ label: filters[k].isPublic ? `Public Filter | ${filters[k].name}` : filters[k].name, value: filters[k] }));
 
   return (
     <GenericDialog
