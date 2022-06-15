@@ -1,11 +1,11 @@
 {
   "name": "app-map-db",
-  "version": "1.6.10",
+  "version": "1.6.11",
   "private": true,
   "homepage": "https://mindapps.org",
   "enableLogRocket": true,
   "enableTour": true,
-  "adminUsers": "nalon@bidmc.Harvard.edu,team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu",
+  "adminUsers": "nalon@bidmc.Harvard.edu,team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu,chaudharypooja209@gmail.com",
   "emailUser": "jmelcher@bidmc.harvard.edu",
   "contactEmail": "team@digitalpsych.org",
   "surveyNotificationEmail": "ecamach1@bidmc.harvard.edu",
