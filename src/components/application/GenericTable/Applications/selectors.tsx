@@ -84,6 +84,7 @@ export const useAppData = table => {
             },
             getValues: () => app,
             getExportValues: () => ({
+              _id: app._id,
               ...appSearchable,
               app: appSearchable.name,
               cost: appSearchable.costs,

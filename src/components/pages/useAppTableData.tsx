@@ -78,6 +78,7 @@ export default function useAppTableData() {
             },
             getValues: () => app,
             getExportValues: () => ({
+              _id: app._id,
               ...appSearchable,
               app: appSearchable.name,
               cost: appSearchable.costs,

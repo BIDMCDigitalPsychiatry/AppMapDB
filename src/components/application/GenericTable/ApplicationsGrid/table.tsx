@@ -23,7 +23,8 @@ export const defaultProps: GenericTableContainerProps = {
 
 export const ApplicationsGrid = ({ data, HeaderComponent, ...other }) => {
   const { columns, ...remaining } = defaultProps;
-  const handleExport = useHandleExport(data, columns);
+  const exportColumns = [{ name: '_id', header: '_id' }, ...(columns as any)];
+  const handleExport = useHandleExport(data, exportColumns);
   const isAdmin = useIsAdmin();
   const handleChangeRoute = useHandleChangeRoute();
   return (
