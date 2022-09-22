@@ -3,11 +3,11 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
-import { emailUser } from '../../../package.json';
+import { emailUsers } from '../../../package.json';
 import { AWS } from '../../database/dbConfig';
 
 function sendEmail({ name, title, email, institution, details }) {
-  const emailAddress = emailUser;
+  const emailAddresses = emailUsers.split(',');
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const body = `A user is interested in app rating:
@@ -22,7 +22,7 @@ function sendEmail({ name, title, email, institution, details }) {
   var params = {
     Destination: {
       /* required */ CcAddresses: [],
-      ToAddresses: [emailAddress]
+      ToAddresses: emailAddresses
     },
     Message: {
       /* required */

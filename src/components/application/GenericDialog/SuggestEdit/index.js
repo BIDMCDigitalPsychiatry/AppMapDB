@@ -1,12 +1,12 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
-import { emailUser } from '../../../../../package.json';
+import { emailUsers } from '../../../../../package.json';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
 import { AWS } from '../../../../database/dbConfig';
 
-function sendEmail(name, email, suggestion, applicationInfo) {
-  const emailAddress = emailUser;
+function sendEmail(name, email, suggestion, applicationInfo) {  
+  const emailAddresses = emailUsers.split(',');
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const appName = getAppName(applicationInfo);
@@ -24,7 +24,7 @@ function sendEmail(name, email, suggestion, applicationInfo) {
   var params = {
     Destination: {
       /* required */ CcAddresses: [],
-      ToAddresses: [emailAddress]
+      ToAddresses: emailAddresses
     },
     Message: {
       /* required */
