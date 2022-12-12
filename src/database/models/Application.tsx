@@ -393,6 +393,11 @@ export const FeatureQuestions = [
     label: 'Does app have bio feedback with sense data?',
     tooltip:
       'The app uses biodata to provide feedback/recommendations (an app that will recommend more breathing exercises to respond to high heart rate, for example).'
+  },
+  {
+    value: 'Identify New Conditions',
+    label: 'Does app claim to identify new conditions?',
+    tooltip: 'The app claims to identify new conditions.'
   }
 ];
 
@@ -417,6 +422,7 @@ export const Features = FeatureQuestions.map(fq => fq.value as Feature);
 export type Condition =
   | 'Mood Disorders'
   | 'Bipolar Disorder'
+  | 'Cardiovascular Health'
   | 'Stress & Anxiety'
   | 'Sleep'
   | 'Phobias'
@@ -436,6 +442,7 @@ export type Condition =
 export const Conditions: Condition[] = [
   'Mood Disorders',
   'Bipolar Disorder',
+  'Cardiovascular Health',
   'Stress & Anxiety',
   'Sleep',
   'Phobias',
