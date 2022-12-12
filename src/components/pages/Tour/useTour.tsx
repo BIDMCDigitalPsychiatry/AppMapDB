@@ -4,6 +4,7 @@ import { publicUrl } from '../../../helpers';
 import pkg from '../../../../package.json';
 
 const useTour = () => {
+  const [{ redirected }, setState] = React.useState({ redirected: false });
   const { step } = useTourStep();
   const { tourCompleted } = useTourCompleted();
   const changeRoute = useChangeRoute();
@@ -17,10 +18,11 @@ const useTour = () => {
   React.useEffect(() => {
     if (pkg.enableTour && !tourCompleted && step === 0) {
       handleTour(); // Automatically open the tour for first time users
-    } else if (!pkg.enableTour || tourCompleted) {
+    } else if (redirected === false && (!pkg.enableTour || tourCompleted)) {
+      setState(p => ({ ...p, redirected: true }));
       changeRoute(publicUrl('/Apps')); // Otherwise, navigate to the app page automatically
     }
-  }, [tourCompleted, handleTour, step]);
+  }, [redirected, changeRoute, tourCompleted, handleTour, step]);
 };
 
 export default useTour;
