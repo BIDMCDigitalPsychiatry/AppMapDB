@@ -77,21 +77,21 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
         </Grid>
         {(IsAdmin || (isAdmin && adminMode === true)) && (
           <Grid container alignItems='center' style={{ minHeight: 92 }} item xs={fullScreen && viewMode === 'grid' ? 12 : 7}>
-            <div style={{ marginBottom: -12 }}>
+            <Grid item xs={12} sx={{ mb: -1.5 }}>
               {draft ? (
                 <Status draft={draft} approved={approved} />
               ) : (
                 <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
               )}
-            </div>
-            <div style={{ marginTop: -12 }}>
+            </Grid>
+            <Grid item xs={12} sx={{ mt: -1.5 }}>
               <Check
                 value={deleted}
                 label={deleted ? 'Archived' : 'Not archived'}
                 onClick={handleDelete(!deleted)}
                 style={{ color: deleted ? 'red' : undefined }}
               />
-            </div>
+            </Grid>
           </Grid>
         )}
       </Grid>

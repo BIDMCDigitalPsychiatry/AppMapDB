@@ -65,7 +65,7 @@ export default function ViewApp() {
 
   return (
     <Grid container justifyContent='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
-      <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl('/Apps'), {})}>
+      <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
         <Typography>{`<   Back To Results`}</Typography>
       </Grid>
       <Grid item xs={12}>
@@ -157,9 +157,7 @@ export default function ViewApp() {
             <Typography variant='caption'>{`Explore the app's qualitative ratings & reviews`}</Typography>
           </Grid>
           <Grid item xs={12}>
-            <Box mt={2}>
-              {rating && <ViewAppRating {...rating.getValues()} />}
-            </Box>
+            <Box mt={2}>{rating && <ViewAppRating {...rating.getValues()} />}</Box>
           </Grid>
           {history.length > 1 && (
             <Grid item xs={12}>

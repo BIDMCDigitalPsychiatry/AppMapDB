@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Grid } from '@mui/material';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as ApplicationHistoryDialogV2WithDrafts from '../../GenericDialog/ApplicationHistoryDialogV2WithDrafts';
-import * as ApplicationDialog from '../../GenericDialog/ApplicationDialog';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
@@ -22,11 +21,10 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
       {showInfo && (
         <Grid item>
           <EditDialogButton
-            Module={ApplicationDialog}
             variant='iconbutton'
             mount={false}
             Icon={Icons.Pageview}
-            initialValues={{ [tables.applications]: initialValues }}
+            onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'ApplicationTable' })}
             tooltip='View Additional Application Info'
             placement='bottom'
           />
