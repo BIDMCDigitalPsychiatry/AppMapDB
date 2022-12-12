@@ -118,17 +118,17 @@ export const PrivacyQuestions = [
   },
   {
     value: 'Is De-Identified Data Shared',
-    short: 'De-Indentifed Data Shared',
-    label: 'Is de-identified data shared?',
+    short: 'De-Indentifed/Anonymized Data Shared',
+    label: 'Is de-identified/anonymized data shared?',
     tooltip:
-      'De-identified data is information that has been stripped of personally identifiable attributes (Names and identifiers have been stripped, but the individual information remains)',
+      'De-identified/anonymized data is information that has been stripped of personally identifiable attributes (Names and identifiers have been stripped, but the individual information remains)',
     hidden: hasPrivacyPolicy
   },
   {
     value: 'Is Anonymized/Aggregate Data Shared',
-    short: 'Anonymized Data Shared',
-    label: 'Is anonymized/aggregate data shared?',
-    tooltip: 'Anonymized data can no longer be associated with an individual in any manner.',
+    short: 'Aggregated Data Shared',
+    label: 'Is aggregate data shared?',
+    tooltip: 'Aggregated data can no longer be associated with an individual in any manner.',
     hidden: hasPrivacyPolicy
   },
   {
@@ -402,9 +402,16 @@ export const FeatureQuestions = [
 ];
 
 // Requests were made to change certain hard coded values.  This handles this display logic
-export const withReplacement = text => {
-  return text === 'Bbot Interaction' ? 'Chatbot Interaction' : text === 'Use Warning' ? 'Claims to Not Replace Care' : text;
-};
+export const withReplacement = text =>
+  text === 'Bbot Interaction'
+    ? 'Chatbot Interaction'
+    : text === 'Use Warning'
+    ? 'Claims to Not Replace Care'
+    : text === 'Is Anonymized/Aggregate Data Shared'
+    ? 'Aggregated Data Shared'
+    : text === 'Is De-Identified Data Shared'
+    ? 'De-Identified/Anonymized Data Shared'
+    : text;
 
 export const FeatureImages = [
   { value: 'Track Mood', label: 'Mood Tracking', image: '/images/newsmile.png' },

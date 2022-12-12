@@ -63,7 +63,7 @@ const filters = [
   },
   {
     id: 'Privacy',
-    items: Privacies.map(label => ({ value: label, label }))
+    items: Privacies.map(label => ({ value: label, label: withReplacement(label) }))
   }
 ].map(i => ({ ...i, color: categories[i.id]?.color }));
 
