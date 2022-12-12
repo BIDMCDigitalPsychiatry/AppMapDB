@@ -17,6 +17,8 @@ const useTour = () => {
   React.useEffect(() => {
     if (pkg.enableTour && !tourCompleted && step === 0) {
       handleTour(); // Automatically open the tour for first time users
+    } else if (!pkg.enableTour || tourCompleted) {
+      changeRoute(publicUrl('/Apps')); // Otherwise, navigate to the app page automatically
     }
   }, [tourCompleted, handleTour, step]);
 };
