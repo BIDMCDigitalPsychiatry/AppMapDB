@@ -59,7 +59,7 @@ const filters = [
   {
     id: 'ClinicalFoundations',
     label: 'Evidence & Clinical Foundations',
-    items: ClinicalFoundations.map(label => ({ value: label, label }))
+    items: ClinicalFoundations.map(label => ({ value: label, label: withReplacement(label) }))
   },
   {
     id: 'Privacy',

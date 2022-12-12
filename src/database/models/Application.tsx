@@ -403,7 +403,7 @@ export const FeatureQuestions = [
 
 // Requests were made to change certain hard coded values.  This handles this display logic
 export const withReplacement = text => {
-  return text === 'Bbot Interaction' ? 'Chatbot Interaction' : text;
+  return text === 'Bbot Interaction' ? 'Chatbot Interaction' : text === 'Use Warning' ? 'Claims to Not Replace Care' : text;
 };
 
 export const FeatureImages = [
