@@ -196,7 +196,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
           </Grid>
         </Grid>
       </Grid>
-      <Box sx={{ mb: 1 }}>
+      <Box style={{ marginBottom: 8 }}>
         <InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />
       </Box>
     </>
