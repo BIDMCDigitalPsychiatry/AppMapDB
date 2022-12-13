@@ -35,8 +35,16 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
   const handleClick = React.useCallback(
     e => {
       e.stopPropagation();
+      setExpand(!expand);
+    },
+    [expand, setExpand, onChange]
+  );
+
+  const handleClearableClick = React.useCallback(
+    e => {
+      e.stopPropagation();
       if (expand) {
-        onChange && onChange([], e);
+        onChange && onChange([], e); // Don't clear options on close
       }
       setExpand(!expand);
     },
@@ -54,7 +62,7 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
           </Typography>
         </Grid>
         <Grid item>
-          <IconButton size='small'>
+          <IconButton size='small' onClick={handleClearableClick}>
             <Icon style={{ color }} />
           </IconButton>
         </Grid>
