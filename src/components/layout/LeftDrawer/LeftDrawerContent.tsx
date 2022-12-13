@@ -5,11 +5,14 @@ import createStyles from '@mui/styles/createStyles';
 import { Box, Divider, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import FilterContentLeftDrawer from '../../application/GenericContent/Filter/FilterContentLeftDrawer';
-import FilterButtons from '../../application/GenericContent/FilterButtons';
 import Logo from '../Logo';
 import { useFullScreen } from '../../../hooks';
 import FilterCount from './FilterCount';
 import TourStep from '../../pages/Tour/TourStep';
+import { publicUrl } from '../../../helpers';
+import ArrowButton from '../../general/ArrowButton';
+import { useHandleChangeRoute } from '../hooks';
+import grey from '@mui/material/colors/grey';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +36,7 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
   const xs = useFullScreen('xs');
   const handleClose = React.useCallback(() => setLeftDrawer && setLeftDrawer(false), [setLeftDrawer]);
   const handleOpen = React.useCallback(() => setLeftDrawer && setLeftDrawer(true), [setLeftDrawer]);
+  const handleChangeRoute = useHandleChangeRoute();
   return (
     <>
       <div className={classes.header}>
@@ -62,8 +66,15 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
       <Box ml={1} mr={1} mb={1}>
         <Divider />
       </Box>
-      <Box m={1}>
-        <FilterButtons />
+      <Box p={1} sx={{ backgroundColor: grey[100] }}>
+        <Grid container alignItems='center' spacing={1}>
+          <Grid item xs={12}>
+            <Typography sx={{ color: 'primary.main', textAlign: 'left', fontSize: 22, fontWeight: 700 }}>Interested in rating an app?</Typography>
+          </Grid>
+          <Grid item xs={12} style={{ textAlign: 'right' }}>
+            <ArrowButton label='Rate an App' onClick={handleChangeRoute(publicUrl('/RateAnApp'))} />
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
