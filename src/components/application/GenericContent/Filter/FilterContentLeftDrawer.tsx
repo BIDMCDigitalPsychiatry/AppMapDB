@@ -11,7 +11,9 @@ import {
   Engagements,
   Uses,
   withReplacement,
-  Platforms
+  Platforms,
+  Inputs,
+  Outputs
 } from '../../../../database/models/Application';
 import { Grid } from '@mui/material';
 import { useTableFilterValue } from '../../GenericTable/store';
@@ -60,6 +62,14 @@ const filters = [
     id: 'ClinicalFoundations',
     label: 'Evidence & Clinical Foundations',
     items: ClinicalFoundations.map(label => ({ value: label, label: withReplacement(label) }))
+  },
+  {
+    id: 'Inputs',
+    items: Inputs.map(label => ({ value: label, label }))
+  },
+  {
+    id: 'Outputs',
+    items: Outputs.map(label => ({ value: label, label }))
   },
   {
     id: 'Privacy',
