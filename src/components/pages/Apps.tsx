@@ -16,7 +16,7 @@ export default function Apps() {
   const height = useHeight();
   const { layout } = useTheme() as any;
   const { tablefooterheight } = layout;
-  const tableHeight = height - headerHeight + tablefooterheight + 2;
+  const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
   const { filtered } = useAppTableDataTest(); // Trigger data query
 
   return (

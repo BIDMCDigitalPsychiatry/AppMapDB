@@ -7,7 +7,6 @@ import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
-import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import TourStep from './Tour/TourStep';
 
 const padding = 32;
@@ -112,7 +111,7 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
           </Grid>
         </Grid>
       </Grid>
-      <InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />
+      {/*<InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />*/}
     </>
   );
 }

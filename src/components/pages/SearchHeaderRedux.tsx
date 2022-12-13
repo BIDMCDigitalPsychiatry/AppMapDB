@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Chip } from '@mui/material';
+import { Box, Grid, Typography, Chip } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen, useIsAdmin } from '../../hooks';
@@ -15,6 +15,8 @@ import useWidth from '../layout/ViewPort/hooks/useWidth';
 import { useChangeRoute, useHeaderHeightSetRef } from '../layout/hooks';
 import TourStep from './Tour/TourStep';
 import { publicUrl } from '../../helpers';
+import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
+import useQuizOptions from './useQuizOptions';
 
 const padding = 32;
 const spacing = 1;
@@ -106,90 +108,97 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
 
   const setRef = useHeaderHeightSetRef();
 
+  const { state, setState, handleSearch } = useQuizOptions();
+
   return (
-    <Grid ref={setRef} container style={{ paddingTop: collapseMobile ? 0 : undefined }} className={classes.header}>
-      {!collapseMobile && (
-        <Grid item xs={12}>
-          <Grid container justifyContent='space-between' alignItems='flex-end'>
-            <Grid>
-              <Typography variant='h1' className={classes.primaryText}>
-                {title}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Buttons onExport={onExport} collapsed={collapsed} />
-            </Grid>
-          </Grid>
-        </Grid>
-      )}
-      <Grid item xs={12}>
-        <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
-          <Grid item xs={12} sm style={{ marginTop: -4 }}>
-            <Grid container alignItems='center' spacing={spacing}>
-              <Grid item xs>
-                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
+    <>
+      <Grid ref={setRef} container style={{ paddingTop: collapseMobile ? 0 : undefined }} className={classes.header}>
+        {!collapseMobile && (
+          <Grid item xs={12}>
+            <Grid container justifyContent='space-between' alignItems='flex-end'>
+              <Grid>
+                <Typography variant='h1' className={classes.primaryText}>
+                  {title}
+                </Typography>
               </Grid>
-              {collapseMobile && (
-                <Grid item>
-                  <Buttons onExport={onExport} collapsed={collapsed} />
+              <Grid item>
+                <Buttons onExport={onExport} collapsed={collapsed} />
+              </Grid>
+            </Grid>
+          </Grid>
+        )}
+        <Grid item xs={12}>
+          <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={0}>
+            <Grid item xs={12} sm style={{ marginTop: -4 }}>
+              <Grid container alignItems='center' spacing={spacing}>
+                <Grid item xs>
+                  <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
                 </Grid>
-              )}
-              {!fullScreen && (
-                <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
-                  <MultiSelectCheck
-                    value={filters['Platforms']}
-                    onChange={handleChange('Platforms')}
-                    placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
-                    InputProps={{ style: { background: 'white' } }}
-                    items={Platforms.map(label => ({ value: label, label })) as any}
-                    fullWidth={true}
-                  />
-                </Grid>
-              )}
+                {collapseMobile && (
+                  <Grid item>
+                    <Buttons onExport={onExport} collapsed={collapsed} />
+                  </Grid>
+                )}
+                {!fullScreen && (
+                  <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
+                    <MultiSelectCheck
+                      value={filters['Platforms']}
+                      onChange={handleChange('Platforms')}
+                      placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                      InputProps={{ style: { background: 'white' } }}
+                      items={Platforms.map(label => ({ value: label, label })) as any}
+                      fullWidth={true}
+                    />
+                  </Grid>
+                )}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container justifyContent='space-between' alignItems='center'>
+            <Grid item xs>
+              <Grid container alignItems='center' spacing={1} style={{ marginTop: 0 }}>
+                {items.map((item, i) => {
+                  const category = categories[item.key];
+                  if (item.value.length > 0) {
+                    showClear = true;
+                  }
+                  return !Array.isArray(item?.value) ? (
+                    <></>
+                  ) : (
+                    item.value.map((label, i2) => (
+                      <Grid item key={label}>
+                        <Chip
+                          key={`${label}-${i}-${i2}`}
+                          style={{ background: category?.color ?? 'grey', color: 'white', marginRight: 8 }}
+                          variant='outlined'
+                          size='small'
+                          label={withReplacement(label)}
+                          onDelete={handleDelete(item.key, label)}
+                          classes={{
+                            deleteIcon: classes.deleteIcon
+                          }}
+                        />
+                      </Grid>
+                    ))
+                  );
+                })}
+                {showClear && (
+                  <Grid item>
+                    <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
+                      Reset all filters
+                    </DialogButton>
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container justifyContent='space-between' alignItems='center'>
-          <Grid item xs>
-            <Grid container alignItems='center' spacing={1} style={{ marginTop: 8 }}>
-              {items.map((item, i) => {
-                const category = categories[item.key];
-                if (item.value.length > 0) {
-                  showClear = true;
-                }
-                return !Array.isArray(item?.value) ? (
-                  <></>
-                ) : (
-                  item.value.map((label, i2) => (
-                    <Grid item key={label}>
-                      <Chip
-                        key={`${label}-${i}-${i2}`}
-                        style={{ background: category?.color ?? 'grey', color: 'white', marginRight: 8 }}
-                        variant='outlined'
-                        size='small'
-                        label={withReplacement(label)}
-                        onDelete={handleDelete(item.key, label)}
-                        classes={{
-                          deleteIcon: classes.deleteIcon
-                        }}
-                      />
-                    </Grid>
-                  ))
-                );
-              })}
-              {showClear && (
-                <Grid item>
-                  <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
-                    Reset all filters
-                  </DialogButton>
-                </Grid>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+      <Box sx={{ mb: 1 }}>
+        <InteractiveSearchCard handleSearch={handleSearch} state={state} setState={setState} />
+      </Box>
+    </>
   );
 }

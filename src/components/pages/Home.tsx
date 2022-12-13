@@ -7,14 +7,13 @@ import { useFullScreen } from '../../hooks';
 import useFilterList from '../../database/useFilterList';
 import MultiFeatureSelect from '../application/DialogField/MultiFeatureSelect';
 import { Features } from '../../database/models/Application';
-import { useChangeRoute, useHandleChangeRoute } from '../layout/hooks';
+import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 import SearchHeader from './SearchHeader';
 import ArrowButton from '../general/ArrowButton';
-import { internalKeys } from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
-import { useTableValues } from '../application/GenericTable/store';
 import TourStep from './Tour/TourStep';
 import useAppTableDataTest from './useAppTableDataTest';
+import useQuizOptions from './useQuizOptions';
 
 const padding = 32;
 const spacing = 1;
@@ -126,7 +125,7 @@ export default function Home() {
   let ref = React.useRef(null);
   const { height } = useComponentSize(ref);
 
-  const [state, setState] = React.useState({ searchtext: '', Platforms: [], Features: [], hasClinicalFoundation: false, isSpanish: false, isOffline: false });
+  const { state, setState, handleSearch } = useQuizOptions();
 
   const handleChange = React.useCallback(
     id => (event: any) => {
@@ -217,38 +216,6 @@ export default function Home() {
       </Grid>
     </Grid>
   );
-
-  const [, setValues] = useTableValues('Applications');
-
-  // Sets the associated values in the redux store
-  const setTableState = React.useCallback(() => {
-    const { searchtext, isSpanish, isOffline, hasClinicalFoundation, ...filters } = state;
-    var filteredFilters = Object.keys(filters)
-      .filter(k => !internalKeys.includes(k))
-      .reduce((o, k) => {
-        o[k] = filters[k];
-        return o;
-      }, {});
-
-    if (isSpanish === true) {
-      filteredFilters['Functionalities'] = [...(filteredFilters['Functionalities'] ?? []), 'Spanish'];
-    }
-    if (isOffline === true) {
-      filteredFilters['Functionalities'] = [...(filteredFilters['Functionalities'] ?? []), 'Offline'];
-    }
-    if (hasClinicalFoundation === true) {
-      filteredFilters['ClinicalFoundations'] = [...(filteredFilters['ClinicalFoundations'] ?? []), 'Supporting Studies'];
-    }
-    setValues({ searchtext, filters: filteredFilters });
-    // eslint-disable-next-line
-  }, [setValues, JSON.stringify(state)]);
-
-  const changeRoute = useChangeRoute();
-
-  const handleSearch = React.useCallback(() => {
-    setTableState();
-    changeRoute(publicUrl('/Apps'));
-  }, [changeRoute, setTableState]);
 
   useAppTableDataTest({ trigger: false, triggerWhenEmpty: true }); // Pre load the database rows if we have an empty data set
 

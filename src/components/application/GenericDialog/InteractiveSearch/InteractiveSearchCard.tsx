@@ -11,6 +11,7 @@ import { variableFilters } from '../../../pages/Home';
 
 export const title = 'Interactive Search';
 
+const height = 32;
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     primaryButton: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles(({ palette }: any) =>
       color: palette.common.white,
       background: palette.primary.dark,
       minWidth: 160,
-      height: 40,
+      height,
       '&:hover': {
         background: palette.primary.main
       }
@@ -28,7 +29,7 @@ const useStyles = makeStyles(({ palette }: any) =>
       color: palette.common.white,
       background: palette.primary.main,
       minWidth: 160,
-      height: 40,
+      height,
       '&:hover': {
         background: palette.primary.dark
       }
@@ -43,10 +44,11 @@ const useStyles = makeStyles(({ palette }: any) =>
       background: palette.primary.light
     },
     tabButton: {
-      padding: 8,
+      padding: 4,
       textAlign: 'center',
       background: palette.primary.dark,
       color: 'white',
+      height,
       width: '100%',
       cursor: 'pointer',
       borderBottomLeftRadius: 12,
@@ -147,7 +149,10 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
             id={id}
             submitLabel='Search'
             SubmitIcon={Icons.Search}
-            onSubmit={handleSearch}
+            onSubmit={() => {
+              handleSearch();
+              setOpen(false);
+            }}
             onChange={handleChange}
             steps={steps}
             onClose={onClose}
@@ -163,8 +168,8 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
           />
         </div>
       </Collapse>
-      <Grid container alignItems='center' style={{ background: 'transparent' }} justifyContent='center'>
-        <Grid item alignContent='center' style={{ width: 320 }}>
+      <Grid container alignItems='center' style={{ height, background: 'transparent' }} justifyContent='center'>
+        <Grid item alignContent='center' style={{ height, width: 320 }}>
           <div color='primary' className={classes.tabButton} onClick={handleOpen}>
             <Typography>{open ? 'Close wizard' : `Not sure? Take this short quiz!`}</Typography>
           </div>
