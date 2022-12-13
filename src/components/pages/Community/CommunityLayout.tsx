@@ -4,7 +4,6 @@ import Create from '../../pages/Community/Create';
 import { useRouteState } from '../../layout/store';
 import Edit from '../../pages/Community/Edit';
 import { Box, Divider } from '@mui/material';
-import CommunityCalendarLayout from '../../pages/Community/CommunityCalendarLayout';
 import CommunitySelector from './CommunitySelector';
 import TeamMemberCreate from '../../pages/Team/TeamMemberCreate';
 import TeamMemberEdit from '../../pages/Team/TeamMemberEdit';
@@ -16,7 +15,6 @@ const components = {
   edit: Edit,
   view: Details,
   list: NewsForumList,
-  calendar: CommunityCalendarLayout,
   team: TeamList,
   createTeamMember: TeamMemberCreate,
   editTeamMember: TeamMemberEdit,

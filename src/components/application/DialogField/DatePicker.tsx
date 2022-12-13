@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { isError } from '../../../helpers';
 import MuiDatePicker from '@mui/lab/DatePicker';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { TextField } from '@mui/material';
 
 const DatePicker = ({ onChange, value, error, forceErrorMargin = false, ...other }) => {

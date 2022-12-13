@@ -14,8 +14,8 @@ import { isDev, useLayoutTheme } from './helpers';
 import LogRocket from 'logrocket';
 import pkg from '../package.json';
 import ViewPort from './components/layout/ViewPort/ViewPort';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
