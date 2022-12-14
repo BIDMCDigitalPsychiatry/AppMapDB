@@ -58,7 +58,7 @@ const useTabs = () => {
     setTabSelector({ value: 'News' });
   }, [setTabSelector]);
   return [
-    { id: 'Application Library', icon: Icons.Apps, route: '/Apps' },
+    { id: 'Application Library', icon: Icons.Apps, route: '/Apps', routes: ['/', '', '/Home', '/Apps'] },
     { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
     { id: 'Admin', icon: Icons.Dashboard, route: '/Admin', routeState: { subRoute: 'pending' } },
     { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },

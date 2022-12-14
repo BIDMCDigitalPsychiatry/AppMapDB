@@ -4,6 +4,7 @@ import { Tabs, Tab, Typography, Container } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import useTabSelectorValue from '../../application/Selector/useTabSelectorValue';
+import { useLocation } from 'react-router';
 
 export interface ComponentProps {
   id?: string;
@@ -52,18 +53,20 @@ export interface TabSelectorItem {
   label?: string;
   icon?: any;
   route?: any;
+  routes?: any;
   Component?: any;
   onClick?: any;
 }
 
 const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
   const classes = useStyles({ minHeight, rounded });
+  const { pathname } = useLocation();
+  const tabOverride = tabs.find(t => (t.routes ?? []).find(r => r.toLowerCase() === pathname.toLowerCase()));
 
   const [tsValue, setTabSelector] = useTabSelectorValue(id, tabs[0] && tabs[0].id);
 
   // Priority: External, interal, else default first tab, support null as well
-  const value = !isEmpty(Value) ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
-  console.log({ tabs, tsValue, Value, value });
+  const value = tabOverride ? tabOverride.id : !isEmpty(Value) ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
 
   React.useEffect(() => {
     triggerResize(); //User has roated the device, so trigger a resize so the indicator updates correctly
