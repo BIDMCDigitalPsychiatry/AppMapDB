@@ -62,7 +62,8 @@ const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientati
   const [tsValue, setTabSelector] = useTabSelectorValue(id, tabs[0] && tabs[0].id);
 
   // Priority: External, interal, else default first tab, support null as well
-  const value = Value !== undefined && Value !== '' ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
+  const value = !isEmpty(Value) ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
+  console.log({ tabs, tsValue, Value, value });
 
   React.useEffect(() => {
     triggerResize(); //User has roated the device, so trigger a resize so the indicator updates correctly

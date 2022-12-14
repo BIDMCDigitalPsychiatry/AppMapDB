@@ -42,13 +42,13 @@ const themeProps = {
     }
   },
   layout: {
-    drawerPaths: ['/Apps'], // Routes where the drawer should be shown
+    drawerPaths: ['/Apps', '/Home', '/', ''], // Routes where the drawer should be shown
     leftDrawerWidth: 296, //The width of the left nav drawer
     toolbarheight: 64, //The height of the top toolbar
     contentpadding: 8, //The padding around the inner layout content
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)
     tablefooterheight: 20, //The height of the table footer
-    tablefilterbarheight: 52, //The height of the table filter selector (category selector)    
+    tablefilterbarheight: 52, //The height of the table filter selector (category selector)
     tabletoolbarheight: 88, // The height of the top bar on the table, also the height of the secondary tabselector
     tableRowHeight: 48, // Height of table rows
     footerheight: 24, //The height of the bottom toolbar

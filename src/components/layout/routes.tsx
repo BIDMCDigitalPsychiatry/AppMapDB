@@ -4,7 +4,6 @@ import Apps from '../pages/Apps';
 import MyRatings from '../pages/MyRatings/MyRatings';
 import { publicUrl } from '../../helpers';
 import PlayGround from './PlayGround';
-import Home from '../pages/Home';
 import FrameworkQuestions from '../pages/FrameWorkQuestions/FrameworkQuestions';
 import RateNewAppIntro from '../pages/RateNewAppIntro';
 import RateNewApp, { RateExistingApp } from '../pages/RateNewApp/RateNewApp';
@@ -18,9 +17,9 @@ import SurveyFollowUp from '../pages/Survey/SurveyFollowUp';
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path={'/'} children={<Home />} />
-      <Route exact path={publicUrl('/')} children={<Home />} />
-      <Route exact path={publicUrl('/Home')} children={<Home />} />
+      <Route exact path={'/'} children={<Apps />} />
+      <Route exact path={publicUrl('/')} children={<Apps />} />
+      <Route exact path={publicUrl('/Home')} children={<Apps />} />
       <Route exact path={publicUrl('/Admin')} children={<Admin />} />
       <Route exact path={publicUrl('/MyRatings')} children={<MyRatings />} />
       <Route exact path={publicUrl('/FrameworkQuestions')} children={<FrameworkQuestions />} />

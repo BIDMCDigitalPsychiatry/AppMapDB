@@ -37,7 +37,7 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
       e.stopPropagation();
       setExpand(!expand);
     },
-    [expand, setExpand, onChange]
+    [expand, setExpand]
   );
 
   const handleClearableClick = React.useCallback(

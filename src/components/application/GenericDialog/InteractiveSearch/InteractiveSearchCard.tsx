@@ -7,9 +7,26 @@ import * as Icons from '@mui/icons-material';
 import { Button, Collapse, Divider, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import { variableFilters } from '../../../pages/Home';
 
 export const title = 'Interactive Search';
+
+export const variableFilters = [
+  {
+    key: 'Cost',
+    availableFilters: ['Totally Free'],
+    stepKey: 'Free'
+  },
+  {
+    key: 'Privacy',
+    availableFilters: ['Has Privacy Policy', 'App Declares Data Use and Purpose'],
+    stepKey: 'YesNoPrivacy'
+  },
+  {
+    key: 'Functionalities',
+    availableFilters: ['Email or Export Your Data'],
+    stepKey: 'YesNoFunctionality'
+  }
+];
 
 const height = 32;
 const useStyles = makeStyles(({ palette }: any) =>
