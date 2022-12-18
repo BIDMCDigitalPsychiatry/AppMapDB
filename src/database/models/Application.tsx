@@ -57,7 +57,11 @@ export const ClinicalFoundationQuestions = [
       "Does the app make recommendations or suggestions that directly defy clinical guidelines? Does it include overtly false information, like a suicide hotline number that doesn't actually work?"
   },
   { value: 'Use Warning', label: 'Does the app specify that it is not a replacement for medical care?' },
-  { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' }
+  { value: 'Supporting Studies', label: 'Does the app contain supporting studies?' },
+  {
+    value: 'Appropriately Advises Patient in Case of Emergency',
+    label: 'In the case of an emergency does the app appropriately advise the patient?'
+  }
 ];
 
 export const ClinicalFoundations: ClinicalFoundation[] = ClinicalFoundationQuestions.map(cfq => cfq.value as ClinicalFoundation);
@@ -73,8 +77,8 @@ export type Privacy =
   | 'Is De-Identified Data Shared'
   | 'Is Anonymized/Aggregate Data Shared'
   | 'Can Opt Out of Data Collection'
-  | 'Meets HIPAA'
-  | 'Has Crisis Management Feature';
+  | 'Meets HIPAA';
+// | 'Has Crisis Management Feature';
 
 const hasPrivacyPolicy = value => !value.includes('Has Privacy Policy');
 
@@ -138,14 +142,15 @@ export const PrivacyQuestions = [
     tooltip: 'Is there a way for a user to indicate that they don’t want to app to collect or share their data?',
     hidden: hasPrivacyPolicy
   },
-  { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?', hidden: hasPrivacyPolicy },
+  { value: 'Meets HIPAA', label: 'Does the app claim to meet HIPAA?', hidden: hasPrivacyPolicy }
+  /* This was changed and moved under the Clinical Foundation section
   {
     value: 'Has Crisis Management Feature',
     short: 'Crisis Management Feature',
     label: 'Does the app have a crisis management feature?',
     tooltip: 'An app’s emergency response or crisis management feature is often detailed in the privacy policy.',
     hidden: hasPrivacyPolicy
-  }
+  }*/
 ];
 
 export const Privacies: Privacy[] = PrivacyQuestions.map(pq => pq.value as Privacy);
