@@ -3,7 +3,6 @@ import { Grid, Typography, Button } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
-import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
@@ -54,7 +53,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
 
 export default function SearchHeader({ title = 'App Library', handleSearch, state, setState = undefined }) {
   const classes = useStyles();
-  useFilterList();
+  // useFilterList();
 
   var sm = useFullScreen('sm');
 

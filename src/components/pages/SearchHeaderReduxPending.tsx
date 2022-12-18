@@ -3,7 +3,6 @@ import { Grid, Typography, Button } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
-import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
@@ -57,7 +56,7 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
   const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
 
   const classes = useStyles();
-  useFilterList();
+  // useFilterList();
 
   var sm = useFullScreen('sm');
 

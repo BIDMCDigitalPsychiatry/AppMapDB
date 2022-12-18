@@ -3,7 +3,6 @@ import { Box, Grid, Typography, Chip } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen, useIsAdmin } from '../../hooks';
-import useFilterList from '../../database/useFilterList';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms, withReplacement } from '../../database/models/Application';
@@ -73,7 +72,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
   const handleReset = useHandleTableReset(tableId);
 
   const classes = useStyles();
-  useFilterList();
+  // useFilterList();
 
   var sm = useFullScreen('sm');
   const fullScreen = useFullScreen();

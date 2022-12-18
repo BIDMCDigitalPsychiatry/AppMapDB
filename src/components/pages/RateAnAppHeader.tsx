@@ -3,7 +3,6 @@ import { Grid, Typography, Button } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
-import useFilterList from '../../database/useFilterList';
 import { useHandleChangeRoute, useHeaderHeightSetRef } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
 
@@ -56,7 +55,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 
 export default function RateAnAppHeader({ showArchived = undefined, onToggleArchive = undefined }) {
   const classes = useStyles();
-  useFilterList();
+  // useFilterList();
 
   var sm = useFullScreen('sm');
 
