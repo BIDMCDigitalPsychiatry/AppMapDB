@@ -8,12 +8,13 @@ import { useAppData } from '../Applications/selectors';
 import AdminToggle from '../Applications/AdminToggle';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import FilterButton from '../Applications/FilterButton';
+import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 const name = 'Applications';
 export const defaultApplicationsListProps: GenericTableContainerProps = {
   isList: true,
   name,
-  dialogs: [renderDialogModule(RateNewAppDialog)],
+  dialogs: [renderDialogModule(RateNewAppDialog), renderDialogModule(RateNewAppDialogAdminEdit)],
   columns: [{ name: 'app', header: 'Application', Cell: AppSummary }],
   toolbar: false,
   footer: true,

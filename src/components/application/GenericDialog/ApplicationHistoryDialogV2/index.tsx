@@ -12,7 +12,7 @@ const Content = props => {
 };
 
 export default function ApplicationHistoryDialogV2({ id = title, onClose, ...other }) {
-  const [{ initialValues }] = useDialogState(id);
+  const [{ initialValues, isAdminEdit }] = useDialogState(id);
   const [adminMode, setAdminMode] = useAdminMode() as any;
 
   // This hack forces a refresh of the data if the admin may have closed something
@@ -31,7 +31,7 @@ export default function ApplicationHistoryDialogV2({ id = title, onClose, ...oth
       cancelLabel='Close'
       submitLabel={null}
       Content={Content}
-      ContentProps={{ initialValues }}
+      ContentProps={{ initialValues, isAdminEdit }}
       onClose={handleClose}
       {...other}
     />

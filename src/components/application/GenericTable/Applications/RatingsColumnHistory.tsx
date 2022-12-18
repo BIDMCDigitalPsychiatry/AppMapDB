@@ -10,8 +10,9 @@ import { useSignedIn, useFullScreen, useIsAdmin } from '../../../../hooks';
 import { useViewMode, useAdminMode } from '../../../layout/store';
 import { useProcessData } from '../../../../database/useProcessData';
 import Check from '../../DialogField/Check';
+import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
-export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined }) {
+export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined, isAdminEdit = false }) {
   const application = useSelector((s: AppState) => s.database.applications[_id]);
   const { approved, draft } = application;
   const deleted = application?.delete;
@@ -64,7 +65,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
         <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'grid' ? 12 : 5}>
           {signedIn && (
             <EditDialogButton
-              Module={RateNewAppDialog}
+              Module={isAdminEdit ? RateNewAppDialogAdminEdit : RateNewAppDialog}
               mount={false}
               variant='primarycontained'
               tooltip=''

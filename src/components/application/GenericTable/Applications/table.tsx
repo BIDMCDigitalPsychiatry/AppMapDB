@@ -13,6 +13,7 @@ import useWidth from '../../../layout/ViewPort/hooks/useWidth';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 import TourStep from '../../../pages/Tour/TourStep';
+import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -24,7 +25,7 @@ export const CenterRadio = ({ checked = false }) => {
 
 export const defaultApplicationsProps: GenericTableContainerProps = {
   name,
-  dialogs: [renderDialogModule(RateNewAppDialog)],
+  dialogs: [renderDialogModule(RateNewAppDialog), renderDialogModule(RateNewAppDialogAdminEdit)],
   toolbar: false,
   footer: true,
   search: false

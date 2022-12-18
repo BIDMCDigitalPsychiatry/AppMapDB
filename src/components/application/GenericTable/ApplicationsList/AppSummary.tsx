@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const appColumnWidth = 520;
 
-export default function AppSummary(props: Application & AppSummaryProps) {
+export default function AppSummary(props: Application & AppSummaryProps & any) {
   const {
     _id,
     name = getAppName(props),
@@ -77,7 +77,8 @@ export default function AppSummary(props: Application & AppSummaryProps) {
     updated,
     approved,
     groupId,
-    RatingButtonsComponent = RatingsColumn
+    RatingButtonsComponent = RatingsColumn,
+    isAdminEdit
   } = props;
 
   const classes = useStyles();
@@ -187,7 +188,7 @@ export default function AppSummary(props: Application & AppSummaryProps) {
                     </Grid>
                   )}
                   <Grid item xs={12}>
-                    <RatingButtonsComponent _id={_id} rating={rating} ratingIds={ratingIds} />
+                    <RatingButtonsComponent _id={_id} rating={rating} ratingIds={ratingIds} isAdminEdit={isAdminEdit} />
                   </Grid>
                 </Grid>
               </Grid>

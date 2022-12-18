@@ -14,11 +14,13 @@ export const title = 'View/Edit App';
 export interface ComponentProps {
   id?: string;
   onClose?: () => any;
+  isAdminEdit: boolean;
 }
 
-export default function RateNewAppDialog({ id = title, onClose }: ComponentProps) {
+export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = false }: ComponentProps) {
   const [{ type }, setDialogState] = useDialogState(id);
   const [_steps, setSteps] = React.useState(steps(type));
+
   React.useEffect(() => {
     setSteps(steps(type));
   }, [type]);
@@ -62,7 +64,12 @@ export default function RateNewAppDialog({ id = title, onClose }: ComponentProps
     processData({
       Model: tables.applications,
       Action,
-      Data: { ...application, email, uid, draft },
+      Data: {
+        ...application,
+        email: isAdminEdit && !isEmpty(application.email) ? application.email : email, // If admin is editing, keep the original email
+        uid,
+        draft
+      },
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
       onSuccess: () => {
         handleReset && handleReset();

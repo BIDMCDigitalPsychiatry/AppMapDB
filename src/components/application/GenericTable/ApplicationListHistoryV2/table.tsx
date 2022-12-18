@@ -16,14 +16,14 @@ const RatingsButtons = props => {
 const AppSummaryHistory = props => <AppSummary {...props} RatingButtonsComponent={RatingsButtons} />;
 const columns = [{ name: 'app', header: 'Application', Cell: AppSummaryHistory }];
 
-export const ApplicationListHistoryV2 = ({ initialValues, includeDrafts = undefined, ...props }) => {
+export const ApplicationListHistoryV2 = ({ initialValues, includeDrafts = undefined, isAdminEdit, ...props }) => {
   const _id = initialValues?.applications?._id;
   return (
     <GenericTableContainer
       {...defaultApplicationsListProps}
       columns={columns}
       name={name}
-      data={useAppHistoryData(name, _id, true, true, includeDrafts)}
+      data={useAppHistoryData(name, _id, true, true, includeDrafts, isAdminEdit)}
       showScroll={true}
       {...props}
     />

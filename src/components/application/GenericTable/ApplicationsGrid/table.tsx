@@ -8,13 +8,14 @@ import ApplicationsGridItem from './ApplicationsGridItem';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 import TourStep from '../../../pages/Tour/TourStep';
+import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 const name = 'Applications';
 export const defaultProps: GenericTableContainerProps = {
   isGrid: true,
   GridItem: ApplicationsGridItem,
   name,
-  dialogs: [renderDialogModule(RateNewAppDialog)],
+  dialogs: [renderDialogModule(RateNewAppDialog), renderDialogModule(RateNewAppDialogAdminEdit)],
   columns: [{ name: 'app', header: 'Application', Cell: ApplicationGrid }],
   toolbar: false,
   footer: true,

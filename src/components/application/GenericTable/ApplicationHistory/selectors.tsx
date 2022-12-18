@@ -47,7 +47,7 @@ export const getAppIcon = (app: Application) => {
     : logo;
 };
 
-export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted = false, includeDrafts = false) => {
+export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted = false, includeDrafts = false, isAdminEdit = false) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
   const node = apps[id] ?? {};
   var { groupId } = node;
@@ -94,7 +94,7 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
               getSearchValues: () => {
                 return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
               },
-              getValues: () => app
+              getValues: () => ({ ...app, isAdminEdit })
             };
           })
       : [];

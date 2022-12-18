@@ -7,6 +7,7 @@ import { useColumns } from './columns';
 import FilterButtonBottom from '../Applications/FilterButtonBottom';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import { usePendingAppData } from '../Applications/selectors';
+import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -18,7 +19,7 @@ export const CenterRadio = ({ checked = false }) => {
 
 export const defaultApplicationsProps: GenericTableContainerProps = {
   name,
-  dialogs: [renderDialogModule(RateNewAppDialog)],
+  dialogs: [renderDialogModule(RateNewAppDialog), renderDialogModule(RateNewAppDialogAdminEdit)],
   toolbar: false,
   footer: true,
   search: false
