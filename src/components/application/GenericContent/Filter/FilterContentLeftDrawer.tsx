@@ -19,7 +19,7 @@ import { Grid } from '@mui/material';
 import { useTableFilterValue } from '../../GenericTable/store';
 import { categories } from '../../../../constants';
 import { useFullScreen } from '../../../../hooks';
-import { sortAscendingLabel } from '../../../../helpers';
+import { isEmpty, sortAscending, sortAscendingLabel } from '../../../../helpers';
 
 export const title = 'Apply Filters';
 
@@ -76,7 +76,9 @@ const filters = [
     id: 'Privacy',
     items: Privacies.map(label => ({ value: label, label: withReplacement(label) }))
   }
-].map(i => ({ ...i, color: categories[i.id]?.color, items: i.items?.sort(sortAscendingLabel) }));
+]
+  .map(i => ({ ...i, color: categories[i.id]?.color, items: i.items?.sort(sortAscendingLabel) }))
+  .sort((a, b) => sortAscending(!isEmpty(a.label) ? a.label : a.id, !isEmpty(b.label) ? b.label : b.id));
 
 const ConnectedMultiSelect = ({ id, label, color, items }) => {
   const [value, setValue] = useTableFilterValue('Applications', id);
