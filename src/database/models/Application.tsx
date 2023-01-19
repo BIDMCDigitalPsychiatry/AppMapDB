@@ -1,5 +1,6 @@
 import { AndroidStoreProps } from '../../components/application/DialogField/AndroidStore';
 import { AppleStoreProps } from '../../components/application/DialogField/AppleStore';
+import { sortAscendingToLower } from '../../helpers';
 
 export type Platform = 'Android' | 'iOS' | 'Web';
 export const Platforms: Platform[] = ['Android', 'iOS', 'Web'];
@@ -449,7 +450,8 @@ export type Condition =
   | 'Substance Use (Smoking & Tobacco)'
   | 'Headache'
   | 'Pain'
-  | 'Non-Specific';
+  | 'Non-Specific'
+  | 'Perinatal Depression';
 
 export const Conditions: Condition[] = [
   'Mood Disorders',
@@ -469,8 +471,9 @@ export const Conditions: Condition[] = [
   'Substance Use (Smoking & Tobacco)',
   'Headache',
   'Pain',
-  'Non-Specific'
-];
+  'Non-Specific',
+  'Perinatal Depression'
+].sort(sortAscendingToLower) as Condition[];
 
 export type DeveloperType = 'Government' | 'For Profit Company' | 'Non-Profit Company' | 'Healthcare Company' | 'Academic Institution';
 

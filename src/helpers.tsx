@@ -341,3 +341,5 @@ export const toBase64 = (file: File): Promise<ArrayBuffer | string> =>
 export const getSurveyEmail = survey => survey['What is the best email address we can reach you at?'];
 export const getGroupId = app => (isEmpty(app.groupId) ? app._id : app.groupId);
 export const stringifyEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+
+export const sortAscendingLabel = (a, b) => sortAscendingToLower(a.label, b.label);
