@@ -6,7 +6,7 @@ import { theme } from '../../constants';
 import { useFullScreen, useIsAdmin } from '../../hooks';
 import { useLocation } from 'react-router';
 import { useTheme } from '@mui/material';
-import { homepage } from '../../../package.json';
+import pkg from '../../../package.json';
 
 export type ViewMode = 'table' | 'grid';
 
@@ -133,7 +133,7 @@ export const useLeftDrawer = (): any[] => {
   const { layout }: any = useTheme();
   const fullScreen = useFullScreen();
   const { drawerPaths } = layout;
-  const parts = (homepage ?? '').split('/');
+  const parts = (pkg.homepage ?? '').split('/');
   const lastPart = (parts.length > 0 ? parts[parts.length - 1] : '').replace('/', '');
   const leftDrawerEnabled = drawerPaths.find(p => p === pathname || `/${lastPart}/${p}` === pathname) ? true : false;
   const setLeftDrawerOpen = React.useCallback((open = !leftDrawerOpen) => setLayout({ leftDrawerOpen: open }), [setLayout, leftDrawerOpen]);

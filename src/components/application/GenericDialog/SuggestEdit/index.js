@@ -1,12 +1,12 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
-import { emailUsers } from '../../../../../package.json';
+import pkg from '../../../../../package.json';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
 import { AWS } from '../../../../database/dbConfig';
 
-function sendEmail(name, email, suggestion, applicationInfo) {  
-  const emailAddresses = emailUsers.split(',');
+function sendEmail(name, email, suggestion, applicationInfo) {
+  const emailAddresses = pkg.emailUsers.split(',');
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const appName = getAppName(applicationInfo);

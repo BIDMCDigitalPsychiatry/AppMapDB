@@ -7,7 +7,7 @@ import { createBrowserHistory } from 'history';
 import { AppState } from './store';
 import { persistStore } from 'redux-persist';
 import AppRouter from './components/layout/AppRouter';
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import CssBaselineCustom from './components/layout/CssBaselineCustom';
 import { isDev, useLayoutTheme } from './helpers';

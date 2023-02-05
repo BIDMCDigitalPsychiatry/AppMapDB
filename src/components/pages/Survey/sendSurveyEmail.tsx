@@ -1,4 +1,4 @@
-import { surveyNotificationEmail } from '../../../../package.json';
+import pkg from '../../../../package.json';
 import { AWS } from '../../../database/dbConfig';
 import { hostAddress } from '../../../helpers';
 
@@ -11,7 +11,7 @@ export function sendSurveyNotificationEmail({ email, appName }) {
   var params = {
     Destination: {
       /* required */ CcAddresses: [],
-      ToAddresses: [surveyNotificationEmail]
+      ToAddresses: [pkg.surveyNotificationEmail]
     },
     Message: {
       /* required */

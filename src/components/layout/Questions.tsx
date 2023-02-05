@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { contactEmail } from '../../../package.json';
+import pkg from '../../../package.json';
 
 const primaryText = 'Questions or Concerns?';
 
@@ -14,8 +14,8 @@ export default function Questions() {
         </Typography>
       </Grid>
       <Grid item xs={12} style={{ textAlign: 'right' }}>
-        <Link href={`mailto:${contactEmail}`} underline='always' target='_blank' variant='body1' color='primary'>
-          {contactEmail}
+        <Link href={`mailto:${pkg.contactEmail}`} underline='always' target='_blank' variant='body1' color='primary'>
+          {pkg.contactEmail}
         </Link>
       </Grid>
     </Grid>

@@ -5,7 +5,7 @@ import { isEmpty, uuid } from '../helpers';
 async function uploadS3({
   id = `unknown_${uuid()}`,
   content = undefined,
-  level = 'public', // public or private
+  level = 'public' as any, // public or private
   contentType = 'text/plain'
 }) {
   console.log('Uploading file...', { id, contentType });

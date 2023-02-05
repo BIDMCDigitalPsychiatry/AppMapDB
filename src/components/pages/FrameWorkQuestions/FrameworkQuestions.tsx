@@ -9,8 +9,8 @@ import * as ExploreQuestionsDialog from '../../application/GenericDialog/Explore
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import ReactPlayer from 'react-player';
 import useWidth from '../../layout/ViewPort/hooks/useWidth';
-const videoPath = require('../../../content/zoom_1.mp4').default;
-const videoPath2 = require('../../../content/zoom_0.mp4').default;
+const videoPath = require('../../../content/zoom_1.mp4');
+const videoPath2 = require('../../../content/zoom_0.mp4');
 
 const padding = 32;
 const width = 300;

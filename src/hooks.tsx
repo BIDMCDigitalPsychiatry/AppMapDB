@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { adminUsers } from '../package.json';
+import pkg from '../package.json';
 
 export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
@@ -17,7 +17,7 @@ export const useSignedIn = () => {
 export const useIsAdmin = () => {
   const signedIn = useSignedIn();
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
-  const adminEmails = adminUsers.split(',');
+  const adminEmails = pkg?.adminUsers?.split(',');
   return signedIn && adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
 };
 

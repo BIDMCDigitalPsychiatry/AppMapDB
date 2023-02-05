@@ -1,6 +1,6 @@
 import * as React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
-import { keyWords } from '../../../package.json';
+import pkg from '../../../package.json';
 
 const useStyles = makeStyles(() => ({
   keyWords: {
@@ -15,5 +15,5 @@ const useStyles = makeStyles(() => ({
 
 export default function KeyWords() {
   const classes = useStyles({});
-  return <div className={classes.keyWords}>{keyWords}</div>;
+  return <div className={classes.keyWords}>{pkg.keyWords}</div>;
 }

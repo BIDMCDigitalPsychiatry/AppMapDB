@@ -6,7 +6,7 @@ import { useSignedIn } from '../../hooks';
 import ReactPlayer from 'react-player';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
-const contentPath = require('../../content/zoom_0.mp4').default;
+const contentPath = require('../../content/zoom_0.mp4');
 
 export default function RateNewAppIntro() {
   const handleChangeRoute = useHandleChangeRoute();

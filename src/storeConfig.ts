@@ -6,17 +6,17 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createStore, applyMiddleware, compose, combineReducers, StoreEnhancer, Store } from 'redux';
 import { persistReducer } from 'redux-persist';
 import * as localforage from 'localforage';
-import packageJson from '../package.json';
+import pkg from '../package.json';
 
 localforage &&
   localforage.config &&
   localforage.config({
     driver: localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
-    name: `${packageJson.name}-local-storage`,
+    name: `${pkg.name}-local-storage`,
     version: 1.0,
     size: 4980736, // Size of database, in bytes. WebSQL-only for now.
     storeName: 'keyvaluepairs', // Should be alphanumeric, with underscores.
-    description: `${packageJson.name} application database`
+    description: `${pkg.name} application database`
   });
 
 export const persistConfig = {

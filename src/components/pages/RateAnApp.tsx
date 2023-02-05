@@ -3,11 +3,11 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
-import { emailUsers } from '../../../package.json';
+import pkg from '../../../package.json';
 import { AWS } from '../../database/dbConfig';
 
 function sendEmail({ name, title, email, institution, details }) {
-  const emailAddresses = emailUsers.split(',');
+  const emailAddresses = pkg.emailUsers.split(',');
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const body = `A user is interested in app rating:

@@ -7,7 +7,7 @@ export default function useS3Bucket({ setState = undefined } = {}) {
     ({
       id = `unknown_${uuid()}`,
       content = undefined,
-      level = 'public', // public or private
+      level = 'public' as any, // public or private
       contentType = 'text/plain',
       onStart = undefined,
       onSuccess = undefined,
@@ -17,7 +17,7 @@ export default function useS3Bucket({ setState = undefined } = {}) {
       onStart && onStart();
       setState && setState(prev => ({ ...prev, loading: true, success: false }));
       Storage.put(id, content, {
-        level,
+        level,        
         contentType
       })
         .then(result => {
