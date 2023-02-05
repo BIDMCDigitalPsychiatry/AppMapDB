@@ -4,7 +4,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useLeftDrawer } from './store';
-import { useAppBarHeight, useFooterHeight } from './hooks';
+import { useAppBarHeight, useFooterHeight, useTourCompleted } from './hooks';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import { useLocation } from 'react-router';
@@ -15,6 +15,8 @@ import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
+import IntroVideoDialog, { title } from '../application/GenericDialog/IntroVideo';
+import { useDialogState } from '../application/GenericDialog/useDialogState';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -88,12 +90,23 @@ export default function Layout({ children }) {
     }
   }, [changeRoute, surveyId, followUpSurveyType, appId]);
 
+  const [, setState] = useDialogState(title);
+  const { tourCompleted } = useTourCompleted();
+
+  React.useEffect(() => {
+    if (!tourCompleted) {
+      console.log('Opening intro video dialog');
+      setState({ open: true });
+    }
+  }, [setState, tourCompleted]);
+
   return (
     <div data-testid='app-container' className={classes.root}>
       <main id='app-content' ref={setScrollElement} className={classes.content}>
         <ScrollElementProvider value={scrollElement}>
           <ApplicationBar trigger={trigger} />
           <LeftDrawer />
+          <IntroVideoDialog />
           <div className={classes.toolbar} />
           <div className={classes.innerContent}>{children}</div>
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
