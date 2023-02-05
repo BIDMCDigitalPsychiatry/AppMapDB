@@ -597,10 +597,8 @@ export default function Survey() {
       <Grid container justifyContent='center' style={{ marginTop: 24, padding: sm ? 8 : 24 }} spacing={sm ? 1 : 4}>
         <Grid item>
           <Grid container className={classes.whiteHeader} spacing={1}>
-            <Grid item xs={12} style={{ cursor: 'pointer' }}>
-              <Button onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
-                <Typography>{`<   Back To Surveys`}</Typography>
-              </Button>
+            <Grid item component={Button} onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
+              <Typography>{`<   Back To Surveys`}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -616,7 +614,7 @@ export default function Survey() {
       <Grid item>
         <Grid container className={classes.whiteHeader} spacing={1}>
           {mode === 'view' && (
-            <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
+            <Grid item component={Button} onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
               <Typography>{`<   Back To Surveys`}</Typography>
             </Grid>
           )}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Divider, Box, Collapse, IconButton } from '@mui/material';
+import { Grid, Typography, Divider, Box, Collapse, IconButton, Button } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../hooks';
@@ -64,14 +64,13 @@ export default function ViewApp() {
   }, [setOpen]);
 
   return (
-    <Grid container justifyContent='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
-      <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
+    <Grid container justifyContent='flex-start' style={{ padding: sm ? 16 : 32 }} spacing={2}>
+      <Grid component={Button} item style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
         <Typography>{`<   Back To Results`}</Typography>
       </Grid>
       <Grid item xs={12}>
         <ViewAppHeader app={app} />
       </Grid>
-
       <Grid item xs={12}>
         <Divider />
         <Collapse in={open}>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, Typography, Divider, Box, Collapse, IconButton } from '@mui/material';
+import { Grid, Typography, Divider, Box, Collapse, IconButton, Button } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../../hooks';
@@ -78,7 +78,7 @@ export default function SurveyFollowUp() {
 
   return (
     <Grid container justifyContent='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
-      <Grid item xs={12} style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl('/Apps'), {})}>
+      <Grid item component={Button} onClick={handleChangeRoute(publicUrl('/Apps'), {})}>
         <Typography>{`<   Back To Applications`}</Typography>
       </Grid>
       <Grid item xs={12}>
