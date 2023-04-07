@@ -187,7 +187,7 @@ export const useColumns = () => {
 
   const columns = [
     { name: 'app', header: 'Application', minWidth: 330, Cell: AppSummary, hoverable: false, sort: 'textLower' },
-    { name: 'updated', header: 'Last Updated', width: 225, Cell: LastUpdated, hoverable: false, sort: 'decimal' },
+    { name: 'updated', header: 'Last MINDapps evaluation', width: 225, Cell: LastUpdated, hoverable: false, sort: 'decimal' },
     { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn, hoverable: false },
     {
       name: 'platforms',

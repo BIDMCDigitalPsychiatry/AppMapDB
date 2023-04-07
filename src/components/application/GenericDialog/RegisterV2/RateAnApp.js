@@ -40,7 +40,7 @@ export default function RateAnApp({ onClick = undefined }) {
     <Grid container alignItems='center' spacing={2} className={classes.rateAnApp}>
       <Grid item xs={12}>
         <Typography variant='h5' style={{ fontWeight: 900 }}>
-          Interested in rating an app?
+          Interested in joining the team?
         </Typography>
       </Grid>
       <Grid item xs={12}>

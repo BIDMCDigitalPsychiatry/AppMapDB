@@ -143,7 +143,7 @@ export default function ApplicationsGridItem(props: any) {
           <Grid container style={{ marginTop: 4 }}>
             <Grid item xs={12}>
               <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                Last Rating: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                Last MINDapps evaluation: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
               </Typography>
             </Grid>
           </Grid>

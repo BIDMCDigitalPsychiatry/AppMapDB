@@ -31,7 +31,7 @@ export const useColumns = ({ email }) => {
     { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
-      header: 'Last Updated',
+      header: 'Last MINDapps evaluation',
       width: 225,
       Cell: LastUpdated,
       hoverable: false,
