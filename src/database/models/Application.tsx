@@ -417,6 +417,10 @@ export const withReplacement = text =>
     ? 'Aggregated Data Shared'
     : text === 'Is De-Identified Data Shared'
     ? 'De-Identified/Anonymized Data Shared'
+    : text === 'Biodata'
+    ? 'Passive Data'
+    : text === 'Bio Feedback with Sense Data'
+    ? 'Passive Data with Sense Data'
     : text;
 
 export const FeatureImages = [
