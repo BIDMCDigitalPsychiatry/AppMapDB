@@ -385,7 +385,7 @@ export const FeatureQuestions = [
     label: 'Does have have a connection to coach/therapist?',
     tooltip: 'The app has a built-in way to connect with a provider or coach.'
   },
-  { value: 'Biodata', label: 'Does app have biodata tracking?', tooltip: 'Does it collect heart rate, skin conductance, etc.' },
+  { value: 'Biodata', label: 'Does app have passive data tracking?', tooltip: 'Does it collect heart rate, skin conductance, etc.' },
   { value: 'Goal Setting/Habits', label: 'Does app have goal setting/habits?', tooltip: 'Productivity feature allowing user to set and check in on goals.' },
 
   {
@@ -396,9 +396,9 @@ export const FeatureQuestions = [
   { value: 'Bbot Interaction', label: 'Does app have chatbot interaction?', tooltip: 'An example would be interaction with a virtual character.' },
   {
     value: 'Bio Feedback with Sense Data',
-    label: 'Does app have bio feedback with sense data?',
+    label: 'Does app have passive feedback with sense data?',
     tooltip:
-      'The app uses biodata to provide feedback/recommendations (an app that will recommend more breathing exercises to respond to high heart rate, for example).'
+      'The app uses passive data to provide feedback/recommendations (an app that will recommend more breathing exercises to respond to high heart rate, for example).'
   },
   {
     value: 'Identify New Conditions',
@@ -417,6 +417,10 @@ export const withReplacement = text =>
     ? 'Aggregated Data Shared'
     : text === 'Is De-Identified Data Shared'
     ? 'De-Identified/Anonymized Data Shared'
+    : text === 'Biodata'
+    ? 'Passive Data'
+    : text === 'Bio Feedback with Sense Data'
+    ? 'Passive Data with Sense Data'
     : text;
 
 export const FeatureImages = [
