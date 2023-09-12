@@ -209,7 +209,8 @@ export const getAndroidIdFromUrl = (url: string) => {
   var index = (url as string)?.indexOf(searchStr);
   if (index >= 0) {
     var indexEnd = url.indexOf('&', index);
-    return url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
+    var returnUrl = url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
+    return returnUrl.split('?')[0]; // disregard any extra url parameters
   }
 };
 
@@ -218,7 +219,8 @@ export const getAppleIdFromUrl = (url: string) => {
   var index = (url as string)?.indexOf(searchStr);
   if (index >= 0) {
     var indexEnd = url.indexOf('&', index);
-    return url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
+    var returnUrl = url.substring(index + searchStr.length, indexEnd >= 0 ? indexEnd : undefined);
+    return returnUrl.split('?')[0]; // disregard any extra url parameters
   }
 };
 
