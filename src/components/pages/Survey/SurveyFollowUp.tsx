@@ -17,7 +17,7 @@ import ViewAppRating from '../ViewAppRating';
 import { tables } from '../../../database/dbConfig';
 import { AppState } from '../../../store';
 import { useSelector } from 'react-redux';
-import useAppTableDataTest from '../useAppTableDataTest';
+import useAppTableData from '../useAppTableData';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -41,7 +41,7 @@ export default function SurveyFollowUp() {
 
   const { surveyId, followUpSurveyType, appId, from } = state;
 
-  const { handleGetRow } = useAppTableDataTest({ trigger: false });
+  const { handleGetRow } = useAppTableData({ trigger: false });
   React.useEffect(() => {
     handleGetRow(appId);
   }, [handleGetRow, appId]);

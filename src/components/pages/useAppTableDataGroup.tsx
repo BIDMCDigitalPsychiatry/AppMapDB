@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { isEmpty } from '../../helpers';
-import useAppTableDataTest from './useAppTableDataTest';
+import useAppTableData from './useAppTableData';
 
 export default function useAppTableDataGroup({ trigger = true, groupId = undefined } = {}) {
-  var { handleRefresh, ...remaining } = useAppTableDataTest({ trigger: false });
+  var { handleRefresh, ...remaining } = useAppTableData({ trigger: false });
 
   const handleRefreshGroup = React.useCallback(
     ({ groupId }) => {

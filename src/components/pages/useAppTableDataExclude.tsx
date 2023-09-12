@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useAppTableDataTest from './useAppTableDataTest';
+import useAppTableData from './useAppTableData';
 
 const excludeParams = {
   FilterExpression: '#exclude <> :exclude', // If rows have the exclude set to true then don't retreive them
@@ -12,7 +12,7 @@ const excludeParams = {
 };
 
 export default function useAppTableDataExclude({ trigger = true } = {}) {
-  var { handleRefresh, ...remaining } = useAppTableDataTest({ trigger: false });
+  var { handleRefresh, ...remaining } = useAppTableData({ trigger: false });
 
   const handleRefreshExclude = React.useCallback(() => {
     handleRefresh({ requestParams: excludeParams });

@@ -12,20 +12,66 @@ import { useAdminMode } from '../layout/store';
 const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
-export default function useAppTableData() {
+export default function useAppTableData({ trigger = true, triggerWhenEmpty = false } = {}) {
   const [apps, setApps] = useApplications();
-  const handleRefresh = React.useCallback(() => {
-    const getItems = async () => {
-      let items;
-      var params = {
-        TableName: tables.applications,
-        ExclusiveStartKey: undefined
+  const [loading, setLoading] = React.useState(false);
+  const count = Object.keys(apps).length;
+
+  const handleGetRow = React.useCallback(
+    id => {
+      const getRow = async id => {
+        var params = {
+          TableName: tables.applications,
+          Key: { _id: id }
+        };
+        try {
+          setLoading(true);
+          var row = await dynamo.get(params).promise();
+        } catch (err) {
+          console.error('Error querying row id: ' + id);
+          setLoading(false);
+          return;
+        }
+        if (row?.Item && row?.Item._id) {
+          setApps(prev => ({
+            ...prev,
+            [row.Item?._id]: row.Item
+          }));
+        }
+        setLoading(false);
       };
-      do {
+      getRow(id);
+    },
+    [setApps]
+  );
+
+  const handleRefresh = React.useCallback(
+    ({ requestParams = undefined } = {}) => {
+      const getItems = async () => {
         let scanResults = [];
-        items = await dynamo.scan(params).promise();
-        items.Items.forEach(i => scanResults.push(i));
-        params.ExclusiveStartKey = items.LastEvaluatedKey;
+        let items;
+        var params = {
+          TableName: tables.applications,
+          ExclusiveStartKey: undefined,
+          ...requestParams
+        };
+        var firstPass = true;
+        setLoading(true);
+        do {
+          items = await dynamo.scan(params).promise();
+          items.Items.forEach(i => scanResults.push(i));
+          params.ExclusiveStartKey = items.LastEvaluatedKey;
+          if (firstPass) {
+            firstPass = false; // Show the first results so the user doesn't see an empty screen
+            setApps(prev => ({
+              ...prev,
+              ...scanResults.reduce((f, c: any) => {
+                f[c._id] = c;
+                return f;
+              }, {})
+            }));
+          }
+        } while (typeof items.LastEvaluatedKey != 'undefined');
         setApps(prev => ({
           ...prev,
           ...scanResults.reduce((f, c: any) => {
@@ -33,15 +79,26 @@ export default function useAppTableData() {
             return f;
           }, {})
         }));
-      } while (typeof items.LastEvaluatedKey != 'undefined');
-    };
-    getItems();
-  }, [setApps]);
+        setLoading(false);
+      };
+      getItems();
+    },
+    [setApps]
+  );
 
   // Load data from the database
   React.useEffect(() => {
-    handleRefresh();
-  }, [handleRefresh]);
+    trigger && handleRefresh();
+  }, [trigger, handleRefresh]);
+
+  React.useEffect(() => {
+    if (triggerWhenEmpty && !trigger) {
+      if (count === 0) {
+        console.log('Pre-loading database cache...');
+        handleRefresh();
+      }
+    }
+  }, [trigger, count, triggerWhenEmpty, handleRefresh]);
 
   const [adminMode] = useAdminMode();
   var data = apps
@@ -145,5 +202,5 @@ export default function useAppTableData() {
 
   var filtered = useTableFilter(filteredData, table, customFilter);
 
-  return { filtered, apps, setApps, handleRefresh };
+  return { filtered, loading, apps, setApps, handleRefresh, handleGetRow };
 }

@@ -6,7 +6,7 @@ import * as ApplicationDialog from '../application/GenericDialog/ApplicationDial
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import SearchHeaderRedux from './SearchHeaderRedux';
 import { useTheme } from '@mui/material';
-import useAppTableDataTest from './useAppTableDataTest';
+import useAppTableData from './useAppTableData';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../layout/hooks';
 
@@ -17,7 +17,7 @@ export default function Apps() {
   const { layout } = useTheme() as any;
   const { tablefooterheight } = layout;
   const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
-  const { filtered } = useAppTableDataTest(); // Trigger data query
+  const { filtered } = useAppTableData(); // Trigger data query
 
   return (
     <>
