@@ -36,6 +36,7 @@ export default function ViewApp() {
   const [state] = useRouteState();
   const { app = {}, from } = state;
   const { _id, appleStore, androidStore } = app;
+  console.log('Viewing app', app);
 
   const fromSurvey = from === 'Survey';
 
