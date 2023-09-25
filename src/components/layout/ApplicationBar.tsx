@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, IconButton, Menu, MenuItem, Divider, Slide } from '@mui/material';
+import { Grid, IconButton, Menu, MenuItem, Divider, Slide, Button } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import AppBar from '@mui/material/AppBar';
@@ -14,7 +14,7 @@ import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
-import { useLeftDrawer, useSetUser } from './store';
+import { useLayout, useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
 import { grey } from '@mui/material/colors';
 import useTabSelector from '../application/Selector/useTabSelector';
@@ -138,6 +138,15 @@ export default function ApplicationBar({ trigger }) {
     changeRoute(publicUrl('/Home'));
   }, [setStep, changeRoute, handleClose]);
 
+  const version = useSelector((s: any) => s.layout.version);
+  const [, setLayout] = useLayout();
+
+  const handleChangeVersion = React.useCallback(() => {
+    setLayout({ version: version === 'lite' ? 'full' : 'lite' });
+  }, [version, setLayout]);
+
+  const isAdmin = useIsAdmin();
+
   return (
     <>
       {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
@@ -160,6 +169,13 @@ export default function ApplicationBar({ trigger }) {
               </Grid>
               <Grid item>
                 <Grid container justifyContent='flex-end' alignItems='center'>
+                  {isAdmin && (
+                    <Grid item>
+                      <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
+                        version === 'lite' ? 'Full' : 'Lite'
+                      } Version`}</Button>
+                    </Grid>
+                  )}
                   <Grid item>
                     <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
                       {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}

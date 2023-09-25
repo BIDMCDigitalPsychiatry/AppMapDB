@@ -18,6 +18,7 @@ export interface State {
   routeState: any;
   step?: number | null;
   tourCompleted?: boolean;
+  version: 'lite' | 'full';
 }
 
 const defaultState = {
@@ -28,7 +29,8 @@ const defaultState = {
   routeState: {},
   leftDrawerOpen: false,
   step: 0,
-  tourCompleted: false
+  tourCompleted: false,
+  version: 'full'
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
