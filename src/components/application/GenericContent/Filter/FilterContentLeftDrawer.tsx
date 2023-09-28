@@ -61,7 +61,9 @@ const getFilters = version =>
     {
       id: 'Features',
       items: Features.map(label => ({ value: label, label: withReplacement(label) })).filter(({ value }) =>
-        version === 'full' ? true : ['Journaling', 'Mindfulness', 'Track Mood', 'Track Medication', 'Track Sleep', 'CBT', 'DBT'].includes(value)
+        version === 'full'
+          ? true
+          : ['Journaling', 'Mindfulness', 'Track Mood', 'Track Symptoms', 'Track Medication', 'Track Sleep', 'CBT', 'DBT'].includes(value)
       )
     },
     version === 'full' && {
