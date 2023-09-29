@@ -176,7 +176,7 @@ export default function RanAnApp() {
           <Grid item xs={12}>
             <Typography color='textSecondary'>
               We welcome app raters from all backgrounds. The training program is an interactive, self-paced online process lasting about three hours, after
-              which trainees contribute their ratins to the database. Raters are integral members of the database community.
+              which trainees contribute their ratings to the database. Raters are integral members of the database community.
             </Typography>
           </Grid>
         </Grid>
