@@ -141,11 +141,12 @@ export default function ApplicationBar({ trigger }) {
   const version = useSelector((s: any) => s.layout.version);
   const [, setLayout] = useLayout();
 
-  const handleChangeVersion = React.useCallback(() => {
+  /*const handleChangeVersion = React.useCallback(() => {
     setLayout({ version: version === 'lite' ? 'full' : 'lite' });
   }, [version, setLayout]);
+  */
 
-  const isAdmin = useIsAdmin();
+  //const isAdmin = useIsAdmin();
 
   return (
     <>
@@ -169,13 +170,13 @@ export default function ApplicationBar({ trigger }) {
               </Grid>
               <Grid item>
                 <Grid container justifyContent='flex-end' alignItems='center'>
-                  {isAdmin && (
+                  {/*isAdmin && (
                     <Grid item>
                       <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
                         version === 'lite' ? 'Full' : 'Lite'
                       } Version`}</Button>
                     </Grid>
-                  )}
+                    )*/}
                   <Grid item>
                     <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
                       {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}

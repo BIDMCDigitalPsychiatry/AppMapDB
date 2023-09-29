@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 export const useGetFilters = () => {
   const [, setFilters] = useFilters();
-  const signedIn = useSignedIn();  
+  const signedIn = useSignedIn();
   const uid = useSelector((s: any) => s.layout.user?.username);
 
   // Load data from the database

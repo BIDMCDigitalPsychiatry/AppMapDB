@@ -101,7 +101,7 @@ const ConnectedMultiSelect = ({ id, label, color, items }) => {
 
 export default function FilterContentLeftDrawer() {
   const fullScreen = useFullScreen();
-  const version = useSelector((s: any) => s.layout.version);
+  const version = 'full'; // useSelector((s: any) => s.layout.version);
   return (
     <Grid container>
       {getFilters(version)
