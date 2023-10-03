@@ -2,6 +2,7 @@ import React from 'react';
 import GenericContent from '../GenericContent';
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import {
+  TreatmentApproaches,
   Features,
   Conditions,
   Platforms,
@@ -228,6 +229,14 @@ export default function FilterContent({ id = title, ...other }) {
         items: DeveloperTypes.map(label => ({ value: label, label })),
         style: { minWidth, maxWidth }
       },
+      {
+        id: 'TreatmentApproaches',
+        label: 'Treatment Approaches',
+        Field: MultiSelectCheck,
+        items: TreatmentApproaches.map(label => ({ value: label, label })),
+        style: { minWidth, maxWidth }
+      },
+
       {
         id: 'Features',
         Field: MultiSelectCheck,

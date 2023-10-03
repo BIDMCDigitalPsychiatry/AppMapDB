@@ -6,6 +6,7 @@ import {
   PrivacyQuestions,
   FunctionalityQuestions,
   ClinicalFoundationQuestions,
+  TreatmentApproachQuestions,
   FeatureQuestions,
   EngagementQuestions,
   UseQuestions,
@@ -247,6 +248,26 @@ const steps = (type = undefined, data = []) => [
         },
         required: true,
         initialValue: 0
+      }
+    ].map(f => ({ ...f, container: tables.applications }))
+  },
+  {
+    label: 'Enter treatment approach information. Click next to continue.',
+    Template: ApplicationInfo,
+    fields: [
+      {
+        id: 'androidStore',
+        Field: AndroidStore
+      },
+      {
+        id: 'appleStore',
+        Field: AppleStore
+      },
+      {
+        id: 'treatmentApproaches',
+        label: 'Treatment Approaches',
+        Field: YesNoGroup,
+        items: TreatmentApproachQuestions
       }
     ].map(f => ({ ...f, container: tables.applications }))
   },
