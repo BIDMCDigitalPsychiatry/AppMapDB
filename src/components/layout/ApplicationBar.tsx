@@ -145,9 +145,6 @@ export default function ApplicationBar({ trigger }) {
     setLayout({ version: version === 'lite' ? 'full' : 'lite' });
   }, [version, setLayout]);
 
-  const isAdmin = useIsAdmin();
-  const isTestUser = useIsTestUser();
-
   return (
     <>
       {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
@@ -170,13 +167,11 @@ export default function ApplicationBar({ trigger }) {
               </Grid>
               <Grid item>
                 <Grid container justifyContent='flex-end' alignItems='center'>
-                  {isAdmin && isTestUser && (
-                    <Grid item>
-                      <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
-                        version === 'lite' ? 'Full' : 'Lite'
-                      } Version`}</Button>
-                    </Grid>
-                  )}
+                  <Grid item>
+                    <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
+                      version === 'lite' ? 'Full' : 'Lite'
+                    } Version`}</Button>
+                  </Grid>
                   <Grid item>
                     <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
                       {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
