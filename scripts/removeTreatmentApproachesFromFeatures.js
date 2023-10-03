@@ -59,7 +59,7 @@ const migrateDatabase = async () => {
     if (features !== undefined) {
       console.log('Migrating ' + k + ', i=' + i);
       const valuesToRemove = ['ACT', 'CBT', 'DBT', 'iCBT or Sleep Therapy', 'Mindfulness', 'Physical Health Exercises'];
-      const newFeatures = [...features.filter(v => valuesToRemove.includes(v))];      
+      const newFeatures = [...features.filter(v => !valuesToRemove.includes(v))];      
       // remove any un-nessary data and only keep the required fields to reduce snapshot size
       await updateRow({ ...remaining, features: newFeatures });
     } else {
