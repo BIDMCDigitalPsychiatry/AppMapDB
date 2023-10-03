@@ -114,6 +114,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
             company: getAppCompany(app),
             costs: app.costs?.join(' '),
             platforms: app.platforms?.join(' '), // for searching
+            treatmentApproaches: app.treatmentApproaches?.join(' '), // for searching
             features: app.features?.join(' '), // for searching
             functionalities: app.functionalities?.join(' '),
             engagements: app.engagements?.join(' '),
@@ -175,6 +176,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
     Platforms = [],
     Functionalities = [],
     Cost = [],
+    TreatmentApproaches = [],
     Features = [],
     Inputs = [],
     Outputs = [],
@@ -190,6 +192,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
     isMatch(Platforms, r.platforms) &&
     isMatch(Functionalities, r.functionalities) &&
     isMatch(Cost, r.costs) &&
+    isMatch(TreatmentApproaches, r.treatmentApproaches) &&
     isMatch(Features, r.features) &&
     isMatch(Engagements, r.engagements) &&
     isMatch(Inputs, r.inputs) &&

@@ -315,6 +315,27 @@ export const Outputs: Output[] = [
   'Link to Formal Care/Coaching'
 ];
 
+export type TreatmentApproach = 'ACT' | 'CBT' | 'DBT' | 'iCBT or Sleep Therapy' | 'Mindfulness' | 'Physical Health Exercises';
+
+export const TreatmentApproachQuestions = [
+  { value: 'ACT', label: 'Does app have ACT?', tooltip: 'Does the app provide Acceptance and Commitment Therapy?' },
+  { value: 'CBT', label: 'Does app have CBT?', tooltip: 'Does the app provide cognitive-behavioral therapy?' },
+  { value: 'DBT', label: 'Does app have DBT?', tooltip: 'Does the app provide dialectical behavior therapy?' },
+  {
+    value: 'iCBT or Sleep Therapy',
+    label: 'Does app have iCBT or sleep therapy?',
+    tooltip: 'Does the app offer sleep therapy of any kind (including iCBT, a targeted sleep intervention)?'
+  },
+  { value: 'Mindfulness', label: 'Does app have mindfulness?' },
+  {
+    value: 'Physical Health Exercises',
+    label: 'Does app have physical health exercises?',
+    tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT exercise tracking.'
+  }
+];
+
+export const TreatmentApproaches = TreatmentApproachQuestions.map(fq => fq.value as Feature);
+
 export type Feature =
   | 'Track Mood'
   | 'Track Medication'
@@ -324,18 +345,12 @@ export type Feature =
   | 'Physical Health'
   | 'Psychoeducation'
   | 'Journaling'
-  | 'Mindfulness'
   | 'Deep Breathing'
   | 'Picture Gallery/Hope Board'
-  | 'iCBT or Sleep Therapy'
-  | 'CBT'
-  | 'ACT'
-  | 'DBT'
   | 'Peer Support'
   | 'Coach/Therapist Connection'
   | 'Biodata'
   | 'Goal Setting/Habits'
-  | 'Physical Health Exercises'
   | 'Bbot Interaction'
   | 'Bio Feedback with Sense Data';
 
@@ -360,21 +375,12 @@ export const FeatureQuestions = [
     tooltip: 'Does app provide definitions, explanations of different diagnoses? Is it didactic?'
   },
   { value: 'Journaling', label: 'Does app have journaling?' },
-  { value: 'Mindfulness', label: 'Does app have mindfulness?' },
   { value: 'Deep Breathing', label: 'Does app have deep breathing?' },
   {
     value: 'Picture Gallery/Hope Board',
     label: 'Does app have a picture gallery or hope board?',
     tooltip: 'Does the app allow a user to curate a gallery of saved and searched images and quotes?'
   },
-  {
-    value: 'iCBT or Sleep Therapy',
-    label: 'Does app have iCBT or sleep therapy?',
-    tooltip: 'Does the app offer sleep therapy of any kind (including iCBT, a targeted sleep intervention)?'
-  },
-  { value: 'CBT', label: 'Does app have CBT?', tooltip: 'Does the app provide cognitive-behavioral therapy?' },
-  { value: 'ACT', label: 'Does app have ACT?', tooltip: 'Does the app provide Acceptance and Commitment Therapy?' },
-  { value: 'DBT', label: 'Does app have DBT?', tooltip: 'Does the app provide dialectical behavior therapy?' },
   {
     value: 'Peer Support',
     label: 'Does app have peer support?',
@@ -387,12 +393,6 @@ export const FeatureQuestions = [
   },
   { value: 'Biodata', label: 'Does app have passive data tracking?', tooltip: 'Does it collect heart rate, skin conductance, etc.' },
   { value: 'Goal Setting/Habits', label: 'Does app have goal setting/habits?', tooltip: 'Productivity feature allowing user to set and check in on goals.' },
-
-  {
-    value: 'Physical Health Exercises',
-    label: 'Does app have physical health exercises?',
-    tooltip: 'Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT exercise tracking.'
-  },
   { value: 'Bbot Interaction', label: 'Does app have chatbot interaction?', tooltip: 'An example would be interaction with a virtual character.' },
   {
     value: 'Bio Feedback with Sense Data',
@@ -426,12 +426,12 @@ export const withReplacement = text =>
 export const FeatureImages = [
   { value: 'Track Mood', label: 'Mood Tracking', image: '/images/newsmile.png' },
   { value: 'Journaling', label: 'Journaling', image: '/images/newbook.png' },
-  { value: 'Mindfulness', label: 'Mindfulness', image: '/images/newflower.png' },
+  //{ value: 'Mindfulness', label: 'Mindfulness', image: '/images/newflower.png' },
   { value: 'Peer Support', label: 'Peer Support', image: '/images/newpeople.png' },
   { value: 'Psychoeducation', label: 'Psychoeducation', image: '/images/newlightbulb.png' },
   { value: 'Track Medication', label: 'Medication Tracking', image: '/images/newpill.png' },
-  { value: 'Track Sleep', label: 'Sleep Tracking', image: '/images/newzzz.png' },
-  { value: 'CBT', label: 'Cognitive Behavioral Therapy', image: '/images/newmind.png' }
+  { value: 'Track Sleep', label: 'Sleep Tracking', image: '/images/newzzz.png' }
+  //{ value: 'CBT', label: 'Cognitive Behavioral Therapy', image: '/images/newmind.png' }
 ];
 
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);
@@ -513,7 +513,7 @@ export const UseQuestions = [
     label: 'Intended for hybrid use with a clinician and treatment plan?',
     tooltip:
       'Is the app intended to be used as an adjunct to care? Apps that have built-in methods of connecting with a provider meet this criteria. However, a teletherapy app would not be intended for hybrid care, as the app replaces in-person care.'
-  }  
+  }
 ];
 
 export const Uses = UseQuestions.map(uq => uq.value as Use);
@@ -534,6 +534,7 @@ export default interface Application {
   functionalities: Functionality[]; //FunctionalityQuestions
   uses: Use[]; //UseQuestions
   privacies: Privacy[]; // PrivacyQuestions
+  treatmentApproaches: TreatmentApproach[]; // TreatmentApproachQuestions
   features: Feature[]; // FeatureQuestions
   engagements: Engagement[]; // EngagementQuestions
   costs: Cost[]; // CostQuestions

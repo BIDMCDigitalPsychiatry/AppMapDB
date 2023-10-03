@@ -2,6 +2,7 @@ import React from 'react';
 import GenericContent from '../GenericContent';
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import {
+  TreatmentApproachQuestions,
   Features,
   Conditions,
   Platforms,
@@ -40,7 +41,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
           {injectField('DeveloperTypes')}
           {injectField('Conditions')}
         </Grid>
-        <Box mt={spacing/2}>
+        <Box mt={spacing / 2}>
           <Typography variant='h6'>Interoperability</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
@@ -56,14 +57,14 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
           {injectField('Features')}
           {injectField('Engagements')}
         </Grid>
-        <Box mt={spacing/2}>
+        <Box mt={spacing / 2}>
           <Typography variant='h6'>Clinical Foundation</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('ClinicalFoundations')}
           </Grid>
         </Box>
-        <Box mt={spacing/2}>
+        <Box mt={spacing / 2}>
           <Typography variant='h6'>Privacy</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
@@ -129,6 +130,13 @@ export default function FilterContentInteractive({ id = title, ...other }) {
         style: { minWidth, maxWidth }
       },
       {
+        id: 'TreatmentApproaches',
+        label: 'Treatment Approaches',
+        Field: MultiSelectCheck,
+        items: TreatmentApproachQuestions.map(label => ({ value: label, label })),
+        style: { minWidth, maxWidth }
+      },
+      {
         id: 'Features',
         Field: MultiSelectCheck,
         items: Features.map(label => ({ value: label, label })),
@@ -178,7 +186,6 @@ export default function FilterContentInteractive({ id = title, ...other }) {
 
   const [values, setValues] = useTableFilterValues('Applications');
 
-  
   return (
     <Container>
       <GenericContent {...props} Content={Content} values={values} setValues={setValues} disableInitialize={true} />

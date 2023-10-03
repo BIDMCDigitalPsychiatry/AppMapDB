@@ -8,6 +8,7 @@ import Application, {
   FunctionalityQuestions,
   ClinicalFoundations,
   ClinicalFoundationQuestions,
+  TreatmentApproaches,
   Features,
   Inputs,
   Outputs,
@@ -151,6 +152,11 @@ const PrivacyRadios =
   pinned =>
   ({ privacies = [] }: Application) =>
     buildRadiosWithLabels(PrivacyQuestions, sortPinned(PrivacyLabels, 'privacies', pinned), privacies);
+
+const TreatmentApproachRadios =
+  pinned =>
+  ({ treatmentApproaches = [] }) =>
+    buildRadios(sortPinned(TreatmentApproaches, 'treatmentApproaches', pinned), treatmentApproaches, 16);
 
 const FeaturesRadios =
   pinned =>
@@ -314,6 +320,27 @@ export const useColumns = () => {
         </>
       ),
       Cell: ClinicalFoundationRadios(pinned)
+    },
+    {
+      name: 'treatmentApproaches',
+      width: 5000,
+      header: (
+        <>
+          <Grid container style={{ paddingRight: 16 }}>
+            <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'treatmentApproaches')}>
+              <Grid container justifyContent='center'>
+                Treatment Approaches
+              </Grid>
+            </Grid>
+            {sortPinned(TreatmentApproaches, 'treatmentApproaches', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('treatmentApproaches', t)} className={classes.hover}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: TreatmentApproachRadios(pinned)
     },
     {
       name: 'features',

@@ -25,6 +25,7 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
           {injectField('costs')}
           {injectField('developerTypes')}
           {injectField('functionalities')}
+          {injectField('treatmentApproaches')}
           {injectField('features')}
           {injectField('engagements')}
           {injectField('uses')}

@@ -21,6 +21,13 @@ export const useIsAdmin = () => {
   return signedIn && adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
 };
 
+export const useIsTestUser = () => {
+  const signedIn = useSignedIn();
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
+  const testEmails = pkg?.testUsers?.split(',');
+  return signedIn && testEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+};
+
 export const useHandleLink = link => {
   return React.useCallback(() => {
     const win = window.open(link, '_blank');

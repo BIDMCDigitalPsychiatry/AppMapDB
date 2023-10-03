@@ -1,12 +1,13 @@
 import { createTheme, Theme, adaptV4Theme } from '@mui/material/styles';
 import { notoSans, lato } from './fonts';
-import { blue, cyan, deepOrange, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
+import { blue, cyan, deepOrange, red, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
 import { onlyUnique } from './helpers';
 import {
   ClinicalFoundationQuestions,
   CostQuestions,
   DeveloperTypeQuestions,
   EngagementQuestions,
+  TreatmentApproachQuestions,
   FeatureQuestions,
   FunctionalityQuestions,
   InputQuestions,
@@ -157,6 +158,13 @@ export const categories = {
     values: ({ clinicalFoundations = [] }) => clinicalFoundations.filter(onlyUnique),
     valueItems: ({ clinicalFoundations = [] }) =>
       clinicalFoundations.filter(onlyUnique).map(label => ({ label, tooltip: ClinicalFoundationQuestions.find(cq => cq.value === label)?.tooltip }))
+  },
+  TreatmentApproaches: {
+    label: 'Treatment Approach',
+    color: red[colorLevel],
+    values: ({ treatmentApproaches = [] }) => treatmentApproaches.filter(onlyUnique),
+    valueItems: ({ treatmentApproaches = [] }) =>
+      treatmentApproaches.filter(onlyUnique).map(label => ({ label, tooltip: TreatmentApproachQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Features: {
     label: 'Features',

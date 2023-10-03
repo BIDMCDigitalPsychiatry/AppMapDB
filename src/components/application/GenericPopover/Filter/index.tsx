@@ -2,6 +2,7 @@ import React from 'react';
 import GenericPopover from '../GenericPopover';
 import MultiSelectCheck from '../../DialogField/MultiSelectCheck';
 import {
+  TreatmentApproaches,
   Features,
   Conditions,
   Platforms,
@@ -53,6 +54,12 @@ export default function FilterPopover({ id = title, ...other }) {
           id: 'Functionalities',
           Field: MultiSelectCheck,
           items: Functionalities.map(label => ({ value: label, label }))
+        },
+        {
+          id: 'TreatmentApproaches',
+          label: 'Treatment Approaches',
+          Field: MultiSelectCheck,
+          items: TreatmentApproaches.map(label => ({ value: label, label }))
         },
         {
           id: 'Features',

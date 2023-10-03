@@ -1,6 +1,7 @@
 import React from 'react';
 import MultiSelectCheckExpandable from '../../DialogField/MultiSelectCheckExpandable';
 import {
+  TreatmentApproaches,
   Features,
   Conditions,
   Costs,
@@ -59,6 +60,11 @@ const getFilters = version =>
       items: Uses.map(label => ({ value: label, label }))
     },
     {
+      id: 'TreatmentApproaches',
+      label: 'Treatment Approaches',
+      items: TreatmentApproaches.map(label => ({ value: label, label: withReplacement(label) }))
+    },
+    {
       id: 'Features',
       items: Features.map(label => ({ value: label, label: withReplacement(label) })).filter(({ value }) =>
         version === 'full'
@@ -101,7 +107,7 @@ const ConnectedMultiSelect = ({ id, label, color, items }) => {
 
 export default function FilterContentLeftDrawer() {
   const fullScreen = useFullScreen();
-  const version = 'full'; // useSelector((s: any) => s.layout.version);
+  const version = useSelector((s: any) => s.layout.version);
   return (
     <Grid container>
       {getFilters(version)

@@ -11,7 +11,7 @@ import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen, useIsAdmin } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
@@ -141,12 +141,12 @@ export default function ApplicationBar({ trigger }) {
   const version = useSelector((s: any) => s.layout.version);
   const [, setLayout] = useLayout();
 
-  /*const handleChangeVersion = React.useCallback(() => {
+  const handleChangeVersion = React.useCallback(() => {
     setLayout({ version: version === 'lite' ? 'full' : 'lite' });
   }, [version, setLayout]);
-  */
 
-  //const isAdmin = useIsAdmin();
+  const isAdmin = useIsAdmin();
+  const isTestUser = useIsTestUser();
 
   return (
     <>
@@ -170,13 +170,13 @@ export default function ApplicationBar({ trigger }) {
               </Grid>
               <Grid item>
                 <Grid container justifyContent='flex-end' alignItems='center'>
-                  {/*isAdmin && (
+                  {isAdmin && isTestUser && (
                     <Grid item>
                       <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
                         version === 'lite' ? 'Full' : 'Lite'
                       } Version`}</Button>
                     </Grid>
-                    )*/}
+                  )}
                   <Grid item>
                     <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
                       {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
