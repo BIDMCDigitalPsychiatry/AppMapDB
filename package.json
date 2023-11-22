@@ -1,11 +1,11 @@
 {
   "name": "app-map-db",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "private": true,
   "homepage": "https://mindapps.org",
   "enableLogRocket": true,
   "enableTour": true,
-  "adminUsers": "aegbe@bu.edu,eperlmut@bidmc.harvard.edu,kchen10@bidmc.harvard.edu,nram2@bidmc.harvard.edu,bdwyer@bidmc.harvard.edu,malteschmieding@hms.harvard.edu,msingh10@bidmc.harvard.edu,sperret@bu.edu,nalon@bidmc.Harvard.edu,team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu,chaudharypooja209@gmail.com",
+  "adminUsers": "youthengagement@kidshelpphone.ca,aegbe@bu.edu,eperlmut@bidmc.harvard.edu,kchen10@bidmc.harvard.edu,nram2@bidmc.harvard.edu,bdwyer@bidmc.harvard.edu,malteschmieding@hms.harvard.edu,msingh10@bidmc.harvard.edu,sperret@bu.edu,nalon@bidmc.Harvard.edu,team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu,chaudharypooja209@gmail.com",
   "testUsers": "cvanem@gmail.com,bdwyer@bidmc.harvard.edu",
   "emailUsers": "bdwyer@bidmc.harvard.edu,nalon@bidmc.harvad.edu,sperret@bidmc.harvard.edu",
   "contactEmail": "team@digitalpsych.org",
