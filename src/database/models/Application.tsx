@@ -461,6 +461,7 @@ export const Conditions: Condition[] = [
   'Mood Disorders',
   'Bipolar Disorder',
   'Cardiovascular Health',
+  'COPD',
   'Stress & Anxiety',
   'Sleep',
   'Phobias',
