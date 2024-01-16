@@ -492,7 +492,7 @@ export const DeveloperTypeQuestions = [
 
 export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
 
-export type Use = 'BIDMC' | 'Self Help' | 'Reference' | 'Hybrid';
+export type Use = 'BIDMC' | 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved';
 
 export const UseQuestions = [
   {
@@ -514,6 +514,11 @@ export const UseQuestions = [
     label: 'Intended for hybrid use with a clinician and treatment plan?',
     tooltip:
       'Is the app intended to be used as an adjunct to care? Apps that have built-in methods of connecting with a provider meet this criteria. However, a teletherapy app would not be intended for hybrid care, as the app replaces in-person care.'
+  },
+  {
+    value: 'Kids Help Phone Approved',
+    label: 'Was the app approved by Kids Help Phone?',
+    tooltip: 'Kids Help Phone is a nonprofit organization in Canada who focuses on digital mental health support for youth.'
   }
 ];
 
