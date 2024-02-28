@@ -94,11 +94,7 @@ export default function Footer({ variant = 'normal' }) {
               </Grid>
             )}
             <Grid item xs={fs ? 7 : 3} zeroMinWidth>
-              <Typography noWrap align='right'>
-                <Link href='https://www.bidmc.org/' variant='caption' target='_blank' color='inherit'>
-                  ©2020 Beth Israel Deaconess Medical Center
-                </Link>
-              </Typography>
+              <Typography noWrap align='right'></Typography>
             </Grid>
           </Grid>
         </Grid>
