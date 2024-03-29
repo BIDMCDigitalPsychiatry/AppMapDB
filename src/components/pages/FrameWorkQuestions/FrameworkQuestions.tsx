@@ -85,7 +85,7 @@ export default function FrameworkQuestions() {
       </Grid>
       <Grid item xs>
         <Typography className={classes.primaryTextSmall}>
-          There are an estimated ten thousand mental health apps available today, offering a range of possibilities from connection with a clinicain to symptom
+          There are an estimated ten thousand mental health apps available today, offering a range of possibilities from connection with a clinician to symptom
           monitoring. Apps can be useful in care, but it's important to be cautious about choosing a suitable app.
         </Typography>
       </Grid>
@@ -102,7 +102,7 @@ export default function FrameworkQuestions() {
         <Grid item xs>
           <Typography variant='h6' display='inline' color='textPrimary'>
             So how do you choose an app from the many options? The best way is to start by identifying your priorities: how do you want to engage with the app?
-            Whate features are you looking for? Is there a particular standard of privacy you are seeking? Recognizing that app choice is a personal decision
+            What features are you looking for? Is there a particular standard of privacy you are seeking? Recognizing that app choice is a personal decision
             based on many individual factors,{' '}
           </Typography>
           <Typography variant='h6' display='inline' color='textPrimary' style={{ fontWeight: 900 }}>
