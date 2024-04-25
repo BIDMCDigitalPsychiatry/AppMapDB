@@ -79,7 +79,7 @@ const getFilters = version =>
     version === 'full' && {
       id: 'ClinicalFoundations',
       label: 'Evidence & Clinical Foundations',
-      items: ClinicalFoundations.map(label => ({ value: label, label: withReplacement(label) }))
+      items: ClinicalFoundations.filter(label => label !== 'Can Cause Harm').map(label => ({ value: label, label: withReplacement(label) })) // Exclude Can Cause Harm per request
     },
     version === 'full' && {
       id: 'Inputs',
