@@ -30,7 +30,7 @@ const defaultState = {
   leftDrawerOpen: false,
   step: 0,
   tourCompleted: false,
-  version: 'full'
+  version: 'lite'
 };
 
 const setUser = user => ({ type: 'SET_USER', user });

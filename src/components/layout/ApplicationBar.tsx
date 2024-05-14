@@ -169,7 +169,7 @@ export default function ApplicationBar({ trigger }) {
                 <Grid container justifyContent='flex-end' alignItems='center'>
                   <Grid item>
                     <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
-                      version === 'lite' ? 'Full' : 'Lite'
+                      version === 'lite' ? 'MINDapps Pro' : 'MINDapps Lite'
                     } Version`}</Button>
                   </Grid>
                   <Grid item>
