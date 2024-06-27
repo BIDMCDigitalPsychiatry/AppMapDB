@@ -409,7 +409,9 @@ export const FeatureQuestions = [
 
 // Requests were made to change certain hard coded values.  This handles this display logic
 export const withReplacement = text =>
-  text === 'Bbot Interaction'
+  text === 'Kids Help Phone Approved'
+    ? 'Youth'
+    : text === 'Bbot Interaction'
     ? 'Chatbot Interaction'
     : text === 'Use Warning'
     ? 'Claims to Not Replace Care'

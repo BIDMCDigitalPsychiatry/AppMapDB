@@ -57,7 +57,7 @@ const getFilters = version =>
     },
     version === 'full' && {
       id: 'Uses',
-      items: Uses.map(label => ({ value: label, label }))
+      items: Uses.map(label => ({ value: label, label: withReplacement(label) }))
     },
     {
       id: 'TreatmentApproaches',
