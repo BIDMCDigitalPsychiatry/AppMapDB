@@ -291,12 +291,12 @@ export default function FrameworkQuestions() {
         {
           title: 'Instructional Video:',
           description:
-            'Rating an app is an interactve process. Raters will be prompted through 105 different questions about an app and its features, prvacy settings, clinical foundation, and more.',
+            'Rating an app is an interactive process. Raters will be prompted through 105 different questions about an app and its features, privacy settings, clinical foundation, and more.',
           url: videoPath2
         },
         {
           title: 'Actional App Evaluation Video:',
-          description: 'Objective Standards to Guide Assessment and Implementation of Digital Health Intervations.',
+          description: 'Objective Standards to Guide Assessment and Implementation of Digital Health Interventions.',
           url: videoPath
         }
       ].map(({ title, description, url }, i) => (

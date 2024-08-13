@@ -184,7 +184,7 @@ export default function RanAnApp() {
       <Grid item xs={12} sm={7} md={5} lg={4}>
         <Grid container alignItems='center' spacing={0} className={classes.infoContainer}>
           <Grid item xs={12}>
-            <Typography variant='h5'>Interested in joinging the team?</Typography>
+            <Typography variant='h5'>Interested in joining the team?</Typography>
             <Typography variant='body2'>Fill out the following for and we'll get in touch with you.</Typography>
           </Grid>
           <Grid item xs={12}>
