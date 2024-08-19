@@ -12,6 +12,7 @@ import { InjectField } from '../Fields';
 import TextLabel from '../../DialogField/TextLabel';
 import RateAnApp from '../RegisterV2/RateAnApp';
 import ProVersion from '../RegisterPro/ProVersion';
+import { title as registerProTitle } from '../RegisterPro/index';
 
 export const title = 'Login';
 const maxWidth = 'md';
@@ -43,6 +44,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
   const fs = useFullScreen('sm');
   const [state, setState] = useDialogState(title);
+  const [, setRegisterProState] = useDialogState(registerProTitle);
   const { enterNewPassword, errors } = state;
   const dialogStateStr = JSON.stringify(state);
   const setUser = useSetUser();
@@ -104,6 +106,11 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
       },
     [enterNewPassword, setUser, dialogStateStr, setState, errors]
   );
+
+  const handleRegisterPro = React.useCallback(() => {
+    setState(prev => ({ ...prev, open: false })); // Close this dialog and open the register pro dialog
+    setRegisterProState({ open: true });
+  }, [setState]);
 
   var submitLabel = values.forgotPassword ? (enterNewPassword ? 'Change Password' : 'Request Reset') : 'Login';
 
@@ -180,7 +187,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
         <Grid item xs={fs ? 12 : 6}>
           <Grid container spacing={5} sx={{ pl: fs ? 2.5 : 0, pt: 2 }}>
             <Grid item xs={12}>
-              <ProVersion />
+              <ProVersion handleRegisterPro={handleRegisterPro} />
             </Grid>
             <Grid item xs={12}>
               <RateAnApp onClick={() => setState(prev => ({ ...prev, open: false }))} />

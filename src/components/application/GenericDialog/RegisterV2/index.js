@@ -181,12 +181,11 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
 
   return (
     <DialogContent className={classes.content}>
-      <Grid container style={{ paddingBottom: 32 }} spacing={4}>
+      <Grid container style={{ paddingBottom: 32 }} spacing={6}>
         <Grid item xs={fs ? 12 : 6}>
           <Grid container alignItems='center' spacing={0} className={classes.infoContainer}>
             <Grid item xs={12}>
-              <Typography variant='h5'>Welcome,</Typography>
-              <Typography variant='h5'>Sign Up to our internal platform:</Typography>
+              <Typography variant='h5'>Sign Up as a Rater - Internal Platform:</Typography>
             </Grid>
             <Grid item xs={12}>
               <Grid container style={{ marginTop: 8, marginBottom: 8 }} alignItems='center' spacing={1}>

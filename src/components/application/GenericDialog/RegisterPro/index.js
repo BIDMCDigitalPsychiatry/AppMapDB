@@ -182,7 +182,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
 
   return (
     <DialogContent className={classes.content}>
-      <Grid container style={{ paddingBottom: 32 }} spacing={4}>
+      <Grid container style={{ paddingBottom: 32 }} spacing={6}>
         <Grid item xs={fs ? 12 : 6}>
           <Grid container alignItems='center' spacing={0} className={classes.infoContainer}>
             <Grid item xs={12}>
