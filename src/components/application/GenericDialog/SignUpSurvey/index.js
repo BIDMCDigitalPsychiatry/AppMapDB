@@ -13,9 +13,11 @@ import { isFunction } from '../../GenericTable/helpers';
 import { useSelector } from 'react-redux';
 import { tables } from '../../../../database/dbConfig';
 import useProcessData from '../../../../database/useProcessData';
+import SelectLabel from '../../DialogField/SelectLabel';
 
 export const title = 'Sign Up Survey';
 
+const ageRangeItems = ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75 or older', 'Prefer not to say'].map(v => ({ label: v, value: v }));
 const fields = [
   {
     id: 'email',
@@ -71,6 +73,16 @@ const fields = [
     }
   },
   { Field: () => <Divider sx={{ my: 1, background: 'white' }} /> },
+  {
+    id: 'Please select your age range:',
+    label: 'Please select your age range:',
+    Field: SelectLabel,
+    items: ageRangeItems,
+    required: true,
+    InputProps: {
+      style: { background: 'white' }
+    }
+  },
   {
     id: 'Please share any additional information that may be relevant:',
     label: 'Please share any additional information that may be relevant:',
