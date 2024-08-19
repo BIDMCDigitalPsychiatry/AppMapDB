@@ -60,7 +60,6 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
                 alert('Successfully updated password.');
                 Auth.signIn(email, newPassword)
                   .then(user => {
-                    console.log('Login success!', user);
                     setUser(user);
                     setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
                   })
@@ -92,7 +91,6 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
         } else {
           Auth.signIn(email, password)
             .then(user => {
-              console.log('Login success!', user);
               setUser(user);
               setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
             })

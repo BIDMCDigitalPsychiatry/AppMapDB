@@ -144,9 +144,18 @@ export default function ApplicationBar({ trigger }) {
   const version = useSelector((s: any) => s.layout.version);
   const [, setLayout] = useLayout();
 
-  const handleChangeVersion = React.useCallback(() => {
-    setLayout({ version: version === 'lite' ? 'full' : 'lite' });
-  }, [version, setLayout]);
+  const handleChangeVersion = React.useCallback(
+    ({ version: newVersion }) =>
+      () => {
+        if (!signedIn && newVersion !== 'lite') {
+          // User is not signed in and trying to switch to pro version, show the login dialog
+          setLoginState(prev => ({ ...prev, open: true }));
+        } else {
+          setLayout({ version: newVersion });
+        }
+      },
+    [setLayout, signedIn, setLoginState]
+  );
 
   return (
     <>
@@ -180,7 +189,7 @@ export default function ApplicationBar({ trigger }) {
                           }
                         }}
                         color={version === 'lite' ? 'primary' : 'secondary'}
-                        onClick={handleChangeVersion}
+                        onClick={handleChangeVersion({ version: 'lite' })}
                       >
                         Lite Version
                       </Button>
@@ -191,7 +200,7 @@ export default function ApplicationBar({ trigger }) {
                           }
                         }}
                         color={version !== 'lite' ? 'primary' : 'secondary'}
-                        onClick={handleChangeVersion}
+                        onClick={handleChangeVersion({ version: 'full' })}
                       >
                         <Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />
                         Pro Version

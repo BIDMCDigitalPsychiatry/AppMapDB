@@ -4,7 +4,7 @@ import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
 import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
-import { useSetUser } from '../../../layout/store';
+import { useLayout, useSetUser } from '../../../layout/store';
 const passwordValidator = require('password-validator');
 export const title = 'Sign Up';
 
@@ -70,7 +70,7 @@ const EnterConfirmationCode = ({ value = false, onChange }) => {
 export default function RegisterDialog({ id = title }) {
   const [dialogState, setState] = useDialogState(id);
   const { confirm, errors } = dialogState;
-  const dialogStateStr = JSON.stringify(dialogState);
+  const dialogStateStr = JSON.stringify(dialogState);  
 
   const setUser = useSetUser();
 
@@ -106,7 +106,6 @@ export default function RegisterDialog({ id = title }) {
           setState(prev => ({ ...prev, open: false, loading: false, confirm: false }));
           Auth.signIn(email, password)
             .then(user => {
-              console.log('Login success!');
               setUser(user);
             })
             .catch(err => {
@@ -124,10 +123,10 @@ export default function RegisterDialog({ id = title }) {
     [setUser, dialogStateStr, setState, errors]
   );
 
-  const handleSubmit = React.useCallback(({ confirm, ...other }, setValues) => (confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues)), [
-    handleConfirm,
-    handleAdd
-  ]);
+  const handleSubmit = React.useCallback(
+    ({ confirm, ...other }, setValues) => (confirm ? handleConfirm(other, setValues) : handleAdd(other, setValues)),
+    [handleConfirm, handleAdd]
+  );
 
   return (
     <GenericDialog

@@ -60,7 +60,7 @@ export default function Layout({ children }) {
   const componentsOnPage = [appBarHeight, footerHeight];
   const minHeight = height - appBarHeight - footerHeight - 1;
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
-
+  
   var [scrollElement, setScrollElement] = React.useState(null);
 
   const { pathname } = useLocation();

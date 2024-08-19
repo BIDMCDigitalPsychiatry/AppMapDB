@@ -4,7 +4,7 @@ import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
 import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
-import { useSetUser } from '../../../layout/store';
+import { useLayout, useSetUser } from '../../../layout/store';
 import ProVersion from './ProVersion';
 import { DialogContent, Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';

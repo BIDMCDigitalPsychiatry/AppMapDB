@@ -19,6 +19,7 @@ export interface State {
   step?: number | null;
   tourCompleted?: boolean;
   version: 'lite' | 'full';
+  user: any;
 }
 
 const defaultState = {

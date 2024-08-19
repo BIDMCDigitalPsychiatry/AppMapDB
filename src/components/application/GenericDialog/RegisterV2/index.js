@@ -4,7 +4,7 @@ import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
 import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
-import { useSetUser } from '../../../layout/store';
+import { useLayout, useSetUser } from '../../../layout/store';
 import RateAnApp from './RateAnApp';
 import { DialogContent, Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
@@ -161,7 +161,6 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
         setState(prev => ({ ...prev, open: false, loading: false, confirm: false }));
         Auth.signIn(email, password)
           .then(user => {
-            console.log('Login success!');
             setUser(user);
           })
           .catch(err => {
