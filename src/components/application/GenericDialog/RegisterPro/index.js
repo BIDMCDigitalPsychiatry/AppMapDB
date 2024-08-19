@@ -168,6 +168,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
           .then(user => {
             console.log('Login success!');
             setUser(user);
+            console.log('Opening sign up dialog');
             setSignUpSurveyState({ open: true });
           })
           .catch(err => {

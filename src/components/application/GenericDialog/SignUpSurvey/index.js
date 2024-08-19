@@ -8,7 +8,6 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../../../hooks';
 import TextLabel from '../../DialogField/TextLabel';
-
 import YesNoAlignRight from '../../DialogField/YesNoAlignRight';
 import { isFunction } from '../../GenericTable/helpers';
 import { useSelector } from 'react-redux';
