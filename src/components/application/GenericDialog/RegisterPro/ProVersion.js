@@ -9,7 +9,8 @@ export default function ProVersion() {
       sx={{
         backgroundColor: 'secondary.light',
         color: 'text.primary',
-        padding: 3,
+        p: 2,
+        pt: 0,
         borderRadius: 3
       }}
     >
@@ -19,10 +20,7 @@ export default function ProVersion() {
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography>Register now for access to the pro version!</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography>Enables more advanced search filters, such as:</Typography>
+        <Typography>Enables advanced search filters, such as:</Typography>
         <Typography sx={{ mt: 1 }}>
           Cost, Developer Type, Supported Conditions, Functionalities, Uses, Features, Engagements, Clinical Foundations, Inputs, Outputs and Privacy Options.
         </Typography>

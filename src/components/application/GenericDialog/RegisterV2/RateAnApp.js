@@ -1,34 +1,10 @@
-import { Button, Grid, Typography } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import React from 'react';
+import { Button, Grid, Typography } from '@mui/material';
 import { publicUrl } from '../../../../helpers';
 import { useChangeRoute } from '../../../layout/hooks';
 import * as Icons from '@mui/icons-material';
 
-export const title = 'Sign Up';
-
-const borderRadius = 25;
-const useStyles = makeStyles(({ palette }) =>
-  createStyles({
-    rateAnApp: {
-      background: palette.secondary.light,
-      color: palette.text.primary,
-      padding: 24,
-      borderRadius
-    },
-    arrowRight: {
-      color: palette.primary.light
-    },
-    primaryTextSmall: {
-      fontWeight: 900,
-      color: palette.primary.dark
-    }
-  })
-);
-
 export default function RateAnApp({ onClick = undefined }) {
-  const classes = useStyles();
   const changeRoute = useChangeRoute();
 
   const handleRateApp = React.useCallback(() => {
@@ -37,7 +13,18 @@ export default function RateAnApp({ onClick = undefined }) {
   }, [changeRoute, onClick]);
 
   return (
-    <Grid container alignItems='center' spacing={2} className={classes.rateAnApp}>
+    <Grid
+      container
+      alignItems='center'
+      spacing={2}
+      sx={{
+        backgroundColor: 'secondary.light',
+        color: 'text.primary',
+        p: 2,
+        pt: 0,
+        borderRadius: 3
+      }}
+    >
       <Grid item xs={12}>
         <Typography variant='h5' style={{ fontWeight: 900 }}>
           Interested in joining the team?
@@ -52,13 +39,20 @@ export default function RateAnApp({ onClick = undefined }) {
         </Typography>
       </Grid>
       <Grid item xs={12} style={{ textAlign: 'left' }}>
-        <Button style={{ borderRadius }} onClick={handleRateApp}>
+        <Button sx={{ borderRadius: 3 }} onClick={handleRateApp}>
           <Grid container spacing={1}>
             <Grid item>
-              <Typography className={classes.primaryTextSmall}>Rate an App</Typography>
+              <Typography
+                sx={{
+                  fontWeight: 900,
+                  color: 'primary.dark'
+                }}
+              >
+                Rate an App
+              </Typography>
             </Grid>
             <Grid item>
-              <Icons.ArrowRightAlt className={classes.arrowRight} />
+              <Icons.ArrowRightAlt sx={{ color: 'primary.light' }} />
             </Grid>
           </Grid>
         </Button>

@@ -7,12 +7,11 @@ import Label from '../../DialogField/Label';
 import { Auth } from 'aws-amplify';
 import { useSetUser } from '../../../layout/store';
 import { Button, DialogContent, Grid, Typography } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
 import { useFullScreen } from '../../../../hooks';
 import { InjectField } from '../Fields';
 import TextLabel from '../../DialogField/TextLabel';
 import RateAnApp from '../RegisterV2/RateAnApp';
+import ProVersion from '../RegisterPro/ProVersion';
 
 export const title = 'Login';
 const maxWidth = 'md';
@@ -40,49 +39,8 @@ const ForgotPassword = ({ value = false, onChange, disabled }) => {
   );
 };
 
-const borderRadius = 25;
-
-const useStyles = makeStyles(({ palette }) =>
-  createStyles({
-    primaryButton: {
-      borderRadius: 7,
-      color: palette.common.white,
-      background: palette.primary.dark,
-      minWidth: 160,
-      height: 40,
-      '&:hover': {
-        background: palette.primary.main
-      }
-    },
-    rateAnApp: {
-      background: palette.secondary.light,
-      color: palette.text.primary,
-      padding: 24,
-      borderRadius
-    },
-    arrowRight: {
-      color: palette.primary.light
-    },
-    infoContainer: {
-      background: palette.primary.light,
-      color: palette.common.white,
-      borderRadius
-    },
-    content: {
-      paddingLeft: 48,
-      paddingRight: 48,
-      paddingTop: 16,
-      paddingBottom: 16,
-      background: palette.primary.light,
-      color: palette.common.white
-    }
-  })
-);
-
 function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
-
-  const classes = useStyles();
   const fs = useFullScreen('sm');
   const [state, setState] = useDialogState(title);
   const { enterNewPassword, errors } = state;
@@ -100,7 +58,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
                 alert('Successfully updated password.');
                 Auth.signIn(email, newPassword)
                   .then(user => {
-                    console.log('Login success!');
+                    console.log('Login success!', user);
                     setUser(user);
                     setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
                   })
@@ -150,12 +108,28 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   var submitLabel = values.forgotPassword ? (enterNewPassword ? 'Change Password' : 'Request Reset') : 'Login';
 
   return (
-    <DialogContent className={classes.content}>
-      <Grid container style={{ paddingBottom: 32 }} spacing={4}>
+    <DialogContent
+      sx={{
+        px: 6,
+        py: 2,
+        backgroundColor: 'primary.light',
+        color: 'white'
+      }}
+    >
+      <Grid container style={{ paddingBottom: 32 }} spacing={6}>
         <Grid item xs={fs ? 12 : 6}>
-          <Grid container alignItems='center' spacing={0} className={classes.infoContainer}>
+          <Grid
+            container
+            alignItems='center'
+            spacing={0}
+            sx={{
+              background: 'primary.light',
+              color: 'white',
+              borderRadius: 3
+            }}
+          >
             <Grid item xs={12}>
-              <Typography variant='h5'>Log in to our internal platform:</Typography>
+              <Typography variant='h5'>Log in to our platform:</Typography>
             </Grid>
             <Grid item xs={12}>
               <Grid container style={{ marginTop: 8, marginBottom: 8 }} alignItems='center' spacing={1}>
@@ -184,14 +158,34 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
               </Grid>
             </Grid>
             <Grid item xs={12} style={{ textAlign: 'center' }}>
-              <Button disabled={state.loading} onClick={handleLogin(values)} className={classes.primaryButton}>
+              <Button
+                disabled={state.loading}
+                onClick={handleLogin(values)}
+                sx={{
+                  borderRadius: 2,
+                  color: 'white',
+                  backgroundColor: 'primary.dark',
+                  minWidth: 160,
+                  height: 40,
+                  '&:hover': {
+                    backgroundColor: 'primary.main'
+                  }
+                }}
+              >
                 {submitLabel}
               </Button>
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={fs ? 12 : 6}>
-          <RateAnApp onClick={() => setState(prev => ({ ...prev, open: false }))} />
+          <Grid container spacing={5} sx={{ pl: fs ? 2.5 : 0, pt: 2 }}>
+            <Grid item xs={12}>
+              <ProVersion />
+            </Grid>
+            <Grid item xs={12}>
+              <RateAnApp onClick={() => setState(prev => ({ ...prev, open: false }))} />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </DialogContent>
@@ -210,8 +204,8 @@ export default function LoginDialog({ id = title }) {
     <GenericDialog
       id={id}
       PaperProps={{
-        style: {
-          borderRadius: fs ? 0 : 25
+        sx: {
+          borderRadius: fs ? 0 : 3
         }
       }}
       title=''
