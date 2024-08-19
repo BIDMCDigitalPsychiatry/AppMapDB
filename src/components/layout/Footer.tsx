@@ -88,7 +88,7 @@ export default function Footer({ variant = 'normal' }) {
               <Grid item xs={7} zeroMinWidth>
                 <Typography noWrap align='center'>
                   <Link href='https://www.argosyfnd.org/' variant='caption' target='_blank' color='inherit'>
-                    This website is mode possible by support from the Argosy Foundation
+                    This website is made possible by support from the Argosy Foundation
                   </Link>
                 </Typography>
               </Grid>

@@ -210,8 +210,8 @@ export default function ApplicationBar({ trigger }) {
                         : [
                             { label: 'Login', Module: LoginDialog, onClick: handleClose },
                             { label: 'Sign Up for Pro Version', Module: RegisterProDialog, onClick: handleClose },
-                            { label: 'Sign Up as Rater', Module: RegisterDialog, onClick: handleClose },
-                            { label: 'Take Tour', onClick: handleTour }
+                            { label: 'Sign Up as Rater', Module: RegisterDialog, onClick: handleClose }
+                            // { label: 'Take Tour', onClick: handleTour }
                           ].map(({ label, Module, onClick }) => (
                             <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
                               {label}
