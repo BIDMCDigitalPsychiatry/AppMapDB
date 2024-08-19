@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Grid, IconButton, Menu, MenuItem, Divider, Slide, Button } from '@mui/material';
+import { Grid, IconButton, Menu, MenuItem, Divider, Slide, Button, ButtonGroup } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import AppBar from '@mui/material/AppBar';
@@ -172,9 +172,31 @@ export default function ApplicationBar({ trigger }) {
               <Grid item>
                 <Grid container justifyContent='flex-end' alignItems='center'>
                   <Grid item>
-                    <Button variant='contained' color={version === 'lite' ? 'primary' : 'secondary'} onClick={handleChangeVersion}>{`Switch to ${
-                      version === 'lite' ? 'MINDapps Pro' : 'MINDapps Lite'
-                    } Version`}</Button>
+                    <ButtonGroup variant='contained' aria-label='version button group'>
+                      <Button
+                        sx={{
+                          '&:hover': {
+                            backgroundColor: 'primary.dark'
+                          }
+                        }}
+                        color={version === 'lite' ? 'primary' : 'secondary'}
+                        onClick={handleChangeVersion}
+                      >
+                        Lite Version
+                      </Button>
+                      <Button
+                        sx={{
+                          '&:hover': {
+                            backgroundColor: 'primary.dark'
+                          }
+                        }}
+                        color={version !== 'lite' ? 'primary' : 'secondary'}
+                        onClick={handleChangeVersion}
+                      >
+                        <Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />
+                        Pro Version
+                      </Button>
+                    </ButtonGroup>
                   </Grid>
                   <Grid item>
                     <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
