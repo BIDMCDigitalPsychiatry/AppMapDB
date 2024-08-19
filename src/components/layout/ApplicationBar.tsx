@@ -201,7 +201,7 @@ export default function ApplicationBar({ trigger }) {
                             <MenuItem key='email' className={classes.accountMenuItem}>
                               {email}
                             </MenuItem>,
-                            <MenuItem onClick={handleTour}>Take Tour</MenuItem>,
+                            //<MenuItem onClick={handleTour}>Take Tour</MenuItem>,
                             <Divider key='divider' />,
                             <MenuItem key='logout' onClick={handleLogout}>
                               Logout
