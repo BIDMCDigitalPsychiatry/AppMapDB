@@ -8,6 +8,7 @@ import { useChangeRoute, useTourStep } from './hooks';
 import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
+import * as RegisterProDialog from '../application/GenericDialog/RegisterPro';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
@@ -88,6 +89,7 @@ const AppBarTabSelector = props => {
 export default function ApplicationBar({ trigger }) {
   const classes = useStyles();
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
+  const [{ open: registerProOpen }, setRegisterProState] = useDialogState(RegisterProDialog.title);
   const [{ open: loginOpen }, setLoginState] = useDialogState(LoginDialog.title);
   const signedIn = useSignedIn();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -97,10 +99,11 @@ export default function ApplicationBar({ trigger }) {
 
   const handleLogout = React.useCallback(() => {
     registerOpen && setRegisterState(prev => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
+    registerProOpen && setRegisterProState(prev => ({ ...prev, open: false, loading: false })); // Close the register pro dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
     loginOpen && setLoginState(prev => ({ ...prev, open: false, loading: false })); // Ensure login dialog is closed
     setUser(undefined); // Reset user information
     setAnchorEl(null);
-  }, [setUser, registerOpen, loginOpen, setRegisterState, setLoginState, setAnchorEl]);
+  }, [setUser, registerOpen, registerProOpen, loginOpen, setRegisterState, setRegisterProState, setLoginState, setAnchorEl]);
 
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 
@@ -150,6 +153,7 @@ export default function ApplicationBar({ trigger }) {
       {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
       {renderDialogModule(LoginDialog)}
       {renderDialogModule(RegisterDialog)}
+      {renderDialogModule(RegisterProDialog)}
       <Slide appear={false} direction='down' in={!trigger}>
         <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters={true}>
@@ -205,7 +209,8 @@ export default function ApplicationBar({ trigger }) {
                           ]
                         : [
                             { label: 'Login', Module: LoginDialog, onClick: handleClose },
-                            { label: 'Signup', Module: RegisterDialog, onClick: handleClose },
+                            { label: 'Sign Up for Pro Version', Module: RegisterProDialog, onClick: handleClose },
+                            { label: 'Sign Up as Rater', Module: RegisterDialog, onClick: handleClose },
                             { label: 'Take Tour', onClick: handleTour }
                           ].map(({ label, Module, onClick }) => (
                             <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
