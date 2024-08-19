@@ -12,7 +12,7 @@ import * as RegisterProDialog from '../application/GenericDialog/RegisterPro';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser, useSignedInRater } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
@@ -71,7 +71,7 @@ const id = 'AppBar';
 export const noTabPaths = ['/Home', '/'];
 const AppBarTabSelector = props => {
   const isAdmin = useIsAdmin();
-  const signedIn = useSignedIn();
+  const signedInRater = useSignedInRater();
   const tabs = useTabs();
   const { pathname } = useLocation();
   const nullTab = noTabPaths.findIndex(p => p === pathname) > -1 ? true : false;
@@ -80,7 +80,7 @@ const AppBarTabSelector = props => {
     <TabSelectorToolBar
       id={id}
       value={nullTab ? null : undefined}
-      tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedIn : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
+      tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
       {...props}
     />
   );

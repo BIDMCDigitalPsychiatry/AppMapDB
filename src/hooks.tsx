@@ -9,9 +9,26 @@ export const useFullScreen = (size = 'sm' as any) => {
 };
 
 export const useSignedIn = () => {
-  const isEmpty = useSelector((s: any) => s.layout.user === undefined);
-  const isLoaded = useSelector((s: any) => s.layout.user !== undefined);
-  return isLoaded && !isEmpty ? true : false;
+  return useSelector((s: any) => s.layout.user !== undefined);
+};
+
+export const useSignedInPro = () => {
+  return useSelector((s: any) => {
+    const { user } = s.layout;
+    if (user !== undefined && user !== '' && user !== null) {
+      const { attributes = {} } = user;
+      if (attributes['custom:userType']?.toLowerCase() === 'pro') {
+        return true;
+      }
+    }
+    return false;
+  });
+};
+
+export const useSignedInRater = () => {
+  const signedIn = useSignedIn();
+  const signedInPro = useSignedInPro();
+  return signedIn && !signedInPro;
 };
 
 export const useIsAdmin = () => {

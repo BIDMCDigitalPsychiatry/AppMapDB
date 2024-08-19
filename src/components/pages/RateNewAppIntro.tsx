@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, Typography, Box, Divider, Button, Grid } from '@mui/material';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
-import { useSignedIn } from '../../hooks';
+import { useSignedInRater } from '../../hooks';
 import ReactPlayer from 'react-player';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
@@ -10,7 +10,7 @@ const contentPath = require('../../content/zoom_0.mp4');
 
 export default function RateNewAppIntro() {
   const handleChangeRoute = useHandleChangeRoute();
-  const signedIn = useSignedIn();
+  const signedInRater = useSignedInRater();
   const width = useWidth();
 
   return (
@@ -31,7 +31,7 @@ export default function RateNewAppIntro() {
       </Box>
       <Box mt={3} mb={3}>
         <Typography align='center'>
-          <Button disabled={!signedIn} size='large' color='primary' variant='contained' onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
+          <Button disabled={!signedInRater} size='large' color='primary' variant='contained' onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
             Begin Rating
           </Button>
         </Typography>

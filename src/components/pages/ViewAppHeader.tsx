@@ -9,7 +9,7 @@ import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTab
 import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import ArrowButtonCaption from '../general/ArrowButtonCaption';
-import { useSignedIn } from '../../hooks';
+import { useSignedInRater } from '../../hooks';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
@@ -47,7 +47,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
   const name = getAppName(app);
   const company = getAppCompany(app);
   const icon = getAppIcon(app);
-  const signedIn = useSignedIn();
+  const signedInRater = useSignedInRater();
 
   const handleChangeRoute = useHandleChangeRoute();
   const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
@@ -116,7 +116,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
           {type !== 'survey' && (
             <>
               <Grid item xs={12}>
-                {signedIn ? (
+                {signedInRater ? (
                   <EditDialogButton
                     variant='primaryButton2'
                     size='large'

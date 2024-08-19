@@ -4,7 +4,7 @@ import * as ApplicationHistoryDialogV2 from '../../GenericDialog/ApplicationHist
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
-import { useSignedIn } from '../../../../hooks';
+import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
@@ -12,7 +12,7 @@ import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateN
 
 export default function RatingsColumnPending({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database[tables.applications][_id]);
-  const signedIn = useSignedIn();
+  const signedInRater = useSignedInRater();
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
@@ -27,7 +27,7 @@ export default function RatingsColumnPending({ _id }) {
           placement='bottom'
         />
       </Grid>
-      {signedIn && (
+      {signedInRater && (
         <Grid item>
           <EditDialogButton
             variant='iconbutton'

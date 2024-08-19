@@ -6,7 +6,7 @@ import * as RateNewAppDialog from '../../GenericDialog/RateNewApp/RateNewAppDial
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
-import { useSignedIn, useFullScreen, useIsAdmin } from '../../../../hooks';
+import { useFullScreen, useIsAdmin, useSignedInRater } from '../../../../hooks';
 import { useViewMode, useAdminMode } from '../../../layout/store';
 import { useProcessData } from '../../../../database/useProcessData';
 import Check from '../../DialogField/Check';
@@ -17,7 +17,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
   const { approved, draft } = application;
   const deleted = application?.delete;
   const [viewMode] = useViewMode();
-  const signedIn = useSignedIn();
+  const signedInRater = useSignedInRater();
   const fullScreen = useFullScreen();
   const isAdmin = useIsAdmin();
   const [adminMode] = useAdminMode();
@@ -63,7 +63,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
     <>
       <Grid container alignItems='center' spacing={1}>
         <Grid container alignItems='center' style={{ minHeight: 64 }} item xs={fullScreen && viewMode === 'grid' ? 12 : 5}>
-          {signedIn && (
+          {signedInRater && (
             <EditDialogButton
               Module={isAdminEdit ? RateNewAppDialogAdminEdit : RateNewAppDialog}
               mount={false}

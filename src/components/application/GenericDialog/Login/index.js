@@ -47,7 +47,7 @@ export default function LoginDialog({ id = title }) {
               alert('Successfully updated password.');
               Auth.signIn(email, newPassword)
                 .then(user => {
-                  console.log('Login success!');
+                  console.log('Login success!', user);
                   setUser(user);
                   setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
                 })
@@ -79,7 +79,7 @@ export default function LoginDialog({ id = title }) {
       } else {
         Auth.signIn(email, password)
           .then(user => {
-            console.log('Login success!');
+            console.log('Login success!', user);
             setUser(user);
             setState(prev => ({ ...prev, open: false, loading: false, errors: {} }));
           })

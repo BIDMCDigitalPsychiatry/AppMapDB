@@ -5,14 +5,14 @@ import * as ApplicationHistoryDialogV2WithDrafts from '../../GenericDialog/Appli
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
-import { useSignedIn } from '../../../../hooks';
+import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 
 export default function MyRatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
   const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
-  const signedIn = useSignedIn();
+  const signedInRater = useSignedInRater();
 
   const handleChangeRoute = useHandleChangeRoute();
 
@@ -30,7 +30,7 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
           />
         </Grid>
       )}
-      {signedIn && (
+      {signedInRater && (
         <Grid item>
           {canEdit ? (
             <EditDialogButton
