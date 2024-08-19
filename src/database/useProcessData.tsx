@@ -31,7 +31,7 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
   if (Action === 'c' || Action === 'u' || Action === 'd') {
     dynamo.put({ TableName: Table, Item: Data }, function (err, data) {
       if (err) {
-        var message = `(Error processing data.  Table: ${Table}`;
+        var message = `Error processing data.  Table: ${Table}`;
         Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
         onError && onError(err, Data);
         console.error({ message, err, Data });
@@ -44,7 +44,7 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
   } else {
     dynamo.get({ TableName: Table, Key: Data }, function (err, data) {
       if (err) {
-        var message = `(Error processing data.  Table: ${Table}`;
+        var message = `Error processing data.  Table: ${Table}`;
         Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
         onError && onError(err, Data);
         console.error({ message, err, Data });
@@ -67,7 +67,7 @@ const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: a
       //Just show an error for now, as the applications will rarely be edited and the tables are constantly refreshed with new data.
       //The correct logic would get the most recent document from the database, inform the user that the document is out of date, update the revision number and allow the user to review changes or force the update.
     }
-    var message = `(Caught Error processing data.  Table: ${Table}`;
+    var message = `Caught Error processing data.  Table: ${Table}`;
     Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
     onError && onError(error, Data);
     console.error({ message, error, Data });

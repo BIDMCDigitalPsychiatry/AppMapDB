@@ -9,6 +9,8 @@ import { publicUrl } from '../../helpers';
 import * as LoginDialog from '../application/GenericDialog/LoginV2';
 import * as RegisterDialog from '../application/GenericDialog/RegisterV2';
 import * as RegisterProDialog from '../application/GenericDialog/RegisterPro';
+import * as SignUpSurveyDialog from '../application/GenericDialog/SignUpSurvey';
+import { columns } from '../application/GenericDialog/SignUpSurvey';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
@@ -21,6 +23,8 @@ import { grey } from '@mui/material/colors';
 import useTabSelector from '../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
 import { useAppBarHeightSetRef } from './hooks';
+import { useGetSignUpSurveys } from '../../database/useGetSignUpSurveys';
+import { exportTableCsv } from '../../database/store';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -90,20 +94,41 @@ export default function ApplicationBar({ trigger }) {
   const classes = useStyles();
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
   const [{ open: registerProOpen }, setRegisterProState] = useDialogState(RegisterProDialog.title);
+  const [{ open: signUpSurveyOpen }, setSignUpSurveyState] = useDialogState(SignUpSurveyDialog.title);
   const [{ open: loginOpen }, setLoginState] = useDialogState(LoginDialog.title);
   const signedIn = useSignedIn();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const { getSignUpSurveys } = useGetSignUpSurveys();
+
+  const handleExportSignUpSurveys = React.useCallback(async () => {
+    var data = await getSignUpSurveys();
+    console.log('Exporting sign up surveys...', { data, columns });
+    exportTableCsv(data, columns);
+  }, [getSignUpSurveys]);
 
   const setUser = useSetUser();
 
   const handleLogout = React.useCallback(() => {
     registerOpen && setRegisterState(prev => ({ ...prev, open: false, loading: false })); // Close the register dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
     registerProOpen && setRegisterProState(prev => ({ ...prev, open: false, loading: false })); // Close the register pro dialog if it happens to be open (since the button is automatically unmounted when logging in the state is controlled here)
+    signUpSurveyOpen && setSignUpSurveyState(prev => ({ ...prev, open: false, loading: false }));
     loginOpen && setLoginState(prev => ({ ...prev, open: false, loading: false })); // Ensure login dialog is closed
     setUser(undefined); // Reset user information
     setAnchorEl(null);
-  }, [setUser, registerOpen, registerProOpen, loginOpen, setRegisterState, setRegisterProState, setLoginState, setAnchorEl]);
+  }, [
+    setUser,
+    registerOpen,
+    registerProOpen,
+    signUpSurveyOpen,
+    loginOpen,
+    setRegisterState,
+    setRegisterProState,
+    setSignUpSurveyState,
+    setLoginState,
+    setAnchorEl
+  ]);
 
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
 
@@ -157,12 +182,15 @@ export default function ApplicationBar({ trigger }) {
     [setLayout, signedIn, setLoginState]
   );
 
+  const isAdmin = useIsAdmin();
+
   return (
     <>
       {/* Render/mount dialogs outside of the menu item to prevent a bug which disables the tab button in the dialog*/}
       {renderDialogModule(LoginDialog)}
       {renderDialogModule(RegisterDialog)}
       {renderDialogModule(RegisterProDialog)}
+      {renderDialogModule(SignUpSurveyDialog)}
       <Slide appear={false} direction='down' in={!trigger}>
         <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters={true}>
@@ -228,16 +256,28 @@ export default function ApplicationBar({ trigger }) {
                       MenuListProps={{ style: { paddingTop: signedIn ? 0 : undefined } }}
                     >
                       {signedIn
-                        ? [
-                            <MenuItem key='email' className={classes.accountMenuItem}>
-                              {email}
-                            </MenuItem>,
-                            //<MenuItem onClick={handleTour}>Take Tour</MenuItem>,
-                            <Divider key='divider' />,
-                            <MenuItem key='logout' onClick={handleLogout}>
-                              Logout
-                            </MenuItem>
-                          ]
+                        ? isAdmin
+                          ? [
+                              <MenuItem key='email' className={classes.accountMenuItem}>
+                                {email}
+                              </MenuItem>,
+                              <Divider key='divider' />,
+                              <MenuItem key='export-sign-up-surveys' onClick={handleExportSignUpSurveys}>
+                                Export Sign Up Surveys
+                              </MenuItem>,
+                              <MenuItem key='logout' onClick={handleLogout}>
+                                Logout
+                              </MenuItem>
+                            ]
+                          : [
+                              <MenuItem key='email' className={classes.accountMenuItem}>
+                                {email}
+                              </MenuItem>,
+                              <Divider key='divider' />,
+                              <MenuItem key='logout' onClick={handleLogout}>
+                                Logout
+                              </MenuItem>
+                            ]
                         : [
                             { label: 'Login', Module: LoginDialog, onClick: handleClose },
                             { label: 'Sign Up for Pro Version', Module: RegisterProDialog, onClick: handleClose },

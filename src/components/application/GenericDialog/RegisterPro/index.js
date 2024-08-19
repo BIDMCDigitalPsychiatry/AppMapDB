@@ -12,6 +12,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import { InjectField } from '../Fields';
 import { useFullScreen } from '../../../../hooks';
 import TextLabel from '../../DialogField/TextLabel';
+import * as SignUpSurveyDialog from '../SignUpSurvey';
+
 const passwordValidator = require('password-validator');
 export const title = 'Sign Up Pro Version';
 
@@ -116,6 +118,8 @@ const useStyles = makeStyles(({ palette }) =>
 function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
 
+  const [, setSignUpSurveyState] = useDialogState(SignUpSurveyDialog.title);
+
   const classes = useStyles();
   const fs = useFullScreen('sm');
 
@@ -164,6 +168,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
           .then(user => {
             console.log('Login success!');
             setUser(user);
+            setSignUpSurveyState({ open: true });
           })
           .catch(err => {
             console.error('Error with Login');
