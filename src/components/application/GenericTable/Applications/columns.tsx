@@ -25,9 +25,9 @@ import Application, {
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
 import { Typography } from '@mui/material';
-import { getDayTimeFromTimestamp } from '../../../../helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
+import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -50,11 +50,14 @@ export const CenterRadio = ({ checked = false }) => {
   return center(<Icon color='action' fontSize='small' />);
 };
 
-const LastUpdated = ({ updated }) => (
-  <Typography variant='body2' color='textSecondary'>
-    {updated ? getDayTimeFromTimestamp(updated) : ''}
-  </Typography>
-);
+const LastUpdated = ({ created, updated }) => {
+  const lastRating = useLastRatingDateTime({ created, updated });
+  return (
+    <Typography variant='body2' color='textSecondary'>
+      {lastRating}
+    </Typography>
+  );
+};
 
 const buildRadios = (items, values, paddingRight = undefined) => (
   <Grid container style={{ paddingRight }}>

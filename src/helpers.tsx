@@ -272,6 +272,17 @@ export function getDayTimeFromTimestamp(timestamp: number) {
   return `${day} ${month} ${dayNumber} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
 
+export function getDayFromTimestamp(timestamp: number) {
+  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+  d.setUTCMilliseconds(timestamp); //utc time
+  var day = dayAbbrOfWeek(d.getDay());
+  var dayNumber = d.getDate() + nth(d.getDate());
+  var year = d.getFullYear();
+  var month = monthAbbrOfYear(d.getMonth());
+
+  return `${day} ${month} ${dayNumber} ${year}`;
+}
+
 export function isDev() {
   return process.env.NODE_ENV === 'development';
 }

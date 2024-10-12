@@ -1,13 +1,13 @@
-import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 import Application from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
-import { getDayTimeFromTimestamp, publicUrl } from '../../../../helpers';
+import { publicUrl } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { grey } from '@mui/material/colors';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import PlatformButtons from './PlatformButtons';
 import ExpandableDescription from './ExpandableDescription';
+import { useLastRatingDateTime } from './useLastRatingDateTime';
 
 interface AppGridProps {
   ratingIds: string[];
@@ -31,14 +31,16 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
     icon = getAppIcon(props),
     created,
     updated
-  } = props;  
+  } = props;
 
   const { handleRefresh } = props as any;
 
   const handleChangeRoute = useHandleChangeRoute();
 
+  const lastRating = useLastRatingDateTime({ created, updated });
+
   return (
-    <Box mt={2} ml={2} mr={2} bgcolor={grey[100]} borderColor={grey[300]} border='2px solid' borderRadius="15px">
+    <Box mt={2} ml={2} mr={2} bgcolor={grey[100]} borderColor={grey[300]} border='2px solid' borderRadius='15px'>
       <Box p={2}>
         <Grid container spacing={4}>
           <Grid item xs style={{ minWidth: 300 }}>
@@ -87,7 +89,7 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
               </Grid>
               <Grid item xs={12}>
                 <Typography noWrap color='textSecondary' variant='caption'>
-                  Last Rating: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                  Last Rating: {lastRating}
                 </Typography>
               </Grid>
             </Grid>

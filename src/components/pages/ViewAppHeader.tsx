@@ -1,10 +1,9 @@
-import * as React from 'react';
 import { Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import PlatformButtons from '../application/GenericTable/ApplicationsGrid/PlatformButtons';
-import { getDayTimeFromTimestamp, isEmpty, publicUrl, uuid } from '../../helpers';
+import { isEmpty, publicUrl, uuid } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
@@ -14,6 +13,7 @@ import { useHandleChangeRoute } from '../layout/hooks';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { useRouteState } from '../layout/store';
+import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -53,6 +53,8 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
   const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
   const [routeState] = useRouteState(); // Keep route state for back functionality
   const webPlatform = platforms.filter(p => p?.toLowerCase() === 'web').map(p => 'Visit Website');
+
+  const lastRating = useLastRatingDateTime({ created, updated });
 
   return (
     <Grid container spacing={4}>
@@ -170,7 +172,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
                   </Grid>
                   <Grid item>
                     <Typography noWrap className={classes.primaryLightText} variant='caption'>
-                      {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                      {lastRating}
                     </Typography>
                   </Grid>
                 </Grid>

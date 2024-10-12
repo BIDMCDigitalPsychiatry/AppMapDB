@@ -2,11 +2,12 @@ import * as React from 'react';
 import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
+import { isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { getAppCompany, getAppIcon, getAppName } from '../Applications/selectors';
 import PlatformButtons from './PlatformButtons';
 import DialogButton from '../../GenericDialog/DialogButton';
+import { useLastRatingDateTime } from './useLastRatingDateTime';
 
 const height = 520;
 const useStyles = makeStyles((theme: any) =>
@@ -78,6 +79,8 @@ export default function ApplicationsGridItem(props: any) {
     children = undefined
   } = props;
 
+  const lastRating = useLastRatingDateTime({ created, updated });
+
   const [state, setState] = React.useState({
     raised: false
   });
@@ -143,7 +146,7 @@ export default function ApplicationsGridItem(props: any) {
           <Grid container style={{ marginTop: 4 }}>
             <Grid item xs={12}>
               <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                Last MINDapps evaluation: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                Last MINDapps evaluation: {lastRating}
               </Typography>
             </Grid>
           </Grid>
