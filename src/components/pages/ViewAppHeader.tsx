@@ -52,6 +52,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
   const handleChangeRoute = useHandleChangeRoute();
   const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
   const [routeState] = useRouteState(); // Keep route state for back functionality
+  const webPlatform = platforms.filter(p => p?.toLowerCase() === 'web').map(p => 'Visit Website');
 
   return (
     <Grid container spacing={4}>
@@ -69,7 +70,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
                 <Typography color='textSecondary'>{company}</Typography>
               </Grid>
               <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
-                <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+                <PlatformButtons platforms={platforms.filter(p => p?.toLowerCase() !== 'web')} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>
@@ -107,6 +108,11 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
                   </Grid>
                 </Grid>
               </Grid>
+              {webPlatform.length > 0 && (
+                <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
+                  <PlatformButtons platforms={webPlatform} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
