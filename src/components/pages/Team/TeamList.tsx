@@ -71,6 +71,7 @@ const TeamList = () => {
       <CommunityToolbar
         title='Team Members'
         subtitle='Meet our team'
+        showInterested={true}
         buttons={
           isAdmin
             ? [

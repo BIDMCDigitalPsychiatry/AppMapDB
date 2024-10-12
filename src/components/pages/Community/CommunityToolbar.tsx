@@ -2,6 +2,7 @@ import { Button, Grid, Toolbar, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useUserEmail } from '../../layout/hooks';
+import InterestedRateApp from './InterestedRateApp';
 
 const spacing = 3;
 
@@ -15,7 +16,7 @@ const useStyles = makeStyles(({ palette }) =>
   })
 );
 
-const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreeting = false, buttons = [] }) => {
+const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreeting = false, buttons = [], showInterested = false }) => {
   const email = useUserEmail();
   const classes = useStyles();
 
@@ -32,31 +33,38 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
   return (
     <>
       {showToolbar && (
-        <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
-          <Grid alignItems='center' container justifyContent='space-between' spacing={spacing}>
-            <Grid item>
-              {title && (
-                <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
-                  {title}
-                </Typography>
+        <>
+          <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
+            <Grid alignItems='center' container justifyContent='space-between' spacing={spacing}>
+              {showInterested && (
+                <Grid item xs={12} sx={{ mt: 1 }}>
+                  <InterestedRateApp />
+                </Grid>
               )}
-              {SubTitle}
-            </Grid>
-            <Grid item>
-              <Grid container spacing={spacing}>
-                {buttons.map(
-                  ({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
-                    <Grid item key={label}>
-                      <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
-                        {label}
-                      </Button>
-                    </Grid>
-                  )
+              <Grid item>
+                {title && (
+                  <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
+                    {title}
+                  </Typography>
                 )}
+                {SubTitle}
+              </Grid>
+              <Grid item>
+                <Grid container spacing={spacing}>
+                  {buttons.map(
+                    ({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
+                      <Grid item key={label}>
+                        <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
+                          {label}
+                        </Button>
+                      </Grid>
+                    )
+                  )}
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </Toolbar>
+          </Toolbar>
+        </>
       )}
     </>
   );
