@@ -494,13 +494,14 @@ export const DeveloperTypeQuestions = [
 
 export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
 
-export type Use = 'BIDMC' | 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved';
+//export type Use = 'BIDMC' | 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved';
+export type Use = 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved';
 
 export const UseQuestions = [
-  {
+  /*{
     value: 'BIDMC',
     label: 'Used in App Recommendation Study?'
-  },
+  },*/
   {
     value: 'Self Help',
     label: 'Is app a self-help/self-managment tool?',
