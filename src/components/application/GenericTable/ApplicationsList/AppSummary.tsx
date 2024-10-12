@@ -10,6 +10,8 @@ import { onlyUnique, getDayTimeFromTimestamp, isEmpty } from '../../../../helper
 import DialogButton from '../../GenericDialog/DialogButton';
 import { useAdminMode } from '../../../layout/store';
 import ExpandableCategories from './ExpandableCategories';
+import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
+import { useLastRatingCreatedDateTime } from '../ApplicationsGrid/useLastRatingCreatedDateTime';
 
 interface AppSummaryProps {
   ratingIds: string[];
@@ -101,6 +103,9 @@ export default function AppSummary(props: Application & AppSummaryProps & any) {
   const newerMembers = useNewerMemberCount(GroupId, created);
   const newMemberText = newerMembers > 0 ? ` (${newerMembers} Newer)` : '';
   const [adminMode] = useAdminMode();
+
+  const lastUpdated = useLastRatingDateTime({ created, updated });
+  const lastCreated = useLastRatingCreatedDateTime({ created });
   return (
     <OutlinedDiv>
       <Box pt={1} pb={1}>
@@ -148,7 +153,7 @@ export default function AppSummary(props: Application & AppSummaryProps & any) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography noWrap color='textSecondary' variant='caption'>
+                    <Typography noWrap color='textSecondary' variant='body1'>
                       {shortDeveloperTypes.length === 0 ? (
                         'Unknown Developer Type'
                       ) : shortDeveloperTypes.length > 4 ? (
@@ -161,7 +166,7 @@ export default function AppSummary(props: Application & AppSummaryProps & any) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography noWrap color='textSecondary' variant='caption'>
+                    <Typography noWrap color='textSecondary' variant='body1'>
                       {costs.length === 0 ? (
                         'Unknown Cost'
                       ) : costs.length > 2 ? (
@@ -175,15 +180,15 @@ export default function AppSummary(props: Application & AppSummaryProps & any) {
                   </Grid>
                   {adminMode && (
                     <Grid item xs={12}>
-                      <Typography noWrap color='textSecondary' variant='caption'>
-                        Created: {updated ? getDayTimeFromTimestamp(created) : ''}
+                      <Typography noWrap color='textSecondary' variant='body1'>
+                        Created: {lastCreated}
                       </Typography>
                     </Grid>
                   )}
-                  {created !== updated && (
+                  {lastCreated !== lastUpdated && (
                     <Grid item xs={12}>
-                      <Typography noWrap color='textSecondary' variant='caption'>
-                        Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
+                      <Typography noWrap color='textSecondary' variant='body1'>
+                        Last Updated: {lastUpdated}
                       </Typography>
                     </Grid>
                   )}

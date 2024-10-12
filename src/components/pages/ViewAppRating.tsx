@@ -4,6 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
 import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
+import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -22,19 +23,21 @@ export default function ViewAppRating(props) {
   const classes = useStyles();
   const { updated, created, email } = props;
 
+  const lastUpdated = useLastRatingDateTime({ created, updated });
+
   return (
     <Paper style={{ padding: 24, paddingTop: 8 }}>
       <Grid container justifyContent='space-between' alignItems='center' spacing={0}>
         <Grid item xs>
           <Grid container spacing={1}>
             <Grid item>
-              <Typography color='textSecondary' variant='caption'>
+              <Typography color='textSecondary' variant='body1'>
                 Last Updated:
               </Typography>
             </Grid>
             <Grid item>
-              <Typography noWrap className={classes.primaryLightText} variant='caption'>
-                {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+              <Typography noWrap className={classes.primaryLightText} variant='body1'>
+                {lastUpdated}
               </Typography>
             </Grid>
           </Grid>
@@ -43,12 +46,12 @@ export default function ViewAppRating(props) {
           <div style={{ textAlign: 'right' }}>
             <Grid container spacing={1}>
               <Grid item>
-                <Typography color='textSecondary' variant='caption'>
+                <Typography color='textSecondary' variant='body1'>
                   By:
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography noWrap className={classes.primaryLightText} variant='caption'>
+                <Typography noWrap className={classes.primaryLightText} variant='body1'>
                   {email}
                 </Typography>
               </Grid>
@@ -61,9 +64,9 @@ export default function ViewAppRating(props) {
           <Typography variant='body1' className={classes.bold}>
             Qualitative Review
           </Typography>
-          <Typography variant='caption'>{`This review represents the view of the app rater and is not an endorsement by MIND.`}</Typography>
+          <Typography variant='body1'>{`This review represents the view of the app rater and is not an endorsement by MIND.`}</Typography>
           <Box mt={1}>
-            <Typography variant='body2'>{isEmpty(props.review) ? 'Not available' : props.review}</Typography>
+            <Typography variant='body1'>{isEmpty(props.review) ? 'Not available' : props.review}</Typography>
           </Box>
         </Grid>
         <Grid item xs={12}>
@@ -76,7 +79,7 @@ export default function ViewAppRating(props) {
         </Grid>
         */}
       </Grid>
-      <ExpandableCategories {...props} isExpandable={false} titleVariant='body2' />
+      <ExpandableCategories {...props} isExpandable={false} titleVariant='body1' />
     </Paper>
   );
 }

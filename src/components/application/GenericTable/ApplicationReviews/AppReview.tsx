@@ -5,6 +5,7 @@ import { getDayTimeFromTimestamp } from '../../../../helpers';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import { grey } from '@mui/material/colors';
+import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -19,7 +20,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const appColumnWidth = 520;
 
-export default function AppReview({ updated, review, handleRefresh, index }) {
+export default function AppReview({ created, updated, review, handleRefresh, index }) {
   const [expand, setExpand] = React.useState(index === 0);
 
   const handleExpand = React.useCallback(
@@ -31,6 +32,7 @@ export default function AppReview({ updated, review, handleRefresh, index }) {
   );
 
   const classes = useStyles();
+  const lastUpdated = useLastRatingDateTime({ created, updated });
   return (
     <div className={classes.container} onClick={handleExpand}>
       <OutlinedDiv>
@@ -45,10 +47,10 @@ export default function AppReview({ updated, review, handleRefresh, index }) {
                     </Grid>
                     <Grid item xs={12}>
                       <Grid container justifyContent='space-between'>
-                        <Typography noWrap color='textSecondary' variant='caption'>
-                          Last Updated: {updated ? getDayTimeFromTimestamp(updated) : ''}
+                        <Typography noWrap color='textSecondary' variant='body1'>
+                          Last Updated: {lastUpdated}
                         </Typography>
-                        <Typography noWrap color='textSecondary' variant='caption'>
+                        <Typography noWrap color='textSecondary' variant='body1'>
                           Click to {expand ? 'collapse' : 'expand'}
                         </Typography>
                       </Grid>

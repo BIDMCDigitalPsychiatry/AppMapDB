@@ -8,6 +8,7 @@ import { getObjectUrl } from '../../../../aws-exports';
 import * as Icons from '@mui/icons-material';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as SortKeyDialog from '../../GenericDialog/SortKey';
+import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 
 const height = 400;
 const useStyles = makeStyles(theme =>
@@ -66,6 +67,7 @@ export default function TeamMemberGridItem({
   const changeRoute = useChangeRoute();
 
   const handleClick = () => changeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'viewTeamMember', _id }));
+  const lastUpdated = useLastRatingDateTime({ created, updated });
 
   return children ? (
     <Card className={showSortKey ? classes.rootDisabled : classes.root}>
@@ -144,7 +146,7 @@ export default function TeamMemberGridItem({
               <Grid container style={{ marginTop: 0 }}>
                 <Grid item xs={12}>
                   <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                    Last Updated: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                    Last Updated: {lastUpdated}
                   </Typography>
                 </Grid>
               </Grid>

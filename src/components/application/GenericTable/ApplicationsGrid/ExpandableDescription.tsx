@@ -4,7 +4,7 @@ import { isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 
 export default function ExpandableDescription({
-  variant = 'caption' as any,
+  variant = 'body1' as any,
   maxDescription = 1000,
   androidStore = undefined,
   appleStore = undefined,

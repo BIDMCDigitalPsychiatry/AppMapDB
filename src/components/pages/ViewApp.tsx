@@ -154,7 +154,7 @@ export default function ViewApp() {
             <Typography className={classes.primaryText} variant='body1'>
               Ratings and Reviews ({history.length})
             </Typography>
-            <Typography variant='caption'>{`Explore the app's qualitative ratings & reviews`}</Typography>
+            <Typography variant='body1'>{`Explore the app's qualitative ratings & reviews`}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Box mt={2}>{rating && <ViewAppRating {...rating.getValues()} />}</Box>

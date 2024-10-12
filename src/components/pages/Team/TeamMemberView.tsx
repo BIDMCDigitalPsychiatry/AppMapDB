@@ -12,6 +12,7 @@ import CommunityToolbar from '../Community/CommunityToolbar';
 import { Card, CardContent, CardMedia } from '@mui/material';
 import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../../helpers';
 import { getObjectUrl } from '../../../aws-exports';
+import { useLastRatingDateTime } from '../../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
 
 const height = 400;
 const useStyles = makeStyles(theme =>
@@ -65,6 +66,8 @@ const TeamMemberView = () => {
   }, [changeRoute, JSON.stringify(values)]);
 
   const handleChangeRoute = useHandleChangeRoute();
+
+  const lastUpdated = useLastRatingDateTime({ created, updated });
 
   return !values ? null : (
     <>
@@ -148,7 +151,7 @@ const TeamMemberView = () => {
                   <Grid container style={{ marginTop: 8 }}>
                     <Grid item xs={12}>
                       <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                        Last Updated: {updated ? getDayTimeFromTimestamp(updated) : created ? getDayTimeFromTimestamp(created) : ''}
+                        Last Updated: {lastUpdated}
                       </Typography>
                     </Grid>
                   </Grid>
