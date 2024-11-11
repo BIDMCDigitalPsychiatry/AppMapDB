@@ -3,6 +3,11 @@ import { Typography } from '@mui/material';
 import { isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 
+export const getDescription = ({ appleStore, androidStore }) => {
+  var description = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
+  return description;
+};
+
 export default function ExpandableDescription({
   variant = 'body1' as any,
   maxDescription = 1000,
@@ -17,7 +22,7 @@ export default function ExpandableDescription({
     handleRefresh && handleRefresh();
   }, [setExpand, handleRefresh]);
 
-  var description = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
+  var description = getDescription({ appleStore, androidStore });
   const isExpandable = description?.length > maxDescription;
   var collapsedDescription = undefined;
   if (expand === false && isExpandable) {

@@ -8,6 +8,7 @@ import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
 import { useAdminMode } from '../../../layout/store';
+import { getDescription } from '../ApplicationsGrid/ExpandableDescription';
 
 export const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -89,7 +90,8 @@ export const useAppData = table => {
               app: appSearchable.name,
               cost: appSearchable.costs,
               functionality: appSearchable.functionalities,
-              developerType: appSearchable.developerTypes
+              developerType: appSearchable.developerTypes,
+              description: getDescription(app)
             }),
             created: app.created,
             approved: app.approved,

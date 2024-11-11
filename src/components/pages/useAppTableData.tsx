@@ -8,6 +8,7 @@ import { AppState } from '../../store';
 import { getAppCompany, getAppName } from '../application/GenericTable/Applications/selectors';
 import { useTableFilter } from '../application/GenericTable/helpers';
 import { useAdminMode } from '../layout/store';
+import { getDescription } from '../application/GenericTable/ApplicationsGrid/ExpandableDescription';
 
 const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
@@ -141,7 +142,8 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
               app: appSearchable.name,
               cost: appSearchable.costs,
               functionality: appSearchable.functionalities,
-              developerType: appSearchable.developerTypes
+              developerType: appSearchable.developerTypes,
+              description: getDescription(app)
             }),
             created: app.created,
             approved: app.approved,

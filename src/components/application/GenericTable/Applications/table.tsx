@@ -34,7 +34,7 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
 export const Applications = ({ data, ...props }) => {
   const columns = useColumns();
   const { showButtons = true, HeaderComponent } = props;
-  const exportColumns = [{ name: '_id', header: '_id' }, ...columns];
+  const exportColumns = [{ name: '_id', header: '_id' }, ...columns, { name: 'description', header: 'description' }];
   const handleExport = useHandleExport(data, exportColumns);
   const isAdmin = useIsAdmin();
 
