@@ -143,7 +143,10 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
               cost: appSearchable.costs,
               functionality: appSearchable.functionalities,
               developerType: appSearchable.developerTypes,
-              description: getDescription(app)
+              description: getDescription(app),
+              iosLink: app.iosLink,
+              androidLink: app.androidLink,
+              webLink: app.webLink
             }),
             created: app.created,
             approved: app.approved,

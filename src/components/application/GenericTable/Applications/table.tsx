@@ -14,6 +14,7 @@ import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 import TourStep from '../../../pages/Tour/TourStep';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
+import { extraExportColumns } from '../ApplicationsGrid/table';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -34,7 +35,7 @@ export const defaultApplicationsProps: GenericTableContainerProps = {
 export const Applications = ({ data, ...props }) => {
   const columns = useColumns();
   const { showButtons = true, HeaderComponent } = props;
-  const exportColumns = [{ name: '_id', header: '_id' }, ...columns, { name: 'description', header: 'description' }];
+  const exportColumns = [{ name: '_id', header: '_id' }, ...columns, ...extraExportColumns];
   const handleExport = useHandleExport(data, exportColumns);
   const isAdmin = useIsAdmin();
 
