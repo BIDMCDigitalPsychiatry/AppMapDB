@@ -28,7 +28,7 @@ export const defaultProps: GenericTableContainerProps = {
   search: false
 };
 
-export const ApplicationsGrid = ({ data, HeaderComponent, ...other }) => {
+export const ApplicationsGrid = ({ data, HeaderComponent = undefined, ...other }) => {
   const { columns, ...remaining } = defaultProps;
   const exportColumns = [{ name: '_id', header: '_id' }, ...(columns as any), ...extraExportColumns];
   const handleExport = useHandleExport(data, exportColumns);

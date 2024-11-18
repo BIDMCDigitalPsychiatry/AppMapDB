@@ -126,6 +126,7 @@ const GenericDialog = ({
   validate,
   classes: Classes,
   children,
+  fullScreen: FullScreen,
   ...other
 }: ComponentProps & any) => {
   const { layout } = useTheme() as any;
@@ -186,7 +187,7 @@ const GenericDialog = ({
   return (
     <Dialog
       PaperComponent={Paper}
-      fullScreen={fullScreen}
+      fullScreen={fullScreen || FullScreen}
       open={open}
       onClose={handleClose}
       aria-labelledby={`${id}-dialog-title`}

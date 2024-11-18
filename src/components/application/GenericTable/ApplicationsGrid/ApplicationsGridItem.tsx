@@ -3,11 +3,13 @@ import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
-import { useHandleChangeRoute } from '../../../layout/hooks';
+import { useChangeRoute } from '../../../layout/hooks';
 import { getAppCompany, getAppIcon, getAppName } from '../Applications/selectors';
 import PlatformButtons from './PlatformButtons';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
+import { useDialogState } from '../../GenericDialog/useDialogState';
+import { title } from '../../GenericDialog/ViewApp';
 
 const height = 520;
 const useStyles = makeStyles((theme: any) =>
@@ -62,6 +64,10 @@ const useStyles = makeStyles((theme: any) =>
   })
 );
 
+export function PwaApplicationsGridItem(props) {
+  return <ApplicationsGridItem {...props} isPwa={true} />;
+}
+
 export default function ApplicationsGridItem(props: any) {
   const {
     name = getAppName(props),
@@ -76,6 +82,7 @@ export default function ApplicationsGridItem(props: any) {
     icon = getAppIcon(props),
     created,
     updated,
+    isPwa = false,
     children = undefined
   } = props;
 
@@ -86,9 +93,15 @@ export default function ApplicationsGridItem(props: any) {
   });
 
   const classes = useStyles();
-  const handleChangeRoute = useHandleChangeRoute();
-
+  const changeRoute = useChangeRoute();
   const content = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
+
+  const [, setDialogState] = useDialogState(title);
+
+  const onClick = React.useCallback(() => {
+    isPwa ? setDialogState({ open: true, app: props, from: 'pwa' }) : changeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' });
+    // eslint-disable-next-line
+  }, [isPwa, JSON.stringify(props), changeRoute, setDialogState]);
 
   return children ? (
     <Card className={classes.root}>
@@ -96,7 +109,7 @@ export default function ApplicationsGridItem(props: any) {
     </Card>
   ) : (
     <Card
-      onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' })}
+      onClick={onClick}
       className={classes.root}
       onMouseOver={() => setState({ raised: true })}
       onMouseOut={() => setState({ raised: false })}

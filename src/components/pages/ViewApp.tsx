@@ -30,12 +30,18 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export default function ViewApp() {
-  const classes = useStyles();
-  var sm = useFullScreen('sm');
-
   const [state] = useRouteState();
   const { app = {}, from } = state;
-  const { _id, appleStore, androidStore } = app;
+
+  return <ViewAppContent app={app} from={from} />;
+}
+
+export function ViewAppContent({ app = {}, from }) {
+  const classes = useStyles();
+  var sm = useFullScreen('sm');
+  var isPwa = from === 'pwa';
+
+  const { _id, appleStore, androidStore } = app as any;
   console.log('Viewing app', app);
 
   const fromSurvey = from === 'Survey';
@@ -66,76 +72,80 @@ export default function ViewApp() {
 
   return (
     <Grid container justifyContent='flex-start' style={{ padding: sm ? 16 : 32 }} spacing={2}>
-      <Grid component={Button} item style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
-        <Typography>{`<   Back To Results`}</Typography>
-      </Grid>
+      {!isPwa && (
+        <Grid component={Button} item style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
+          <Typography>{`<   Back To Results`}</Typography>
+        </Grid>
+      )}
       <Grid item xs={12}>
-        <ViewAppHeader app={app} />
+        <ViewAppHeader app={app} from={from} />
       </Grid>
       <Grid item xs={12}>
         <Divider />
-        <Collapse in={open}>
-          <Box mt={2}>
-            {fromSurvey ? (
-              <Alert
-                severity='success'
-                action={
-                  <IconButton
-                    aria-label='close'
-                    color='inherit'
-                    size='small'
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <Icons.Close fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                Thank you for participating in our survey!
-              </Alert>
-            ) : (
-              <Alert
-                severity='success'
-                action={
-                  <IconButton
-                    aria-label='close'
-                    color='inherit'
-                    size='small'
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <Icons.Close fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                <Grid container spacing={4} justifyContent='space-between'>
-                  <Grid item>
-                    <AlertTitle>
-                      <strong>Are you currently using this App?</strong>
-                    </AlertTitle>
-                    If so, would you like to participate in a survey to help improve this web application?
-                  </Grid>
-                  <Grid item xs>
-                    <DialogButton
-                      onClick={handleChangeRoute(publicUrl('/Survey'), {
-                        app,
-                        mode: 'add',
-                        surveyType: 'Initial',
-                        surveyId: undefined,
-                        followUpSurveyType: undefined
-                      })}
-                      variant='surveyButton'
+        {from !== 'pwa' && (
+          <Collapse in={open}>
+            <Box mt={2}>
+              {fromSurvey ? (
+                <Alert
+                  severity='success'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpen(false);
+                      }}
                     >
-                      Click Here to Take Survey
-                    </DialogButton>
+                      <Icons.Close fontSize='inherit' />
+                    </IconButton>
+                  }
+                >
+                  Thank you for participating in our survey!
+                </Alert>
+              ) : (
+                <Alert
+                  severity='success'
+                  action={
+                    <IconButton
+                      aria-label='close'
+                      color='inherit'
+                      size='small'
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <Icons.Close fontSize='inherit' />
+                    </IconButton>
+                  }
+                >
+                  <Grid container spacing={4} justifyContent='space-between'>
+                    <Grid item>
+                      <AlertTitle>
+                        <strong>Are you currently using this App?</strong>
+                      </AlertTitle>
+                      If so, would you like to participate in a survey to help improve this web application?
+                    </Grid>
+                    <Grid item xs>
+                      <DialogButton
+                        onClick={handleChangeRoute(publicUrl('/Survey'), {
+                          app,
+                          mode: 'add',
+                          surveyType: 'Initial',
+                          surveyId: undefined,
+                          followUpSurveyType: undefined
+                        })}
+                        variant='surveyButton'
+                      >
+                        Click Here to Take Survey
+                      </DialogButton>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Alert>
-            )}
-          </Box>
-        </Collapse>
+                </Alert>
+              )}
+            </Box>
+          </Collapse>
+        )}
       </Grid>
       <Grid item xs={12}>
         <Grid container spacing={1}>

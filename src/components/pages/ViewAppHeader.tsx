@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const imageHeight = 144;
 
-export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
+export default function ViewAppHeader({ app = {} as any, type = 'view', from = undefined }) {
   const classes = useStyles();
   const {
     _id,
@@ -121,7 +121,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view' }) {
       </Grid>
       <Grid item style={{ width: 256 }}>
         <Grid container spacing={1}>
-          {type !== 'survey' && (
+          {from !== 'pwa' && type !== 'survey' && (
             <>
               <Grid item xs={12}>
                 {signedInRater ? (

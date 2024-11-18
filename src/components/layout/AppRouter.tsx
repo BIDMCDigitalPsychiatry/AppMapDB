@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Layout from './Layout';
 import useLogRocketUser from './useLogRocketUser';
 import VersionSelector from './VersionSelector';
+import PwaLayout from '../pwa/PwaLayout';
+import Pwa from '../pwa/Pwa';
 
 export interface AppRouterProps {
   history?: any;
@@ -13,14 +15,23 @@ export interface AppRouterProps {
 function AppRouter(props: AppRouterProps) {
   const { history } = props;
   useLogRocketUser();
+  var pathname = window.location?.pathname;
+  const isPwa = pathname?.toLowerCase()?.startsWith('/pwa') ? true : false;
+
   return (
     // @ts-ignore
     <ConnectedRouter history={history}>
-      <VersionSelector>
-        <Layout>
-          <Routes />
-        </Layout>
-      </VersionSelector>
+      {isPwa ? (
+        <PwaLayout>
+          <Pwa />
+        </PwaLayout>
+      ) : (
+        <VersionSelector>
+          <Layout>
+            <Routes />
+          </Layout>
+        </VersionSelector>
+      )}
     </ConnectedRouter>
   );
 }
