@@ -51,11 +51,11 @@ const questions = [
   {
     label: 'Willing to pay?',
     options: [
+      { label: `It doesn't matter to me`, filterValue: [] },
       { label: 'No, totally free only', filterValue: ['Totally Free'] },
       { label: 'Yes, can pay one time download fee', filterValue: ['Payment'] },
       { label: 'Yes, can pay subscription fee', filterValue: ['Subscription'] },
-      { label: 'Yes, can pay in app payments', filterValue: ['In-App Purchase'] },
-      { label: `It doesn't matter to me`, filterValue: [] }
+      { label: 'Yes, can pay in app payments', filterValue: ['In-App Purchase'] }
     ],
     id: 'Cost'
   },
@@ -63,24 +63,24 @@ const questions = [
     label: 'Need a privacy policy?',
     id: 'Privacy',
     options: [
-      { label: 'Yes, only apps with privacy policies', filterValue: ['Has Privacy Policy'] },
-      { label: `It doesn't matter to me`, filterValue: [] }
+      { label: `It doesn't matter to me`, filterValue: [] },
+      { label: 'Yes, only apps with privacy policies', filterValue: ['Has Privacy Policy'] }
     ]
   },
   {
-    label: 'Need supporting evidence and/or crisis support?',
+    label: 'Need supporting evidence?',
     id: 'ClinicalFoundations',
     options: [
       { label: 'Not Required', filterValue: [] },
-      { label: 'Supporting Evidence & Crisis Support', filterValue: ['Supporting Studies', 'Appropriately Advises Patient in Case of Emergency'] },
-      { label: 'Supporting Evidence', filterValue: ['Supporting Studies'] },
-      { label: 'Crisis Support', filterValue: ['Appropriately Advises Patient in Case of Emergency'] }
+      //{ label: 'Supporting Evidence & Crisis Support', filterValue: ['Supporting Studies', 'Appropriately Advises Patient in Case of Emergency'] },
+      { label: 'Yes', filterValue: ['Supporting Studies'] }
+      //{ label: 'Crisis Support', filterValue: ['Appropriately Advises Patient in Case of Emergency'] }
     ]
   },
   {
     label: 'Condition target?',
     id: 'Conditions',
-    options: Conditions.map(c => ({ label: c, filterValue: [c] }))
+    options: [{ label: 'Skip', filterValue: [] }].concat(Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] })))
     /*[
       'No Specific Condition',
       'Bipolar Disorder',
@@ -108,7 +108,7 @@ const questions = [
     label: 'Desired treatment approach?',
     id: 'TreatmentApproaches',
     options: [
-      { label: 'Nothing Specific', filterValue: [] },
+      { label: 'Skip', filterValue: [] },
       //{ label: 'Acceptance and Commitment', filterValue: [] },
       { label: 'Acceptance and Commitment Therapy (ACT)', filterValue: ['ACT'] },
       { label: 'Cognitive Behavioral Therapy (CBT)', filterValue: ['CBT'] },
@@ -122,7 +122,7 @@ const questions = [
     label: 'Feature included?',
     id: 'Features',
     options: [
-      { label: 'Nothing Specific', filterValue: [] },
+      { label: 'Skip', filterValue: [] },
       { label: 'Goal Setting', filterValue: ['Goal Setting/Habits'] },
       { label: 'Journaling', filterValue: ['Journaling'] },
       { label: 'Medication Tracking', filterValue: ['Track Medication'] },
@@ -149,6 +149,11 @@ export default function Pwa() {
   const scrollEl = useScrollElement();
   const height = useHeight();
   const onReset = useHandleTableReset('Applications');
+
+  React.useEffect(() => {
+    onReset();
+    // eslint-disable-next-line
+  }, []);
 
   const scrollTop = React.useCallback(() => {
     if (scrollEl) {
