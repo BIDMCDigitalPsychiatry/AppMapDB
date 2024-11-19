@@ -4,7 +4,7 @@ import PwaApps from './PwaApps';
 import PwaAppBar from './PwaAppBar';
 import { useScrollElement } from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
-import { useTableFilterValue } from '../application/GenericTable/store';
+import { useHandleTableReset, useTableFilterValue } from '../application/GenericTable/store';
 import { isEmpty } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
 
@@ -148,6 +148,7 @@ export default function Pwa() {
 
   const scrollEl = useScrollElement();
   const height = useHeight();
+  const onReset = useHandleTableReset('Applications');
 
   const scrollTop = React.useCallback(() => {
     if (scrollEl) {
@@ -189,8 +190,9 @@ export default function Pwa() {
 
   const handleReset = React.useCallback(() => {
     setState(defaultState);
+    onReset && onReset();
     scrollTop();
-  }, [setState, scrollTop]);
+  }, [setState, scrollTop, onReset]);
 
   var progress = (100 * (index + 1)) / questions?.length;
 
