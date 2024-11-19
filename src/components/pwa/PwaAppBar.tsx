@@ -4,7 +4,7 @@ import { useAppBarHeightSetRef } from '../layout/hooks';
 
 const navButtonSize = 'normal' as any;
 
-export default function PwaAppBar({ handleSearch, handleReset, handleBack, handleNext, disableBack = false, hideNext = false }) {
+export default function PwaAppBar({ handleSearch, handleReset, handleBack, handleNext, disableBack = false, hideNext = false, hideSearch = false }) {
   const setRef = useAppBarHeightSetRef();
   return (
     <Grid ref={setRef} container justifyContent='space-between' alignItems='center' sx={{ pl: 2 }} spacing={1}>
@@ -13,11 +13,13 @@ export default function PwaAppBar({ handleSearch, handleReset, handleBack, handl
       </Grid>
       <Grid item>
         <Grid container justifyContent='flex-end' spacing={1}>
-          <Grid item>
-            <Button variant='contained' size={navButtonSize} onClick={handleSearch}>
-              Search
-            </Button>
-          </Grid>
+          {!hideSearch && (
+            <Grid item>
+              <Button variant='contained' size={navButtonSize} onClick={handleSearch}>
+                Search
+              </Button>
+            </Grid>
+          )}
           <Grid item>
             <Button variant='contained' size={navButtonSize} onClick={handleReset}>
               Reset

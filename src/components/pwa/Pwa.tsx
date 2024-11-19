@@ -4,6 +4,9 @@ import PwaApps from './PwaApps';
 import PwaAppBar from './PwaAppBar';
 import { useScrollElement } from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
+import { useTableFilterValue } from '../application/GenericTable/store';
+import { isEmpty } from '../../helpers';
+import { Conditions } from '../../database/models/Application';
 
 const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -25,7 +28,7 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
             fullWidth
             sx={{ backgroundColor: value === o ? 'primary.dark' : undefined, fontSize: 24, minHeight: 64 }}
           >
-            {o}
+            {!isEmpty(o?.label) ? o.label : o}
           </Button>
         </Grid>
       ))}
@@ -34,19 +37,51 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
 };
 
 const questions = [
-  { label: 'Type of device?', filter: 'Platform', options: ['Apple', 'Android', 'Both'], Field: SingleAnswerButtons },
+  {
+    label: 'Type of device?',
+    options: [
+      { label: 'Apple', filterValue: ['iOS'] },
+      { label: 'Android', filterValue: ['Android'] },
+      { label: 'Both', filterValue: ['iOS', 'Android'] }
+    ],
+    Field: SingleAnswerButtons,
+    id: 'Platforms',
+    onSelect: undefined
+  },
   {
     label: 'Willing to pay?',
-    filter: 'Cost',
-    options: ['No, totally free only', 'Yes, can pay one time download fee', 'Yes, can pay subscription fee/in app payments', `It doesn't matter to me`]
+    options: [
+      { label: 'No, totally free only', filterValue: ['Totally Free'] },
+      { label: 'Yes, can pay one time download fee', filterValue: ['Payment'] },
+      { label: 'Yes, can pay subscription fee', filterValue: ['Subscription'] },
+      { label: 'Yes, can pay in app payments', filterValue: ['In-App Purchase'] },
+      { label: `It doesn't matter to me`, filterValue: [] }
+    ],
+    id: 'Cost'
   },
-  { label: 'Need a privacy policy?', filter: 'Privacy', options: ['Yes, only apps with privacy policies', `It doesn't matter to me`] },
-  { label: 'Need supporting evidence?', filter: 'Evidence & Clinical Foundations', options: ['Yes', `Not a requirement`] },
-  { label: 'Need crisis support?', filter: 'Evidence & Clinical Foundations', options: ['Yes', `Not a requirement`] },
+  {
+    label: 'Need a privacy policy?',
+    id: 'Privacy',
+    options: [
+      { label: 'Yes, only apps with privacy policies', filterValue: ['Has Privacy Policy'] },
+      { label: `It doesn't matter to me`, filterValue: [] }
+    ]
+  },
+  {
+    label: 'Need supporting evidence and/or crisis support?',
+    id: 'ClinicalFoundations',
+    options: [
+      { label: 'Not Required', filterValue: [] },
+      { label: 'Supporting Evidence & Crisis Support', filterValue: ['Supporting Studies', 'Appropriately Advises Patient in Case of Emergency'] },
+      { label: 'Supporting Evidence', filterValue: ['Supporting Studies'] },
+      { label: 'Crisis Support', filterValue: ['Appropriately Advises Patient in Case of Emergency'] }
+    ]
+  },
   {
     label: 'Condition target?',
-    filter: 'Supported Conditions',
-    options: [
+    id: 'Conditions',
+    options: Conditions.map(c => ({ label: c, filterValue: [c] }))
+    /*[
       'No Specific Condition',
       'Bipolar Disorder',
       'Cardiovascular Health',
@@ -67,38 +102,47 @@ const questions = [
       'Substance Use',
       'Substance Use (Alchohol)',
       'Substance Use (Smoking & Tobacco)'
-    ]
+    ]*/
   },
   {
     label: 'Desired treatment approach?',
-    filter: 'Treatment Approaches',
+    id: 'TreatmentApproaches',
     options: [
-      'Nothing Specific',
-      'Acceptance and Commitment',
-      'Acceptance and Commitment Therapy (ACT)',
-      'Cognitive Behavioral Therapy (CBT)',
-      'Dialectical Behavioral Therapy (DBT)',
-      'Excersize',
-      'Insomnia Cognitive Behavioral Therapy (iCBT)',
-      'Mindfulness'
+      { label: 'Nothing Specific', filterValue: [] },
+      //{ label: 'Acceptance and Commitment', filterValue: [] },
+      { label: 'Acceptance and Commitment Therapy (ACT)', filterValue: ['ACT'] },
+      { label: 'Cognitive Behavioral Therapy (CBT)', filterValue: ['CBT'] },
+      { label: 'Dialectical Behavioral Therapy (DBT)', filterValue: ['DBT'] },
+      { label: 'Exercise', filterValue: ['Physical Health Exercises'] },
+      { label: 'Insomnia Cognitive Behavioral Therapy (iCBT)', filterValue: ['iCBT or Sleep Therapy'] },
+      { label: 'Mindfulness', filterValue: ['Mindfulness'] }
     ]
   },
   {
     label: 'Feature included?',
-    filter: 'Features',
-    options: ['Nothing Specific', 'Goal Setting', 'Journaling', 'Medication Tracking', 'Mood Tracking', 'Psychoeducation', 'Sleep Tracking', 'Symptom Tracking']
+    id: 'Features',
+    options: [
+      { label: 'Nothing Specific', filterValue: [] },
+      { label: 'Goal Setting', filterValue: ['Goal Setting/Habits'] },
+      { label: 'Journaling', filterValue: ['Journaling'] },
+      { label: 'Medication Tracking', filterValue: ['Track Medication'] },
+      { label: 'Mood Tracking', filterValue: ['Track Mood'] },
+      { label: 'Psychoeducation', filterValue: ['Psychoeducation'] },
+      { label: 'Sleep Tracking', filterValue: ['Track Sleep'] },
+      { label: 'Symptom Tracking', filterValue: ['Track Symptoms'] }
+    ]
   }
 ];
 
-const defaultState = { index: 0, values: {} };
+const defaultState = { index: 0, backIndex: 0, values: {} };
 
 export default function Pwa() {
   const [{ index, values }, setState] = React.useState(defaultState);
 
-  const question = index <= questions.length - 1 ? questions[index] : { label: '', options: [], Field: () => <></> };
-  console.log({ index, question });
+  const question = index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
+  //console.log({ index, question });
   const searchIndex = questions.length;
-  const { label, options, Field = SingleAnswerButtons } = question;
+  const { id, label, options, Field = SingleAnswerButtons, onSelect = undefined } = question;
 
   const value = values[index];
 
@@ -109,29 +153,39 @@ export default function Pwa() {
     if (scrollEl) {
       scrollEl.scrollTop = 0;
     }
+    // eslint-disable-next-line
   }, [scrollEl, height]);
+
+  const [filterValue, setValue] = useTableFilterValue('Applications', id);
+  //console.log({ id, filterValue });
 
   const onChange = React.useCallback(
     index => value => {
       setState(p => ({ ...p, values: { ...p.values, [index]: value } }));
+      if (onSelect) {
+        onSelect && onSelect({ value, setValue });
+      } else {
+        setValue(value?.filterValue ?? []);
+      }
     },
-    [setState]
+    [setState, setValue, onSelect]
   );
 
   const handleNext = React.useCallback(() => {
-    setState(p => ({ ...p, index: p.index + 1 }));
+    setState(p => ({ ...p, index: p.index + 1, backIndex: p.index }));
     scrollTop();
   }, [setState, scrollTop]);
 
   const handleBack = React.useCallback(() => {
-    setState(p => ({ ...p, index: p?.index > 0 ? p.index - 1 : 0 }));
+    //setState(p => ({ ...p, index: p?.index > 0 ? p.index - 1 : 0 }));
+    setState(p => ({ ...p, index: p?.backIndex, backIndex: p.backIndex > 0 ? p.backIndex - 1 : 0 }));
     scrollTop();
   }, [setState, scrollTop]);
 
   const handleSearch = React.useCallback(() => {
-    setState(p => ({ ...p, index: searchIndex }));
+    setState(p => ({ ...p, index: searchIndex, backIndex: p.index }));
     scrollTop();
-  }, [setState, searchIndex, scrollTop()]);
+  }, [setState, searchIndex, scrollTop]);
 
   const handleReset = React.useCallback(() => {
     setState(defaultState);
@@ -151,6 +205,7 @@ export default function Pwa() {
           handleSearch={handleSearch}
           disableBack={index <= 0}
           hideNext={showResults}
+          hideSearch={showResults}
           handleReset={handleReset}
         />
         <Grid item xs={12}>
