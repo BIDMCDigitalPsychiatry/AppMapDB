@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Button, Grid, Container, LinearProgress, Divider } from '@mui/material';
 import PwaApps from './PwaApps';
 import PwaAppBar from './PwaAppBar';
+import { useScrollElement } from '../layout/ScrollElementProvider';
+import useHeight from '../layout/ViewPort/hooks/useHeight';
 
 const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -100,6 +102,15 @@ export default function Pwa() {
 
   const value = values[index];
 
+  const scrollEl = useScrollElement();
+  const height = useHeight();
+
+  const scrollTop = React.useCallback(() => {
+    if (scrollEl) {
+      scrollEl.scrollTop = 0;
+    }
+  }, [scrollEl, height]);
+
   const onChange = React.useCallback(
     index => value => {
       setState(p => ({ ...p, values: { ...p.values, [index]: value } }));
@@ -109,19 +120,23 @@ export default function Pwa() {
 
   const handleNext = React.useCallback(() => {
     setState(p => ({ ...p, index: p.index + 1 }));
-  }, [setState]);
+    scrollTop();
+  }, [setState, scrollTop]);
 
   const handleBack = React.useCallback(() => {
     setState(p => ({ ...p, index: p?.index > 0 ? p.index - 1 : 0 }));
-  }, [setState]);
+    scrollTop();
+  }, [setState, scrollTop]);
 
   const handleSearch = React.useCallback(() => {
     setState(p => ({ ...p, index: searchIndex }));
-  }, [setState, searchIndex]);
+    scrollTop();
+  }, [setState, searchIndex, scrollTop()]);
 
   const handleReset = React.useCallback(() => {
     setState(defaultState);
-  }, [setState]);
+    scrollTop();
+  }, [setState, scrollTop]);
 
   var progress = (100 * (index + 1)) / questions?.length;
 
