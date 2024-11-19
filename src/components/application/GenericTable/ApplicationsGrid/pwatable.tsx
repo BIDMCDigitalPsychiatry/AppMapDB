@@ -1,3 +1,4 @@
+import PwaSearchHeader from '../../../pages/PwaSearchHeader';
 import ViewAppDialog from '../../GenericDialog/ViewApp';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import ApplicationGrid from './ApplicationsGrid';
@@ -20,6 +21,7 @@ export const PwaApplicationsGrid = ({ data, HeaderComponent = undefined, ...othe
   return (
     <>
       <ViewAppDialog />
+      <PwaSearchHeader />
       <GenericTableContainer {...remaining} columns={columns} data={data} showScroll={true} {...other} />
     </>
   );
