@@ -219,7 +219,7 @@ export default function Pwa() {
           <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 32, color: 'primary.dark' }}>
             {label}
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} sx={{ mt: 0.5 }}>
             <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
           </Grid>
         </Grid>

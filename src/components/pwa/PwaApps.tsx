@@ -12,9 +12,7 @@ export default function PwaApps() {
   const { tablefooterheight } = layout;
   //const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
   const tableHeight = height - appBarHeight + tablefooterheight - headerHeight + 32;
-  const { filtered } = useAppTableData(); // Trigger data query
-
-  console.log({ headerHeight, appBarHeight, tablefooterheight, tableHeight });
+  const { filtered } = useAppTableData({ trigger: false }); // Don't re-trigger here as it causes a refresh
 
   return <Tables.PwaApplicationsGrid data={filtered} height={tableHeight} />;
 }

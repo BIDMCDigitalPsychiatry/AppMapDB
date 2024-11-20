@@ -4,6 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import { useAppBarHeight, useFooterHeight } from '../layout/hooks';
 import ScrollElementProvider from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
+import useAppTableData from '../pages/useAppTableData';
 
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({
@@ -35,10 +36,11 @@ export function PwaLayout({ children }) {
   const [appBarHeight] = useAppBarHeight();
   const [footerHeight] = useFooterHeight();
   const componentsOnPage = [appBarHeight, footerHeight];
-  const minHeight = height - appBarHeight - footerHeight - 1;
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
 
   var [scrollElement, setScrollElement] = React.useState(null);
+
+  useAppTableData({ trigger: true });
 
   const classes = useStyles({
     leftDrawerOpen: false,
