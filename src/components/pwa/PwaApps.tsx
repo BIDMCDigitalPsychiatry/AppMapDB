@@ -11,7 +11,7 @@ export default function PwaApps() {
   const { layout } = useTheme() as any;
   const { tablefooterheight } = layout;
   //const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
-  const tableHeight = height - appBarHeight + tablefooterheight - headerHeight;
+  const tableHeight = height - appBarHeight + tablefooterheight - headerHeight + 32;
   const { filtered } = useAppTableData(); // Trigger data query
 
   console.log({ headerHeight, appBarHeight, tablefooterheight, tableHeight });

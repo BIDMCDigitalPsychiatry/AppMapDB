@@ -18,7 +18,7 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   );
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {options.map(o => (
         <Grid item xs={12}>
           <Button
@@ -182,8 +182,8 @@ export default function Pwa() {
   const showResults = index >= searchIndex ? true : false;
 
   return (
-    <Container maxWidth='lg' sx={{ py: 2, px: 0, mx: 0 }}>
-      <Grid container spacing={2} alignItems='center' justifyContent='center' sx={{ px: 2 }}>
+    <Container maxWidth='lg' sx={{ pt: 1, pb: 2, px: 0, mx: 0 }}>
+      <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1 }}>
         <Grid item xs={12}>
           <PwaAppBar
             handleBack={handleBack}
@@ -202,7 +202,7 @@ export default function Pwa() {
       {showResults ? (
         <PwaApps />
       ) : (
-        <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 2, pt: 1 }}>
+        <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1, pt: 1 }}>
           <Grid item xs={12}>
             <Grid container spacing={1} alignItems='center'>
               <Grid item xs>

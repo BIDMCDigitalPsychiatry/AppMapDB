@@ -15,24 +15,24 @@ export default function PwaAppBar({ handleSearch, handleReset, handleBack, handl
         <Grid container justifyContent='flex-end' spacing={1}>
           {!hideSearch && (
             <Grid item>
-              <Button variant='contained' size={navButtonSize} onClick={handleSearch}>
+              <Button variant='contained' size={navButtonSize} onClick={handleSearch} sx={{ px: 0 }}>
                 Search
               </Button>
             </Grid>
           )}
           <Grid item>
-            <Button variant='contained' size={navButtonSize} onClick={handleReset}>
+            <Button variant='contained' size={navButtonSize} onClick={handleReset} sx={{ px: 0 }}>
               Reset
             </Button>
           </Grid>
           <Grid item>
-            <Button variant='contained' size={navButtonSize} onClick={handleBack} disabled={disableBack}>
+            <Button variant='contained' size={navButtonSize} onClick={handleBack} disabled={disableBack} sx={{ px: 0 }}>
               Back
             </Button>
           </Grid>
           {!hideNext && (
             <Grid item>
-              <Button variant='contained' size={navButtonSize} onClick={handleNext}>
+              <Button variant='contained' size={navButtonSize} onClick={handleNext} sx={{ px: 0 }}>
                 Next
               </Button>
             </Grid>
