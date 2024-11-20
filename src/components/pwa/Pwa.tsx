@@ -182,7 +182,7 @@ export default function Pwa() {
   const showResults = index >= searchIndex ? true : false;
 
   return (
-    <Container maxWidth='lg' sx={{ pt: 1, pb: 2, px: 0, mx: 0 }}>
+    <Container maxWidth='lg' sx={{ pt: 1, pb: 2, px: 0 }}>
       <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1 }}>
         <Grid item xs={12}>
           <PwaAppBar
