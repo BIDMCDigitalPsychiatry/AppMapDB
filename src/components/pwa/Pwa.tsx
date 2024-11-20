@@ -81,28 +81,6 @@ const questions = [
     label: 'Condition target?',
     id: 'Conditions',
     options: [{ label: 'Skip', filterValue: [] }].concat(Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] })))
-    /*[
-      'No Specific Condition',
-      'Bipolar Disorder',
-      'Cardiovascular Health',
-      'COPD',
-      'Eating Disorders',
-      'Headache',
-      'Mood Disorders',
-      'OCD',
-      'Pain',
-      'Perinatal Depression',
-      'Personality Disorders',
-      'Phonbias',
-      'PTSD',
-      'Schizophrenia',
-      'Self-Harm',
-      'Sleep',
-      'Stress & Anxiety',
-      'Substance Use',
-      'Substance Use (Alchohol)',
-      'Substance Use (Smoking & Tobacco)'
-    ]*/
   },
   {
     label: 'Desired treatment approach?',
@@ -204,48 +182,48 @@ export default function Pwa() {
   const showResults = index >= searchIndex ? true : false;
 
   return (
-    <Container maxWidth='lg' sx={{ py: 5 }}>
-      <Grid container spacing={2} alignItems='center' justifyContent='center'>
-        <PwaAppBar
-          handleBack={handleBack}
-          handleNext={handleNext}
-          handleSearch={handleSearch}
-          disableBack={index <= 0}
-          hideNext={showResults}
-          hideSearch={showResults}
-          handleReset={handleReset}
-        />
+    <Container maxWidth='lg' sx={{ py: 2, px: 0, mx: 0 }}>
+      <Grid container spacing={2} alignItems='center' justifyContent='center' sx={{ px: 2 }}>
+        <Grid item xs={12}>
+          <PwaAppBar
+            handleBack={handleBack}
+            handleNext={handleNext}
+            handleSearch={handleSearch}
+            disableBack={index <= 0}
+            hideNext={showResults}
+            hideSearch={showResults}
+            handleReset={handleReset}
+          />
+        </Grid>
         <Grid item xs={12}>
           <Divider />
         </Grid>
-        {showResults ? (
-          <>
-            <PwaApps />
-          </>
-        ) : (
-          <>
-            <Grid item xs={12}>
-              <Grid container spacing={1} alignItems='center'>
-                <Grid item xs>
-                  <LinearProgress value={progress} variant='determinate' sx={{ height: 12, borderRadius: 5 }} />
-                </Grid>
-                <Grid item sx={{ fontWeight: 'bold', color: 'primary.dark' }}>
-                  {index + 1} / {questions.length}
-                </Grid>
+      </Grid>
+      {showResults ? (
+        <PwaApps />
+      ) : (
+        <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 2, pt: 1 }}>
+          <Grid item xs={12}>
+            <Grid container spacing={1} alignItems='center'>
+              <Grid item xs>
+                <LinearProgress value={progress} variant='determinate' sx={{ height: 12, borderRadius: 5 }} />
+              </Grid>
+              <Grid item sx={{ fontWeight: 'bold', color: 'primary.dark' }}>
+                {index + 1} / {questions.length}
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Divider />
-            </Grid>
-            <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 32, color: 'primary.dark' }}>
-              {label}
-            </Grid>
-            <Grid item xs={12}>
-              <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
-            </Grid>
-          </>
-        )}
-      </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
+          <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 32, color: 'primary.dark' }}>
+            {label}
+          </Grid>
+          <Grid item xs={12}>
+            <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
+          </Grid>
+        </Grid>
+      )}
     </Container>
   );
 }

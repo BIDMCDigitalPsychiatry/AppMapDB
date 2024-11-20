@@ -7,7 +7,7 @@ const navButtonSize = 'normal' as any;
 export default function PwaAppBar({ handleSearch, handleReset, handleBack, handleNext, disableBack = false, hideNext = false, hideSearch = false }) {
   const setRef = useAppBarHeightSetRef();
   return (
-    <Grid ref={setRef} container justifyContent='space-between' alignItems='center' sx={{ pl: 2 }} spacing={1}>
+    <Grid ref={setRef} container justifyContent='space-between' alignItems='center' spacing={1}>
       <Grid item sx={{ textAlign: 'center' }}>
         <PwaLogo />
       </Grid>
