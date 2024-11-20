@@ -4,7 +4,7 @@ import PwaApps from './PwaApps';
 import PwaAppBar from './PwaAppBar';
 import { useScrollElement } from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
-import { useHandleTableReset, useTableFilterValue } from '../application/GenericTable/store';
+import { useHandleTableReset, useTableFilterUpdate, useTableFilterValue } from '../application/GenericTable/store';
 import { isEmpty } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
 
@@ -112,13 +112,28 @@ const questions = [
   }
 ];
 
+const getQuestionFilters = values => {
+  var filters = {};
+  questions.forEach(({ id, options }, idx) => {
+    console.log({ values, idx, vidx: values[idx] });
+    if (!isEmpty(values[idx]?.label)) {
+      var selectedOption = options.find(o => o.label === values[idx]?.label);
+      console.log({ selectedOption });
+      if (selectedOption) {
+        filters[id] = selectedOption.filterValue;
+      }
+    }
+  });
+  return filters;
+};
+
 const defaultState = { index: 0, backIndex: 0, values: {} };
 
 export default function Pwa() {
   const [{ index, values }, setState] = React.useState(defaultState);
 
   const question = index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
-  //console.log({ index, question });
+
   const searchIndex = questions.length;
   const { id, label, options, Field = SingleAnswerButtons, onSelect = undefined } = question;
 
@@ -140,8 +155,10 @@ export default function Pwa() {
     // eslint-disable-next-line
   }, [scrollEl, height]);
 
-  const [filterValue, setValue] = useTableFilterValue('Applications', id);
-  //console.log({ id, filterValue });
+  const [, setValue] = useTableFilterValue('Applications', id);
+  const tableFilterUpdate = useTableFilterUpdate();
+
+  const filters = getQuestionFilters(values);
 
   const onChange = React.useCallback(
     index => value => {
@@ -149,11 +166,16 @@ export default function Pwa() {
       if (onSelect) {
         onSelect && onSelect({ value, setValue });
       } else {
-        setValue(value?.filterValue ?? []);
+        setValue(value?.filterValue ?? []); // Set individual filter value any time it changes
       }
     },
     [setState, setValue, onSelect]
   );
+
+  const handleSearch = React.useCallback(() => {
+    setState(p => ({ ...p, index: searchIndex, backIndex: p.index }));
+    scrollTop();
+  }, [setState, searchIndex, scrollTop]);
 
   const handleNext = React.useCallback(() => {
     setState(p => ({ ...p, index: p.index + 1, backIndex: p.index }));
@@ -161,15 +183,9 @@ export default function Pwa() {
   }, [setState, scrollTop]);
 
   const handleBack = React.useCallback(() => {
-    //setState(p => ({ ...p, index: p?.index > 0 ? p.index - 1 : 0 }));
     setState(p => ({ ...p, index: p?.backIndex, backIndex: p.backIndex > 0 ? p.backIndex - 1 : 0 }));
     scrollTop();
   }, [setState, scrollTop]);
-
-  const handleSearch = React.useCallback(() => {
-    setState(p => ({ ...p, index: searchIndex, backIndex: p.index }));
-    scrollTop();
-  }, [setState, searchIndex, scrollTop]);
 
   const handleReset = React.useCallback(() => {
     setState(defaultState);
@@ -181,6 +197,12 @@ export default function Pwa() {
 
   const showResults = index >= searchIndex ? true : false;
 
+  React.useEffect(() => {
+    if (showResults) {
+      tableFilterUpdate('Applications', filters); // Sync all filters with answer filters whenever we show the results
+    }
+  }, [filters, showResults, tableFilterUpdate]);
+
   return (
     <Container maxWidth='lg' sx={{ pt: 1, pb: 2, px: 0 }}>
       <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1 }}>
@@ -190,8 +212,8 @@ export default function Pwa() {
             handleNext={handleNext}
             handleSearch={handleSearch}
             disableBack={index <= 0}
-            hideNext={showResults}
-            hideSearch={showResults}
+            disableNext={showResults}
+            disableSearch={showResults}
             handleReset={handleReset}
           />
         </Grid>
