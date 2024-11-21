@@ -9,6 +9,7 @@ import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
 import { useAdminMode } from '../../../layout/store';
 import { getDescription } from '../ApplicationsGrid/ExpandableDescription';
+import { fuzzySortFilter } from '../../../pages/useAppTableData';
 
 export const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -154,7 +155,7 @@ export const useAppData = table => {
     isMatch(ClinicalFoundations, r.clinicalFoundations) &&
     isMatch(DeveloperTypes, r.developerTypes);
 
-  return useTableFilter(filteredData, table, customFilter);
+  return useTableFilter(filteredData, table, customFilter, fuzzySortFilter);
 };
 
 export const useNewerMemberCount = (groupId, created) => {
@@ -262,5 +263,5 @@ export const usePendingAppData = (table, showDeleted = false, email = undefined,
     isMatch(ClinicalFoundations, r.clinicalFoundations) &&
     isMatch(DeveloperTypes, r.developerTypes);
 
-  return useTableFilter(filteredData, table, customFilter);
+  return useTableFilter(filteredData, table, customFilter, fuzzySortFilter);
 };

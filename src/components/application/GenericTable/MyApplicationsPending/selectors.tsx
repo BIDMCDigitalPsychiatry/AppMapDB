@@ -8,6 +8,7 @@ import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
 import { useAdminMode } from '../../../layout/store';
+import { fuzzySortFilter } from '../../../pages/useAppTableData';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -140,7 +141,7 @@ export const useAppData = table => {
     isMatch(ClinicalFoundations, r.clinicalFoundations) &&
     isMatch(DeveloperTypes, r.developerTypes);
 
-  return useTableFilter(filteredData, table, customFilter);
+  return useTableFilter(filteredData, table, customFilter, fuzzySortFilter);
 };
 
 export const useNewerMemberCount = (groupId, created) => {

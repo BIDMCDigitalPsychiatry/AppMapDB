@@ -31,7 +31,7 @@ export const isMatch = (obj, re) => {
     return obj.getSearchValues().match(re);
   } else {
     for (var attrname in obj) {
-      if (['_id', 'id', 'key', 'getValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
+      if (['_id', 'id', 'key', 'getValues', 'getSearchValues', 'edit', 'action'].includes(attrname.toLowerCase())) continue;
       if (obj[attrname])
         if (isNaN(obj[attrname])) {
           //only search non numeric values
@@ -74,7 +74,7 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const useTableFilter = (data: any, name: string, customFilter = undefined) => {
+export const useTableFilter = (data: any, name: string, customFilter = undefined, fuzzyFilter = undefined) => {
   //Extract the table information from the redux store
   const table = TableStore.useTable(name);
   const searchtext = table?.searchtext;
@@ -86,11 +86,11 @@ export const useTableFilter = (data: any, name: string, customFilter = undefined
       column: table && table.columnfiltercolumn
     };
 
-  const filtered = table_filter(data, columnfilter, searchtext, customFilter);
+  const filtered = table_filter(data, columnfilter, searchtext, customFilter, fuzzyFilter);
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', customFilter = undefined) => {
+export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', customFilter = undefined, fuzzyFilter = undefined) => {
   var performcolumnfilter = false;
   if (columnfilter) if (columnfilter.column) if (columnfilter.value !== 'All' && columnfilter.value !== '') performcolumnfilter = true;
 
@@ -98,12 +98,18 @@ export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', 
 
   const re = escapeRegex(searchtext);
 
-  return data.filter(
+  const filtered = data.filter(
     x =>
       (performcolumnfilter ? isColumnExactMatch(x, columnfilter) : true) &&
       (performtextfilter ? isMatch(x, re) : true) &&
-      (customFilter ? customFilter(x) : true)
+      (customFilter ? customFilter(x, searchtext) : true)
   );
+
+  if (fuzzyFilter) {
+    return fuzzyFilter(data, filtered, searchtext, customFilter);
+  } else {
+    return filtered;
+  }
 };
 
 export function lowerDesc(a, b, orderBy) {
