@@ -106,7 +106,8 @@ export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', 
   );
 
   if (fuzzyFilter) {
-    return fuzzyFilter(data, filtered, searchtext, customFilter);
+    return filtered;
+    //return fuzzyFilter(data, filtered, searchtext, customFilter);
   } else {
     return filtered;
   }
