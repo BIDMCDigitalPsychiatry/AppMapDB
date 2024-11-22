@@ -18,14 +18,12 @@ export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
   if (filtered?.length < 10) {
     // Only perform fuzzy filtering if there are < 10 exact match results
     const fuzzyResults = fuzzysort.go(searchtext, data, { key: 'name', limit: 20 }) as any;
-    console.log({ fuzzyResults, searchtext });
     var combined = [...filtered];
     fuzzyResults?.forEach(fr => {
       if (!combined.find(r => r._id === fr?.obj?._id)) {
         // If no custom filter or custom filters (platform tags) match, then add fuzzy results
         // This prevents non matching platform tags from showing in the results
         if (!customFilter || customFilter(fr.obj, searchtext)) {
-          console.log('Adding fuzzy search result', fr);
           combined = combined.concat(fr.obj);
         }
       }
