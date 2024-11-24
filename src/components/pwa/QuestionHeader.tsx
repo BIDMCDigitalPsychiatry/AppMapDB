@@ -17,7 +17,7 @@ export default function QuestionHeader() {
         <Box sx={{ px: 2 }}>{label}</Box>
       </Grid>
       <Grid item xs={12}>
-        <Box sx={{ px: 2 }}>
+        <Box sx={{ px: 2, pb: 0.5 }}>
           <Progress />
         </Box>
       </Grid>

@@ -1,4 +1,4 @@
-import { AppBar, Button, ButtonGroup, Collapse, Grid, Toolbar } from '@mui/material';
+import { AppBar, Button, ButtonGroup, Grid, Toolbar } from '@mui/material';
 import PwaLogo from './PwaLogo';
 import { useAppBarHeightSetRef } from '../layout/hooks';
 import { usePwaActions } from './store';
@@ -45,11 +45,11 @@ export default function PwaAppBar() {
           </Grid>
         </Grid>
       </Toolbar>
-      <Collapse in={index >= 0 && index < searchIndex}>
+      {index >= 0 && index < searchIndex && (
         <Toolbar disableGutters={true} variant='dense' sx={{ pb: 0, backgroundColor: 'grey.200' }}>
           <QuestionHeader />
         </Toolbar>
-      </Collapse>
+      )}
     </AppBar>
   );
 }

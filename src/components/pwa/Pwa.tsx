@@ -15,13 +15,17 @@ import SingleAnswerButtons from './SingleAnswerButtons';
 const getQuestionFilters = values => {
   var filters = {};
   questions.forEach(({ id, options }, idx) => {
-    console.log({ values, idx, vidx: values[idx] });
     if (!isEmpty(values[idx]?.label)) {
       var selectedOption = options.find(o => o.label === values[idx]?.label);
-      console.log({ selectedOption });
       if (selectedOption) {
         filters[id] = selectedOption.filterValue;
       }
+    } else if (Array.isArray(values[idx])) {
+      var filterValues = [];
+      values[idx].forEach(v => {
+        filterValues = [...filterValues, ...v.filterValue];
+      });
+      filters[id] = filterValues;
     }
   });
   return filters;
@@ -36,7 +40,7 @@ export default function Pwa() {
   const question =
     index >= 0 && index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
 
-  const { id, options, Field = SingleAnswerButtons, onSelect = undefined } = question;
+  const { id, options, Field = SingleAnswerButtons } = question;
 
   const value = values[index];
 
@@ -60,18 +64,25 @@ export default function Pwa() {
   const tableFilterUpdate = useTableFilterUpdate();
 
   const filters = getQuestionFilters(values);
+
   const { change, next } = usePwaActions();
 
   const onChange = React.useCallback(
     index => value => {
       change({ index, value });
-      if (onSelect) {
-        onSelect && onSelect({ value, setValue });
+      if (Array.isArray(value)) {
+        // Handle multi select options
+        var filterValues = [];
+        value.forEach(v => {
+          filterValues = [...filterValues, ...v.filterValue];
+        });
+        setValue(filterValues); // Set individual filter value any time it changes
       } else {
+        // Handle single select options
         setValue(value?.filterValue ?? []); // Set individual filter value any time it changes
       }
     },
-    [change, setValue, onSelect]
+    [change, setValue]
   );
 
   const handleNext = React.useCallback(() => {

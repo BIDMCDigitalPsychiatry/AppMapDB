@@ -1,6 +1,7 @@
 import { isEmpty } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
 import SingleAnswerButtons from './SingleAnswerButtons';
+import MultiAnswerButtons from './MultiAnswerButtons';
 
 export const questions = [
   {
@@ -11,8 +12,7 @@ export const questions = [
       { label: 'Android', filterValue: ['Android'] }
     ],
     Field: SingleAnswerButtons,
-    id: 'Platforms',
-    onSelect: undefined
+    id: 'Platforms'
   },
   {
     label: 'Willing to pay?',
@@ -65,8 +65,9 @@ export const questions = [
   {
     label: 'Feature included?',
     id: 'Features',
+    Field: MultiAnswerButtons,
     options: [
-      { label: `It doesn't matter`, filterValue: [] },
+      //{ label: `It doesn't matter`, filterValue: [] },
       { label: 'Goal Setting', filterValue: ['Goal Setting/Habits'] },
       { label: 'Journaling', filterValue: ['Journaling'] },
       { label: 'Medication Tracking', filterValue: ['Track Medication'] },
@@ -79,8 +80,7 @@ export const questions = [
 ];
 
 export const getQuestion = index => {
-  const question =
-    index >= 0 && index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
+  const question = index >= 0 && index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></> };
   return question;
 };
 
