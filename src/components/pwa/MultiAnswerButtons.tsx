@@ -21,11 +21,10 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
         <Typography variant='caption'>Select one or more options. Click done to continue:</Typography>
       </Box>
       <Grid container spacing={2}>
-        {options.map(o => {
+        {options.map((o, idx) => {
           const isSelected = value?.find(v => v.label === o.label) ? true : false;
-          console.log({ o, isSelected, value });
           return (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={idx}>
               <Button
                 startIcon={isSelected ? <Icons.CheckBox /> : <Icons.CheckBoxOutlineBlank />}
                 variant='contained'

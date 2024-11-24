@@ -17,8 +17,8 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
         <Typography variant='caption'>Select an option to continue:</Typography>
       </Box>
       <Grid container spacing={2}>
-        {options.map(o => (
-          <Grid item xs={12}>
+        {options.map((o, idx) => (
+          <Grid item xs={12} key={idx}>
             <Button
               variant='contained'
               onClick={handleClick(o)}
