@@ -42,7 +42,7 @@ const questions = [
     options: [
       { label: 'Apple', filterValue: ['iOS'] },
       { label: 'Android', filterValue: ['Android'] },
-      { label: 'Both', filterValue: ['iOS', 'Android'] }
+      { label: 'Any', filterValue: [] }
     ],
     Field: SingleAnswerButtons,
     id: 'Platforms',
@@ -51,7 +51,7 @@ const questions = [
   {
     label: 'Willing to pay?',
     options: [
-      { label: `It doesn't matter to me`, filterValue: [] },
+      { label: `It doesn't matter`, filterValue: [] },
       { label: 'No, totally free only', filterValue: ['Totally Free'] },
       { label: 'Yes, can pay one time download fee', filterValue: ['Payment'] },
       { label: 'Yes, can pay subscription fee', filterValue: ['Subscription'] },
@@ -63,7 +63,7 @@ const questions = [
     label: 'Need a privacy policy?',
     id: 'Privacy',
     options: [
-      { label: `It doesn't matter to me`, filterValue: [] },
+      { label: `It doesn't matter`, filterValue: [] },
       { label: 'Yes, only apps with privacy policies', filterValue: ['Has Privacy Policy'] }
     ]
   },
@@ -71,22 +71,22 @@ const questions = [
     label: 'Need supporting evidence?',
     id: 'ClinicalFoundations',
     options: [
-      { label: 'Not Required', filterValue: [] },
+      { label: `It doesn't matter`, filterValue: [] },
       //{ label: 'Supporting Evidence & Crisis Support', filterValue: ['Supporting Studies', 'Appropriately Advises Patient in Case of Emergency'] },
-      { label: 'Yes', filterValue: ['Supporting Studies'] }
+      { label: 'Yes, only apps with supporting studies', filterValue: ['Supporting Studies'] }
       //{ label: 'Crisis Support', filterValue: ['Appropriately Advises Patient in Case of Emergency'] }
     ]
   },
   {
     label: 'Condition target?',
     id: 'Conditions',
-    options: [{ label: 'Skip', filterValue: [] }].concat(Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] })))
+    options: [{ label: `It doesn't matter`, filterValue: [] }].concat(Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] })))
   },
   {
     label: 'Desired treatment approach?',
     id: 'TreatmentApproaches',
     options: [
-      { label: 'Skip', filterValue: [] },
+      { label: `It doesn't matter`, filterValue: [] },
       //{ label: 'Acceptance and Commitment', filterValue: [] },
       { label: 'Acceptance and Commitment Therapy (ACT)', filterValue: ['ACT'] },
       { label: 'Cognitive Behavioral Therapy (CBT)', filterValue: ['CBT'] },
@@ -100,7 +100,7 @@ const questions = [
     label: 'Feature included?',
     id: 'Features',
     options: [
-      { label: 'Skip', filterValue: [] },
+      { label: `It doesn't matter`, filterValue: [] },
       { label: 'Goal Setting', filterValue: ['Goal Setting/Habits'] },
       { label: 'Journaling', filterValue: ['Journaling'] },
       { label: 'Medication Tracking', filterValue: ['Track Medication'] },
