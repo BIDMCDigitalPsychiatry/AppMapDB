@@ -7,10 +7,11 @@ import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHandleTableReset, useTableFilterUpdate, useTableFilterValue } from '../application/GenericTable/store';
 import { isEmpty, stringifyEqual } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
-import logo from '../../images/logo_blue.png';
-import { usePwaActions } from './store';
+import { usePwaActions, useShowResults } from './store';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
+import Landing from './Landing';
+import Progress from './Progress';
 
 const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -40,7 +41,7 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   );
 };
 
-const questions = [
+export const questions = [
   {
     label: 'Type of device?',
     options: [
@@ -116,6 +117,8 @@ const questions = [
   }
 ];
 
+export const searchIndex = questions.length;
+
 const getQuestionFilters = values => {
   var filters = {};
   questions.forEach(({ id, options }, idx) => {
@@ -140,7 +143,6 @@ export default function Pwa() {
   const question =
     index >= 0 && index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
 
-  const searchIndex = questions.length;
   const { id, label, options, Field = SingleAnswerButtons, onSelect = undefined } = question;
 
   const value = values[index];
@@ -165,7 +167,7 @@ export default function Pwa() {
   const tableFilterUpdate = useTableFilterUpdate();
 
   const filters = getQuestionFilters(values);
-  const { change, search, next, back, reset } = usePwaActions();
+  const { change, next } = usePwaActions();
 
   const onChange = React.useCallback(
     index => value => {
@@ -179,30 +181,12 @@ export default function Pwa() {
     [change, setValue, onSelect]
   );
 
-  const handleSearch = React.useCallback(() => {
-    search({ searchIndex });
-    scrollTop();
-  }, [search, searchIndex, scrollTop]);
-
   const handleNext = React.useCallback(() => {
     next();
     scrollTop();
   }, [next, scrollTop]);
 
-  const handleBack = React.useCallback(() => {
-    back();
-    scrollTop();
-  }, [back, scrollTop]);
-
-  const handleReset = React.useCallback(() => {
-    reset();
-    onReset && onReset();
-    scrollTop();
-  }, [reset, scrollTop, onReset]);
-
-  var progress = (100 * (index + 1)) / questions?.length;
-
-  const showResults = index >= searchIndex ? true : false;
+  const showResults = useShowResults();
 
   React.useEffect(() => {
     if (showResults) {
@@ -213,38 +197,12 @@ export default function Pwa() {
   return (
     <Container maxWidth='lg' sx={{ pt: 1, pb: 2, px: 0 }}>
       {showWelcome ? (
-        <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center', px: 1, py: 2 }}>
-          <Box sx={{ maxWidth: 400, borderRadius: 5, border: 4, borderColor: 'black', px: 1, py: 4 }}>
-            <Grid container spacing={6}>
-              <Grid item xs={12} sx={{ fontWeight: 700, fontSize: 24, textAlign: 'center' }}>
-                Welcome to MINDapps!
-              </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <img src={logo} alt='mindapp' style={{ maxWidth: 88 }} />
-              </Grid>
-              <Grid item xs={12} sx={{ fontSize: 18, textAlign: 'center' }}>
-                Take this quiz to find a suitable app.
-              </Grid>
-              <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                <Button onClick={handleNext} variant='contained' size='large' sx={{ minHeight: 64 }}>
-                  Start Quiz!
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
+        <Landing />
       ) : (
         <>
           <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1 }}>
             <Grid item xs={12}>
-              <PwaAppBar
-                handleBack={handleBack}
-                handleNext={handleNext}
-                handleSearch={handleSearch}
-                disableNext={showResults}
-                disableSearch={showResults}
-                handleReset={handleReset}
-              />
+              <PwaAppBar />
             </Grid>
             <Grid item xs={12}>
               <Divider />
@@ -255,14 +213,7 @@ export default function Pwa() {
           ) : (
             <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1, pt: 1 }}>
               <Grid item xs={12}>
-                <Grid container spacing={1} alignItems='center'>
-                  <Grid item xs>
-                    <LinearProgress value={progress} variant='determinate' sx={{ height: 12, borderRadius: 5 }} />
-                  </Grid>
-                  <Grid item sx={{ fontWeight: 'bold', color: 'primary.dark' }}>
-                    {index + 1} / {questions.length}
-                  </Grid>
-                </Grid>
+                <Progress />
               </Grid>
               <Grid item xs={12}>
                 <Divider />
