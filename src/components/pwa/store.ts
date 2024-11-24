@@ -3,8 +3,8 @@ import { Reducer } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { useScrollElement } from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
-import { searchIndex } from './Pwa';
 import { AppState } from '../../store';
+import { searchIndex } from './questions';
 
 export interface State {
   index?: number;

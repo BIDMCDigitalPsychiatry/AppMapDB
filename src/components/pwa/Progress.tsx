@@ -1,7 +1,7 @@
 import { Grid, LinearProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
-import { questions } from './Pwa';
+import { questions } from './questions';
 
 export default function Progress() {
   const index = useSelector((s: AppState) => s.pwa.index);
