@@ -233,3 +233,56 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   return { filtered, loading, apps, setApps, handleRefresh, handleGetRow };
 }
+
+export function useAppTableDataInit({ trigger = true } = {}) {
+  const [, setApps] = useApplications();
+  const [, setLoading] = React.useState(false);
+
+  const handleRefresh = React.useCallback(
+    ({ requestParams = undefined } = {}) => {
+      const getItems = async () => {
+        let scanResults = [];
+        let items;
+        var params = {
+          TableName: tables.applications,
+          ExclusiveStartKey: undefined,
+          ...requestParams
+        };
+        var firstPass = true;
+        setLoading(true);
+        do {
+          items = await dynamo.scan(params).promise();
+          items.Items.forEach(i => scanResults.push(i));
+          params.ExclusiveStartKey = items.LastEvaluatedKey;
+          if (firstPass) {
+            firstPass = false; // Show the first results so the user doesn't see an empty screen
+            setApps(prev => ({
+              ...prev,
+              ...scanResults.reduce((f, c: any) => {
+                f[c._id] = c;
+                return f;
+              }, {})
+            }));
+          }
+        } while (typeof items.LastEvaluatedKey != 'undefined');
+        setApps(prev => ({
+          ...prev,
+          ...scanResults.reduce((f, c: any) => {
+            f[c._id] = c;
+            return f;
+          }, {})
+        }));
+        setLoading(false);
+      };
+      getItems();
+    },
+    [setApps]
+  );
+
+  // Load data from the database
+  React.useEffect(() => {
+    trigger && handleRefresh();
+  }, [trigger, handleRefresh]);
+
+  return { handleRefresh };
+}

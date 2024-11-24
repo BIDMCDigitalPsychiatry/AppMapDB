@@ -4,7 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import { useAppBarHeight } from '../layout/hooks';
 import ScrollElementProvider from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
-import useAppTableData from '../pages/useAppTableData';
+import { useAppTableDataInit } from '../pages/useAppTableData';
 import PwaAppBar from './PwaAppBar';
 
 const useStyles = makeStyles(({ breakpoints, palette, appBarHeight }: any) =>
@@ -43,7 +43,7 @@ export function PwaLayout({ children }) {
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
   var [scrollElement, setScrollElement] = React.useState(null);
 
-  useAppTableData({ trigger: true });
+  useAppTableDataInit({ trigger: true });
 
   const classes = useStyles({
     leftDrawerOpen: false,
