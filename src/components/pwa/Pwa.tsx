@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Grid, Container, LinearProgress, Divider } from '@mui/material';
+import { Button, Grid, Container, LinearProgress, Divider, Collapse, Box } from '@mui/material';
 import PwaApps from './PwaApps';
 import PwaAppBar from './PwaAppBar';
 import { useScrollElement } from '../layout/ScrollElementProvider';
@@ -7,6 +7,7 @@ import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHandleTableReset, useTableFilterUpdate, useTableFilterValue } from '../application/GenericTable/store';
 import { isEmpty } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
+import logo from '../../images/logo_blue.png';
 
 const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -130,9 +131,11 @@ const getQuestionFilters = values => {
 const defaultState = { index: 0, backIndex: 0, values: {} };
 
 export default function Pwa() {
-  const [{ index, values }, setState] = React.useState(defaultState);
+  const [{ index, values }, setState] = React.useState({ ...defaultState, index: -1 });
+  const showWelcome = index < 0 ? true : false;
 
-  const question = index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
+  const question =
+    index >= 0 && index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
 
   const searchIndex = questions.length;
   const { id, label, options, Field = SingleAnswerButtons, onSelect = undefined } = question;
@@ -183,7 +186,7 @@ export default function Pwa() {
   }, [setState, scrollTop]);
 
   const handleBack = React.useCallback(() => {
-    setState(p => ({ ...p, index: p?.backIndex, backIndex: p.backIndex > 0 ? p.backIndex - 1 : 0 }));
+    setState(p => ({ ...p, index: p?.backIndex, backIndex: p.backIndex >= 0 ? p.backIndex - 1 : -1 }));
     scrollTop();
   }, [setState, scrollTop]);
 
@@ -205,46 +208,71 @@ export default function Pwa() {
 
   return (
     <Container maxWidth='lg' sx={{ pt: 1, pb: 2, px: 0 }}>
-      <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1 }}>
-        <Grid item xs={12}>
-          <PwaAppBar
-            handleBack={handleBack}
-            handleNext={handleNext}
-            handleSearch={handleSearch}
-            disableBack={index <= 0}
-            disableNext={showResults}
-            disableSearch={showResults}
-            handleReset={handleReset}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Divider />
-        </Grid>
-      </Grid>
-      {showResults ? (
-        <PwaApps />
-      ) : (
-        <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1, pt: 1 }}>
-          <Grid item xs={12}>
-            <Grid container spacing={1} alignItems='center'>
-              <Grid item xs>
-                <LinearProgress value={progress} variant='determinate' sx={{ height: 12, borderRadius: 5 }} />
+      {showWelcome ? (
+        <Box sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center', px: 1, py: 2 }}>
+          <Box sx={{ maxWidth: 400, borderRadius: 5, border: 4, borderColor: 'black', px: 1, py: 4 }}>
+            <Grid container spacing={6}>
+              <Grid item xs={12} sx={{ fontWeight: 700, fontSize: 24, textAlign: 'center' }}>
+                Welcome to MINDapps!
               </Grid>
-              <Grid item sx={{ fontWeight: 'bold', color: 'primary.dark' }}>
-                {index + 1} / {questions.length}
+              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                <img src={logo} alt='mindapp' style={{ maxWidth: 88 }} />
+              </Grid>
+              <Grid item xs={12} sx={{ fontSize: 18, textAlign: 'center' }}>
+                Take this quiz to find a suitable app.
+              </Grid>
+              <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                <Button onClick={handleNext} variant='contained' size='large' sx={{ minHeight: 64 }}>
+                  Start Quiz!
+                </Button>
               </Grid>
             </Grid>
+          </Box>
+        </Box>
+      ) : (
+        <>
+          <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1 }}>
+            <Grid item xs={12}>
+              <PwaAppBar
+                handleBack={handleBack}
+                handleNext={handleNext}
+                handleSearch={handleSearch}
+                //disableBack={index <= 0}
+                disableNext={showResults}
+                disableSearch={showResults}
+                handleReset={handleReset}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <Divider />
-          </Grid>
-          <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 32, color: 'primary.dark' }}>
-            {label}
-          </Grid>
-          <Grid item xs={12} sx={{ mt: 0.5 }}>
-            <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
-          </Grid>
-        </Grid>
+          {showResults ? (
+            <PwaApps />
+          ) : (
+            <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1, pt: 1 }}>
+              <Grid item xs={12}>
+                <Grid container spacing={1} alignItems='center'>
+                  <Grid item xs>
+                    <LinearProgress value={progress} variant='determinate' sx={{ height: 12, borderRadius: 5 }} />
+                  </Grid>
+                  <Grid item sx={{ fontWeight: 'bold', color: 'primary.dark' }}>
+                    {index + 1} / {questions.length}
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 32, color: 'primary.dark' }}>
+                {label}
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 0.5 }}>
+                <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
+              </Grid>
+            </Grid>
+          )}
+        </>
       )}
     </Container>
   );
