@@ -5,9 +5,12 @@ import PwaAppBar from './PwaAppBar';
 import { useScrollElement } from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHandleTableReset, useTableFilterUpdate, useTableFilterValue } from '../application/GenericTable/store';
-import { isEmpty } from '../../helpers';
+import { isEmpty, stringifyEqual } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
 import logo from '../../images/logo_blue.png';
+import { usePwaActions } from './store';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../store';
 
 const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -128,10 +131,10 @@ const getQuestionFilters = values => {
   return filters;
 };
 
-const defaultState = { index: 0, backIndex: 0, values: {} };
-
 export default function Pwa() {
-  const [{ index, values }, setState] = React.useState({ ...defaultState, index: -1 });
+  const index = useSelector((s: AppState) => s.pwa.index);
+  const values = useSelector((s: AppState) => s.pwa.values, stringifyEqual);
+
   const showWelcome = index < 0 ? true : false;
 
   const question =
@@ -162,39 +165,40 @@ export default function Pwa() {
   const tableFilterUpdate = useTableFilterUpdate();
 
   const filters = getQuestionFilters(values);
+  const { change, search, next, back, reset } = usePwaActions();
 
   const onChange = React.useCallback(
     index => value => {
-      setState(p => ({ ...p, values: { ...p.values, [index]: value } }));
+      change({ index, value });
       if (onSelect) {
         onSelect && onSelect({ value, setValue });
       } else {
         setValue(value?.filterValue ?? []); // Set individual filter value any time it changes
       }
     },
-    [setState, setValue, onSelect]
+    [change, setValue, onSelect]
   );
 
   const handleSearch = React.useCallback(() => {
-    setState(p => ({ ...p, index: searchIndex, backIndex: p.index }));
+    search({ searchIndex });
     scrollTop();
-  }, [setState, searchIndex, scrollTop]);
+  }, [search, searchIndex, scrollTop]);
 
   const handleNext = React.useCallback(() => {
-    setState(p => ({ ...p, index: p.index + 1, backIndex: p.index }));
+    next();
     scrollTop();
-  }, [setState, scrollTop]);
+  }, [next, scrollTop]);
 
   const handleBack = React.useCallback(() => {
-    setState(p => ({ ...p, index: p?.backIndex, backIndex: p.backIndex >= 0 ? p.backIndex - 1 : -1 }));
+    back();
     scrollTop();
-  }, [setState, scrollTop]);
+  }, [back, scrollTop]);
 
   const handleReset = React.useCallback(() => {
-    setState(defaultState);
+    reset();
     onReset && onReset();
     scrollTop();
-  }, [setState, scrollTop, onReset]);
+  }, [reset, scrollTop, onReset]);
 
   var progress = (100 * (index + 1)) / questions?.length;
 
@@ -237,7 +241,6 @@ export default function Pwa() {
                 handleBack={handleBack}
                 handleNext={handleNext}
                 handleSearch={handleSearch}
-                //disableBack={index <= 0}
                 disableNext={showResults}
                 disableSearch={showResults}
                 handleReset={handleReset}
