@@ -13,13 +13,16 @@ export default function QuestionHeader() {
       <Grid item xs={12}>
         <Divider />
       </Grid>
-      <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 28, color: 'primary.dark' }}>
-        <Box sx={{ px: 2 }}>{label}</Box>
-      </Grid>
       <Grid item xs={12}>
-        <Box sx={{ px: 2, pb: 0.5 }}>
+        <Box sx={{ px: 2, py: 1 }}>
           <Progress />
         </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Divider />
+      </Grid>
+      <Grid item xs={12} sx={{ textAlign: 'center', fontSize: 28, color: 'primary.dark' }}>
+        <Box sx={{ px: 2 }}>{label}</Box>
       </Grid>
     </Grid>
   );

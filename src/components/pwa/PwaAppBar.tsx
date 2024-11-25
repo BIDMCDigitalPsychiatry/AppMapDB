@@ -1,4 +1,4 @@
-import { AppBar, Button, ButtonGroup, Grid, Toolbar } from '@mui/material';
+import { AppBar, Button, Grid, Toolbar } from '@mui/material';
 import PwaLogo from './PwaLogo';
 import { useAppBarHeightSetRef } from '../layout/hooks';
 import { usePwaActions } from './store';
@@ -6,42 +6,45 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import QuestionHeader from './QuestionHeader';
 import { searchIndex } from './questions';
-
-const navButtonSize = 'normal' as any;
-const px = 1;
+import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 export default function PwaAppBar() {
   const setRef = useAppBarHeightSetRef();
-  const { search, reset, back, next } = usePwaActions();
+  const { search, reset, back } = usePwaActions();
   const index = useSelector((s: AppState) => s.pwa.index);
-
-  const disableNext = index === searchIndex || index < 0;
   const disableSearch = index === searchIndex || index < 0;
   const disableReset = index < 0;
   const disableBack = index < 0;
+  const width = useWidth();
+  const size = width < 350 ? 'small' : 'medium';
 
   return (
     <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} sx={{ px: 0, backgroundColor: 'grey.200' }}>
       <Toolbar disableGutters={true} variant='dense' sx={{ px: 1 }}>
         <Grid container alignItems='center' spacing={0} justifyContent='space-between'>
-          <Grid item>
+          <Grid item sx={{ pt: 0.5 }}>
             <PwaLogo />
           </Grid>
           <Grid item>
-            <ButtonGroup variant='contained' aria-label='version button group' size='small'>
-              <Button variant='contained' size={navButtonSize} onClick={reset} disabled={disableReset} sx={{ px }}>
-                Reset
-              </Button>
-              <Button variant='contained' size={navButtonSize} onClick={back} disabled={disableBack} sx={{ px }}>
-                Back
-              </Button>
-              <Button variant='contained' size={navButtonSize} onClick={next} disabled={disableNext} sx={{ px }}>
-                Next
-              </Button>
-              <Button variant='contained' size={navButtonSize} onClick={search} disabled={disableSearch} sx={{ px }}>
-                Search
-              </Button>
-            </ButtonGroup>
+            <Grid container spacing={size === 'medium' ? 1 : 0.5}>
+              {index === searchIndex && (
+                <Grid item>
+                  <Button variant='contained' size={size} onClick={back} /*startIcon={<Icons.KeyboardArrowLeft />}*/ disabled={disableBack}>
+                    Back
+                  </Button>
+                </Grid>
+              )}
+              <Grid item>
+                <Button variant='contained' size={size} onClick={reset} /*startIcon={<Icons.Restore />}*/ disabled={disableReset}>
+                  Reset
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant='contained' size={size} onClick={search} /*startIcon={<Icons.Search />}*/ disabled={disableSearch}>
+                  Search
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Toolbar>
