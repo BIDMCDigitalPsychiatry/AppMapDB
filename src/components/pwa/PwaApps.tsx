@@ -9,7 +9,7 @@ export default function PwaApps() {
   const height = useHeight();
   const { layout } = useTheme() as any;
   const { tablefooterheight } = layout;
-  const tableHeight = height + tablefooterheight - headerHeight + 8;
+  const tableHeight = height + tablefooterheight - headerHeight;
   const { filtered } = useAppTableData({ trigger: false, mode: 'pwa' }); // Don't re-trigger here as it causes a refresh
 
   return <Tables.PwaApplicationsGrid data={filtered} height={tableHeight} />;
