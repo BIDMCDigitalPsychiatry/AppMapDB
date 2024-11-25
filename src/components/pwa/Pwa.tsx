@@ -35,7 +35,7 @@ export default function Pwa() {
   const index = useSelector((s: AppState) => s.pwa.index);
   const values = useSelector((s: AppState) => s.pwa.values, stringifyEqual);
 
-  const showWelcome = index < 0 ? true : false;
+  const showLanding = index < 0 ? true : false;
 
   const question =
     index >= 0 && index <= questions.length - 1 ? questions[index] : { id: undefined, label: '', options: [], Field: () => <></>, onSelect: undefined };
@@ -100,7 +100,7 @@ export default function Pwa() {
 
   return (
     <Container maxWidth='lg' disableGutters={index === searchIndex} sx={{ pt: 0, pb: 1, px: 0 }}>
-      {showWelcome ? (
+      {showLanding ? (
         <Landing />
       ) : (
         <>
