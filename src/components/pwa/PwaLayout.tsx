@@ -4,8 +4,8 @@ import createStyles from '@mui/styles/createStyles';
 import { useAppBarHeight } from '../layout/hooks';
 import ScrollElementProvider from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
-import { useAppTableDataInit } from '../pages/useAppTableData';
 import PwaAppBar from './PwaAppBar';
+import { useAppTableDataInit } from '../pages/useAppTableData';
 
 const useStyles = makeStyles(({ breakpoints, palette, appBarHeight }: any) =>
   createStyles({

@@ -13,6 +13,7 @@ import fuzzysort from 'fuzzysort';
 
 const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
+const isMatchAny = (filters, value) => (filters?.length > 0 ? filters.reduce((t, c) => (t = t || value?.includes(c)), false) : true);
 
 export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
   if (filtered?.length < 10) {
@@ -34,7 +35,7 @@ export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
   }
 };
 
-export default function useAppTableData({ trigger = true, triggerWhenEmpty = false } = {}) {
+export default function useAppTableData({ trigger = true, triggerWhenEmpty = false, mode = 'normal' } = {}) {
   const [apps, setApps] = useApplications();
   const [loading, setLoading] = React.useState(false);
   const count = Object.keys(apps).length;
@@ -214,22 +215,43 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
     DeveloperTypes = []
   } = filters;
 
-  const customFilter = r =>
-    isMatch(Platforms, r.platforms) &&
-    isMatch(Functionalities, r.functionalities) &&
-    isMatch(Cost, r.costs) &&
-    isMatch(TreatmentApproaches, r.treatmentApproaches) &&
-    isMatch(Features, r.features) &&
-    isMatch(Engagements, r.engagements) &&
-    isMatch(Inputs, r.inputs) &&
-    isMatch(Outputs, r.outputs) &&
-    isMatch(Conditions, r.conditions) &&
-    isMatch(Privacy, r.privacies) &&
-    isMatch(Uses, r.uses) &&
-    isMatch(ClinicalFoundations, r.clinicalFoundations) &&
-    isMatch(DeveloperTypes, r.developerTypes);
+  const customFilter = r => {
+    if (mode === 'pwa') {
+      return (
+        isMatch(Platforms, r.platforms) &&
+        isMatch(Functionalities, r.functionalities) &&
+        isMatch(Cost, r.costs) &&
+        isMatch(TreatmentApproaches, r.treatmentApproaches) &&
+        isMatchAny(Features, r.features) &&
+        isMatch(Engagements, r.engagements) &&
+        isMatch(Inputs, r.inputs) &&
+        isMatch(Outputs, r.outputs) &&
+        isMatch(Conditions, r.conditions) &&
+        isMatch(Privacy, r.privacies) &&
+        isMatch(Uses, r.uses) &&
+        isMatch(ClinicalFoundations, r.clinicalFoundations) &&
+        isMatch(DeveloperTypes, r.developerTypes)
+      );
+    } else {
+      return (
+        isMatch(Platforms, r.platforms) &&
+        isMatch(Functionalities, r.functionalities) &&
+        isMatch(Cost, r.costs) &&
+        isMatch(TreatmentApproaches, r.treatmentApproaches) &&
+        isMatch(Features, r.features) &&
+        isMatch(Engagements, r.engagements) &&
+        isMatch(Inputs, r.inputs) &&
+        isMatch(Outputs, r.outputs) &&
+        isMatch(Conditions, r.conditions) &&
+        isMatch(Privacy, r.privacies) &&
+        isMatch(Uses, r.uses) &&
+        isMatch(ClinicalFoundations, r.clinicalFoundations) &&
+        isMatch(DeveloperTypes, r.developerTypes)
+      );
+    }
+  };
 
-  var filtered = useTableFilter(filteredData, table, customFilter, fuzzySortFilter);
+  var filtered = useTableFilter(filteredData, table, customFilter, fuzzySortFilter, mode);
 
   return { filtered, loading, apps, setApps, handleRefresh, handleGetRow };
 }

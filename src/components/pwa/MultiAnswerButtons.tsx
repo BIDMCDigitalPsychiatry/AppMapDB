@@ -12,6 +12,7 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
         onChange && onChange(value.concat(o));
       }
     },
+    // eslint-disable-next-line
     [onChange, JSON.stringify(value)]
   );
 

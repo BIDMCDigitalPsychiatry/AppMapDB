@@ -8,11 +8,12 @@ import Decimal from 'decimal.js-light';
 /////////////// Table Sorters  ////////////
 //////////////////////////////////////////
 
-export type SortComparator = 'text' | 'textLower' | 'decimal';
+export type SortComparator = 'text' | 'textLower' | 'decimal' | 'featureMatchCount';
 const sortComparators = {
   text: desc,
   textLower: lowerDesc,
-  decimal: descDecimal
+  decimal: descDecimal,
+  featureMatchCount: featureMatchCount
 };
 
 ///////////////////////////////////////////
@@ -74,7 +75,7 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
-export const useTableFilter = (data: any, name: string, customFilter = undefined, fuzzyFilter = undefined) => {
+export const useTableFilter = (data: any, name: string, customFilter = undefined, fuzzyFilter = undefined, mode = undefined) => {
   //Extract the table information from the redux store
   const table = TableStore.useTable(name);
   const searchtext = table?.searchtext;
@@ -87,7 +88,12 @@ export const useTableFilter = (data: any, name: string, customFilter = undefined
     };
 
   const filtered = table_filter(data, columnfilter, searchtext, customFilter, fuzzyFilter);
-  return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
+  if (mode === 'pwa' && Array.isArray(table?.filters?.Features) && table.filters.Features.length > 0) {
+    // For PWA, the features filter should be OR inclusive and sorted by most feature matches first
+    return stableSort(filtered, getSorting('desc', table.filters.Features, 'featureMatchCount'));
+  } else {
+    return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
+  }
 };
 
 export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', customFilter = undefined, fuzzyFilter = undefined) => {
@@ -146,6 +152,42 @@ function descDecimal(a, b, orderBy) {
     return 1;
   }
   return 0;
+}
+
+function featureMatchCount(a, b, orderBy) {
+  const A = a?.getValues();
+  const B = b?.getValues();
+  // orderBy = filters
+  // Match a.features to filter
+
+  if (Array.isArray(orderBy) && orderBy.length > 0) {
+    // orderBy contains the current table filters for the Feature column
+    // Compare this to the number of matches for each row
+    var mA = 0;
+    var mB = 0;
+    //console.log({ A, a });
+    orderBy.forEach(f => {
+      if (A.features && A.features?.length && A.features.find(af => af === f)) {
+        mA = mA + 1;
+      }
+      if (B.features && B.features?.length && B.features.find(bf => bf === f)) {
+        mB = mB + 1;
+      }
+    });
+    if (mA > 0 || mB > 0) {
+      console.log({ orderBy, mA, mB });
+    }
+
+    if (mB < mA) {
+      return 1;
+    }
+    if (mB > mA) {
+      return -1;
+    }
+    return 0;
+  } else {
+    return 0;
+  }
 }
 
 function stableSort(array, cmp) {
