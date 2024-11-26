@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from '../../helpers';
+import * as Icons from '@mui/icons-material';
 
 const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -20,6 +21,7 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
         {options.map((o, idx) => (
           <Grid item xs={12} key={idx}>
             <Button
+              startIcon={value === o ? <Icons.Check /> : undefined}
               variant='contained'
               onClick={handleClick(o)}
               size='large'

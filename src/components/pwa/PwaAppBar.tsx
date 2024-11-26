@@ -1,4 +1,4 @@
-import { AppBar, Button, Grid, Toolbar } from '@mui/material';
+import { AppBar, Button, ButtonGroup, Grid, Toolbar } from '@mui/material';
 import PwaLogo from './PwaLogo';
 import { useAppBarHeightSetRef } from '../layout/hooks';
 import { usePwaActions } from './store';
@@ -16,7 +16,8 @@ export default function PwaAppBar() {
   const disableReset = index < 0;
   const disableBack = index < 0;
   const width = useWidth();
-  const size = width < 350 ? 'small' : 'medium';
+  const size = width < 400 ? 'small' : 'medium';
+  const px = width < 350 ? 1 : 2;
 
   return (
     <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} sx={{ px: 0, backgroundColor: 'grey.200' }}>
@@ -26,25 +27,19 @@ export default function PwaAppBar() {
             <PwaLogo />
           </Grid>
           <Grid item>
-            <Grid container spacing={size === 'medium' ? 1 : 0.5}>
+            <ButtonGroup variant='contained' aria-label='version button group' size='small'>
               {index === searchIndex && (
-                <Grid item>
-                  <Button variant='contained' size={size} onClick={back} /*startIcon={<Icons.KeyboardArrowLeft />}*/ disabled={disableBack}>
-                    Back
-                  </Button>
-                </Grid>
+                <Button variant='contained' size={size} onClick={back} disabled={disableBack} sx={{ px }}>
+                  Back
+                </Button>
               )}
-              <Grid item>
-                <Button variant='contained' size={size} onClick={reset} /*startIcon={<Icons.Restore />}*/ disabled={disableReset}>
-                  Reset
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant='contained' size={size} onClick={search} /*startIcon={<Icons.Search />}*/ disabled={disableSearch}>
-                  Search
-                </Button>
-              </Grid>
-            </Grid>
+              <Button variant='contained' size={size} onClick={reset} disabled={disableReset} sx={{ px }}>
+                Restart Quiz
+              </Button>
+              <Button variant='contained' size={size} onClick={search} disabled={disableSearch} sx={{ px }}>
+                Search
+              </Button>
+            </ButtonGroup>
           </Grid>
         </Grid>
       </Toolbar>
