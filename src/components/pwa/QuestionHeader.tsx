@@ -14,7 +14,7 @@ export default function QuestionHeader() {
         <Divider />
       </Grid>
       <Grid item xs={12}>
-        <Box sx={{ px: 2, py: 1 }}>
+        <Box sx={{ px: 1, py: 1 }}>
           <Progress />
         </Box>
       </Grid>
