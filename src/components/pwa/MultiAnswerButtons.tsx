@@ -32,8 +32,8 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
                 onClick={handleClick(o)}
                 size='large'
                 fullWidth
-                color={isSelected ? 'success' : 'secondary'}
-                sx={{ fontSize: 24, minHeight: 64 }}
+                color='primary'
+                sx={{ fontSize: 24, minHeight: 64, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
               >
                 {!isEmpty(o?.label) ? o.label : o}
               </Button>
@@ -50,7 +50,7 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
             sx={{ fontSize: 24, minHeight: 64 }}
             endIcon={<Icons.ArrowForward />}
           >
-            Done
+            Next
           </Button>
         </Grid>
       </Grid>
