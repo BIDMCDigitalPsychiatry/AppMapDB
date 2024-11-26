@@ -36,9 +36,11 @@ export default function PwaAppBar() {
               <Button variant='contained' size={size} onClick={reset} disabled={disableReset} sx={{ px }}>
                 Restart Quiz
               </Button>
-              <Button variant='contained' size={size} onClick={search} disabled={disableSearch} sx={{ px }}>
-                Search
-              </Button>
+              {index !== searchIndex && (
+                <Button variant='contained' size={size} onClick={search} disabled={disableSearch} sx={{ px }}>
+                  Search
+                </Button>
+              )}
             </ButtonGroup>
           </Grid>
         </Grid>
