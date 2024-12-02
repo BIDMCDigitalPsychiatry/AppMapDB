@@ -10,21 +10,24 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
 import { useDialogState } from '../../GenericDialog/useDialogState';
 import { title } from '../../GenericDialog/ViewApp';
+import { useTableFilterValues } from '../store';
+import { getPwaFilterMatchCount } from '../helpers';
+import { green } from '@mui/material/colors';
 
 const height = 520;
 const useStyles = makeStyles((theme: any) =>
   createStyles({
-    root: {
+    root: ({ isPwa }: any) => ({
       flex: '1',
       textAlign: 'center',
-      height,
+      height: isPwa ? height + 24 : height, // Add 20 for the filter match count section
       borderRadius: 10,
       transition: 'transform 0.15s ease-in-out',
       '&:hover': {
         transform: 'scale3d(1.025, 1.025, 1)'
       },
       cursor: 'pointer'
-    },
+    }),
     cardContent: {
       paddingTop: 8,
       paddingBottom: 0
@@ -32,8 +35,8 @@ const useStyles = makeStyles((theme: any) =>
     media: {
       borderBottom: `1px solid ${theme.palette.grey[400]}`
     },
-    wrapper: {
-      height: height - 200,
+    wrapper: ({ isPwa }: any) => ({
+      height: isPwa ? height + 24 - 200 : height - 200,
       overflow: 'hidden',
       color: theme.palette.text.primary,
       fontFamily: theme.typography.fontFamily,
@@ -60,13 +63,29 @@ const useStyles = makeStyles((theme: any) =>
         lineHeight: theme.typography.body1.lineHeight,
         marginBottom: theme.spacing(1)
       }
-    }
+    })
   })
 );
 
 export function PwaApplicationsGridItem(props) {
   return <ApplicationsGridItem {...props} isPwa={true} />;
 }
+
+const FilterMatchCount = props => {
+  const [filters] = useTableFilterValues('Applications');
+
+  const matchCount = getPwaFilterMatchCount({ filters, app: props });
+
+  return matchCount > 0 ? (
+    <Grid container sx={{ background: green[700], color: 'white', borderRadius: 1, py: 0.25 }}>
+      <Grid item xs={12}>
+        {matchCount} Filter Match{matchCount === 1 ? '' : 'es'}
+      </Grid>
+    </Grid>
+  ) : (
+    <></>
+  );
+};
 
 export default function ApplicationsGridItem(props: any) {
   const {
@@ -92,7 +111,7 @@ export default function ApplicationsGridItem(props: any) {
     raised: false
   });
 
-  const classes = useStyles();
+  const classes = useStyles({ isPwa });
   const changeRoute = useChangeRoute();
   const content = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
 
@@ -119,6 +138,7 @@ export default function ApplicationsGridItem(props: any) {
       <CardMedia className={classes.media} image={icon} component='img' height='200' width='100%' alt='cover image' />
       <CardContent className={classes.cardContent}>
         <Grid container>
+          {isPwa && <FilterMatchCount {...props} />}
           <Grid item xs={12}>
             <Grid container>
               <Grid item xs={12}>

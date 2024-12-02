@@ -218,7 +218,20 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   const customFilter = r => {
     if (mode === 'pwa') {
       return (
-        isMatch(Platforms, r.platforms) &&
+        isMatch(Platforms, r.platforms) ||
+        isMatch(Functionalities, r.functionalities) ||
+        isMatch(Cost, r.costs) ||
+        isMatch(TreatmentApproaches, r.treatmentApproaches) ||
+        isMatchAny(Features, r.features) ||
+        isMatch(Engagements, r.engagements) ||
+        isMatch(Inputs, r.inputs) ||
+        isMatch(Outputs, r.outputs) ||
+        isMatch(Conditions, r.conditions) ||
+        isMatch(Privacy, r.privacies) ||
+        isMatch(Uses, r.uses) ||
+        isMatch(ClinicalFoundations, r.clinicalFoundations) ||
+        isMatch(DeveloperTypes, r.developerTypes)
+        /*isMatch(Platforms, r.platforms) &&
         isMatch(Functionalities, r.functionalities) &&
         isMatch(Cost, r.costs) &&
         isMatch(TreatmentApproaches, r.treatmentApproaches) &&
@@ -230,7 +243,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
         isMatch(Privacy, r.privacies) &&
         isMatch(Uses, r.uses) &&
         isMatch(ClinicalFoundations, r.clinicalFoundations) &&
-        isMatch(DeveloperTypes, r.developerTypes)
+        isMatch(DeveloperTypes, r.developerTypes)*/
       );
     } else {
       return (

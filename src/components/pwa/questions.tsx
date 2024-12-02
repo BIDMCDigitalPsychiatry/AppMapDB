@@ -12,7 +12,8 @@ export const questions = [
       { label: 'Android', filterValue: ['Android'] }
     ],
     Field: SingleAnswerButtons,
-    id: 'Platforms'
+    id: 'Platforms',
+    appKey: 'platforms' // key mapping to app structure
   },
   {
     label: 'Willing to pay?',
@@ -23,11 +24,13 @@ export const questions = [
       { label: 'Yes, can pay subscription fee', filterValue: ['Subscription'] },
       { label: 'Yes, can pay in app payments', filterValue: ['In-App Purchase'] }
     ],
-    id: 'Cost'
+    id: 'Cost',
+    appKey: 'costs'
   },
   {
     label: 'Need a privacy policy?',
     id: 'Privacy',
+    appKey: 'privacies',
     options: [
       { label: `It doesn't matter`, filterValue: [] },
       { label: 'Yes, only apps with privacy policies', filterValue: ['Has Privacy Policy'] }
@@ -36,6 +39,7 @@ export const questions = [
   {
     label: 'Need supporting evidence?',
     id: 'ClinicalFoundations',
+    appKey: 'clinicalFoundations',
     options: [
       { label: `It doesn't matter`, filterValue: [] },
       //{ label: 'Supporting Evidence & Crisis Support', filterValue: ['Supporting Studies', 'Appropriately Advises Patient in Case of Emergency'] },
@@ -46,11 +50,13 @@ export const questions = [
   {
     label: 'Condition target?',
     id: 'Conditions',
+    appKey: 'conditions',
     options: [{ label: `It doesn't matter`, filterValue: [] }].concat(Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] })))
   },
   {
     label: 'Desired treatment approach?',
     id: 'TreatmentApproaches',
+    appKey: 'treatmentApproaches',
     options: [
       { label: `It doesn't matter`, filterValue: [] },
       //{ label: 'Acceptance and Commitment', filterValue: [] },
@@ -65,6 +71,7 @@ export const questions = [
   {
     label: 'Feature included?',
     id: 'Features',
+    appKey: 'features',
     Field: MultiAnswerButtons,
     options: [
       //{ label: `It doesn't matter`, filterValue: [] },

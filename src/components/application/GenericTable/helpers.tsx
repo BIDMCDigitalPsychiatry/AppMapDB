@@ -3,17 +3,19 @@ import { GenericTableContainerProps } from './GenericTableContainer';
 import * as TableStore from './store';
 import { isEmpty, spread } from '../../../helpers';
 import Decimal from 'decimal.js-light';
+import { questions } from '../../pwa/questions';
 
 ///////////////////////////////////////////
 /////////////// Table Sorters  ////////////
 //////////////////////////////////////////
 
-export type SortComparator = 'text' | 'textLower' | 'decimal' | 'featureMatchCount';
+export type SortComparator = 'text' | 'textLower' | 'decimal' | 'featureMatchCount' | 'anyMatchCount';
 const sortComparators = {
   text: desc,
   textLower: lowerDesc,
   decimal: descDecimal,
-  featureMatchCount: featureMatchCount
+  featureMatchCount: featureMatchCount,
+  anyMatchCount: anyMatchCount
 };
 
 ///////////////////////////////////////////
@@ -88,9 +90,9 @@ export const useTableFilter = (data: any, name: string, customFilter = undefined
     };
 
   const filtered = table_filter(data, columnfilter, searchtext, customFilter, fuzzyFilter);
-  if (mode === 'pwa' && Array.isArray(table?.filters?.Features) && table.filters.Features.length > 0) {
+  if (mode === 'pwa') {
     // For PWA, the features filter should be OR inclusive and sorted by most feature matches first
-    return stableSort(filtered, getSorting('desc', table.filters.Features, 'featureMatchCount'));
+    return stableSort(filtered, getSorting('desc', table.filters, 'anyMatchCount'));
   } else {
     return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
   }
@@ -150,6 +152,58 @@ function descDecimal(a, b, orderBy) {
   }
   if (dB.greaterThan(dA)) {
     return 1;
+  }
+  return 0;
+}
+
+export const getPwaFilterMatchCount = ({ filters, app }) => {
+  var count = 0;
+  questions.forEach(({ id, appKey }) => {
+    var filterValues = filters[id];
+    //console.log({ id, filterValues, appKey, filters });
+    if (Array.isArray(filterValues) && filterValues?.length > 0) {
+      filterValues.forEach(f => {
+        if (app[appKey] && app[appKey].length && app[appKey].find(v => v === f)) {
+          count = count + 1;
+        }
+      });
+    }
+  });
+  return count;
+};
+
+function anyMatchCount(a, b, orderBy) {
+  const A = a?.getValues();
+  const B = b?.getValues();
+
+  var mA = 0;
+  var mB = 0;
+
+  questions.forEach(({ id, appKey }) => {
+    var filterValues = orderBy[id];
+    if (Array.isArray(filterValues) && filterValues?.length > 0) {
+      // orderBy contains the current table filters
+      // Compare this to the number of matches for each row
+      filterValues.forEach(f => {
+        if (A[appKey] && A[appKey].length && A[appKey].find(v => v === f)) {
+          mA = mA + 1;
+        }
+        if (B[appKey] && B[appKey].length && B[appKey].find(v => v === f)) {
+          mB = mB + 1;
+        }
+      });
+    }
+  });
+
+  if (mA > 0 || mB > 0) {
+    console.log({ orderBy, mA, mB });
+  }
+
+  if (mB < mA) {
+    return 1;
+  }
+  if (mB > mA) {
+    return -1;
   }
   return 0;
 }
