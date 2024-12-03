@@ -172,14 +172,30 @@ export const getPwaFilterMatchCount = ({ filters, app }) => {
   return count;
 };
 
+export const getPwaFilterMatches = ({ filters, app }) => {
+  var filterMatches = [];
+  questions.forEach(({ id, appKey }) => {
+    var filterValues = filters[id];
+    //console.log({ id, filterValues, appKey, filters });
+    if (Array.isArray(filterValues) && filterValues?.length > 0) {
+      filterValues.forEach(f => {
+        if (app[appKey] && app[appKey].length && app[appKey].find(v => v === f)) {
+          filterMatches.push({ key: id, value: f });
+        }
+      });
+    }
+  });
+  return filterMatches;
+};
+
 function anyMatchCount(a, b, orderBy) {
   const A = a?.getValues();
   const B = b?.getValues();
 
-  var mA = 0;
-  var mB = 0;
+  var mA = A.filterMatches?.length ?? 0;
+  var mB = B.filterMatches?.length ?? 0;
 
-  questions.forEach(({ id, appKey }) => {
+  /*questions.forEach(({ id, appKey }) => {
     var filterValues = orderBy[id];
     if (Array.isArray(filterValues) && filterValues?.length > 0) {
       // orderBy contains the current table filters
@@ -196,8 +212,8 @@ function anyMatchCount(a, b, orderBy) {
   });
 
   if (mA > 0 || mB > 0) {
-    console.log({ orderBy, mA, mB });
-  }
+    console.log({ orderBy, mA, mB, A, B, a, b });
+  }*/
 
   if (mB < mA) {
     return 1;

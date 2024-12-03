@@ -6,7 +6,7 @@ import { useApplications } from '../../database/useApplications';
 import { getDayTimeFromTimestamp, isEmpty, onlyUnique } from '../../helpers';
 import { AppState } from '../../store';
 import { getAppCompany, getAppName } from '../application/GenericTable/Applications/selectors';
-import { useTableFilter } from '../application/GenericTable/helpers';
+import { getPwaFilterMatches, useTableFilter } from '../application/GenericTable/helpers';
 import { useAdminMode } from '../layout/store';
 import { getDescription } from '../application/GenericTable/ApplicationsGrid/ExpandableDescription';
 import fuzzysort from 'fuzzysort';
@@ -39,6 +39,23 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   const [apps, setApps] = useApplications();
   const [loading, setLoading] = React.useState(false);
   const count = Object.keys(apps).length;
+
+  const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
+  const {
+    Platforms = [],
+    Functionalities = [],
+    Cost = [],
+    TreatmentApproaches = [],
+    Features = [],
+    Inputs = [],
+    Outputs = [],
+    Engagements = [],
+    Conditions = [],
+    Privacy = [],
+    Uses = [],
+    ClinicalFoundations = [],
+    DeveloperTypes = []
+  } = filters;
 
   const handleGetRow = React.useCallback(
     id => {
@@ -129,6 +146,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
         .filter(k => apps[k].draft !== true && apps[k].delete !== true && ((!adminMode && apps[k].approved === true) || adminMode)) // only show approved for public mode, show all for admin
         .map(k => {
           const app: Application = apps[k];
+          const filterMatches = getPwaFilterMatches({ filters, app });
 
           const appSearchable = {
             name: getAppName(app),
@@ -153,11 +171,12 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
           return {
             _id: app._id,
             parent: app.parent,
+            filterMatches: mode === 'pwa' ? filterMatches : undefined,
             ...appSearchable,
             getSearchValues: () => {
               return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
             },
-            getValues: () => app,
+            getValues: () => (mode === 'pwa' ? { ...app, filterMatches } : app),
             getExportValues: () => ({
               _id: app._id,
               ...appSearchable,
@@ -198,39 +217,31 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
     return newest;
   });
 
-  const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
-  const {
-    Platforms = [],
-    Functionalities = [],
-    Cost = [],
-    TreatmentApproaches = [],
-    Features = [],
-    Inputs = [],
-    Outputs = [],
-    Engagements = [],
-    Conditions = [],
-    Privacy = [],
-    Uses = [],
-    ClinicalFoundations = [],
-    DeveloperTypes = []
-  } = filters;
+  var filterCount = 0;
+  if (mode === 'pwa') {
+    Object.keys(filters).forEach(k => {
+      filterCount = filterCount + filters[k]?.length;
+    });
+  }
 
   const customFilter = r => {
     if (mode === 'pwa') {
       return (
-        isMatch(Platforms, r.platforms) ||
-        isMatch(Functionalities, r.functionalities) ||
-        isMatch(Cost, r.costs) ||
-        isMatch(TreatmentApproaches, r.treatmentApproaches) ||
-        isMatchAny(Features, r.features) ||
-        isMatch(Engagements, r.engagements) ||
-        isMatch(Inputs, r.inputs) ||
-        isMatch(Outputs, r.outputs) ||
-        isMatch(Conditions, r.conditions) ||
-        isMatch(Privacy, r.privacies) ||
-        isMatch(Uses, r.uses) ||
-        isMatch(ClinicalFoundations, r.clinicalFoundations) ||
-        isMatch(DeveloperTypes, r.developerTypes)
+        (filterCount > 0 && filterCount <= 4 ? r.filterMatches?.length === filterCount : true) &&
+        (filterCount > 4 ? r.filterMatches?.length > filterCount / 2 : true) && // Only show results that match at least half the filter count
+        (isMatch(Platforms, r.platforms) ||
+          isMatch(Functionalities, r.functionalities) ||
+          isMatch(Cost, r.costs) ||
+          isMatch(TreatmentApproaches, r.treatmentApproaches) ||
+          isMatchAny(Features, r.features) ||
+          isMatch(Engagements, r.engagements) ||
+          isMatch(Inputs, r.inputs) ||
+          isMatch(Outputs, r.outputs) ||
+          isMatch(Conditions, r.conditions) ||
+          isMatch(Privacy, r.privacies) ||
+          isMatch(Uses, r.uses) ||
+          isMatch(ClinicalFoundations, r.clinicalFoundations) ||
+          isMatch(DeveloperTypes, r.developerTypes))
         /*isMatch(Platforms, r.platforms) &&
         isMatch(Functionalities, r.functionalities) &&
         isMatch(Cost, r.costs) &&
