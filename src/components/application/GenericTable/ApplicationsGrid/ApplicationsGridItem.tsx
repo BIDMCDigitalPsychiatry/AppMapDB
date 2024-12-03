@@ -13,6 +13,7 @@ import { title } from '../../GenericDialog/ViewApp';
 import { red } from '@mui/material/colors';
 import { withReplacement } from '../../../../database/models/Application';
 import { categories } from '../../../../constants';
+import { useAreFiltersActive } from '../../../pages/useAppTableData';
 
 const height = 520;
 const extraPwaHeight = 96;
@@ -127,8 +128,9 @@ export default function ApplicationsGridItem(props: any) {
   const [state, setState] = React.useState({
     raised: false
   });
+  var areFiltersActive = useAreFiltersActive();
 
-  const classes = useStyles({ isPwa });
+  const classes = useStyles({ isPwa: isPwa && areFiltersActive });
   const changeRoute = useChangeRoute();
   const content = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
 
@@ -157,7 +159,7 @@ export default function ApplicationsGridItem(props: any) {
         sx={{
           p: 0,
           mt: 1,
-          backgroundColor: isPwa ? 'primary.light' : undefined
+          backgroundColor: isPwa && areFiltersActive ? 'primary.light' : undefined
         }}
       >
         <Grid container sx={{ px: 1, backgroundColor: 'white' }}>
@@ -199,7 +201,7 @@ export default function ApplicationsGridItem(props: any) {
         <div className={classes.wrapper}>
           <div
             style={{ paddingLeft: 8, paddingRight: 8, paddingBottom: 4, backgroundColor: 'white' }}
-            dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(content), isPwa ? 6 : 7) }}
+            dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(content), isPwa && areFiltersActive ? 6 : 7) }}
           />
           <Grid container sx={{ backgroundColor: 'white' }}>
             <Grid item xs={12}>
@@ -208,7 +210,7 @@ export default function ApplicationsGridItem(props: any) {
               </Typography>
             </Grid>
           </Grid>
-          {isPwa && (
+          {isPwa && areFiltersActive && (
             <Box sx={{ pt: 0.5 }}>
               <FilterMatchCount {...props} />
             </Box>
