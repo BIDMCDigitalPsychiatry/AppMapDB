@@ -4,7 +4,7 @@ import { useAppBarHeightSetRef } from '../layout/hooks';
 import { usePwaActions } from './store';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
-import QuestionHeader from './QuestionHeader';
+import QuestionHeader, { pwaTextFontSize } from './QuestionHeader';
 import { searchIndex } from './questions';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
@@ -21,27 +21,33 @@ export default function PwaAppBar() {
 
   return (
     <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} sx={{ px: 0, backgroundColor: 'grey.200' }}>
-      <Toolbar disableGutters={true} variant='dense' sx={{ px: 1 }}>
+      <Toolbar disableGutters={true} variant='regular' sx={{ px: 1 }}>
         <Grid container alignItems='center' spacing={0} justifyContent='space-between'>
           <Grid item sx={{ pt: 0.5 }}>
             <PwaLogo />
           </Grid>
           <Grid item>
-            <ButtonGroup variant='contained' aria-label='version button group' size='small'>
+            <Grid container spacing={1}>
               {index === searchIndex && (
-                <Button variant='contained' size={size} onClick={back} disabled={disableBack} sx={{ px }}>
-                  Back
-                </Button>
+                <Grid item>
+                  <Button variant='contained' size={size} onClick={back} disabled={disableBack} sx={{ px, fontSize: pwaTextFontSize, maxHeight: 48 }}>
+                    Back
+                  </Button>
+                </Grid>
               )}
-              <Button variant='contained' size={size} onClick={reset} disabled={disableReset} sx={{ px }}>
-                Restart Quiz
-              </Button>
+              <Grid item>
+                <Button variant='contained' size={size} onClick={reset} disabled={disableReset} sx={{ px, fontSize: pwaTextFontSize, maxHeight: 48 }}>
+                  Restart Quiz
+                </Button>
+              </Grid>
               {index !== searchIndex && (
-                <Button variant='contained' size={size} onClick={search} disabled={disableSearch} sx={{ px }}>
-                  Search
-                </Button>
+                <Grid item>
+                  <Button variant='contained' size={size} onClick={search} disabled={disableSearch} sx={{ px, fontSize: pwaTextFontSize, maxHeight: 48 }}>
+                    Search
+                  </Button>
+                </Grid>
               )}
-            </ButtonGroup>
+            </Grid>
           </Grid>
         </Grid>
       </Toolbar>

@@ -4,10 +4,13 @@ import { usePwaActions } from './store';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
+const headerFontSize = 48;
+const textFontSize = 24;
+
 const Header = () => (
   <Stack spacing={0}>
-    <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: 28, textAlign: 'center' }}>Welcome to</Box>
-    <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: 28, textAlign: 'center' }}>MINDapps!</Box>
+    <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: headerFontSize, textAlign: 'center' }}>Welcome to</Box>
+    <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: headerFontSize, textAlign: 'center' }}>MINDapps!</Box>
     <Box sx={{ mt: 1 }}>
       <Divider sx={{ backgroundColor: 'primary.main', height: 6 }} />
     </Box>
@@ -23,8 +26,35 @@ const StartButton = () => {
       size='large'
       sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 22, minHeight: 64, fontWeight: 700 }}
     >
-      START QUIZ!
+      START QUIZ
     </Button>
+  );
+};
+
+const SearchButton = () => {
+  const { search } = usePwaActions();
+  return (
+    <Button
+      onClick={search}
+      variant='contained'
+      size='large'
+      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 22, minHeight: 64, fontWeight: 700 }}
+    >
+      SEARCH
+    </Button>
+  );
+};
+
+const Buttons = () => {
+  return (
+    <Grid container spacing={3} justifyContent='center'>
+      <Grid item>
+        <StartButton />
+      </Grid>
+      <Grid item>
+        <SearchButton />
+      </Grid>
+    </Grid>
   );
 };
 
@@ -36,11 +66,11 @@ const HorizontalLayout = () => {
           <Header /> <img src={logo} alt='mindapp' style={{ width: 120, marginTop: 32 }} />
         </Grid>
         <Grid item xs>
-          <Box sx={{ fontSize: 16, textAlign: 'center' }}>
+          <Box sx={{ fontSize: textFontSize, textAlign: 'center' }}>
             Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
           </Box>
           <Box sx={{ mt: 4, textAlign: 'center' }}>
-            <StartButton />
+            <Buttons />
           </Box>
         </Grid>
       </Grid>
@@ -52,12 +82,12 @@ const VerticalLayout = () => {
   return (
     <Stack spacing={0} alignItems='center' justifyContent='space-evenly' height='100vh'>
       <Header />
-      <Box sx={{ fontSize: 16, textAlign: 'center', maxWidth: 400 }}>
+      <Box sx={{ fontSize: textFontSize, textAlign: 'center', maxWidth: 400 }}>
         Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
       </Box>
-      <img src={logo} alt='mindapp' style={{ width: 140 }} />
+      <img src={logo} alt='mindapp' style={{ width: 180 }} />
       <Box sx={{ textAlign: 'center' }}>
-        <StartButton />
+        <Buttons />
       </Box>
     </Stack>
   );

@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from '../../helpers';
 import * as Icons from '@mui/icons-material';
+import { pwaTextFontSize } from './QuestionHeader';
 
 const UnselectedButton = ({ label, handleClick }) => {
   return (
-    <Button variant='contained' onClick={handleClick} size='large' fullWidth sx={{ fontSize: 24, minHeight: 64 }}>
+    <Button variant='contained' onClick={handleClick} size='large' fullWidth sx={{ fontSize: pwaTextFontSize, minHeight: 64 }}>
       {label}
     </Button>
   );
@@ -19,7 +20,7 @@ const SelectedButton = ({ label, handleClick }) => {
       onClick={handleClick}
       size='large'
       fullWidth
-      sx={{ backgroundColor: 'primary.dark', fontSize: 24, minHeight: 64 }}
+      sx={{ backgroundColor: 'primary.dark', fontSize: pwaTextFontSize, minHeight: 64 }}
     >
       {label}
     </Button>
@@ -38,7 +39,9 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
   return (
     <>
       <Box sx={{ color: 'text.secondary', pb: 1 }}>
-        <Typography variant='caption'>Select an option to continue:</Typography>
+        <Typography color='text.secondary' fontSize={pwaTextFontSize}>
+          Select an option to continue:
+        </Typography>
       </Box>
       <Grid container spacing={2}>
         {options.map((o, idx) => {

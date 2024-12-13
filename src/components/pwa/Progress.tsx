@@ -6,6 +6,7 @@ import { usePwaActions } from './store';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import { pwaTextFontSize } from './QuestionHeader';
 
 export default function Progress() {
   const index = useSelector((s: AppState) => s.pwa.index);
@@ -23,16 +24,16 @@ export default function Progress() {
       <Grid item xs={12}>
         <Grid container spacing={1} alignItems='center' justifyContent='space-between'>
           <Grid item>
-            <Button variant='contained' size={size} onClick={back} startIcon={<KeyboardArrowLeft />}>
+            <Button variant='contained' size={size} onClick={back} startIcon={<KeyboardArrowLeft />} sx={{ fontSize: pwaTextFontSize }}>
               Back
             </Button>
           </Grid>
-          <Grid item sx={{ color: 'text.secondary', fontSize: 12 }}>
+          <Grid item sx={{ color: 'text.secondary', fontSize: pwaTextFontSize }}>
             Question {index + 1} / {questions.length}
           </Grid>
 
           <Grid item>
-            <Button variant='contained' size={size} onClick={next} endIcon={<KeyboardArrowRight />}>
+            <Button variant='contained' size={size} onClick={next} endIcon={<KeyboardArrowRight />} sx={{ fontSize: pwaTextFontSize }}>
               Next
             </Button>
           </Grid>

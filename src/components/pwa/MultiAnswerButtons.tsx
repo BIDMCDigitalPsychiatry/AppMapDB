@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from '../../helpers';
 import * as Icons from '@mui/icons-material';
+import { pwaTextFontSize } from './QuestionHeader';
 
 const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -19,7 +20,7 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
   return (
     <>
       <Box sx={{ color: 'text.secondary', pb: 1 }}>
-        <Typography variant='caption'>Select one or more options. Click done to continue:</Typography>
+        <Typography fontSize={pwaTextFontSize}>Select one or more options. Click done to continue:</Typography>
       </Box>
       <Grid container spacing={2}>
         {options.map((o, idx) => {
@@ -33,7 +34,7 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
                 size='large'
                 fullWidth
                 color='primary'
-                sx={{ fontSize: 24, minHeight: 64, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
+                sx={{ fontSize: pwaTextFontSize, minHeight: 64, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
               >
                 {!isEmpty(o?.label) ? o.label : o}
               </Button>

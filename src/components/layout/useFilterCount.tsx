@@ -14,12 +14,24 @@ export const useFilterCount = (table = 'Applications') => {
       Privacy = [],
       Uses = [],
       DeveloperTypes = [],
-      ClinicalFoundations = []
+      ClinicalFoundations = [],
+      TreatmentApproaches = []
     }
   ] = useTableFilterValues(table);
 
-  return [Features, Engagements, Inputs, Outputs, Functionalities, Conditions, Platforms, Cost, Privacy, Uses, DeveloperTypes, ClinicalFoundations].reduce(
-    (t, c) => (t = t + c.length),
-    0
-  );
+  return [
+    TreatmentApproaches,
+    Features,
+    Engagements,
+    Inputs,
+    Outputs,
+    Functionalities,
+    Conditions,
+    Platforms,
+    Cost,
+    Privacy,
+    Uses,
+    DeveloperTypes,
+    ClinicalFoundations
+  ].reduce((t, c) => (t = t + c.length), 0);
 };

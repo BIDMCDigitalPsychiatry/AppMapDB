@@ -10,6 +10,7 @@ import { useHandleTableReset, useTableFilterValues, useTableSearchText } from '.
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { categories } from '../../constants';
 import { useHeaderHeightSetRef } from '../layout/hooks';
+import { green } from '@mui/material/colors';
 
 const padding = 8;
 const spacing = 1;
@@ -125,7 +126,7 @@ export default function PwaSearchHeader() {
                       <Grid item key={label}>
                         <Chip
                           key={`${label}-${i}-${i2}`}
-                          style={{ background: category?.color ?? 'grey', color: 'white', marginRight: 0 }}
+                          style={{ /*background: category?.color ?? 'grey',*/ background: green[700], color: 'white', marginRight: 0 }}
                           variant='outlined'
                           size='small'
                           label={withReplacement(label)}

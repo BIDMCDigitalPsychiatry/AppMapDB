@@ -10,10 +10,12 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
 import { useDialogState } from '../../GenericDialog/useDialogState';
 import { title } from '../../GenericDialog/ViewApp';
-import { red } from '@mui/material/colors';
+import { green, red } from '@mui/material/colors';
 import { withReplacement } from '../../../../database/models/Application';
 import { categories } from '../../../../constants';
 import { useAreFiltersActive } from '../../../pages/useAppTableData';
+import { useFilters } from '../../../../database/useFilters';
+import { useFilterCount } from '../../../layout/useFilterCount';
 
 const height = 520;
 const extraPwaHeight = 96;
@@ -72,7 +74,10 @@ export function PwaApplicationsGridItem(props) {
 const FilterMatchCount = props => {
   const filterMatches = props?.filterMatches ?? [];
   const matchCount = filterMatches?.length ?? 0;
-  const matchText = `${matchCount} Match${matchCount === 1 ? '' : 'es'}:`;
+  const filterCount = useFilterCount();
+
+  //const matchText = `${matchCount} Match${matchCount === 1 ? '' : 'es'}:`;
+  const matchText = `Meets ${matchCount}/${filterCount} Criteria:`;
 
   return matchCount > 0 ? (
     <Box sx={{ pb: 0.5 }}>
@@ -80,7 +85,7 @@ const FilterMatchCount = props => {
         <Grid item xs>
           <Grid container justifyContent='flex-start' alignItems='center' spacing={0.1} sx={{ backgroundColor: 'primary.light' }}>
             <Grid item>
-              <Box sx={{ fontSize: 14, height: 20, mr: 0.5, background: red[700], color: 'white', ml: 0.25, pl: 0.5, pr: 1 }}>{matchText}</Box>
+              <Box sx={{ fontSize: 14, height: 20, mr: 0.5, color: 'white', fontWeight: 'bold', ml: 0.25, pl: 0.5, pr: 1 }}>{matchText}</Box>
             </Grid>
             {filterMatches.map((item, i) => {
               const category = categories[item.key];
@@ -88,7 +93,7 @@ const FilterMatchCount = props => {
                 <Grid item key={item?.value}>
                   <Chip
                     key={`${item?.value}-${i}`}
-                    style={{ background: category?.color ?? 'grey', color: 'white', marginRight: 0, fontSize: 12, height: 20 }}
+                    style={{ /*background: category?.color ?? 'grey',*/ background: green[700], color: 'white', marginRight: 0, fontSize: 12, height: 20 }}
                     variant='outlined'
                     size='small'
                     label={withReplacement(item?.value)}
