@@ -409,7 +409,11 @@ export const FeatureQuestions = [
 
 // Requests were made to change certain hard coded values.  This handles this display logic
 export const withReplacement = text =>
-  text === 'Kids Help Phone Approved'
+  text === 'Is PHI shared'
+    ? 'PHI shared'
+    : text === 'Is PHI Shared'
+    ? 'PHI shared'
+    : text === 'Kids Help Phone Approved'
     ? 'Youth'
     : text === 'Bbot Interaction'
     ? 'Chatbot Interaction'
