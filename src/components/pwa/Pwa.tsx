@@ -107,11 +107,13 @@ export default function Pwa() {
           {showResults ? (
             <PwaApps />
           ) : (
-            <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1, pt: 1 }}>
-              <Grid item xs={12} sx={{ mt: 0.5 }}>
-                <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
+            <Container maxWidth='sm'>
+              <Grid container spacing={1} alignItems='center' justifyContent='center' sx={{ px: 1, pt: 1 }}>
+                <Grid item xs={12} sx={{ mt: 0.5 }}>
+                  <Field onChange={onChange(index)} onNext={handleNext} options={options} value={value} />
+                </Grid>
               </Grid>
-            </Grid>
+            </Container>
           )}
         </>
       )}
