@@ -2,9 +2,10 @@ import * as React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from '../../helpers';
 import * as Icons from '@mui/icons-material';
-import { pwaTextFontSize } from './QuestionHeader';
+import { usePwaTextFontSize } from './QuestionHeader';
 
 const UnselectedButton = ({ label, handleClick }) => {
+  const pwaTextFontSize = usePwaTextFontSize();
   return (
     <Button variant='contained' onClick={handleClick} size='large' fullWidth sx={{ fontSize: pwaTextFontSize, minHeight: 64 }}>
       {label}
@@ -13,6 +14,7 @@ const UnselectedButton = ({ label, handleClick }) => {
 };
 
 const SelectedButton = ({ label, handleClick }) => {
+  const pwaTextFontSize = usePwaTextFontSize();
   return (
     <Button
       startIcon={<Icons.Check />}
@@ -35,6 +37,7 @@ const SingleAnswerButtons = ({ value, onChange, onNext, options = [] }) => {
     },
     [onChange, onNext]
   );
+  const pwaTextFontSize = usePwaTextFontSize();
 
   return (
     <>

@@ -90,7 +90,6 @@ export default function PwaSearchHeader() {
   );
 
   const setRef = useHeaderHeightSetRef();
-  console.log({ items, searchtext });
 
   return (
     <>

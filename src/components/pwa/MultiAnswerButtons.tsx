@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from '../../helpers';
 import * as Icons from '@mui/icons-material';
-import { pwaTextFontSize } from './QuestionHeader';
+import { usePwaTextFontSize } from './QuestionHeader';
 
 const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -16,6 +16,8 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
     // eslint-disable-next-line
     [onChange, JSON.stringify(value)]
   );
+
+  const pwaTextFontSize = usePwaTextFontSize();
 
   return (
     <>

@@ -290,6 +290,11 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   var filtered = useTableFilter(filteredData, table, customFilter, fuzzySortFilter, mode);
 
+  if (mode === 'pwa' && filtered.length > 5 && filterCount > 0) {
+    // Only show 5 results for PWA when filters are applied
+    filtered = filtered.slice(0, 5);
+  }
+
   return { filtered, loading, apps, setApps, handleRefresh, handleGetRow };
 }
 

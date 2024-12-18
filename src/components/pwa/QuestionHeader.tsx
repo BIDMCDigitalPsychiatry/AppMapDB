@@ -1,14 +1,19 @@
-import { Grid, Divider, Box, Typography } from '@mui/material';
+import { Grid, Divider, Box, Typography, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import Progress from './Progress';
 import { getQuestion } from './questions';
 
-export const pwaTextFontSize = 28;
+export const usePwaTextFontSize = () => {
+  const xs = useMediaQuery('(max-width:430px)');
+
+  return xs ? 15 : 18;
+};
 
 export default function QuestionHeader() {
   const index = useSelector((s: AppState) => s.pwa.index);
   const { label } = getQuestion(index);
+  const pwaTextFontSize = usePwaTextFontSize();
 
   return (
     <Grid container spacing={0} alignItems='center' justifyContent='center' sx={{ px: 0, pt: 0 }}>
