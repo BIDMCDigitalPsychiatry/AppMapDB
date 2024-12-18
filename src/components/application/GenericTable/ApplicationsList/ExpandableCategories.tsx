@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Chip, Theme } from '@mui/material';
+import { Grid, Typography, Chip, Theme, useMediaQuery } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import { evalFunc, isEmpty } from '../../../../helpers';
@@ -47,13 +47,15 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
     row => !isExpandable || expand || ['Access', 'Privacy', 'Clinical Foundation', 'Features', 'Conditions Supported'].find(l => l === row.label)
   );
 
+  const xs = useMediaQuery('(max-width:500px)');
+
   return (
     <>
       {filtered.map((row: any, i) => {
         const values = evalFunc(row.valueItems, other);
         return (
           <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
-            <Grid item style={{ width: 172 }}>
+            <Grid item xs={xs ? 12 : undefined} style={{ width: 172 }}>
               <Typography variant={titleVariant}>{row.label}:</Typography>
             </Grid>
             <Grid item zeroMinWidth xs className={classes.chipRoot}>
@@ -76,7 +78,7 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
                     <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
                       <Chip
                         key={`${label}-${i}`}
-                        style={{ background: row.color, color: 'white', marginRight: 8 }}
+                        style={{ background: row.color, color: 'white', marginRight: 0 }}
                         variant='outlined'
                         size='small'
                         label={withReplacement(label)}
