@@ -6,8 +6,7 @@ import { getQuestion } from './questions';
 
 export const usePwaTextFontSize = () => {
   const xs = useMediaQuery('(max-width:430px)');
-
-  return xs ? 15 : 18;
+  return xs ? 15 : 20;
 };
 
 export default function QuestionHeader() {

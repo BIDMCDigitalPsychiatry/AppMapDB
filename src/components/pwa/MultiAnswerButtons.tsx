@@ -3,6 +3,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import { isEmpty } from '../../helpers';
 import * as Icons from '@mui/icons-material';
 import { usePwaTextFontSize } from './QuestionHeader';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
@@ -28,18 +29,29 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
         {options.map((o, idx) => {
           const isSelected = value?.find(v => v.label === o.label) ? true : false;
           return (
-            <Grid item xs={12} key={idx}>
-              <Button
-                startIcon={isSelected ? <Icons.CheckBox /> : <Icons.CheckBoxOutlineBlank />}
-                variant='contained'
-                onClick={handleClick(o)}
-                size='large'
-                fullWidth
-                color='primary'
-                sx={{ fontSize: pwaTextFontSize, minHeight: 64, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
-              >
-                {!isEmpty(o?.label) ? o.label : o}
-              </Button>
+            <Grid item xs={12} key={`${idx}-${isSelected}`}>
+              <ButtonGroup variant='contained' aria-label='Button group with select' fullWidth>
+                <Button
+                  size='small'
+                  aria-label='select button option'
+                  onClick={handleClick(o)}
+                  color='primary'
+                  fullWidth={false}
+                  sx={{ fontSize: pwaTextFontSize, minHeight: 48, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
+                >
+                  {isSelected ? <Icons.CheckBox /> : <Icons.CheckBoxOutlineBlank />}
+                </Button>
+                <Button
+                  variant='contained'
+                  onClick={handleClick(o)}
+                  size='large'
+                  fullWidth
+                  color='primary'
+                  sx={{ pr: 7, textAlign: 'left', fontSize: pwaTextFontSize, minHeight: 48, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
+                >
+                  {!isEmpty(o?.label) ? o.label : o}
+                </Button>
+              </ButtonGroup>
             </Grid>
           );
         })}
@@ -48,9 +60,8 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
             color='primary'
             variant='contained'
             onClick={onNext}
-            size='large'
             fullWidth
-            sx={{ fontSize: 24, minHeight: 64 }}
+            sx={{ fontSize: pwaTextFontSize, minHeight: 48 }}
             endIcon={<Icons.ArrowForward />}
           >
             Next

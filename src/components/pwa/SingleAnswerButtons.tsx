@@ -7,7 +7,7 @@ import { usePwaTextFontSize } from './QuestionHeader';
 const UnselectedButton = ({ label, handleClick }) => {
   const pwaTextFontSize = usePwaTextFontSize();
   return (
-    <Button variant='contained' onClick={handleClick} size='large' fullWidth sx={{ fontSize: pwaTextFontSize, minHeight: 64 }}>
+    <Button variant='contained' onClick={handleClick} size='large' fullWidth sx={{ fontSize: pwaTextFontSize, minHeight: 48 }}>
       {label}
     </Button>
   );
@@ -22,7 +22,7 @@ const SelectedButton = ({ label, handleClick }) => {
       onClick={handleClick}
       size='large'
       fullWidth
-      sx={{ backgroundColor: 'primary.dark', fontSize: pwaTextFontSize, minHeight: 64 }}
+      sx={{ backgroundColor: 'primary.dark', fontSize: pwaTextFontSize, minHeight: 48 }}
     >
       {label}
     </Button>
