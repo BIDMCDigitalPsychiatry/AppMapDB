@@ -1,4 +1,4 @@
-import { Button, Box, Divider, Stack, Container, Grid } from '@mui/material';
+import { Button, Box, Divider, Stack, Container, Grid, useMediaQuery } from '@mui/material';
 import logo from '../../images/Brain.svg';
 import { usePwaActions } from './store';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
@@ -23,8 +23,8 @@ const StartButton = () => {
     <Button
       onClick={next}
       variant='contained'
-      size='large'
-      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 22, minHeight: 64, fontWeight: 700 }}
+      size='medium'
+      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 16, minHeight: 64, fontWeight: 700, width: 140 }}
     >
       START QUIZ
     </Button>
@@ -37,20 +37,26 @@ const SearchButton = () => {
     <Button
       onClick={search}
       variant='contained'
-      size='large'
-      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 22, minHeight: 64, fontWeight: 700 }}
+      size='medium'
+      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 16, minHeight: 64, fontWeight: 700, width: 140 }}
     >
-      SEARCH
+      SEARCH APPS
     </Button>
   );
 };
 
 const Buttons = () => {
+  const xs = useMediaQuery('(min-width:360px)');
   return (
-    <Grid container spacing={3} justifyContent='center'>
+    <Grid container spacing={1.5} justifyContent='center' alignItems='center'>
       <Grid item>
         <StartButton />
       </Grid>
+      {xs && (
+        <Grid item sx={{ fontWeight: 'bold' }}>
+          OR
+        </Grid>
+      )}
       <Grid item>
         <SearchButton />
       </Grid>
