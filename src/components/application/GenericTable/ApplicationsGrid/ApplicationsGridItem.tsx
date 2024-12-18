@@ -10,15 +10,14 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
 import { useDialogState } from '../../GenericDialog/useDialogState';
 import { title } from '../../GenericDialog/ViewApp';
-import { green, red } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import { withReplacement } from '../../../../database/models/Application';
 import { categories } from '../../../../constants';
 import { useAreFiltersActive } from '../../../pages/useAppTableData';
-import { useFilters } from '../../../../database/useFilters';
 import { useFilterCount } from '../../../layout/useFilterCount';
 
 const height = 520;
-const extraPwaHeight = 96;
+const extraPwaHeight = 48;
 const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: ({ isPwa }: any) => ({

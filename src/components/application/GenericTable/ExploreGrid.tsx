@@ -1,9 +1,13 @@
 import ExploreGridItem from './ApplicationsGrid/ApplicationsGridItem';
 import { VirtuosoGrid } from 'react-virtuoso';
 import styled from '@emotion/styled';
+import { grey } from '@mui/material/colors';
 
 const ItemContainer = styled.div`
-  padding: 0.5rem;
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
   width: 25%;
   display: flex;
   flex: none;
@@ -23,8 +27,10 @@ const ItemContainer = styled.div`
 `;
 
 const ListContainer = styled.div`
+  padding: 8px;
   display: flex;
   flex-wrap: wrap;
+  background: ${grey[100]};
 `;
 
 export default function ExploreGrid({ data, height, GridItem = undefined, scrollElement = undefined }) {
