@@ -121,14 +121,13 @@ export default function PwaSearchHeader() {
         </Grid>
         <Grid item xs={12}>
           <Grid container justifyContent='space-between' alignItems='center'>
-            <Grid item>
-              <Box sx={{ fontSize: 16, mr: 0, color: 'white', fontWeight: 900, ml: 0, pt: 0.2, pr: 0.5 }}>
-                {showClear ? 'My Search Criteria:' : 'No Search Criteria Specified'}
-              </Box>
-            </Grid>
-
             <Grid item xs>
               <Grid container alignItems='center' spacing={0.5} style={{ marginTop: 0 }}>
+                <Grid item>
+                  <Box sx={{ fontSize: 16, mr: 0, color: 'white', fontWeight: 900, ml: 0, pt: 0.2, pr: 0.5 }}>
+                    {showClear ? 'My Search Criteria:' : 'No Search Criteria Specified'}
+                  </Box>
+                </Grid>
                 {items.map((item, i) => {
                   const category = categories[item.key];
                   return item?.key === 'searchtext' ? (
