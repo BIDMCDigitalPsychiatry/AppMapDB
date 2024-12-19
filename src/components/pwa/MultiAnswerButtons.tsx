@@ -9,9 +9,9 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
   const handleClick = React.useCallback(
     o => () => {
       if (value?.find(v => v.label === o.label)) {
-        onChange && onChange(value.filter(v => v.label !== o.label));
+        onChange && onChange([...value.filter(v => v.label !== o.label)]);
       } else {
-        onChange && onChange(value.concat(o));
+        onChange && onChange([...value.concat(o)]);
       }
     },
     // eslint-disable-next-line
@@ -30,24 +30,42 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
           const isSelected = value?.find(v => v.label === o.label) ? true : false;
           return (
             <Grid item xs={12} key={`${idx}-${isSelected}`}>
-              <ButtonGroup variant='contained' aria-label='Button group with select' fullWidth>
+              <ButtonGroup aria-label='Button group with select' fullWidth>
                 <Button
                   size='small'
                   aria-label='select button option'
                   onClick={handleClick(o)}
                   color='primary'
                   fullWidth={false}
-                  sx={{ fontSize: pwaTextFontSize, minHeight: 48, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
+                  sx={{
+                    fontSize: pwaTextFontSize,
+                    minHeight: 48,
+                    color: 'white',
+                    backgroundColor: isSelected ? 'primary.dark' : 'primary.main',
+                    '&:hover': {
+                      backgroundColor: isSelected ? 'primary.dark' : 'primary.main'
+                    }
+                  }}
                 >
                   {isSelected ? <Icons.CheckBox /> : <Icons.CheckBoxOutlineBlank />}
                 </Button>
                 <Button
+                  disableElevation={true}
                   variant='contained'
                   onClick={handleClick(o)}
                   size='large'
                   fullWidth
                   color='primary'
-                  sx={{ pr: 7, textAlign: 'left', fontSize: pwaTextFontSize, minHeight: 48, backgroundColor: isSelected ? 'primary.dark' : 'primary.main' }}
+                  sx={{
+                    pr: 7,
+                    textAlign: 'left',
+                    fontSize: pwaTextFontSize,
+                    minHeight: 48,
+                    backgroundColor: isSelected ? 'primary.dark' : 'primary.main',
+                    '&:hover': {
+                      backgroundColor: isSelected ? 'primary.dark' : 'primary.main'
+                    }
+                  }}
                 >
                   {!isEmpty(o?.label) ? o.label : o}
                 </Button>
