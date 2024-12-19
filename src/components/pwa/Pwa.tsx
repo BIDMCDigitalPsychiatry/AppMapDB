@@ -99,7 +99,7 @@ export default function Pwa() {
   }, [filters, showResults, tableFilterUpdate]);
 
   return (
-    <Container maxWidth='lg' disableGutters={index === searchIndex} sx={{ pt: 0, pb: 1, px: 0 }}>
+    <Container maxWidth='lg' disableGutters={showLanding || index === searchIndex} sx={{ pt: 0, pb: 1, px: 0 }}>
       {showLanding ? (
         <Landing />
       ) : (

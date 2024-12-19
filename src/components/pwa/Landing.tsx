@@ -6,6 +6,8 @@ import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const headerFontSize = 48;
 const textFontSize = 24;
+const buttonWidth = 124;
+const buttonMinHeight = 60;
 
 const Header = ({ xs = undefined }) => (
   <Stack spacing={0}>
@@ -24,7 +26,16 @@ const StartButton = () => {
       onClick={next}
       variant='contained'
       size='medium'
-      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 16, minHeight: 64, fontWeight: 700, width: 148 }}
+      sx={{
+        p: 0,
+        m: 0,
+        backgroundColor: 'primary.dark',
+        '&:hover': { backgroundColor: 'primary.main' },
+        fontSize: 15,
+        minHeight: buttonMinHeight,
+        fontWeight: 700,
+        width: buttonWidth
+      }}
     >
       START QUIZ
     </Button>
@@ -38,7 +49,16 @@ const SearchButton = () => {
       onClick={search}
       variant='contained'
       size='medium'
-      sx={{ backgroundColor: 'primary.dark', '&:hover': { backgroundColor: 'primary.main' }, fontSize: 16, minHeight: 64, fontWeight: 700, width: 148 }}
+      sx={{
+        p: 0,
+        m: 0,
+        backgroundColor: 'primary.dark',
+        '&:hover': { backgroundColor: 'primary.main' },
+        fontSize: 15,
+        minHeight: buttonMinHeight,
+        fontWeight: 700,
+        width: buttonWidth
+      }}
     >
       SEARCH APPS
     </Button>
@@ -47,12 +67,13 @@ const SearchButton = () => {
 
 const HorizontalButtons = () => {
   const xs = useMediaQuery('(max-width:800px)');
+  const xs2 = useMediaQuery('(max-width:600px)');
   return (
     <Grid container spacing={1.5} justifyContent='center' alignItems='center'>
       <Grid item>
         <StartButton />
       </Grid>
-      {!xs && (
+      {!xs2 && (
         <Grid item sx={{ fontWeight: 'bold' }}>
           OR
         </Grid>
@@ -65,7 +86,7 @@ const HorizontalButtons = () => {
 };
 
 const VerticalButtons = () => {
-  const xs = useMediaQuery('(max-width:400px)');
+  const xs = useMediaQuery('(max-width:300px)');
   return (
     <Grid container spacing={1.5} justifyContent='center' alignItems='center'>
       <Grid item>
@@ -89,7 +110,7 @@ const HorizontalLayout = () => {
   const xs = useMediaQuery('(max-width:800px)');
   return (
     <Stack spacing={0} alignItems='center' justifyContent='space-evenly' height='100vh' px={2}>
-      <Grid container justifyContent='space-around' alignItems='center' spacing={8}>
+      <Grid container justifyContent='space-between' alignItems='center' spacing={xs ? 6 : 8}>
         <Grid item sx={{ textAlign: 'center' }}>
           <Header xs={xs} /> <img src={logo} alt='mindapp' style={{ width: 120, marginTop: 32 }} />
         </Grid>
@@ -109,9 +130,11 @@ const HorizontalLayout = () => {
 const VerticalLayout = () => {
   return (
     <Stack spacing={0} alignItems='center' justifyContent='space-evenly' height='100vh'>
-      <Header />
-      <Box sx={{ fontSize: textFontSize, textAlign: 'center', maxWidth: 400 }}>
-        Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
+      <Box sx={{ px: 1 }}>
+        <Header />
+        <Box sx={{ fontSize: textFontSize, textAlign: 'center', maxWidth: 400 }}>
+          Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
+        </Box>
       </Box>
       <img src={logo} alt='mindapp' style={{ width: 180 }} />
       <Box sx={{ textAlign: 'center' }}>
@@ -125,5 +148,9 @@ export default function Landing() {
   const height = useHeight();
   const width = useWidth();
   const isLandscape = width > height && height < 500;
-  return <Container>{isLandscape ? <HorizontalLayout /> : <VerticalLayout />}</Container>;
+  return (
+    <Container disableGutters={true} maxWidth='xl' sx={{ px: 0.5, m: 0 }}>
+      {isLandscape ? <HorizontalLayout /> : <VerticalLayout />}
+    </Container>
+  );
 }
