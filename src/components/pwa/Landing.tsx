@@ -6,7 +6,7 @@ import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const headerFontSize = 48;
 const textFontSize = 24;
-const buttonWidth = 124;
+const buttonWidth = 140;
 const buttonMinHeight = 60;
 
 const Header = ({ xs = undefined }) => (
@@ -132,7 +132,7 @@ const VerticalLayout = () => {
     <Stack spacing={0} alignItems='center' justifyContent='space-evenly' height='100vh'>
       <Box sx={{ px: 1 }}>
         <Header />
-        <Box sx={{ fontSize: textFontSize, textAlign: 'center', maxWidth: 400 }}>
+        <Box sx={{ fontSize: textFontSize, textAlign: 'center', maxWidth: 400, pt: 2 }}>
           Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
         </Box>
       </Box>
