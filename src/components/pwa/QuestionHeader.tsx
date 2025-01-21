@@ -29,7 +29,9 @@ export default function QuestionHeader() {
       </Grid>
       <Grid item xs={12} sx={{ textAlign: 'center', color: 'primary.dark' }}>
         <Box sx={{ px: 2 }}>
-          <Typography fontSize={pwaTextFontSize}>{label}</Typography>
+          <Typography fontSize={pwaTextFontSize + 2} fontWeight='bold'>
+            {label}
+          </Typography>
         </Box>
       </Grid>
     </Grid>
