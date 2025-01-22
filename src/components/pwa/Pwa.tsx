@@ -4,13 +4,16 @@ import PwaApps from './PwaApps';
 import { useScrollElement } from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHandleTableReset, useTableFilterUpdate, useTableFilterValue } from '../application/GenericTable/store';
-import { isEmpty, stringifyEqual } from '../../helpers';
+import { bool, isEmpty, stringifyEqual } from '../../helpers';
 import { usePwaActions, useShowResults } from './store';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import Landing from './Landing';
 import { questions, searchIndex } from './questions';
 import SingleAnswerButtons from './SingleAnswerButtons';
+import InstallPromptDialog, { title } from '../application/GenericDialog/InstallPrompt';
+import { useUrlParameter } from '../../hooks';
+import { useDialogState } from '../application/GenericDialog/useDialogState';
 
 const getQuestionFilters = values => {
   var filters = {};
@@ -31,7 +34,7 @@ const getQuestionFilters = values => {
   return filters;
 };
 
-export default function Pwa() {
+function Content() {
   const index = useSelector((s: AppState) => s.pwa.index);
   const values = useSelector((s: AppState) => s.pwa.values, stringifyEqual);
 
@@ -118,5 +121,23 @@ export default function Pwa() {
         </>
       )}
     </Container>
+  );
+}
+
+export default function Pwa() {
+  const installPrompt = useUrlParameter('installPrompt');
+  const [, setDialogState] = useDialogState(title);
+
+  React.useEffect(() => {
+    if (bool(installPrompt)) {
+      setDialogState({ open: true });
+    }
+  }, [installPrompt]);
+
+  return (
+    <>
+      <InstallPromptDialog />
+      <Content />
+    </>
   );
 }
