@@ -1,10 +1,16 @@
+import React from 'react';
 import GenericDialog from '../GenericDialog';
-import { Box, DialogContent, Typography } from '@mui/material';
+import { Box, Button, DialogContent, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
+import { useDialogState } from '../useDialogState';
 
 export const title = 'Install To Home Screen';
 
 export default function InstallPromptDialog({ id = title }) {
+  const [, setDialogState] = useDialogState(title);
+  const handleClose = React.useCallback(() => {
+    setDialogState({ open: false });
+  }, []);
   return (
     <GenericDialog id={id} title={id} submitLabel={null} cancelLabel='Close' maxWidth='sm'>
       <DialogContent dividers>
@@ -26,8 +32,12 @@ export default function InstallPromptDialog({ id = title }) {
             <Icons.AddBoxOutlined color='text.secondary' />
           </Box>
         </Box>
-
-        <Box sx={{ fontSize: 15, mt: 2, mb: 2, color: 'text.primary', textAlign: 'left' }}>3. Press “Add” in the top right corner</Box>
+        <Box sx={{ fontSize: 15, mt: 2, color: 'text.primary', textAlign: 'left' }}>3. Press “Add” in the top right corner</Box>
+        <Box sx={{ fontSize: 15, mt: 3, mb: 2, color: 'text.primary', textAlign: 'center' }}>
+          <Button variant='contained' onClick={handleClose}>
+            Close
+          </Button>
+        </Box>
       </DialogContent>
     </GenericDialog>
   );
