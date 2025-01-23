@@ -6,8 +6,8 @@ import useWidth from '../layout/ViewPort/hooks/useWidth';
 
 const headerFontSize = 48;
 const textFontSize = 24;
-const buttonWidth = 140;
-const buttonMinHeight = 60;
+export const buttonWidth = 140;
+export const buttonMinHeight = 60;
 
 const Header = ({ xs = undefined }) => (
   <Stack spacing={0}>

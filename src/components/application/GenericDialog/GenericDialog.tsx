@@ -45,14 +45,6 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       paddingTop: spacing(0.5),
       paddingBottom: spacing(0.5)
     },
-    title: {
-      background: palette.primary.light,
-      color: palette.common.white,
-      margin: 0,
-      padding: 0,
-      paddingLeft: spacing(2),
-      paddingRight: spacing(1)
-    },
     closeButton: {
       color: 'inherit'
     },
@@ -127,9 +119,10 @@ const GenericDialog = ({
   classes: Classes,
   children,
   fullScreen: FullScreen,
+  titleBackgroundColor = undefined,
   ...other
 }: ComponentProps & any) => {
-  const { layout } = useTheme() as any;
+  const { layout, palette } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { type, open, loading, submitting } = state;
   const title = state.title ? state.title : Title;
@@ -196,11 +189,22 @@ const GenericDialog = ({
       disableAutoFocus={true}
       maxWidth='xs'
       fullWidth
+      titleBackgroundColor
       {...other}
     >
       {title !== null && (
         <>
-          <DialogTitle id={`${id}-dialog-title`} className={classes.title}>
+          <DialogTitle
+            id={`${id}-dialog-title`}
+            sx={{
+              backgroundColor: titleBackgroundColor ? titleBackgroundColor : palette.primary.light,
+              color: palette.common.white,
+              margin: 0,
+              padding: 0,
+              pl: 2,
+              pr: 1
+            }}
+          >
             <Grid container justifyContent='space-between' alignItems='center'>
               <Grid item zeroMinWidth xs>
                 <Typography noWrap variant='h6' className={classes.capitalize}>
