@@ -1,5 +1,5 @@
 import { Button, Box, Divider, Stack, Container, Grid, useMediaQuery } from '@mui/material';
-import logo from '../../images/Brain.svg';
+import logo from '../../images/logo_no_text_large.png';
 import { usePwaActions } from './store';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
