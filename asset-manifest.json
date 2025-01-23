@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ac086ca9.css",
-    "main.js": "/static/js/main.43604417.js",
+    "main.js": "/static/js/main.0478771f.js",
     "static/js/865.7fdbc021.chunk.js": "/static/js/865.7fdbc021.chunk.js",
     "static/js/519.c2617a2e.chunk.js": "/static/js/519.c2617a2e.chunk.js",
     "static/media/zoom_1.mp4": "/static/media/zoom_1.0812f4ae1ad9438e777f.mp4",
@@ -19,7 +19,7 @@
     "static/media/8.png": "/static/media/8.bfd163f2b0b4a07ac0c1.png",
     "static/media/5.png": "/static/media/5.84f857f29c8c9a6a523c.png",
     "static/media/11.png": "/static/media/11.6d1f242187974f0a7dcd.png",
-    "static/media/Brain.svg": "/static/media/Brain.5ec17a2abb35fead0e4339730fd0b1f8.svg",
+    "static/media/logo_no_text_large.png": "/static/media/logo_no_text_large.a674c267d435aaf9d930.png",
     "static/media/MIND_logo.svg": "/static/media/MIND_logo.ccb99ed56c916710be12d776586ce827.svg",
     "static/media/appEvaluationModel.webp": "/static/media/appEvaluationModel.69666d6d33569b73e58c.webp",
     "static/media/lato-v17-latin-regular.woff2": "/static/media/lato-v17-latin-regular.65e877e527022735c1a1.woff2",
@@ -31,12 +31,12 @@
     "static/media/default_app_icon.png": "/static/media/default_app_icon.c78e8cb14923617aa361.png",
     "index.html": "/index.html",
     "main.ac086ca9.css.map": "/static/css/main.ac086ca9.css.map",
-    "main.43604417.js.map": "/static/js/main.43604417.js.map",
+    "main.0478771f.js.map": "/static/js/main.0478771f.js.map",
     "865.7fdbc021.chunk.js.map": "/static/js/865.7fdbc021.chunk.js.map",
     "519.c2617a2e.chunk.js.map": "/static/js/519.c2617a2e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ac086ca9.css",
-    "static/js/main.43604417.js"
+    "static/js/main.0478771f.js"
   ]
 }
