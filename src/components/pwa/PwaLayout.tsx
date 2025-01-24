@@ -14,12 +14,15 @@ const useStyles = makeStyles(({ breakpoints, palette, appBarHeight }: any) =>
   createStyles({
     root: {
       display: 'static',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      overscrollBehavior: 'none'
     },
     content: ({ overflow = 'auto' }) => ({
       flexGrow: 1,
-      overflow,
+      //overflow,
       overflowX: 'hidden',
+      overflow: 'none',
+      overscrollBehavior: 'none',
       height: '100vh',
       backgroundColor: palette.common.white,
       marginLeft: 0,
