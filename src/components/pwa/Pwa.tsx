@@ -34,7 +34,7 @@ const getQuestionFilters = values => {
   return filters;
 };
 
-function Content() {
+function Content({ isInstalled = false }) {
   const index = useSelector((s: AppState) => s.pwa.index);
   const values = useSelector((s: AppState) => s.pwa.values, stringifyEqual);
 
@@ -101,10 +101,16 @@ function Content() {
     }
   }, [filters, showResults, tableFilterUpdate]);
 
+  const disableScroll = isInstalled && (showLanding || index === searchIndex);
+
   return (
-    <Container maxWidth='lg' disableGutters={showLanding || index === searchIndex} sx={{ pt: 0, pb: 1, px: 0 }}>
+    <Container
+      maxWidth='lg'
+      disableGutters={showLanding || index === searchIndex}
+      sx={{ pt: 0, pb: 1, px: 0, overscrollBehavior: disableScroll ? 'none' : undefined, overflow: disableScroll ? 'none' : undefined }}
+    >
       {showLanding ? (
-        <Landing />
+        <Landing isInstalled={isInstalled} />
       ) : (
         <>
           {showResults ? (
@@ -128,6 +134,8 @@ export default function Pwa() {
   const installPrompt = useUrlParameter('installPrompt');
   const [, setDialogState] = useDialogState(title);
 
+  const isInstalled = !bool(installPrompt);
+
   React.useEffect(() => {
     if (bool(installPrompt)) {
       setDialogState({ open: true });
@@ -137,7 +145,7 @@ export default function Pwa() {
   return (
     <>
       <InstallPromptDialog />
-      <Content />
+      <Content isInstalled={isInstalled} />
     </>
   );
 }

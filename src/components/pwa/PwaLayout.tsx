@@ -9,20 +9,21 @@ import { useAppTableDataInit } from '../pages/useAppTableData';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { searchIndex } from './questions';
+import { useUrlParameter } from '../../hooks';
+import { bool } from '../../helpers';
 
 const useStyles = makeStyles(({ breakpoints, palette, appBarHeight }: any) =>
   createStyles({
-    root: {
+    root: ({ isInstalled }) => ({
       display: 'static',
-      overflow: 'hidden',
-      overscrollBehavior: 'none'
-    },
-    content: ({ overflow = 'auto' }) => ({
+      overflow: isInstalled ? 'hidden' : undefined,
+      overscrollBehavior: isInstalled ? 'none' : undefined
+    }),
+    content: ({ overflow = 'auto', isInstalled = false }) => ({
       flexGrow: 1,
-      //overflow,
+      overflow: isInstalled ? 'none' : overflow,
       overflowX: 'hidden',
-      overflow: 'none',
-      overscrollBehavior: 'none',
+      overscrollBehavior: isInstalled ? 'none' : undefined,
       height: '100vh',
       backgroundColor: palette.common.white,
       marginLeft: 0,
@@ -31,10 +32,10 @@ const useStyles = makeStyles(({ breakpoints, palette, appBarHeight }: any) =>
         flexShrink: 0
       }
     }),
-    innerContent: ({ fullHeight, minHeight, contentHeight }) => ({
+    innerContent: ({ fullHeight, minHeight, contentHeight, isInstalled }) => ({
       minHeight: minHeight,
       height: fullHeight ? undefined : contentHeight,
-      overflow: 'hidden'
+      overflow: isInstalled ? 'hidden' : undefined
     }),
     toolbar: ({ appBarHeight }: any) => ({
       background: palette.white,
@@ -55,7 +56,11 @@ export function PwaLayout({ children }) {
   const index = useSelector((s: AppState) => s.pwa.index);
   const showLanding = index < 0 ? true : false;
 
+  const installPrompt = useUrlParameter('installPrompt');
+  const isInstalled = !bool(installPrompt);
+
   const classes = useStyles({
+    isInstalled,
     leftDrawerOpen: false,
     fullHeight: true,
     overflow: showLanding || index === searchIndex ? 'hidden' : 'auto',
