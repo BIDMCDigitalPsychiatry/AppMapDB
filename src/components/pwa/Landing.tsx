@@ -144,16 +144,12 @@ const VerticalLayout = () => {
   );
 };
 
-export default function Landing({ isInstalled = false }) {
+export default function Landing() {
   const height = useHeight();
   const width = useWidth();
   const isLandscape = width > height && height < 500;
   return (
-    <Container
-      disableGutters={true}
-      maxWidth='xl'
-      sx={{ px: 0.5, m: 0, overscrollBehavior: isInstalled ? 'none' : undefined, overflow: isInstalled ? 'none' : undefined }}
-    >
+    <Container disableGutters={true} maxWidth='xl' sx={{ px: 0.5, m: 0 }}>
       {isLandscape ? <HorizontalLayout /> : <VerticalLayout />}
     </Container>
   );
