@@ -13,7 +13,8 @@ import { searchIndex } from './questions';
 const useStyles = makeStyles(({ breakpoints, palette, appBarHeight }: any) =>
   createStyles({
     root: {
-      display: 'static'
+      display: 'static',
+      overflow: 'hidden'
     },
     content: ({ overflow = 'auto' }) => ({
       flexGrow: 1,
