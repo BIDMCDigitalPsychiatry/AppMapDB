@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Grid } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
-import logo from '../../images/logoV2.png';
+import logo from '../../images/mind_logo_new.png';
 import { useHandleChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 import Typography from '@mui/material/Typography';
