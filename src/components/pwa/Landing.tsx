@@ -67,7 +67,7 @@ const SearchButton = () => {
 
 const HorizontalButtons = () => {
   const xs = useMediaQuery('(max-width:800px)');
-  const xs2 = useMediaQuery('(max-width:600px)');
+  const xs2 = useMediaQuery('(max-width:625px)');
   return (
     <Grid container spacing={1.5} justifyContent='center' alignItems='center'>
       <Grid item>
@@ -86,7 +86,7 @@ const HorizontalButtons = () => {
 };
 
 const VerticalButtons = () => {
-  const xs = useMediaQuery('(max-width:300px)');
+  const xs = useMediaQuery('(max-width:340px)');
   return (
     <Grid container spacing={1.5} justifyContent='center' alignItems='center'>
       <Grid item>

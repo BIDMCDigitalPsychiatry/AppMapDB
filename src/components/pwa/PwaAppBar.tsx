@@ -16,7 +16,7 @@ export default function PwaAppBar() {
   const disableReset = index < 0;
   const disableBack = index < 0;
   const width = useWidth();
-  const size = width < 400 ? 'small' : 'medium';
+  const size = width < 450 ? 'small' : 'medium';
   const px = width < 350 ? 1 : 2;
 
   const pwaTextFontSize = usePwaTextFontSize();

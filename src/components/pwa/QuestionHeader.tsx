@@ -5,7 +5,7 @@ import Progress from './Progress';
 import { getQuestion } from './questions';
 
 export const usePwaTextFontSize = () => {
-  const xs = useMediaQuery('(max-width:430px)');
+  const xs = useMediaQuery('(max-width:450px)');
   return xs ? 15 : 20;
 };
 
