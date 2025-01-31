@@ -5,7 +5,7 @@ export default function PwaLogo() {
   return (
     <Grid container alignItems='center'>
       <Grid item>
-        <img src={logo} alt='logo' style={{ maxHeight: 48 }} />
+        <img src={logo} alt='logo' style={{ maxHeight: 36 }} />
       </Grid>
     </Grid>
   );
