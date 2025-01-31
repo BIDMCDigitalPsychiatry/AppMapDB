@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import logo from '../../images/MIND_logo.svg';
+import logo from '../../images/mind_logo_new.png';
 
 export default function PwaLogo() {
   return (
