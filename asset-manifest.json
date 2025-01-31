@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/static/css/main.ac086ca9.css",
-    "main.js": "/static/js/main.d8f36889.js",
+    "main.js": "/static/js/main.db134dd8.js",
     "static/js/865.7fdbc021.chunk.js": "/static/js/865.7fdbc021.chunk.js",
-    "static/js/519.c2617a2e.chunk.js": "/static/js/519.c2617a2e.chunk.js",
+    "static/js/519.efc11ef6.chunk.js": "/static/js/519.efc11ef6.chunk.js",
     "static/media/zoom_1.mp4": "/static/media/zoom_1.0812f4ae1ad9438e777f.mp4",
     "static/media/Intro.mp4": "/static/media/Intro.7bb71da48d405265dc60.mp4",
     "static/media/zoom_0.mp4": "/static/media/zoom_0.b75b159e8a5aeed7341e.mp4",
@@ -25,18 +25,19 @@
     "static/media/lato-v17-latin-regular.woff2": "/static/media/lato-v17-latin-regular.65e877e527022735c1a1.woff2",
     "static/media/google_play_store.png": "/static/media/google_play_store.ff01efd21f3a607542ac.png",
     "static/media/apple_store.png": "/static/media/apple_store.5f35b050af97d14f7628.png",
+    "static/media/mind_logo_new.png": "/static/media/mind_logo_new.764c1f8391c8c0bc8035.png",
     "static/media/logo.png": "/static/media/logo.15c9fc5080c5ca364c36.png",
     "static/media/noto-sans-v11-latin-regular.woff2": "/static/media/noto-sans-v11-latin-regular.7f65400c6b61f9dd1187.woff2",
     "static/media/web.png": "/static/media/web.9c954cc0032bc2d0386e.png",
     "static/media/default_app_icon.png": "/static/media/default_app_icon.c78e8cb14923617aa361.png",
     "index.html": "/index.html",
     "main.ac086ca9.css.map": "/static/css/main.ac086ca9.css.map",
-    "main.d8f36889.js.map": "/static/js/main.d8f36889.js.map",
+    "main.db134dd8.js.map": "/static/js/main.db134dd8.js.map",
     "865.7fdbc021.chunk.js.map": "/static/js/865.7fdbc021.chunk.js.map",
-    "519.c2617a2e.chunk.js.map": "/static/js/519.c2617a2e.chunk.js.map"
+    "519.efc11ef6.chunk.js.map": "/static/js/519.efc11ef6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ac086ca9.css",
-    "static/js/main.d8f36889.js"
+    "static/js/main.db134dd8.js"
   ]
 }
