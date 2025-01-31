@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import * as Icons from '@mui/icons-material';
 
 const fontSize = 18;
-const StepIcon = props => <Icons.Circle {...props} sx={{ color: 'primary.dark' }} />;
+const StepIcon = props => <Icons.Circle {...props} sx={{ color: 'primary.dark', fontSize: fontSize * 1.5 }} />;
 
 export default function InstallStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
