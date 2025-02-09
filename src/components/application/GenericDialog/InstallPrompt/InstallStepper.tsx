@@ -53,7 +53,7 @@ export default function InstallStepper() {
         </Step>
         <Step key={2} active={true}>
           <StepLabel StepIconComponent={StepIcon}>
-            <Box sx={{ fontSize, color: 'text.primary', textAlign: 'left', ml: 2 }}>Press “Add” in the top right corner</Box>
+            <Box sx={{ fontSize, color: 'text.primary', textAlign: 'left', ml: 2 }}>Press “Add” in the top right corner.</Box>
           </StepLabel>
         </Step>
       </Stepper>

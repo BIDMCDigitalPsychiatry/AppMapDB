@@ -48,7 +48,7 @@ export default function IntroInstallStepper() {
         </Step>
         <Step key={3} active={true}>
           <StepLabel>
-            <Box sx={{ fontSize, color: 'text.primary', textAlign: 'left', ml: 2 }}>Press “Add” in the top right corner</Box>
+            <Box sx={{ fontSize, color: 'text.primary', textAlign: 'left', ml: 2 }}>Press “Add” in the .</Box>
           </StepLabel>
         </Step>
         <Step key={4} active={true}>
