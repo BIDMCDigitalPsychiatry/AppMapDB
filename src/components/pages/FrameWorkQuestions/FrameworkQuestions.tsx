@@ -11,6 +11,7 @@ import ReactPlayer from 'react-player';
 import useWidth from '../../layout/ViewPort/hooks/useWidth';
 const videoPath = require('../../../content/zoom_1.mp4');
 const videoPath2 = require('../../../content/zoom_0.mp4');
+const videoPath3 = require('../../../content/Intro.mp4');
 
 const padding = 32;
 const width = 300;
@@ -288,6 +289,11 @@ export default function FrameworkQuestions() {
         <Typography className={classes.primaryText}>Video Resources</Typography>
       </Grid>
       {[
+        {
+          title: 'Introductory Video',
+          description: `With over 10,000 mental health apps available to download on the apple/google play store, it can be overwhelming to choose which one is right for you. This website is designed to make finding the right mental health app simple and easy! Please review this instructional video for information regarding this website.`,
+          url: videoPath3
+        },
         {
           title: 'Instructional Video:',
           description:
