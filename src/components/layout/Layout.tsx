@@ -15,7 +15,7 @@ import { useChangeRoute } from './hooks';
 import { isEmpty, publicUrl } from '../../helpers';
 import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
-import IntroVideoDialog, { title } from '../application/GenericDialog/IntroVideo';
+import IntroInstallPromptDialog, { title } from '../application/GenericDialog/IntroInstallPrompt';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
@@ -60,7 +60,7 @@ export default function Layout({ children }) {
   const componentsOnPage = [appBarHeight, footerHeight];
   const minHeight = height - appBarHeight - footerHeight - 1;
   var contentHeight = height - componentsOnPage.reduce((t, c) => t + c, 0);
-  
+
   var [scrollElement, setScrollElement] = React.useState(null);
 
   const { pathname } = useLocation();
@@ -106,7 +106,7 @@ export default function Layout({ children }) {
         <ScrollElementProvider value={scrollElement}>
           <ApplicationBar trigger={trigger} />
           <LeftDrawer />
-          <IntroVideoDialog />
+          <IntroInstallPromptDialog />
           <div className={classes.toolbar} />
           <div className={classes.innerContent}>{children}</div>
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
