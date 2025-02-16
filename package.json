@@ -67,7 +67,8 @@
     "redux-thunk": "2.4.1",
     "styled-components": "5.3.3",
     "typescript": "4.5.5",
-    "fuzzysort": "3.1.0"
+    "fuzzysort": "3.1.0",
+    "get-browser-fingerprint": "4.1.0"
   },
   "devDependencies": {
     "google-play-scraper": "9.1.1",

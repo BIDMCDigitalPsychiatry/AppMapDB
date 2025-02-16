@@ -2,10 +2,10 @@ import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import pkg from '../package.json';
-import { getCurrentDate, isDev, isEmpty, uuid } from './helpers';
+import { getCurrentDate, isDev, isEmpty } from './helpers';
 import useProcessData from './database/useProcessData';
 import { tables } from './database/dbConfig';
-import { useTrackingId } from './components/layout/store';
+import getBrowserFingerprint from 'get-browser-fingerprint';
 
 export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
@@ -134,25 +134,9 @@ export const useTracking = ({ isPwa = false }) => {
   }, [trackingId, setTrackingId]);*/
 
   React.useEffect(() => {
-    if (/*!isDev() &&*/ isClient && !isGoogleBot() && !isBingBot()) {
-      var trackingId;
-      try {
-        console.log('Getting tId...');
-        trackingId = localStorage.getItem('tId');
-        console.log('tId = ' + trackingId);
-      } catch (ex) {
-        console.error('Error getting tId', ex);
-      }
-
-      if (isEmpty(trackingId)) {
-        trackingId = uuid();
-        try {
-          console.log('Setting tId = ' + trackingId);
-          localStorage.setItem('tId', trackingId);
-        } catch (ex) {
-          console.error('Error setting tId', ex);
-        }
-      }
+    const runTracking = async () => {
+      const fingerPrint = await getBrowserFingerprint();
+      const trackingId = String(fingerPrint);
       console.log({ trackingId });
 
       if (!isEmpty(trackingId)) {
@@ -217,6 +201,10 @@ export const useTracking = ({ isPwa = false }) => {
           }
         });
       }
+    };
+
+    if (/*!isDev() &&*/ isClient && !isGoogleBot() && !isBingBot()) {
+      runTracking();
     } else {
       console.log('Skipping track logic!');
     }
