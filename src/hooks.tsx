@@ -119,22 +119,42 @@ export const trackingColumns = [
 ].map(name => ({ name }));
 
 export const useTracking = ({ isPwa = false }) => {
-  const [trackingId, setTrackingId] = useTrackingId();
+  //const [trackingId, setTrackingId] = useTrackingId();
 
   const installed = useUrlParameter('installed');
 
   const processData = useProcessData();
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     if (isEmpty(trackingId)) {
       const tId = uuid() as String;
       console.log(`Setting id: ${tId}`);
       setTrackingId(tId);
     }
-  }, [trackingId, setTrackingId]);
+  }, [trackingId, setTrackingId]);*/
 
   React.useEffect(() => {
-    if (!isDev() && isClient && !isGoogleBot() && !isBingBot()) {
+    if (/*!isDev() &&*/ isClient && !isGoogleBot() && !isBingBot()) {
+      var trackingId;
+      try {
+        console.log('Getting tId...');
+        trackingId = localStorage.getItem('tId');
+        console.log('tId = ' + trackingId);
+      } catch (ex) {
+        console.error('Error getting tId', ex);
+      }
+
+      if (isEmpty(trackingId)) {
+        trackingId = uuid();
+        try {
+          console.log('Setting tId = ' + trackingId);
+          localStorage.setItem('tId', trackingId);
+        } catch (ex) {
+          console.error('Error setting tId', ex);
+        }
+      }
+      console.log({ trackingId });
+
       if (!isEmpty(trackingId)) {
         // Store tracking info
         console.log('Reading metadata...');
@@ -200,5 +220,5 @@ export const useTracking = ({ isPwa = false }) => {
     } else {
       console.log('Skipping track logic!');
     }
-  }, [trackingId, installed]);
+  }, [installed]);
 };
