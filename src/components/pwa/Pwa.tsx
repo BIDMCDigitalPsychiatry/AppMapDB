@@ -12,7 +12,7 @@ import Landing from './Landing';
 import { questions, searchIndex } from './questions';
 import SingleAnswerButtons from './SingleAnswerButtons';
 import InstallPromptDialog, { title } from '../application/GenericDialog/InstallPrompt';
-import { useUrlParameter } from '../../hooks';
+import { useTracking, useUrlParameter } from '../../hooks';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 
 const getQuestionFilters = values => {
@@ -133,6 +133,8 @@ export default function Pwa() {
       setDialogState({ open: true });
     }
   }, [installPrompt]);
+
+  useTracking({ isPwa: true });
 
   return (
     <>

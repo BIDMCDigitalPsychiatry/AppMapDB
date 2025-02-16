@@ -356,3 +356,11 @@ export const getGroupId = app => (isEmpty(app.groupId) ? app._id : app.groupId);
 export const stringifyEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 export const sortAscendingLabel = (a, b) => sortAscendingToLower(a.label, b.label);
+
+export const getCurrentDate = () => {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  return mm + '/' + dd + '/' + yyyy;
+};

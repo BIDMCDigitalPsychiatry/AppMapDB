@@ -15,7 +15,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 export const dynamo = new AWS.DynamoDB.DocumentClient();
 
 export type DataModel = Application | Post | Event | Comment | Team | any;
-export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team';
+export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking';
 
 export const tables = {
   applications: 'applications' as TableName,
@@ -26,5 +26,6 @@ export const tables = {
   surveys: 'surveys' as TableName,
   surveyReminders: 'surveyReminders' as TableName,
   signUpSurveys: 'signUpSurveys' as TableName,
-  team: 'team' as TableName
+  team: 'team' as TableName,
+  tracking: 'tracking' as TableName
 };

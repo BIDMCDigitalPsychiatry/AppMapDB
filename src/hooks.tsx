@@ -2,6 +2,10 @@ import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import pkg from '../package.json';
+import { getCurrentDate, isDev, isEmpty, uuid } from './helpers';
+import useProcessData from './database/useProcessData';
+import { tables } from './database/dbConfig';
+import { useTrackingId } from './components/layout/store';
 
 export const useFullScreen = (size = 'sm' as any) => {
   const theme = useTheme();
@@ -66,4 +70,114 @@ export const useUrlParameter = paramName => {
     }
   }
   return undefined;
+};
+
+export const isClient = typeof window !== 'undefined';
+
+export const isGoogleBot = () => {
+  var isGoogleBot = false;
+  if (!isDev() && isClient) {
+    try {
+      if (window?.navigator?.userAgent?.toLowerCase().includes('storebot-google')) {
+        isGoogleBot = true;
+      }
+    } catch {}
+  }
+  return isGoogleBot;
+};
+
+export const isBingBot = () => {
+  var isGoogleBot = false;
+  if (!isDev() && isClient) {
+    try {
+      if (window?.navigator?.userAgent?.toLowerCase().includes('bingbot')) {
+        isGoogleBot = true;
+      }
+    } catch {}
+  }
+  return isGoogleBot;
+};
+
+export const useTracking = ({ isPwa = false }) => {
+  const [trackingId, setTrackingId] = useTrackingId();
+
+  const installed = useUrlParameter('installed');
+
+  const processData = useProcessData();
+
+  React.useEffect(() => {
+    if (isEmpty(trackingId)) {
+      const tId = uuid() as String;
+      console.log(`Setting id: ${tId}`);
+      setTrackingId(tId);
+    }
+  }, [trackingId, setTrackingId]);
+
+  React.useEffect(() => {
+    if (/*!isDev() && */ isClient && !isGoogleBot() && !isBingBot()) {
+      if (!isEmpty(trackingId)) {
+        // Store tracking info
+        console.log('Reading metadata...');
+        processData({
+          Model: tables.tracking,
+          Data: { _id: trackingId },
+          Action: 'r',
+          onSuccess: response => {
+            console.log('Received metadata', response);
+            const prev = response?.Item ?? {};
+            var newData = {
+              ...prev // merge any existing data prior to udpating
+            };
+
+            if (isPwa) {
+              if (installed) {
+                newData.pathnamePwa = window?.location?.pathname;
+                newData.lastActiveDatePwa = getCurrentDate();
+                newData.lastActiveTimestampPwa = Date.now();
+                newData.environmentPwa = process.env.NODE_ENV;
+                newData.hostPwa = window?.location?.host;
+                newData.pathnamePwa = window?.location?.pathname;
+                newData.userAgentPwa = window?.navigator?.userAgent;
+                if (isEmpty(prev?.firstAccessDatePwa)) {
+                  newData.firstAccessDatePwa = getCurrentDate(); // If previously not accessed, mark first access date
+                  newData.firstAccessTimestampPwa = Date.now();
+                }
+              } else {
+                newData.pathname = window?.location?.pathname;
+                newData.lastActiveDate = getCurrentDate();
+                newData.lastActiveTimestamp = Date.now();
+                newData.environment = process.env.NODE_ENV;
+                newData.host = window?.location?.host;
+                newData.pathname = window?.location?.pathname;
+                newData.userAgent = window?.navigator?.userAgent;
+                if (isEmpty(prev?.firstAccessDate)) {
+                  newData.firstAccessDate = getCurrentDate(); // If previously not accessed, mark first access date
+                  newData.firstAccessTimestamp = Date.now();
+                }
+              }
+
+              processData({
+                Model: tables.tracking,
+                Data: newData,
+                Action: 'c',
+                onSuccess: response => {
+                  console.log('Successfully updated metadata', { response, Data: newData });
+                },
+                onError: response => {
+                  console.error('Error updating metadata', { response, Data: newData });
+                }
+              });
+            } else {
+              //Reserved for tracking regular website usage (future, non pwa)
+            }
+          },
+          onError: response => {
+            console.error('Error', response);
+          }
+        });
+      }
+    } else {
+      console.log('Skipping track logic!');
+    }
+  }, [trackingId, installed]);
 };
