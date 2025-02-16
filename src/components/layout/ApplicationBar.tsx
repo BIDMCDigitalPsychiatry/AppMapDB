@@ -14,7 +14,7 @@ import { columns } from '../application/GenericDialog/SignUpSurvey';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser, useSignedInRater } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
@@ -25,6 +25,7 @@ import { useLocation } from 'react-router';
 import { useAppBarHeightSetRef } from './hooks';
 import { useGetSignUpSurveys } from '../../database/useGetSignUpSurveys';
 import { exportTableCsv } from '../../database/store';
+import { useGetPwaUsage } from '../../database/useGetPwaUsage';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -101,12 +102,19 @@ export default function ApplicationBar({ trigger }) {
   const open = Boolean(anchorEl);
 
   const { getSignUpSurveys } = useGetSignUpSurveys();
+  const { getPwaUsage } = useGetPwaUsage();
 
   const handleExportSignUpSurveys = React.useCallback(async () => {
     var data = await getSignUpSurveys();
     console.log('Exporting sign up surveys...', { data, columns });
     exportTableCsv(data, columns);
   }, [getSignUpSurveys]);
+
+  const handleExportPwaUsage = React.useCallback(async () => {
+    var data = await getPwaUsage();
+    console.log('Exporting pwa usage...', { data, trackingColumns });
+    exportTableCsv(data, trackingColumns);
+  }, [getPwaUsage]);
 
   const setUser = useSetUser();
 
@@ -264,6 +272,9 @@ export default function ApplicationBar({ trigger }) {
                               <Divider key='divider' />,
                               <MenuItem key='export-sign-up-surveys' onClick={handleExportSignUpSurveys}>
                                 Export Sign Up Surveys
+                              </MenuItem>,
+                              <MenuItem key='export-sign-up-surveys' onClick={handleExportPwaUsage}>
+                                Export PWA Usage
                               </MenuItem>,
                               <MenuItem key='logout' onClick={handleLogout}>
                                 Logout

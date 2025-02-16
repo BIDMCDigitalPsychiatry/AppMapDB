@@ -98,6 +98,26 @@ export const isBingBot = () => {
   return isGoogleBot;
 };
 
+export const trackingColumns = [
+  '_id',
+  'firstAccessDate',
+  'firstAccessTimestamp',
+  'lastActiveDate',
+  'lastActiveTimestamp',
+  'environment',
+  'pathname',
+  'host',
+  'userAgent',
+  'firstAccessDatePwa',
+  'firstAccessTimestampPwa',
+  'lastActiveDatePwa',
+  'lastActiveTimestampPwa',
+  'environmentPwa',
+  'pathnamePwa',
+  'hostPwa',
+  'userAgentPwa'
+].map(name => ({ name }));
+
 export const useTracking = ({ isPwa = false }) => {
   const [trackingId, setTrackingId] = useTrackingId();
 
@@ -114,7 +134,7 @@ export const useTracking = ({ isPwa = false }) => {
   }, [trackingId, setTrackingId]);
 
   React.useEffect(() => {
-    if (/*!isDev() && */ isClient && !isGoogleBot() && !isBingBot()) {
+    if (!isDev() && isClient && !isGoogleBot() && !isBingBot()) {
       if (!isEmpty(trackingId)) {
         // Store tracking info
         console.log('Reading metadata...');
@@ -126,6 +146,7 @@ export const useTracking = ({ isPwa = false }) => {
             console.log('Received metadata', response);
             const prev = response?.Item ?? {};
             var newData = {
+              _id: trackingId,
               ...prev // merge any existing data prior to udpating
             };
 
