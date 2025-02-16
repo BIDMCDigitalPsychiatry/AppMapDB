@@ -143,7 +143,7 @@ export const useTracking = ({ isPwa = false }) => {
             };
 
             if (isPwa) {
-              if (installed) {
+              if (installed === '1') {
                 newData.pathnamePwa = window?.location?.pathname;
                 newData.lastActiveDatePwa = getCurrentDate();
                 newData.lastActiveTimestampPwa = Date.now();
