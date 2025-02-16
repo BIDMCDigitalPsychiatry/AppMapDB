@@ -19,8 +19,7 @@ export interface State {
   step?: number | null;
   tourCompleted?: boolean;
   version: 'lite' | 'full';
-  user: any;
-  trackingId?: string;
+  user: any;  
 }
 
 const defaultState = {
@@ -33,7 +32,7 @@ const defaultState = {
   step: 0,
   tourCompleted: false,
   version: 'lite',
-  trackingId: undefined
+  
 };
 
 const setUser = user => ({ type: 'SET_USER', user });
@@ -42,11 +41,7 @@ const changeAdminMode = (adminMode: boolean) => ({ type: 'CHANGE_ADMIN_MODE', ad
 
 export const reducer: Reducer<State> = (state: State | any, action) => {
   switch (action.type) {
-    case 'SET_TRACKING_ID':
-      return {
-        ...state,
-        trackingId: action.trackingId
-      };
+   
     case 'STEP':
       return {
         ...state,
@@ -115,13 +110,6 @@ export const useViewMode = () => {
   const setViewMode = React.useCallback(mode => dispatch(changeViewMode(mode)), [dispatch]);
   const viewMode = useSelector((state: AppState) => state.layout.viewMode);
   return [viewMode, setViewMode];
-};
-
-export const useTrackingId = () => {
-  const dispatch = useDispatch();
-  const setId = React.useCallback((trackingId: string) => dispatch({ type: 'SET_TRACKING_ID', trackingId }), [dispatch]) as any;
-  const trackingId = useSelector((state: AppState) => state.layout.trackingId);
-  return [trackingId, setId];
 };
 
 export const useAdminMode = () => {

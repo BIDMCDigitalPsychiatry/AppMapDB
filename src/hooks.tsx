@@ -119,25 +119,13 @@ export const trackingColumns = [
 ].map(name => ({ name }));
 
 export const useTracking = ({ isPwa = false }) => {
-  //const [trackingId, setTrackingId] = useTrackingId();
-
   const installed = useUrlParameter('installed');
-
   const processData = useProcessData();
-
-  /*React.useEffect(() => {
-    if (isEmpty(trackingId)) {
-      const tId = uuid() as String;
-      console.log(`Setting id: ${tId}`);
-      setTrackingId(tId);
-    }
-  }, [trackingId, setTrackingId]);*/
 
   React.useEffect(() => {
     const runTracking = async () => {
       const fingerPrint = await getBrowserFingerprint();
       const trackingId = String(fingerPrint);
-      console.log({ trackingId });
 
       if (!isEmpty(trackingId)) {
         // Store tracking info
