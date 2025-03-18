@@ -48,7 +48,9 @@ const getFilters = version =>
       items: Conditions.map(label => ({ value: label, label })).filter(({ value }) =>
         version === 'full'
           ? true
-          : ['Sleep', 'Perinatal Depression', 'Stress & Anxiety', 'Schizophrenia', 'Bipolar Disorder', 'PTSD', 'OCD', 'Substance Use'].includes(value)
+          : ['ADD/ADHD', 'Sleep', 'Perinatal Depression', 'Stress & Anxiety', 'Schizophrenia', 'Bipolar Disorder', 'PTSD', 'OCD', 'Substance Use'].includes(
+              value
+            )
       )
     },
     version === 'full' && {

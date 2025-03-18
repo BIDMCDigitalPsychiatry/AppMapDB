@@ -443,6 +443,7 @@ export const FeatureImages = [
 export const Features = FeatureQuestions.map(fq => fq.value as Feature);
 
 export type Condition =
+  | 'ADD/ADHD'
   | 'Mood Disorders'
   | 'Bipolar Disorder'
   | 'Cardiovascular Health'
@@ -464,6 +465,7 @@ export type Condition =
   | 'Perinatal Depression';
 
 export const Conditions: Condition[] = [
+  'ADD/ADHD',
   'Mood Disorders',
   'Bipolar Disorder',
   'Cardiovascular Health',
