@@ -16,12 +16,13 @@ import {
   Inputs,
   Outputs
 } from '../../../../database/models/Application';
-import { Grid } from '@mui/material';
+import { Divider, Grid } from '@mui/material';
 import { useTableFilterValue } from '../../GenericTable/store';
 import { categories } from '../../../../constants';
 import { useFullScreen } from '../../../../hooks';
 import { isEmpty, sortAscending, sortAscendingLabel } from '../../../../helpers';
 import { useSelector } from 'react-redux';
+import InterestedAddApp from '../../../pages/Community/InterestedAddApp';
 
 export const title = 'Apply Filters';
 
@@ -119,6 +120,12 @@ export default function FilterContentLeftDrawer() {
             <ConnectedMultiSelect id={id} label={label} color={color} items={items} />
           </Grid>
         ))}
+      <Grid item xs={12}>
+        <Divider sx={{ my: 1 }} />
+      </Grid>
+      <Grid item xs={12}>
+        <InterestedAddApp />
+      </Grid>
     </Grid>
   );
 }

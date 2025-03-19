@@ -245,7 +245,7 @@ function featureMatchCount(a, b, orderBy) {
       }
     });
     if (mA > 0 || mB > 0) {
-      console.log({ orderBy, mA, mB });
+      //console.log({ orderBy, mA, mB });
     }
 
     if (mB < mA) {

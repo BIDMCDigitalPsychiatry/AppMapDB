@@ -43,7 +43,6 @@ export const useAreFiltersActive = ({ table = 'Applications' } = {}) => {
     Object.keys(filters).forEach(k => {
       filterCount = filterCount + filters[k]?.length;
     });
-    console.log({ filters, filterCount });
     return filterCount > 0;
   }) as any;
 };

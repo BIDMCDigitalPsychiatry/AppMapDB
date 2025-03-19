@@ -28,7 +28,9 @@ export default function PlayGround() {
   }, [appId, type, setAppInfo]);
 
   React.useEffect(() => {
-    axios.get('https://itunes.apple.com/lookup?id=363590051').then(results => console.log({ results }));
+    axios.get('https://itunes.apple.com/lookup?id=363590051').then(results => {
+      //console.log({ results });
+    });
     handleGetAppInfo();
   }, [handleGetAppInfo]);
 

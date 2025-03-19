@@ -17,7 +17,7 @@ export const useGetPwaUsage = () => {
       do {
         items = await dynamo.scan(params).promise();
         items.Items.forEach(i => scanResults.push(i));
-        console.log({ items, scanResults });
+        //console.log({ items, scanResults });
         params.ExclusiveStartKey = items.LastEvaluatedKey;
       } while (typeof items.LastEvaluatedKey != 'undefined');
     }

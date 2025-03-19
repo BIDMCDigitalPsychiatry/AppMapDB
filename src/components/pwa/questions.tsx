@@ -96,10 +96,10 @@ export const searchIndex = questions.length;
 export const getQuestionFilters = values => {
   var filters = {};
   questions.forEach(({ id, options }, idx) => {
-    console.log({ values, idx, vidx: values[idx] });
+    //console.log({ values, idx, vidx: values[idx] });
     if (!isEmpty(values[idx]?.label)) {
       var selectedOption = options.find(o => o.label === values[idx]?.label);
-      console.log({ selectedOption });
+//      console.log({ selectedOption });
       if (selectedOption) {
         filters[id] = selectedOption.filterValue;
       }

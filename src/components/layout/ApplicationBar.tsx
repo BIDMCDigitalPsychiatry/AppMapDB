@@ -106,13 +106,13 @@ export default function ApplicationBar({ trigger }) {
 
   const handleExportSignUpSurveys = React.useCallback(async () => {
     var data = await getSignUpSurveys();
-    console.log('Exporting sign up surveys...', { data, columns });
+    //console.log('Exporting sign up surveys...', { data, columns });
     exportTableCsv(data, columns);
   }, [getSignUpSurveys]);
 
   const handleExportPwaUsage = React.useCallback(async () => {
     var data = await getPwaUsage();
-    console.log('Exporting pwa usage...', { data, trackingColumns });
+    //console.log('Exporting pwa usage...', { data, trackingColumns });
     exportTableCsv(data, trackingColumns);
   }, [getPwaUsage]);
 

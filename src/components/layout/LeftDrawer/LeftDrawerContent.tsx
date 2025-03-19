@@ -9,7 +9,6 @@ import Logo from '../Logo';
 import { useFullScreen } from '../../../hooks';
 import FilterCount from './FilterCount';
 import TourStep from '../../pages/Tour/TourStep';
-import { useHandleChangeRoute } from '../hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +32,6 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
   const xs = useFullScreen('xs');
   const handleClose = React.useCallback(() => setLeftDrawer && setLeftDrawer(false), [setLeftDrawer]);
   const handleOpen = React.useCallback(() => setLeftDrawer && setLeftDrawer(true), [setLeftDrawer]);
-  const handleChangeRoute = useHandleChangeRoute();
   return (
     <>
       <div className={classes.header}>
