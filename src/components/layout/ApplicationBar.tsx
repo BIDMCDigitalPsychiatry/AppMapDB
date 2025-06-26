@@ -182,7 +182,8 @@ export default function ApplicationBar({ trigger }) {
       () => {
         if (!signedIn && newVersion !== 'lite') {
           // User is not signed in and trying to switch to pro version, show the login dialog
-          setLoginState(prev => ({ ...prev, open: true }));
+          //setLoginState(prev => ({ ...prev, open: true }));
+          setLayout({ version: newVersion }); // Don't require sign up for pro version any more
         } else {
           setLayout({ version: newVersion });
         }
@@ -238,7 +239,7 @@ export default function ApplicationBar({ trigger }) {
                         color={version !== 'lite' ? 'primary' : 'secondary'}
                         onClick={handleChangeVersion({ version: 'full' })}
                       >
-                        <Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />
+                        {/*<Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />*/}
                         Pro Version
                       </Button>
                     </ButtonGroup>
@@ -291,7 +292,7 @@ export default function ApplicationBar({ trigger }) {
                             ]
                         : [
                             { label: 'Login', Module: LoginDialog, onClick: handleClose },
-                            { label: 'Sign Up for Pro Version', Module: RegisterProDialog, onClick: handleClose },
+                            //{ label: 'Sign Up for Pro Version', Module: RegisterProDialog, onClick: handleClose },
                             { label: 'Sign Up for App Rater', Module: RegisterDialog, onClick: handleClose }
                             // { label: 'Take Tour', onClick: handleTour }
                           ].map(({ label, Module, onClick }) => (
