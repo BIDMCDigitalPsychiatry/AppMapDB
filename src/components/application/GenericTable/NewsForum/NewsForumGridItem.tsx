@@ -124,7 +124,7 @@ export default function NewsForumGridItem({
             <Grid container>
               <Grid item xs={12}>
                 <Typography color='textPrimary' variant='subtitle2' align='center'>
-                  {authorName || 'Unknown Author'}
+                  {authorName ? 'Registered User' : 'Unknown Author'}
                 </Typography>
               </Grid>
 

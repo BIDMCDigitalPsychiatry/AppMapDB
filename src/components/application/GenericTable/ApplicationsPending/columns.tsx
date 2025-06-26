@@ -19,9 +19,15 @@ const LastUpdated = ({ updated }) => (
   </Typography>
 );
 
-const RatedBy = ({ email }) => (
+/*const RatedBy = ({ email }) => (
   <Typography variant='body2' color='textSecondary'>
     {email}
+  </Typography>
+);*/
+
+const RatedBy = ({ email }) => (
+  <Typography variant='body2' color='textSecondary'>
+    App Rater
   </Typography>
 );
 

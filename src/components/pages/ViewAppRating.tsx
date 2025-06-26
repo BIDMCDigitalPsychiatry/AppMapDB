@@ -52,7 +52,8 @@ export default function ViewAppRating(props) {
               </Grid>
               <Grid item>
                 <Typography noWrap className={classes.primaryLightText} variant='body1'>
-                  {email}
+                  {/*email*/}
+                  App Rater
                 </Typography>
               </Grid>
             </Grid>

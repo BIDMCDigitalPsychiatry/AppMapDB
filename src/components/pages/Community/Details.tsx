@@ -175,7 +175,8 @@ const Details = () => {
                   {!isEmpty(values.authorName) && (
                     <Grid item xs={12}>
                       <Typography align='center' color='textPrimary' variant='subtitle2'>
-                        {values.authorName}
+                        {/*values.authorName*/}
+                        Registered User
                       </Typography>
                     </Grid>
                   )}
