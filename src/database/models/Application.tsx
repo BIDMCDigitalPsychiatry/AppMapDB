@@ -209,9 +209,17 @@ export const EngagementQuestions = [
 
 export const Engagements: Engagement[] = EngagementQuestions.map(eq => eq.value as Engagement);
 
-export type Functionality = 'Spanish' | 'Offline' | 'Accessibility' | 'Own Your Own Data' | 'Email or Export Your Data' | 'Send Your Data to a Medical Record';
+export type Functionality =
+  | 'French'
+  | 'Spanish'
+  | 'Offline'
+  | 'Accessibility'
+  | 'Own Your Own Data'
+  | 'Email or Export Your Data'
+  | 'Send Your Data to a Medical Record';
 
 export const FunctionalityQuestions = [
+  { value: 'French', label: 'Does the app work with French?', tooltip: 'Test it on the app itself and confirm via the app store.' },
   { value: 'Spanish', label: 'Does the app work with Spanish?', tooltip: 'Test it on the app itself and confirm via the app store.' },
   { value: 'Offline', label: 'Does the app work offline?', tooltip: 'Does the app work in airplane mode?' },
   {
@@ -501,7 +509,7 @@ export const DeveloperTypeQuestions = [
 export const DeveloperTypes: DeveloperType[] = DeveloperTypeQuestions.map(dtq => dtq.value as DeveloperType);
 
 //export type Use = 'BIDMC' | 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved';
-export type Use = 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved';
+export type Use = 'Self Help' | 'Reference' | 'Hybrid' | 'Kids Help Phone Approved' | 'Available in Canada';
 
 export const UseQuestions = [
   /*{
@@ -528,6 +536,11 @@ export const UseQuestions = [
     value: 'Kids Help Phone Approved',
     label: 'Was the app approved by Kids Help Phone?',
     tooltip: 'Kids Help Phone is a nonprofit organization in Canada who focuses on digital mental health support for youth.'
+  },
+  {
+    value: 'Available in Canada',
+    label: 'Is app available in Canada?',
+    tooltip: 'Is app available in Canada?'
   }
 ];
 
