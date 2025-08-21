@@ -7,13 +7,13 @@ import DialogButton from '../application/GenericDialog/DialogButton';
 import { useRouteState } from '../layout/store';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
-import ExpandableDescription from '../application/GenericTable/ApplicationsGrid/ExpandableDescription';
 import ImageCarousel from '../general/ImageCarousel';
 import { useAppHistoryData } from '../application/GenericTable/ApplicationHistory/selectors';
 import { Pagination, Alert, AlertTitle } from '@mui/material';
 import ViewAppRating from './ViewAppRating';
 import * as Icons from '@mui/icons-material';
 import ViewAppHeader from './ViewAppHeader';
+import ExpandableDescriptionWithLanguages from '../application/GenericTable/ApplicationsGrid/ExpandableDescriptionWithLanguages';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -41,7 +41,8 @@ export function ViewAppContent({ app = {}, from }) {
   var sm = useFullScreen('sm');
   var isPwa = from === 'pwa';
 
-  const { _id, appleStore, androidStore } = app as any;
+  const { _id, androidLink, iosLink, appleStore, androidStore, functionalities = [] } = app as any;
+
   console.log('Viewing app', app);
 
   const fromSurvey = from === 'Survey';
@@ -153,7 +154,14 @@ export function ViewAppContent({ app = {}, from }) {
             <Typography className={classes.bold}>Description from App Store, Not Vetted by MIND:</Typography>
           </Grid>
           <Grid item xs={12}>
-            <ExpandableDescription maxDescription={2000} appleStore={appleStore} androidStore={androidStore} />
+            <ExpandableDescriptionWithLanguages
+              iosLink={iosLink}
+              androidLink={androidLink}
+              functionalities={functionalities}
+              maxDescription={2000}
+              appleStore={appleStore}
+              androidStore={androidStore}
+            />
           </Grid>
           <Grid item xs={12}>
             <Box mt={4} mb={4}>

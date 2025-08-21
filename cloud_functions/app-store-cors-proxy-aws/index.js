@@ -1,6 +1,10 @@
 var gplay = require('google-play-scraper');
 var apple = require('app-store-scraper');
 
+function isEmpty(str) {
+  return !str || 0 === str.length;
+}
+
 const androidKeys = ['appId', 'title', 'icon', 'developer', 'description', 'installs', 'offersIAP', 'free', 'adSupported', 'url', 'screenshots'];
 const appleKeys = ['appId', 'title', 'icon', 'developer', 'description', 'free', 'url', 'screenshots'];
 
@@ -14,10 +18,17 @@ const filterKeys = (data, type) => {
 exports.handler = (event, context, callback) => {
   var appId = event['queryStringParameters'] && event['queryStringParameters']['appId'];
   var type = event['queryStringParameters'] && event['queryStringParameters']['type'];
+  var lang = event['queryStringParameters'] && event['queryStringParameters']['lang'];
 
   const key = type === 'apple' ? 'id' : 'appId';
   const store = type === 'apple' ? apple : gplay;
-  const props = type !== 'apple' ? { [key]: appId } : { [key]: appId, country: 'US' };
+  const props = isEmpty(lang)
+    ? type !== 'apple'
+      ? { [key]: appId }
+      : { [key]: appId, country: 'US' }
+    : type !== 'apple'
+    ? { [key]: appId, lang }
+    : { [key]: appId, country: 'US', lang };
 
   const response = {
     statusCode: 400,
