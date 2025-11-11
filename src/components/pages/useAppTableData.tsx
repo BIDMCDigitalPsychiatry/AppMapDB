@@ -38,11 +38,13 @@ export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
 export const useAreFiltersActive = ({ table = 'Applications' } = {}) => {
   return useSelector((s: AppState) => {
     const t = s.table[table] || { filters: {} };
-    const filters = t?.filters;
+    const filters = t?.filters || {};
     var filterCount = 0;
-    Object.keys(filters).forEach(k => {
-      filterCount = filterCount + filters[k]?.length;
-    });
+    if (filters && typeof filters === 'object') {
+      Object.keys(filters).forEach(k => {
+        filterCount = filterCount + (filters[k]?.length || 0);
+      });
+    }
     return filterCount > 0;
   }) as any;
 };
