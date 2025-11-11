@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { dynamo, tables } from '../../database/dbConfig';
+import { dynamo, tables, getApplicationsTableName } from '../../database/dbConfig';
 import Application from '../../database/models/Application';
 import { useApplications } from '../../database/useApplications';
 import { getDayTimeFromTimestamp, isEmpty, onlyUnique } from '../../helpers';
@@ -73,7 +73,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
     id => {
       const getRow = async id => {
         var params = {
-          TableName: tables.applications,
+          TableName: getApplicationsTableName(),
           Key: { _id: id }
         };
         try {
@@ -103,7 +103,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
         let scanResults = [];
         let items;
         var params = {
-          TableName: tables.applications,
+          TableName: getApplicationsTableName(),
           ExclusiveStartKey: undefined,
           ...requestParams
         };
@@ -307,7 +307,7 @@ export function useAppTableDataInit({ trigger = true } = {}) {
         let scanResults = [];
         let items;
         var params = {
-          TableName: tables.applications,
+          TableName: getApplicationsTableName(),
           ExclusiveStartKey: undefined,
           ...requestParams
         };

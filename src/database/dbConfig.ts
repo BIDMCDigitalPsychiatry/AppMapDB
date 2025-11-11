@@ -15,8 +15,15 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 export const dynamo = new AWS.DynamoDB.DocumentClient();
 
 export type DataModel = Application | Post | Event | Comment | Team | any;
-export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking';
+export type TableName = 'applications' | 'applications_trimmed' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking';
 
+// Function to get the appropriate applications table name for DynamoDB operations
+export const getApplicationsTableName = (): TableName => {
+  return pkg.enableTrimmedDb ? 'applications_trimmed' : 'applications';
+};
+
+// Tables object - always use 'applications' for Redux store consistency
+// Only use getApplicationsTableName() for actual DynamoDB operations
 export const tables = {
   applications: 'applications' as TableName,
   filters: 'filters' as TableName,
