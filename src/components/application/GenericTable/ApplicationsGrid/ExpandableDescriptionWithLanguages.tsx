@@ -27,6 +27,7 @@ export default function ExpandableDescriptionWithLanguages({
   handleRefresh = undefined
 }) {
   const isFrench = functionalities?.includes('French');
+  console.log({ appleStore, androidStore });
   const isSpanish = functionalities?.includes('Spanish');
   const [state, setState] = React.useState({ loading: false, appleStore: undefined, androidStore: undefined });
 

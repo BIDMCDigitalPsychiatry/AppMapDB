@@ -31,7 +31,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
   const {
     _id,
     privacies = [],
-    platforms,
+    platforms = [],
     androidLink,
     iosLink,
     webLink,
@@ -52,7 +52,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
   const handleChangeRoute = useHandleChangeRoute();
   const hasSupportingStudies = clinicalFoundations.includes('Supporting Studies');
   const [routeState] = useRouteState(); // Keep route state for back functionality
-  const webPlatform = platforms.filter(p => p?.toLowerCase() === 'web').map(p => 'Visit Website');
+  const webPlatform = platforms?.filter(p => p?.toLowerCase() === 'web').map(p => 'Visit Website');
 
   const lastRating = useLastRatingDateTime({ created, updated });
 
@@ -110,7 +110,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   </Grid>
                 </Grid>
               </Grid>
-              {webPlatform.length > 0 && (
+              {webPlatform?.length > 0 && (
                 <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
                   <PlatformButtons platforms={webPlatform} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
                 </Grid>
