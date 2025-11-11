@@ -73,7 +73,7 @@ export const tableFilter = (data: any, state: AppState, props: GenericTableConta
       column: table && table.columnfiltercolumn
     };
 
-  const filtered = table_filter(data, columnfilter, searchtext, customFilter);
+  const filtered = table_filter(data || [], columnfilter, searchtext, customFilter);
   return table && table.orderBy ? stableSort(filtered, getSorting(table.orderDirection, table.orderBy, table.sortComparator)) : filtered;
 };
 
@@ -89,7 +89,7 @@ export const useTableFilter = (data: any, name: string, customFilter = undefined
       column: table && table.columnfiltercolumn
     };
 
-  const filtered = table_filter(data, columnfilter, searchtext, customFilter, fuzzyFilter);
+  const filtered = table_filter(data || [], columnfilter, searchtext, customFilter, fuzzyFilter);
   if (mode === 'pwa') {
     // For PWA, the features filter should be OR inclusive and sorted by most feature matches first
     return stableSort(filtered, getSorting('desc', table.filters, 'anyMatchCount'));
@@ -106,7 +106,7 @@ export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', 
 
   const re = escapeRegex(searchtext);
 
-  const filtered = data.filter(
+  const filtered = (data || []).filter(
     x =>
       (performcolumnfilter ? isColumnExactMatch(x, columnfilter) : true) &&
       (performtextfilter ? isMatch(x, re) : true) &&
@@ -114,7 +114,7 @@ export const table_filter = (data, columnfilter: ColumnFilter, searchtext = '', 
   );
 
   if (fuzzyFilter) {
-    return fuzzyFilter(data, filtered, searchtext, customFilter);
+    return fuzzyFilter(data || [], filtered, searchtext, customFilter);
   } else {
     return filtered;
   }
@@ -261,6 +261,9 @@ function featureMatchCount(a, b, orderBy) {
 }
 
 function stableSort(array, cmp) {
+  if (!array || !Array.isArray(array)) {
+    return [];
+  }
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = cmp(a[0], b[0]);

@@ -21,7 +21,7 @@ const Comment = ({ mountDialog = true, sortOption, onRefresh = undefined, level 
   const { data: comments, handleRefresh } = useCommentsByParentId({ parentId: _id });
 
   const filtered = sortComments(
-    comments.filter(e => !e.deleted),
+    (comments || []).filter(e => !e.deleted),
     sortOption
   );
 

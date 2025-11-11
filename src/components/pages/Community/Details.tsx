@@ -86,10 +86,10 @@ const Details = () => {
 
   const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
 
-  const commentCount = comments.filter(e => !e.deleted).length;
+  const commentCount = (comments || []).filter(e => !e.deleted).length;
 
   const filtered = sortComments(
-    comments.filter(e => !e.deleted && isEmpty(e.parentId)),
+    (comments || []).filter(e => !e.deleted && isEmpty(e.parentId)),
     sortOption
   );
 

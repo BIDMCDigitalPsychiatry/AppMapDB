@@ -141,12 +141,12 @@ export default function AppSummary(props: Application & AppSummaryProps & any) {
                   <Grid item xs={12}>
                     <Typography noWrap component='span'>
                       <Grid container spacing={1}>
-                        {platforms.filter(onlyUnique).map((p, i) => (
+                        {(platforms || []).filter(onlyUnique).map((p, i) => (
                           <Grid item key={`platform-${p}-${i}`}>
                             <Link underline='always' key={p} className={classes.link} onClick={handleLink(p)}>
                               {p}
                             </Link>
-                            {i !== platforms.filter(onlyUnique).length - 1 && `\u2022`}
+                            {i !== (platforms || []).filter(onlyUnique).length - 1 && `\u2022`}
                           </Grid>
                         ))}
                       </Grid>

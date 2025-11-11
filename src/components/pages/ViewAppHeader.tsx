@@ -72,7 +72,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                 <Typography color='textSecondary'>{company}</Typography>
               </Grid>
               <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
-                <PlatformButtons platforms={platforms.filter(p => p?.toLowerCase() !== 'web')} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+                <PlatformButtons platforms={platforms?.filter(p => p?.toLowerCase() !== 'web') || []} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>

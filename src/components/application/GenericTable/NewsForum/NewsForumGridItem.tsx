@@ -77,7 +77,7 @@ export default function NewsForumGridItem({
   }, [changeRoute, _id]);
 
   const { data: comments } = useCommentsByPostId({ postId: _id });
-  const filtered = comments.filter(e => !e.deleted);
+  const filtered = (comments || []).filter(e => !e.deleted);
 
   return children ? (
     <Card className={classes.root}>
