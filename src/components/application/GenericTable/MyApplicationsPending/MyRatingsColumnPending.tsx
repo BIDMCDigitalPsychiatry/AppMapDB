@@ -11,7 +11,7 @@ import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 
 export default function MyRatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
-  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
+  const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] || {});
   const signedInRater = useSignedInRater();
 
   const handleChangeRoute = useHandleChangeRoute();

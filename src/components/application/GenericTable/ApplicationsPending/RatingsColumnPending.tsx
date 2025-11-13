@@ -11,7 +11,7 @@ import { publicUrl } from '../../../../helpers';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 export default function RatingsColumnPending({ _id }) {
-  const initialValues = useSelector((s: AppState) => s.database[tables.applications][_id]);
+  const initialValues = useSelector((s: AppState) => s.database?.[tables.applications]?.[_id] || {});
   const signedInRater = useSignedInRater();
   const handleChangeRoute = useHandleChangeRoute();
 

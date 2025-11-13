@@ -43,7 +43,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
     clinicalFoundations = []
   } = app;
 
-  const initialValues = useSelector((s: AppState) => s.database.applications[_id]);
+  const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] || {});
   const name = getAppName(app);
   const company = getAppCompany(app);
   const icon = getAppIcon(app);
@@ -134,7 +134,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                       [tables.applications]: {
                         ...initialValues,
                         _id: uuid(),
-                        parent: initialValues._id,
+                        parent: initialValues?._id,
                         approved: false,
                         approverEmail: undefined,
                         created: new Date().getTime()

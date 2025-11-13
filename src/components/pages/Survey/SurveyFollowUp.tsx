@@ -46,9 +46,9 @@ export default function SurveyFollowUp() {
     handleGetRow(appId);
   }, [handleGetRow, appId]);
 
-  const app = useSelector((s: AppState) => s.database[tables.applications][appId]);
+  const app = useSelector((s: AppState) => s.database?.[tables.applications]?.[appId] || {});
 
-  const { _id, appleStore, androidStore } = app ?? {};
+  const { _id, appleStore, androidStore } = app;
 
   const fromSurvey = from === 'Survey';
 

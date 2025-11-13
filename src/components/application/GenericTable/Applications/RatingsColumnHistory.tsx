@@ -13,7 +13,7 @@ import Check from '../../DialogField/Check';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined, isAdminEdit = false }) {
-  const application = useSelector((s: AppState) => s.database.applications[_id]);
+  const application = useSelector((s: AppState) => s.database?.applications?.[_id] || {});
   const { approved, draft } = application;
   const deleted = application?.delete;
   const [viewMode] = useViewMode();
