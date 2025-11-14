@@ -220,6 +220,88 @@ async function processArchivedApps() {
   const visibleGroupIds = data.map(r => r.groupId).filter(onlyUnique);
   console.log(`🔗 Unique Groups visible on website: ${visibleGroupIds.length}`);
 
+  /**
+   * Function to check if an app name is similar to any approved app names
+   * This helps identify accidentally duplicated apps under different IDs
+   */
+  const findSimilarApprovedApps = (archivedAppName, approvedAppsList) => {
+    if (!archivedAppName || !approvedAppsList || approvedAppsList.length === 0) {
+      return '';
+    }
+    
+    const normalizeAppName = (name) => {
+      return name.toLowerCase()
+        .replace(/[^\w\s]/g, '') // Remove special characters
+        .replace(/\s+/g, ' ')     // Normalize whitespace
+        .trim();
+    };
+    
+    const normalizedArchivedName = normalizeAppName(archivedAppName);
+    const similarApps = [];
+    
+    approvedAppsList.forEach(approvedApp => {
+      const normalizedApprovedName = normalizeAppName(approvedApp.appName);
+      
+      // Check for exact match after normalization
+      if (normalizedArchivedName === normalizedApprovedName) {
+        similarApps.push(`EXACT: ${approvedApp.appName} (${approvedApp.groupId})`);
+        return;
+      }
+      
+      // Check if one name contains the other (for partial matches)
+      if (normalizedArchivedName.includes(normalizedApprovedName) || 
+          normalizedApprovedName.includes(normalizedArchivedName)) {
+        similarApps.push(`PARTIAL: ${approvedApp.appName} (${approvedApp.groupId})`);
+        return;
+      }
+      
+      // Check for very similar names using simple similarity
+      const similarity = calculateSimilarity(normalizedArchivedName, normalizedApprovedName);
+      if (similarity > 0.8) { // 80% similarity threshold
+        similarApps.push(`SIMILAR: ${approvedApp.appName} (${approvedApp.groupId})`);
+      }
+    });
+    
+    return similarApps.length > 0 ? similarApps.join('; ') : '';
+  };
+  
+  /**
+   * Simple string similarity calculation using Levenshtein distance
+   */
+  const calculateSimilarity = (str1, str2) => {
+    const longer = str1.length > str2.length ? str1 : str2;
+    const shorter = str1.length > str2.length ? str2 : str1;
+    const editDistance = getEditDistance(longer, shorter);
+    return (longer.length - editDistance) / longer.length;
+  };
+  
+  /**
+   * Calculate Levenshtein distance between two strings
+   */
+  const getEditDistance = (str1, str2) => {
+    const matrix = [];
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j;
+    }
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    return matrix[str2.length][str1.length];
+  };
+
   const archivedApps = [];
   const neverApprovedApps = [];
   const approvedApps = [];
@@ -490,6 +572,17 @@ async function processArchivedApps() {
     return dateB - dateA;
   });
 
+  // Add similarity check for archived apps (now that approved apps are populated)
+  console.log('\n🔍 Checking archived apps for similar approved apps...');
+  let appsWithSimilar = 0;
+  archivedApps.forEach(archivedApp => {
+    archivedApp.hasSimilarApproved = findSimilarApprovedApps(archivedApp.appName, approvedApps);
+    if (archivedApp.hasSimilarApproved) {
+      appsWithSimilar++;
+    }
+  });
+  console.log(`✅ Found ${appsWithSimilar} archived apps with similar approved apps`);
+
   // Output detailed analysis to console
   console.log('\n📊 ARCHIVED APPS ANALYSIS RESULTS');
   console.log('=================================');
@@ -583,6 +676,7 @@ async function processArchivedApps() {
     'deletedRatingsCount',
     'hasEverHadApprovedVersion',
     'archiveReason',
+    'hasSimilarApproved',
     'platforms',
     'costs',
     'functionalities',
