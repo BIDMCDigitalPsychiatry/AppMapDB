@@ -9,7 +9,7 @@ This folder contains the archived apps analysis script and all related generated
 
 ### CSV Files (Data Exports)
 - `approved_apps_[date].csv` - Apps currently showing approved versions on website
-- `archived_apps_[date].csv` - Apps that previously had approved versions but are now archived
+- `archived_apps_[date].csv` - Apps that previously had approved versions but are now archived. If an app is marked as archived, it is considered to be previously approved at one point.  The approved field can be set or unset when a user archives a record, so this field is un-reliable in determining the previously approved status.
 - `never_approved_apps_[date].csv` - Apps that have never had any approved versions
 
 ### Analysis Files
