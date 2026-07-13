@@ -5,6 +5,7 @@ import {
   passesNormalModeFilters,
   passesPwaModeThreshold,
   dedupeByGroupId,
+  fuzzySortFilter,
   FILTER_CATEGORY_JOIN_MODE,
   CATEGORY_TO_TAG_FIELD
 } from './useAppTableData';
@@ -171,5 +172,40 @@ describe('dedupeByGroupId', () => {
 
   it('returns empty for empty input', () => {
     expect(dedupeByGroupId([])).toEqual([]);
+  });
+});
+
+describe('fuzzySortFilter', () => {
+  const mk = (_id: string, name: string) => ({ _id, name });
+  const data = [mk('1', 'Calm'), mk('2', 'Headspace'), mk('3', 'Calmaria')];
+
+  it('returns filtered unchanged when there are already 10+ exact matches', () => {
+    const filtered = Array.from({ length: 10 }, (_, i) => mk(String(i), `App ${i}`));
+    expect(fuzzySortFilter(data, filtered, 'calm')).toBe(filtered);
+  });
+
+  it('appends fuzzy name matches not already present', () => {
+    const filtered = [mk('1', 'Calm')];
+    const result = fuzzySortFilter(data, filtered, 'calm');
+    expect(result.map(r => r._id)).toContain('3'); // Calmaria via fuzzy
+    expect(result.filter(r => r._id === '1')).toHaveLength(1); // no duplicate
+  });
+
+  it('respects the custom filter for fuzzy additions', () => {
+    const result = fuzzySortFilter(data, [], 'calm', row => row._id !== '3');
+    expect(result.map(r => r._id)).not.toContain('3');
+  });
+
+  it('calls customFilter with exactly one argument (regression)', () => {
+    // The old call site passed (row, searchtext) while every actual
+    // customFilter accepted only (row); JS silently dropped the extra arg.
+    const seen: number[] = [];
+    const spy = function () {
+      seen.push(arguments.length);
+      return true;
+    };
+    fuzzySortFilter(data, [], 'calm', spy as any);
+    expect(seen.length).toBeGreaterThan(0);
+    seen.forEach(argCount => expect(argCount).toBe(1));
   });
 });

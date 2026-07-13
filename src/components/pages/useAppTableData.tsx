@@ -133,16 +133,16 @@ export const dedupeByGroupId = <T extends { groupId: string; created: number; ap
   return Array.from(newestOverall.keys()).map(gId => newestApproved.get(gId) ?? (newestOverall.get(gId) as T));
 };
 
-export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
+export const fuzzySortFilter = (data: any[], filtered: any[], searchtext: string, customFilter?: (row: any) => boolean) => {
   if (filtered?.length < 10) {
     // Only perform fuzzy filtering if there are < 10 exact match results
     const fuzzyResults = fuzzysort.go(searchtext, data, { key: 'name', limit: 20 }) as any;
-    var combined = [...filtered];
-    fuzzyResults?.forEach(fr => {
+    let combined = [...filtered];
+    fuzzyResults?.forEach((fr: any) => {
       if (!combined.find(r => r._id === fr?.obj?._id)) {
         // If no custom filter or custom filters (platform tags) match, then add fuzzy results
         // This prevents non matching platform tags from showing in the results
-        if (!customFilter || customFilter(fr.obj, searchtext)) {
+        if (!customFilter || customFilter(fr.obj)) {
           combined = combined.concat(fr.obj);
         }
       }
