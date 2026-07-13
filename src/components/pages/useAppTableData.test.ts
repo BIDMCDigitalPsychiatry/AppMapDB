@@ -1,4 +1,12 @@
-import { matchesAll, matchesAny, matchesCategory, passesNormalModeFilters, FILTER_CATEGORY_JOIN_MODE, CATEGORY_TO_TAG_FIELD } from './useAppTableData';
+import {
+  matchesAll,
+  matchesAny,
+  matchesCategory,
+  passesNormalModeFilters,
+  passesPwaModeThreshold,
+  FILTER_CATEGORY_JOIN_MODE,
+  CATEGORY_TO_TAG_FIELD
+} from './useAppTableData';
 
 describe('matchesAll (AND within category, exact membership)', () => {
   it('matches when every selected value is present', () => {
@@ -109,5 +117,27 @@ describe('passesNormalModeFilters', () => {
     const t = { ...tags, privacies: ['Has Privacy Policy'] };
     expect(passesNormalModeFilters(t, { Privacy: ['Has Privacy Policy'] })).toBe(true);
     expect(passesNormalModeFilters(t, { Privacy: ['Data Stored on Device'] })).toBe(false);
+  });
+});
+
+describe('passesPwaModeThreshold', () => {
+  it('passes everything when nothing is selected', () => {
+    expect(passesPwaModeThreshold(0, 0)).toBe(true);
+  });
+
+  it('requires at least half the selected criteria to match', () => {
+    expect(passesPwaModeThreshold(2, 4)).toBe(true);
+    expect(passesPwaModeThreshold(1, 4)).toBe(false);
+    expect(passesPwaModeThreshold(3, 5)).toBe(true);
+    expect(passesPwaModeThreshold(2, 5)).toBe(false);
+  });
+
+  it('no longer has the exact-match cliff at 4 selected criteria (regression)', () => {
+    // Old rule: <=4 selected required ALL to match; a 5th selection silently
+    // relaxed the rule to "more than half". Same proportional rule applies on
+    // both sides of that boundary now.
+    expect(passesPwaModeThreshold(2, 3)).toBe(true); // old rule: false (needed 3/3)
+    expect(passesPwaModeThreshold(2, 4)).toBe(true); // old rule: false (needed 4/4)
+    expect(passesPwaModeThreshold(3, 5)).toBe(true); // unchanged either way
   });
 });

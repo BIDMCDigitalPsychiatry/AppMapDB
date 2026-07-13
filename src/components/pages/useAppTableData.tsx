@@ -12,8 +12,6 @@ import { getDescription } from '../application/GenericTable/ApplicationsGrid/Exp
 import fuzzysort from 'fuzzysort';
 
 const table = 'Applications';
-const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
-const isMatchAny = (filters, value) => (filters?.length > 0 ? filters.reduce((t, c) => (t = t || value?.includes(c)), false) : true);
 
 /* ---------------------------------------------------------------------------
  * Structured filter matching — exact membership, not substring containment.
@@ -90,6 +88,22 @@ export const passesNormalModeFilters = (tags: Record<string, unknown>, selection
     matchesCategory(FILTER_CATEGORY_JOIN_MODE[name], selections[name] ?? [], tags[CATEGORY_TO_TAG_FIELD[name]])
   );
 
+/* ---------------------------------------------------------------------------
+ * PWA quiz mode: soft recommendation engine, not a hard filter.
+ *
+ * Fixed: the original used a hard cliff — exact match required at <=4
+ * selected criteria, then ">half" once a 5th was added. Adding one more
+ * quiz answer could silently relax the matching rule with no documented
+ * reason for the discontinuity at exactly 4. Replaced with one proportional
+ * rule: match at least half of whatever was selected.
+ *
+ * Note: getPwaFilterMatches counts per matched VALUE (one push per value
+ * hit, not per category), and filterCount is also a count of individual
+ * selected values — both sides of the comparison are on the same scale.
+ * ------------------------------------------------------------------------- */
+export const passesPwaModeThreshold = (matchCount: number, filterCount: number): boolean =>
+  (filterCount === 0 ? true : matchCount >= filterCount / 2);
+
 export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
   if (filtered?.length < 10) {
     // Only perform fuzzy filtering if there are < 10 exact match results
@@ -130,21 +144,6 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   const count = Object.keys(apps).length;
 
   const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
-  const {
-    Platforms = [],
-    Functionalities = [],
-    Cost = [],
-    TreatmentApproaches = [],
-    Features = [],
-    Inputs = [],
-    Outputs = [],
-    Engagements = [],
-    Conditions = [],
-    Privacy = [],
-    Uses = [],
-    ClinicalFoundations = [],
-    DeveloperTypes = []
-  } = filters;
 
   const handleGetRow = React.useCallback(
     id => {
@@ -334,36 +333,11 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   const customFilter = r => {
     if (mode === 'pwa') {
-      return (
-        (filterCount > 0 && filterCount <= 4 ? r.filterMatches?.length === filterCount : true) &&
-        (filterCount > 4 ? r.filterMatches?.length > filterCount / 2 : true) && // Only show results that match at least half the filter count
-        (isMatch(Platforms, r.platforms) ||
-          isMatch(Functionalities, r.functionalities) ||
-          isMatch(Cost, r.costs) ||
-          isMatch(TreatmentApproaches, r.treatmentApproaches) ||
-          isMatchAny(Features, r.features) ||
-          isMatch(Engagements, r.engagements) ||
-          isMatch(Inputs, r.inputs) ||
-          isMatch(Outputs, r.outputs) ||
-          isMatch(Conditions, r.conditions) ||
-          isMatch(Privacy, r.privacies) ||
-          isMatch(Uses, r.uses) ||
-          isMatch(ClinicalFoundations, r.clinicalFoundations) ||
-          isMatch(DeveloperTypes, r.developerTypes))
-        /*isMatch(Platforms, r.platforms) &&
-        isMatch(Functionalities, r.functionalities) &&
-        isMatch(Cost, r.costs) &&
-        isMatch(TreatmentApproaches, r.treatmentApproaches) &&
-        isMatchAny(Features, r.features) &&
-        isMatch(Engagements, r.engagements) &&
-        isMatch(Inputs, r.inputs) &&
-        isMatch(Outputs, r.outputs) &&
-        isMatch(Conditions, r.conditions) &&
-        isMatch(Privacy, r.privacies) &&
-        isMatch(Uses, r.uses) &&
-        isMatch(ClinicalFoundations, r.clinicalFoundations) &&
-        isMatch(DeveloperTypes, r.developerTypes)*/
-      );
+      // The old per-category OR chain that followed the threshold here was a
+      // no-op in practice: any category with nothing selected matched every
+      // row, making the whole OR true whenever at least one category was
+      // unselected. The threshold below is the real PWA matching rule.
+      return passesPwaModeThreshold(r.filterMatches?.length ?? 0, filterCount);
     } else {
       return passesNormalModeFilters(r.tags ?? {}, filters);
     }
@@ -371,9 +345,10 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   var filtered = useTableFilter(filteredData, table, customFilter, fuzzySortFilter, mode);
 
-  if (mode === 'pwa' && filtered.length > 5 && filterCount > 0) {
-    // Only show 5 results for PWA when filters are applied
-    filtered = filtered.slice(0, 5);
+  if (mode === 'pwa' && filterCount > 0) {
+    // Show the 5 BEST matches, not the first 5 that cleared the threshold.
+    filtered = [...filtered].sort((a: any, b: any) => (b.filterMatches?.length ?? 0) - (a.filterMatches?.length ?? 0));
+    if (filtered.length > 5) filtered = filtered.slice(0, 5);
   }
 
   return { filtered, loading, apps, setApps, handleRefresh, handleGetRow };
