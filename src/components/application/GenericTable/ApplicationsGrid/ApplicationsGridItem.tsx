@@ -16,9 +16,9 @@ import { categories } from '../../../../constants';
 import { useAreFiltersActive } from '../../../pages/useAppTableData';
 import { useFilterCount } from '../../../layout/useFilterCount';
 
-const height = 520;
+const height = 336;
 const extraPwaHeight = 48;
-const iconSize = 72;
+const iconSize = 64;
 
 const useStyles = makeStyles((theme: any) =>
   createStyles({
@@ -43,6 +43,14 @@ const useStyles = makeStyles((theme: any) =>
       objectFit: 'cover',
       backgroundColor: theme.palette.common.white,
       flexShrink: 0
+    },
+    // Show full names by wrapping up to two lines instead of truncating one.
+    clamp2: {
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical' as any,
+      WebkitLineClamp: 2,
+      overflow: 'hidden',
+      wordBreak: 'break-word'
     },
     description: {
       color: theme.palette.text.secondary,
@@ -149,16 +157,16 @@ export default function ApplicationsGridItem(props: any) {
   ) : (
     <Card onClick={onClick} className={classes.root} elevation={0}>
       <CardContent sx={{ p: 2, pb: 1.5, display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
-        {/* Header: app icon + name/company */}
-        <Grid container spacing={1.5} wrap='nowrap' alignItems='center'>
+        {/* Header: app icon + name/company (full names, wrapped up to 2 lines) */}
+        <Grid container spacing={1.5} wrap='nowrap' alignItems='flex-start'>
           <Grid item>
             <img className={classes.icon} src={icon} alt={`${name || 'app'} icon`} />
           </Grid>
           <Grid item zeroMinWidth xs>
-            <Typography variant='h5' noWrap title={name}>
+            <Typography variant='h5' className={classes.clamp2} title={name}>
               {name || 'Unknown Name'}
             </Typography>
-            <Typography color='textSecondary' variant='body2' noWrap title={company}>
+            <Typography color='textSecondary' variant='body2' className={classes.clamp2} title={company}>
               {company}
             </Typography>
           </Grid>
@@ -180,18 +188,19 @@ export default function ApplicationsGridItem(props: any) {
           </Typography>
         </Box>
 
-        {/* Store description (clamped) */}
+        {/* Store description (clamped); footer follows the content directly so
+            any slack from short descriptions falls at the card's bottom edge. */}
         <Box sx={{ mt: 1, flex: 1, minHeight: 0, overflow: 'hidden' }}>
           <div
             className={classes.description}
-            dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(content), isPwa && areFiltersActive ? 9 : 10) }}
+            dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(content), isPwa && areFiltersActive ? 4 : 5) }}
           />
         </Box>
 
         {/* Footer */}
         <Box sx={{ pt: 1 }}>
           <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-            Last MINDapps evaluation: {lastRating}
+            Last updated: {lastRating}
           </Typography>
           {isPwa && areFiltersActive && (
             <Box sx={{ pt: 0.5 }}>

@@ -3,26 +3,32 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import styled from '@emotion/styled';
 import { grey } from '@mui/material/colors';
 
+/*
+ * Columns are driven by the width of the grid itself (container queries),
+ * not the viewport — so opening the filter drawer reflows the column count
+ * correctly at any screen size.
+ */
 const ItemContainer = styled.div`
-  padding-top: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
-  width: 25%;
+  padding: 12px;
+  width: 100%;
   display: flex;
   flex: none;
   align-content: stretch;
 
-  @media (max-width: 1300px) {
-    width: 33%;
-  }
-
-  @media (max-width: 1200px) {
+  @container (min-width: 600px) {
     width: 50%;
   }
 
-  @media (max-width: 550px) {
-    width: 100%;
+  @container (min-width: 980px) {
+    width: 33.333%;
+  }
+
+  @container (min-width: 1300px) {
+    width: 25%;
+  }
+
+  @container (min-width: 1650px) {
+    width: 20%;
   }
 `;
 
@@ -31,6 +37,7 @@ const ListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: ${grey[100]};
+  container-type: inline-size;
 `;
 
 export default function ExploreGrid({ data, height, GridItem = undefined, scrollElement = undefined }) {
