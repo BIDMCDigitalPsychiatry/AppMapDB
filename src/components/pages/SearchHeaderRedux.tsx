@@ -36,15 +36,16 @@ const getPadding = (bp, multiplier = 1) => (bp === 'sm' ? padding / 2 : bp === '
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({
     header: {
-      background: palette.primary.light,
+      background: `linear-gradient(135deg, ${palette.primary.dark} 0%, ${palette.primary.main} 70%, ${palette.primary.light} 130%)`,
       color: palette.common.white,
       fontWeight: 900,
       ...getMobilePadding(breakpoints)
     },
     primaryText: {
       fontSize: 30,
-      fontWeight: 900,
-      color: palette.primary.dark
+      fontWeight: 800,
+      letterSpacing: '-0.02em',
+      color: palette.common.white
     },
     deleteIcon: {
       color: 'white !important'

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Card, CardContent, CardMedia, Chip, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Chip, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
@@ -18,51 +18,52 @@ import { useFilterCount } from '../../../layout/useFilterCount';
 
 const height = 520;
 const extraPwaHeight = 48;
+const iconSize = 72;
+
 const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: ({ isPwa }: any) => ({
       flex: '1',
-      textAlign: 'center',
-      height: isPwa ? height + extraPwaHeight : height, // Add 20 for the filter match count section
-      borderRadius: 10,
-      transition: 'transform 0.15s ease-in-out',
+      textAlign: 'left',
+      height: isPwa ? height + extraPwaHeight : height,
+      display: 'flex',
+      flexDirection: 'column',
+      transition: 'box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out',
       '&:hover': {
-        transform: 'scale3d(1.025, 1.025, 1)'
+        transform: 'translateY(-2px)',
+        boxShadow: '0 8px 24px rgba(16, 24, 40, 0.12)'
       },
       cursor: 'pointer'
     }),
-    media: {
-      borderBottom: `1px solid ${theme.palette.grey[400]}`
+    icon: {
+      width: iconSize,
+      height: iconSize,
+      borderRadius: 16,
+      border: `1px solid ${theme.palette.divider ?? '#E5EAF0'}`,
+      objectFit: 'cover',
+      backgroundColor: theme.palette.common.white,
+      flexShrink: 0
     },
-    wrapper: ({ isPwa }: any) => ({
-      height: isPwa ? height + extraPwaHeight - 200 : height - 200,
-      overflow: 'hidden',
-      color: theme.palette.text.primary,
-      fontFamily: theme.typography.fontFamily,
-      '& h2': {
-        fontSize: theme.typography.h2.fontSize,
+    description: {
+      color: theme.palette.text.secondary,
+      '& h1, & h2, & h3, & h4': {
+        fontSize: theme.typography.body2.fontSize,
         fontWeight: theme.typography.fontWeightBold,
-        lineHeight: theme.typography.h2.lineHeight,
-        marginBottom: theme.spacing(3)
-      },
-      '& h3': {
-        fontSize: theme.typography.h3.fontSize,
-        fontWeight: theme.typography.fontWeightBold,
-        lineHeight: theme.typography.h3.lineHeight,
-        marginBottom: theme.spacing(3)
+        lineHeight: 1.4,
+        margin: '8px 0 4px 0'
       },
       '& p': {
-        fontSize: theme.typography.body1.fontSize,
-        lineHeight: theme.typography.body1.lineHeight,
-        marginBottom: 8,
-        marginTop: 8
+        fontSize: theme.typography.body2.fontSize,
+        lineHeight: theme.typography.body2.lineHeight,
+        marginBottom: 6,
+        marginTop: 6
       },
       '& li': {
-        fontSize: theme.typography.body1.fontSize,
-        lineHeight: theme.typography.body1.lineHeight,
-        marginBottom: theme.spacing(1)
+        fontSize: theme.typography.body2.fontSize,
+        lineHeight: theme.typography.body2.lineHeight,
+        marginBottom: 4
       }
-    })
+    }
   })
 );
 
@@ -75,7 +76,6 @@ const FilterMatchCount = props => {
   const matchCount = filterMatches?.length ?? 0;
   const filterCount = useFilterCount();
 
-  //const matchText = `${matchCount} Match${matchCount === 1 ? '' : 'es'}:`;
   const matchText = `Meets ${matchCount}/${filterCount} Criteria:`;
 
   return matchCount > 0 ? (
@@ -92,7 +92,7 @@ const FilterMatchCount = props => {
                 <Grid item key={item?.value}>
                   <Chip
                     key={`${item?.value}-${i}`}
-                    style={{ /*background: category?.color ?? 'grey',*/ background: green[700], color: 'white', marginRight: 0, fontSize: 12, height: 20 }}
+                    style={{ background: green[700], color: 'white', marginRight: 0, fontSize: 12, height: 20 }}
                     variant='outlined'
                     size='small'
                     label={withReplacement(item?.value)}
@@ -129,9 +129,6 @@ export default function ApplicationsGridItem(props: any) {
 
   const lastRating = useLastRatingDateTime({ created, updated });
 
-  const [state, setState] = React.useState({
-    raised: false
-  });
   var areFiltersActive = useAreFiltersActive();
 
   const classes = useStyles({ isPwa: isPwa && areFiltersActive });
@@ -150,76 +147,58 @@ export default function ApplicationsGridItem(props: any) {
       <CardContent>{children}</CardContent>
     </Card>
   ) : (
-    <Card
-      onClick={onClick}
-      className={classes.root}
-      onMouseOver={() => setState({ raised: true })}
-      onMouseOut={() => setState({ raised: false })}
-      raised={state.raised}
-      elevation={state.raised ? 8 : 4}
-    >
-      <CardMedia className={classes.media} image={icon} component='img' height='200' width='100%' alt='cover image' />
-      <CardContent
-        sx={{
-          p: 0,
-          mt: 1,
-          backgroundColor: isPwa && areFiltersActive ? 'primary.light' : undefined
-        }}
-      >
-        <Grid container sx={{ px: 1, backgroundColor: 'white' }}>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant='h5' noWrap>
-                  {name || 'Unknown Name'}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography color='textSecondary' noWrap>
-                  {company}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container justifyContent='center' spacing={0}>
-                  <Grid item>
-                    <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography noWrap color='textSecondary' variant='caption'>
-                      {costs.length === 0 ? (
-                        'Unknown Cost'
-                      ) : costs.length > 2 ? (
-                        <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
-                          Multiple Associated Costs
-                        </DialogButton>
-                      ) : (
-                        costs.join(' | ')
-                      )}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
+    <Card onClick={onClick} className={classes.root} elevation={0}>
+      <CardContent sx={{ p: 2, pb: 1.5, display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+        {/* Header: app icon + name/company */}
+        <Grid container spacing={1.5} wrap='nowrap' alignItems='center'>
+          <Grid item>
+            <img className={classes.icon} src={icon} alt={`${name || 'app'} icon`} />
+          </Grid>
+          <Grid item zeroMinWidth xs>
+            <Typography variant='h5' noWrap title={name}>
+              {name || 'Unknown Name'}
+            </Typography>
+            <Typography color='textSecondary' variant='body2' noWrap title={company}>
+              {company}
+            </Typography>
           </Grid>
         </Grid>
-        <div className={classes.wrapper}>
+
+        {/* Platforms + cost */}
+        <Box sx={{ mt: 1.5 }}>
+          <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+          <Typography noWrap display='block' color='textSecondary' variant='caption' sx={{ mt: 0.5 }}>
+            {costs.length === 0 ? (
+              'Unknown Cost'
+            ) : costs.length > 2 ? (
+              <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
+                Multiple Associated Costs
+              </DialogButton>
+            ) : (
+              costs.join(' | ')
+            )}
+          </Typography>
+        </Box>
+
+        {/* Store description (clamped) */}
+        <Box sx={{ mt: 1, flex: 1, minHeight: 0, overflow: 'hidden' }}>
           <div
-            style={{ paddingLeft: 8, paddingRight: 8, paddingBottom: 4, backgroundColor: 'white' }}
-            dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(content), isPwa && areFiltersActive ? 6 : 7) }}
+            className={classes.description}
+            dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(content), isPwa && areFiltersActive ? 9 : 10) }}
           />
-          <Grid container sx={{ backgroundColor: 'white' }}>
-            <Grid item xs={12}>
-              <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                Last MINDapps evaluation: {lastRating}
-              </Typography>
-            </Grid>
-          </Grid>
+        </Box>
+
+        {/* Footer */}
+        <Box sx={{ pt: 1 }}>
+          <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
+            Last MINDapps evaluation: {lastRating}
+          </Typography>
           {isPwa && areFiltersActive && (
             <Box sx={{ pt: 0.5 }}>
               <FilterMatchCount {...props} />
             </Box>
           )}
-        </div>
+        </Box>
       </CardContent>
     </Card>
   );
