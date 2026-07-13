@@ -31,7 +31,8 @@ const toArray = (v: unknown): string[] => (Array.isArray(v) ? v : isEmpty(v) ? [
 export const matchesAll = (selected: string[], values: unknown): boolean => selected.every(term => toArray(values).includes(term));
 
 // OR semantics: at least one selected value must be present (exact match). Empty selection => no constraint.
-export const matchesAny = (selected: string[], values: unknown): boolean => (selected.length === 0 ? true : selected.some(term => toArray(values).includes(term)));
+export const matchesAny = (selected: string[], values: unknown): boolean =>
+  selected.length === 0 ? true : selected.some(term => toArray(values).includes(term));
 
 /* ---------------------------------------------------------------------------
  * Per-category join semantics — single source of truth.
@@ -79,7 +80,7 @@ export const CATEGORY_TO_TAG_FIELD: Record<string, string> = {
 };
 
 export const matchesCategory = (mode: JoinMode, selected: string[], values: unknown): boolean =>
-  (mode === 'or' ? matchesAny(selected, values) : matchesAll(selected, values));
+  mode === 'or' ? matchesAny(selected, values) : matchesAll(selected, values);
 
 // Normal/admin mode: AND across categories; within a category see FILTER_CATEGORY_JOIN_MODE.
 // `tags` is the per-row tag-arrays object; `selections` is the raw filters object from Redux state.
@@ -101,8 +102,7 @@ export const passesNormalModeFilters = (tags: Record<string, unknown>, selection
  * hit, not per category), and filterCount is also a count of individual
  * selected values — both sides of the comparison are on the same scale.
  * ------------------------------------------------------------------------- */
-export const passesPwaModeThreshold = (matchCount: number, filterCount: number): boolean =>
-  (filterCount === 0 ? true : matchCount >= filterCount / 2);
+export const passesPwaModeThreshold = (matchCount: number, filterCount: number): boolean => (filterCount === 0 ? true : matchCount >= filterCount / 2);
 
 /* ---------------------------------------------------------------------------
  * Collapse historical review rows down to one "current" record per app:
@@ -258,102 +258,112 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   }, [trigger, count, triggerWhenEmpty, handleRefresh]);
 
   const [adminMode] = useAdminMode();
-  var data = apps
-    ? Object.keys(apps)
-        .filter(k => apps[k].draft !== true && apps[k].delete !== true && ((!adminMode && apps[k].approved === true) || adminMode)) // only show approved for public mode, show all for admin
-        .map(k => {
-          const app: Application = apps[k];
-          const filterMatches = getPwaFilterMatches({ filters, app });
 
-          // Raw arrays for structured (exact-match) filtering — kept separate
-          // from the flattened strings below, which exist only for free-text search.
-          const tags = {
-            platforms: app.platforms ?? [],
-            treatmentApproaches: app.treatmentApproaches ?? [],
-            features: app.features ?? [],
-            functionalities: app.functionalities ?? [],
-            engagements: app.engagements ?? [],
-            inputs: app.inputs ?? [],
-            outputs: app.outputs ?? [],
-            conditions: app.conditions ?? [],
-            privacies: app.privacies ?? [],
-            uses: app.uses ?? [],
-            costs: app.costs ?? [],
-            clinicalFoundations: app.clinicalFoundations ?? [],
-            developerTypes: app.developerTypes ?? []
-          };
+  /* -------------------------------------------------------------------------
+   * Map raw rows -> searchable/filterable view rows. Memoized: previously
+   * this entire pipeline re-ran on every render of the hook, including
+   * renders triggered by toggling a single filter checkbox or typing a
+   * character into the search box. Given `apps` holds every historical
+   * review row (not just current ones), this was the largest contributor to
+   * the "table view slowness" flagged in the team's own backlog (#116).
+   * ---------------------------------------------------------------------- */
+  const data = React.useMemo(() => {
+    if (!apps) return [];
+    return Object.keys(apps)
+      .filter(k => apps[k].draft !== true && apps[k].delete !== true && ((!adminMode && apps[k].approved === true) || adminMode)) // only show approved for public mode, show all for admin
+      .map(k => {
+        const app: Application = apps[k];
+        const filterMatches = getPwaFilterMatches({ filters, app });
 
-          const appSearchable = {
-            name: getAppName(app),
-            app: getAppName(app), // For sorting application column by text
-            updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
-            company: getAppCompany(app),
-            costs: toArray(tags.costs).join(' '),
-            platforms: toArray(tags.platforms).join(' '),
-            treatmentApproaches: toArray(tags.treatmentApproaches).join(' '),
-            features: toArray(tags.features).join(' '),
-            functionalities: toArray(tags.functionalities).join(' '),
-            engagements: toArray(tags.engagements).join(' '),
-            inputs: toArray(tags.inputs).join(' '),
-            outputs: toArray(tags.outputs).join(' '),
-            conditions: toArray(tags.conditions).join(' '),
-            privacies: toArray(tags.privacies).join(' '),
-            uses: toArray(tags.uses).join(' '),
-            clinicalFoundations: toArray(tags.clinicalFoundations).join(' '),
-            developerTypes: toArray(tags.developerTypes).join(' ')
-          };
+        // Raw arrays for structured (exact-match) filtering — kept separate
+        // from the flattened strings below, which exist only for free-text search.
+        const tags = {
+          platforms: app.platforms ?? [],
+          treatmentApproaches: app.treatmentApproaches ?? [],
+          features: app.features ?? [],
+          functionalities: app.functionalities ?? [],
+          engagements: app.engagements ?? [],
+          inputs: app.inputs ?? [],
+          outputs: app.outputs ?? [],
+          conditions: app.conditions ?? [],
+          privacies: app.privacies ?? [],
+          uses: app.uses ?? [],
+          costs: app.costs ?? [],
+          clinicalFoundations: app.clinicalFoundations ?? [],
+          developerTypes: app.developerTypes ?? []
+        };
 
-          return {
+        const appSearchable = {
+          name: getAppName(app),
+          app: getAppName(app), // For sorting application column by text
+          updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
+          company: getAppCompany(app),
+          costs: toArray(tags.costs).join(' '),
+          platforms: toArray(tags.platforms).join(' '),
+          treatmentApproaches: toArray(tags.treatmentApproaches).join(' '),
+          features: toArray(tags.features).join(' '),
+          functionalities: toArray(tags.functionalities).join(' '),
+          engagements: toArray(tags.engagements).join(' '),
+          inputs: toArray(tags.inputs).join(' '),
+          outputs: toArray(tags.outputs).join(' '),
+          conditions: toArray(tags.conditions).join(' '),
+          privacies: toArray(tags.privacies).join(' '),
+          uses: toArray(tags.uses).join(' '),
+          clinicalFoundations: toArray(tags.clinicalFoundations).join(' '),
+          developerTypes: toArray(tags.developerTypes).join(' ')
+        };
+
+        return {
+          _id: app._id,
+          parent: app.parent,
+          filterMatches: mode === 'pwa' ? filterMatches : undefined,
+          ...appSearchable,
+          tags,
+          getSearchValues: () => {
+            return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
+          },
+          getValues: () => (mode === 'pwa' ? { ...app, filterMatches } : app),
+          getExportValues: () => ({
             _id: app._id,
-            parent: app.parent,
-            filterMatches: mode === 'pwa' ? filterMatches : undefined,
             ...appSearchable,
-            tags,
-            getSearchValues: () => {
-              return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
-            },
-            getValues: () => (mode === 'pwa' ? { ...app, filterMatches } : app),
-            getExportValues: () => ({
-              _id: app._id,
-              ...appSearchable,
-              app: appSearchable.name,
-              cost: appSearchable.costs,
-              functionality: appSearchable.functionalities,
-              developerType: appSearchable.developerTypes,
-              description: getDescription(app),
-              iosLink: app.iosLink,
-              androidLink: app.androidLink,
-              webLink: app.webLink
-            }),
-            created: app.created,
-            approved: app.approved,
-            groupId: isEmpty(app.groupId) ? app._id : app.groupId
-          };
-        })
-    : [];
+            app: appSearchable.name,
+            cost: appSearchable.costs,
+            functionality: appSearchable.functionalities,
+            developerType: appSearchable.developerTypes,
+            description: getDescription(app),
+            iosLink: app.iosLink,
+            androidLink: app.androidLink,
+            webLink: app.webLink
+          }),
+          created: app.created,
+          approved: app.approved,
+          groupId: isEmpty(app.groupId) ? app._id : app.groupId
+        };
+      });
+  }, [apps, adminMode, mode, filters]);
 
   // For public, show only the most recent with a status of approved == true
   // For admin, show only the most recent approved, or if no approvals then show the most recent
-  var filteredData = dedupeByGroupId(data);
+  const filteredData = React.useMemo(() => dedupeByGroupId(data), [data]);
 
-  var filterCount = 0;
-  if (mode === 'pwa') {
-    Object.keys(filters).forEach(k => {
-      filterCount = filterCount + filters[k]?.length;
-    });
-  }
+  const filterCount = React.useMemo(() => {
+    if (mode !== 'pwa') return 0;
+    return Object.keys(filters).reduce((sum, k) => sum + (filters[k]?.length || 0), 0);
+  }, [filters, mode]);
 
-  const customFilter = r => {
-    if (mode === 'pwa') {
-      // The old per-category OR chain that followed the threshold here was a
-      // no-op in practice: any category with nothing selected matched every
-      // row, making the whole OR true whenever at least one category was
-      // unselected. The threshold below is the real PWA matching rule.
-      return passesPwaModeThreshold(r.filterMatches?.length ?? 0, filterCount);
-    } else {
+  const customFilter = React.useCallback(
+    (r: any) => {
+      if (mode === 'pwa') {
+        // The old per-category OR chain that followed the threshold here was a
+        // no-op in practice: any category with nothing selected matched every
+        // row, making the whole OR true whenever at least one category was
+        // unselected. The threshold below is the real PWA matching rule.
+        return passesPwaModeThreshold(r.filterMatches?.length ?? 0, filterCount);
+      }
       return passesNormalModeFilters(r.tags ?? {}, filters);
-    }
-  };
+    },
+    [mode, filterCount, filters]
+  );
 
   var filtered = useTableFilter(filteredData, table, customFilter, fuzzySortFilter, mode);
 
