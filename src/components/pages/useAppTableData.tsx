@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { dynamo, tables } from '../../database/dbConfig';
 import Application from '../../database/models/Application';
 import { useApplications } from '../../database/useApplications';
-import { getDayTimeFromTimestamp, isEmpty, onlyUnique } from '../../helpers';
+import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
 import { AppState } from '../../store';
 import { getAppCompany, getAppName } from '../application/GenericTable/Applications/selectors';
 import { getPwaFilterMatches, useTableFilter } from '../application/GenericTable/helpers';
@@ -103,6 +103,35 @@ export const passesNormalModeFilters = (tags: Record<string, unknown>, selection
  * ------------------------------------------------------------------------- */
 export const passesPwaModeThreshold = (matchCount: number, filterCount: number): boolean =>
   (filterCount === 0 ? true : matchCount >= filterCount / 2);
+
+/* ---------------------------------------------------------------------------
+ * Collapse historical review rows down to one "current" record per app:
+ * most-recently-created APPROVED version wins; falls back to the
+ * most-recently-created row of any status if no approved version exists.
+ *
+ * Fixed: the original was O(distinct apps × total rows) — every group
+ * re-scanned the entire row list — plus a .sort() comparator that called
+ * getValues() (an object spread) purely to read `.created`, which was
+ * already a top-level field. Below is a single O(n) pass.
+ *
+ * The fallback branch (no approved row in a group) is effectively dead in
+ * public mode because unapproved rows are filtered out upstream; it only
+ * fires in admin mode.
+ * ------------------------------------------------------------------------- */
+export const dedupeByGroupId = <T extends { groupId: string; created: number; approved?: boolean }>(rows: T[]): T[] => {
+  const newestOverall = new Map<string, T>();
+  const newestApproved = new Map<string, T>();
+  for (const row of rows) {
+    const gId = row.groupId;
+    const curOverall = newestOverall.get(gId);
+    if (!curOverall || row.created > curOverall.created) newestOverall.set(gId, row);
+    if (row.approved === true) {
+      const curApproved = newestApproved.get(gId);
+      if (!curApproved || row.created > curApproved.created) newestApproved.set(gId, row);
+    }
+  }
+  return Array.from(newestOverall.keys()).map(gId => newestApproved.get(gId) ?? (newestOverall.get(gId) as T));
+};
 
 export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
   if (filtered?.length < 10) {
@@ -305,24 +334,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   // For public, show only the most recent with a status of approved == true
   // For admin, show only the most recent approved, or if no approvals then show the most recent
-
-  var groupIds = data.map(r => r.groupId).filter(onlyUnique);
-  var filteredData = groupIds.map(gId => {
-    // For each group id find the most recently created
-    var groupMembers = data.filter(r => r.groupId === gId);
-    var sortedAsc = groupMembers.sort(({ getValues: a }, { getValues: b }) => (b() as any).created - (a() as any).created); // Create a sorted ascending list
-
-    var newest = sortedAsc[0]; // Set the newest record, regardless of approval status
-
-    for (var i = 0; i < sortedAsc.length; i++) {
-      // Now search all records from newest down to find the newest approved entry.  If no approved entry is found then newest will be the first entry above
-      if (sortedAsc[i].approved === true) {
-        newest = sortedAsc[i];
-        break;
-      }
-    }
-    return newest;
-  });
+  var filteredData = dedupeByGroupId(data);
 
   var filterCount = 0;
   if (mode === 'pwa') {

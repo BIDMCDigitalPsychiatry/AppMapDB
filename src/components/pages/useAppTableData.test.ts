@@ -4,6 +4,7 @@ import {
   matchesCategory,
   passesNormalModeFilters,
   passesPwaModeThreshold,
+  dedupeByGroupId,
   FILTER_CATEGORY_JOIN_MODE,
   CATEGORY_TO_TAG_FIELD
 } from './useAppTableData';
@@ -139,5 +140,36 @@ describe('passesPwaModeThreshold', () => {
     expect(passesPwaModeThreshold(2, 3)).toBe(true); // old rule: false (needed 3/3)
     expect(passesPwaModeThreshold(2, 4)).toBe(true); // old rule: false (needed 4/4)
     expect(passesPwaModeThreshold(3, 5)).toBe(true); // unchanged either way
+  });
+});
+
+describe('dedupeByGroupId', () => {
+  const row = (groupId: string, created: number, approved?: boolean) => ({ groupId, created, approved });
+
+  it('keeps the newest approved row per group even when a newer unapproved row exists', () => {
+    const rows = [row('g1', 1, true), row('g1', 3, false), row('g1', 2, true)];
+    expect(dedupeByGroupId(rows)).toEqual([row('g1', 2, true)]);
+  });
+
+  it('falls back to the newest row of any status when a group has no approved rows (admin mode)', () => {
+    const rows = [row('g1', 1, false), row('g1', 3, false), row('g1', 2, false)];
+    expect(dedupeByGroupId(rows)).toEqual([row('g1', 3, false)]);
+  });
+
+  it('handles multiple groups independently', () => {
+    const rows = [row('g1', 1, true), row('g2', 5, false), row('g1', 2, false), row('g2', 4, true)];
+    const result = dedupeByGroupId(rows);
+    expect(result).toHaveLength(2);
+    expect(result).toContainEqual(row('g1', 1, true));
+    expect(result).toContainEqual(row('g2', 4, true));
+  });
+
+  it('returns one row per group for single-row groups', () => {
+    const rows = [row('g1', 1, true), row('g2', 1, false)];
+    expect(dedupeByGroupId(rows)).toHaveLength(2);
+  });
+
+  it('returns empty for empty input', () => {
+    expect(dedupeByGroupId([])).toEqual([]);
   });
 });
