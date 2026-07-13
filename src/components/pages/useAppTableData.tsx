@@ -318,15 +318,17 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
           developerTypes: toArray(tags.developerTypes).join(' ')
         };
 
+        // Computed once per row (this mapping is memoized); getSearchValues is
+        // called for every row on every search, so it must not re-join fields.
+        const searchValues = Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), '');
+
         return {
           _id: app._id,
           parent: app.parent,
           filterMatches: mode === 'pwa' ? filterMatches : undefined,
           ...appSearchable,
           tags,
-          getSearchValues: () => {
-            return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
-          },
+          getSearchValues: () => searchValues,
           getValues: () => (mode === 'pwa' ? { ...app, filterMatches } : app),
           getExportValues: () => ({
             _id: app._id,
