@@ -26,22 +26,30 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const imageHeight = 144;
 
+// Route state is persisted across sessions/deploys, so `app` can arrive in a
+// stale or malformed shape (e.g. tag fields as strings). Never crash on it.
+const asArray = v => (Array.isArray(v) ? v : []);
+
 export default function ViewAppHeader({ app = {} as any, type = 'view', from = undefined }) {
   const classes = useStyles();
   const {
     _id,
-    privacies = [],
-    platforms = [],
+    privacies: privaciesRaw = [],
+    platforms: platformsRaw = [],
     androidLink,
     iosLink,
     webLink,
-    costs = [],
+    costs: costsRaw = [],
     updated,
     created,
     feasibilityStudiesLink = undefined,
     efficacyStudiesLink = undefined,
-    clinicalFoundations = []
+    clinicalFoundations: clinicalFoundationsRaw = []
   } = app;
+  const privacies = asArray(privaciesRaw);
+  const platforms = asArray(platformsRaw);
+  const costs = asArray(costsRaw);
+  const clinicalFoundations = asArray(clinicalFoundationsRaw);
 
   const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] || {});
   const name = getAppName(app);
