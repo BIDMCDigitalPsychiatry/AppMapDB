@@ -15,6 +15,81 @@ const table = 'Applications';
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 const isMatchAny = (filters, value) => (filters?.length > 0 ? filters.reduce((t, c) => (t = t || value?.includes(c)), false) : true);
 
+/* ---------------------------------------------------------------------------
+ * Structured filter matching — exact membership, not substring containment.
+ *
+ * The original isMatch/isMatchAny tested filter terms against a single
+ * space-joined string built from each app's tag array (e.g.
+ * app.conditions.join(' ')) using String.prototype.includes(), which is a
+ * substring test. A filter term that happened to be a substring of an
+ * unrelated, longer label could match spuriously (e.g. 'Anxiety' matching
+ * an app whose actual label was 'Stress & Anxiety'). Below, tags are kept
+ * as real arrays and tested with exact membership.
+ * ------------------------------------------------------------------------- */
+
+const toArray = (v: unknown): string[] => (Array.isArray(v) ? v : isEmpty(v) ? [] : [String(v)]);
+
+// AND semantics: every selected value must be present (exact match). Empty selection => no constraint.
+export const matchesAll = (selected: string[], values: unknown): boolean => selected.every(term => toArray(values).includes(term));
+
+// OR semantics: at least one selected value must be present (exact match). Empty selection => no constraint.
+export const matchesAny = (selected: string[], values: unknown): boolean => (selected.length === 0 ? true : selected.some(term => toArray(values).includes(term)));
+
+/* ---------------------------------------------------------------------------
+ * Per-category join semantics — single source of truth.
+ *
+ * Normal/admin mode has always used AND-within-category for every category,
+ * including Features. (Only PWA quiz mode treats Features as OR.) This table
+ * preserves those per-category defaults — changing a join mode is a product
+ * decision, not a code decision. Flip an entry to switch its
+ * within-category join mode.
+ * ------------------------------------------------------------------------- */
+
+export type JoinMode = 'and' | 'or';
+
+export const FILTER_CATEGORY_JOIN_MODE: Record<string, JoinMode> = {
+  Platforms: 'and',
+  Functionalities: 'and',
+  Cost: 'and',
+  TreatmentApproaches: 'and',
+  Features: 'and', // AND in normal/admin mode (always was); OR only in PWA mode
+  Engagements: 'and',
+  Inputs: 'and',
+  Outputs: 'and',
+  Conditions: 'and',
+  Privacy: 'and',
+  Uses: 'and',
+  ClinicalFoundations: 'and',
+  DeveloperTypes: 'and'
+};
+
+// Maps a filter-category name to the corresponding field name on the per-row `tags` object.
+export const CATEGORY_TO_TAG_FIELD: Record<string, string> = {
+  Platforms: 'platforms',
+  Functionalities: 'functionalities',
+  Cost: 'costs',
+  TreatmentApproaches: 'treatmentApproaches',
+  Features: 'features',
+  Engagements: 'engagements',
+  Inputs: 'inputs',
+  Outputs: 'outputs',
+  Conditions: 'conditions',
+  Privacy: 'privacies',
+  Uses: 'uses',
+  ClinicalFoundations: 'clinicalFoundations',
+  DeveloperTypes: 'developerTypes'
+};
+
+export const matchesCategory = (mode: JoinMode, selected: string[], values: unknown): boolean =>
+  (mode === 'or' ? matchesAny(selected, values) : matchesAll(selected, values));
+
+// Normal/admin mode: AND across categories; within a category see FILTER_CATEGORY_JOIN_MODE.
+// `tags` is the per-row tag-arrays object; `selections` is the raw filters object from Redux state.
+export const passesNormalModeFilters = (tags: Record<string, unknown>, selections: Record<string, string[] | undefined>): boolean =>
+  Object.keys(FILTER_CATEGORY_JOIN_MODE).every(name =>
+    matchesCategory(FILTER_CATEGORY_JOIN_MODE[name], selections[name] ?? [], tags[CATEGORY_TO_TAG_FIELD[name]])
+  );
+
 export const fuzzySortFilter = (data, filtered, searchtext, customFilter) => {
   if (filtered?.length < 10) {
     // Only perform fuzzy filtering if there are < 10 exact match results
@@ -162,24 +237,42 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
           const app: Application = apps[k];
           const filterMatches = getPwaFilterMatches({ filters, app });
 
+          // Raw arrays for structured (exact-match) filtering — kept separate
+          // from the flattened strings below, which exist only for free-text search.
+          const tags = {
+            platforms: app.platforms ?? [],
+            treatmentApproaches: app.treatmentApproaches ?? [],
+            features: app.features ?? [],
+            functionalities: app.functionalities ?? [],
+            engagements: app.engagements ?? [],
+            inputs: app.inputs ?? [],
+            outputs: app.outputs ?? [],
+            conditions: app.conditions ?? [],
+            privacies: app.privacies ?? [],
+            uses: app.uses ?? [],
+            costs: app.costs ?? [],
+            clinicalFoundations: app.clinicalFoundations ?? [],
+            developerTypes: app.developerTypes ?? []
+          };
+
           const appSearchable = {
             name: getAppName(app),
             app: getAppName(app), // For sorting application column by text
             updated: app.updated ? getDayTimeFromTimestamp(app.updated) : undefined,
             company: getAppCompany(app),
-            costs: app.costs?.join(' '),
-            platforms: app.platforms?.join(' '), // for searching
-            treatmentApproaches: app.treatmentApproaches?.join(' '), // for searching
-            features: app.features?.join(' '), // for searching
-            functionalities: app.functionalities?.join(' '),
-            engagements: app.engagements?.join(' '),
-            inputs: app.inputs?.join(' '),
-            outputs: app.outputs?.join(' '),
-            conditions: app.conditions?.join(' '),
-            privacies: app.privacies?.join(' '),
-            uses: app.uses?.join(' '),
-            clinicalFoundations: app.clinicalFoundations,
-            developerTypes: app.developerTypes
+            costs: toArray(tags.costs).join(' '),
+            platforms: toArray(tags.platforms).join(' '),
+            treatmentApproaches: toArray(tags.treatmentApproaches).join(' '),
+            features: toArray(tags.features).join(' '),
+            functionalities: toArray(tags.functionalities).join(' '),
+            engagements: toArray(tags.engagements).join(' '),
+            inputs: toArray(tags.inputs).join(' '),
+            outputs: toArray(tags.outputs).join(' '),
+            conditions: toArray(tags.conditions).join(' '),
+            privacies: toArray(tags.privacies).join(' '),
+            uses: toArray(tags.uses).join(' '),
+            clinicalFoundations: toArray(tags.clinicalFoundations).join(' '),
+            developerTypes: toArray(tags.developerTypes).join(' ')
           };
 
           return {
@@ -187,6 +280,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
             parent: app.parent,
             filterMatches: mode === 'pwa' ? filterMatches : undefined,
             ...appSearchable,
+            tags,
             getSearchValues: () => {
               return Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), ''); // Optimize search performance
             },
@@ -271,21 +365,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
         isMatch(DeveloperTypes, r.developerTypes)*/
       );
     } else {
-      return (
-        isMatch(Platforms, r.platforms) &&
-        isMatch(Functionalities, r.functionalities) &&
-        isMatch(Cost, r.costs) &&
-        isMatch(TreatmentApproaches, r.treatmentApproaches) &&
-        isMatch(Features, r.features) &&
-        isMatch(Engagements, r.engagements) &&
-        isMatch(Inputs, r.inputs) &&
-        isMatch(Outputs, r.outputs) &&
-        isMatch(Conditions, r.conditions) &&
-        isMatch(Privacy, r.privacies) &&
-        isMatch(Uses, r.uses) &&
-        isMatch(ClinicalFoundations, r.clinicalFoundations) &&
-        isMatch(DeveloperTypes, r.developerTypes)
-      );
+      return passesNormalModeFilters(r.tags ?? {}, filters);
     }
   };
 

@@ -1,0 +1,113 @@
+import { matchesAll, matchesAny, matchesCategory, passesNormalModeFilters, FILTER_CATEGORY_JOIN_MODE, CATEGORY_TO_TAG_FIELD } from './useAppTableData';
+
+describe('matchesAll (AND within category, exact membership)', () => {
+  it('matches when every selected value is present', () => {
+    expect(matchesAll(['Anxiety', 'Depression'], ['Anxiety', 'Depression', 'Stress'])).toBe(true);
+  });
+
+  it('fails when any selected value is missing', () => {
+    expect(matchesAll(['Anxiety', 'Depression'], ['Anxiety'])).toBe(false);
+  });
+
+  it('empty selection means no constraint', () => {
+    expect(matchesAll([], [])).toBe(true);
+    expect(matchesAll([], ['Anything'])).toBe(true);
+  });
+
+  it('does NOT substring-match against longer labels (regression)', () => {
+    // The old string-join + String.includes approach matched 'Anxiety'
+    // against an app whose only label was 'Stress & Anxiety'.
+    expect(matchesAll(['Anxiety'], ['Stress & Anxiety'])).toBe(false);
+    expect(matchesAll(['Stress & Anxiety'], ['Stress & Anxiety'])).toBe(true);
+  });
+
+  it('tolerates undefined/null/scalar tag values', () => {
+    expect(matchesAll(['Anxiety'], undefined)).toBe(false);
+    expect(matchesAll(['Anxiety'], null)).toBe(false);
+    expect(matchesAll(['Anxiety'], 'Anxiety')).toBe(true); // scalar coerced to single-element array
+    expect(matchesAll([], undefined)).toBe(true);
+  });
+});
+
+describe('matchesAny (OR within category, exact membership)', () => {
+  it('matches when at least one selected value is present', () => {
+    expect(matchesAny(['Anxiety', 'Depression'], ['Depression'])).toBe(true);
+  });
+
+  it('fails when no selected value is present', () => {
+    expect(matchesAny(['Anxiety', 'Depression'], ['Stress'])).toBe(false);
+  });
+
+  it('empty selection means no constraint', () => {
+    expect(matchesAny([], [])).toBe(true);
+    expect(matchesAny([], ['Anything'])).toBe(true);
+  });
+
+  it('does NOT substring-match against longer labels (regression)', () => {
+    expect(matchesAny(['Anxiety'], ['Stress & Anxiety'])).toBe(false);
+  });
+});
+
+describe('matchesCategory', () => {
+  it('dispatches to AND or OR by join mode', () => {
+    expect(matchesCategory('and', ['A', 'B'], ['A'])).toBe(false);
+    expect(matchesCategory('or', ['A', 'B'], ['A'])).toBe(true);
+  });
+});
+
+describe('FILTER_CATEGORY_JOIN_MODE / CATEGORY_TO_TAG_FIELD', () => {
+  it('covers the same categories in both tables', () => {
+    expect(Object.keys(FILTER_CATEGORY_JOIN_MODE).sort()).toEqual(Object.keys(CATEGORY_TO_TAG_FIELD).sort());
+  });
+
+  it('preserves AND for Features in normal/admin mode (product decision)', () => {
+    // PWA quiz mode treats Features as OR via its own threshold logic; the
+    // normal/admin browse table has always used AND. See the design docs.
+    expect(FILTER_CATEGORY_JOIN_MODE.Features).toBe('and');
+  });
+});
+
+describe('passesNormalModeFilters', () => {
+  const tags = {
+    platforms: ['iOS', 'Android'],
+    conditions: ['Anxiety', 'Depression'],
+    features: ['Journaling'],
+    costs: ['Totally Free'],
+    functionalities: [],
+    engagements: [],
+    inputs: [],
+    outputs: [],
+    privacies: [],
+    uses: [],
+    treatmentApproaches: [],
+    clinicalFoundations: ['Patient Facing'],
+    developerTypes: ['For Profit Company']
+  };
+
+  it('passes with no filters selected', () => {
+    expect(passesNormalModeFilters(tags, {})).toBe(true);
+  });
+
+  it('ANDs across categories', () => {
+    expect(passesNormalModeFilters(tags, { Platforms: ['iOS'], Conditions: ['Anxiety'] })).toBe(true);
+    expect(passesNormalModeFilters(tags, { Platforms: ['iOS'], Conditions: ['PTSD'] })).toBe(false);
+  });
+
+  it('ANDs within a category per the join-mode table', () => {
+    expect(passesNormalModeFilters(tags, { Conditions: ['Anxiety', 'Depression'] })).toBe(true);
+    expect(passesNormalModeFilters(tags, { Conditions: ['Anxiety', 'PTSD'] })).toBe(false);
+    // Features is AND in normal mode:
+    expect(passesNormalModeFilters(tags, { Features: ['Journaling', 'Mood Tracking'] })).toBe(false);
+  });
+
+  it('uses exact membership, not substrings (regression)', () => {
+    const t = { ...tags, conditions: ['Stress & Anxiety'] };
+    expect(passesNormalModeFilters(t, { Conditions: ['Anxiety'] })).toBe(false);
+  });
+
+  it('maps the Privacy category to the privacies tag field', () => {
+    const t = { ...tags, privacies: ['Has Privacy Policy'] };
+    expect(passesNormalModeFilters(t, { Privacy: ['Has Privacy Policy'] })).toBe(true);
+    expect(passesNormalModeFilters(t, { Privacy: ['Data Stored on Device'] })).toBe(false);
+  });
+});
