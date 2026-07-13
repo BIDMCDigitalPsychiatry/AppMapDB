@@ -4,6 +4,7 @@ import { dynamo, tables } from '../../database/dbConfig';
 import Application from '../../database/models/Application';
 import { useApplications } from '../../database/useApplications';
 import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
+import { termMatchesTag } from '../../database/tagHierarchy';
 import { AppState } from '../../store';
 import { getAppCompany, getAppName } from '../application/GenericTable/Applications/selectors';
 import { getPwaFilterMatches, useTableFilter } from '../application/GenericTable/helpers';
@@ -27,12 +28,16 @@ const table = 'Applications';
 
 const toArray = (v: unknown): string[] => (Array.isArray(v) ? v : isEmpty(v) ? [] : [String(v)]);
 
+// A term is satisfied when any of the row's tags equals it or one of its
+// child labels (see tagHierarchy.ts).
+const termMatchesValues = (term: string, values: unknown): boolean => toArray(values).some(tag => termMatchesTag(term, tag));
+
 // AND semantics: every selected value must be present (exact match). Empty selection => no constraint.
-export const matchesAll = (selected: string[], values: unknown): boolean => selected.every(term => toArray(values).includes(term));
+export const matchesAll = (selected: string[], values: unknown): boolean => selected.every(term => termMatchesValues(term, values));
 
 // OR semantics: at least one selected value must be present (exact match). Empty selection => no constraint.
 export const matchesAny = (selected: string[], values: unknown): boolean =>
-  selected.length === 0 ? true : selected.some(term => toArray(values).includes(term));
+  selected.length === 0 ? true : selected.some(term => termMatchesValues(term, values));
 
 /* ---------------------------------------------------------------------------
  * Per-category join semantics — single source of truth.

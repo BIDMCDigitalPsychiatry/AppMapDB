@@ -31,6 +31,16 @@ describe('matchesAll (AND within category, exact membership)', () => {
     expect(matchesAll(['Stress & Anxiety'], ['Stress & Anxiety'])).toBe(true);
   });
 
+  it('matches child labels when a parent label is selected (tag hierarchy)', () => {
+    expect(matchesAll(['CBT'], ['iCBT or Sleep Therapy'])).toBe(true);
+    expect(matchesAll(['Substance Use'], ['Substance Use (Alcohol)'])).toBe(true);
+    expect(matchesAll(['Substance Use'], ['Substance Use (Smoking & Tobacco)'])).toBe(true);
+    // Selecting the child directly does NOT match a row tagged only with the parent:
+    expect(matchesAll(['Substance Use (Alcohol)'], ['Substance Use'])).toBe(false);
+    // And hierarchy expansion is explicit, not substring-based:
+    expect(matchesAll(['Substance Use'], ['Substance Use Disorder Info'])).toBe(false);
+  });
+
   it('tolerates undefined/null/scalar tag values', () => {
     expect(matchesAll(['Anxiety'], undefined)).toBe(false);
     expect(matchesAll(['Anxiety'], null)).toBe(false);
