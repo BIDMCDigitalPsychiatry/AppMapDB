@@ -49,11 +49,10 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
       color: palette.common.white
     },
     menuButton: {
+      // Visible on all sizes: opens the temporary drawer on mobile and
+      // toggles the collapsible filter panel on desktop.
       marginLeft: 0,
-      color: grey[900],
-      [breakpoints.up('sm')]: {
-        display: 'none'
-      }
+      color: grey[900]
     }
   })
 );
@@ -162,8 +161,8 @@ export default function ApplicationBar({ trigger }) {
 
   const fullScreen = useFullScreen('xs');
 
-  const [, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
-  const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
+  const [leftDrawerOpen, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
+  const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(!leftDrawerOpen), [setLeftDrawerOpen, leftDrawerOpen]);
 
   const setRef = useAppBarHeightSetRef();
   const { setStep } = useTourStep();
@@ -204,8 +203,8 @@ export default function ApplicationBar({ trigger }) {
         <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters={true}>
             {leftDrawerEnabled && (
-              <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
-                <Icons.Menu />
+              <IconButton aria-label='toggle filter panel' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
+                {leftDrawerOpen ? <Icons.MenuOpen /> : <Icons.Menu />}
               </IconButton>
             )}
             <Grid container alignItems='center' spacing={0}>

@@ -2,8 +2,9 @@ import React from 'react';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
-import { Box, Button, Divider, Grid } from '@mui/material';
+import { Box, Button, Divider, Grid, IconButton, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import * as Icons from '@mui/icons-material';
 import FilterContentLeftDrawer from '../../application/GenericContent/Filter/FilterContentLeftDrawer';
 import Logo from '../Logo';
 import { useFullScreen } from '../../../hooks';
@@ -50,12 +51,17 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
               Filters
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item style={{ display: 'flex', alignItems: 'center' }}>
             {filterCount > 0 && (
               <Button size='small' onClick={handleReset} style={{ textTransform: 'none', fontWeight: 600 }}>
                 Clear all ({filterCount})
               </Button>
             )}
+            <Tooltip title='Hide filters'>
+              <IconButton size='small' onClick={handleClose} aria-label='hide filter panel'>
+                <Icons.ChevronLeft />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
       </div>
