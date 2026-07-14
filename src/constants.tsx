@@ -45,6 +45,7 @@ const themeProps = {
   layout: {
     drawerPaths: ['/Apps', '/Home', '/', ''], // Routes where the drawer should be shown
     leftDrawerWidth: 296, //The width of the left nav drawer
+    assistantPanelWidth: 380, //The width of the docked right-side search-assistant panel
     toolbarheight: 64, //The height of the top toolbar
     contentpadding: 8, //The padding around the inner layout content
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)

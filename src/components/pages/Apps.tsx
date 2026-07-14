@@ -11,6 +11,8 @@ import useAppTableData from './useAppTableData';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../layout/hooks';
 import PublicApplicationsTable from './PublicApplicationsTable';
+import SearchAssistant from './SearchAssistant/SearchAssistant';
+import useFilterMetrics from './SearchAssistant/useFilterMetrics';
 import { useFullScreen } from '../../hooks';
 
 export default function Apps() {
@@ -22,6 +24,10 @@ export default function Apps() {
   const { tablefooterheight } = layout;
   const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
   const { filtered } = useAppTableData(); // Trigger data query
+
+  // Anonymous, counts-only record of manual filter use: the control group the
+  // chat assistant gets measured against. Category names only, never values.
+  useFilterMetrics(filtered?.length ?? 0);
 
   // The table view (dense rows/columns, or the full admin ratings matrix)
   // isn't workable on a phone screen — always fall back to the card grid.
@@ -47,6 +53,8 @@ export default function Apps() {
       ) : (
         <Tables.ApplicationsGrid data={filtered} HeaderComponent={SearchHeaderRedux} height={tableHeight} />
       )}
+      {/* Public-only chat assistant; renders nothing in admin mode or when no endpoint is configured */}
+      {!adminMode && <SearchAssistant />}
     </>
   );
 }

@@ -3,7 +3,7 @@ import { useScrollTrigger } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import SnackBar from '../application/SnackBar/SnackBar';
-import { useLeftDrawer } from './store';
+import { useAssistantPanel, useLeftDrawer } from './store';
 import { useAppBarHeight, useFooterHeight, useTourCompleted } from './hooks';
 import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
@@ -23,15 +23,22 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
     root: {
       display: 'static'
     },
-    content: ({ leftDrawerOpen, overflow = 'auto' }) => ({
+    // The assistant panel docks like the left drawer: a margin on the
+    // scrolling content reserves its width, so the grid (whose columns come
+    // from container queries on its own width) reflows instead of being
+    // covered. Below 'sm' the panel is a bottom sheet, so no margin.
+    content: ({ leftDrawerOpen, assistantOpen, overflow = 'auto' }) => ({
       flexGrow: 1,
       overflow,
       overflowX: 'hidden',
       height: '100vh',
       backgroundColor: palette.common.white,
       marginLeft: leftDrawerOpen ? layout.leftDrawerWidth : 0,
+      marginRight: assistantOpen ? layout.assistantPanelWidth : 0,
+      transition: 'margin 195ms cubic-bezier(0.4, 0, 0.6, 1)',
       [breakpoints.down('sm')]: {
         marginLeft: 0,
+        marginRight: 0,
         flexShrink: 0
       }
     }),
@@ -54,6 +61,7 @@ export const noPadPaths = ['/Home', '/', '', '/Apps'];
 
 export default function Layout({ children }) {
   const [leftDrawerOpen] = useLeftDrawer();
+  const [assistantOpen] = useAssistantPanel();
   const height = useHeight();
   const [appBarHeight] = useAppBarHeight();
   const [footerHeight] = useFooterHeight();
@@ -68,6 +76,7 @@ export default function Layout({ children }) {
 
   const classes = useStyles({
     leftDrawerOpen,
+    assistantOpen,
     fullHeight: true,
     overflow: noScrollPaths.find(p => p === pathname) ? 'hidden' : 'auto',
     contentHeight,
