@@ -9,6 +9,7 @@ import ApplicationBar from './ApplicationBar';
 import Footer from './Footer';
 import { useLocation } from 'react-router';
 import LeftDrawer from './LeftDrawer/LeftDrawer';
+import DevRoleSwitcher from './DevRoleSwitcher';
 import KeyWords from './KeyWords';
 import { useUrlParameter } from '../../hooks';
 import { useChangeRoute } from './hooks';
@@ -121,6 +122,8 @@ export default function Layout({ children }) {
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
           <SnackBar />
           <KeyWords />
+          {/* Renders only under REACT_APP_USE_LOCAL_DATA (npm run start:local) */}
+          <DevRoleSwitcher />
         </ScrollElementProvider>
       </main>
     </div>
