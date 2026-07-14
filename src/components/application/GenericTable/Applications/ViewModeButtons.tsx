@@ -2,6 +2,7 @@ import React from 'react';
 import * as Icons from '@mui/icons-material';
 import { useViewMode } from '../../../layout/store';
 import { Grid, Button } from '@mui/material';
+import { useFullScreen } from '../../../../hooks';
 
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
@@ -37,6 +38,9 @@ export default function ViewModeButtons({ onExport = undefined, collapsed = fals
   const [viewMode, setViewMode] = useViewMode() as any;
   const handleClick = React.useCallback(mode => () => setViewMode(mode), [setViewMode]);
   const handleExport = React.useCallback(isTableData => () => onExport && onExport(isTableData), [onExport]);
+  // Table view isn't usable on a phone screen (see Apps.tsx); no point
+  // offering a toggle to a mode that can't actually be reached.
+  const isMobile = useFullScreen('sm');
 
   const style = { marginRight: collapsed ? 0 : 4 };
   const buttonStyle = { height: 34, minWidth: collapsed ? 24 : undefined };
@@ -60,30 +64,34 @@ export default function ViewModeButtons({ onExport = undefined, collapsed = fals
           </Grid>
         </>
       )}
-      <Grid item>
-        <Button
-          style={buttonStyle}
-          disableRipple={viewMode === 'grid'}
-          size='small'
-          className={viewMode === 'grid' ? classes.primaryButtonDisabled : classes.primaryButton}
-          onClick={handleClick('grid')}
-        >
-          <Icons.Apps style={style} />
-          {!collapsed && 'Grid View'}
-        </Button>
-      </Grid>
-      <Grid item>
-        <Button
-          style={buttonStyle}
-          disableRipple={viewMode === 'table'}
-          size='small'
-          className={viewMode === 'table' ? classes.primaryButtonDisabled : classes.primaryButton}
-          onClick={handleClick('table')}
-        >
-          <Icons.List style={style} />
-          {!collapsed && 'Table View'}
-        </Button>
-      </Grid>
+      {!isMobile && (
+        <>
+          <Grid item>
+            <Button
+              style={buttonStyle}
+              disableRipple={viewMode === 'grid'}
+              size='small'
+              className={viewMode === 'grid' ? classes.primaryButtonDisabled : classes.primaryButton}
+              onClick={handleClick('grid')}
+            >
+              <Icons.Apps style={style} />
+              {!collapsed && 'Grid View'}
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              style={buttonStyle}
+              disableRipple={viewMode === 'table'}
+              size='small'
+              className={viewMode === 'table' ? classes.primaryButtonDisabled : classes.primaryButton}
+              onClick={handleClick('table')}
+            >
+              <Icons.List style={style} />
+              {!collapsed && 'Table View'}
+            </Button>
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 }

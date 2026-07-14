@@ -11,6 +11,7 @@ import useAppTableData from './useAppTableData';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../layout/hooks';
 import PublicApplicationsTable from './PublicApplicationsTable';
+import { useFullScreen } from '../../hooks';
 
 export default function Apps() {
   const [viewMode] = useViewMode() as any;
@@ -22,13 +23,18 @@ export default function Apps() {
   const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
   const { filtered } = useAppTableData(); // Trigger data query
 
+  // The table view (dense rows/columns, or the full admin ratings matrix)
+  // isn't workable on a phone screen — always fall back to the card grid.
+  const isMobile = useFullScreen('sm');
+  const effectiveViewMode = isMobile ? 'grid' : viewMode;
+
   return (
     <>
       {renderDialogModule(ApplicationHistoryDialog)}
       {renderDialogModule(SuggestEditDialog)}
       {renderDialogModule(ApplicationDialog)}
       {renderDialogModule(RateNewAppDialog)}
-      {viewMode === 'table' ? (
+      {effectiveViewMode === 'table' ? (
         adminMode ? (
           // Admin mode keeps the full ratings matrix (click-to-pin columns) as a curation tool.
           <Tables.Applications data={filtered} HeaderComponent={SearchHeaderRedux} height={tableHeight} showButtons={false} />
