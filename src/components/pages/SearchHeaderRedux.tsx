@@ -186,7 +186,12 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                 })}
                 {showClear && (
                   <Grid item>
-                    <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
+                    {/* This link sits on the dark header band alongside the
+                        white filter chips, so it must be white. (The original
+                        'textSecondary' was a MUI v4 idiom — v5's Link resolves
+                        `color` against the palette by path, so it emitted an
+                        invalid declaration and inherited its background.) */}
+                    <DialogButton variant='link' color='common.white' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
                       Reset all filters
                     </DialogButton>
                   </Grid>

@@ -167,7 +167,8 @@ export default function PwaSearchHeader() {
                 {showClear && (
                   <Grid item>
                     <Box sx={{ pl: 1 }}>
-                      <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
+                      {/* White to match the rest of this header band (see SearchHeaderRedux) */}
+                      <DialogButton variant='link' color='common.white' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
                         Reset all filters
                       </DialogButton>
                     </Box>
