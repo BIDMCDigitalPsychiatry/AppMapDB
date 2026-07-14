@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Card, CardContent, CardMedia, Divider, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
-import { getDayTimeFromTimestamp, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
+import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../../../helpers';
 import { useChangeRoute } from '../../../layout/hooks';
 import { getObjectUrl } from '../../../../aws-exports';
 import * as Icons from '@mui/icons-material';
@@ -10,35 +10,39 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import * as SortKeyDialog from '../../GenericDialog/SortKey';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 
-const height = 400;
+const height = 416; // tall: team photos are portraits
+const mediaHeight = 300;
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
       flex: '1',
       textAlign: 'center',
       height,
-      borderRadius: 10,
-      transition: 'transform 0.15s ease-in-out',
+      display: 'flex',
+      flexDirection: 'column',
+      transition: 'box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out',
       '&:hover': {
-        transform: 'scale3d(1.025, 1.025, 1)'
+        transform: 'translateY(-2px)',
+        boxShadow: '0 8px 24px rgba(16, 24, 40, 0.12)'
       },
       cursor: 'pointer'
     },
     rootDisabled: {
       flex: '1',
       textAlign: 'center',
-      height,
-      borderRadius: 10
+      height
     },
     cardContent: {
       paddingTop: 8,
       paddingBottom: 0
     },
     media: {
-      borderBottom: `1px solid ${theme.palette.grey[400]}`
+      borderBottom: `1px solid ${theme.palette.divider ?? '#E5EAF0'}`,
+      objectFit: 'cover',
+      objectPosition: 'center top',
+      backgroundColor: theme.palette.grey[100]
     },
     wrapper: {
-      height: height - 200,
       overflow: 'hidden',
       color: theme.palette.text.secondary
     }
@@ -59,10 +63,6 @@ export default function TeamMemberGridItem({
   children = undefined,
   showSortKey = undefined
 }) {
-  const [state, setState] = React.useState({
-    raised: false
-  });
-
   const classes = useStyles();
   const changeRoute = useChangeRoute();
 
@@ -77,38 +77,24 @@ export default function TeamMemberGridItem({
     <Card
       onClick={showSortKey ? undefined : handleClick}
       className={showSortKey ? classes.rootDisabled : classes.root}
-      onMouseOver={() => setState({ raised: true })}
-      onMouseOut={() => setState({ raised: false })}
-      raised={!showSortKey && state.raised}
-      elevation={!showSortKey && state.raised ? 8 : 4}
+      elevation={0}
     >
       <CardMedia
         className={classes.media}
         image={isEmpty(cover) ? '/images/avatars/empty-profile.png' : getObjectUrl(cover)}
         component='img'
-        height={height - 180}
+        height={mediaHeight}
         width='100%'
         alt='cover image'
       />
-      <CardContent className={classes.cardContent}>
-        <Grid container style={{ height: height - 340 }}>
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant='h5' noWrap>
-                  {title || 'Unknown Name'}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography color='textSecondary' noWrap>
-                  {subTitle}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Divider />
-        <div className={classes.wrapper}>
+      <CardContent className={classes.cardContent} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, paddingBottom: 8 }}>
+        <Typography variant='h5' noWrap>
+          {title || 'Unknown Name'}
+        </Typography>
+        <Typography color='textSecondary' noWrap>
+          {subTitle}
+        </Typography>
+        <div className={classes.wrapper} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
           {showSortKey ? (
             <>
               <Grid item xs={12}>
@@ -142,14 +128,10 @@ export default function TeamMemberGridItem({
             </>
           ) : (
             <>
-              <div style={{ height: 90 }} dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(shortDescription), 3) }} />
-              <Grid container style={{ marginTop: 0 }}>
-                <Grid item xs={12}>
-                  <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                    Last Updated: {lastUpdated}
-                  </Typography>
-                </Grid>
-              </Grid>
+              <div style={{ flex: 1 }} />
+              <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
+                Last Updated: {lastUpdated}
+              </Typography>
             </>
           )}
         </div>

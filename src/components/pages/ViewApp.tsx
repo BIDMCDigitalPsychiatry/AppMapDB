@@ -72,10 +72,22 @@ export function ViewAppContent({ app = {}, from }) {
   }, [setOpen]);
 
   return (
-    <Grid container justifyContent='flex-start' style={{ padding: sm ? 16 : 32 }} spacing={2}>
-      {!isPwa && (
-        <Grid component={Button} item style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
-          <Typography>{`<   Back To Results`}</Typography>
+    // Centering/max-width lives on this wrapper, not the Grid container —
+    // any margin on the same element as Grid's `spacing` prop cancels the
+    // negative-margin compensation spacing relies on, leaking padding out
+    // past the viewport's right edge (the same bug hit on the Framework
+    // page and the footer).
+    <Box style={{ maxWidth: 1160, margin: '0 auto', padding: sm ? 16 : 32, boxSizing: 'border-box', overflowX: 'hidden' }}>
+      <Grid container justifyContent='flex-start' spacing={2}>
+        {!isPwa && (
+        <Grid item xs={12}>
+          <Button
+            startIcon={<Icons.ArrowBack />}
+            onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}
+            sx={{ textTransform: 'none', fontWeight: 600 }}
+          >
+            Back to results
+          </Button>
         </Grid>
       )}
       <Grid item xs={12}>
@@ -107,28 +119,37 @@ export function ViewAppContent({ app = {}, from }) {
               ) : (
                 <Alert
                   severity='success'
+                  sx={{
+                    // Keep the icon paired with the message on one line (row);
+                    // only the action row wraps onto its own full-width line
+                    // on mobile via flexBasis. Putting the whole Alert into a
+                    // column (an earlier attempt) stranded the icon on its
+                    // own line above the text, which read as broken.
+                    flexWrap: 'wrap',
+                    '& .MuiAlert-message': { flex: 1, minWidth: 220 },
+                    '& .MuiAlert-action': {
+                      alignItems: 'center',
+                      pt: 0,
+                      pr: 1,
+                      flexBasis: sm ? '100%' : undefined,
+                      justifyContent: sm ? 'flex-end' : undefined,
+                      ml: sm ? 0 : undefined,
+                      mt: sm ? 1 : undefined
+                    }
+                  }}
                   action={
-                    <IconButton
-                      aria-label='close'
-                      color='inherit'
-                      size='small'
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                    >
-                      <Icons.Close fontSize='inherit' />
-                    </IconButton>
-                  }
-                >
-                  <Grid container spacing={4} justifyContent='space-between'>
-                    <Grid item>
-                      <AlertTitle>
-                        <strong>Are you currently using this App?</strong>
-                      </AlertTitle>
-                      If so, would you like to participate in a survey to help improve this web application?
-                    </Grid>
-                    <Grid item xs>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', justifyContent: 'flex-end', width: '100%' }}>
+                      <Button color='inherit' size='small' onClick={() => setOpen(false)} sx={{ textTransform: 'none', fontWeight: 600, opacity: 0.75 }}>
+                        No thanks
+                      </Button>
                       <DialogButton
+                        fullWidth={false}
+                        // The surveyButton CSS class hardcodes width:300 (and
+                        // the fullWidth prop's own width:100% competes with it
+                        // at equal CSS specificity — which one wins depends on
+                        // stylesheet injection order, not this prop). Force it
+                        // with an inline style, which always wins regardless.
+                        style={{ width: 'auto', minWidth: 0 }}
                         onClick={handleChangeRoute(publicUrl('/Survey'), {
                           app,
                           mode: 'add',
@@ -138,54 +159,59 @@ export function ViewAppContent({ app = {}, from }) {
                         })}
                         variant='surveyButton'
                       >
-                        Click Here to Take Survey
+                        Take the Survey
                       </DialogButton>
-                    </Grid>
-                  </Grid>
+                    </Box>
+                  }
+                >
+                  <AlertTitle>
+                    <strong>Are you currently using this App?</strong>
+                  </AlertTitle>
+                  If so, would you like to participate in a survey to help improve this web application?
                 </Alert>
               )}
             </Box>
           </Collapse>
         )}
       </Grid>
+      {/* Store-sourced content: visually distinct (tinted, bordered) from MIND's own data below. */}
       <Grid item xs={12}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <Typography className={classes.bold}>Description from App Store, Not Vetted by MIND:</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <ExpandableDescriptionWithLanguages
-              iosLink={iosLink}
-              androidLink={androidLink}
-              functionalities={functionalities}
-              maxDescription={2000}
-              appleStore={appleStore}
-              androidStore={androidStore}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={4} mb={4}>
+        <Box sx={{ backgroundColor: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 3, p: { xs: 2, sm: 3 } }}>
+          <Typography variant='h5'>About this app</Typography>
+          <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>
+            Description and screenshots from the app store — not vetted by MIND
+          </Typography>
+          <ExpandableDescriptionWithLanguages
+            iosLink={iosLink}
+            androidLink={androidLink}
+            functionalities={functionalities}
+            maxDescription={2000}
+            appleStore={appleStore}
+            androidStore={androidStore}
+          />
+          {images.length > 0 && (
+            <Box mt={3}>
               <ImageCarousel images={images} />
             </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className={classes.primaryText} variant='body1'>
-              Ratings and Reviews ({history.length})
-            </Typography>
-            <Typography variant='body1'>{`Explore the app's qualitative ratings & reviews`}</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={2}>{rating && <ViewAppRating {...rating.getValues()} />}</Box>
-          </Grid>
-          {history.length > 1 && (
-            <Grid item xs={12}>
-              <Grid container justifyContent='flex-end'>
-                <Pagination page={page} count={history.length} variant='outlined' shape='rounded' onChange={handlePageChange} />
-              </Grid>
-            </Grid>
           )}
-        </Grid>
+        </Box>
       </Grid>
-    </Grid>
+
+      {/* MIND's own evaluation lives on the open page; the tinted box above is
+          what marks the store content as external. */}
+      <Grid item xs={12}>
+        <Box mt={1}>
+          <Typography variant='h5'>Ratings &amp; Reviews ({history.length})</Typography>
+          <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>{`Qualitative ratings & reviews from MIND evaluators`}</Typography>
+          {rating && <ViewAppRating {...rating.getValues()} />}
+          {history.length > 1 && (
+            <Box mt={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Pagination page={page} count={history.length} variant='outlined' shape='rounded' onChange={handlePageChange} />
+            </Box>
+          )}
+        </Box>
+      </Grid>
+      </Grid>
+    </Box>
   );
 }

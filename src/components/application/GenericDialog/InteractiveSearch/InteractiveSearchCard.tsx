@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Collapse, Grid, Typography } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import IntroVideo from '../../../layout/IntroVideo';
 
 export const title = 'Interactive Search';
@@ -36,26 +37,23 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
   return (
     <>
       <Collapse in={open}>
-        <Box
-          sx={{
-            color: 'primary.dark',
-            backgroundColor: 'primary.light'
-          }}
-        >
-          {open && <IntroVideo />}
+        <Box sx={{ backgroundColor: '#101826', py: { xs: 1.5, sm: 3 } }}>
+          <Box sx={{ maxWidth: 760, mx: 'auto', px: 2 }}>
+            <Box sx={{ borderRadius: 3, overflow: 'hidden', boxShadow: '0 12px 40px rgba(0, 0, 0, 0.45)' }}>{open && <IntroVideo />}</Box>
+          </Box>
         </Box>
       </Collapse>
       <Grid container alignItems='center' sx={{ height, background: 'transparent' }} justifyContent='center'>
-        <Grid item alignContent='center' sx={{ height, width: 320 }}>
+        <Grid item>
           <Box
-            color='primary'
             sx={{
-              p: 0.5,
-              textAlign: 'center',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.75,
+              px: 2.5,
+              height,
               backgroundColor: 'primary.dark',
               color: 'white',
-              height,
-              width: '100%',
               cursor: 'pointer',
               borderBottomLeftRadius: 12,
               borderBottomRightRadius: 12,
@@ -65,7 +63,8 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
             }}
             onClick={handleOpen}
           >
-            <Typography>{open ? 'Close video' : `Not sure? Watch this short video!`}</Typography>
+            {open ? <Icons.Close sx={{ fontSize: 18 }} /> : <Icons.PlayCircleOutline sx={{ fontSize: 18 }} />}
+            <Typography sx={{ fontWeight: 600, fontSize: 14 }}>{open ? 'Close video' : 'Not sure? Watch this short video!'}</Typography>
           </Box>
         </Grid>
       </Grid>

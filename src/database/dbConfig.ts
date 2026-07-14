@@ -12,7 +12,11 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: pkg.identityPoolId
 });
 
-export const dynamo = new AWS.DynamoDB.DocumentClient();
+// Local-data mode (dev only): serve a snapshot of the applications table from
+// public/local-data/ instead of hitting DynamoDB. See src/database/localDynamo.ts.
+const useLocalData = process.env.NODE_ENV !== 'production' && process.env.REACT_APP_USE_LOCAL_DATA === 'true';
+
+export const dynamo = useLocalData ? require('./localDynamo').createLocalDynamo() : new AWS.DynamoDB.DocumentClient();
 
 export type DataModel = Application | Post | Event | Comment | Team | any;
 export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking';

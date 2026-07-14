@@ -2,13 +2,15 @@ import React from 'react';
 import { Theme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
-import { Box, Divider, Grid } from '@mui/material';
+import { Box, Button, Divider, Grid, IconButton, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import * as Icons from '@mui/icons-material';
 import FilterContentLeftDrawer from '../../application/GenericContent/Filter/FilterContentLeftDrawer';
 import Logo from '../Logo';
 import { useFullScreen } from '../../../hooks';
-import FilterCount from './FilterCount';
 import TourStep from '../../pages/Tour/TourStep';
+import { useHandleTableReset } from '../../application/GenericTable/store';
+import { useFilterCount } from '../useFilterCount';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,10 +34,12 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
   const xs = useFullScreen('xs');
   const handleClose = React.useCallback(() => setLeftDrawer && setLeftDrawer(false), [setLeftDrawer]);
   const handleOpen = React.useCallback(() => setLeftDrawer && setLeftDrawer(true), [setLeftDrawer]);
+  const handleReset = useHandleTableReset('Applications');
+  const filterCount = useFilterCount('Applications');
   return (
     <>
       <div className={classes.header}>
-        <Grid container justifyContent='space-between'>
+        <Grid container justifyContent='space-between' alignItems='center'>
           {xs && (
             <Grid item xs={12}>
               <Logo condensed={true} autoHide={false} showText={true} />
@@ -44,11 +48,20 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
           )}
           <Grid item xs>
             <Typography variant='caption' color='textPrimary' className={classes.primaryText}>
-              Search Filters
+              Filters
             </Typography>
           </Grid>
-          <Grid item>
-            <FilterCount />
+          <Grid item style={{ display: 'flex', alignItems: 'center' }}>
+            {filterCount > 0 && (
+              <Button size='small' onClick={handleReset} style={{ textTransform: 'none', fontWeight: 600 }}>
+                Clear all ({filterCount})
+              </Button>
+            )}
+            <Tooltip title='Hide filters'>
+              <IconButton size='small' onClick={handleClose} aria-label='hide filter panel'>
+                <Icons.ChevronLeft />
+              </IconButton>
+            </Tooltip>
           </Grid>
         </Grid>
       </div>

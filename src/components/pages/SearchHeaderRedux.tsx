@@ -36,15 +36,16 @@ const getPadding = (bp, multiplier = 1) => (bp === 'sm' ? padding / 2 : bp === '
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({
     header: {
-      background: palette.primary.light,
+      background: `linear-gradient(135deg, ${palette.primary.dark} 0%, ${palette.primary.main} 70%, ${palette.primary.light} 130%)`,
       color: palette.common.white,
       fontWeight: 900,
       ...getMobilePadding(breakpoints)
     },
     primaryText: {
       fontSize: 30,
-      fontWeight: 900,
-      color: palette.primary.dark
+      fontWeight: 800,
+      letterSpacing: '-0.02em',
+      color: palette.common.white
     },
     deleteIcon: {
       color: 'white !important'
@@ -185,7 +186,12 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                 })}
                 {showClear && (
                   <Grid item>
-                    <DialogButton variant='link' color='textSecondary' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
+                    {/* This link sits on the dark header band alongside the
+                        white filter chips, so it must be white. (The original
+                        'textSecondary' was a MUI v4 idiom — v5's Link resolves
+                        `color` against the palette by path, so it emitted an
+                        invalid declaration and inherited its background.) */}
+                    <DialogButton variant='link' color='common.white' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
                       Reset all filters
                     </DialogButton>
                   </Grid>

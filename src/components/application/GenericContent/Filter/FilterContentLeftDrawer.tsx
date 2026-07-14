@@ -23,6 +23,7 @@ import { useFullScreen } from '../../../../hooks';
 import { isEmpty, sortAscending, sortAscendingLabel } from '../../../../helpers';
 import { useSelector } from 'react-redux';
 import InterestedAddApp from '../../../pages/Community/InterestedAddApp';
+import useFilterOptionCount from './useFilterOptionCounts';
 
 export const title = 'Apply Filters';
 
@@ -103,21 +104,31 @@ const getFilters = version =>
     .map(i => ({ ...i, color: categories[i.id]?.color, items: i.items?.sort(sortAscendingLabel) }))
     .sort((a, b) => sortAscending(!isEmpty(a.label) ? a.label : a.id, !isEmpty(b.label) ? b.label : b.id));
 
-const ConnectedMultiSelect = ({ id, label, color, items }) => {
+const ConnectedMultiSelect = ({ id, label, color, items, getCount }) => {
   const [value, setValue] = useTableFilterValue('Applications', id);
-  return <MultiSelectCheckExpandable value={value} label={label ?? id} color={color} items={items} onChange={setValue} />;
+  // Result count shown next to each option: how many apps remain after
+  // toggling it, given all other active filters.
+  const counts = React.useMemo(() => {
+    const c: Record<string, number> = {};
+    items.forEach(({ value: v }) => {
+      c[v] = getCount(id, v);
+    });
+    return c;
+  }, [items, getCount, id]);
+  return <MultiSelectCheckExpandable value={value} label={label ?? id} color={color} items={items} onChange={setValue} counts={counts} />;
 };
 
 export default function FilterContentLeftDrawer() {
   const fullScreen = useFullScreen();
   const version = useSelector((s: any) => s.layout.version);
+  const getCount = useFilterOptionCount();
   return (
     <Grid container>
       {getFilters(version)
         .filter(f => (f.id === 'Platforms' ? fullScreen : true))
         .map(({ id, label, color, items }) => (
           <Grid item key={id} xs={12}>
-            <ConnectedMultiSelect id={id} label={label} color={color} items={items} />
+            <ConnectedMultiSelect id={id} label={label} color={color} items={items} getCount={getCount} />
           </Grid>
         ))}
       <Grid item xs={12}>

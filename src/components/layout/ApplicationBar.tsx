@@ -1,5 +1,21 @@
 import * as React from 'react';
-import { Grid, IconButton, Menu, MenuItem, Divider, Slide, Button, ButtonGroup } from '@mui/material';
+import {
+  Box,
+  Drawer,
+  Grid,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Divider,
+  Slide,
+  Button,
+  ButtonGroup,
+  Typography
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import createStyles from '@mui/styles/createStyles';
 import AppBar from '@mui/material/AppBar';
@@ -49,11 +65,40 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
       color: palette.common.white
     },
     menuButton: {
+      // Visible on all sizes: opens the temporary drawer on mobile and
+      // toggles the collapsible filter panel on desktop.
       marginLeft: 0,
-      color: grey[900],
-      [breakpoints.up('sm')]: {
-        display: 'none'
+      color: grey[900]
+    },
+    navDrawerPaper: {
+      width: 280
+    },
+    navDrawerHeader: {
+      padding: 16
+    },
+    navListItem: {
+      borderRadius: 10,
+      margin: '2px 8px',
+      color: palette.text.primary,
+      '& .MuiListItemIcon-root': {
+        color: palette.text.secondary,
+        minWidth: 40
       }
+    },
+    navListItemActive: {
+      color: palette.primary.dark,
+      background: `${palette.primary.main}14`,
+      '& .MuiListItemIcon-root': {
+        color: palette.primary.dark
+      }
+    },
+    navSectionLabel: {
+      padding: '16px 16px 4px',
+      fontSize: 12,
+      fontWeight: 700,
+      letterSpacing: '0.04em',
+      textTransform: 'uppercase',
+      color: palette.text.secondary
     }
   })
 );
@@ -74,21 +119,22 @@ const useTabs = () => {
 
 const id = 'AppBar';
 export const noTabPaths = ['/Home', '/'];
-const AppBarTabSelector = props => {
+
+// Shared by the desktop tab bar and the mobile nav drawer so they can never
+// disagree about which tabs a given user gets to see.
+const useVisibleTabs = () => {
   const isAdmin = useIsAdmin();
   const signedInRater = useSignedInRater();
   const tabs = useTabs();
+  return tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : !isAdmin ? (t.id === 'Admin' ? false : true) : true));
+};
+
+const AppBarTabSelector = props => {
+  const tabs = useVisibleTabs();
   const { pathname } = useLocation();
   const nullTab = noTabPaths.findIndex(p => p === pathname) > -1 ? true : false;
 
-  return (
-    <TabSelectorToolBar
-      id={id}
-      value={nullTab ? null : undefined}
-      tabs={tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : !isAdmin ? (t.id === 'Admin' ? false : true) : true))}
-      {...props}
-    />
-  );
+  return <TabSelectorToolBar id={id} value={nullTab ? null : undefined} tabs={tabs} {...props} />;
 };
 
 export default function ApplicationBar({ trigger }) {
@@ -143,6 +189,12 @@ export default function ApplicationBar({ trigger }) {
   const changeRoute = useChangeRoute();
 
   const tabs = useTabs();
+  const visibleTabs = useVisibleTabs();
+  const { pathname } = useLocation();
+  // The Lite/Pro version toggle only makes sense while browsing the app
+  // library (it controls which filter/question set shows there) — everywhere
+  // else it's just nav-bar clutter.
+  const isAppsPage = pathname.toLowerCase().endsWith('/apps');
 
   const handleTabChange = React.useCallback(
     value => {
@@ -162,8 +214,14 @@ export default function ApplicationBar({ trigger }) {
 
   const fullScreen = useFullScreen('xs');
 
-  const [, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
-  const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(true), [setLeftDrawerOpen]);
+  // Below 'md' there isn't room for the tab bar + version toggle + account
+  // icon, so navigation collapses into a hamburger-driven drawer.
+  const isMobileNav = useFullScreen('md');
+  const [navDrawerOpen, setNavDrawerOpen] = React.useState(false);
+  const closeNavDrawer = React.useCallback(() => setNavDrawerOpen(false), [setNavDrawerOpen]);
+
+  const [leftDrawerOpen, setLeftDrawerOpen, leftDrawerEnabled] = useLeftDrawer();
+  const handleOpenLeftDrawer = React.useCallback(() => setLeftDrawerOpen(!leftDrawerOpen), [setLeftDrawerOpen, leftDrawerOpen]);
 
   const setRef = useAppBarHeightSetRef();
   const { setStep } = useTourStep();
@@ -203,52 +261,99 @@ export default function ApplicationBar({ trigger }) {
       <Slide appear={false} direction='down' in={!trigger}>
         <AppBar ref={setRef} position='fixed' color='inherit' elevation={2} className={fullScreen ? classes.appBarFullScreen : classes.appBar}>
           <Toolbar className={classes.toolbar} disableGutters={true}>
-            {leftDrawerEnabled && (
-              <IconButton aria-label='open drawer' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
-                <Icons.Menu />
-              </IconButton>
-            )}
-            <Grid container alignItems='center' spacing={0}>
-              <Grid item>
-                <Logo />
-              </Grid>
-              <Grid item xs style={{ minWidth: 0 }}>
-                <AppBarTabSelector onChange={handleTabChange} />
-              </Grid>
-              <Grid item>
-                <Grid container justifyContent='flex-end' alignItems='center'>
+            {isMobileNav ? (
+              <Grid container alignItems='center' wrap='nowrap' spacing={0}>
+                {/* Hamburger (site nav) and filter toggle (page-local) are
+                    grouped tight as one cluster, distinct from the logo. */}
+                <Grid item>
+                  <IconButton
+                    aria-label='open navigation menu'
+                    edge='start'
+                    onClick={() => setNavDrawerOpen(true)}
+                    className={classes.menuButton}
+                    size='large'
+                  >
+                    <Icons.Menu />
+                  </IconButton>
+                </Grid>
+                {leftDrawerEnabled && (
                   <Grid item>
-                    <ButtonGroup variant='contained' aria-label='version button group'>
-                      <Button
-                        sx={{
-                          '&:hover': {
-                            backgroundColor: 'primary.dark'
-                          }
-                        }}
-                        color={version === 'lite' ? 'primary' : 'secondary'}
-                        onClick={handleChangeVersion({ version: 'lite' })}
-                      >
-                        Lite Version
-                      </Button>
-                      <Button
-                        sx={{
-                          '&:hover': {
-                            backgroundColor: 'primary.dark'
-                          }
-                        }}
-                        color={version !== 'lite' ? 'primary' : 'secondary'}
-                        onClick={handleChangeVersion({ version: 'full' })}
-                      >
-                        {/*<Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />*/}
-                        Pro Version
-                      </Button>
-                    </ButtonGroup>
-                  </Grid>
-                  <Grid item>
-                    <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
-                      {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
+                    <IconButton
+                      aria-label='toggle filter panel'
+                      onClick={handleOpenLeftDrawer}
+                      className={classes.menuButton}
+                      style={{ marginLeft: -8 }}
+                      size='large'
+                    >
+                      <Icons.FilterList />
                     </IconButton>
-                    <Menu
+                  </Grid>
+                )}
+                <Grid item xs style={{ minWidth: 0, marginLeft: 8 }}>
+                  <Logo condensed autoHide={false} showText={false} />
+                </Grid>
+                <Grid item>
+                  <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
+                    {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ) : (
+              <Grid container alignItems='center' spacing={0}>
+                {leftDrawerEnabled && (
+                  <Grid item>
+                    <IconButton aria-label='toggle filter panel' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
+                      <Icons.FilterList />
+                    </IconButton>
+                  </Grid>
+                )}
+                <Grid item>
+                  <Logo />
+                </Grid>
+                <Grid item xs style={{ minWidth: 0 }}>
+                  <AppBarTabSelector onChange={handleTabChange} />
+                </Grid>
+                <Grid item>
+                  <Grid container justifyContent='flex-end' alignItems='center'>
+                    {isAppsPage && (
+                      <Grid item>
+                        <ButtonGroup variant='contained' aria-label='version button group'>
+                          <Button
+                            sx={{
+                              '&:hover': {
+                                backgroundColor: 'primary.dark'
+                              }
+                            }}
+                            color={version === 'lite' ? 'primary' : 'secondary'}
+                            onClick={handleChangeVersion({ version: 'lite' })}
+                          >
+                            Lite Version
+                          </Button>
+                          <Button
+                            sx={{
+                              '&:hover': {
+                                backgroundColor: 'primary.dark'
+                              }
+                            }}
+                            color={version !== 'lite' ? 'primary' : 'secondary'}
+                            onClick={handleChangeVersion({ version: 'full' })}
+                          >
+                            {/*<Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />*/}
+                            Pro Version
+                          </Button>
+                        </ButtonGroup>
+                      </Grid>
+                    )}
+                    <Grid item>
+                      <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
+                        {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            )}
+            <Menu
                       id='menu-appbar'
                       anchorEl={anchorEl}
                       anchorOrigin={{
@@ -301,13 +406,52 @@ export default function ApplicationBar({ trigger }) {
                             </DialogButton>
                           ))}
                     </Menu>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
           </Toolbar>
         </AppBar>
       </Slide>
+      <Drawer anchor='left' open={navDrawerOpen} onClose={closeNavDrawer} classes={{ paper: classes.navDrawerPaper }}>
+        <div className={classes.navDrawerHeader}>
+          <Logo autoHide={false} showText={true} />
+        </div>
+        <Divider />
+        <List>
+          {visibleTabs.map(t => {
+            const active = (t.routes ?? [t.route]).some(r => r?.toLowerCase() === pathname.toLowerCase());
+            return (
+              <ListItemButton
+                key={t.id}
+                className={`${classes.navListItem} ${active ? classes.navListItemActive : ''}`}
+                onClick={() => {
+                  closeNavDrawer();
+                  t.onClick && t.onClick();
+                  handleTabChange(t.id);
+                }}
+              >
+                <ListItemIcon>
+                  <t.icon />
+                </ListItemIcon>
+                <ListItemText primary={t.id} />
+              </ListItemButton>
+            );
+          })}
+        </List>
+        {isAppsPage && (
+          <>
+            <Divider />
+            <Typography className={classes.navSectionLabel}>Version</Typography>
+            <Box sx={{ px: 2, pb: 2 }}>
+              <ButtonGroup variant='outlined' fullWidth aria-label='version button group'>
+                <Button color={version === 'lite' ? 'primary' : 'inherit'} onClick={handleChangeVersion({ version: 'lite' })}>
+                  Lite
+                </Button>
+                <Button color={version !== 'lite' ? 'primary' : 'inherit'} onClick={handleChangeVersion({ version: 'full' })}>
+                  Pro
+                </Button>
+              </ButtonGroup>
+            </Box>
+          </>
+        )}
+      </Drawer>
     </>
   );
 }

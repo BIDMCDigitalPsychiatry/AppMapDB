@@ -35,13 +35,10 @@ const TeamList = () => {
 
   const { sortOption } = useSortOptions();
 
-  const [search, setSearch] = React.useState('');
   const [showArchived, setShowArchived] = React.useState(false);
   const [showSortKeys, setShowSortKeys] = React.useState(false);
   const isAdmin = useIsAdmin();
 
-  const handleSearch = React.useCallback(event => setSearch(event?.target?.value), [setSearch]);
-  const handleClearSearch = React.useCallback(() => setSearch(''), [setSearch]);
 
   const handleChangeRoute = useHandleChangeRoute();
 
@@ -61,7 +58,7 @@ const TeamList = () => {
       Object.keys(rows)
         .filter(k => (isAdmin || (!isAdmin && !bool(rows[k]?.adminOnly))) && (showArchived ? rows[k].deleted : !rows[k].deleted))
         .map(k => rows[k]),
-      search
+      ''
     ),
     sortOption
   );
@@ -86,31 +83,7 @@ const TeamList = () => {
       />
       <Box>
         <Grid container justifyContent='space-between' alignItems='center'>
-          <Grid item>
-            <Box style={{ width: 500 }}>
-              <TextField
-                onChange={handleSearch}
-                value={search}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position='start'>
-                      <SearchIcon fontSize='small' />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position='start'>
-                      <IconButton style={{ padding: 8, marginRight: -16 }} onClick={handleClearSearch} size='large'>
-                        <Icons.Clear fontSize='small' />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-                size='small'
-                placeholder='Search team members'
-                variant='outlined'
-              />
-            </Box>
-          </Grid>
+          <Grid item />
           <Grid item>
             <Grid container spacing={2}>
               {isAdmin && (
@@ -130,17 +103,17 @@ const TeamList = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Box mt={6} mb={2} pl={2} pr={2}>
-          <Grid container spacing={6}>
-            {showArchived && (
+        {showArchived && (
+          <Box mt={3} mb={2} pl={2} pr={2}>
+            <Grid container>
               <Grid item xs={12} className={classes.archiveBanner}>
                 <Typography variant='h6' style={{ color: 'white' }}>
                   {`Viewing Archived`}
                 </Typography>
               </Grid>
-            )}
-          </Grid>
-        </Box>
+            </Grid>
+          </Box>
+        )}
         {filtered.length === 0 ? (
           <Box m={3}>
             <Typography variant='h6' color='textSecondary' align='center'>

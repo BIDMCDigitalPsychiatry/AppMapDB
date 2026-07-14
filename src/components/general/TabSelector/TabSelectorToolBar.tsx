@@ -61,7 +61,16 @@ export interface TabSelectorItem {
 const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
   const classes = useStyles({ minHeight, rounded });
   const { pathname } = useLocation();
-  const tabOverride = tabs.find(t => (t.routes ?? []).find(r => r.toLowerCase() === pathname.toLowerCase()));
+  // Which tab is highlighted must be derived from the URL, not from the last
+  // tab the user clicked — otherwise browser back/forward moves the page but
+  // leaves the underline on the tab they clicked last.
+  //
+  // This previously matched `t.routes` only. Just one tab (Application Library)
+  // declares a `routes` array; every other tab declares a single `route`, so
+  // nothing matched their pathname and the highlight fell back to the stale
+  // stored value. Fall back to the tab's own `route`.
+  const tabRoutes = t => t.routes ?? (t.route ? [t.route] : []);
+  const tabOverride = tabs.find(t => tabRoutes(t).find(r => r?.toLowerCase() === pathname.toLowerCase()));
 
   const [tsValue, setTabSelector] = useTabSelectorValue(id, tabs[0] && tabs[0].id);
 

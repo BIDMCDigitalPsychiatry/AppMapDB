@@ -3,7 +3,7 @@ import Details from '../../pages/Community/Details';
 import Create from '../../pages/Community/Create';
 import { useRouteState } from '../../layout/store';
 import Edit from '../../pages/Community/Edit';
-import { Box, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import CommunitySelector from './CommunitySelector';
 import TeamMemberCreate from '../../pages/Team/TeamMemberCreate';
 import TeamMemberEdit from '../../pages/Team/TeamMemberEdit';
@@ -28,7 +28,6 @@ const CommunityLayout = () => {
   return (
     <Box pt={3}>
       <CommunitySelector category={category} subRoute={subRoute} />
-      <Divider style={{ marginTop: 16 }} />
       <Component category={category} {...other} />
     </Box>
   );

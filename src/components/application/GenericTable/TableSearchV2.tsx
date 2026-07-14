@@ -33,18 +33,57 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function TableSearchV2({ value = '', label = undefined, placeholder = undefined, onChange }) {
+export default function TableSearchV2({ value = '', label = undefined, placeholder = undefined, onChange, debounceMs = 250 }) {
   const classes = useStyles();
 
-  const handleClear = React.useCallback(e => onChange({ target: { value: '' } }), [onChange]);
+  // The input is locally controlled so typing paints immediately; the
+  // (expensive) onChange dispatch — Redux update, re-filter, fuzzy search —
+  // is debounced until typing pauses. Results are unchanged, only latency.
+  const [text, setText] = React.useState(value);
+  const pending = React.useRef<any>();
+  const lastSent = React.useRef(value);
+
+  React.useEffect(() => {
+    // Sync from an external change (e.g. 'Reset all filters'), but ignore
+    // the echo of our own debounced dispatch so it can't clobber newer keystrokes.
+    if (value !== lastSent.current) {
+      lastSent.current = value;
+      setText(value);
+    }
+  }, [value]);
+
+  React.useEffect(() => () => clearTimeout(pending.current), []);
+
+  const handleChange = React.useCallback(
+    (e: any) => {
+      const v = e?.target?.value ?? '';
+      setText(v);
+      clearTimeout(pending.current);
+      pending.current = setTimeout(() => {
+        lastSent.current = v;
+        onChange({ target: { value: v } });
+      }, debounceMs);
+    },
+    [onChange, debounceMs]
+  );
+
+  const handleClear = React.useCallback(
+    e => {
+      clearTimeout(pending.current);
+      setText('');
+      lastSent.current = '';
+      onChange({ target: { value: '' } });
+    },
+    [onChange]
+  );
 
   return (
     <Text
       margin='dense'
       size='small'
       placeholder={placeholder}
-      value={value}
-      onChange={onChange}
+      value={text}
+      onChange={handleChange}
       label={label}
       InputProps={{
         style: { background: 'white' },

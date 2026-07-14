@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Card, CardContent, CardMedia, Chip, Divider, Grid, Link, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardMedia, Chip, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { bool, formatWithDefault, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
@@ -7,35 +7,50 @@ import { useChangeRoute } from '../../../layout/hooks';
 import { useCommentsByPostId } from '../../../../database/useComments';
 import { getObjectUrl } from '../../../../aws-exports';
 
-const height = 448;
-const useStyles = makeStyles(theme =>
+const height = 400;
+const useStyles = makeStyles((theme: any) =>
   createStyles({
     root: {
       flex: '1',
-      textAlign: 'center',
+      textAlign: 'left',
       height,
-      borderRadius: 10,
-      transition: 'transform 0.15s ease-in-out',
+      display: 'flex',
+      flexDirection: 'column',
+      transition: 'box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out',
       '&:hover': {
-        transform: 'scale3d(1.025, 1.025, 1)'
+        transform: 'translateY(-2px)',
+        boxShadow: '0 8px 24px rgba(16, 24, 40, 0.12)'
       },
       cursor: 'pointer'
     },
     rootDisabled: {
       flex: '1',
-      textAlign: 'center',
-      height,
-      borderRadius: 10
-    },
-    cardContent: {
-      paddingTop: 8,
-      paddingBottom: 0
+      textAlign: 'left',
+      height
     },
     media: {
-      height: 200,
+      height: 176,
       width: '100%',
-      padding: 8,
-      borderBottom: `1px solid ${theme.palette.grey[400]}`
+      objectFit: 'cover',
+      borderBottom: `1px solid ${theme.palette.divider ?? '#E5EAF0'}`,
+      backgroundColor: theme.palette.grey[100],
+      flexShrink: 0
+    },
+    title: {
+      '& h1, & h2, & h3, & p': {
+        margin: 0,
+        fontSize: '1rem',
+        fontWeight: 700,
+        lineHeight: 1.35
+      }
+    },
+    description: {
+      color: theme.palette.text.secondary,
+      '& p': {
+        margin: 0,
+        fontSize: theme.typography.body2.fontSize,
+        lineHeight: theme.typography.body2.lineHeight
+      }
     },
     archived: {
       color: theme.palette.error.main,
@@ -65,10 +80,6 @@ export default function NewsForumGridItem({
   deleted = undefined,
   ...other
 }) {
-  const [state, setState] = React.useState({
-    raised: false
-  });
-
   const classes = useStyles({});
   const changeRoute = useChangeRoute();
 
@@ -79,90 +90,42 @@ export default function NewsForumGridItem({
   const { data: comments } = useCommentsByPostId({ postId: _id });
   const filtered = (comments || []).filter(e => !e.deleted);
 
+  const meta = [
+    authorName ? 'Registered User' : 'Unknown Author',
+    formatWithDefault(publishedAt, 'dd MMM', 'Unknown Date'),
+    `${readTime} read`,
+    filtered.length > 0 && `${filtered.length} comment${filtered.length === 1 ? '' : 's'}`
+  ]
+    .filter(t => t)
+    .join(' · ');
+
   return children ? (
-    <Card className={classes.root}>
-      <CardContent className={classes.cardContent}>{children}</CardContent>
+    <Card className={classes.rootDisabled}>
+      <CardContent>{children}</CardContent>
     </Card>
   ) : (
-    <Card
-      onClick={handleClick}
-      className={classes.root}
-      onMouseOver={() => setState({ raised: true })}
-      onMouseOut={() => setState({ raised: false })}
-      raised={state.raised}
-      elevation={state.raised ? 8 : 4}
-    >
+    <Card onClick={handleClick} className={classes.root} elevation={0}>
       <CardMedia
         className={classes.media}
         image={isEmpty(cover) ? '/images/avatars/empty-profile.png' : cover.startsWith('data:') ? cover : getObjectUrl(cover)}
         component='img'
+        alt=''
       />
-      <CardContent className={classes.cardContent}>
-        <Box mt={1} mb={2}>
-          <Grid container justifyContent='center' spacing={1}>
-            <Grid item>
-              <Chip label={category} variant='outlined' />
-            </Grid>
-            {bool(adminOnly) && (
-              <Grid item>
-                <Chip label='Admin Only' variant='outlined' className={classes.adminOnly} />
-              </Grid>
-            )}
-            {bool(deleted) && (
-              <Grid item>
-                <Chip label='Archived' variant='outlined' className={classes.archived} />
-              </Grid>
-            )}
-          </Grid>
-          <Box
-            style={{
-              display: 'flex',
-              alignItems: 'center'
-            }}
-            mt={1}
-          >
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography color='textPrimary' variant='subtitle2' align='center'>
-                  {authorName ? 'Registered User' : 'Unknown Author'}
-                </Typography>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Grid container justifyContent='center' spacing={1}>
-                  {[
-                    `${formatWithDefault(publishedAt, 'dd MMM', 'Unknown Date')}`,
-                    `·`,
-                    `${readTime} read`,
-                    filtered.length > 0 && `·`,
-                    filtered.length > 0 && `${filtered.length} comments`
-                  ]
-                    .filter(t => t)
-                    .map((t, i) => (
-                      <Grid item key={i}>
-                        <Typography display='block' color='textSecondary' variant='caption' align='center'>
-                          {t}
-                        </Typography>
-                      </Grid>
-                    ))}
-                </Grid>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box mt={1} mb={-1}>
-            <Divider />
-          </Box>
-          <Box height={64}>
-            <Link color='textPrimary' onClick={handleClick}>
-              <Typography
-                variant='h6'
-                align='left'
-                dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(title || 'Unknown Name'), isEmpty(shortDescription?.trim()) ? 4 : 2) }}
-              />
-            </Link>
-          </Box>
-          <Typography variant='caption' align='left' dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(shortDescription), 3) }} />
+      <CardContent sx={{ p: 2, pt: 1.5, display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap' }}>
+          <Chip label={category} size='small' variant='outlined' />
+          {bool(adminOnly) && <Chip label='Admin Only' size='small' variant='outlined' className={classes.adminOnly} />}
+          {bool(deleted) && <Chip label='Archived' size='small' variant='outlined' className={classes.archived} />}
         </Box>
+        <Box sx={{ mt: 1.25 }}>
+          <div className={classes.title} dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(title || 'Unknown Name'), 2) }} />
+        </Box>
+        <Box sx={{ mt: 0.75, flex: 1, minHeight: 0, overflow: 'hidden' }}>
+          <div className={classes.description} dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(shortDescription), 3) }} />
+        </Box>
+        <Typography variant='caption' color='textSecondary' noWrap sx={{ pt: 1 }}>
+          {meta}
+        </Typography>
       </CardContent>
     </Card>
   );

@@ -4,6 +4,7 @@ import * as TableStore from './store';
 import { isEmpty, spread } from '../../../helpers';
 import Decimal from 'decimal.js-light';
 import { questions } from '../../pwa/questions';
+import { termMatchesTag } from '../../../database/tagHierarchy';
 
 ///////////////////////////////////////////
 /////////////// Table Sorters  ////////////
@@ -179,7 +180,9 @@ export const getPwaFilterMatches = ({ filters, app }) => {
     //console.log({ id, filterValues, appKey, filters });
     if (Array.isArray(filterValues) && filterValues?.length > 0) {
       filterValues.forEach(f => {
-        if (app[appKey] && app[appKey].length && app[appKey].find(v => v === f)) {
+        // A selected quiz answer also matches its child labels (e.g.
+        // 'Substance Use' matches 'Substance Use (Alcohol)') — see tagHierarchy.ts.
+        if (app[appKey] && app[appKey].length && app[appKey].find(v => termMatchesTag(f, v))) {
           filterMatches.push({ key: id, value: f });
         }
       });

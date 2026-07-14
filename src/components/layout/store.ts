@@ -29,6 +29,8 @@ const defaultState = {
   adminMode: false,
   routeState: {},
   leftDrawerOpen: false,
+  leftDrawerCollapsed: false, // desktop filter panel: collapsible, open by default
+  assistantOpen: false, // right-side search-assistant panel (public app library only)
   step: 0,
   tourCompleted: false,
   version: 'lite',
@@ -134,13 +136,33 @@ export const useLayout = (): any[] => {
 
 export const useLeftDrawer = (): any[] => {
   const { pathname } = useLocation();
-  const [{ leftDrawerOpen = false }, setLayout] = useLayout();
+  const [{ leftDrawerOpen = false, leftDrawerCollapsed = false }, setLayout] = useLayout();
   const { layout }: any = useTheme();
   const fullScreen = useFullScreen();
   const { drawerPaths } = layout;
   const parts = (pkg.homepage ?? '').split('/');
   const lastPart = (parts.length > 0 ? parts[parts.length - 1] : '').replace('/', '');
   const leftDrawerEnabled = drawerPaths.find(p => p === pathname || `/${lastPart}/${p}` === pathname) ? true : false;
-  const setLeftDrawerOpen = React.useCallback((open = !leftDrawerOpen) => setLayout({ leftDrawerOpen: open }), [setLayout, leftDrawerOpen]);
-  return [leftDrawerEnabled && (fullScreen ? leftDrawerOpen : true), setLeftDrawerOpen, leftDrawerEnabled];
+  // Mobile uses the temporary-drawer flag (closed by default); desktop uses a
+  // separate collapse flag so the panel is open by default but collapsible.
+  const setLeftDrawerOpen = React.useCallback(
+    (open?: boolean) => {
+      if (fullScreen) setLayout({ leftDrawerOpen: open ?? !leftDrawerOpen });
+      else setLayout({ leftDrawerCollapsed: !(open ?? leftDrawerCollapsed) });
+    },
+    [setLayout, leftDrawerOpen, leftDrawerCollapsed, fullScreen]
+  );
+  return [leftDrawerEnabled && (fullScreen ? leftDrawerOpen : !leftDrawerCollapsed), setLeftDrawerOpen, leftDrawerEnabled];
+};
+
+/**
+ * Right-side search-assistant panel. Lives in layout state (not local
+ * component state) because Layout has to reserve room for it — on desktop
+ * the panel docks and pushes the content in, the mirror image of the left
+ * filter drawer, so it never covers the results grid.
+ */
+export const useAssistantPanel = (): [boolean, (open?: boolean) => void] => {
+  const [{ assistantOpen = false }, setLayout] = useLayout();
+  const setAssistantOpen = React.useCallback((open?: boolean) => setLayout({ assistantOpen: open ?? !assistantOpen }), [setLayout, assistantOpen]);
+  return [assistantOpen, setAssistantOpen];
 };

@@ -1,6 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
-import ArrowButton from '../../general/ArrowButton';
-import grey from '@mui/material/colors/grey';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import { publicUrl } from '../../../helpers';
 
@@ -8,13 +6,18 @@ const InterestedRateApp = () => {
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
-    <Box p={0} sx={{ backgroundColor: grey[100], borderRadius: 0, pl: 2, pr: 1 }}>
-      <Grid container alignItems='center' spacing={1}>
-        <Grid item xs={12}>
-          <Typography sx={{ color: 'primary.main', textAlign: 'left', fontSize: 22, fontWeight: 700 }}>Interested in rating an app?</Typography>
+    <Box sx={{ backgroundColor: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 1.5, px: 2, py: 1.25 }}>
+      <Grid container alignItems='center' spacing={2}>
+        <Grid item xs>
+          <Typography sx={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.01em' }}>Interested in rating an app?</Typography>
+          <Typography variant='body2' color='textSecondary' sx={{ mt: 0.25 }}>
+            Join our volunteer raters and help evaluate mental health apps using the MIND framework.
+          </Typography>
         </Grid>
-        <Grid item xs={12} style={{ textAlign: 'right' }}>
-          <ArrowButton label='Rate an App' onClick={handleChangeRoute(publicUrl('/RateAnApp'))} />
+        <Grid item>
+          <Button variant='contained' onClick={handleChangeRoute(publicUrl('/RateAnApp'))} sx={{ textTransform: 'none', fontWeight: 600 }}>
+            Rate an App
+          </Button>
         </Grid>
       </Grid>
     </Box>

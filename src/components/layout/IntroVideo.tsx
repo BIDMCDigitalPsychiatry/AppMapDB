@@ -2,6 +2,18 @@ import ReactPlayer from 'react-player';
 
 const contentPath = require('../../content/Intro.mp4');
 
+// Responsive 16:9 player — fills whatever container it's placed in.
 export default function IntroVideo({ controls = true, playing = true }) {
-  return <ReactPlayer url={contentPath} controls={controls} width='100%' playing={playing} />;
+  return (
+    <div style={{ position: 'relative', paddingTop: '56.25%' }}>
+      <ReactPlayer
+        url={contentPath}
+        controls={controls}
+        playing={playing}
+        width='100%'
+        height='100%'
+        style={{ position: 'absolute', top: 0, left: 0 }}
+      />
+    </div>
+  );
 }

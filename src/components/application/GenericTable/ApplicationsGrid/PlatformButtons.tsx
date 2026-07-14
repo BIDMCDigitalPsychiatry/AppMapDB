@@ -7,9 +7,14 @@ import { onlyUnique, sortAscendingToLower } from '../../../../helpers';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     secondaryButton: {
-      color: theme.palette.common.white,
-      background: theme.palette.primary.light,
+      color: theme.palette.primary.dark,
+      background: 'rgba(34, 120, 207, 0.08)',
+      fontWeight: 600,
+      borderRadius: 8,
+      paddingLeft: 10,
+      paddingRight: 10,
       '&:hover': {
+        color: theme.palette.common.white,
         background: theme.palette.primary.main
       }
     }

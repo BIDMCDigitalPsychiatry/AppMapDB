@@ -1,0 +1,143 @@
+{
+  "Platforms": [
+    "Android",
+    "iOS",
+    "Web"
+  ],
+  "Cost": [
+    "Free to Download",
+    "Totally Free",
+    "Payment",
+    "In-App Purchase",
+    "Subscription"
+  ],
+  "DeveloperTypes": [
+    "Government",
+    "For Profit Company",
+    "Non-Profit Company",
+    "Healthcare Company",
+    "Academic Institution"
+  ],
+  "Conditions": [
+    "ADD/ADHD",
+    "Bipolar Disorder",
+    "Cardiovascular Health",
+    "COPD",
+    "Eating Disorders",
+    "Headache",
+    "Mood Disorders",
+    "Non-Specific",
+    "OCD",
+    "Pain",
+    "Perinatal Depression",
+    "Personality Disorders",
+    "Phobias",
+    "PTSD",
+    "Schizophrenia",
+    "Self-Harm",
+    "Sleep",
+    "Stress & Anxiety",
+    "Substance Use",
+    "Substance Use (Alcohol)",
+    "Substance Use (Smoking & Tobacco)"
+  ],
+  "TreatmentApproaches": [
+    "ACT",
+    "CBT",
+    "DBT",
+    "iCBT or Sleep Therapy",
+    "Mindfulness",
+    "Physical Health Exercises"
+  ],
+  "Features": [
+    "Track Mood",
+    "Track Medication",
+    "Track Sleep",
+    "Track Symptoms",
+    "Productivity",
+    "Physical Health",
+    "Psychoeducation",
+    "Journaling",
+    "Deep Breathing",
+    "Picture Gallery/Hope Board",
+    "Peer Support",
+    "Coach/Therapist Connection",
+    "Biodata",
+    "Goal Setting/Habits",
+    "Bbot Interaction",
+    "Bio Feedback with Sense Data",
+    "Identify New Conditions"
+  ],
+  "Functionalities": [
+    "French",
+    "Spanish",
+    "Offline",
+    "Accessibility",
+    "Own Your Own Data",
+    "Email or Export Your Data",
+    "Send Your Data to a Medical Record"
+  ],
+  "Engagements": [
+    "User Generated Data",
+    "Chat/Message",
+    "Assessments/Screenings",
+    "Real Time Response",
+    "Asynchronous Response",
+    "Gamification (Points/Badges)",
+    "Videos",
+    "Audio/Music/Scripts",
+    "AI Support",
+    "Peer Support",
+    "Network Support",
+    "Collaborative With Provider/Other"
+  ],
+  "Inputs": [
+    "Surveys",
+    "Diary",
+    "Geolocation",
+    "Contact List",
+    "Camera",
+    "Microphone",
+    "Step Count",
+    "External Devices",
+    "Social Network"
+  ],
+  "Outputs": [
+    "Notifications",
+    "References/Information",
+    "Social Network",
+    "Reminders",
+    "Graphs of Data",
+    "Summary of Data",
+    "Link to Formal Care/Coaching"
+  ],
+  "Privacy": [
+    "Has Privacy Policy",
+    "Data Stored on Device",
+    "Data Stored on Server",
+    "Can Delete Data",
+    "App Declares Data Use and Purpose",
+    "App Reports Security Measures in Place",
+    "Is PHI Shared",
+    "Is De-Identified Data Shared",
+    "Is Anonymized/Aggregate Data Shared",
+    "Can Opt Out of Data Collection",
+    "Meets HIPAA"
+  ],
+  "Uses": [
+    "Self Help",
+    "Reference",
+    "Hybrid",
+    "Kids Help Phone Approved",
+    "Available in Canada"
+  ],
+  "ClinicalFoundations": [
+    "Well Written Relevant Content",
+    "Does What it Claims",
+    "Patient Facing",
+    "Can Cause Harm",
+    "Use Warning",
+    "Supporting Studies",
+    "Appropriately Advises Patient in Case of Emergency"
+  ]
+}

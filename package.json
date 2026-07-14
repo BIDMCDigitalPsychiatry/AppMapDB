@@ -16,10 +16,10 @@
   "dependencies": {
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
-    "@mui/material": "5.11.0",
-    "@mui/lab": "5.0.0-alpha.112",
-    "@mui/styles": "5.11.0",
     "@mui/icons-material": "5.11.0",
+    "@mui/lab": "5.0.0-alpha.112",
+    "@mui/material": "5.11.0",
+    "@mui/styles": "5.11.0",
     "@mui/x-date-pickers": "5.0.10",
     "@reactions/component": "2.0.2",
     "@rehooks/component-size": "1.0.3",
@@ -40,6 +40,8 @@
     "decimal.js-light": "2.5.1",
     "deepmerge": "4.2.2",
     "dompurify": "2.3.5",
+    "fuzzysort": "3.1.0",
+    "get-browser-fingerprint": "4.1.0",
     "history": "4.10.1",
     "localforage": "1.10.0",
     "logrocket": "2.2.0",
@@ -66,18 +68,30 @@
     "redux-persist": "6.0.0",
     "redux-thunk": "2.4.1",
     "styled-components": "5.3.3",
-    "typescript": "4.5.5",
-    "fuzzysort": "3.1.0",
-    "get-browser-fingerprint": "4.1.0"
+    "typescript": "4.5.5"
   },
   "devDependencies": {
-    "google-play-scraper": "9.1.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@types/jest": "^30.0.0",
     "app-store-scraper": "0.17.0",
     "fs-extra": "9.0.0",
+    "google-play-scraper": "9.1.1",
     "webpack": "^4.44.2"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(get-browser-fingerprint)/)"
+    ],
+    "moduleNameMapper": {
+      "^@mui/material/(.+)$": "@mui/material/node/$1"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:local": "REACT_APP_USE_LOCAL_DATA=true react-scripts start",
+    "refresh-local-data": "node scripts/dumpApplications.js",
+    "seed-local-community": "node scripts/seedLocalCommunity.js",
+    "export-taxonomy": "node scripts/exportTaxonomy.js",
     "build": "react-scripts build && node copy404",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

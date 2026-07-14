@@ -45,6 +45,7 @@ const themeProps = {
   layout: {
     drawerPaths: ['/Apps', '/Home', '/', ''], // Routes where the drawer should be shown
     leftDrawerWidth: 296, //The width of the left nav drawer
+    assistantPanelWidth: 380, //The width of the docked right-side search-assistant panel
     toolbarheight: 64, //The height of the top toolbar
     contentpadding: 8, //The padding around the inner layout content
     contentrowspacing: 2, //the spacing between each row of content (toolbar, filterbar, table, etc)
@@ -134,7 +135,102 @@ export const adminTheme = createTheme(
   })
 );
 
-export const theme = createTheme(adaptV4Theme(themeProps));
+/* ---------------------------------------------------------------------------
+ * Public-facing theme — modernized refresh of the existing brand (same
+ * primary blue + Lato, updated shape/typography/component styling).
+ *
+ * Admin mode intentionally does NOT get this: useLayoutTheme (helpers.tsx)
+ * returns adminTheme above, which is still built from the legacy themeProps,
+ * so volunteer/admin screens render exactly as before.
+ * ------------------------------------------------------------------------- */
+const publicThemeProps = {
+  ...themeProps,
+  palette: {
+    ...themeProps.palette,
+    background: {
+      default: '#F7F9FC',
+      paper: '#FFFFFF'
+    },
+    text: {
+      primary: '#1F2937',
+      secondary: '#5B6472'
+    },
+    divider: '#E5EAF0'
+  },
+  shape: {
+    borderRadius: 10
+  },
+  typography: {
+    ...themeProps.typography,
+    fontWeightMedium: 600,
+    h1: { fontWeight: 700, fontSize: '2.25rem', lineHeight: 1.2 },
+    h2: { fontWeight: 700, fontSize: '1.875rem', lineHeight: 1.25 },
+    h3: { fontWeight: 700, fontSize: '1.5rem', lineHeight: 1.3 },
+    h4: { fontWeight: 700, fontSize: '1.25rem', lineHeight: 1.35 },
+    h5: { fontWeight: 700, fontSize: '1.125rem', lineHeight: 1.4 },
+    h6: { fontWeight: 700, fontSize: '1rem', lineHeight: 1.2 },
+    subtitle1: { lineHeight: 1.4 },
+    body1: { lineHeight: 1.6 },
+    body2: { lineHeight: 1.55 }
+  },
+  overrides: {
+    ...themeProps.overrides,
+    MuiButton: {
+      root: {
+        borderRadius: 8,
+        fontWeight: 600,
+        paddingLeft: 16,
+        paddingRight: 16
+      },
+      contained: {
+        boxShadow: 'none',
+        '&:hover': {
+          boxShadow: '0 2px 6px rgba(16, 24, 40, 0.15)'
+        }
+      }
+    },
+    MuiPaper: {
+      rounded: {
+        borderRadius: 12
+      }
+    },
+    MuiCard: {
+      root: {
+        borderRadius: 14,
+        border: '1px solid #E5EAF0',
+        boxShadow: '0 1px 3px rgba(16, 24, 40, 0.06)'
+      }
+    },
+    MuiChip: {
+      root: {
+        borderRadius: 8,
+        fontWeight: 500
+      }
+    },
+    MuiOutlinedInput: {
+      root: {
+        borderRadius: 10
+      }
+    },
+    MuiTab: {
+      root: {
+        textTransform: 'none',
+        fontWeight: 600
+      }
+    },
+    MuiTooltip: {
+      tooltip: {
+        maxWidth: 700,
+        borderRadius: 8,
+        fontSize: '0.8rem',
+        padding: '8px 12px',
+        backgroundColor: 'rgba(31, 41, 55, 0.96)'
+      }
+    }
+  }
+} as Theme & any;
+
+export const theme = createTheme(adaptV4Theme(publicThemeProps));
 
 const colorLevel = 700;
 

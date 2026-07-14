@@ -1,4 +1,4 @@
-import { Button, Grid, Toolbar, Typography } from '@mui/material';
+import { Box, Button, Grid, Toolbar, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useUserEmail } from '../../layout/hooks';
@@ -9,9 +9,10 @@ const spacing = 3;
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
     primaryHeaderText: {
-      fontWeight: 900,
-      color: palette.primary.dark,
-      fontSize: 30
+      fontWeight: 800,
+      letterSpacing: '-0.02em',
+      color: palette.text.primary,
+      fontSize: 26
     }
   })
 );
@@ -34,13 +35,8 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
     <>
       {showToolbar && (
         <>
-          <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
+          <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 8, display: 'block' }}>
             <Grid alignItems='center' container justifyContent='space-between' spacing={spacing}>
-              {showInterested && (
-                <Grid item xs={12} sx={{ mt: 1 }}>
-                  <InterestedRateApp />
-                </Grid>
-              )}
               <Grid item>
                 {title && (
                   <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
@@ -63,6 +59,11 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
                 </Grid>
               </Grid>
             </Grid>
+            {showInterested && (
+              <Box mt={1.5}>
+                <InterestedRateApp />
+              </Box>
+            )}
           </Toolbar>
         </>
       )}
