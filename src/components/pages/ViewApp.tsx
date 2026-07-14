@@ -72,10 +72,16 @@ export function ViewAppContent({ app = {}, from }) {
   }, [setOpen]);
 
   return (
-    <Grid container justifyContent='flex-start' style={{ padding: sm ? 16 : 32 }} spacing={2}>
+    <Grid container justifyContent='flex-start' style={{ padding: sm ? 16 : 32, maxWidth: 1160, margin: '0 auto' }} spacing={2}>
       {!isPwa && (
-        <Grid component={Button} item style={{ cursor: 'pointer' }} onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}>
-          <Typography>{`<   Back To Results`}</Typography>
+        <Grid item xs={12}>
+          <Button
+            startIcon={<Icons.ArrowBack />}
+            onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}
+            sx={{ textTransform: 'none', fontWeight: 600 }}
+          >
+            Back to results
+          </Button>
         </Grid>
       )}
       <Grid item xs={12}>
@@ -107,27 +113,12 @@ export function ViewAppContent({ app = {}, from }) {
               ) : (
                 <Alert
                   severity='success'
+                  sx={{ '& .MuiAlert-message': { flex: 1 }, '& .MuiAlert-action': { alignItems: 'center', pt: 0, pr: 1 } }}
                   action={
-                    <IconButton
-                      aria-label='close'
-                      color='inherit'
-                      size='small'
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                    >
-                      <Icons.Close fontSize='inherit' />
-                    </IconButton>
-                  }
-                >
-                  <Grid container spacing={4} justifyContent='space-between'>
-                    <Grid item>
-                      <AlertTitle>
-                        <strong>Are you currently using this App?</strong>
-                      </AlertTitle>
-                      If so, would you like to participate in a survey to help improve this web application?
-                    </Grid>
-                    <Grid item xs>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                      <Button color='inherit' size='small' onClick={() => setOpen(false)} sx={{ textTransform: 'none', fontWeight: 600, opacity: 0.75 }}>
+                        No thanks
+                      </Button>
                       <DialogButton
                         onClick={handleChangeRoute(publicUrl('/Survey'), {
                           app,
@@ -138,53 +129,57 @@ export function ViewAppContent({ app = {}, from }) {
                         })}
                         variant='surveyButton'
                       >
-                        Click Here to Take Survey
+                        Take the Survey
                       </DialogButton>
-                    </Grid>
-                  </Grid>
+                    </Box>
+                  }
+                >
+                  <AlertTitle>
+                    <strong>Are you currently using this App?</strong>
+                  </AlertTitle>
+                  If so, would you like to participate in a survey to help improve this web application?
                 </Alert>
               )}
             </Box>
           </Collapse>
         )}
       </Grid>
+      {/* Store-sourced content: visually distinct (tinted, bordered) from MIND's own data below. */}
       <Grid item xs={12}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <Typography className={classes.bold}>Description from App Store, Not Vetted by MIND:</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <ExpandableDescriptionWithLanguages
-              iosLink={iosLink}
-              androidLink={androidLink}
-              functionalities={functionalities}
-              maxDescription={2000}
-              appleStore={appleStore}
-              androidStore={androidStore}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={4} mb={4}>
+        <Box sx={{ backgroundColor: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 3, p: { xs: 2, sm: 3 } }}>
+          <Typography variant='h5'>About this app</Typography>
+          <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>
+            Description and screenshots from the app store — not vetted by MIND
+          </Typography>
+          <ExpandableDescriptionWithLanguages
+            iosLink={iosLink}
+            androidLink={androidLink}
+            functionalities={functionalities}
+            maxDescription={2000}
+            appleStore={appleStore}
+            androidStore={androidStore}
+          />
+          {images.length > 0 && (
+            <Box mt={3}>
               <ImageCarousel images={images} />
             </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography className={classes.primaryText} variant='body1'>
-              Ratings and Reviews ({history.length})
-            </Typography>
-            <Typography variant='body1'>{`Explore the app's qualitative ratings & reviews`}</Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Box mt={2}>{rating && <ViewAppRating {...rating.getValues()} />}</Box>
-          </Grid>
-          {history.length > 1 && (
-            <Grid item xs={12}>
-              <Grid container justifyContent='flex-end'>
-                <Pagination page={page} count={history.length} variant='outlined' shape='rounded' onChange={handlePageChange} />
-              </Grid>
-            </Grid>
           )}
-        </Grid>
+        </Box>
+      </Grid>
+
+      {/* MIND's own evaluation lives on the open page; the tinted box above is
+          what marks the store content as external. */}
+      <Grid item xs={12}>
+        <Box mt={1}>
+          <Typography variant='h5'>Ratings &amp; Reviews ({history.length})</Typography>
+          <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>{`Qualitative ratings & reviews from MIND evaluators`}</Typography>
+          {rating && <ViewAppRating {...rating.getValues()} />}
+          {history.length > 1 && (
+            <Box mt={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Pagination page={page} count={history.length} variant='outlined' shape='rounded' onChange={handlePageChange} />
+            </Box>
+          )}
+        </Box>
       </Grid>
     </Grid>
   );

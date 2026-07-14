@@ -1,4 +1,5 @@
-import { Grid, Typography } from '@mui/material';
+import { Button, Divider, Grid, Typography } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
@@ -18,8 +19,10 @@ import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsG
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     primaryLightText: {
+      // Metadata values: readable brand color (the old primary.light was
+      // low-contrast on white)
       fontWeight: 700,
-      color: palette.primary.light
+      color: palette.primary.dark
     }
   })
 );
@@ -67,20 +70,50 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
   return (
     <Grid container spacing={4}>
       <Grid item style={{ width: imageHeight + 16 }}>
-        <img style={{ height: imageHeight, borderRadius: 15 }} src={icon} alt='logo' />
+        <img style={{ height: imageHeight, width: imageHeight, objectFit: 'cover', borderRadius: 28, border: '1px solid #E5EAF0' }} src={icon} alt='logo' />
       </Grid>
       <Grid item xs>
         <Grid container spacing={4}>
           <Grid item zeroMinWidth xs>
             <Grid container style={{ minWidth: 300 }}>
               <Grid item xs={12}>
-                <Typography className={classes.primaryLightText} variant='h5'>
+                <Typography variant='h3' style={{ letterSpacing: '-0.02em' }}>
                   {name || 'Unknown Name'}
                 </Typography>
-                <Typography color='textSecondary'>{company}</Typography>
+                <Typography color='textSecondary' style={{ marginTop: 2 }}>
+                  {company}
+                </Typography>
               </Grid>
               <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
-                <PlatformButtons platforms={platforms?.filter(p => p?.toLowerCase() !== 'web') || []} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+                {/* One row for every way to get the app: Visit Website leads,
+                    visually distinct from the store platform buttons. */}
+                <Grid container spacing={1} alignItems='center'>
+                  {webPlatform?.length > 0 && (
+                    <Grid item>
+                      <Button
+                        variant='contained'
+                        size='small'
+                        startIcon={<Icons.Language />}
+                        onClick={e => {
+                          e.stopPropagation();
+                          const win = window.open(webLink, '_blank');
+                          win && win.focus();
+                        }}
+                        sx={{ textTransform: 'none', fontWeight: 600 }}
+                      >
+                        Visit Website
+                      </Button>
+                    </Grid>
+                  )}
+                  <Grid item>
+                    <PlatformButtons
+                      platforms={platforms?.filter(p => p?.toLowerCase() !== 'web') || []}
+                      androidLink={androidLink}
+                      iosLink={iosLink}
+                      webLink={webLink}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <Grid container spacing={1}>
@@ -89,17 +122,9 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                       Costs:
                     </Typography>
                   </Grid>
-                  <Grid item>
-                    <Typography noWrap className={classes.primaryLightText} variant='caption'>
-                      {costs.length === 0 ? (
-                        'Unknown Cost'
-                      ) : costs.length > 2 ? (
-                        <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
-                          Multiple Associated Costs
-                        </DialogButton>
-                      ) : (
-                        costs.join(' | ')
-                      )}
+                  <Grid item xs>
+                    <Typography className={classes.primaryLightText} variant='caption'>
+                      {costs.length === 0 ? 'Unknown Cost' : costs.join(' | ')}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -118,17 +143,36 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   </Grid>
                 </Grid>
               </Grid>
-              {webPlatform?.length > 0 && (
-                <Grid item xs={12} style={{ marginTop: 8, marginBottom: 8 }}>
-                  <PlatformButtons platforms={webPlatform} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
+              <Grid item xs={12}>
+                <Grid container spacing={1}>
+                  <Grid item>
+                    <Typography color='textSecondary' variant='caption'>
+                      App Has Supporting Studies:
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography className={classes.primaryLightText} variant='caption'>
+                      {hasSupportingStudies ? 'Yes' : 'No'}
+                    </Typography>
+                  </Grid>
+                  {hasSupportingStudies && !isEmpty(feasibilityStudiesLink) && (
+                    <Grid item>
+                      <ArrowButtonCaption label='See Feasability Studies' link={feasibilityStudiesLink} />
+                    </Grid>
+                  )}
+                  {hasSupportingStudies && !isEmpty(efficacyStudiesLink) && (
+                    <Grid item>
+                      <ArrowButtonCaption label='See Efficacy Studies' link={efficacyStudiesLink} />
+                    </Grid>
+                  )}
                 </Grid>
-              )}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item style={{ width: 256 }}>
-        <Grid container spacing={1}>
+      <Grid item style={{ width: 296 }}>
+        <Grid container spacing={1} style={{ background: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 12, padding: 16, margin: 0, width: '100%' }}>
           {from !== 'pwa' && type !== 'survey' && (
             <>
               <Grid item xs={12}>
@@ -159,7 +203,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   </DialogButton>
                 )}
               </Grid>
-              <Grid item xs={12} style={{ textAlign: 'right' }}>
+              <Grid item xs={12}>
                 <DialogButton
                   Module={SuggestEditDialog}
                   initialValues={{ [tables.applications]: initialValues }}
@@ -167,48 +211,23 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   label='Flag/Suggest an Edit'
                 />
               </Grid>
+              <Grid item xs={12}>
+                <Divider style={{ margin: '8px 0' }} />
+              </Grid>
             </>
           )}
           <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Grid container spacing={1}>
-                  <Grid item>
-                    <Typography color='textSecondary' variant='caption'>
-                      Last Rating:
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography noWrap className={classes.primaryLightText} variant='caption'>
-                      {lastRating}
-                    </Typography>
-                  </Grid>
-                </Grid>
+            <Grid container spacing={1} justifyContent='space-between'>
+              <Grid item>
+                <Typography color='textSecondary' variant='body2'>
+                  Last updated
+                </Typography>
               </Grid>
               <Grid item>
-                <Grid container spacing={1}>
-                  <Grid item>
-                    <Typography color='textSecondary' variant='caption'>
-                      App Has Supported Studies:
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography className={classes.primaryLightText} variant='caption'>
-                      {hasSupportingStudies ? 'Yes' : 'No'}
-                    </Typography>
-                  </Grid>
-                </Grid>
+                <Typography noWrap className={classes.primaryLightText} variant='body2'>
+                  {lastRating}
+                </Typography>
               </Grid>
-              {hasSupportingStudies && !isEmpty(feasibilityStudiesLink) && (
-                <Grid item>
-                  <ArrowButtonCaption label='See Feasability Studies' link={feasibilityStudiesLink} />
-                </Grid>
-              )}
-              {hasSupportingStudies && !isEmpty(efficacyStudiesLink) && (
-                <Grid item>
-                  <ArrowButtonCaption label='See Efficacy Studies' link={efficacyStudiesLink} />
-                </Grid>
-              )}
             </Grid>
           </Grid>
         </Grid>

@@ -6,7 +6,6 @@ import { isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers
 import { useChangeRoute } from '../../../layout/hooks';
 import { getAppCompany, getAppIcon, getAppName } from '../Applications/selectors';
 import PlatformButtons from './PlatformButtons';
-import DialogButton from '../../GenericDialog/DialogButton';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
 import { useDialogState } from '../../GenericDialog/useDialogState';
 import { title } from '../../GenericDialog/ViewApp';
@@ -16,7 +15,7 @@ import { categories } from '../../../../constants';
 import { useAreFiltersActive } from '../../../pages/useAppTableData';
 import { useFilterCount } from '../../../layout/useFilterCount';
 
-const height = 336;
+const height = 352;
 const extraPwaHeight = 48;
 const iconSize = 64;
 
@@ -175,16 +174,8 @@ export default function ApplicationsGridItem(props: any) {
         {/* Platforms + cost */}
         <Box sx={{ mt: 1.5 }}>
           <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
-          <Typography noWrap display='block' color='textSecondary' variant='caption' sx={{ mt: 0.5 }}>
-            {costs.length === 0 ? (
-              'Unknown Cost'
-            ) : costs.length > 2 ? (
-              <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
-                Multiple Associated Costs
-              </DialogButton>
-            ) : (
-              costs.join(' | ')
-            )}
+          <Typography display='block' color='textSecondary' variant='caption' className={classes.clamp2} sx={{ mt: 0.5 }}>
+            {costs.length === 0 ? 'Unknown Cost' : costs.join(' | ')}
           </Typography>
         </Box>
 

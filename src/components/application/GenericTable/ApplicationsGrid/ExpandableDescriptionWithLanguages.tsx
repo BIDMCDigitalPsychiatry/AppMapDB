@@ -86,15 +86,9 @@ export default function ExpandableDescriptionWithLanguages({
   return (
     <>
       {languageTabs?.length > 1 && (
-        <Tabs
-          //classes={{ indicator: classes.indicator }}
-          value={tab}
-          onChange={handleChangeTab}
-          //aria-label='styled tabs example'
-          TabIndicatorProps={{ children: <div /> }}
-        >
+        <Tabs value={tab} onChange={handleChangeTab} sx={{ mb: 2, minHeight: 40 }}>
           {languageTabs.map(p => (
-            <Tab key={p} /*className={classes.tab}*/ value={p} label={p} />
+            <Tab key={p} value={p} label={p} sx={{ minHeight: 40 }} />
           ))}
         </Tabs>
       )}
