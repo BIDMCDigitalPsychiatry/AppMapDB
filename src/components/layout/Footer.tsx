@@ -31,9 +31,19 @@ const useStyles = makeStyles(({ palette }: any) =>
       flexWrap: 'wrap',
       gap: 32
     },
+    // Explore + Contact always stay side by side, even on a narrow phone —
+    // minWidth:0 lets them shrink past their content's natural width instead
+    // of forcing a wrap; flexWrap:'nowrap' keeps the row from breaking.
+    linkColumnsRow: {
+      display: 'flex',
+      flexWrap: 'nowrap',
+      gap: 24,
+      flex: '1 1 280px',
+      minWidth: 0
+    },
     column: {
-      minWidth: 160,
-      flex: '1 1 200px'
+      flex: 1,
+      minWidth: 0
     },
     brandColumn: {
       minWidth: 240,
@@ -58,6 +68,7 @@ const useStyles = makeStyles(({ palette }: any) =>
       fontSize: 14,
       marginBottom: 6,
       cursor: 'pointer',
+      overflowWrap: 'break-word', // the email address has no natural break point on a narrow column
       '&:hover': {
         color: palette.primary.main
       }
@@ -108,30 +119,32 @@ export default function Footer({ variant = 'normal' }) {
               </Typography>
             </div>
           )}
-          <div className={classes.column}>
-            <Typography className={classes.columnHeading}>Explore</Typography>
-            {navLinks.map(({ id, route }) => (
-              <Link key={id} className={classes.link} underline='none' onClick={handleChangeRoute(route)}>
-                {id}
+          <div className={classes.linkColumnsRow}>
+            <div className={classes.column}>
+              <Typography className={classes.columnHeading}>Explore</Typography>
+              {navLinks.map(({ id, route }) => (
+                <Link key={id} className={classes.link} underline='none' onClick={handleChangeRoute(route)}>
+                  {id}
+                </Link>
+              ))}
+              {isAdmin && (
+                <Link className={classes.link} underline='none' onClick={handleChangeRoute('/Admin')}>
+                  Admin
+                </Link>
+              )}
+            </div>
+            <div className={classes.column}>
+              <Typography className={classes.columnHeading}>Contact</Typography>
+              <Link className={classes.link} underline='none' href={`mailto:${pkg.contactEmail}`} target='_blank'>
+                {pkg.contactEmail}
               </Link>
-            ))}
-            {isAdmin && (
-              <Link className={classes.link} underline='none' onClick={handleChangeRoute('/Admin')}>
-                Admin
+              <Link className={classes.link} underline='none' href='https://www.digitalpsych.org/' target='_blank'>
+                Division of Digital Psychiatry
               </Link>
-            )}
-          </div>
-          <div className={classes.column}>
-            <Typography className={classes.columnHeading}>Contact</Typography>
-            <Link className={classes.link} underline='none' href={`mailto:${pkg.contactEmail}`} target='_blank'>
-              {pkg.contactEmail}
-            </Link>
-            <Link className={classes.link} underline='none' href='https://www.digitalpsych.org/' target='_blank'>
-              Division of Digital Psychiatry
-            </Link>
-            <Link className={classes.link} underline='none' onClick={handleChangeRoute('/Community')}>
-              Community
-            </Link>
+              <Link className={classes.link} underline='none' onClick={handleChangeRoute('/Community')}>
+                Community
+              </Link>
+            </div>
           </div>
         </div>
 
