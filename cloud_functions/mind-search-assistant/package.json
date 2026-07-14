@@ -1,0 +1,16 @@
+{
+  "name": "mind-search-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LLM search assistant for the mindapps.org app library: translates natural-language requests into taxonomy-constrained search filters. No database access.",
+  "main": "lambda.js",
+  "scripts": {
+    "start": "node local-server.js",
+    "start:mock": "node local-server.js --mock",
+    "eval": "node evals/run.js",
+    "test": "node evals/offline-tests.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.1"
+  }
+}
