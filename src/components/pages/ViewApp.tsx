@@ -72,8 +72,14 @@ export function ViewAppContent({ app = {}, from }) {
   }, [setOpen]);
 
   return (
-    <Grid container justifyContent='flex-start' style={{ padding: sm ? 16 : 32, maxWidth: 1160, margin: '0 auto' }} spacing={2}>
-      {!isPwa && (
+    // Centering/max-width lives on this wrapper, not the Grid container —
+    // any margin on the same element as Grid's `spacing` prop cancels the
+    // negative-margin compensation spacing relies on, leaking padding out
+    // past the viewport's right edge (the same bug hit on the Framework
+    // page and the footer).
+    <Box style={{ maxWidth: 1160, margin: '0 auto', padding: sm ? 16 : 32, boxSizing: 'border-box', overflowX: 'hidden' }}>
+      <Grid container justifyContent='flex-start' spacing={2}>
+        {!isPwa && (
         <Grid item xs={12}>
           <Button
             startIcon={<Icons.ArrowBack />}
@@ -113,13 +119,37 @@ export function ViewAppContent({ app = {}, from }) {
               ) : (
                 <Alert
                   severity='success'
-                  sx={{ '& .MuiAlert-message': { flex: 1 }, '& .MuiAlert-action': { alignItems: 'center', pt: 0, pr: 1 } }}
+                  sx={{
+                    // Keep the icon paired with the message on one line (row);
+                    // only the action row wraps onto its own full-width line
+                    // on mobile via flexBasis. Putting the whole Alert into a
+                    // column (an earlier attempt) stranded the icon on its
+                    // own line above the text, which read as broken.
+                    flexWrap: 'wrap',
+                    '& .MuiAlert-message': { flex: 1, minWidth: 220 },
+                    '& .MuiAlert-action': {
+                      alignItems: 'center',
+                      pt: 0,
+                      pr: 1,
+                      flexBasis: sm ? '100%' : undefined,
+                      justifyContent: sm ? 'flex-end' : undefined,
+                      ml: sm ? 0 : undefined,
+                      mt: sm ? 1 : undefined
+                    }
+                  }}
                   action={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', justifyContent: 'flex-end', width: '100%' }}>
                       <Button color='inherit' size='small' onClick={() => setOpen(false)} sx={{ textTransform: 'none', fontWeight: 600, opacity: 0.75 }}>
                         No thanks
                       </Button>
                       <DialogButton
+                        fullWidth={false}
+                        // The surveyButton CSS class hardcodes width:300 (and
+                        // the fullWidth prop's own width:100% competes with it
+                        // at equal CSS specificity — which one wins depends on
+                        // stylesheet injection order, not this prop). Force it
+                        // with an inline style, which always wins regardless.
+                        style={{ width: 'auto', minWidth: 0 }}
                         onClick={handleChangeRoute(publicUrl('/Survey'), {
                           app,
                           mode: 'add',
@@ -181,6 +211,7 @@ export function ViewAppContent({ app = {}, from }) {
           )}
         </Box>
       </Grid>
-    </Grid>
+      </Grid>
+    </Box>
   );
 }
