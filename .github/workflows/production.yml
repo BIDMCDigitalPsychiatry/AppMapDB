@@ -17,6 +17,11 @@ jobs:
         yarn build
       env:
         CI: false
+        # Endpoint for the search-assistant Lambda (cloud_functions/mind-search-assistant).
+        # Set as a repository VARIABLE (Settings > Secrets and variables > Actions > Variables),
+        # not a secret: REACT_APP_* values are compiled into the public JS bundle.
+        # If unset, the assistant simply does not render — that is the off switch.
+        REACT_APP_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
