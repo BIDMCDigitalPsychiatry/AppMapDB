@@ -21,7 +21,12 @@ localforage &&
 
 export const persistConfig = {
   key: 'app',
-  storage: localforage
+  storage: localforage,
+  // The database slice holds the full applications cache (tens of MB once
+  // loaded). Persisting it re-serializes everything on every store update —
+  // a visible sitewide lag on each click — and buys nothing: the app
+  // re-scans the table on every page load anyway.
+  blacklist: ['database']
 };
 
 export default function configureStore(history: History, initialState?: AppState, appConfig?: any) {
