@@ -334,6 +334,11 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                 className={`${classes.thBase} ${classes.thCorner} ${classes.thRow1}`}
                 style={{ width: APP_COL, left: 0, zIndex: 5, borderBottom: 'none' }}
               />
+              {/* Last Evaluated + Details lead the taxonomy matrix: they're what
+                  the app raters reach for most, and at the far right they were
+                  a full horizontal scroll away. */}
+              <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow1}`} style={{ width: DATE_COL, borderBottom: 'none' }} />
+              <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow1}`} style={{ width: ACTIONS_COL, borderBottom: 'none' }} />
               {CATEGORY_DEFS.map(c => (
                 <th
                   key={c.id}
@@ -344,8 +349,6 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                   {c.header ?? c.id}
                 </th>
               ))}
-              <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow1}`} style={{ width: DATE_COL, borderBottom: 'none', borderRight: 'none' }} />
-              <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow1}`} style={{ width: ACTIONS_COL, borderBottom: 'none', borderRight: 'none' }} />
             </tr>
             <tr>
               <th
@@ -355,13 +358,6 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
               >
                 Application <SortIcon active={sortKey === 'name'} />
               </th>
-              {CATEGORY_DEFS.map(c =>
-                c.values.map(v => (
-                  <th key={`${c.id}-${v}`} className={`${classes.thBase} ${classes.thValue} ${classes.thRow2}`} style={{ width: VALUE_COL }}>
-                    {breakSlashes(shortLabel(c.questions)(v))}
-                  </th>
-                ))
-              )}
               <th
                 className={`${classes.thBase} ${classes.thCorner} ${classes.sortable} ${classes.thRow2}`}
                 style={{ width: DATE_COL }}
@@ -369,9 +365,16 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
               >
                 Last Evaluated <SortIcon active={sortKey === 'updated'} />
               </th>
-              <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow2}`} style={{ width: ACTIONS_COL, borderRight: 'none' }}>
+              <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow2}`} style={{ width: ACTIONS_COL }}>
                 Details
               </th>
+              {CATEGORY_DEFS.map(c =>
+                c.values.map(v => (
+                  <th key={`${c.id}-${v}`} className={`${classes.thBase} ${classes.thValue} ${classes.thRow2}`} style={{ width: VALUE_COL }}>
+                    {breakSlashes(shortLabel(c.questions)(v))}
+                  </th>
+                ))
+              )}
             </tr>
           </>
         )}
@@ -393,6 +396,12 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                   </div>
                 </Box>
               </td>
+              <td className={classes.td} onClick={open}>
+                <LastEvaluated created={app.created} updated={app.updated} />
+              </td>
+              <td className={classes.td} style={{ cursor: 'default' }}>
+                <RowActions app={app} />
+              </td>
               {CATEGORY_DEFS.map(c => {
                 const tags: string[] = Array.isArray(r.tags?.[c.field]) ? r.tags[c.field] : [];
                 const toShort = shortLabel(c.questions);
@@ -402,12 +411,6 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                   </td>
                 ));
               })}
-              <td className={classes.td} onClick={open}>
-                <LastEvaluated created={app.created} updated={app.updated} />
-              </td>
-              <td className={classes.td} style={{ cursor: 'default' }}>
-                <RowActions app={app} />
-              </td>
             </>
           );
         }}
