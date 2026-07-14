@@ -22,33 +22,32 @@ export interface ComponentProps {
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
+    // Standard underline tabs (same language as the app-page language tabs).
     root: ({ rounded }) => ({
       borderRadius: rounded ? undefined : 0,
       padding: 0
     }),
     tabs: ({ minHeight }: any) => ({
       minHeight,
-      borderRadius: 'inherit'
+      borderBottom: `1px solid ${palette.divider ?? '#E5EAF0'}`
     }),
     indicator: {
       background: palette.primary.main,
-      marginBottom: 4,
-      height: 60,
-      zIndex: 0,
-      borderRadius: 12
+      height: 3,
+      borderRadius: 3
     },
     labelActive: {
-      color: 'white'
+      color: palette.primary.dark
     },
     label: {
-      color: palette.text.primary
+      color: palette.text.secondary
     },
     labelIcon: ({ minHeight }: any) => ({
       zIndex: 1,
       minHeight
     }),
     tabroot: ({ minHeight }: any) => ({
-      padding: 0,
+      padding: '0 20px',
       zIndex: 1,
       minWidth: 0,
       minHeight
@@ -71,7 +70,7 @@ const TabSelectorTextToolBarNew = ({
   labelColor = undefined,
   orientation,
   wrapped,
-  minHeight = 64,
+  minHeight = 48,
   rounded = true,
   onChange,
   value: Value = undefined

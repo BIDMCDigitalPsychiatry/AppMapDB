@@ -9,9 +9,10 @@ const spacing = 3;
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
     primaryHeaderText: {
-      fontWeight: 900,
-      color: palette.primary.dark,
-      fontSize: 30
+      fontWeight: 800,
+      letterSpacing: '-0.02em',
+      color: palette.text.primary,
+      fontSize: 26
     }
   })
 );
@@ -36,11 +37,6 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
         <>
           <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
             <Grid alignItems='center' container justifyContent='space-between' spacing={spacing}>
-              {showInterested && (
-                <Grid item xs={12} sx={{ mt: 1 }}>
-                  <InterestedRateApp />
-                </Grid>
-              )}
               <Grid item>
                 {title && (
                   <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
@@ -62,6 +58,11 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
                   )}
                 </Grid>
               </Grid>
+              {showInterested && (
+                <Grid item xs={12}>
+                  <InterestedRateApp />
+                </Grid>
+              )}
             </Grid>
           </Toolbar>
         </>
