@@ -1,7 +1,6 @@
 import ExploreGridItem from './ApplicationsGrid/ApplicationsGridItem';
 import { VirtuosoGrid } from 'react-virtuoso';
 import styled from '@emotion/styled';
-import { grey } from '@mui/material/colors';
 
 /*
  * Columns are driven by the width of the grid itself (container queries),
@@ -36,7 +35,6 @@ const ListContainer = styled.div`
   padding: 8px;
   display: flex;
   flex-wrap: wrap;
-  background: ${grey[100]};
   container-type: inline-size;
 `;
 

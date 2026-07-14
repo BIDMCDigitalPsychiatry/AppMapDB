@@ -1,4 +1,4 @@
-import { Button, Grid, Toolbar, Typography } from '@mui/material';
+import { Box, Button, Grid, Toolbar, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import { useUserEmail } from '../../layout/hooks';
@@ -35,7 +35,7 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
     <>
       {showToolbar && (
         <>
-          <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 16 }}>
+          <Toolbar disableGutters style={{ marginTop: 16, paddingBottom: 8, display: 'block' }}>
             <Grid alignItems='center' container justifyContent='space-between' spacing={spacing}>
               <Grid item>
                 {title && (
@@ -58,12 +58,12 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
                   )}
                 </Grid>
               </Grid>
-              {showInterested && (
-                <Grid item xs={12}>
-                  <InterestedRateApp />
-                </Grid>
-              )}
             </Grid>
+            {showInterested && (
+              <Box mt={1.5}>
+                <InterestedRateApp />
+              </Box>
+            )}
           </Toolbar>
         </>
       )}

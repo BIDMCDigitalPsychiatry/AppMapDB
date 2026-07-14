@@ -6,7 +6,7 @@ const InterestedRateApp = () => {
   const handleChangeRoute = useHandleChangeRoute();
 
   return (
-    <Box sx={{ backgroundColor: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 1.5, px: 2, py: 1.5 }}>
+    <Box sx={{ backgroundColor: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 1.5, px: 2, py: 1.25 }}>
       <Grid container alignItems='center' spacing={2}>
         <Grid item xs>
           <Typography sx={{ fontWeight: 800, fontSize: 18, letterSpacing: '-0.01em' }}>Interested in rating an app?</Typography>

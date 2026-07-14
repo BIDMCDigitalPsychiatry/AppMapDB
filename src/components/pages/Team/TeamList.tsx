@@ -103,17 +103,17 @@ const TeamList = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Box mt={6} mb={2} pl={2} pr={2}>
-          <Grid container spacing={6}>
-            {showArchived && (
+        {showArchived && (
+          <Box mt={3} mb={2} pl={2} pr={2}>
+            <Grid container>
               <Grid item xs={12} className={classes.archiveBanner}>
                 <Typography variant='h6' style={{ color: 'white' }}>
                   {`Viewing Archived`}
                 </Typography>
               </Grid>
-            )}
-          </Grid>
-        </Box>
+            </Grid>
+          </Box>
+        )}
         {filtered.length === 0 ? (
           <Box m={3}>
             <Typography variant='h6' color='textSecondary' align='center'>
