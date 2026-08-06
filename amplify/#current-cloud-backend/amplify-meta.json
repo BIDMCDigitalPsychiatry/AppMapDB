@@ -24,7 +24,7 @@
 			},
 			"lastPushTimeStamp": "2020-07-13T18:26:47.817Z",
 			"output": {
-				"AppClientSecret": "a6h9b7epmrf1hhgg5ghcqhhmrifrmd6riildsmasq2j514p586l",
+				"AppClientSecret": "",
 				"UserPoolId": "us-east-1_hXektTdUL",
 				"AppClientIDWeb": "4ngc7297ls1pngpm8hapdv03f9",
 				"AppClientID": "4npdd15ht294p2kvrl6fdvmron",
