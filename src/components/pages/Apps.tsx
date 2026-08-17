@@ -11,6 +11,7 @@ import useAppTableData from './useAppTableData';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../layout/hooks';
 import PublicApplicationsTable from './PublicApplicationsTable';
+import AdminToggle from '../application/GenericTable/Applications/AdminToggle';
 import SearchAssistant from './SearchAssistant/SearchAssistant';
 import useFilterMetrics from './SearchAssistant/useFilterMetrics';
 import { useFullScreen } from '../../hooks';
@@ -40,6 +41,10 @@ export default function Apps() {
       {renderDialogModule(SuggestEditDialog)}
       {renderDialogModule(ApplicationDialog)}
       {renderDialogModule(RateNewAppDialog)}
+      {/* Rendered at the page level so admins can always reach the admin/public
+          mode switch — the tables that used to host it aren't mounted until
+          adminMode is already on (it renders nothing for non-admins). */}
+      <AdminToggle />
       {effectiveViewMode === 'table' ? (
         adminMode ? (
           // Admin mode keeps the full ratings matrix (click-to-pin columns) as a curation tool.
