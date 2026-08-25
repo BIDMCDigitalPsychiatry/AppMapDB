@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+import { CircularProgress, Box } from '@mui/material';
 import Routes from './routes';
 import { ConnectedRouter } from 'connected-react-router';
 import { AppState } from '../../store';
@@ -28,7 +30,16 @@ function AppRouter(props: AppRouterProps) {
       ) : (
         <VersionSelector>
           <Layout>
-            <Routes />
+            {/* Fallback for the lazy-loaded route chunks (see routes.tsx) */}
+            <Suspense
+              fallback={
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+                  <CircularProgress />
+                </Box>
+              }
+            >
+              <Routes />
+            </Suspense>
           </Layout>
         </VersionSelector>
       )}

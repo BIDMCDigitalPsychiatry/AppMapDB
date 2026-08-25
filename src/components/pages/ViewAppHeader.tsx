@@ -1,10 +1,10 @@
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+﻿import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import PlatformButtons from '../application/GenericTable/ApplicationsGrid/PlatformButtons';
-import { isEmpty, publicUrl, uuid } from '../../helpers';
+import { isEmpty, publicUrl, uuid , EMPTY_OBJECT } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
@@ -25,8 +25,8 @@ const useStyles = makeStyles(({ palette }: any) =>
       color: palette.primary.dark
     },
     // A real stylesheet class for both the base and hover state. The
-    // earlier attempt set the base color via inline `style`, which — being
-    // inline — always beats ANY stylesheet rule for the same property,
+    // earlier attempt set the base color via inline `style`, which â€” being
+    // inline â€” always beats ANY stylesheet rule for the same property,
     // including a :hover class; the hover rule could never win against its
     // own base style. Only a real class (not inline style) lets CSS's own
     // cascade transition between base and :hover correctly.
@@ -78,7 +78,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
   const costs = asArray(costsRaw);
   const clinicalFoundations = asArray(clinicalFoundationsRaw);
 
-  const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] || {});
+  const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] ?? EMPTY_OBJECT);
   const name = getAppName(app);
   const company = getAppCompany(app);
   const icon = getAppIcon(app);
@@ -91,7 +91,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
 
   const lastRating = useLastRatingDateTime({ created, updated });
   // Fixed pixel columns (icon, actions panel) and a hard-coded minWidth on
-  // the metadata column don't fit a phone viewport — this whole layout
+  // the metadata column don't fit a phone viewport â€” this whole layout
   // collapses to a single stacked column below 'sm'.
   const iconSize = sm ? 88 : imageHeight;
 
@@ -189,7 +189,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   // element as Grid's `spacing` prop overrides only part of
                   // its negative-margin compensation (marginTop here would
                   // leave marginLeft's compensation intact but break the
-                  // vertical one), leaking extra space above — the same bug
+                  // vertical one), leaking extra space above â€” the same bug
                   // class hit repeatedly elsewhere this session. A tight
                   // vertical stack (not wrap) since these two labels rarely
                   // fit side by side in this column anyway.
@@ -238,7 +238,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
               <Grid item xs={12}>
                 {/* variant='default' passes className through untouched (the
                     primaryButton2/outlined branches either hardcode their own
-                    className or don't forward one at all) — needed so this
+                    className or don't forward one at all) â€” needed so this
                     secondary action can have a real hover state distinct
                     from Rate an App above, instead of the tiny text-link
                     'arrowButton' style it used before. */}
@@ -276,3 +276,4 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
     </Grid>
   );
 }
+

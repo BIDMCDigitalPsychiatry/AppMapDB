@@ -1,18 +1,29 @@
+import { lazy } from 'react';
 import { Route, Switch } from 'react-router';
-import RatingProcess from '../pages/RatingProcess';
 import Apps from '../pages/Apps';
-import MyRatings from '../pages/MyRatings/MyRatings';
-import { publicUrl } from '../../helpers';
-import PlayGround from './PlayGround';
-import FrameworkQuestions from '../pages/FrameWorkQuestions/FrameworkQuestions';
-import RateNewAppIntro from '../pages/RateNewAppIntro';
-import RateNewApp, { RateExistingApp } from '../pages/RateNewApp/RateNewApp';
 import ViewApp from '../pages/ViewApp';
-import RateAnApp from '../pages/RateAnApp';
-import Admin from '../pages/Admin/Admin';
-import CommunityLayout from '../pages/Community/CommunityLayout';
-import Survey from '../pages/Survey/Survey';
-import SurveyFollowUp from '../pages/Survey/SurveyFollowUp';
+import { publicUrl } from '../../helpers';
+
+/*
+ * Route-level code splitting (PLAN_MODERNIZATION.md §3): the public library
+ * (Apps) and the app detail page stay in the main bundle — they are the
+ * landing experience. Everything else (admin tools, rating wizard, community,
+ * surveys) loads on navigation, so first paint doesn't ship code most
+ * visitors never use. The upstream <Suspense> in AppRouter shows the
+ * existing fallback while a chunk loads.
+ */
+const RatingProcess = lazy(() => import('../pages/RatingProcess'));
+const MyRatings = lazy(() => import('../pages/MyRatings/MyRatings'));
+const PlayGround = lazy(() => import('./PlayGround'));
+const FrameworkQuestions = lazy(() => import('../pages/FrameWorkQuestions/FrameworkQuestions'));
+const RateNewAppIntro = lazy(() => import('../pages/RateNewAppIntro'));
+const RateNewApp = lazy(() => import('../pages/RateNewApp/RateNewApp'));
+const RateExistingApp = lazy(() => import('../pages/RateNewApp/RateNewApp').then(m => ({ default: m.RateExistingApp })));
+const RateAnApp = lazy(() => import('../pages/RateAnApp'));
+const Admin = lazy(() => import('../pages/Admin/Admin'));
+const CommunityLayout = lazy(() => import('../pages/Community/CommunityLayout'));
+const Survey = lazy(() => import('../pages/Survey/Survey'));
+const SurveyFollowUp = lazy(() => import('../pages/Survey/SurveyFollowUp'));
 
 const Routes = () => {
   return (

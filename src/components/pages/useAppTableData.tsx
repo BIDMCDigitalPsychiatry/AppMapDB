@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { dynamo, tables, indexes } from '../../database/dbConfig';
 import Application from '../../database/models/Application';
 import { useApplications } from '../../database/useApplications';
-import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
+import { getDayTimeFromTimestamp, isEmpty, EMPTY_OBJECT } from '../../helpers';
 import { termMatchesTag } from '../../database/tagHierarchy';
 import { AppState } from '../../store';
 import { getAppCompany, getAppName } from '../application/GenericTable/Applications/selectors';
@@ -240,7 +240,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   const [loading, setLoading] = React.useState(false);
   const count = Object.keys(apps).length;
 
-  const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
+  const filters = useSelector((s: AppState) => s.table[table]?.filters ?? EMPTY_OBJECT) as any;
 
   const handleGetRow = React.useCallback(
     id => {

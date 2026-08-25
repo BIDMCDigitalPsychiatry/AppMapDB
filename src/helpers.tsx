@@ -123,6 +123,11 @@ export function spread(final, current) {
   return { ...final, ...current };
 }
 
+// Stable empty-object reference for redux selectors: `useSelector(s => x || {})`
+// returns a NEW object on every store notification when x is missing, which
+// re-renders the consumer on every dispatched action (PLAN_MODERNIZATION §3).
+export const EMPTY_OBJECT: any = {};
+
 export function isEmpty(str) {
   return !str || 0 === str.length;
 }

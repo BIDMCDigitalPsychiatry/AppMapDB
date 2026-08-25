@@ -3,7 +3,7 @@ import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import pkg from '../../../../../package.json';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
-import { AWS } from '../../../../database/dbConfig';
+import { sendSesEmail } from '../../../../database/dbConfig';
 
 function sendEmail(name, email, suggestion, applicationInfo) {
   const emailAddresses = pkg.emailUsers.split(',');
@@ -49,7 +49,7 @@ function sendEmail(name, email, suggestion, applicationInfo) {
   };
 
   // Create the promise and SES service object
-  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+  var sendPromise = sendSesEmail(params);
 
   // Handle promise's fulfilled/rejected states
   sendPromise

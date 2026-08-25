@@ -1,5 +1,5 @@
-import pkg from '../../../../package.json';
-import { AWS } from '../../../database/dbConfig';
+﻿import pkg from '../../../../package.json';
+import { sendSesEmail } from '../../../database/dbConfig';
 import { hostAddress } from '../../../helpers';
 
 export function sendSurveyNotificationEmail({ email, appName }) {
@@ -36,7 +36,7 @@ export function sendSurveyNotificationEmail({ email, appName }) {
   };
 
   // Create the promise and SES service object
-  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+  var sendPromise = sendSesEmail(params as any);
 
   // Handle promise's fulfilled/rejected states
   sendPromise
@@ -88,7 +88,7 @@ export function sendSurveyEmail({ email }) {
   };
 
   // Create the promise and SES service object
-  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+  var sendPromise = sendSesEmail(params as any);
 
   // Handle promise's fulfilled/rejected states
   sendPromise
@@ -140,7 +140,7 @@ export function sendSurveyFollowUpEmail({ email, appName, surveyId = '', appId, 
   };
 
   // Create the promise and SES service object
-  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+  var sendPromise = sendSesEmail(params as any);
 
   // Handle promise's fulfilled/rejected states
   sendPromise
@@ -151,3 +151,4 @@ export function sendSurveyFollowUpEmail({ email, appName, surveyId = '', appId, 
       console.error(err, err.stack);
     });
 }
+

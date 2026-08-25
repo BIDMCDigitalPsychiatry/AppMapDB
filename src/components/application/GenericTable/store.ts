@@ -80,7 +80,15 @@ export const useTableFilterValue = (tableId, filterId) => {
   return [value, setValue];
 };
 
-export const useTable = name => useSelector((state: AppState) => state.table[name] ?? ({ id: name } as any));
+// Stable per-table default: returning a fresh object literal from a selector
+// re-renders every consumer on every dispatched action (PLAN_MODERNIZATION §3).
+const defaultTables = new Map<string, any>();
+const defaultTable = (name: string) => {
+  if (!defaultTables.has(name)) defaultTables.set(name, { id: name });
+  return defaultTables.get(name);
+};
+
+export const useTable = name => useSelector((state: AppState) => state.table[name] ?? defaultTable(name));
 
 export function useTableValues(name): any {
   const values = useTable(name);
@@ -98,11 +106,9 @@ export function useTableValues(name): any {
   return [values, setTableValues];
 }
 
+const EMPTY_FILTERS = {};
 export function useTableFilterValues(name): any {
-  const values = useSelector((state: AppState) => {
-    const table = state.table[name] ?? { id: name, filters: {} };
-    return table?.filters ?? {};
-  });
+  const values = useSelector((state: AppState) => state.table[name]?.filters ?? EMPTY_FILTERS);
   const tableFilterUpdate = useTableFilterUpdate();
   const setValues = React.useCallback(
     values => {

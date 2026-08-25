@@ -4,7 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
 import pkg from '../../../package.json';
-import { AWS } from '../../database/dbConfig';
+import { sendSesEmail } from '../../database/dbConfig';
 
 function sendEmail({ name, title, email, institution, details }) {
   const emailAddresses = pkg.emailUsers.split(',');
@@ -47,7 +47,7 @@ function sendEmail({ name, title, email, institution, details }) {
   };
 
   // Create the promise and SES service object
-  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+  var sendPromise = sendSesEmail(params as any);
 
   // Handle promise's fulfilled/rejected states
   sendPromise
