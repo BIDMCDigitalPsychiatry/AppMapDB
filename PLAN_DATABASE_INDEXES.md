@@ -1,9 +1,9 @@
 # Database Performance & Index Plan (Phase 0/1)
 
-**Status:** awaiting final confirmation to start Phase 0/1
-**Owner:** Chris Van Emmerik · **Drafted:** 2026-08-25
-**Branch:** `feature/db-index-optimization` (all work lands here; merged manually via GitHub)
-**Scope guard:** Phases 2–3 are documented for planning but **deferred** — Phase 2 waits on coordination with the external organization that also accesses this database. Nothing in Phase 0/1 changes what any existing client can read or write.
+**Status:** ✅ **Phases 0 and 1 COMPLETE — deployed to production 2026-08-25** (PR #128)
+**Owner:** Chris Van Emmerik · **Drafted:** 2026-08-25 · **Completed:** 2026-08-25
+**Verification:** full old-vs-new parity sweep (public / admin / pending / archived / history / MyRatings all match row-for-row against a live scan), plus a live approve → un-approve lifecycle test on production with clean `0 differences` audits after each transition. The snapshot approach considered earlier is **superseded by the index solution** and is no longer planned.
+**Scope guard:** Phases 2–3 remain documented for planning but **deferred** — Phase 2 waits on coordination with the external organization that also accesses this database.
 
 ---
 
@@ -60,7 +60,7 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 ### 0.3 Indexes + backfill
 - [x] Backfill/reconcile script (`scripts/db-migration/`): computes per-app latest approved / latest deleted / latest pending, stamps `cur` flags, clears stray flags, sets `groupId = _id` on legacy rows missing it (required for `group-index` completeness); **rerunnable as a drift-repair/audit tool**
 - [x] Create 3 GSIs (ALL projection — see projection decision above) — **created 2026-08-25, all ACTIVE**; sanity queries verified (merged Dare group = 22 rows via `group-index`; migrated rater = 9 rows via `email-index`)
-- [ ] Extend the app's Cognito role read policy: `dynamodb:Query` on `table/applications/index/*` — **required before the branch merges**
+- [x] ~~Extend the app's Cognito role read policy~~ — **not needed**: the unauth role already carries `AmazonDynamoDBFullAccess` (which includes index Query), and the app always uses unauth credentials for DynamoDB. The properly scoped read-only policy is part of the Phase 2 lockdown.
 - [x] Run backfill — **applied 2026-08-25: 1,819 flags (502 approved / 929 deleted / 388 pending; deltas vs. morning analysis fully explained by the 3 group merges) + 51 groupId repairs**
 - [x] Verification pass — **audit re-run reports 0 differences; `current-index` partition counts match desired flags exactly**
 - Safety net in place: PITR enabled (35 days) + named backup `applications-pre-index-migration-2026-08-25` + local pre-migration JSON dump in `scripts/db-migration/backups/`
@@ -77,11 +77,12 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 - [x] Local-data mode (`localDynamo.ts`): emulates the three index queries + single-attribute updates
 - [x] Duplicate prevention: `RateNewAppDialog` reuses an existing groupId when the "new" app matches a library row by store appId
 - [x] Tests: `currentFlags.test.ts` pins flag rules + email normalization; `ratingLifecycle.test.ts` unchanged and passing (54/54 total); jest `transformIgnorePatterns` fixed for the pnpm layout
-- [ ] Verify in production: public load ≤ ~1 s; admin/pending/MyRatings/history all correct; stale-flash glitch gone
+- [x] Verify in production — **done 2026-08-25**: public load ~1 s (≈10 index requests vs ~71 scan pages); pending queue 388 = production; history dialogs identical (20/20 rows on the sample app); live approve → un-approve round-trip moved flags correctly with `0 differences` audits
 - Known trade-off: `useNewerMemberCount` ("N newer" badge) counts from loaded rows — exact wherever group history has been loaded (history dialogs, ViewApp), approximate (current rows only) in list contexts
 
 ## Ongoing (until Phase 2)
-- [ ] Schedule/runbook: run the reconcile script periodically (e.g. monthly) — catches drift from writes that bypass our frontend (external org, console edits) since flag upkeep is client-side until Phase 2
+- [ ] Run the reconcile audit periodically (e.g. monthly): `node scripts/db-migration/04_backfill_current_flags.js --profile <admin>` — expect `0 differences`; add `--apply` to repair drift from writes that bypass our frontend (external org, console edits) since flag upkeep is client-side until Phase 2
+- [ ] Welltory: inform raters of the two split lineages (iOS vs Android) and merge or rename per their decision
 
 ---
 

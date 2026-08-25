@@ -14,6 +14,29 @@
      - public: The public users only see the most recently approved app review for each application in the database.  Public users can see a history of the Qualatative Review and Ratings if the click on the App to view it and then navigate through the review history.
     
      For an example of how we query the database and filter the results based on the user type, review dates, user selected filters, etc, see: [useAppDataTable.tsx](https://github.com/BIDMCDigitalPsychiatry/AppMapDB/blob/master/src/components/pages/useAppTableData.tsx)
+
+  4. **How data is read (since Aug 2026 — the index solution).** The app used to
+     download the entire table with a paginated Scan (~70 MB) on every visit,
+     which grew slower every year and briefly painted stale historical reviews
+     while loading. That was replaced by three Global Secondary Indexes (a
+     one-time snapshot-file approach was considered and rejected — it only
+     helped public users and required its own refresh pipeline):
+
+     | Index | Keys | Serves |
+     |---|---|---|
+     | `current-index` | `cur` ('approved' \| 'deleted' \| 'pending') / `created` | all list views — public library, admin library, pending queue, archived list (~4 MB public load) |
+     | `group-index` | `groupId` / `created` | an app's full review history, fetched on demand when a history dialog opens |
+     | `email-index` | `email` (stored lowercase) / `created` | a rater's own submissions on My Ratings, including superseded ones |
+
+     The `cur` attribute marks each app group's current rows (newest approved /
+     newest archived / newest pending — rules in
+     [currentFlags.ts](https://github.com/BIDMCDigitalPsychiatry/AppMapDB/blob/master/src/database/currentFlags.ts))
+     and is recomputed automatically after every save in
+     [useProcessData.tsx](https://github.com/BIDMCDigitalPsychiatry/AppMapDB/blob/master/src/database/useProcessData.tsx).
+     Writes made outside the app (scripts, console edits) don't update the
+     flags — repair/audit with `scripts/db-migration/04_backfill_current_flags.js`
+     (dry run prints `0 differences` when healthy). Full plan and history:
+     [PLAN_DATABASE_INDEXES.md](https://github.com/BIDMCDigitalPsychiatry/AppMapDB/blob/master/PLAN_DATABASE_INDEXES.md).
     
   
 

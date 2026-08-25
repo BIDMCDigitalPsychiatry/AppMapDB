@@ -2,6 +2,12 @@
 
 Tooling for the index/performance work described in `PLAN_DATABASE_INDEXES.md`.
 
+> **STATUS: the full runbook below was executed against production on
+> 2026-08-25** (emails normalized, groups merged, indexes created, flags
+> backfilled, post-deploy reconcile clean). These scripts remain useful as the
+> **ongoing drift audit**: run step 5 (`04` without `--apply`) any time —
+> a healthy database prints `0 differences`.
+
 **Every script is a DRY RUN by default** — it prints exactly what it would
 change and writes nothing. Add `--apply` to execute. Nothing here should be
 run with `--apply` until the plan owner has reviewed the dry-run output.
