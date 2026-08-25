@@ -14,18 +14,21 @@ They do NOT use the app's public Cognito pool. Pass `--profile <name>` or set
 
 ## Run order
 
-| # | Script | What it does | Prereq |
-|---|--------|--------------|--------|
-| 0 | (deploy frontend) | `useProcessData` lowercases emails on write | code fix merged & deployed FIRST |
-| 1 | `01_migrate_emails.js` | lowercase `email`/`approverEmail` on existing rows (121 rows as of 2026-08-25) | step 0 deployed |
-| 2 | `02_merge_duplicate_groups.js` | merge the split groups for CBT Companion, Dare, Slumber (9 rows; Welltory deliberately kept split) | — |
-| 3 | `03_create_indexes.js` | create `current-index`, `group-index`, `email-index` (sequential; waits for ACTIVE; rerunnable) | — |
-| 4 | `04_backfill_current_flags.js` | set `groupId = _id` on 51 legacy rows; stamp `cur` on ~1,823 current rows | run AFTER 2 (so flags see merged groups) |
-| 5 | `04_backfill_current_flags.js` (no `--apply`) | verify: should print `0 differences` | after 4 |
+The email code-fix and the index-reading frontend ship together on the
+`feature/db-index-optimization` branch, so the database must be prepared
+BEFORE that branch is merged/deployed — the new frontend queries the indexes
+on load.
 
-Also required once (manual, AWS console/IAM): allow `dynamodb:Query` on
-`arn:aws:dynamodb:*:*:table/applications/index/*` for the app's Cognito
-role(s), or the frontend's index queries will be denied.
+| # | Step | What it does |
+|---|------|--------------|
+| 1 | review every script's dry-run output | nothing writes without `--apply` |
+| 2 | `02_merge_duplicate_groups.js --apply` | merge the split groups for CBT Companion, Dare, Slumber (9 rows; Welltory deliberately kept split) |
+| 3 | `03_create_indexes.js --apply` | create `current-index`, `group-index`, `email-index` (sequential; waits for ACTIVE; rerunnable; invisible to the live site) |
+| 4 | `04_backfill_current_flags.js --apply` | set `groupId = _id` on 51 legacy rows; stamp `cur` on ~1,823 current rows (after step 2 so flags see merged groups) |
+| 5 | `01_migrate_emails.js --apply` | lowercase `email` on existing rows (121 rows as of 2026-08-25) |
+| 6 | IAM (manual, AWS console) | allow `dynamodb:Query` on `arn:aws:dynamodb:<region>:<acct>:table/applications/index/*` for the app's Cognito role(s) — without it the new frontend's queries are denied |
+| 7 | merge the branch → deploy | new frontend reads the indexes; writes normalize emails + maintain flags |
+| 8 | `01` and `04` once more, then `04` without `--apply` | catch rows written by old clients during the window; verify `0 differences` |
 
 ## Ongoing
 
