@@ -42,6 +42,13 @@ describe('computeCurrentFlags', () => {
 
   it('a fully archived app has only a deleted flag — nothing public, nothing pending', () => {
     const rows = [app({ _id: 'r1', created: 1000, approved: true, delete: true }), app({ _id: 'r2', created: 2000, delete: true })];
+    // Production's archived view picks the newest APPROVED archived row when
+    // one exists (r1), even if a newer unapproved archived row (r2) exists.
+    expect(flagsOf(rows)).toEqual({ r1: 'deleted' });
+  });
+
+  it('archived flag falls back to the newest archived row when none were approved', () => {
+    const rows = [app({ _id: 'r1', created: 1000, delete: true }), app({ _id: 'r2', created: 2000, delete: true })];
     expect(flagsOf(rows)).toEqual({ r2: 'deleted' });
   });
 

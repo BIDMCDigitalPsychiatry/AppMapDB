@@ -9,7 +9,9 @@
  *
  * Rules (per app group):
  *   cur = 'approved' -> the newest row with approved === true, not deleted, not draft
- *   cur = 'deleted'  -> the newest row with delete === true
+ *   cur = 'deleted'  -> the newest APPROVED archived row, else the newest
+ *                       archived row (mirrors the admin archived view's
+ *                       long-standing newest-approved-else-newest pick)
  *   cur = 'pending'  -> the newest row not approved, not deleted, not draft
  *   drafts never carry a flag (they reach their owner via email-index instead)
  */
@@ -29,10 +31,11 @@ const computeCurrentFlags = rows => {
   const flags = new Map();
   for (const list of groups.values()) {
     const approved = list.filter(r => r.approved === true && r.delete !== true && r.draft !== true);
-    const deleted = list.filter(r => r.delete === true);
+    const deleted = list.filter(r => r.delete === true && r.draft !== true);
+    const deletedApproved = deleted.filter(r => r.approved === true);
     const pending = list.filter(r => r.approved !== true && r.delete !== true && r.draft !== true);
     if (approved.length) flags.set(newest(approved)._id, 'approved');
-    if (deleted.length) flags.set(newest(deleted)._id, 'deleted');
+    if (deleted.length) flags.set(newest(deletedApproved.length ? deletedApproved : deleted)._id, 'deleted');
     if (pending.length) flags.set(newest(pending)._id, 'pending');
   }
   return flags;
