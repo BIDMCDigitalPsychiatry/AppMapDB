@@ -43,7 +43,21 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 - [ ] Migration script: lowercase `email` on the 121 existing rows (fold into backfill tooling; rerunnable)
 - [ ] Run migration under admin AWS profile; verify 0 mixed-case rows remain
 
-### 0.2 Indexes + backfill
+### 0.2 Data repair — merge duplicate app groups
+
+4 apps currently show two public cards because a re-review was saved as a "new app" with a fresh `groupId` (the create path in `RateNewAppDialog` always generates one). Fix: re-point the splinter group's rows to the original group's `groupId`; the normal "newest approved wins" dedupe then shows exactly one card. Runs **before** the `cur` backfill so flags are computed on merged groups. Only the `groupId` field changes; no rows deleted; script logs original values for reversibility.
+
+- [x] Identify affected apps and verify via store IDs that the split groups are the same app:
+  - **CBT Companion** — both groups `co.swasth.cbtcompanion` (merge 2 rows into 20-row group `28bf26df…`)
+  - **Dare** — both groups `ie.johnquirke.dareapp` (merge 2 rows into 20-row group `74d820e3…`)
+  - **Slumber** — both groups `com.summermedia.slumber` (merge 5 rows into 17-row group `6addc0f0…`)
+  - **Welltory** — ⚠ groups are NOT identical: one lineage is iOS-only (`com.welltory.client`, 10 rows since 2022), the other Android-only (`com.welltory.client.android`, 6 rows since 2023). Same product, but merging means one platform's rating history stops being the displayed record.
+- [ ] **DECISION (Chris): merge Welltory or keep two cards?** (recommendation: merge — same product, duplicate cards read as a bug; newest approved rating wins regardless of platform)
+- [ ] Merge script (part of the migration tooling): ~15 `UpdateItem` calls re-pointing `groupId`
+- [ ] Run merge under admin AWS profile; verify each app shows exactly one public card
+- [ ] Prevention (Phase 1 item): on new-app submission, look up existing rows by `appleStore.appId` / `androidStore.appId` and reuse the existing `groupId` (or warn the rater) instead of always generating a fresh one
+
+### 0.3 Indexes + backfill
 - [ ] Backfill/reconcile script (`scripts/indexes/`): computes per-app latest approved / latest deleted / latest pending, stamps `cur` on ~1,881 rows, clears stray flags, re-normalizes email casing; **rerunnable as a drift-repair/audit tool**
 - [ ] Create 3 GSIs (`current-index` with INCLUDE projection of list fields; `group-index` and `email-index`) — requires admin AWS profile (`UpdateTable`); no downtime, invisible to existing clients
 - [ ] Extend the app's Cognito role read policy: `dynamodb:Query` on `table/applications/index/*`
