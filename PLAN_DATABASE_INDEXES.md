@@ -38,7 +38,7 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 - [x] Confirm counts: **121 mixed-case `email` rows (6 distinct raters); 0 mixed-case `approverEmail` rows**
 - [x] Confirm safety: no code compares these fields case-sensitively (`usePendingAppData` lowercases both sides; `useIsAdmin`/`useIsTestUser` use the login token, not DB rows; all other uses are display/export only)
 - [x] Locate insertion sources: raw Cognito token email at `RateNewAppDialog.tsx:69`, `RateNewAppCard.tsx:53`, `RatingsColumnHistory.tsx:35` (approverEmail)
-- [ ] Code fix: lowercase `Data.email` / `Data.approverEmail` in `useProcessData` (single choke point for all writes)
+- [x] Code fix: lowercase `Data.email` / `Data.approverEmail` in `useProcessData` (single choke point for all writes) — `src/database/normalize.ts`, unit tested
 - [ ] Deploy the code fix to production (master push)
 - [ ] Migration script: lowercase `email` on the 121 existing rows (fold into backfill tooling; rerunnable)
 - [ ] Run migration under admin AWS profile; verify 0 mixed-case rows remain
@@ -66,16 +66,18 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 
 ## Phase 1 — Fast reads (frontend)
 
-- [ ] Write path: `cur` flag recompute in `useProcessData` — after each save, query `group-index` for the app and set/clear flags (new rating → `pending`; approve → `approved` + clear predecessor; archive → `deleted` + promote next approved). *Client-side for now; moves into the Phase 2 Lambda unchanged.*
-- [ ] `useAppTableData`: replace full-table scan with `current-index` queries (public: `approved`; admin: `approved` + `pending`); keep existing dedupe as a safety net
-- [ ] Pending queue + archived list selectors → `current-index` (`pending` / `deleted`)
-- [ ] MyRatings → `email-index` query for the signed-in rater (keeps superseded/draft rows visible to their author)
-- [ ] History dialog + `useNewerMemberCount` → on-demand `group-index` query
-- [ ] App detail / edit dialogs → fetch full record by `_id` on open (existing `handleGetRow`) with a loading state
-- [ ] Loading gate: never paint lists from partial data (skeleton until the index query completes; progressive paint is safe because the index returns newest-first)
-- [ ] Local-data mode (`localDynamo.ts`): shim `Query`-on-index so offline dev/tests still work
-- [ ] Update `ratingLifecycle.test.ts` + add tests for flag recompute logic
+- [x] Write path: `cur` flag recompute in `useProcessData` — after each save, query `group-index` for the app and set/clear flags via `src/database/currentFlags.ts` (new rating → `pending`; approve → `approved` + clear predecessor; archive → `deleted` + promote next approved). *Client-side for now; moves into the Phase 2 Lambda unchanged.*
+- [x] `useAppTableData`: full-table scan replaced with `current-index` queries (all three partitions, newest-first); existing dedupe kept as a safety net
+- [x] Pending queue + archived list: served by the `pending`/`deleted` partitions now loaded into the store; selectors unchanged
+- [x] MyRatings → `useMyRatingsData` queries `email-index` for the signed-in rater (keeps superseded/draft rows visible to their author)
+- [x] History dialogs + ViewApp reviews → `useGroupHistory` loads the full lineage on demand via `group-index` (wired into `useAppHistoryData`/`useAppReviewData`)
+- [x] ~~App detail / edit dialogs → fetch full record on open~~ — unnecessary: the ALL-projection indexes return full rows, so dialogs/exports/detail views keep working on store data unchanged
+- [x] Loading gate in `Apps.tsx`: spinner until rows exist; progressive paint is safe because historical rows aren't in the index
+- [x] Local-data mode (`localDynamo.ts`): emulates the three index queries + single-attribute updates
+- [x] Duplicate prevention: `RateNewAppDialog` reuses an existing groupId when the "new" app matches a library row by store appId
+- [x] Tests: `currentFlags.test.ts` pins flag rules + email normalization; `ratingLifecycle.test.ts` unchanged and passing (54/54 total); jest `transformIgnorePatterns` fixed for the pnpm layout
 - [ ] Verify in production: public load ≤ ~1 s; admin/pending/MyRatings/history all correct; stale-flash glitch gone
+- Known trade-off: `useNewerMemberCount` ("N newer" badge) counts from loaded rows — exact wherever group history has been loaded (history dialogs, ViewApp), approximate (current rows only) in list contexts
 
 ## Ongoing (until Phase 2)
 - [ ] Schedule/runbook: run the reconcile script periodically (e.g. monthly) — catches drift from writes that bypass our frontend (external org, console edits) since flag upkeep is client-side until Phase 2
