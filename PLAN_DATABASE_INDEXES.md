@@ -21,11 +21,11 @@ Three additive Global Secondary Indexes on the existing `applications` table (no
 
 | Index | Keys | Serves | Size/query |
 |---|---|---|---|
-| `current-index` | PK `cur` (approved/deleted/pending), SK `created` | Public library, admin library, pending queue, archived list | 0.9–3.2 MB, sorted newest-first |
-| `group-index` | PK `groupId`, SK `created` | History dialog (all ratings, all statuses), "newer version" badge | ~7 rows on demand |
+| `current-index` | PK `cur` (approved/deleted/pending), SK `created` | Public library, admin library, pending queue, archived list | 4.1 MB public / 13.3 MB all-admin, sorted newest-first |
+| `group-index` | PK `groupId`, SK `created` | History dialog (all ratings, all statuses), "newer version" badge | ~7 full rows on demand |
 | `email-index` | PK `email`, SK `created` | MyRatings (rater's full personal history incl. superseded rows) | dozens of rows on demand |
 
-Full records (store descriptions/screenshots) are fetched **on demand** by `_id` when a user opens an app (existing `handleGetRow`). Snapshot solution: **not needed** (superseded by the index).
+**Projection decision (2026-08-25, during implementation):** DynamoDB `INCLUDE` projections cannot slice nested attributes (no way to project `appleStore.title` without the entire `appleStore` object), so all three indexes project **ALL** attributes. Queries return full rows — every dialog, export, and detail view keeps full fidelity with zero risk of writing back truncated records, and public load is still 17× smaller than today (4.1 MB vs 70.6 MB). Extra index storage ≈ 155 MB ≈ $0.04/month. A future slimming pass (denormalized top-level `name`/`company`/`icon` + INCLUDE projection → 0.9 MB public) is listed under Phase 3. Snapshot solution: **not needed** (superseded by the index).
 
 Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email-index` auto-populate from existing attributes.
 
@@ -52,13 +52,13 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
   - **Dare** — both groups `ie.johnquirke.dareapp` (merge 2 rows into 20-row group `74d820e3…`)
   - **Slumber** — both groups `com.summermedia.slumber` (merge 5 rows into 17-row group `6addc0f0…`)
   - **Welltory** — ⚠ groups are NOT identical: one lineage is iOS-only (`com.welltory.client`, 10 rows since 2022), the other Android-only (`com.welltory.client.android`, 6 rows since 2023). Same product, but merging means one platform's rating history stops being the displayed record.
-- [ ] **DECISION (Chris): merge Welltory or keep two cards?** (recommendation: merge — same product, duplicate cards read as a bug; newest approved rating wins regardless of platform)
-- [ ] Merge script (part of the migration tooling): ~15 `UpdateItem` calls re-pointing `groupId`
+- [x] **DECISION (Chris, 2026-08-25): keep Welltory as two cards for now** — raters will be informed and decide; only CBT Companion, Dare, and Slumber are merged (9 rows re-pointed)
+- [ ] Merge script (part of the migration tooling): 9 `UpdateItem` calls re-pointing `groupId`
 - [ ] Run merge under admin AWS profile; verify each app shows exactly one public card
 - [ ] Prevention (Phase 1 item): on new-app submission, look up existing rows by `appleStore.appId` / `androidStore.appId` and reuse the existing `groupId` (or warn the rater) instead of always generating a fresh one
 
 ### 0.3 Indexes + backfill
-- [ ] Backfill/reconcile script (`scripts/indexes/`): computes per-app latest approved / latest deleted / latest pending, stamps `cur` on ~1,881 rows, clears stray flags, re-normalizes email casing; **rerunnable as a drift-repair/audit tool**
+- [ ] Backfill/reconcile script (`scripts/db-migration/`): computes per-app latest approved / latest deleted / latest pending, stamps `cur` on ~1,823 rows, clears stray flags, sets `groupId = _id` on the 51 legacy rows missing it (required for `group-index` completeness), re-normalizes email casing; **rerunnable as a drift-repair/audit tool**
 - [ ] Create 3 GSIs (`current-index` with INCLUDE projection of list fields; `group-index` and `email-index`) — requires admin AWS profile (`UpdateTable`); no downtime, invisible to existing clients
 - [ ] Extend the app's Cognito role read policy: `dynamodb:Query` on `table/applications/index/*`
 - [ ] Run backfill; verify index counts match analysis (≈505 approved / ≈929 deleted / ≈389 pending)
@@ -101,6 +101,7 @@ Goal: today the Cognito **unauth** role allows anyone on the internet to write t
 - [ ] DynamoDB Streams Lambda that recomputes `cur` flags on ANY table write (covers even AWS-console edits; belt-and-suspenders once the write API exists)
 - [ ] Archive table for pre-2024 historical rows — pure hygiene; performance no longer requires it once the index serves all reads (57 MB / 7,846 rows of history could move; History dialog would query both tables)
 - [ ] CDN/snapshot layer for public reads — only if traffic grows to where per-visitor DynamoDB reads become a cost concern (not a performance need after Phase 1)
+- [ ] Slim `current-index` projection (denormalize top-level `name`/`company`/`icon` on hot rows, switch to INCLUDE projection, fetch full records on demand) — drops the public query from 4.1 MB to ~0.9 MB if ever needed
 - [ ] Read API: move reads behind the Lambda too, if the table ever needs to stop being publicly readable
 
 ## Explicitly rejected / superseded
