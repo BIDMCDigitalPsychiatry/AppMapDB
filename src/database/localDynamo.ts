@@ -10,6 +10,7 @@
  * Writes are held in memory for the session (created posts/comments appear
  * in lists immediately) and are NOT persisted anywhere.
  */
+import { computeCurrentFlags } from './currentFlags';
 
 type DynamoResult<T> = { promise: () => Promise<T> };
 
@@ -102,7 +103,6 @@ const applyQuery = (rows: any[], params: any): any[] => {
   const index = params?.IndexName;
   let matched: any[];
   if (index === 'current-index') {
-    const { computeCurrentFlags } = require('./currentFlags');
     const flags = computeCurrentFlags(rows);
     matched = rows.filter(r => flags.get(r._id) === value);
   } else if (index === 'group-index') {

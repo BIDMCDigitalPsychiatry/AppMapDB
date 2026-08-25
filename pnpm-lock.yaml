@@ -111,8 +111,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0
       marked:
-        specifier: 2.0.6
-        version: 2.0.6
+        specifier: 4.3.0
+        version: 4.3.0
       moment:
         specifier: 2.29.4
         version: 2.29.4
@@ -6097,9 +6097,9 @@ packages:
     resolution: {integrity: sha512-4y7uGv8bd2WdM9vpQsiQNo41Ln1NvhvDRuVt0k2JZQ+ezN2uaQes7lZeZ+QQUHOLQAtDaBJ+7wCbi+ab/KFs+w==}
     engines: {node: '>=0.10.0'}
 
-  marked@2.0.6:
-    resolution: {integrity: sha512-S2mYj0FzTQa0dLddssqwRVW4EOJOVJ355Xm2Vcbm+LU7GQRGWvwbO5K87OaPSOux2AwTSgtPPaXmc8sDPrhn2A==}
-    engines: {node: '>= 8.16.2'}
+  marked@4.3.0:
+    resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
+    engines: {node: '>= 12'}
     hasBin: true
 
   marky@1.2.5:
@@ -17493,7 +17493,7 @@ snapshots:
     dependencies:
       object-visit: 1.0.1
 
-  marked@2.0.6: {}
+  marked@4.3.0: {}
 
   marky@1.2.5: {}
 

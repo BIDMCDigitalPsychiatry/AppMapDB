@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { format } from 'date-fns';
 import { Box, Button, Chip, Container, Divider, Grid, Typography } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
@@ -8,7 +8,7 @@ import Comment from './Comment';
 import { useChangeRoute, useUserEmail } from '../../layout/hooks';
 import { useRouteState } from '../../layout/store';
 import CommunityToolbar from './CommunityToolbar';
-import marked from 'marked';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { bool, isEmpty, isEmptyObject, publicUrl } from '../../../helpers';
 import * as Icons from '@mui/icons-material';
@@ -182,7 +182,7 @@ const Details = () => {
                   )}
                   <Grid item xs={12}>
                     <Typography align='center' color='textSecondary' variant='body2'>
-                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM') : ''} · ${values.readTime} read`}
+                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM') : ''} Â· ${values.readTime} read`}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -261,3 +261,4 @@ const Details = () => {
 };
 
 export default Details;
+

@@ -14,7 +14,10 @@
  *   cur = 'pending'  -> the newest row not approved, not deleted, not draft
  *   drafts never carry a flag (they reach their owner via email-index instead)
  */
-import { isEmpty } from '../helpers';
+// Deliberately no import from ../helpers: this module sits under dbConfig in
+// the import graph (dbConfig -> localDynamo -> currentFlags) and helpers pulls
+// in React hooks, which would create a module cycle.
+const isEmpty = (v: any) => v === undefined || v === null || v === '';
 
 export type CurFlag = 'approved' | 'deleted' | 'pending';
 

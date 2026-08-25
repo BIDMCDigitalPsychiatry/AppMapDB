@@ -33,7 +33,7 @@ export interface ProcessDataInfo {
  * to its in-memory store via the direct path.
  * ------------------------------------------------------------------------- */
 export const WRITE_API_URL = process.env.REACT_APP_WRITE_API_URL;
-const API_MODELS = new Set(['applications', 'users', 'posts', 'comments', 'events', 'team', 'filters', tables.users]);
+const API_MODELS = new Set(['applications', 'users', 'posts', 'comments', 'events', 'team', 'filters']);
 const useLocalData = process.env.NODE_ENV !== 'production' && process.env.REACT_APP_USE_LOCAL_DATA === 'true';
 
 const getIdToken = async (): Promise<string | undefined> => {

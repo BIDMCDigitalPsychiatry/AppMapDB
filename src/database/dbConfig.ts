@@ -11,6 +11,7 @@ import { SESClient, SendEmailCommand, SendEmailCommandInput } from '@aws-sdk/cli
 // @aws-sdk/credential-providers package pulls Node-only providers
 // (node:child_process) that break the web build.
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
+import { createLocalDynamo } from './localDynamo';
 
 /*
  * AWS SDK v3 (PLAN_MODERNIZATION.md §3): the monolithic v2 bundle (~700 KB
@@ -48,7 +49,7 @@ const createDynamo = () => ({
 // public/local-data/ instead of hitting DynamoDB. See src/database/localDynamo.ts.
 const useLocalData = process.env.NODE_ENV !== 'production' && process.env.REACT_APP_USE_LOCAL_DATA === 'true';
 
-export const dynamo = useLocalData ? require('./localDynamo').createLocalDynamo() : createDynamo();
+export const dynamo = useLocalData ? createLocalDynamo() : createDynamo();
 
 // SES (used by the survey email flows; scheduled to move behind the write API
 // in the later lockdown). Same request shape as v2's ses.sendEmail(params).

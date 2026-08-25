@@ -3,7 +3,7 @@ import packageJson from '../package.json';
 import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
 import { format } from 'date-fns';
-import marked from 'marked';
+import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
 export function hostAddress(append?) {
