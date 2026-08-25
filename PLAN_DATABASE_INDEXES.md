@@ -40,8 +40,8 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 - [x] Locate insertion sources: raw Cognito token email at `RateNewAppDialog.tsx:69`, `RateNewAppCard.tsx:53`, `RatingsColumnHistory.tsx:35` (approverEmail)
 - [x] Code fix: lowercase `Data.email` / `Data.approverEmail` in `useProcessData` (single choke point for all writes) — `src/database/normalize.ts`, unit tested
 - [ ] Deploy the code fix to production (master push)
-- [ ] Migration script: lowercase `email` on the 121 existing rows (fold into backfill tooling; rerunnable)
-- [ ] Run migration under admin AWS profile; verify 0 mixed-case rows remain
+- [x] Migration script: lowercase `email` on the 121 existing rows (fold into backfill tooling; rerunnable)
+- [x] Run migration under admin AWS profile; verify 0 mixed-case rows remain — **applied 2026-08-25 (121 rows), verification re-run reports 0** (rerun after deploy per runbook step 8)
 
 ### 0.2 Data repair — merge duplicate app groups
 
