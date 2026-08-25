@@ -53,8 +53,8 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
   - **Slumber** — both groups `com.summermedia.slumber` (merge 5 rows into 17-row group `6addc0f0…`)
   - **Welltory** — ⚠ groups are NOT identical: one lineage is iOS-only (`com.welltory.client`, 10 rows since 2022), the other Android-only (`com.welltory.client.android`, 6 rows since 2023). Same product, but merging means one platform's rating history stops being the displayed record.
 - [x] **DECISION (Chris, 2026-08-25): keep Welltory as two cards for now** — raters will be informed and decide; only CBT Companion, Dare, and Slumber are merged (9 rows re-pointed)
-- [ ] Merge script (part of the migration tooling): 9 `UpdateItem` calls re-pointing `groupId`
-- [ ] Run merge under admin AWS profile; verify each app shows exactly one public card
+- [x] Merge script (part of the migration tooling): 9 `UpdateItem` calls re-pointing `groupId`
+- [x] Run merge under admin AWS profile — **applied 2026-08-25; verification re-run plans 0 updates; effective on the live site immediately** (read-time dedupe)
 - [ ] Prevention (Phase 1 item): on new-app submission, look up existing rows by `appleStore.appId` / `androidStore.appId` and reuse the existing `groupId` (or warn the rater) instead of always generating a fresh one
 
 ### 0.3 Indexes + backfill
