@@ -8,6 +8,7 @@ import { AppleStoreProps } from '../../DialogField/AppleStore';
 import logo from '../../../../images/default_app_icon.png';
 import { useSelector } from 'react-redux';
 import { useAdminMode } from '../../../layout/store';
+import { useGroupHistoryByGroupId } from '../../../pages/useAppTableData';
 
 const isMatch = (filters, value) => filters.reduce((t, c) => (t = t && value?.includes(c)), true);
 
@@ -52,6 +53,11 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
   const node = apps[id] ?? {};
   var { groupId } = node;
   groupId = isEmpty(groupId) ? node._id : groupId; // If we don't have a group id, then use the _id by default, for backwards compatability
+
+  // Historical rows are no longer bulk-loaded (the app queries the
+  // current-index, which holds only current records) — pull this app's full
+  // history into the store on demand via the group-index.
+  useGroupHistoryByGroupId(groupId);
 
   const [adminMode] = useAdminMode();
   const isAdminMode = isAdmin !== undefined ? isAdmin : adminMode;

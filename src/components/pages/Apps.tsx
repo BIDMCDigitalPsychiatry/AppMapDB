@@ -6,7 +6,7 @@ import * as ApplicationDialog from '../application/GenericDialog/ApplicationDial
 import * as RateNewAppDialog from '../application/GenericDialog/RateNewApp/RateNewAppDialog';
 import { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import SearchHeaderRedux from './SearchHeaderRedux';
-import { useTheme } from '@mui/material';
+import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
 import useAppTableData from './useAppTableData';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../layout/hooks';
@@ -24,7 +24,7 @@ export default function Apps() {
   const { layout } = useTheme() as any;
   const { tablefooterheight } = layout;
   const tableHeight = height - headerHeight + tablefooterheight + 2 - 40;
-  const { filtered } = useAppTableData(); // Trigger data query
+  const { filtered, loading } = useAppTableData(); // Trigger data query
 
   // Anonymous, counts-only record of manual filter use: the control group the
   // chat assistant gets measured against. Category names only, never values.
@@ -45,7 +45,18 @@ export default function Apps() {
           mode switch — the tables that used to host it aren't mounted until
           adminMode is already on (it renders nothing for non-admins). */}
       <AdminToggle />
-      {effectiveViewMode === 'table' ? (
+      {loading && filtered?.length === 0 ? (
+        // Loading gate: never render an empty/partial library as if it were
+        // the real result set. Once rows exist they are safe to show while the
+        // remaining pages stream in — the current-index only contains current
+        // records, so a partial view is missing apps, never showing stale ones.
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: tableHeight }}>
+          <CircularProgress />
+          <Typography sx={{ mt: 2 }} color='textSecondary'>
+            Loading apps…
+          </Typography>
+        </Box>
+      ) : effectiveViewMode === 'table' ? (
         adminMode ? (
           // Admin mode keeps the full ratings matrix (click-to-pin columns) as a curation tool.
           <Tables.Applications data={filtered} HeaderComponent={SearchHeaderRedux} height={tableHeight} showButtons={false} />

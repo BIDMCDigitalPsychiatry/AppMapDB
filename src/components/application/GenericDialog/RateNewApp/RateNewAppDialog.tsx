@@ -8,8 +8,27 @@ import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 import GenericStepperDialog from '../GenericStepperDialog';
 import { useSelector } from 'react-redux';
+import { useApplications } from '../../../../database/useApplications';
 
 export const title = 'View/Edit App';
+
+// Duplicate-group prevention: if the "new" app is already in the library
+// (matched by its store package ids), reuse the existing groupId so the
+// rating joins that app's lineage instead of creating a second public card.
+// (This is how CBT Companion/Dare/Slumber/Welltory ended up duplicated —
+// see PLAN_DATABASE_INDEXES.md Phase 0.2.)
+export const findExistingGroupId = (apps: Record<string, any>, application: any): string | undefined => {
+  const iosId = application?.appleStore?.appId;
+  const androidId = application?.androidStore?.appId;
+  if (isEmpty(iosId) && isEmpty(androidId)) return undefined;
+  for (const k of Object.keys(apps ?? {})) {
+    const row = apps[k];
+    if ((!isEmpty(iosId) && row?.appleStore?.appId === iosId) || (!isEmpty(androidId) && row?.androidStore?.appId === androidId)) {
+      return isEmpty(row.groupId) ? row._id : row.groupId;
+    }
+  }
+  return undefined;
+};
 
 export interface ComponentProps {
   id?: string;
@@ -30,6 +49,7 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
 
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email);
   const uid = useSelector((s: any) => s.layout.user?.username);
+  const [apps] = useApplications();
 
   // If you need to impersonate a user for the edit dialog, use below code:
   //const email = 'wooseok.kwon@vanderbilt.edu';
@@ -41,7 +61,7 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
 
     if (Action === 'c') {
       application._id = uuid(); // If creating a new, generate the id client side so it can be linked to the rating    }
-      application.groupId = uuid(); // Keep track of group for history purposes
+      application.groupId = findExistingGroupId(apps, application) ?? uuid(); // Join the app's existing lineage if it's already in the library; otherwise start a new group
       application.created = timestamp;
       application.approved = false;
     } else if (Action === 'u') {

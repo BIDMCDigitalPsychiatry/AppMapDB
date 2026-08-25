@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { dynamo, tables } from '../../database/dbConfig';
+import { dynamo, tables, indexes } from '../../database/dbConfig';
 import Application from '../../database/models/Application';
 import { useApplications } from '../../database/useApplications';
 import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
@@ -13,6 +13,69 @@ import { getDescription } from '../application/GenericTable/ApplicationsGrid/Exp
 import fuzzysort from 'fuzzysort';
 
 const table = 'Applications';
+
+/* ---------------------------------------------------------------------------
+ * Data loading: query the current-index GSI instead of scanning the table.
+ *
+ * The old full-table scan pulled every historical review row (~70 MB, ~71
+ * sequential 1 MB pages) on every visit, and painted from the first page —
+ * which is why users saw years-old superseded versions ("apps from 2020")
+ * until the scan finished. The current-index holds ONLY each app's current
+ * rows (newest approved / newest deleted / newest pending — flags maintained
+ * in useProcessData, backfilled by scripts/db-migration/), so:
+ *   - the whole load is ~13 MB across three partitions, and
+ *   - progressive painting is safe: historical rows aren't in the index at
+ *     all, so a partially loaded view is only ever missing apps, never
+ *     showing stale versions of them.
+ * History / a rater's own superseded rows load on demand via group-index and
+ * email-index (see useGroupHistory / useMyRatingsData below).
+ * ------------------------------------------------------------------------- */
+const CURRENT_PARTITIONS = ['approved', 'pending', 'deleted'];
+
+const mergeRows = (setApps, items: any[]) =>
+  items.length &&
+  setApps(prev => ({
+    ...prev,
+    ...items.reduce((f, c: any) => {
+      f[c._id] = c;
+      return f;
+    }, {})
+  }));
+
+const queryIndexPaged = async (params: any, setApps) => {
+  let page;
+  do {
+    page = await dynamo.query(params).promise();
+    mergeRows(setApps, page.Items ?? []);
+    params.ExclusiveStartKey = page.LastEvaluatedKey;
+  } while (page.LastEvaluatedKey);
+};
+
+const fetchCurrentRows = async (setApps, setLoading, requestParams = undefined) => {
+  setLoading(true);
+  try {
+    await Promise.all(
+      CURRENT_PARTITIONS.map(cur =>
+        queryIndexPaged(
+          {
+            TableName: tables.applications,
+            IndexName: indexes.current,
+            KeyConditionExpression: '#c = :v',
+            ExpressionAttributeNames: { '#c': 'cur' },
+            ExpressionAttributeValues: { ':v': cur },
+            ScanIndexForward: false, // newest first
+            ExclusiveStartKey: undefined,
+            ...(requestParams as any)
+          },
+          setApps
+        )
+      )
+    );
+  } catch (err) {
+    console.error('Error querying current-index:', err);
+  }
+  setLoading(false);
+};
 
 /* ---------------------------------------------------------------------------
  * Structured filter matching — exact membership, not substring containment.
@@ -209,41 +272,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   const handleRefresh = React.useCallback(
     ({ requestParams = undefined } = {}) => {
-      const getItems = async () => {
-        let scanResults = [];
-        let items;
-        var params = {
-          TableName: tables.applications,
-          ExclusiveStartKey: undefined,
-          ...requestParams
-        };
-        var firstPass = true;
-        setLoading(true);
-        do {
-          items = await dynamo.scan(params).promise();
-          items.Items.forEach(i => scanResults.push(i));
-          params.ExclusiveStartKey = items.LastEvaluatedKey;
-          if (firstPass) {
-            firstPass = false; // Show the first results so the user doesn't see an empty screen
-            setApps(prev => ({
-              ...prev,
-              ...scanResults.reduce((f, c: any) => {
-                f[c._id] = c;
-                return f;
-              }, {})
-            }));
-          }
-        } while (typeof items.LastEvaluatedKey != 'undefined');
-        setApps(prev => ({
-          ...prev,
-          ...scanResults.reduce((f, c: any) => {
-            f[c._id] = c;
-            return f;
-          }, {})
-        }));
-        setLoading(false);
-      };
-      getItems();
+      fetchCurrentRows(setApps, setLoading, requestParams);
     },
     [setApps]
   );
@@ -389,41 +418,7 @@ export function useAppTableDataInit({ trigger = true } = {}) {
 
   const handleRefresh = React.useCallback(
     ({ requestParams = undefined } = {}) => {
-      const getItems = async () => {
-        let scanResults = [];
-        let items;
-        var params = {
-          TableName: tables.applications,
-          ExclusiveStartKey: undefined,
-          ...requestParams
-        };
-        var firstPass = true;
-        setLoading(true);
-        do {
-          items = await dynamo.scan(params).promise();
-          items.Items.forEach(i => scanResults.push(i));
-          params.ExclusiveStartKey = items.LastEvaluatedKey;
-          if (firstPass) {
-            firstPass = false; // Show the first results so the user doesn't see an empty screen
-            setApps(prev => ({
-              ...prev,
-              ...scanResults.reduce((f, c: any) => {
-                f[c._id] = c;
-                return f;
-              }, {})
-            }));
-          }
-        } while (typeof items.LastEvaluatedKey != 'undefined');
-        setApps(prev => ({
-          ...prev,
-          ...scanResults.reduce((f, c: any) => {
-            f[c._id] = c;
-            return f;
-          }, {})
-        }));
-        setLoading(false);
-      };
-      getItems();
+      fetchCurrentRows(setApps, setLoading, requestParams);
     },
     [setApps]
   );
@@ -434,4 +429,58 @@ export function useAppTableDataInit({ trigger = true } = {}) {
   }, [trigger, handleRefresh]);
 
   return { handleRefresh };
+}
+
+/* ---------------------------------------------------------------------------
+ * On-demand loaders for rows that are NOT in the current-index.
+ * ------------------------------------------------------------------------- */
+
+// Loads an app's complete rating history (every row, every status) into the
+// store via the group-index. Used by the History dialogs and ViewApp's review
+// pager — the selectors that filter the store by groupId then see everything,
+// exactly as they did when the full table was scanned.
+export function useGroupHistoryByGroupId(groupId) {
+  const [, setApps] = useApplications();
+  React.useEffect(() => {
+    if (isEmpty(groupId)) return;
+    queryIndexPaged(
+      {
+        TableName: tables.applications,
+        IndexName: indexes.group,
+        KeyConditionExpression: 'groupId = :g',
+        ExpressionAttributeValues: { ':g': groupId },
+        ExclusiveStartKey: undefined
+      },
+      setApps
+    ).catch(err => console.error('Error querying group-index:', err));
+  }, [groupId, setApps]);
+}
+
+export function useGroupHistory(id) {
+  const [apps] = useApplications();
+  const node = (id && apps[id]) || {};
+  useGroupHistoryByGroupId(isEmpty(node.groupId) ? node._id : node.groupId);
+}
+
+// Loads every row the signed-in rater has ever submitted (drafts, pending,
+// approved, superseded) into the store via the email-index, so MyRatings
+// keeps showing their contributions even when a newer rating by someone else
+// is the app's current record.
+export function useMyRatingsData(email) {
+  const [, setApps] = useApplications();
+  const normalized = typeof email === 'string' ? email.toLowerCase() : undefined;
+
+  React.useEffect(() => {
+    if (isEmpty(normalized)) return;
+    queryIndexPaged(
+      {
+        TableName: tables.applications,
+        IndexName: indexes.email,
+        KeyConditionExpression: 'email = :e',
+        ExpressionAttributeValues: { ':e': normalized },
+        ExclusiveStartKey: undefined
+      },
+      setApps
+    ).catch(err => console.error('Error querying email-index:', err));
+  }, [normalized, setApps]);
 }
