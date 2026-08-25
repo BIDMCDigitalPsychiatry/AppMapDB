@@ -5,6 +5,7 @@ import pkg from '../package.json';
 import { getCurrentDate, isDev, isEmpty } from './helpers';
 import useProcessData from './database/useProcessData';
 import { tables } from './database/dbConfig';
+import { useLoadRoster, useRosterRole } from './database/useUsers';
 import getBrowserFingerprint from 'get-browser-fingerprint';
 
 export const useFullScreen = (size = 'sm' as any) => {
@@ -35,18 +36,30 @@ export const useSignedInRater = () => {
   return signedIn && !signedInPro;
 };
 
+// Role checks: the users table decides when it has an entry for this email;
+// the legacy package.json lists remain as fallback until retired
+// (PLAN_MODERNIZATION.md §2). These are UI hints only — the write API
+// re-verifies roles server-side on every privileged request.
 export const useIsAdmin = () => {
   const signedIn = useSignedIn();
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
+  useLoadRoster(signedIn);
+  const fromRoster = useRosterRole(email, 'admin');
+  if (!signedIn) return false;
+  if (fromRoster !== undefined) return fromRoster;
   const adminEmails = pkg?.adminUsers?.split(',');
-  return signedIn && adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+  return adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
 };
 
 export const useIsTestUser = () => {
   const signedIn = useSignedIn();
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
+  useLoadRoster(signedIn);
+  const fromRoster = useRosterRole(email, 'tester');
+  if (!signedIn) return false;
+  if (fromRoster !== undefined) return fromRoster;
   const testEmails = pkg?.testUsers?.split(',');
-  return signedIn && testEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+  return testEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
 };
 
 export const useHandleLink = link => {

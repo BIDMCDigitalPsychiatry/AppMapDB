@@ -34,3 +34,11 @@ yarn.lock
 
 
 scripts/db-migration/backups/
+
+# Lambda build artifacts
+cloud_functions/*/function.zip
+cloud_functions/*/node_modules/
+
+# Local analysis dumps and reports (contain database contents)
+scripts/archived_apps/*.json
+AppMapDB_Architecture_Review_*.pdf

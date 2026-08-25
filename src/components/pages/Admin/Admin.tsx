@@ -2,6 +2,7 @@ import { Box, Divider, useTheme } from '@mui/material';
 import { useRouteState } from '../../layout/store';
 import AdminLayoutSelector from './AdminLayoutSelector';
 import AdminPendingApprovals from './AdminPendingApprovals';
+import UsersAdmin from './UsersAdmin';
 import { Surveys } from '../../application/GenericTable/Surveys/table';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../../layout/hooks';
@@ -22,7 +23,7 @@ export default function Admin() {
     <Box pt={3} bgcolor={palette.primary.light}>
       <AdminLayoutSelector subRoute={subRoute} />
       <Divider style={{ marginTop: 16 }} />
-      {subRoute === 'surveys' ? <Surveys height={tableHeight + headerHeight} /> : <AdminPendingApprovals height={tableHeight} />}
+      {subRoute === 'surveys' ? <Surveys height={tableHeight + headerHeight} /> : subRoute === 'users' ? <UsersAdmin height={tableHeight} /> : <AdminPendingApprovals height={tableHeight} />}
     </Box>
   );
 }

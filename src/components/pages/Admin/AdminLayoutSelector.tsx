@@ -4,7 +4,8 @@ import TabSelectorTextToolBar from '../../general/TabSelector/TabSelectorTextToo
 
 const tabs = [
   { id: 'Pending Approvals', route: '/Admin', routeState: { subRoute: 'pending' } },
-  { id: 'Surveys', route: '/Admin', routeState: { subRoute: 'surveys' } }
+  { id: 'Surveys', route: '/Admin', routeState: { subRoute: 'surveys' } },
+  { id: 'Users', route: '/Admin', routeState: { subRoute: 'users' } }
 ].filter(t => t);
 
 const AdminLayoutSelector = ({ subRoute, ...other }) => {

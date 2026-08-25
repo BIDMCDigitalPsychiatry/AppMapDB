@@ -19,7 +19,7 @@ const useLocalData = process.env.NODE_ENV !== 'production' && process.env.REACT_
 export const dynamo = useLocalData ? require('./localDynamo').createLocalDynamo() : new AWS.DynamoDB.DocumentClient();
 
 export type DataModel = Application | Post | Event | Comment | Team | any;
-export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking';
+export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking' | 'users';
 
 // GSIs on the applications table (see PLAN_DATABASE_INDEXES.md and
 // scripts/db-migration/). All project full rows.
@@ -30,6 +30,7 @@ export const indexes = {
 };
 
 export const tables = {
+  users: 'users' as TableName, // roster: admin/tester/notify roles (PLAN_MODERNIZATION.md §2)
   applications: 'applications' as TableName,
   filters: 'filters' as TableName,
   posts: 'posts' as TableName,

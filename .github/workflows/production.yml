@@ -22,6 +22,9 @@ jobs:
         # not a secret: REACT_APP_* values are compiled into the public JS bundle.
         # If unset, the assistant simply does not render — that is the off switch.
         REACT_APP_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}
+        # Authenticated write API (also in .env). A repo variable, when set,
+        # overrides; deleting both lines reverts to legacy direct writes.
+        REACT_APP_WRITE_API_URL: ${{ vars.REACT_APP_WRITE_API_URL || 'https://c9f9mkxos6.execute-api.us-east-1.amazonaws.com' }}
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
