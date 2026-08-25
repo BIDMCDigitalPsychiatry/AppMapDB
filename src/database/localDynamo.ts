@@ -88,6 +88,35 @@ const applyFilter = (rows: any[], params: any): any[] => {
   );
 };
 
+// Minimal Query support for the three applications GSIs (see dbConfig.ts).
+// Local snapshots predate the migration scripts, so index semantics are
+// EMULATED from the raw rows rather than read from attributes that may not
+// exist yet in the seed data:
+//   current-index -> cur flags computed on the fly (same rules as production)
+//   group-index   -> groupId match, with the legacy `_id` fallback
+//   email-index   -> case-insensitive email match (post-migration behavior)
+const applyQuery = (rows: any[], params: any): any[] => {
+  // These queries only ever use a single partition-key equality condition, so
+  // the partition value is the lone entry in ExpressionAttributeValues.
+  const value = Object.values(params?.ExpressionAttributeValues ?? {})[0];
+  const index = params?.IndexName;
+  let matched: any[];
+  if (index === 'current-index') {
+    const { computeCurrentFlags } = require('./currentFlags');
+    const flags = computeCurrentFlags(rows);
+    matched = rows.filter(r => flags.get(r._id) === value);
+  } else if (index === 'group-index') {
+    matched = rows.filter(r => (r.groupId && r.groupId !== '' ? r.groupId : r._id) === value);
+  } else if (index === 'email-index') {
+    matched = rows.filter(r => typeof r.email === 'string' && r.email.toLowerCase() === String(value ?? '').toLowerCase());
+  } else {
+    console.warn('[local-data] Unsupported query index:', index);
+    matched = [];
+  }
+  const asc = params?.ScanIndexForward !== false;
+  return [...matched].sort((a, b) => (asc ? Number(a.created) - Number(b.created) : Number(b.created) - Number(a.created)));
+};
+
 // The real DocumentClient supports BOTH `client.op(params).promise()` and
 // `client.op(params, callback)` — this codebase uses both styles.
 const result = <T>(value: Promise<T>, callback?: any): DynamoResult<T> => {
@@ -120,8 +149,37 @@ export const createLocalDynamo = () => {
       }
       return result(Promise.resolve({}), callback);
     },
+    query: (params: any, callback?: any): DynamoResult<{ Items: any[]; LastEvaluatedKey?: undefined }> =>
+      result(
+        currentRows(params?.TableName).then(rows => ({ Items: applyQuery(rows, params) })),
+        callback
+      ),
     update: (params: any, callback?: any): DynamoResult<{}> => {
-      console.info('[local-data] Ignoring update expression on', params?.TableName, '(unsupported in local mode)');
+      // Supports the single-attribute shapes this codebase writes
+      // (`SET <attr> = :val` / `REMOVE <attr>`), enough for cur-flag and
+      // groupId maintenance to behave like production during local dev.
+      const table = params?.TableName;
+      const id = params?.Key?._id;
+      const expr = String(params?.UpdateExpression ?? '');
+      const names = params?.ExpressionAttributeNames ?? {};
+      const resolve = (n: string) => (n.startsWith('#') ? names[n] : n);
+      const m = expr.match(/^\s*(SET|REMOVE)\s+(#?\w+)(?:\s*=\s*(:\w+))?\s*$/i);
+      if (table && id && m) {
+        const promise = currentRows(table).then(rows => {
+          const row = rows.find(r => r._id === id);
+          if (row) {
+            const updated = { ...row };
+            const field = resolve(m[2]);
+            if (m[1].toUpperCase() === 'SET') updated[field] = params?.ExpressionAttributeValues?.[m[3]];
+            else delete updated[field];
+            wmap(table).set(id, updated);
+            console.info('[local-data] In-memory update on', table, id, expr);
+          }
+          return {};
+        });
+        return result(promise, callback);
+      }
+      console.info('[local-data] Ignoring unsupported update expression on', table, expr);
       return result(Promise.resolve({}), callback);
     },
     delete: (params: any, callback?: any): DynamoResult<{}> => {

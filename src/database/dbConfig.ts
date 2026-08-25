@@ -21,6 +21,14 @@ export const dynamo = useLocalData ? require('./localDynamo').createLocalDynamo(
 export type DataModel = Application | Post | Event | Comment | Team | any;
 export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking';
 
+// GSIs on the applications table (see PLAN_DATABASE_INDEXES.md and
+// scripts/db-migration/). All project full rows.
+export const indexes = {
+  current: 'current-index', // PK cur ('approved'|'deleted'|'pending'), SK created — the list views' data
+  group: 'group-index', // PK groupId, SK created — full history of one app
+  email: 'email-index' // PK email (lowercased), SK created — a rater's own rows
+};
+
 export const tables = {
   applications: 'applications' as TableName,
   filters: 'filters' as TableName,

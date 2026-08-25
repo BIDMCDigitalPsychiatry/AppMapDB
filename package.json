@@ -80,7 +80,8 @@
   },
   "jest": {
     "transformIgnorePatterns": [
-      "/node_modules/(?!(get-browser-fingerprint)/)"
+      "/node_modules/(?!\\.pnpm/)(?!(get-browser-fingerprint)/)",
+      "/node_modules/\\.pnpm/(?!get-browser-fingerprint@)"
     ],
     "moduleNameMapper": {
       "^@mui/material/(.+)$": "@mui/material/node/$1"

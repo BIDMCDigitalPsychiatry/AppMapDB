@@ -4,9 +4,12 @@ import { getGroupId, isEmpty } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { useSelector } from 'react-redux';
+import { useGroupHistoryByGroupId } from '../../../pages/useAppTableData';
 
 export const useAppReviewData = (table, groupId) => {
   const apps = useSelector((s: AppState) => s.database[tables.applications] ?? {});
+  // Superseded reviews aren't in the current-index — load the group on demand.
+  useGroupHistoryByGroupId(groupId);
   var data = apps
     ? Object.keys(apps)
         .filter(
