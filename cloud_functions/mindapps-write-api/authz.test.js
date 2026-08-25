@@ -4,7 +4,7 @@
  * verified token, approval/archival is admin-only, raters touch only their
  * own rows.
  */
-const { authorize } = require('./authz');
+import { authorize } from './authz';
 
 const rater = { email: 'rater@x.com', isAdmin: false };
 const admin = { email: 'admin@x.com', isAdmin: true };

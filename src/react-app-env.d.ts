@@ -1,7 +1,29 @@
-/// <reference types="react-scripts" />
+/// <reference types="vite/client" />
+/// <reference types="vitest/globals" />
 
-// CRA's asset typings don't cover video files (the old code used require()).
+// Asset module declarations (previously provided by react-scripts).
+declare module '*.png' {
+  const src: string;
+  export default src;
+}
+declare module '*.jpg' {
+  const src: string;
+  export default src;
+}
+declare module '*.jpeg' {
+  const src: string;
+  export default src;
+}
+declare module '*.gif' {
+  const src: string;
+  export default src;
+}
+declare module '*.svg' {
+  const src: string;
+  export default src;
+}
 declare module '*.mp4' {
   const src: string;
   export default src;
 }
+declare module '*.css';

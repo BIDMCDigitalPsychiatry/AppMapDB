@@ -63,7 +63,6 @@
     "react-redux": "7.2.4",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
-    "react-scripts": "5.0.1",
     "react-swipeable-views": "0.14.0",
     "react-virtualized": "9.22.3",
     "react-virtuoso": "2.6.0",
@@ -75,31 +74,31 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
-    "@types/jest": "^27.5.2",
+    "@vitejs/plugin-react": "4.7.0",
     "app-store-scraper": "0.17.0",
     "aws-sdk": "2.1309.0",
     "fs-extra": "9.0.0",
     "google-play-scraper": "9.1.1",
-    "webpack": "^4.44.2"
+    "jsdom": "25.0.1",
+    "vite": "5.4.20",
+    "vitest": "2.1.9"
   },
-  "jest": {
-    "transformIgnorePatterns": [
-      "/node_modules/(?!\\.pnpm/)(?!(get-browser-fingerprint)/)",
-      "/node_modules/\\.pnpm/(?!get-browser-fingerprint@)"
-    ],
-    "moduleNameMapper": {
-      "^@mui/material/(.+)$": "@mui/material/node/$1"
-    }
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:local": "REACT_APP_USE_LOCAL_DATA=true react-scripts start",
+    "start": "vite",
+    "start:local": "vite --mode localdata",
     "refresh-local-data": "node scripts/dumpApplications.js",
     "seed-local-community": "node scripts/seedLocalCommunity.js",
     "export-taxonomy": "node scripts/exportTaxonomy.js",
-    "build": "react-scripts build && node copy404",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "build": "vite build && node copy404",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },

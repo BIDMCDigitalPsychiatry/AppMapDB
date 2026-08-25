@@ -1,6 +1,5 @@
 import thunk from 'redux-thunk';
 import { History } from 'history';
-import * as StoreModule from './store';
 import { AppState, reducers } from './store';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createStore, applyMiddleware, compose, combineReducers, StoreEnhancer, Store } from 'redux';
@@ -46,13 +45,8 @@ export default function configureStore(history: History, initialState?: AppState
   // Combine all reducers and instantiate the app-wide store instance
   const store = createStoreWithMiddleware(persistedReducer, initialState) as Store<AppState>;
 
-  // Enable Webpack hot module replacement for reducers
-  if (module.hot) {
-    module.hot.accept('./store', () => {
-      const nextRootReducer = require<typeof StoreModule>('./store');
-      store.replaceReducer(buildRootReducer(nextRootReducer.reducers, history));
-    });
-  }
+  // (The old webpack module.hot reducer-replacement block was removed with
+  // the Vite migration — Vite provides its own HMR.)
 
   return store;
 }

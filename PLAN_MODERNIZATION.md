@@ -16,17 +16,17 @@
 
 Today every visitor's browser holds credentials that can write all 10 tables and send email as mindapps.org, and "is admin" is a cosmetic browser-side check. This phase adds real server-side enforcement for the app's own workflows without locking anything down yet.
 
-- [ ] **`users` table** (create in AWS + seed): keyed by lowercased `email`; fields `roles` (admin/tester/notify), `active`, `created`/`updated`/`updatedBy` audit fields. Seeded once from the package.json `adminUsers`/`testUsers`/`emailUsers` lists. Creation script committed under `infrastructure/` (reproducible — first step toward IaC).
-- [ ] **Write-API Lambda** (`cloud_functions/mindapps-write-api/`, mirroring the search-assistant's adapter pattern; deployed behind a Function URL with CORS):
+- [x] **`users` table** created + seeded 2026-08-25 (28 distinct emails, roles merged from the three package.json lists); creation script committed under `infrastructure/` (reproducible — first step toward IaC).
+- [x] **Write-API Lambda** deployed 2026-08-25 (`cloud_functions/mindapps-write-api/`, mirroring the search-assistant's adapter pattern; behind API Gateway — Lambda Function URLs are publicly blocked in this account — endpoint `https://c9f9mkxos6.execute-api.us-east-1.amazonaws.com`; verified rejecting missing/forged tokens with 401):
   - Verifies the caller's Cognito ID token (`aws-jwt-verify` against pool `us-east-1_hXektTdUL`); the caller's email comes from the **verified token**, never the request body.
   - Same `{Model, Action, Data}` contract as `useProcessData` — the frontend transport swap is contained to that one file.
   - **Authorization matrix** (server-enforced): create rating/draft → any signed-in user (row `email` forced to token email); edit → own rows for raters, anything for admins; `approved`/`delete` transitions → admins only; users-table management → admins only; community posts/comments → signed-in users.
   - Runs the `cur`-flag recompute + email normalization **server-side** (ported from `src/database/currentFlags.ts` / `normalize.ts`).
   - Structured log line for every privileged action (who/what/when) → CloudWatch audit trail.
   - Scoped execution role (new, additive): DynamoDB on `applications`/`users` (+ community tables) + CloudWatch Logs only.
-- [ ] **Frontend transport swap** in `useProcessData`: authenticated models (applications, posts, comments, team, events, filters) go through the API with the session ID token; anonymous public writes (surveys, signUpSurveys, tracking) continue direct — they cannot be authenticated and IAM is not changing. Local-data dev mode unaffected. `REACT_APP_WRITE_API_URL` baked into the production build (empty = direct-write fallback, the instant rollback).
-- [ ] **Duplicate-group prevention hardening**: the server re-runs the existing-groupId lookup on create (belt to the client's suspenders).
-- [ ] **Negative tests**: rater attempting approve → 403; anonymous attempting any API write → 401; spoofed `email` in payload → overwritten with token email.
+- [x] **Frontend transport swap** in `useProcessData`: authenticated models go through the API with the session ID token; anonymous public writes (surveys, signUpSurveys, tracking) continue direct; local-data dev mode unaffected; `REACT_APP_WRITE_API_URL` baked into `.env` + the deploy workflow (empty = direct-write fallback, the instant rollback).
+- [x] **Negative tests**: `authz.test.js` (runs in CI) pins the matrix — rater approve → denied; spoofed `email` → overwritten with token email; users management → admin-only; plus live endpoint checks (no/forged token → 401).
+- Note: server-side duplicate-group lookup on create deferred (client-side prevention from Phase 1 remains; add when the Lambda owns creates exclusively).
 - [x] **SES audit** (investigation only — nothing changed): all browser email flows live in `src/components/pages/Survey/sendSurveyEmail.tsx`, sending as `appmap@psych.digital` via the public role: (1) survey-confirmation to the participant, (2) staff notification to `surveyNotificationEmail`, (3) follow-up survey invitation. Also referenced from `Survey.tsx`, `SurveyFollowUp.tsx`; `SuggestEdit`/`RateAnApp` matches to be confirmed in-code. **Decision deferred**: these are real, used features; moving them behind the API (and only then revoking `ses:SendEmail`) is part of the later lockdown.
 - [x] **Anonymous-tables audit**: the site's public visitors WRITE to `tracking` (analytics), `surveys`, `signUpSurveys` — these can never be publicly read-only. Later-lockdown design: public role keeps `PutItem` but loses read actions on them (write-only telemetry pattern); admin reads move behind the API.
 
@@ -36,30 +36,30 @@ Today every visitor's browser holds credentials that can write all 10 tables and
 
 Rosters currently ship in the public JS bundle (26 staff emails) and changing them requires a developer redeploy.
 
-- [ ] `users` table (shared with §1) as the single source of truth; package.json lists remain as **fallback only** until Chris retires them.
-- [ ] Admin **"Users" page** (new tab in the Admin area, built from the existing table/dialog machinery): list users with roles + active status; add by email; toggle admin/tester/notify; deactivate. Guardrails: an admin cannot remove their own admin role; the last active admin cannot be deactivated.
-- [ ] All Users-page mutations go through the write-API (admin-only server-side) with the audit fields stamped.
-- [ ] Frontend `useIsAdmin`/`useIsTestUser`/notification-recipient reads: users table first, package.json fallback.
-- [ ] Seed script + verification (roster in table matches package.json at seed time).
+- [x] `users` table (shared with §1) as the single source of truth; package.json lists remain as **fallback only** until Chris retires them.
+- [x] Admin **"Users" page** (`Admin → Users` tab): list users with roles + active status; add by email; toggle admin/tester/notify; deactivate. Guardrails: an admin cannot remove their own admin role; the last active admin cannot be deactivated (enforced in UI and server).
+- [x] All Users-page mutations go through the write-API (admin-only server-side) with `updated`/`updatedBy` audit fields stamped.
+- [x] Frontend `useIsAdmin`/`useIsTestUser` read the roster first (deactivation wins even for package.json-listed emails), package.json fallback otherwise. Notification recipients still read package.json (their senders move server-side with the SES work).
+- [x] Seed script (`infrastructure/createUsersTable.js`) — condition-protected so re-runs never clobber manual roster edits.
 
 ## 3. Frontend performance (quick wins)
 
-- [ ] **Retire the legacy data pipeline** still powering the pending/history/archived tables (quadratic per-group re-scans, unmemoized, substring `isMatch` filter bug) in favor of the shared optimized helpers used by the main library since July (single-pass dedupe, exact tag matching, memoization).
-- [ ] **Fix re-render storms**: Redux selectors that return fresh object literals on every call (e.g. `|| {}` fallbacks) re-render every table on any action — replace with stable references/`shallowEqual`.
-- [ ] **Route-level code splitting**: `React.lazy` the page-level routes so the public library doesn't ship admin/community/survey code on first paint.
-- [ ] **AWS SDK v2 → v3**: replace the monolithic `aws-sdk` (~700 KB gzipped in the bundle for a handful of calls) with modular v3 clients (`@aws-sdk/lib-dynamodb`, `@aws-sdk/client-ses`, Cognito credential provider) behind a thin same-shape adapter in `dbConfig.ts` so the ~30 call sites don't churn. `aws-sdk` v2 remains a dev-dependency for the Node scripts.
-- [ ] Debounced search verified everywhere a search box renders.
-- [ ] Dead-file removal (conservative): `useAppTableData.tsx.old` and other clearly unreferenced files only.
+- [x] **Legacy data pipeline retired**: `Applications/selectors.tsx` hooks now memoize, dedupe in a single pass, and use the main library's exact-match filter logic (substring bug fixed); the two never-imported duplicate selector files deleted.
+- [x] **Re-render storms fixed**: stable `EMPTY_OBJECT`/per-table defaults replace fresh-object selector fallbacks (`useTable`, `useTableFilterValues`, filters selectors, per-row selectors).
+- [x] **Route-level code splitting**: all pages except the public library + app detail load on navigation (admin 7.9 KB gz, community 158 KB gz, survey 7.9 KB gz chunks etc.).
+- [x] **AWS SDK v2 → v3** behind a same-shape adapter in `dbConfig.ts` (call sites unchanged); SES via `sendSesEmail` helper (4 call sites); browser-safe Cognito credential provider (the aggregate package pulls Node-only code); v2 stays a devDependency for the Node scripts.
+- [x] Debounced search: all application tables flow through the shared debounced `TableSearchV2` input (verified July work already covered the headers).
+- [x] Dead-file removal: `useAppTableData.tsx.old` + the two duplicate selector files.
 - **Deferred (per Chris):** moving the ~98 MB of MP4s out of the repo to media hosting — documented, not implemented. Also deferred: date/virtualization library consolidation (recommend folding into the React 18 program).
 
 ## 4. Platform modernization
 
-- [ ] **CRA → Vite migration**: CRA is unmaintained (no security fixes, webpack conflict silenced by `SKIP_PREFLIGHT_CHECK`). Vite build with `envPrefix: 'REACT_APP_'` (no env renames), output kept at `build/` so the Pages deploy flow is unchanged, `copy404` preserved. Site behavior and hosting identical.
-- [ ] **Jest → Vitest**: `react-scripts test` goes away with CRA; the existing suites (55 tests) run under Vitest with jsdom. The pnpm-layout transform hacks become unnecessary.
-- [ ] **CI workflow**: new GitHub Actions job on every PR — install, type-check (`tsc --noEmit`), test, build. Today nothing runs automatically. Requires committing a lockfile (`pnpm-lock.yaml`) for reproducible installs — first one in repo history, intentional.
-- [ ] **`marked` 2 → 4**: clears the last 3 high-severity Dependabot alerts (ReDoS). Two call sites (`helpers.tsx` `stripContent`, Community `Details.tsx`); v4 named-export + `marked.parse` API.
-- [ ] **IaC (incremental start)**: every AWS resource this branch creates (users table, Lambda, its role, Function URL) is created by committed scripts under `infrastructure/` — reviewable and re-runnable. Full IaC adoption for the pre-existing console-created stack stays an ongoing program.
-- [ ] **Survey-reminder Lambda runtime audit** (investigation): confirm its runtime/SDK still function on current AWS runtimes; document findings.
+- [x] **CRA → Vite migration**: Vite 5 build with `envPrefix: 'REACT_APP_'` (no env renames), a small plugin compiling the legacy JSX-in-.js files, `react-virtualized` ESM workaround, output kept at `build/` + `copy404` so Pages deploys unchanged; `react-scripts` removed. Verified: production build, dev server smoke test against the live DB (502 apps render; the only broken images were Google Play's icon CDN returning transient 503s).
+- [x] **Jest → Vitest**: all suites run under Vitest/jsdom (65 tests incl. the write-API authorization matrix, which jest never covered); pnpm-layout transform hacks gone; localforage mocked (jsdom has no IndexedDB).
+- [x] **CI workflow** (`.github/workflows/ci.yml`): every PR runs install → type-check → tests → build; `pnpm-lock.yaml` committed (first lockfile in repo history, intentional); the production deploy workflow switched to the same pinned pnpm toolchain.
+- [x] **`marked` 2 → 4**: clears the last high-severity Dependabot alerts; both call sites on the v4 named-export API.
+- [x] **IaC (incremental start)**: users table, Lambda, scoped role, and HTTP API are created by committed rerunnable scripts under `infrastructure/`. Full IaC for the pre-existing console-created stack stays an ongoing program.
+- [x] **Lambda runtime audit** (2026-08-25, informational): `app-map-db-survey-reminders`, `app-map-db`, and the four Amplify helper functions run **nodejs16.x** (deprecated, no updates since 2022); `CloudWatchImageAPI` is on **nodejs12.x**. They still run today; runtime upgrades should be scheduled (survey-reminders relies on the SDK v2 bundled only in old runtimes).
 - **Explicitly excluded (own scoped program, per the architecture review):** `@mui/styles` retirement (86 files) → React 18 + current MUI.
 
 ---
