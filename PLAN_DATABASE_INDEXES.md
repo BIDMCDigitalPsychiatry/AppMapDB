@@ -58,11 +58,12 @@ Only `current-index` needs a backfill (stamping `cur`); `group-index` and `email
 - [ ] Prevention (Phase 1 item): on new-app submission, look up existing rows by `appleStore.appId` / `androidStore.appId` and reuse the existing `groupId` (or warn the rater) instead of always generating a fresh one
 
 ### 0.3 Indexes + backfill
-- [ ] Backfill/reconcile script (`scripts/db-migration/`): computes per-app latest approved / latest deleted / latest pending, stamps `cur` on ~1,823 rows, clears stray flags, sets `groupId = _id` on the 51 legacy rows missing it (required for `group-index` completeness), re-normalizes email casing; **rerunnable as a drift-repair/audit tool**
-- [ ] Create 3 GSIs (`current-index` with INCLUDE projection of list fields; `group-index` and `email-index`) — requires admin AWS profile (`UpdateTable`); no downtime, invisible to existing clients
-- [ ] Extend the app's Cognito role read policy: `dynamodb:Query` on `table/applications/index/*`
-- [ ] Run backfill; verify index counts match analysis (≈505 approved / ≈929 deleted / ≈389 pending)
-- [ ] Verification pass: reconcile script reports zero diffs against a fresh full scan
+- [x] Backfill/reconcile script (`scripts/db-migration/`): computes per-app latest approved / latest deleted / latest pending, stamps `cur` flags, clears stray flags, sets `groupId = _id` on legacy rows missing it (required for `group-index` completeness); **rerunnable as a drift-repair/audit tool**
+- [x] Create 3 GSIs (ALL projection — see projection decision above) — **created 2026-08-25, all ACTIVE**; sanity queries verified (merged Dare group = 22 rows via `group-index`; migrated rater = 9 rows via `email-index`)
+- [ ] Extend the app's Cognito role read policy: `dynamodb:Query` on `table/applications/index/*` — **required before the branch merges**
+- [x] Run backfill — **applied 2026-08-25: 1,819 flags (502 approved / 929 deleted / 388 pending; deltas vs. morning analysis fully explained by the 3 group merges) + 51 groupId repairs**
+- [x] Verification pass — **audit re-run reports 0 differences; `current-index` partition counts match desired flags exactly**
+- Safety net in place: PITR enabled (35 days) + named backup `applications-pre-index-migration-2026-08-25` + local pre-migration JSON dump in `scripts/db-migration/backups/`
 
 ## Phase 1 — Fast reads (frontend)
 
