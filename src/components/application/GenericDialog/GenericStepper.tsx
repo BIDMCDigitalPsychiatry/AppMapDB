@@ -53,7 +53,12 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
     mobileStepper: {
       flexGrow: 1,
       background: 'white',
-      width: 320
+      // No fixed width: the rating flow reaches 13 steps, which overflowed
+      // the old 320px and crushed the dots into the Next button. Explicit
+      // gutters keep Back | dots | Next separated at any step count.
+      '& .MuiMobileStepper-dots': {
+        margin: '0 24px'
+      }
     },
     submitProgress: {
       color: palette.primary.light,

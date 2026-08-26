@@ -58,7 +58,11 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       }
     },
     mobileStepper: {
-      flexGrow: 1
+      flexGrow: 1,
+      // Keep Back | dots | Next separated even when the container is narrow.
+      '& .MuiMobileStepper-dots': {
+        margin: '0 24px'
+      }
     },
     submitProgress: {
       color: palette.primary.light,
