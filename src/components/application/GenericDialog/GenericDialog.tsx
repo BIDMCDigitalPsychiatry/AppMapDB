@@ -189,7 +189,6 @@ const GenericDialog = ({
       disableAutoFocus={true}
       maxWidth='xs'
       fullWidth
-      titleBackgroundColor
       {...other}
     >
       {title !== null && (

@@ -105,7 +105,6 @@ export default function Layout({ children }) {
 
   React.useEffect(() => {
     if (!tourCompleted) {
-      console.log('Opening intro video dialog');
       setState({ open: true });
     }
   }, [setState, tourCompleted]);

@@ -141,13 +141,11 @@ export const useTracking = ({ isPwa = false }) => {
 
       if (!isEmpty(trackingId)) {
         // Store tracking info
-        console.log('Reading metadata...');
         processData({
           Model: tables.tracking,
           Data: { _id: trackingId },
           Action: 'r',
           onSuccess: response => {
-            console.log('Received metadata', response);
             const prev = response?.Item ?? {};
             var newData = {
               _id: trackingId,
@@ -185,9 +183,6 @@ export const useTracking = ({ isPwa = false }) => {
                 Model: tables.tracking,
                 Data: newData,
                 Action: 'c',
-                onSuccess: response => {
-                  console.log('Successfully updated metadata', { response, Data: newData });
-                },
                 onError: response => {
                   console.error('Error updating metadata', { response, Data: newData });
                 }
@@ -205,8 +200,6 @@ export const useTracking = ({ isPwa = false }) => {
 
     if (/*!isDev() &&*/ isClient && !isGoogleBot() && !isBingBot()) {
       runTracking();
-    } else {
-      console.log('Skipping track logic!');
     }
   }, [installed]);
 };

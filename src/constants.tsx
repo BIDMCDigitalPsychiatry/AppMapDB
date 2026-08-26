@@ -1,4 +1,4 @@
-import { createTheme, Theme, adaptV4Theme } from '@mui/material/styles';
+import { createTheme, Theme } from '@mui/material/styles';
 import { notoSans, lato } from './fonts';
 import { blue, cyan, deepOrange, red, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
 import { onlyUnique } from './helpers';
@@ -19,7 +19,7 @@ import {
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
 //export const googlePlayProxyUrl = 'https://us-central1-greenlink.cloudfunctions.net/function-1';
 
-const basetheme = createTheme(adaptV4Theme({}));
+const basetheme = createTheme();
 export const beta = true;
 
 const themeProps = {
@@ -34,6 +34,10 @@ const themeProps = {
       main: '#737373',
       light: '#F2F2F2',
       dark: '#2C2A2C'
+    },
+    text: {
+      // adaptV4Theme used to inject the v4 hint color; GenericTable still reads it.
+      hint: 'rgba(0, 0, 0, 0.38)'
     }
   },
   typography: {
@@ -58,82 +62,86 @@ const themeProps = {
     tabheight: 116, // Height of the nav pills tab section
     footerHeight: 186 //v2 footer
   },
-  overrides: {
+  components: {
     MuiCssBaseline: {
-      '@global': {
-        '@font-face': [lato, notoSans]
+      // CssBaselineCustom is a JSS withStyles component registered under the
+      // MuiCssBaseline name, so these merge through JSS — keep the @global wrapper.
+      styleOverrides: {
+        '@global': {
+          '@font-face': [lato, notoSans]
+        }
       }
     },
     MuiTooltip: {
-      // Name of the component ⚛️ / style sheet
-      tooltip: {
-        // Name of the rule
-        maxWidth: 700
+      styleOverrides: {
+        tooltip: {
+          maxWidth: 700
+        }
       }
     },
     MuiTypography: {
-      // Name of the component ⚛️ / style sheet
-      h6: {
-        lineHeight: 1.2
-      },
-      subtitle1: {
-        // Name of the rule
-        lineHeight: 1.4
-        //background: basetheme.palette.background.default,
+      styleOverrides: {
+        h6: {
+          lineHeight: 1.2
+        },
+        subtitle1: {
+          lineHeight: 1.4
+          //background: basetheme.palette.background.default,
+        }
       }
     },
     MuiDialogTitle: {
-      // Name of the component ⚛️ / style sheet
-      root: {
-        // Name of the rule
-        paddingLeft: 16,
-        paddingRight: 16,
-        paddingTop: 12,
-        paddingBottom: 12
-        //background: basetheme.palette.background.default,
+      styleOverrides: {
+        root: {
+          paddingLeft: 16,
+          paddingRight: 16,
+          paddingTop: 12,
+          paddingBottom: 12
+          //background: basetheme.palette.background.default,
+        }
       }
     },
     MuiDialogActions: {
-      // Name of the component ⚛️ / style sheet
-      root: {
-        // Name of the rule
-        background: basetheme.palette.grey[100],
+      styleOverrides: {
+        root: {
+          background: basetheme.palette.grey[100],
 
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        flex: '0 0 auto',
-        margin: 0,
-        padding: '8px 4px'
-        //padding: 0,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          flex: '0 0 auto',
+          margin: 0,
+          padding: '8px 4px'
+          //padding: 0,
+        }
       }
     },
     MuiListItemIcon: {
-      root: {
-        color: basetheme.palette.grey[100]
+      styleOverrides: {
+        root: {
+          color: basetheme.palette.grey[100]
+        }
       }
     }
   }
 } as Theme & any;
 
-export const adminTheme = createTheme(
-  adaptV4Theme({
-    ...themeProps,
-    palette: {
-      ...themeProps.palette,
-      primary: {
-        main: '#c62828',
-        light: '#ff5f52',
-        dark: '#8e0000'
-      },
-      secondary: {
-        main: '#388e3c',
-        light: '#6abf69',
-        dark: '#00600f'
-      }
+export const adminTheme = createTheme({
+  ...themeProps,
+  palette: {
+    ...themeProps.palette,
+    primary: {
+      main: '#c62828',
+      light: '#ff5f52',
+      dark: '#8e0000'
+    },
+    secondary: {
+      main: '#388e3c',
+      light: '#6abf69',
+      dark: '#00600f'
     }
-  })
-);
+  }
+});
 
 /* ---------------------------------------------------------------------------
  * Public-facing theme — modernized refresh of the existing brand (same
@@ -173,64 +181,78 @@ const publicThemeProps = {
     body1: { lineHeight: 1.6 },
     body2: { lineHeight: 1.55 }
   },
-  overrides: {
-    ...themeProps.overrides,
+  components: {
+    ...themeProps.components,
     MuiButton: {
-      root: {
-        borderRadius: 8,
-        fontWeight: 600,
-        paddingLeft: 16,
-        paddingRight: 16
-      },
-      contained: {
-        boxShadow: 'none',
-        '&:hover': {
-          boxShadow: '0 2px 6px rgba(16, 24, 40, 0.15)'
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          fontWeight: 600,
+          paddingLeft: 16,
+          paddingRight: 16
+        },
+        contained: {
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: '0 2px 6px rgba(16, 24, 40, 0.15)'
+          }
         }
       }
     },
     MuiPaper: {
-      rounded: {
-        borderRadius: 12
+      styleOverrides: {
+        rounded: {
+          borderRadius: 12
+        }
       }
     },
     MuiCard: {
-      root: {
-        borderRadius: 14,
-        border: '1px solid #E5EAF0',
-        boxShadow: '0 1px 3px rgba(16, 24, 40, 0.06)'
+      styleOverrides: {
+        root: {
+          borderRadius: 14,
+          border: '1px solid #E5EAF0',
+          boxShadow: '0 1px 3px rgba(16, 24, 40, 0.06)'
+        }
       }
     },
     MuiChip: {
-      root: {
-        borderRadius: 8,
-        fontWeight: 500
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          fontWeight: 500
+        }
       }
     },
     MuiOutlinedInput: {
-      root: {
-        borderRadius: 10
+      styleOverrides: {
+        root: {
+          borderRadius: 10
+        }
       }
     },
     MuiTab: {
-      root: {
-        textTransform: 'none',
-        fontWeight: 600
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          fontWeight: 600
+        }
       }
     },
     MuiTooltip: {
-      tooltip: {
-        maxWidth: 700,
-        borderRadius: 8,
-        fontSize: '0.8rem',
-        padding: '8px 12px',
-        backgroundColor: 'rgba(31, 41, 55, 0.96)'
+      styleOverrides: {
+        tooltip: {
+          maxWidth: 700,
+          borderRadius: 8,
+          fontSize: '0.8rem',
+          padding: '8px 12px',
+          backgroundColor: 'rgba(31, 41, 55, 0.96)'
+        }
       }
     }
   }
 } as Theme & any;
 
-export const theme = createTheme(adaptV4Theme(publicThemeProps));
+export const theme = createTheme(publicThemeProps);
 
 const colorLevel = 700;
 

@@ -27,7 +27,6 @@ export default function ExpandableDescriptionWithLanguages({
   handleRefresh = undefined
 }) {
   const isFrench = functionalities?.includes('French');
-  console.log({ appleStore, androidStore });
   const isSpanish = functionalities?.includes('Spanish');
   const [state, setState] = React.useState({ loading: false, appleStore: undefined, androidStore: undefined });
 
@@ -44,7 +43,6 @@ export default function ExpandableDescriptionWithLanguages({
 
   const googleAppId = !isEmpty(androidLink) ? getAndroidIdFromUrl(androidLink) : undefined;
   const appleAppId = !isEmpty(iosLink) ? getAppleIdFromUrl(iosLink) : undefined;
-  console.log({ loading: state.loading, googleAppId, appleAppId, state });
 
   const handleGetAppInfo = React.useCallback(
     language => {

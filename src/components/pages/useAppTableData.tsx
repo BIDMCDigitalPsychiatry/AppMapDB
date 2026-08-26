@@ -297,7 +297,6 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   React.useEffect(() => {
     if (triggerWhenEmpty && !trigger) {
       if (count === 0) {
-        console.log('Pre-loading database cache...');
         handleRefresh();
       }
     }
