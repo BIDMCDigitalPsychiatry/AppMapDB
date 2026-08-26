@@ -9,7 +9,6 @@ import useLogRocketUser from './useLogRocketUser';
 import VersionSelector from './VersionSelector';
 import PwaLayout from '../pwa/PwaLayout';
 import Pwa from '../pwa/Pwa';
-import { publicUrl } from '../../helpers';
 
 export interface AppRouterProps {
   history?: any;
@@ -51,13 +50,7 @@ function AppRouter(props: AppRouterProps) {
 const mapStateToProps = (state: AppState, ownProp: AppRouterProps): AppRouterProps => {
   var history = ownProp.history;
   const location = state && state.router && state.router.location; //location from redux store (previously persisted location)
-  // Honor an explicit deep link: only restore the persisted location when the
-  // browser arrived at the root. Unconditionally overriding meant a URL like
-  // /RegisteredUsers (opened in a new tab) was silently replaced by wherever
-  // the user last was.
-  const browserPath = history?.location?.pathname;
-  const atRoot = !browserPath || browserPath === '/' || browserPath === publicUrl('/');
-  history.location = atRoot && location ? location : history.location;
+  history.location = location ? location : history.location; //if a previous location exists, then set it, otherwise use the passed in/default value
   return { history };
 };
 
