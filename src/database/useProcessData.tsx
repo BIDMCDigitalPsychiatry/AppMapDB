@@ -96,8 +96,22 @@ export const recomputeCurrentFlags = async (written: any, updateDatabase: (u: { 
   }
 };
 
+// Rapid successive writes to the same row (e.g. double-clicking an approve
+// toggle) need two protections:
+//  - opSeq: only the NEWEST operation may reconcile/roll back the row, so a
+//    stale server response can't flip the UI back over a newer click.
+//  - opChain: requests for the same row are serialized, so the server applies
+//    them in click order and the final response reflects the final state.
+const opSeq = new Map<string, number>();
+const opChain = new Map<string, Promise<void>>();
+
 async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDatabase, dispatch) {
   const { Model: Table, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined } = pdi;
+
+  const key = `${Table}:${Data._id}`;
+  const seq = (opSeq.get(key) ?? 0) + 1;
+  opSeq.set(key, seq);
+  const isLatest = () => opSeq.get(key) === seq;
 
   // Optimistic update: apply the change to the local store immediately so the
   // UI responds on click (an admin toggle otherwise waits out the full API
@@ -115,40 +129,51 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
     }
   });
   const rollback = () =>
-    updateDatabase({ table: Table as string, id: Data._id, payload: () => (hadPreviousRow ? previousRow : undefined) });
+    isLatest() && updateDatabase({ table: Table as string, id: Data._id, payload: () => (hadPreviousRow ? previousRow : undefined) });
 
-  try {
-    const res = await fetch(WRITE_API_URL as string, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ Model: Table, Action, Data })
-    });
-    const json: any = await res.json().catch(() => ({}));
-    if (!res.ok || json.ok !== true) {
-      rollback();
-      const message = json?.error ?? `Error processing data. Table: ${Table}`;
-      Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
-      onError && onError(json, Data);
-      console.error({ message, status: res.status, Data });
-      return;
-    }
-    const finalized = json.data ?? Data;
-    Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
-    onSuccess && onSuccess(json, finalized);
-    updateDatabase({ table: Table as string, id: finalized._id, payload: { ...finalized, _rev: finalized._rev } });
-    if (Array.isArray(json.flagChanges)) {
-      for (const change of json.flagChanges) {
-        if (change._id !== finalized._id)
-          updateDatabase({ table: tables.applications, id: change._id, payload: prev => (prev ? { ...prev, cur: change.cur } : prev) });
+  const run = async () => {
+    try {
+      const res = await fetch(WRITE_API_URL as string, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ Model: Table, Action, Data })
+      });
+      const json: any = await res.json().catch(() => ({}));
+      if (!res.ok || json.ok !== true) {
+        rollback();
+        const message = json?.error ?? `Error processing data. Table: ${Table}`;
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+        onError && onError(json, Data);
+        console.error({ message, status: res.status, Data });
+        return;
       }
+      const finalized = json.data ?? Data;
+      Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
+      onSuccess && onSuccess(json, finalized);
+      if (isLatest()) {
+        updateDatabase({ table: Table as string, id: finalized._id, payload: { ...finalized, _rev: finalized._rev } });
+        if (Array.isArray(json.flagChanges)) {
+          for (const change of json.flagChanges) {
+            if (change._id !== finalized._id)
+              updateDatabase({ table: tables.applications, id: change._id, payload: prev => (prev ? { ...prev, cur: change.cur } : prev) });
+          }
+        }
+      }
+    } catch (err) {
+      rollback();
+      const message = `Error processing data. Table: ${Table}`;
+      Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+      onError && onError(err, Data);
+      console.error({ message, err, Data });
     }
-  } catch (err) {
-    rollback();
-    const message = `Error processing data. Table: ${Table}`;
-    Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
-    onError && onError(err, Data);
-    console.error({ message, err, Data });
-  }
+  };
+
+  const chained = (opChain.get(key) ?? Promise.resolve()).then(run);
+  opChain.set(
+    key,
+    chained.catch(() => {})
+  );
+  await chained;
 }
 
 async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
