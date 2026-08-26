@@ -41,6 +41,8 @@ Rosters currently ship in the public JS bundle (26 staff emails) and changing th
 - [x] All Users-page mutations go through the write-API (admin-only server-side) with `updated`/`updatedBy` audit fields stamped.
 - [x] Frontend `useIsAdmin`/`useIsTestUser` read the roster first (deactivation wins even for package.json-listed emails), package.json fallback otherwise. Notification recipients still read package.json (their senders move server-side with the SES work).
 - [x] Seed script (`infrastructure/createUsersTable.js`) — condition-protected so re-runs never clobber manual roster edits.
+- [x] **Super Admin role** (added per Chris, 2026-08-25): only Super Admins see the Users tab and may add/edit/deactivate/**hard-delete** users (server-enforced; regular admins denied). Guardrails protect the last active Super Admin/admin and block self-lockout. Seeded: selzzt@bu.edu + cvanem@gmail.com. Users page rebuilt on the shared GenericTable (full width/height, footer, sortable, role-info tooltips, combined Actions column).
+- [x] **Tester role removed** (dead for years — zero call sites); `testUsers` dropped from package.json. **Notify email typo fixed**: `nalon@bidmc.harvad.edu` → `harvard.edu` in package.json and the users table (that recipient had silently received no notification emails).
 
 ## 3. Frontend performance (quick wins)
 
