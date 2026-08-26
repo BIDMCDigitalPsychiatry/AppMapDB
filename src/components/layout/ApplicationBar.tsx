@@ -30,7 +30,7 @@ import { columns } from '../application/GenericDialog/SignUpSurvey';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser, useSignedInRater, trackingColumns } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';

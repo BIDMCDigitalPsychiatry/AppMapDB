@@ -52,7 +52,7 @@ describe('write-api authorization matrix', () => {
 
   it('restricts users-table management to admins', () => {
     expect(authorize(rater, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e' } }, undefined).allow).toBe(false);
-    const d = authorize(admin, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e', roles: ['tester'] } }, undefined);
+    const d = authorize(admin, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e', roles: ['notify'] } }, undefined);
     expect(d.allow).toBe(true);
     expect(d.data.updatedBy).toBe('admin@x.com'); // audit stamp
   });

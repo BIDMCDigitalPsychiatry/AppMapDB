@@ -68,7 +68,7 @@ export const indexes = {
 };
 
 export const tables = {
-  users: 'users' as TableName, // roster: admin/tester/notify roles (PLAN_MODERNIZATION.md §2)
+  users: 'users' as TableName, // roster: admin/notify roles (PLAN_MODERNIZATION.md §2)
   applications: 'applications' as TableName,
   filters: 'filters' as TableName,
   posts: 'posts' as TableName,

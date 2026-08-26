@@ -41,13 +41,13 @@ const resolveRoles = async email => {
     const res = await doc.send(new GetCommand({ TableName: USERS_TABLE, Key: { email } }));
     if (res.Item && res.Item.active !== false) {
       const roles = Array.isArray(res.Item.roles) ? res.Item.roles : [];
-      return { isAdmin: roles.includes('admin'), isTester: roles.includes('tester'), fromTable: true };
+      return { isAdmin: roles.includes('admin'), fromTable: true };
     }
-    if (res.Item && res.Item.active === false) return { isAdmin: false, isTester: false, fromTable: true }; // deactivated: no fallback
+    if (res.Item && res.Item.active === false) return { isAdmin: false, fromTable: true }; // deactivated: no fallback
   } catch (err) {
     console.error('users table lookup failed, using fallback lists:', err.message);
   }
-  return { isAdmin: envList('FALLBACK_ADMINS').includes(email), isTester: envList('FALLBACK_TESTERS').includes(email), fromTable: false };
+  return { isAdmin: envList('FALLBACK_ADMINS').includes(email), fromTable: false };
 };
 
 const getExisting = async (Model, Data) => {

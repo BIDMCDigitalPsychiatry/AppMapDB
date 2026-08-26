@@ -1,6 +1,6 @@
 /*
  * Roster access (PLAN_MODERNIZATION.md §2): the `users` table is the source
- * of truth for admin / tester / notify roles, with the legacy package.json
+ * of truth for admin / notify roles, with the legacy package.json
  * lists as fallback until the table has earned trust and the lists are
  * retired. These hooks only provide UI hints — real enforcement happens
  * server-side in the write API.
@@ -56,7 +56,7 @@ export const useRoster = (): Record<string, RosterUser> => useSelector((s: AppSt
 //  - roster entry exists  -> it decides (deactivated users lose access even
 //    if still listed in package.json)
 //  - no entry (or roster not loaded) -> caller applies the legacy list
-export const useRosterRole = (email: string | undefined, role: 'admin' | 'tester' | 'notify'): boolean | undefined => {
+export const useRosterRole = (email: string | undefined, role: 'admin' | 'notify'): boolean | undefined => {
   const entry = useRoster()[(email ?? '').trim().toLowerCase()];
   if (!entry) return undefined;
   return entry.active !== false && Array.isArray(entry.roles) && entry.roles.includes(role);

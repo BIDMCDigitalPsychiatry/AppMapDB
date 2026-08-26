@@ -51,16 +51,8 @@ export const useIsAdmin = () => {
   return adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
 };
 
-export const useIsTestUser = () => {
-  const signedIn = useSignedIn();
-  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
-  useLoadRoster(signedIn);
-  const fromRoster = useRosterRole(email, 'tester');
-  if (!signedIn) return false;
-  if (fromRoster !== undefined) return fromRoster;
-  const testEmails = pkg?.testUsers?.split(',');
-  return testEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
-};
+// (useIsTestUser and the testUsers list were removed 2026-08-25 — nothing had
+// called them for years; the roster's role mechanism covers future needs.)
 
 export const useHandleLink = link => {
   return React.useCallback(() => {

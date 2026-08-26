@@ -3,7 +3,7 @@
  *
  * - Table: PK `email` (S, stored lowercase), PAY_PER_REQUEST. Additive — no
  *   existing resource is touched. Rerunnable (skips creation if it exists).
- * - Seed: from package.json adminUsers/testUsers/emailUsers (deduped,
+ * - Seed: from package.json adminUsers/emailUsers (deduped,
  *   lowercased). Existing rows are NOT overwritten on re-runs, so manual
  *   roster edits survive.
  *
@@ -39,7 +39,6 @@ const buildRoster = () => {
       roster.get(e).add(role);
     });
   add(list(pkg.adminUsers), 'admin');
-  add(list(pkg.testUsers), 'tester');
   add(list(pkg.emailUsers), 'notify');
   return roster;
 };

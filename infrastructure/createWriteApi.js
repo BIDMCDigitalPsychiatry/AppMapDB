@@ -48,7 +48,6 @@ const ENV = {
   USER_POOL_CLIENT_ID: '4ngc7297ls1pngpm8hapdv03f9',
   USERS_TABLE: 'users',
   FALLBACK_ADMINS: list(pkg.adminUsers),
-  FALLBACK_TESTERS: list(pkg.testUsers),
   FALLBACK_NOTIFY: list(pkg.emailUsers)
 };
 
