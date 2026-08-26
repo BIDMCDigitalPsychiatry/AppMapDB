@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { makeStyles, createStyles } from '@mui/styles';
+import { makeStyles, createStyles } from '../../../styles/jss';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Grid, Tooltip, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, duration } from '@mui/material';
 import { useDialogState } from './useDialogState';
@@ -58,7 +58,11 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       }
     },
     mobileStepper: {
-      flexGrow: 1
+      flexGrow: 1,
+      // Keep Back | dots | Next separated even when the container is narrow.
+      '& .MuiMobileStepper-dots': {
+        margin: '0 24px'
+      }
     },
     submitProgress: {
       color: palette.primary.light,

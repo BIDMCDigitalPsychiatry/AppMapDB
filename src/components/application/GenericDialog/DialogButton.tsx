@@ -14,9 +14,9 @@ import {
   Link,
   MenuItem,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-import withStyles from '@mui/styles/withStyles';
+import { makeStyles } from '../../../styles/jss';
+import { createStyles } from '../../../styles/jss';
+import { withStyles } from '../../../styles/jss';
 import { useDialogState } from './useDialogState';
 import EditIcon from '@mui/icons-material/Edit';
 import { checkEmpty, evalFunc } from '../../../helpers';

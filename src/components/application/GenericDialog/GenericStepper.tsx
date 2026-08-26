@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { makeStyles, createStyles } from '@mui/styles';
+import { makeStyles, createStyles } from '../../../styles/jss';
 import { Grid, Step, MobileStepper, Collapse, Chip, CircularProgress, useTheme, CardActions, Box } from '@mui/material';
 import { useDialogState } from './useDialogState';
 import merge from 'deepmerge';
@@ -53,7 +53,12 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
     mobileStepper: {
       flexGrow: 1,
       background: 'white',
-      width: 320
+      // No fixed width: the rating flow reaches 13 steps, which overflowed
+      // the old 320px and crushed the dots into the Next button. Explicit
+      // gutters keep Back | dots | Next separated at any step count.
+      '& .MuiMobileStepper-dots': {
+        margin: '0 24px'
+      }
     },
     submitProgress: {
       color: palette.primary.light,

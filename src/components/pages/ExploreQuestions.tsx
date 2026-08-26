@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Grid, Paper, Divider, Typography, useTheme } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../styles/jss';
+import { createStyles } from '../../styles/jss';
 import DialogButton from '../application/GenericDialog/DialogButton';
 
 import i0 from '../../images/questions/0.png';

@@ -1,8 +1,7 @@
-import createStyles from '@mui/styles/createStyles';
+import { createStyles } from '../../styles/jss';
 import { Badge } from '@mui/material';
 
-import withStyles from '@mui/styles/withStyles';
-
+import { withStyles } from '../../styles/jss';
 export default withStyles(theme =>
   createStyles({
     badge: {

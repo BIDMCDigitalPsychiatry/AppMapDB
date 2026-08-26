@@ -1,7 +1,7 @@
 import * as React from 'react';
-import createStyles from '@mui/styles/createStyles';
+import { createStyles } from '../../../styles/jss';
 import Drawer from '@mui/material/Drawer';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '../../../styles/jss';
 import LeftDrawerContent from './LeftDrawerContent';
 import { useFullScreen } from '../../../hooks';
 import { useLeftDrawer } from '../store';

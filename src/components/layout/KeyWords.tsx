@@ -1,5 +1,5 @@
 import * as React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '../../styles/jss';
 import pkg from '../../../package.json';
 
 const useStyles = makeStyles(() => ({

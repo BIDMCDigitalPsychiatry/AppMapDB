@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, InputLabel } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../styles/jss';
+import { createStyles } from '../../../styles/jss';
 import NotchedOutline from '@mui/material/OutlinedInput/NotchedOutline';
 import { isError } from '../../../helpers';
 

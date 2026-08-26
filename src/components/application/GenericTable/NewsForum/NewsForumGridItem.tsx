@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Card, CardContent, CardMedia, Chip, Typography } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '../../../../styles/jss';
+import { makeStyles } from '../../../../styles/jss';
 import { bool, formatWithDefault, isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
 import { useChangeRoute } from '../../../layout/hooks';
 import { useCommentsByPostId } from '../../../../database/useComments';

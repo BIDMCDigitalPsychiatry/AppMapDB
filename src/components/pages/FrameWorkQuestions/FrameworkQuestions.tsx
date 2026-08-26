@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Grid, Typography, Box, IconButton, useTheme } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '../../../styles/jss';
+import { makeStyles } from '../../../styles/jss';
 import { useFullScreen } from '../../../hooks';
 import appEvaluationModel from '../../../images/appEvaluationModel.webp';
 import QuestionSample from './QuestionSample';

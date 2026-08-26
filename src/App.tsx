@@ -23,11 +23,6 @@ export const store = configureStore(history, initialState) as any; //Setup the g
 export const getState = store.getState;
 export const persistor = persistStore(store); //Setup the global persistor
 
-declare module '@mui/styles/defaultTheme' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DefaultTheme extends Theme {}
-}
-
 pkg.enableLogRocket && !isDev() && LogRocket.init('bidmc/mindapp');
 
 Amplify.configure(awsconfig);

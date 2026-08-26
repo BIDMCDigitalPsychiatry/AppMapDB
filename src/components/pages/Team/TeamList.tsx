@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Container, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '../../../styles/jss';
+import { makeStyles } from '../../../styles/jss';
 import PlusIcon from '../../icons/Plus';
 import SearchIcon from '../../icons/Search';
 import { useDefaultValues } from '../../../database/models/Team';

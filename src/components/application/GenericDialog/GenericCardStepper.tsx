@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { makeStyles, createStyles } from '@mui/styles';
+import { makeStyles, createStyles } from '../../../styles/jss';
 import {
   Grid,
   Step,
@@ -63,7 +63,11 @@ const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
       }
     },
     mobileStepper: {
-      flexGrow: 1
+      flexGrow: 1,
+      // Keep Back | dots | Next separated even when the container is narrow.
+      '& .MuiMobileStepper-dots': {
+        margin: '0 24px'
+      }
     },
     submitProgress: {
       color: palette.primary.light,

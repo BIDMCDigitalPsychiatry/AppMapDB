@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../styles/jss';
+import { createStyles } from '../../styles/jss';
 import logo from '../../images/mind_logo_new.png';
 import { useHandleChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';

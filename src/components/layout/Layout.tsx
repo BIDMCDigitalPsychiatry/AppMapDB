@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useScrollTrigger } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../styles/jss';
+import { createStyles } from '../../styles/jss';
 import SnackBar from '../application/SnackBar/SnackBar';
 import { useAssistantPanel, useLeftDrawer } from './store';
 import { useAppBarHeight, useFooterHeight, useTourCompleted } from './hooks';

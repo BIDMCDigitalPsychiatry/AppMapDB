@@ -25,8 +25,8 @@ import Application, {
 import AppSummary from './AppSummary';
 import RatingsColumn from './RatingsColumn';
 import { Typography } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../../styles/jss';
+import { createStyles } from '../../../../styles/jss';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 
 const useStyles = makeStyles(({ palette }: any) =>

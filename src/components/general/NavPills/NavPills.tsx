@@ -3,9 +3,8 @@ import classNames from 'classnames';
 import SwipeableViews from 'react-swipeable-views';
 import { Tab, Tabs, Grid, Divider } from '@mui/material';
 
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-
+import { makeStyles } from '../../../styles/jss';
+import { createStyles } from '../../../styles/jss';
 const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
   createStyles({
     root: {

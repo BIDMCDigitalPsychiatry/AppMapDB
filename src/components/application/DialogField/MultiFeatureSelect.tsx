@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Features } from '../../../database/models/Application';
 import { Chip, emphasize, Grid, Typography } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '../../../styles/jss';
+import { makeStyles } from '../../../styles/jss';
 import * as Icons from '@mui/icons-material';
 
 const useStyles = makeStyles(({ palette }: any) =>
