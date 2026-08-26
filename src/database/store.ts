@@ -4,6 +4,14 @@ import { evalFunc, isEmpty, onlyUnique, sortAscendingToLower } from '../helpers'
 function updateState(state, { table, id, payload }) {
   const data = typeof payload === 'function' ? payload(state[table] ? state[table][id] : undefined) : payload;
 
+  if (data === undefined) {
+    // An undefined result removes the entry (used by optimistic-update
+    // rollbacks for rows that didn't exist before the attempt).
+    if (!state[table] || !(id in state[table])) return state;
+    const { [id]: removed, ...rest } = state[table];
+    return { ...state, [table]: rest };
+  }
+
   if (!state[table]) {
     // Table doesn't exist.  Create new table with the associated entry.
     return { ...state, [table]: { [id]: data } };
@@ -11,10 +19,12 @@ function updateState(state, { table, id, payload }) {
     // Table exists but item dies not.  Insert item at beginning of table.
     return { ...state, [table]: { [id]: data, ...state[table] } };
   } else {
-    // Table exists and item exists.  Update item at it's current position.
-    const newState = { ...state };
-    newState[table][id] = data;
-    return newState;
+    // Table exists and item exists. Update the item IMMUTABLY — the previous
+    // code mutated state[table] in place, so the table object kept its
+    // reference and any component subscribed to the whole table (history
+    // dialog labels, pending queue, admin counts) never re-rendered after a
+    // write. Masked for years by the constant full-table refresh scans.
+    return { ...state, [table]: { ...state[table], [id]: data } };
   }
 }
 
