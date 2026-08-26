@@ -19,37 +19,37 @@ importers:
         version: 3.1118.0(@aws-sdk/client-dynamodb@3.1118.0)
       '@emotion/react':
         specifier: 11.10.5
-        version: 11.10.5(@babel/core@7.29.7)(react@17.0.2)
+        version: 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
       '@emotion/styled':
         specifier: 11.10.5
-        version: 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)
+        version: 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
       '@mui/icons-material':
         specifier: 5.11.0
-        version: 5.11.0(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(react@17.0.2)
+        version: 5.11.0(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
       '@mui/lab':
         specifier: 5.0.0-alpha.112
-        version: 5.0.0-alpha.112(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 5.0.0-alpha.112(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/material':
         specifier: 5.11.0
-        version: 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/styles':
         specifier: 5.11.0
-        version: 5.11.0(react@17.0.2)
+        version: 5.11.0(@types/react@18.3.2)(react@18.3.1)
       '@mui/system':
         specifier: 5.11.0
-        version: 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)
+        version: 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
       '@mui/utils':
         specifier: 5.11.0
-        version: 5.11.0(react@17.0.2)
+        version: 5.11.0(react@18.3.1)
       '@mui/x-date-pickers':
         specifier: 5.0.10
-        version: 5.0.10(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@mui/system@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2))(date-fns@2.28.0)(moment@2.29.4)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 5.0.10(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(date-fns@2.28.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reactions/component':
         specifier: 2.0.2
-        version: 2.0.2(react@17.0.2)
+        version: 2.0.2(react@18.3.1)
       '@rehooks/component-size':
         specifier: 1.0.3
-        version: 1.0.3(react@17.0.2)
+        version: 1.0.3(react@18.3.1)
       '@types/history':
         specifier: 4.7.5
         version: 4.7.5
@@ -73,7 +73,7 @@ importers:
         version: 1.16.3
       aws-amplify:
         specifier: 5.0.12
-        version: 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+        version: 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       axios:
         specifier: 0.32.0
         version: 0.32.0
@@ -85,7 +85,7 @@ importers:
         version: 1.1.1
       connected-react-router:
         specifier: 6.9.2
-        version: 6.9.2(history@4.10.1)(react-redux@7.2.4(react-dom@17.0.2(react@17.0.2))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2))(react-router@5.2.0(react@17.0.2))(react@17.0.2)(redux@4.1.2)
+        version: 6.9.2(history@4.10.1)(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1))(react-router@5.2.0(react@18.3.1))(react@18.3.1)(redux@4.1.2)
       date-fns:
         specifier: 2.28.0
         version: 2.28.0
@@ -126,62 +126,62 @@ importers:
         specifier: 15.8.1
         version: 15.8.1
       react:
-        specifier: 17.0.2
-        version: 17.0.2
+        specifier: 18.3.1
+        version: 18.3.1
       react-avatar-editor:
         specifier: 11.1.0
-        version: 11.1.0(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 11.1.0(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
-        specifier: 17.0.2
-        version: 17.0.2(react@17.0.2)
+        specifier: 18.3.1
+        version: 18.3.1(react@18.3.1)
       react-draggable:
         specifier: 4.4.4
-        version: 4.4.4(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 4.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dropzone:
         specifier: 11.2.4
-        version: 11.2.4(react@17.0.2)
+        version: 11.2.4(react@18.3.1)
       react-elastic-carousel:
         specifier: 0.11.5
-        version: 0.11.5(prop-types@15.8.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2))
+        version: 0.11.5(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1))
       react-number-format:
         specifier: 4.6.0
-        version: 4.6.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 4.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-player:
         specifier: 2.11.0
-        version: 2.11.0(react@17.0.2)
+        version: 2.11.0(react@18.3.1)
       react-quill:
         specifier: 1.3.5
-        version: 1.3.5(react@17.0.2)
+        version: 1.3.5(react@18.3.1)
       react-redux:
-        specifier: 7.2.4
-        version: 7.2.4(react-dom@17.0.2(react@17.0.2))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2)
+        specifier: 7.2.9
+        version: 7.2.9(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
       react-router:
         specifier: 5.2.0
-        version: 5.2.0(react@17.0.2)
+        version: 5.2.0(react@18.3.1)
       react-router-dom:
         specifier: 5.2.0
-        version: 5.2.0(react@17.0.2)
+        version: 5.2.0(react@18.3.1)
       react-swipeable-views:
         specifier: 0.14.0
-        version: 0.14.0(react@17.0.2)
+        version: 0.14.0(react@18.3.1)
       react-virtualized:
         specifier: 9.22.3
-        version: 9.22.3(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 9.22.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-virtuoso:
         specifier: 2.6.0
-        version: 2.6.0(react@17.0.2)
+        version: 2.6.0(react@18.3.1)
       redux:
         specifier: 4.1.2
         version: 4.1.2
       redux-persist:
         specifier: 6.0.0
-        version: 6.0.0(react@17.0.2)(redux@4.1.2)
+        version: 6.0.0(react@18.3.1)(redux@4.1.2)
       redux-thunk:
         specifier: 2.4.1
         version: 2.4.1(redux@4.1.2)
       styled-components:
         specifier: 5.3.3
-        version: 5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2)
+        version: 5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)
       typescript:
         specifier: 4.5.5
         version: 4.5.5
@@ -189,6 +189,12 @@ importers:
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.10.0(@testing-library/dom@10.4.1)
+      '@types/react':
+        specifier: 18.3.2
+        version: 18.3.2
+      '@types/react-dom':
+        specifier: 18.3.1
+        version: 18.3.1
       '@vitejs/plugin-react':
         specifier: 4.7.0
         version: 4.7.0(vite@5.4.20(@types/node@12.12.14)(terser@5.36.0))
@@ -2560,6 +2566,9 @@ packages:
   '@types/quill@1.3.10':
     resolution: {integrity: sha512-IhW3fPW+bkt9MLNlycw8u8fWb7oO7W5URC9MfZYHBlA24rex9rs23D5DETChu1zvgVdc5ka64ICjJOgQMr6Shw==}
 
+  '@types/react-dom@18.3.1':
+    resolution: {integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==}
+
   '@types/react-is@17.0.7':
     resolution: {integrity: sha512-WrTEiT+c6rgq36QApoy0063uAOdltCrhF0QMXLIgYPaTvIdQhAB8hPb5oGGqX18xToElNILS9UprwU6GyINcJg==}
 
@@ -2578,8 +2587,8 @@ packages:
   '@types/react@17.0.93':
     resolution: {integrity: sha512-KM4Ty/ZTLZupiYxZVAlP+InNJS3De6uBMdq0ePa6/04+eG9Y7ftnWfst1xTLQ5rwAhgHwQ4momt/O4KepdGBTw==}
 
-  '@types/react@18.3.12':
-    resolution: {integrity: sha512-D2wOSq/d6Agt28q7rSI3jhU7G6aiuzljDGZ2hTZHIkrTLUI+AF3WMeKkEZ9nN2fkBAlcktT6vcZjDFiIhMYEQw==}
+  '@types/react@18.3.2':
+    resolution: {integrity: sha512-Btgg89dAnqD4vV7R3hlwOxgqobUQKgx3MmrQRi0yYbs/P0ym8XozIAlkqVilPqHQwXs4e9Tf63rrCgl58BcO4w==}
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
@@ -4555,10 +4564,10 @@ packages:
   react-dom-factories@1.0.2:
     resolution: {integrity: sha512-Bmic2N3oKji7vw9qjDr2dmwHvOATbFSnKy7EH0uT/qjvzIUsiXp6Yquk72LJ3WfMtRnq3ujXMMo7GsJeLPfFWw==}
 
-  react-dom@17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
+  react-dom@18.3.1:
+    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
-      react: 17.0.2
+      react: ^18.3.1
 
   react-draggable@4.4.4:
     resolution: {integrity: sha512-6e0WdcNLwpBx/YIDpoyd2Xb04PB0elrDrulKUgdrIlwuYvxh5Ok9M+F8cljm8kPXXs43PmMzek9RrB1b7mLMqA==}
@@ -4645,10 +4654,10 @@ packages:
     peerDependencies:
       react: ^0.14.9 || ^15.3.0 || ^16.0.0
 
-  react-redux@7.2.4:
-    resolution: {integrity: sha512-hOQ5eOSkEJEXdpIKbnRyl04LhaWabkDPV+Ix97wqQX3T3d2NQ8DUblNXXtNMavc7DpswyQM6xfaN4HQDKNY2JA==}
+  react-redux@7.2.9:
+    resolution: {integrity: sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==}
     peerDependencies:
-      react: ^16.8.3 || ^17
+      react: ^16.8.3 || ^17 || ^18
       react-dom: '*'
       react-native: '*'
     peerDependenciesMeta:
@@ -4712,8 +4721,8 @@ packages:
     peerDependencies:
       react: '>=16'
 
-  react@17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
+  react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@2.3.8:
@@ -4863,8 +4872,8 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
-  scheduler@0.20.2:
-    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
+  scheduler@0.23.2:
+    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
 
   scheduler@0.24.0-canary-efb381bbf-20230505:
     resolution: {integrity: sha512-ABvovCDe/k9IluqSh4/ISoq8tIJnW8euVAWYt5j/bg6dRnqwQwiGO1F/V4AyK96NGF/FB04FhOUDuWj8IKfABA==}
@@ -5514,14 +5523,14 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.4
       lru-cache: 10.4.3
 
-  '@aws-amplify/analytics@6.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/analytics@6.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-firehose': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-kinesis': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-personalize-events': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-pinpoint': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-firehose': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-kinesis': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-personalize-events': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-pinpoint': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/util-utf8-browser': 3.6.1
       lodash: 4.17.21
       tslib: 1.14.1
@@ -5529,13 +5538,13 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-amplify/api-graphql@3.1.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/api-graphql@3.1.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/api-rest': 3.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/pubsub': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/api-rest': 3.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/pubsub': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       graphql: 15.8.0
       tslib: 1.14.1
       uuid: 3.4.0
@@ -5545,47 +5554,47 @@ snapshots:
       - encoding
       - react-native
 
-  '@aws-amplify/api-rest@3.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/api-rest@3.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       axios: 0.26.0
       tslib: 1.14.1
     transitivePeerDependencies:
       - debug
       - react-native
 
-  '@aws-amplify/api@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/api@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/api-graphql': 3.1.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/api-rest': 3.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/api-graphql': 3.1.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/api-rest': 3.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       tslib: 1.14.1
     transitivePeerDependencies:
       - debug
       - encoding
       - react-native
 
-  '@aws-amplify/auth@5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/auth@5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       amazon-cognito-identity-js: 6.1.2
       tslib: 1.14.1
     transitivePeerDependencies:
       - encoding
       - react-native
 
-  '@aws-amplify/cache@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/cache@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       tslib: 1.14.1
     transitivePeerDependencies:
       - react-native
 
-  '@aws-amplify/core@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/core@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-js': 1.2.2
-      '@aws-sdk/client-cloudwatch-logs': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-cognito-identity': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/credential-provider-cognito-identity': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/client-cloudwatch-logs': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-cognito-identity': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/credential-provider-cognito-identity': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/types': 3.6.1
       '@aws-sdk/util-hex-encoding': 3.6.1
       tslib: 1.14.1
@@ -5594,12 +5603,12 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-amplify/datastore@4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/datastore@4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/api': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/pubsub': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/api': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/pubsub': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       amazon-cognito-identity-js: 6.1.2
       idb: 5.0.6
       immer: 9.0.6
@@ -5612,9 +5621,9 @@ snapshots:
       - encoding
       - react-native
 
-  '@aws-amplify/geo@2.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/geo@2.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/client-location': 3.186.0
       '@turf/boolean-clockwise': 6.5.0
       camelcase-keys: 6.2.2
@@ -5623,9 +5632,9 @@ snapshots:
       - aws-crt
       - react-native
 
-  '@aws-amplify/interactions@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/interactions@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/client-lex-runtime-service': 3.186.0
       '@aws-sdk/client-lex-runtime-v2': 3.186.0
       base-64: 1.0.0
@@ -5636,10 +5645,10 @@ snapshots:
       - aws-crt
       - react-native
 
-  '@aws-amplify/notifications@1.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/notifications@1.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/client-pinpoint': 3.186.0
       lodash: 4.17.21
       uuid: 3.4.0
@@ -5647,15 +5656,15 @@ snapshots:
       - aws-crt
       - react-native
 
-  '@aws-amplify/predictions@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/predictions@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/storage': 5.1.2(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-comprehend': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-polly': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-rekognition': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-textract': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-translate': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/storage': 5.1.2(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-comprehend': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-polly': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-rekognition': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-textract': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-translate': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/eventstream-marshaller': 3.6.1
       '@aws-sdk/util-utf8-node': 3.6.1
       tslib: 1.14.1
@@ -5664,11 +5673,11 @@ snapshots:
       - debug
       - react-native
 
-  '@aws-amplify/pubsub@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/pubsub@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       graphql: 15.8.0
       paho-mqtt: 1.1.0
       tslib: 1.14.1
@@ -5678,10 +5687,10 @@ snapshots:
       - encoding
       - react-native
 
-  '@aws-amplify/storage@5.1.2(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/storage@5.1.2(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-sdk/client-s3': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-sdk/client-s3': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/s3-request-presigner': 3.6.1
       '@aws-sdk/util-create-request': 3.6.1
       '@aws-sdk/util-format-url': 3.6.1
@@ -5692,9 +5701,9 @@ snapshots:
       - debug
       - react-native
 
-  '@aws-amplify/xr@4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-amplify/xr@4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       tslib: 1.14.1
     transitivePeerDependencies:
       - react-native
@@ -5791,7 +5800,7 @@ snapshots:
     dependencies:
       tslib: 1.14.1
 
-  '@aws-sdk/client-cloudwatch-logs@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-cloudwatch-logs@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -5803,7 +5812,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -5827,7 +5836,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-cognito-identity@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-cognito-identity@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -5839,7 +5848,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -5863,7 +5872,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-comprehend@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-comprehend@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -5875,7 +5884,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -5913,7 +5922,7 @@ snapshots:
       '@smithy/types': 4.17.2
       tslib: 2.8.0
 
-  '@aws-sdk/client-firehose@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-firehose@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -5925,7 +5934,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -5949,7 +5958,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-kinesis@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-kinesis@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -5964,7 +5973,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6111,7 +6120,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-personalize-events@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-personalize-events@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6123,7 +6132,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6186,7 +6195,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-pinpoint@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-pinpoint@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6198,7 +6207,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6222,7 +6231,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-polly@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-polly@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6234,7 +6243,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6258,7 +6267,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-rekognition@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-rekognition@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6270,7 +6279,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6295,7 +6304,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-s3@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-s3@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6317,7 +6326,7 @@ snapshots:
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-location-constraint': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-sdk-s3': 3.6.1
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
@@ -6423,7 +6432,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-textract@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-textract@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6435,7 +6444,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6459,7 +6468,7 @@ snapshots:
     transitivePeerDependencies:
       - react-native
 
-  '@aws-sdk/client-translate@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/client-translate@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-crypto/sha256-browser': 1.2.2
       '@aws-crypto/sha256-js': 1.2.2
@@ -6471,7 +6480,7 @@ snapshots:
       '@aws-sdk/middleware-content-length': 3.6.1
       '@aws-sdk/middleware-host-header': 3.6.1
       '@aws-sdk/middleware-logger': 3.6.1
-      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/middleware-retry': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/middleware-serde': 3.6.1
       '@aws-sdk/middleware-signing': 3.6.1
       '@aws-sdk/middleware-stack': 3.6.1
@@ -6521,9 +6530,9 @@ snapshots:
       bowser: 2.11.0
       tslib: 2.8.0
 
-  '@aws-sdk/credential-provider-cognito-identity@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/credential-provider-cognito-identity@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
-      '@aws-sdk/client-cognito-identity': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-sdk/client-cognito-identity': 3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       '@aws-sdk/property-provider': 3.6.1
       '@aws-sdk/types': 3.6.1
       tslib: 1.14.1
@@ -6973,12 +6982,12 @@ snapshots:
       tslib: 2.8.0
       uuid: 8.3.2
 
-  '@aws-sdk/middleware-retry@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))':
+  '@aws-sdk/middleware-retry@3.6.1(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))':
     dependencies:
       '@aws-sdk/protocol-http': 3.6.1
       '@aws-sdk/service-error-classification': 3.6.1
       '@aws-sdk/types': 3.6.1
-      react-native-get-random-values: 1.11.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      react-native-get-random-values: 1.11.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       tslib: 1.14.1
       uuid: 3.4.0
     transitivePeerDependencies:
@@ -8413,19 +8422,20 @@ snapshots:
 
   '@emotion/memoize@0.9.0': {}
 
-  '@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2)':
+  '@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@emotion/babel-plugin': 11.12.0
       '@emotion/cache': 11.13.1
       '@emotion/serialize': 1.3.2
-      '@emotion/use-insertion-effect-with-fallbacks': 1.2.0(react@17.0.2)
+      '@emotion/use-insertion-effect-with-fallbacks': 1.2.0(react@18.3.1)
       '@emotion/utils': 1.4.1
       '@emotion/weak-memoize': 0.3.1
       hoist-non-react-statics: 3.3.2
-      react: 17.0.2
+      react: 18.3.1
     optionalDependencies:
       '@babel/core': 7.29.7
+      '@types/react': 18.3.2
     transitivePeerDependencies:
       - supports-color
 
@@ -8439,18 +8449,19 @@ snapshots:
 
   '@emotion/sheet@1.4.0': {}
 
-  '@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)':
+  '@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@emotion/babel-plugin': 11.12.0
       '@emotion/is-prop-valid': 1.3.1
-      '@emotion/react': 11.10.5(@babel/core@7.29.7)(react@17.0.2)
+      '@emotion/react': 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
       '@emotion/serialize': 1.3.2
-      '@emotion/use-insertion-effect-with-fallbacks': 1.2.0(react@17.0.2)
+      '@emotion/use-insertion-effect-with-fallbacks': 1.2.0(react@18.3.1)
       '@emotion/utils': 1.4.1
-      react: 17.0.2
+      react: 18.3.1
     optionalDependencies:
       '@babel/core': 7.29.7
+      '@types/react': 18.3.2
     transitivePeerDependencies:
       - supports-color
 
@@ -8460,9 +8471,9 @@ snapshots:
 
   '@emotion/unitless@0.7.5': {}
 
-  '@emotion/use-insertion-effect-with-fallbacks@1.2.0(react@17.0.2)':
+  '@emotion/use-insertion-effect-with-fallbacks@1.2.0(react@18.3.1)':
     dependencies:
-      react: 17.0.2
+      react: 18.3.1
 
   '@emotion/utils@1.4.1': {}
 
@@ -8643,89 +8654,97 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@mui/base@5.0.0-alpha.110(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+  '@mui/base@5.0.0-alpha.110(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@emotion/is-prop-valid': 1.3.1
-      '@mui/types': 7.2.18
-      '@mui/utils': 5.11.0(react@17.0.2)
+      '@mui/types': 7.2.18(@types/react@18.3.2)
+      '@mui/utils': 5.11.0(react@18.3.1)
       '@popperjs/core': 2.11.8
       clsx: 1.2.1
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       react-is: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.2
 
   '@mui/core-downloads-tracker@5.16.11': {}
 
-  '@mui/icons-material@5.11.0(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(react@17.0.2)':
+  '@mui/icons-material@5.11.0(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@mui/material': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      react: 17.0.2
+      '@mui/material': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.2
 
-  '@mui/lab@5.0.0-alpha.112(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+  '@mui/lab@5.0.0-alpha.112(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@mui/base': 5.0.0-alpha.110(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@mui/material': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@mui/system': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)
-      '@mui/types': 7.2.18
-      '@mui/utils': 5.11.0(react@17.0.2)
+      '@mui/base': 5.0.0-alpha.110(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mui/material': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mui/system': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
+      '@mui/types': 7.2.18(@types/react@18.3.2)
+      '@mui/utils': 5.11.0(react@18.3.1)
       clsx: 1.2.1
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       react-is: 18.3.1
     optionalDependencies:
-      '@emotion/react': 11.10.5(@babel/core@7.29.7)(react@17.0.2)
-      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)
+      '@emotion/react': 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
+      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
+      '@types/react': 18.3.2
 
-  '@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+  '@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@mui/base': 5.0.0-alpha.110(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      '@mui/base': 5.0.0-alpha.110(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/core-downloads-tracker': 5.16.11
-      '@mui/system': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)
-      '@mui/types': 7.2.18
-      '@mui/utils': 5.11.0(react@17.0.2)
+      '@mui/system': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
+      '@mui/types': 7.2.18(@types/react@18.3.2)
+      '@mui/utils': 5.11.0(react@18.3.1)
       '@types/react-transition-group': 4.4.11
       clsx: 1.2.1
       csstype: 3.1.3
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       react-is: 18.3.1
-      react-transition-group: 4.4.5(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     optionalDependencies:
-      '@emotion/react': 11.10.5(@babel/core@7.29.7)(react@17.0.2)
-      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)
+      '@emotion/react': 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
+      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
+      '@types/react': 18.3.2
 
-  '@mui/private-theming@5.16.6(react@17.0.2)':
+  '@mui/private-theming@5.16.6(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@mui/utils': 5.16.6(react@17.0.2)
+      '@mui/utils': 5.16.6(@types/react@18.3.2)(react@18.3.1)
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.2
 
-  '@mui/styled-engine@5.16.6(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)':
+  '@mui/styled-engine@5.16.6(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@emotion/cache': 11.13.1
       csstype: 3.1.3
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
     optionalDependencies:
-      '@emotion/react': 11.10.5(@babel/core@7.29.7)(react@17.0.2)
-      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)
+      '@emotion/react': 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
+      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
 
-  '@mui/styles@5.11.0(react@17.0.2)':
+  '@mui/styles@5.11.0(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@emotion/hash': 0.9.2
-      '@mui/private-theming': 5.16.6(react@17.0.2)
-      '@mui/types': 7.2.18
-      '@mui/utils': 5.11.0(react@17.0.2)
+      '@mui/private-theming': 5.16.6(@types/react@18.3.2)(react@18.3.1)
+      '@mui/types': 7.2.18(@types/react@18.3.2)
+      '@mui/utils': 5.11.0(react@18.3.1)
       clsx: 1.2.1
       csstype: 3.1.3
       hoist-non-react-statics: 3.3.2
@@ -8738,45 +8757,52 @@ snapshots:
       jss-plugin-rule-value-function: 10.10.0
       jss-plugin-vendor-prefixer: 10.10.0
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.2
 
-  '@mui/system@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)':
+  '@mui/system@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@mui/private-theming': 5.16.6(react@17.0.2)
-      '@mui/styled-engine': 5.16.6(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)
-      '@mui/types': 7.2.18
-      '@mui/utils': 5.11.0(react@17.0.2)
+      '@mui/private-theming': 5.16.6(@types/react@18.3.2)(react@18.3.1)
+      '@mui/styled-engine': 5.16.6(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
+      '@mui/types': 7.2.18(@types/react@18.3.2)
+      '@mui/utils': 5.11.0(react@18.3.1)
       clsx: 1.2.1
       csstype: 3.1.3
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
     optionalDependencies:
-      '@emotion/react': 11.10.5(@babel/core@7.29.7)(react@17.0.2)
-      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)
+      '@emotion/react': 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
+      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
+      '@types/react': 18.3.2
 
-  '@mui/types@7.2.18': {}
+  '@mui/types@7.2.18(@types/react@18.3.2)':
+    optionalDependencies:
+      '@types/react': 18.3.2
 
-  '@mui/utils@5.11.0(react@17.0.2)':
+  '@mui/utils@5.11.0(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@types/prop-types': 15.7.13
       '@types/react-is': 17.0.7
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       react-is: 18.3.1
 
-  '@mui/utils@5.16.6(react@17.0.2)':
+  '@mui/utils@5.16.6(@types/react@18.3.2)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
-      '@mui/types': 7.2.18
+      '@mui/types': 7.2.18(@types/react@18.3.2)
       '@types/prop-types': 15.7.13
       clsx: 2.1.1
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       react-is: 18.3.1
+    optionalDependencies:
+      '@types/react': 18.3.2
 
-  '@mui/x-date-pickers@5.0.10(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2))(@mui/system@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2))(date-fns@2.28.0)(moment@2.29.4)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)':
+  '@mui/x-date-pickers@5.0.10(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@mui/material@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(date-fns@2.28.0)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.26.0
       '@date-io/core': 2.17.0
@@ -8784,19 +8810,19 @@ snapshots:
       '@date-io/dayjs': 2.17.0
       '@date-io/luxon': 2.17.0
       '@date-io/moment': 2.17.0(moment@2.29.4)
-      '@mui/material': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      '@mui/system': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2))(react@17.0.2)
-      '@mui/utils': 5.11.0(react@17.0.2)
+      '@mui/material': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mui/system': 5.11.0(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@emotion/styled@11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
+      '@mui/utils': 5.11.0(react@18.3.1)
       '@types/react-transition-group': 4.4.11
       clsx: 1.2.1
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-transition-group: 4.4.5(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      rifm: 0.12.1(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      rifm: 0.12.1(react@18.3.1)
     optionalDependencies:
-      '@emotion/react': 11.10.5(@babel/core@7.29.7)(react@17.0.2)
-      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(react@17.0.2))(react@17.0.2)
+      '@emotion/react': 11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1)
+      '@emotion/styled': 11.10.5(@babel/core@7.29.7)(@emotion/react@11.10.5(@babel/core@7.29.7)(@types/react@18.3.2)(react@18.3.1))(@types/react@18.3.2)(react@18.3.1)
       date-fns: 2.28.0
       moment: 2.29.4
 
@@ -8935,20 +8961,22 @@ snapshots:
 
   '@react-native/normalize-colors@0.76.0': {}
 
-  '@react-native/virtualized-lists@0.76.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2)':
+  '@react-native/virtualized-lists@0.76.0(@types/react@18.3.2)(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)':
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
-      react: 17.0.2
-      react-native: 0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2)
+      react: 18.3.1
+      react-native: 0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1)
+    optionalDependencies:
+      '@types/react': 18.3.2
 
-  '@reactions/component@2.0.2(react@17.0.2)':
+  '@reactions/component@2.0.2(react@18.3.1)':
     dependencies:
-      react: 17.0.2
+      react: 18.3.1
 
-  '@rehooks/component-size@1.0.3(react@17.0.2)':
+  '@rehooks/component-size@1.0.3(react@18.3.1)':
     dependencies:
-      react: 17.0.2
+      react: 18.3.1
 
   '@rolldown/pluginutils@1.0.0-beta.27': {}
 
@@ -9154,7 +9182,7 @@ snapshots:
 
   '@types/hoist-non-react-statics@3.3.5':
     dependencies:
-      '@types/react': 18.3.12
+      '@types/react': 18.3.2
       hoist-non-react-statics: 3.3.2
 
   '@types/http-cache-semantics@4.0.4': {}
@@ -9189,6 +9217,10 @@ snapshots:
     dependencies:
       parchment: 1.1.4
 
+  '@types/react-dom@18.3.1':
+    dependencies:
+      '@types/react': 18.3.2
+
   '@types/react-is@17.0.7':
     dependencies:
       '@types/react': 17.0.93
@@ -9196,24 +9228,24 @@ snapshots:
   '@types/react-redux@7.1.22':
     dependencies:
       '@types/hoist-non-react-statics': 3.3.5
-      '@types/react': 18.3.12
+      '@types/react': 18.3.2
       hoist-non-react-statics: 3.3.2
       redux: 4.1.2
 
   '@types/react-router-dom@5.3.3':
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.3.12
+      '@types/react': 18.3.2
       '@types/react-router': 5.1.18
 
   '@types/react-router@5.1.18':
     dependencies:
       '@types/history': 4.7.11
-      '@types/react': 18.3.12
+      '@types/react': 18.3.2
 
   '@types/react-transition-group@4.4.11':
     dependencies:
-      '@types/react': 18.3.12
+      '@types/react': 18.3.2
 
   '@types/react@17.0.93':
     dependencies:
@@ -9221,10 +9253,10 @@ snapshots:
       '@types/scheduler': 0.16.8
       csstype: 3.2.3
 
-  '@types/react@18.3.12':
+  '@types/react@18.3.2':
     dependencies:
       '@types/prop-types': 15.7.13
-      csstype: 3.1.3
+      csstype: 3.2.3
 
   '@types/responselike@1.0.3':
     dependencies:
@@ -9253,10 +9285,10 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@virtuoso.dev/react-urx@0.2.13(react@17.0.2)':
+  '@virtuoso.dev/react-urx@0.2.13(react@18.3.1)':
     dependencies:
       '@virtuoso.dev/urx': 0.2.13
-      react: 17.0.2
+      react: 18.3.1
 
   '@virtuoso.dev/urx@0.2.13': {}
 
@@ -9492,21 +9524,21 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
-  aws-amplify@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2)):
+  aws-amplify@5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1)):
     dependencies:
-      '@aws-amplify/analytics': 6.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/api': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/datastore': 4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/geo': 2.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/interactions': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/notifications': 1.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/predictions': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/pubsub': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/storage': 5.1.2(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
-      '@aws-amplify/xr': 4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))
+      '@aws-amplify/analytics': 6.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/api': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/auth': 5.1.6(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/cache': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/core': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/datastore': 4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/geo': 2.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/interactions': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/notifications': 1.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/predictions': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/pubsub': 5.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/storage': 5.1.2(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
+      '@aws-amplify/xr': 4.0.12(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))
       tslib: 2.8.0
     transitivePeerDependencies:
       - aws-crt
@@ -9609,14 +9641,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-plugin-styled-components@2.1.4(@babel/core@7.29.7)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2))(supports-color@5.5.0):
+  babel-plugin-styled-components@2.1.4(@babel/core@7.29.7)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1))(supports-color@5.5.0):
     dependencies:
       '@babel/helper-annotate-as-pure': 7.25.9
       '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.29.7)
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2)
+      styled-components: 5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -9870,14 +9902,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  connected-react-router@6.9.2(history@4.10.1)(react-redux@7.2.4(react-dom@17.0.2(react@17.0.2))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2))(react-router@5.2.0(react@17.0.2))(react@17.0.2)(redux@4.1.2):
+  connected-react-router@6.9.2(history@4.10.1)(react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1))(react-router@5.2.0(react@18.3.1))(react@18.3.1)(redux@4.1.2):
     dependencies:
       history: 4.10.1
       lodash.isequalwith: 4.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-redux: 7.2.4(react-dom@17.0.2(react@17.0.2))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2)
-      react-router: 5.2.0(react@17.0.2)
+      react: 18.3.1
+      react-redux: 7.2.9(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
+      react-router: 5.2.0(react@18.3.1)
       redux: 4.1.2
     optionalDependencies:
       immutable: 4.3.7
@@ -11223,11 +11255,11 @@ snapshots:
 
   min-indent@1.0.1: {}
 
-  mini-create-react-context@0.4.1(prop-types@15.8.1)(react@17.0.2):
+  mini-create-react-context@0.4.1(prop-types@15.8.1)(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       tiny-warning: 1.0.3
 
   minimatch@3.1.2:
@@ -11511,13 +11543,13 @@ snapshots:
 
   range-parser@1.2.1: {}
 
-  react-avatar-editor@11.1.0(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-avatar-editor@11.1.0(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/plugin-transform-runtime': 7.25.9(@babel/core@7.29.7)
       '@babel/runtime': 7.26.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -11532,43 +11564,42 @@ snapshots:
 
   react-dom-factories@1.0.2: {}
 
-  react-dom@17.0.2(react@17.0.2):
+  react-dom@18.3.1(react@18.3.1):
     dependencies:
       loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react: 17.0.2
-      scheduler: 0.20.2
+      react: 18.3.1
+      scheduler: 0.23.2
 
-  react-draggable@4.4.4(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-draggable@4.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       clsx: 1.1.1
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
-  react-dropzone@11.2.4(react@17.0.2):
+  react-dropzone@11.2.4(react@18.3.1):
     dependencies:
       attr-accept: 2.2.4
       file-selector: 0.2.4
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
 
-  react-elastic-carousel@0.11.5(prop-types@15.8.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2)):
+  react-elastic-carousel@0.11.5(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)):
     dependencies:
       classnames: 2.3.1
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
-      react-only-when: 1.0.2(prop-types@15.8.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      react-swipeable: 5.5.1(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-only-when: 1.0.2(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-swipeable: 5.5.1(react@18.3.1)
       resize-observer-polyfill: 1.5.0
-      styled-components: 5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2)
+      styled-components: 5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1)
 
-  react-event-listener@0.6.6(react@17.0.2):
+  react-event-listener@0.6.6(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       warning: 4.0.3
 
   react-fast-compare@3.2.2: {}
@@ -11583,12 +11614,12 @@ snapshots:
 
   react-lifecycles-compat@3.0.4: {}
 
-  react-native-get-random-values@1.11.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2)):
+  react-native-get-random-values@1.11.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1)):
     dependencies:
       fast-base64-decode: 1.0.0
-      react-native: 0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2)
+      react-native: 0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1)
 
-  react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2):
+  react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1):
     dependencies:
       '@jest/create-cache-key-function': 29.7.0
       '@react-native/assets-registry': 0.76.0
@@ -11597,7 +11628,7 @@ snapshots:
       '@react-native/gradle-plugin': 0.76.0
       '@react-native/js-polyfills': 0.76.0
       '@react-native/normalize-colors': 0.76.0
-      '@react-native/virtualized-lists': 0.76.0(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2)
+      '@react-native/virtualized-lists': 0.76.0(@types/react@18.3.2)(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1)
       abort-controller: 3.0.0
       anser: 1.4.10
       ansi-regex: 5.0.1
@@ -11619,7 +11650,7 @@ snapshots:
       nullthrows: 1.1.1
       pretty-format: 29.7.0
       promise: 8.3.0
-      react: 17.0.2
+      react: 18.3.1
       react-devtools-core: 5.3.2
       react-refresh: 0.14.2
       regenerator-runtime: 0.13.11
@@ -11629,6 +11660,8 @@ snapshots:
       whatwg-fetch: 3.6.20
       ws: 6.2.3
       yargs: 17.7.2
+    optionalDependencies:
+      '@types/react': 18.3.2
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
@@ -11638,75 +11671,75 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  react-number-format@4.6.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-number-format@4.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
-  react-only-when@1.0.2(prop-types@15.8.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-only-when@1.0.2(prop-types@15.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
-  react-player@2.11.0(react@17.0.2):
+  react-player@2.11.0(react@18.3.1):
     dependencies:
       deepmerge: 4.2.2
       load-script: 1.0.0
       memoize-one: 5.2.1
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       react-fast-compare: 3.2.2
 
-  react-quill@1.3.5(react@17.0.2):
+  react-quill@1.3.5(react@18.3.1):
     dependencies:
       '@types/quill': 1.3.10
       create-react-class: 15.7.0
       lodash: 4.17.21
       prop-types: 15.8.1
       quill: 1.3.7
-      react: 17.0.2
+      react: 18.3.1
       react-dom-factories: 1.0.2
 
-  react-redux@7.2.4(react-dom@17.0.2(react@17.0.2))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2))(react@17.0.2):
+  react-redux@7.2.9(react-dom@18.3.1(react@18.3.1))(react-native@0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       '@types/react-redux': 7.1.22
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-is: 16.13.1
+      react: 18.3.1
+      react-is: 17.0.2
     optionalDependencies:
-      react-dom: 17.0.2(react@17.0.2)
-      react-native: 0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(react@17.0.2)
+      react-dom: 18.3.1(react@18.3.1)
+      react-native: 0.76.0(@babel/core@7.29.7)(@babel/preset-env@7.26.0(@babel/core@7.29.7))(@types/react@18.3.2)(react@18.3.1)
 
   react-refresh@0.14.2: {}
 
   react-refresh@0.17.0: {}
 
-  react-router-dom@5.2.0(react@17.0.2):
+  react-router-dom@5.2.0(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       history: 4.10.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-router: 5.2.0(react@17.0.2)
+      react: 18.3.1
+      react-router: 5.2.0(react@18.3.1)
       tiny-invariant: 1.3.3
       tiny-warning: 1.0.3
 
-  react-router@5.2.0(react@17.0.2):
+  react-router@5.2.0(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       history: 4.10.1
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
-      mini-create-react-context: 0.4.1(prop-types@15.8.1)(react@17.0.2)
+      mini-create-react-context: 0.4.1(prop-types@15.8.1)(react@18.3.1)
       path-to-regexp: 1.9.0
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       react-is: 16.13.1
       tiny-invariant: 1.3.3
       tiny-warning: 1.0.3
@@ -11716,61 +11749,60 @@ snapshots:
       '@babel/runtime': 7.0.0
       warning: 4.0.3
 
-  react-swipeable-views-utils@0.14.0(react@17.0.2):
+  react-swipeable-views-utils@0.14.0(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.0.0
       keycode: 2.2.1
       prop-types: 15.8.1
-      react-event-listener: 0.6.6(react@17.0.2)
+      react-event-listener: 0.6.6(react@18.3.1)
       react-swipeable-views-core: 0.14.0
       shallow-equal: 1.2.1
     transitivePeerDependencies:
       - react
 
-  react-swipeable-views@0.14.0(react@17.0.2):
+  react-swipeable-views@0.14.0(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.0.0
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
       react-swipeable-views-core: 0.14.0
-      react-swipeable-views-utils: 0.14.0(react@17.0.2)
+      react-swipeable-views-utils: 0.14.0(react@18.3.1)
       warning: 4.0.3
 
-  react-swipeable@5.5.1(react@17.0.2):
+  react-swipeable@5.5.1(react@18.3.1):
     dependencies:
       prop-types: 15.8.1
-      react: 17.0.2
+      react: 18.3.1
 
-  react-transition-group@4.4.5(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-transition-group@4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
-  react-virtualized@9.22.3(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  react-virtualized@9.22.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       clsx: 1.1.1
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       react-lifecycles-compat: 3.0.4
 
-  react-virtuoso@2.6.0(react@17.0.2):
+  react-virtuoso@2.6.0(react@18.3.1):
     dependencies:
-      '@virtuoso.dev/react-urx': 0.2.13(react@17.0.2)
+      '@virtuoso.dev/react-urx': 0.2.13(react@18.3.1)
       '@virtuoso.dev/urx': 0.2.13
-      react: 17.0.2
+      react: 18.3.1
 
-  react@17.0.2:
+  react@18.3.1:
     dependencies:
       loose-envify: 1.4.0
-      object-assign: 4.1.1
 
   readable-stream@2.3.8:
     dependencies:
@@ -11796,11 +11828,11 @@ snapshots:
       indent-string: 4.0.0
       strip-indent: 3.0.0
 
-  redux-persist@6.0.0(react@17.0.2)(redux@4.1.2):
+  redux-persist@6.0.0(react@18.3.1)(redux@4.1.2):
     dependencies:
       redux: 4.1.2
     optionalDependencies:
-      react: 17.0.2
+      react: 18.3.1
 
   redux-thunk@2.4.1(redux@4.1.2):
     dependencies:
@@ -11895,9 +11927,9 @@ snapshots:
     dependencies:
       lowercase-keys: 2.0.0
 
-  rifm@0.12.1(react@17.0.2):
+  rifm@0.12.1(react@18.3.1):
     dependencies:
-      react: 17.0.2
+      react: 18.3.1
 
   rimraf@2.6.3:
     dependencies:
@@ -11957,10 +11989,9 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scheduler@0.20.2:
+  scheduler@0.23.2:
     dependencies:
       loose-envify: 1.4.0
-      object-assign: 4.1.1
 
   scheduler@0.24.0-canary-efb381bbf-20230505:
     dependencies:
@@ -12131,18 +12162,18 @@ snapshots:
 
   strnum@1.0.5: {}
 
-  styled-components@5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2):
+  styled-components@5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1):
     dependencies:
       '@babel/helper-module-imports': 7.25.9(supports-color@5.5.0)
       '@babel/traverse': 7.25.9(supports-color@5.5.0)
       '@emotion/is-prop-valid': 0.8.8
       '@emotion/stylis': 0.8.5
       '@emotion/unitless': 0.7.5
-      babel-plugin-styled-components: 2.1.4(@babel/core@7.29.7)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@17.0.2(react@17.0.2))(react-is@19.2.8)(react@17.0.2))(supports-color@5.5.0)
+      babel-plugin-styled-components: 2.1.4(@babel/core@7.29.7)(styled-components@5.3.3(@babel/core@7.29.7)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.8)(react@18.3.1))(supports-color@5.5.0)
       css-to-react-native: 3.2.0
       hoist-non-react-statics: 3.3.2
-      react: 17.0.2
-      react-dom: 17.0.2(react@17.0.2)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
       react-is: 19.2.8
       shallowequal: 1.1.0
       supports-color: 5.5.0
