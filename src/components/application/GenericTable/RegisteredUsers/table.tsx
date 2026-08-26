@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Avatar, Box, Chip, Typography, useTheme } from '@mui/material';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
+import { useTableFilter } from '../helpers';
 import { RegisteredUser } from '../../../../database/listRegisteredUsers';
 
 /*
@@ -96,6 +97,9 @@ const toRows = (users: RegisteredUser[]) =>
 
 export const RegisteredUsers = ({ users = [] as RegisteredUser[], statsSkipped = false, height = undefined, ...other }) => {
   const columns = useColumns(statsSkipped);
-  const data = React.useMemo(() => toRows(users), [users]);
+  const rows = React.useMemo(() => toRows(users), [users]);
+  // Header-click sorting lives in the table store; useTableFilter is what
+  // actually applies it to the rows (raw `data` bypasses it otherwise).
+  const data = useTableFilter(rows, name);
   return <GenericTableContainer {...defaultProps} data={data} columns={columns} showScroll={true} height={height} {...other} />;
 };
