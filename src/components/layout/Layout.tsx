@@ -18,6 +18,7 @@ import ScrollElementProvider from './ScrollElementProvider';
 import useHeight from './ViewPort/hooks/useHeight';
 import IntroInstallPromptDialog, { title } from '../application/GenericDialog/IntroInstallPrompt';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
+import { useSessionCheck } from '../../database/session';
 
 const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
   createStyles({
@@ -61,6 +62,9 @@ const noFooterPaths = ['/Home', '/', '', '/Apps', '/Admin', '/MyRatings'];
 export const noPadPaths = ['/Home', '/', '', '/Apps'];
 
 export default function Layout({ children }) {
+  // If redux-persist claims a signed-in user, confirm Amplify actually holds
+  // a live session; otherwise sign the UI out (see src/database/session.ts).
+  useSessionCheck();
   const [leftDrawerOpen] = useLeftDrawer();
   const [assistantOpen] = useAssistantPanel();
   const height = useHeight();

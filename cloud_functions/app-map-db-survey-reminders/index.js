@@ -1,11 +1,25 @@
-const AWS = require('aws-sdk');
+/*
+ * Survey follow-up reminders (hourly EventBridge schedule).
+ *
+ * 2026-08-26 rewrite (behavior unchanged): the previous nodejs16 version
+ * authenticated with the PUBLIC Cognito identity pool's unauthenticated role
+ * instead of its own execution role — which broke when SES and the
+ * surveyReminders table were removed from that role during the security
+ * lockdown. Now on nodejs20 + AWS SDK v3 (bundled in the runtime) using the
+ * function's own scoped execution role (see
+ * infrastructure/updateSurveyReminders.js).
+ *
+ * Logic, thresholds, and the email template are byte-identical to the old
+ * version: for each completed Initial (2-week) / 2 Week (4-week) survey past
+ * its follow-up window with no follow-up survey and no reminder row, insert
+ * a reminder row and email the participant a follow-up invitation.
+ */
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, ScanCommand, PutCommand } = require('@aws-sdk/lib-dynamodb');
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 
-AWS.config.region = 'us-east-1';
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: 'us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe'
-});
-
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const doc = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+const ses = new SESClient({});
 
 function hostAddress(append) {
   return `https://mindapps.org${append !== undefined ? append : ''}`;
@@ -16,30 +30,24 @@ function isEmpty(str) {
 }
 
 const getRows = async TableName => {
-  let scanResults = [];
+  const scanResults = [];
   let items;
-  var params = {
-    TableName,
-    ExclusiveStartKey: undefined
-  };
-  var rows = {};
+  const params = { TableName, ExclusiveStartKey: undefined };
   do {
-    items = await dynamo.scan(params).promise();
+    items = await doc.send(new ScanCommand(params));
     items.Items.forEach(i => scanResults.push(i));
     params.ExclusiveStartKey = items.LastEvaluatedKey;
   } while (typeof items.LastEvaluatedKey != 'undefined');
-  rows = scanResults.reduce((f, c) => {
+  return scanResults.reduce((f, c) => {
     f[c._id] = c;
     return f;
   }, {});
-
-  return rows;
 };
 
 async function sendSurveyFollowUpEmail({ email, appName, surveyId = '', appId, followUpSurveyType }) {
   const sourceEmailAddress = 'appmap@psych.digital';
 
-  const body = `Hello,    
+  const body = `Hello,
     <p>Thank you for participating in our study! We appreciate hearing your thoughts about the application: ${appName}. Would you be willing to participate in a follow up survey?  Please <a href="${hostAddress(
     `/Survey?surveyId=${surveyId}&followUpSurveyType=${followUpSurveyType}&appId=${appId}`
   )}">click here to participate in the ${followUpSurveyType} Follow Up Survey!</a></p>
@@ -47,35 +55,20 @@ async function sendSurveyFollowUpEmail({ email, appName, surveyId = '', appId, f
     <p>Best,</p>
     <p>The Division of Digital Psychiatry</p>`;
 
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: [email]
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
+  return ses.send(
+    new SendEmailCommand({
+      Destination: { CcAddresses: [], ToAddresses: [email] },
+      Message: {
+        Body: {
+          Html: { Charset: 'UTF-8', Data: body },
+          Text: { Charset: 'UTF-8', Data: body }
         },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
+        Subject: { Charset: 'UTF-8', Data: `MIND - ${followUpSurveyType} Survey Follow Up` }
       },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: `MIND - ${followUpSurveyType} Survey Follow Up`
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  return new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
+      Source: sourceEmailAddress,
+      ReplyToAddresses: [sourceEmailAddress]
+    })
+  );
 }
 
 const getAppName = app => {
@@ -93,21 +86,17 @@ const getAppName = app => {
 const twoWeekMS = 1210000000;
 const fourWeekMS = twoWeekMS * 2;
 
-function insertReminder({ appId, email, appName, key }) {
-  return new Promise(function (resolve, reject) {
-    const reminderId = key; // just use survey Id so we don't have to include uuid package
-    const TableName = 'surveyReminders';
-    const Data = { _id: reminderId, surveyId: key, email, appId, appName, time: new Date().getTime() };
-    dynamo.put({ TableName, Item: Data }, function (err, data) {
-      if (err) {
-        var message = `(Error processing data.  Table: ${TableName}`;
-        console.error({ message, err, TableName, Data, reminderId, email, appName });
-        reject(err);
-      } else {
-        resolve(true);
-      }
-    });
-  });
+async function insertReminder({ appId, email, appName, key }) {
+  const reminderId = key; // just use survey Id so we don't have to include uuid package
+  const TableName = 'surveyReminders';
+  const Data = { _id: reminderId, surveyId: key, email, appId, appName, time: new Date().getTime() };
+  try {
+    await doc.send(new PutCommand({ TableName, Item: Data }));
+    return true;
+  } catch (err) {
+    console.error({ message: `(Error processing data.  Table: ${TableName}`, err, TableName, Data, reminderId, email, appName });
+    throw err;
+  }
 }
 
 exports.handler = async event => {
@@ -123,7 +112,6 @@ exports.handler = async event => {
 
     const delta = surveyType === 'Initial' ? twoWeekMS : surveyType === '2 Week' ? fourWeekMS : undefined;
     const followUpPeriodElapsed = delta === undefined ? false : now - Number(created) >= delta ? true : false;
-    //console.log({ key, surveyType, created, now, nowMinusCreated: now - Number(created), delta, followUpPeriodElapsed });
 
     if (followUpPeriodElapsed) {
       // Survey should have a follow up completed, check for already existing or reminder that has already been sent

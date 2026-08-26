@@ -126,11 +126,12 @@ async function handleWrite(token, body) {
   }
   const email = String(payload.email || '').toLowerCase();
   if (!email) return { type: 'unauthorized', error: 'Token has no email claim' };
+  const username = payload['cognito:username'] || payload.sub; // comment ownership (createdBy)
 
   const roles = await resolveRoles(email);
 
   const existing = await getExisting(Model, Data).catch(() => undefined);
-  const decision = authorize({ email, isAdmin: roles.isAdmin, isSuperAdmin: roles.isSuperAdmin }, { Model, Action, Data }, existing);
+  const decision = authorize({ email, username, isAdmin: roles.isAdmin, isSuperAdmin: roles.isSuperAdmin }, { Model, Action, Data }, existing);
   if (!decision.allow) {
     console.log(JSON.stringify({ audit: 'DENIED', email, Model, Action, id: Data._id, reason: decision.reason }));
     return { type: 'forbidden', error: decision.reason };

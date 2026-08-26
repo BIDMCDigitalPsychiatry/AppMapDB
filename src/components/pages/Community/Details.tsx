@@ -13,7 +13,7 @@ import DOMPurify from 'dompurify';
 import { bool, isEmpty, isEmptyObject, publicUrl } from '../../../helpers';
 import * as Icons from '@mui/icons-material';
 import useValues from './useValues';
-import { useIsAdmin } from '../../../hooks';
+import { useIsAdmin, useSignedIn } from '../../../hooks';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import * as CommentDialog from '../../application/GenericDialog/Comment';
 import { useCommentsByPostId } from '../../../database/useComments';
@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme =>
 const Details = () => {
   const classes = useStyles();
   const isAdmin = useIsAdmin();
+  const signedIn = useSignedIn();
   const changeRoute = useChangeRoute();
 
   const userEmail = useUserEmail();
@@ -231,14 +232,22 @@ const Details = () => {
                     </Grid>
 
                     <Grid item>
-                      <DialogButton
-                        Module={CommentDialog}
-                        onClose={handleRefresh}
-                        initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
-                        variant='default'
-                      >
-                        Add Comment
-                      </DialogButton>
+                      {/* Commenting requires sign-in (enforced server-side by the
+                          write API — createdBy comes from the verified token). */}
+                      {signedIn ? (
+                        <DialogButton
+                          Module={CommentDialog}
+                          onClose={handleRefresh}
+                          initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
+                          variant='default'
+                        >
+                          Add Comment
+                        </DialogButton>
+                      ) : (
+                        <Typography variant='body2' color='textSecondary' style={{ lineHeight: '36px' }}>
+                          Sign in to comment
+                        </Typography>
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>

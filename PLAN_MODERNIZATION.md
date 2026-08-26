@@ -70,16 +70,27 @@ Rosters currently ship in the public JS bundle (26 staff emails) and changing th
 
 ---
 
-## Post-merge checklist
+## Post-merge checklist — executed 2026-08-26 (merged as PR #130)
 
-1. Watch the first Pages deploy (maiden run of pnpm + Vite + bumped actions); hard-refresh the live site.
-2. Production smoke test: approve/un-approve a record; verify `cur` flags and the CloudWatch audit line.
-3. Email verification: `node infrastructure/verifyEmails.js --apply` (4 emails to cvanem@gmail.com; the 5th via Admin → Surveys manual follow-up on the "EMAIL VERIFICATION TEST" row), then `--cleanup`.
-4. **Revoke `ses:SendEmail` from the public Cognito role** — the last CRITICAL from the architecture review.
-5. Cleanup: delete the `test@test.com` roster row; optionally rerun the `04_backfill_current_flags.js` audit (expect 0 differences); deactivate the temporary Chris-AppMap IAM access key (Chris) and remove the local `mindapps` AWS profile.
-6. Follow-up PR: bump the gh-pages deploy action after one successful deploy.
+1. [x] First Pages deploy (maiden pnpm + Vite + bumped actions) succeeded; live site verified serving the Vite bundle with the write-API URL baked in.
+2. [x] Production smoke test: approve/un-approve round trips verified via CloudWatch audit lines and correct `cur` flag reconciliation.
+3. [x] Email verification: all 5 scenarios delivered to cvanem@gmail.com (4 via `verifyEmails.js --apply`, 5th via the Admin → Surveys follow-up); negatives passed (unknown type → 400, follow-up w/o token → 401, bad email → 400); roster restored; dummy survey removed via `--cleanup`.
+4. [x] **`ses:SendEmail`/`ses:SendRawEmail` revoked from BOTH Cognito roles** (`Cognito_AppMapDBUnauth_Role` and `Cognito_AppMapDBAuth_Role` — the auth role is effectively public via self-registration and carried the same grants). Verified no Lambda uses or can assume either role (all 11 functions have their own execution roles; the trust policies only allow identity-pool web federation). **The last CRITICAL from the architecture review is closed.**
+5. [x] `test@test.com` roster row deleted. Remaining: optional `04_backfill_current_flags.js` audit (expect 0 differences); deactivate the temporary Chris-AppMap IAM access key (Chris) and remove the local `mindapps` AWS profile.
+6. [ ] Follow-up PR: bump the gh-pages deploy action (`JamesIves@v3` → v4) now that a deploy has succeeded.
 
-**Still deferred, tracked:** DynamoDB public-role write lockdown (awaits the external-org conversation) · Welltory merge decision · Dependabot moderates · nodejs16/12 Lambda runtime upgrades · React 18 + `@mui/styles` program · repo video relocation (~98 MB).
+**Post-merge fix — expired-session UX (`src/database/session.ts`):** redux-persist remembers the signed-in user long after Amplify's ~30-day refresh token dies; the legacy direct-write path never needed a token so this went unnoticed, and the write API surfaced it as "No current user" while the UI looked signed in. Now: a load-time session check signs the UI out if Amplify has no live session; API-model writes with no usable session never fall through to the legacy direct write (which would bypass server-side authorization and the audit trail — they fail with "Your session has expired" instead); a 401 from the write API triggers the same sign-out-and-explain.
+
+**Follow-up hardening (approved by Chris 2026-08-26, this branch):**
+- **Authz matrix tightened:** `posts`/`events`/`team`/`filters` + the survey tables are admin-only through the API (matches the UI, which already gates post creation to admins). **Comments now require sign-in** (UI shows "Sign in to comment" to anonymous visitors): any signed-in user may create — `createdBy` is server-stamped from the verified token — edits are author-or-admin, deletes admin-only. Self-registered accounts can therefore: create pending ratings, edit their own rows, and comment — nothing else.
+- **DynamoDB public-role lockdown** (`infrastructure/lockdownPublicRole.js`): replaces `AmazonDynamoDBFullAccess` on `Cognito_AppMapDBUnauth_Role` (which every browser uses — the identity pool issues only unauthenticated identities) with `AppMapDBPublicDataAccess`: reads on the 10 tables + applications GSIs, `PutItem` only on `tracking`/`surveys`/`signUpSurveys` (anonymous submissions). Also detaches `AWSLambdaFullAccess` (visitors could invoke/modify Lambdas; nothing in the frontend uses the Lambda SDK). Rollback = re-attach the managed policies.
+- **Cognito isolation verified:** the user pool has a single app client (ours); doors has its own pools; our identity pool has no linked providers (unauth-only). The leftover `appmapdb5c3f34ab` Amplify identity pool references the pool but both its roles carry zero policies — left in place per Chris (harmless).
+
+**Also completed 2026-08-26 (this branch):**
+- **Repo videos → S3** (`infrastructure/createMediaBucket.js`): the three MP4s (~98 MB) now serve from the `mindapps-media-544847369688` bucket (public-read scoped to `videos/*`, immutable-cached); URLs in `src/content/videos.ts`.
+- **Lambda runtime upgrades**: `app-map-db-survey-reminders` rewritten on SDK v3 / nodejs20 (`cloud_functions/app-map-db-survey-reminders/`, deployed by `infrastructure/updateSurveyReminders.js`) — the old version authenticated as the PUBLIC Cognito unauth role in code, so the lockdown had broken it; it now uses its own scoped execution role. `app-map-db` (store-metadata proxy) bumped to nodejs20 config-only; both test-invoked live. NOT touched: `CloudWatchImageAPI` (nodejs12 — belongs to the CloudWatch-dashboard/LAMP projects, not MindApps) and the 4 inert Amplify deploy-time helpers (2 belong to doors).
+
+**Still deferred, tracked:** Welltory merge decision · Dependabot findings (count jumped 28→158 when the first lockfile made transitives visible — triage pass needed) · React 18 + `@mui/styles` program (staged plan agreed: React 18 first, then `tss-react` conversion of the 86 JSS files — own branch after this one merges).
 
 ## Verification & safety
 

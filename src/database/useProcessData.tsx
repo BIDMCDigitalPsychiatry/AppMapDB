@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Auth } from 'aws-amplify';
 import { dynamo, DataModel, TableName, tables, indexes } from './dbConfig';
 import { updateSnackBar } from '../components/application/SnackBar/store';
+import { sessionExpired } from './session';
 import { useUpdateDatabase } from './useUpdateDatabase';
 import { diffCurrentFlags, groupOf } from './currentFlags';
 import { normalizeEmailFields } from './normalize';
@@ -143,10 +144,15 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
       const json: any = await res.json().catch(() => ({}));
       if (!res.ok || json.ok !== true) {
         rollback();
-        const message = json?.error ?? `Error processing data. Table: ${Table}`;
-        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+        if (res.status === 401) {
+          // The token was present but rejected — the session died mid-flight.
+          dispatch(sessionExpired());
+        } else {
+          const message = json?.error ?? `Error processing data. Table: ${Table}`;
+          Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
+        }
         onError && onError(json, Data);
-        console.error({ message, status: res.status, Data });
+        console.error({ message: json?.error, status: res.status, Data });
         return;
       }
       const finalized = json.data ?? Data;
@@ -222,6 +228,17 @@ const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: a
         await executeViaApi(pdi, Data, token, updateDatabase, dispatch);
         return;
       }
+      // No usable session for an authenticated model: never fall through to
+      // the legacy direct write (it would bypass server-side authorization
+      // and the audit trail). If the UI thought we were signed in, the
+      // session has expired — sync it and tell the user.
+      if (getState()?.layout?.user !== undefined) {
+        dispatch(sessionExpired());
+      } else {
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message: 'Sign in required' }));
+      }
+      onError && onError({ error: 'Sign in required' }, Data);
+      return;
     }
     executeTransaction(pdi, Data, updateDatabase, dispatch);
   } catch (error: any) {

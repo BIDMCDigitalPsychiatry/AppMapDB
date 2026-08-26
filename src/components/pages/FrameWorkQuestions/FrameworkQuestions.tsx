@@ -9,9 +9,7 @@ import QuestionSample from './QuestionSample';
 import * as ExploreQuestionsDialog from '../../application/GenericDialog/ExploreQuestions';
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import ReactPlayer from 'react-player';
-import videoPath from '../../../content/zoom_1.mp4';
-import videoPath2 from '../../../content/zoom_0.mp4';
-import videoPath3 from '../../../content/Intro.mp4';
+import { zoom1VideoUrl as videoPath, zoom0VideoUrl as videoPath2, introVideoUrl as videoPath3 } from '../../../content/videos';
 
 const padding = 32;
 const width = 300;
