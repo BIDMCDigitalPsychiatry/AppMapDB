@@ -240,6 +240,18 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
   const [loading, setLoading] = React.useState(false);
   const count = Object.keys(apps).length;
 
+  // The index queries can outlive the component (e.g. switching admin tabs
+  // mid-load) — guard the local loading state so React doesn't warn about
+  // updates on an unmounted component. (setApps is a redux dispatch: safe.)
+  const mounted = React.useRef(true);
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+  const safeSetLoading = React.useCallback(v => mounted.current && setLoading(v), []);
+
   const filters = useSelector((s: AppState) => s.table[table]?.filters ?? EMPTY_OBJECT) as any;
 
   const handleGetRow = React.useCallback(
@@ -272,9 +284,9 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   const handleRefresh = React.useCallback(
     ({ requestParams = undefined } = {}) => {
-      fetchCurrentRows(setApps, setLoading, requestParams);
+      fetchCurrentRows(setApps, safeSetLoading, requestParams);
     },
-    [setApps]
+    [setApps, safeSetLoading]
   );
 
   // Load data from the database
@@ -414,11 +426,10 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
 export function useAppTableDataInit({ trigger = true } = {}) {
   const [, setApps] = useApplications();
-  const [, setLoading] = React.useState(false);
 
   const handleRefresh = React.useCallback(
     ({ requestParams = undefined } = {}) => {
-      fetchCurrentRows(setApps, setLoading, requestParams);
+      fetchCurrentRows(setApps, () => undefined, requestParams); // no local loading state to track here
     },
     [setApps]
   );

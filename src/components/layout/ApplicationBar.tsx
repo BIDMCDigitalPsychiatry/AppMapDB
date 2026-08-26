@@ -379,7 +379,7 @@ export default function ApplicationBar({ trigger }) {
                               <MenuItem key='export-sign-up-surveys' onClick={handleExportSignUpSurveys}>
                                 Export Sign Up Surveys
                               </MenuItem>,
-                              <MenuItem key='export-sign-up-surveys' onClick={handleExportPwaUsage}>
+                              <MenuItem key='export-pwa-usage' onClick={handleExportPwaUsage}>
                                 Export PWA Usage
                               </MenuItem>,
                               <MenuItem key='logout' onClick={handleLogout}>
