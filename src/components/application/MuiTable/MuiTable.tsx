@@ -7,7 +7,7 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { useTheme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '../../../styles/jss';
 import Draggable from 'react-draggable';
 import { calcColumnWidth } from './utils';
 

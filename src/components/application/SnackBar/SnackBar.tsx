@@ -10,8 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import SnackbarContent from '@mui/material/SnackbarContent';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useSnackBar } from './useSnackBar';
-import { makeStyles } from '@mui/styles';
-
+import { makeStyles } from '../../../styles/jss';
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,

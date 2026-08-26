@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Box, Typography } from '@mui/material';
 import OutlinedDiv from '../../../general/OutlinedDiv/OutlinedDiv';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../../styles/jss';
+import { createStyles } from '../../../../styles/jss';
 import { grey } from '@mui/material/colors';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 

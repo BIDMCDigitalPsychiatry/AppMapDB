@@ -1,9 +1,9 @@
 import React from 'react';
 import * as Icons from '@mui/icons-material';
 import { Badge, Fab } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-import withStyles from '@mui/styles/withStyles';
+import { makeStyles } from '../../../../styles/jss';
+import { createStyles } from '../../../../styles/jss';
+import { withStyles } from '../../../../styles/jss';
 import { useTableFilterValues } from '../store';
 import { useDialogState } from '../../GenericDialog/useDialogState';
 import { evalFunc } from '../../../../helpers';

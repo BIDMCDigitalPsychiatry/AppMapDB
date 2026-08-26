@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { makeStyles, createStyles } from '@mui/styles';
+import { makeStyles, createStyles } from '../../../styles/jss';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, Grid, Tooltip, CircularProgress, useTheme, Collapse } from '@mui/material';
 import { useDialogState } from './useDialogState';

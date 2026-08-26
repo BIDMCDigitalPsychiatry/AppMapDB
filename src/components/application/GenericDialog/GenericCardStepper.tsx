@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { makeStyles, createStyles } from '@mui/styles';
+import { makeStyles, createStyles } from '../../../styles/jss';
 import {
   Grid,
   Step,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Tabs, Tab } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '../../../../../styles/jss';
 import google_play_store from '../../../../../images/google_play_store.png';
 import apple_store from '../../../../../images/apple_store.png';
 import web from '../../../../../images/web.png';

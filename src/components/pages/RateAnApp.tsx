@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Typography, Button, Box } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '../../styles/jss';
+import { makeStyles } from '../../styles/jss';
 import Text from '../application/DialogField/Text';
 import { sendApiEmail } from '../../database/sendEmail';
 

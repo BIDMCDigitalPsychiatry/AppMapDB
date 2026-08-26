@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as Icons from '@mui/icons-material';
 import { useTheme, Typography, Collapse, Checkbox, Grid } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../styles/jss';
+import { createStyles } from '../../../styles/jss';
 import MuiTable from '../MuiTable/MuiTable';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import Component from '@reactions/component';

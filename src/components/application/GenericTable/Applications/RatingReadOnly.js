@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { chainPropTypes } from '@mui/utils';
-import withStyles from '@mui/styles/withStyles';
+import { withStyles } from '../../../../styles/jss';
 import { capitalize } from '@mui/material/utils';
 import Star from '@mui/icons-material/Star';
 

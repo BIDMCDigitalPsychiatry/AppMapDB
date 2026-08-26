@@ -4,9 +4,8 @@ import { useViewMode } from '../../../layout/store';
 import { Grid, Button } from '@mui/material';
 import { useFullScreen } from '../../../../hooks';
 
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-
+import { makeStyles } from '../../../../styles/jss';
+import { createStyles } from '../../../../styles/jss';
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
     primaryButtonDisabled: {

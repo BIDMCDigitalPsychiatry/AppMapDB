@@ -1,5 +1,5 @@
-import makeStyles from '@mui/styles/makeStyles';
-import { createStyles } from '@mui/styles';
+import { makeStyles } from '../../styles/jss';
+import { createStyles } from '../../styles/jss';
 import clsx from 'clsx';
 import Quill from 'react-quill';
 

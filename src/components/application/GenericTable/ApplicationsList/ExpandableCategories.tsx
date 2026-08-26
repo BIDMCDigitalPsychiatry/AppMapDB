@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Typography, Chip, Theme, useMediaQuery } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../../styles/jss';
+import { createStyles } from '../../../../styles/jss';
 import { evalFunc, isEmpty } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { categoryArray } from '../../../../constants';

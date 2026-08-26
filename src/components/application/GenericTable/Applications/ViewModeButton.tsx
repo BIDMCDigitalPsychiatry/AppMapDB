@@ -3,9 +3,8 @@ import * as Icons from '@mui/icons-material';
 import { useViewMode } from '../../../layout/store';
 import { Fab, Tooltip } from '@mui/material';
 
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
-
+import { makeStyles } from '../../../../styles/jss';
+import { createStyles } from '../../../../styles/jss';
 const useStyles = makeStyles(({ spacing }: any) =>
   createStyles({
     viewmode: {

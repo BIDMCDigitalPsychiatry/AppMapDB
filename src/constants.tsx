@@ -1,5 +1,4 @@
 import { createTheme, Theme } from '@mui/material/styles';
-import { notoSans, lato } from './fonts';
 import { blue, cyan, deepOrange, red, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
 import { onlyUnique } from './helpers';
 import {
@@ -63,15 +62,9 @@ const themeProps = {
     footerHeight: 186 //v2 footer
   },
   components: {
-    MuiCssBaseline: {
-      // CssBaselineCustom is a JSS withStyles component registered under the
-      // MuiCssBaseline name, so these merge through JSS — keep the @global wrapper.
-      styleOverrides: {
-        '@global': {
-          '@font-face': [lato, notoSans]
-        }
-      }
-    },
+    // (The MuiCssBaseline @font-face override moved into CssBaselineCustom's
+    // GlobalStyles with the JSS retirement — it only lived here to ride JSS's
+    // @global merging.)
     MuiTooltip: {
       styleOverrides: {
         tooltip: {

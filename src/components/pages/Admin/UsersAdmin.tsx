@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
-import createStyles from '@mui/styles/createStyles';
-import makeStyles from '@mui/styles/makeStyles';
+import { createStyles } from '../../../styles/jss';
+import { makeStyles } from '../../../styles/jss';
 import { Users } from '../../application/GenericTable/Users/table';
 import { ROLE_INFO } from '../../application/GenericTable/Users/columns';
 import { useRosterActions } from '../../application/GenericTable/Users/useRosterActions';

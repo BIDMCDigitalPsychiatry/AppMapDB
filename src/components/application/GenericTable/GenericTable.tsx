@@ -4,8 +4,8 @@ import { AppState } from '../../../store';
 import TablePlaceHolder from './TablePlaceHolder';
 import VirtualTable, { VirtualTableProps } from './VirtualTable';
 import { Typography, Divider, useTheme, Paper, Grid } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../styles/jss';
+import { createStyles } from '../../../styles/jss';
 import ExploreGrid from './ExploreGrid';
 import VirtualList from './VirtualList';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../styles/jss';
+import { createStyles } from '../../styles/jss';
 import { useAppBarHeight } from '../layout/hooks';
 import ScrollElementProvider from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';

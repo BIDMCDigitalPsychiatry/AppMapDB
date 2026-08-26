@@ -1,7 +1,13 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import { exactProp } from '@mui/utils';
-import withStyles from '@mui/styles/withStyles';
+import { GlobalStyles, useTheme } from '@mui/material';
+import { lato, notoSans } from '../../fonts';
+
+/*
+ * Custom CSS baseline (the app's take on MUI's CssBaseline), rendered through
+ * emotion's GlobalStyles since the JSS/@mui/styles retirement. The @font-face
+ * registrations moved here from the theme's MuiCssBaseline override — they
+ * only ever existed there to ride JSS's @global merging, which is gone.
+ */
 
 export const html = {
   WebkitFontSmoothing: 'antialiased', // Antialiasing.
@@ -19,56 +25,38 @@ export const body = theme => ({
   }
 });
 
-export const styles = theme => ({
-  '@global': {
-    html,
-    '*, *::before, *::after': {
-      boxSizing: 'inherit'
-    },
-    'strong, b': {
-      fontWeight: theme.typography.fontWeightBold
-    },
-    body: {
-      margin: 0, // Remove the margin in all browsers.
-      ...body(theme),
-      // Add support for document.body.requestFullScreen().
-      // Other elements, if background transparent, are not supported.
-      '&::backdrop': {
-        backgroundColor: theme.palette.background.default
-      }
-    }
-  }
-});
-
-/**
- * Kickstart an elegant, consistent, and simple baseline to build upon.
- */
-function CssBaseline(props) {
-  /* eslint-disable no-unused-vars */
-  const { children = null } = props;
-  /* eslint-enable no-unused-vars */
-  return <React.Fragment>{children}</React.Fragment>;
+export default function CssBaseline({ children = null }) {
+  const theme = useTheme();
+  return (
+    <React.Fragment>
+      <GlobalStyles
+        // One object per @font-face: emotion (unlike JSS) collapses an array
+        // under a single '@font-face' key into one rule, silently dropping
+        // the rest — which unregisters Lato sitewide.
+        styles={[
+          { '@font-face': lato } as any,
+          { '@font-face': notoSans } as any,
+          {
+            html,
+            '*, *::before, *::after': {
+              boxSizing: 'inherit'
+            },
+            'strong, b': {
+              fontWeight: theme.typography.fontWeightBold
+            },
+            body: {
+              margin: 0, // Remove the margin in all browsers.
+              ...body(theme),
+              // Add support for document.body.requestFullScreen().
+              // Other elements, if background transparent, are not supported.
+              '&::backdrop': {
+                backgroundColor: theme.palette.background.default
+              }
+            }
+          }
+        ]}
+      />
+      {children}
+    </React.Fragment>
+  );
 }
-
-CssBaseline.propTypes = {
-  // ----------------------------- Warning --------------------------------
-  // | These PropTypes are generated from the TypeScript type definitions |
-  // |     To update them edit the d.ts file and run "yarn proptypes"     |
-  // ----------------------------------------------------------------------
-  /**
-   * You can wrap a node.
-   */
-  children: PropTypes.node,
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: PropTypes.object
-};
-
-if (process.env.NODE_ENV !== 'production') {
-  // eslint-disable-next-line
-  CssBaseline['propTypes' + ''] = exactProp(CssBaseline.propTypes);
-}
-
-export default withStyles(styles, { name: 'MuiCssBaseline' })(CssBaseline);

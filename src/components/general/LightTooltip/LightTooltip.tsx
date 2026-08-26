@@ -1,7 +1,6 @@
 import { Tooltip, Theme } from '@mui/material';
 
-import withStyles from '@mui/styles/withStyles';
-
+import { withStyles } from '../../../styles/jss';
 const LightTooltip = withStyles((theme: Theme) => ({
   tooltip: {
     ...theme.typography.body2,

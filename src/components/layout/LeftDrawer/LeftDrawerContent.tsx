@@ -1,7 +1,7 @@
 import React from 'react';
 import { Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
-import createStyles from '@mui/styles/createStyles';
+import { makeStyles } from '../../../styles/jss';
+import { createStyles } from '../../../styles/jss';
 import { Box, Button, Divider, Grid, IconButton, Tooltip } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import * as Icons from '@mui/icons-material';
