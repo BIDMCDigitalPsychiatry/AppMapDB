@@ -23,6 +23,11 @@ const verifier = CognitoJwtVerifier.create({
   clientId: process.env.USER_POOL_CLIENT_ID
 });
 
+// Prefetch Cognito's signing keys during container init instead of lazily on
+// the first verification — measured at ~700-900 ms when paid inside the first
+// request (the "first click is slow" symptom).
+const jwksReady = verifier.hydrate().catch(err => console.error('JWKS prefetch failed (will retry on first verify):', err.message));
+
 const envList = name =>
   (process.env[name] || '')
     .split(',')
@@ -89,17 +94,19 @@ const recomputeFlags = async written => {
   } while (start);
   const merged = [...rows.filter(r => r._id !== written._id), written];
   const changes = diffCurrentFlags(merged);
-  for (const c of changes) {
-    await doc.send(
-      new UpdateCommand({
-        TableName: 'applications',
-        Key: { _id: c._id },
-        ...(c.cur
-          ? { UpdateExpression: 'SET #c = :v', ExpressionAttributeNames: { '#c': 'cur' }, ExpressionAttributeValues: { ':v': c.cur } }
-          : { UpdateExpression: 'REMOVE #c', ExpressionAttributeNames: { '#c': 'cur' } })
-      })
-    );
-  }
+  await Promise.all(
+    changes.map(c =>
+      doc.send(
+        new UpdateCommand({
+          TableName: 'applications',
+          Key: { _id: c._id },
+          ...(c.cur
+            ? { UpdateExpression: 'SET #c = :v', ExpressionAttributeNames: { '#c': 'cur' }, ExpressionAttributeValues: { ':v': c.cur } }
+            : { UpdateExpression: 'REMOVE #c', ExpressionAttributeNames: { '#c': 'cur' } })
+        })
+      )
+    )
+  );
   return changes;
 };
 
@@ -109,6 +116,7 @@ async function handleWrite(token, body) {
 
   let payload;
   try {
+    await jwksReady; // ensure the init-time key prefetch has settled
     payload = await verifier.verify(token);
   } catch {
     return { type: 'unauthorized', error: 'Sign in required' };

@@ -161,7 +161,10 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
         Name: FN,
         ProtocolType: 'HTTP',
         Target: fnArn,
-        CorsConfiguration: { AllowOrigins: ['*'], AllowMethods: ['POST'], AllowHeaders: ['content-type', 'authorization'] }
+        // MaxAge lets browsers cache the CORS preflight (Chrome caps at 2h);
+        // without it Chrome re-preflights every ~5s, adding a round trip to
+        // nearly every click.
+        CorsConfiguration: { AllowOrigins: ['*'], AllowMethods: ['POST'], AllowHeaders: ['content-type', 'authorization'], MaxAge: 7200 }
       })
       .promise();
     await lambda
@@ -177,6 +180,21 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
         if (e.code !== 'ResourceConflictException') throw e;
       });
   }
+  // 5. Warmer: ping the function every 5 minutes so admin actions never pay
+  // a cold start (~1.5s measured: init + lazy JWKS fetch). Same EventBridge
+  // pattern as the survey reminders. Cost: ~8.6k 2ms invocations/month ≈ $0.
+  const events = new AWS.CloudWatchEvents();
+  const RULE = 'mindapps-write-api-warmer';
+  const rule = await events.putRule({ Name: RULE, ScheduleExpression: 'rate(5 minutes)', Description: 'Keep mindapps-write-api warm' }).promise();
+  await events.putTargets({ Rule: RULE, Targets: [{ Id: 'write-api', Arn: fnArn, Input: JSON.stringify({ ping: true }) }] }).promise();
+  await lambda
+    .addPermission({ FunctionName: FN, StatementId: 'events-warmer', Action: 'lambda:InvokeFunction', Principal: 'events.amazonaws.com', SourceArn: rule.RuleArn })
+    .promise()
+    .catch(e => {
+      if (e.code !== 'ResourceConflictException') throw e;
+    });
+  console.log('warmer schedule active:', RULE);
+
   console.log('\nAPI endpoint:', api.ApiEndpoint);
   console.log('Set REACT_APP_WRITE_API_URL to this value (baked into .env and the deploy workflow).');
 })().catch(e => {

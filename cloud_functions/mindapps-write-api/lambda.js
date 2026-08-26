@@ -17,6 +17,10 @@ const { handleWrite } = require('./handler');
 const STATUS_BY_TYPE = { bad_request: 400, unauthorized: 401, forbidden: 403, conflict: 409, error: 502 };
 
 exports.handler = async event => {
+  // Warmer ping (EventBridge schedule): keep a container warm so admin
+  // actions never pay a cold start. Not an HTTP request — return immediately.
+  if (event && event.ping) return { ok: true, warm: true };
+
   const origin = process.env.ALLOWED_ORIGIN || '*';
   const headers = {
     'Access-Control-Allow-Origin': origin,

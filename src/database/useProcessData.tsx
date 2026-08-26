@@ -98,6 +98,25 @@ export const recomputeCurrentFlags = async (written: any, updateDatabase: (u: { 
 
 async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDatabase, dispatch) {
   const { Model: Table, Action = 'c', Snackbar = true, onSuccess = undefined, onError = undefined } = pdi;
+
+  // Optimistic update: apply the change to the local store immediately so the
+  // UI responds on click (an admin toggle otherwise waits out the full API
+  // round trip). The server response reconciles the finalized row + flag
+  // changes; a rejection rolls the row back.
+  let previousRow: any;
+  let hadPreviousRow = false;
+  updateDatabase({
+    table: Table as string,
+    id: Data._id,
+    payload: prev => {
+      previousRow = prev;
+      hadPreviousRow = prev !== undefined;
+      return { ...Data };
+    }
+  });
+  const rollback = () =>
+    updateDatabase({ table: Table as string, id: Data._id, payload: () => (hadPreviousRow ? previousRow : undefined) });
+
   try {
     const res = await fetch(WRITE_API_URL as string, {
       method: 'POST',
@@ -106,6 +125,7 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
     });
     const json: any = await res.json().catch(() => ({}));
     if (!res.ok || json.ok !== true) {
+      rollback();
       const message = json?.error ?? `Error processing data. Table: ${Table}`;
       Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
       onError && onError(json, Data);
@@ -123,6 +143,7 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
       }
     }
   } catch (err) {
+    rollback();
     const message = `Error processing data. Table: ${Table}`;
     Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message }));
     onError && onError(err, Data);
