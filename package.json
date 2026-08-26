@@ -6,13 +6,11 @@
   "enableLogRocket": true,
   "enableTour": true,
   "contactEmail": "team@digitalpsych.org",
-  "surveyNotificationEmail": "ecamach1@bidmc.harvard.edu",
   "identityPoolId": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
   "keyWords": "mental health apps, therapy app, depression apps, free apps, anxiety apps, stress apps, psych app, psychiatry apps",
   "region": "us-east-1",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1118.0",
-    "@aws-sdk/client-ses": "^3.1118.0",
     "@aws-sdk/credential-provider-cognito-identity": "3.972.69",
     "@aws-sdk/lib-dynamodb": "^3.1118.0",
     "@emotion/react": "11.10.5",

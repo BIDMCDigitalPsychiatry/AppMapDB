@@ -68,6 +68,10 @@ const POLICY = {
     // leaving the company) — the Lambda physically cannot delete application
     // rows or any other table's data.
     { Effect: 'Allow', Action: ['dynamodb:DeleteItem'], Resource: 'arn:aws:dynamodb:*:*:table/users' },
+    // Server-side email: scoped to the verified psych.digital identity only
+    // (the browser SES flows moved behind the API — templates/recipients are
+    // owned server-side; see cloud_functions/mindapps-write-api/email.js).
+    { Effect: 'Allow', Action: ['ses:SendEmail'], Resource: 'arn:aws:ses:*:*:identity/psych.digital' },
     { Effect: 'Allow', Action: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'], Resource: 'arn:aws:logs:*:*:*' }
   ]
 };
@@ -190,6 +194,13 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
       if (e.code !== 'ResourceConflictException') throw e;
     });
   console.log('warmer schedule active:', RULE);
+
+  // 6. Throttle the API (three email types are deliberately anonymous —
+  // public survey/interest/suggest-edit forms — so cap the request rate).
+  await apigw
+    .updateStage({ ApiId: api.ApiId, StageName: '$default', DefaultRouteSettings: { ThrottlingRateLimit: 10, ThrottlingBurstLimit: 25 } })
+    .promise();
+  console.log('stage throttling: 10 rps, burst 25');
 
   console.log('\nAPI endpoint:', api.ApiEndpoint);
   console.log('Set REACT_APP_WRITE_API_URL to this value (baked into .env and the deploy workflow).');

@@ -54,24 +54,11 @@ export const useRoster = (): Record<string, RosterUser> => useSelector((s: AppSt
 
 // Role check against the roster (undefined while the roster hasn't loaded /
 // the email has no entry — treat as "no role").
-export const useRosterRole = (email: string | undefined, role: 'admin' | 'superadmin' | 'notify'): boolean | undefined => {
+export const useRosterRole = (email: string | undefined, role: 'admin' | 'superadmin' | 'notify' | 'surveynotify'): boolean | undefined => {
   const entry = useRoster()[(email ?? '').trim().toLowerCase()];
   if (!entry) return undefined;
   return entry.active !== false && Array.isArray(entry.roles) && entry.roles.includes(role);
 };
 
-// Recipients of the site's staff-notification emails (suggest-an-edit,
-// rating-interest): active users holding the `notify` role. Fetched at send
-// time — the senders are public forms, so there is no signed-in roster in
-// the store to lean on.
-export const getNotifyRecipients = async (): Promise<string[]> => {
-  const rows: RosterUser[] = [];
-  const params: any = { TableName: tables.users, ExclusiveStartKey: undefined };
-  let page;
-  do {
-    page = await dynamo.scan(params).promise();
-    rows.push(...(page.Items ?? []));
-    params.ExclusiveStartKey = page.LastEvaluatedKey;
-  } while (page.LastEvaluatedKey);
-  return rows.filter(u => u.active !== false && Array.isArray(u.roles) && u.roles.includes('notify')).map(u => u.email);
-};
+// (Notification recipients are resolved SERVER-side by the write API's email
+// operations — see src/database/sendEmail.ts and the Lambda's email.js.)

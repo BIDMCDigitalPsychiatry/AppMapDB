@@ -29,6 +29,7 @@ const useUsersTableData = () => {
           admin: (u.roles ?? []).includes('admin'),
           superadmin: (u.roles ?? []).includes('superadmin'),
           notify: (u.roles ?? []).includes('notify'),
+          surveynotify: (u.roles ?? []).includes('surveynotify'),
           active: u.active,
           status: u.active === false ? 'deactivated' : 'active',
           updated: u.updated,

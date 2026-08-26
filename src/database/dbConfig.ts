@@ -6,7 +6,6 @@ import { Comment } from './models/Comment';
 import { Team } from './models/Team';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocument } from '@aws-sdk/lib-dynamodb';
-import { SESClient, SendEmailCommand, SendEmailCommandInput } from '@aws-sdk/client-ses';
 // Deliberately the browser-safe Cognito-specific provider — the aggregate
 // @aws-sdk/credential-providers package pulls Node-only providers
 // (node:child_process) that break the web build.
@@ -51,10 +50,8 @@ const useLocalData = process.env.NODE_ENV !== 'production' && process.env.REACT_
 
 export const dynamo = useLocalData ? createLocalDynamo() : createDynamo();
 
-// SES (used by the survey email flows; scheduled to move behind the write API
-// in the later lockdown). Same request shape as v2's ses.sendEmail(params).
-const ses = new SESClient({ region, credentials });
-export const sendSesEmail = (params: SendEmailCommandInput) => ses.send(new SendEmailCommand(params));
+// (Email sending moved entirely server-side — src/database/sendEmail.ts
+// posts to the write API, which owns templates, recipients, and SES.)
 
 export type DataModel = Application | Post | Event | Comment | Team | any;
 export type TableName = 'applications' | 'filters' | 'posts' | 'comments' | 'events' | 'surveys' | 'surveyReminders' | 'signUpSurveys' | 'team' | 'tracking' | 'users';

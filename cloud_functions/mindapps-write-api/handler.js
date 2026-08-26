@@ -9,7 +9,9 @@
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
+const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { authorize } = require('./authz');
+const { buildEmail, SOURCE } = require('./email');
 const { diffCurrentFlags, groupOf } = require('./currentFlags');
 
 const doc = DynamoDBDocumentClient.from(new DynamoDBClient({}), { marshallOptions: { removeUndefinedValues: true } });
@@ -169,4 +171,64 @@ async function handleWrite(token, body) {
   return { ok: true, data, flagChanges };
 }
 
-module.exports = { handleWrite };
+/* ---------------------------------------------------------------------------
+ * Email operations (the five browser SES flows moved server-side).
+ * Templates/validation live in email.js; this resolves roster recipients and
+ * performs the send. Three types are deliberately anonymous (public survey /
+ * interest / suggest-edit forms) — abuse is bounded by fixed templates,
+ * validation, and API Gateway throttling. surveyFollowUp requires an admin.
+ * ------------------------------------------------------------------------- */
+const ses = new SESClient({});
+
+const rosterRecipients = async role => {
+  const rows = [];
+  let start;
+  do {
+    const page = await doc.send(new ScanCommand({ TableName: USERS_TABLE, ExclusiveStartKey: start }));
+    rows.push(...(page.Items || []));
+    start = page.LastEvaluatedKey;
+  } while (start);
+  return rows.filter(u => u.active !== false && Array.isArray(u.roles) && u.roles.includes(role)).map(u => u.email);
+};
+
+async function handleEmail(token, payload) {
+  const { type, data } = payload || {};
+  const built = buildEmail(type, data);
+  if (built.error) return { type: 'bad_request', error: built.error };
+
+  let caller = 'anonymous';
+  if (built.requiresAdmin) {
+    let jwt;
+    try {
+      await jwksReady;
+      jwt = await verifier.verify(token);
+    } catch {
+      return { type: 'unauthorized', error: 'Sign in required' };
+    }
+    caller = String(jwt.email || '').toLowerCase();
+    const roles = await resolveRoles(caller);
+    if (!roles.isAdmin) {
+      console.log(JSON.stringify({ audit: 'DENIED', email: caller, op: 'email', emailType: type }));
+      return { type: 'forbidden', error: 'Sending this email requires an admin account' };
+    }
+  }
+
+  const recipients = built.to === 'participant' ? [built.participantEmail] : await rosterRecipients(built.to.split(':')[1]);
+  if (recipients.length === 0) return { type: 'error', error: 'No active recipients configured for this notification' };
+
+  await ses.send(
+    new SendEmailCommand({
+      Destination: { ToAddresses: recipients },
+      Message: {
+        Body: { Html: { Charset: 'UTF-8', Data: built.body }, Text: { Charset: 'UTF-8', Data: built.body } },
+        Subject: { Charset: 'UTF-8', Data: built.subject }
+      },
+      Source: SOURCE,
+      ReplyToAddresses: [SOURCE]
+    })
+  );
+  console.log(JSON.stringify({ audit: 'EMAIL', by: caller, emailType: type, recipients: recipients.length }));
+  return { ok: true };
+}
+
+module.exports = { handleWrite, handleEmail };

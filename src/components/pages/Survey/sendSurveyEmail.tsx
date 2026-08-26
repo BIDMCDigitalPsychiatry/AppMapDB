@@ -1,154 +1,21 @@
-﻿import pkg from '../../../../package.json';
-import { sendSesEmail } from '../../../database/dbConfig';
-import { hostAddress } from '../../../helpers';
+/*
+ * Survey email flows — now thin calls to the write API's server-side email
+ * operations (templates, recipients, and the From address live in the
+ * Lambda; see cloud_functions/mindapps-write-api/email.js). The staff
+ * notice goes to the roster's Survey Notify role.
+ */
+import { sendApiEmail } from '../../../database/sendEmail';
 
 export function sendSurveyNotificationEmail({ email, appName }) {
-  const sourceEmailAddress = 'appmap@psych.digital';
-
-  const body = `Notice: ${email} has submitted a survey for ${appName}.`;
-
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: [pkg.surveyNotificationEmail]
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
-        },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: 'MIND - Survey Completed Notification'
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  // Create the promise and SES service object
-  var sendPromise = sendSesEmail(params as any);
-
-  // Handle promise's fulfilled/rejected states
-  sendPromise
-    .then(function (data) {
-      console.log(data.MessageId);
-    })
-    .catch(function (err) {
-      console.error(err, err.stack);
-    });
+  sendApiEmail('surveyStaffNotice', { email, appName });
 }
 
 export function sendSurveyEmail({ email }) {
-  const sourceEmailAddress = 'appmap@psych.digital';
-
-  const body = `Hi,
-    
-    <p>Thank you for agreeing to participate in our study! We look forward to hearing your thoughts about this app.</p>
-    <p>If you have any questions regarding this study, please contact Erica Camacho at ecamach1@bidmc.harvard.edu.</p>
-    <p></p>
-    <p>Best,</p>
-    <p>The Division of Digital Psychiatry</p>`;
-
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: [email]
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
-        },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: 'MIND - Survey Complete'
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  // Create the promise and SES service object
-  var sendPromise = sendSesEmail(params as any);
-
-  // Handle promise's fulfilled/rejected states
-  sendPromise
-    .then(function (data) {
-      console.log(data.MessageId);
-    })
-    .catch(function (err) {
-      console.error(err, err.stack);
-    });
+  sendApiEmail('surveyConfirmation', { email });
 }
 
-export function sendSurveyFollowUpEmail({ email, appName, surveyId = '', appId, followUpSurveyType }) {
-  const sourceEmailAddress = 'appmap@psych.digital';
-
-  const body = `Hello,    
-    <p>Thank you for participating in our study! We appreciate hearing your thoughts about the application: ${appName}. Would you be willing to participate in a follow up survey?  Please <a href="${hostAddress(
-    `/Survey?surveyId=${surveyId}&followUpSurveyType=${followUpSurveyType}&appId=${appId}`
-  )}">click here to participate in the ${followUpSurveyType} Follow Up Survey!</a></p>
-    <p></p>
-    <p>Best,</p>
-    <p>The Division of Digital Psychiatry</p>`;
-
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: [email]
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
-        },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: `MIND - ${followUpSurveyType} Survey Follow Up`
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  // Create the promise and SES service object
-  var sendPromise = sendSesEmail(params as any);
-
-  // Handle promise's fulfilled/rejected states
-  sendPromise
-    .then(function (data) {
-      console.log(data.MessageId);
-    })
-    .catch(function (err) {
-      console.error(err, err.stack);
-    });
+export function sendSurveyFollowUpEmail({ email, appName = '', surveyId = '', appId, followUpSurveyType }) {
+  // Admin-only server-side; the follow-up link is built by the Lambda from
+  // these validated ids.
+  sendApiEmail('surveyFollowUp', { email, appName, surveyId, appId, followUpSurveyType });
 }
-

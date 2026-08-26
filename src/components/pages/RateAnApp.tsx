@@ -3,66 +3,12 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
-import { sendSesEmail } from '../../database/dbConfig';
-import { getNotifyRecipients } from '../../database/useUsers';
+import { sendApiEmail } from '../../database/sendEmail';
 
-async function sendEmail({ name, title, email, institution, details }) {
-  // Recipients come from the users table's `notify` role (the package.json
-  // emailUsers list was retired 2026-08-26).
-  const emailAddresses = await getNotifyRecipients();
-  if (emailAddresses.length === 0) {
-    console.error('No active notify recipients on the roster — rating-interest email not sent.');
-    return;
-  }
-  const sourceEmailAddress = 'appmap@psych.digital';
-
-  const body = `A user is interested in app rating:
-    
-    <p>User Name: ${name}</p>
-    <p>Title: ${title}</p>
-    <p>User Email: ${email}</p>
-    <p>Institution: ${institution}</p>
-    <p>How did you hear about us?: ${details}</p>`;
-
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: emailAddresses
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
-        },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: 'AppMapDB - App Rating Interest'
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  // Create the promise and SES service object
-  var sendPromise = sendSesEmail(params as any);
-
-  // Handle promise's fulfilled/rejected states
-  sendPromise
-    .then(function (data) {
-      console.log(data.MessageId);
-    })
-    .catch(function (err) {
-      console.error(err, err.stack);
-    });
+// Sent server-side via the write API (template + roster `notify` recipients
+// live in the Lambda — cloud_functions/mindapps-write-api/email.js).
+function sendEmail({ name, title, email, institution, details }) {
+  sendApiEmail('ratingInterest', { name, title, email, institution, details });
 }
 
 const padding = 32;

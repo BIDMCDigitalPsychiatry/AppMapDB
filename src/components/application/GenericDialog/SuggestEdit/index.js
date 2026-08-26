@@ -2,69 +2,20 @@ import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
-import { sendSesEmail } from '../../../../database/dbConfig';
-import { getNotifyRecipients } from '../../../../database/useUsers';
+import { sendApiEmail } from '../../../../database/sendEmail';
 
-async function sendEmail(name, email, suggestion, applicationInfo) {
-  // Recipients come from the users table's `notify` role (the package.json
-  // emailUsers list was retired 2026-08-26).
-  const emailAddresses = await getNotifyRecipients();
-  if (emailAddresses.length === 0) {
-    console.error('No active notify recipients on the roster — suggest-edit email not sent.');
-    return;
-  }
-  const sourceEmailAddress = 'appmap@psych.digital';
-
-  const appName = getAppName(applicationInfo);
-  const appCompany = getAppCompany(applicationInfo);
-
-  const body = `A suggested edit has been made:
-    <p>Application: ${appName}</p>
-    <p>Application Company: ${appCompany}</p>
-    <p>User Name: ${name}</p>
-    <p>User Email: ${email}</p>
-    <p>Suggestion: ${suggestion}</p>
-    <p>Application Info: ${JSON.stringify(applicationInfo)}</p>`;
-
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: emailAddresses
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
-        },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: 'AppMapDB - Suggested Edit'
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  // Create the promise and SES service object
-  var sendPromise = sendSesEmail(params);
-
-  // Handle promise's fulfilled/rejected states
-  sendPromise
-    .then(function (data) {
-      console.log(data.MessageId);
-    })
-    .catch(function (err) {
-      console.error(err, err.stack);
-    });
+// Sent server-side via the write API (template + roster `notify` recipients
+// live in the Lambda). Note: the old email embedded the entire application
+// JSON — the server template sends the app id instead.
+function sendEmail(name, email, suggestion, applicationInfo) {
+  sendApiEmail('suggestEdit', {
+    name,
+    email,
+    suggestion,
+    appName: getAppName(applicationInfo),
+    appCompany: getAppCompany(applicationInfo),
+    appId: applicationInfo?._id
+  });
 }
 
 export const title = 'Suggest Edit';
