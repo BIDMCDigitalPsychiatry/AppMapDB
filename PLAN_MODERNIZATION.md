@@ -70,14 +70,16 @@ Rosters currently ship in the public JS bundle (26 staff emails) and changing th
 
 ---
 
-## Post-merge checklist
+## Post-merge checklist — executed 2026-08-26 (merged as PR #130)
 
-1. Watch the first Pages deploy (maiden run of pnpm + Vite + bumped actions); hard-refresh the live site.
-2. Production smoke test: approve/un-approve a record; verify `cur` flags and the CloudWatch audit line.
-3. Email verification: `node infrastructure/verifyEmails.js --apply` (4 emails to cvanem@gmail.com; the 5th via Admin → Surveys manual follow-up on the "EMAIL VERIFICATION TEST" row), then `--cleanup`.
-4. **Revoke `ses:SendEmail` from the public Cognito role** — the last CRITICAL from the architecture review.
-5. Cleanup: delete the `test@test.com` roster row; optionally rerun the `04_backfill_current_flags.js` audit (expect 0 differences); deactivate the temporary Chris-AppMap IAM access key (Chris) and remove the local `mindapps` AWS profile.
-6. Follow-up PR: bump the gh-pages deploy action after one successful deploy.
+1. [x] First Pages deploy (maiden pnpm + Vite + bumped actions) succeeded; live site verified serving the Vite bundle with the write-API URL baked in.
+2. [x] Production smoke test: approve/un-approve round trips verified via CloudWatch audit lines and correct `cur` flag reconciliation.
+3. [x] Email verification: all 5 scenarios delivered to cvanem@gmail.com (4 via `verifyEmails.js --apply`, 5th via the Admin → Surveys follow-up); negatives passed (unknown type → 400, follow-up w/o token → 401, bad email → 400); roster restored; dummy survey removed via `--cleanup`.
+4. [x] **`ses:SendEmail`/`ses:SendRawEmail` revoked from BOTH Cognito roles** (`Cognito_AppMapDBUnauth_Role` and `Cognito_AppMapDBAuth_Role` — the auth role is effectively public via self-registration and carried the same grants). Verified no Lambda uses or can assume either role (all 11 functions have their own execution roles; the trust policies only allow identity-pool web federation). **The last CRITICAL from the architecture review is closed.**
+5. [x] `test@test.com` roster row deleted. Remaining: optional `04_backfill_current_flags.js` audit (expect 0 differences); deactivate the temporary Chris-AppMap IAM access key (Chris) and remove the local `mindapps` AWS profile.
+6. [ ] Follow-up PR: bump the gh-pages deploy action (`JamesIves@v3` → v4) now that a deploy has succeeded.
+
+**Post-merge fix — expired-session UX (`src/database/session.ts`):** redux-persist remembers the signed-in user long after Amplify's ~30-day refresh token dies; the legacy direct-write path never needed a token so this went unnoticed, and the write API surfaced it as "No current user" while the UI looked signed in. Now: a load-time session check signs the UI out if Amplify has no live session; API-model writes with no usable session never fall through to the legacy direct write (which would bypass server-side authorization and the audit trail — they fail with "Your session has expired" instead); a 401 from the write API triggers the same sign-out-and-explain.
 
 **Still deferred, tracked:** DynamoDB public-role write lockdown (awaits the external-org conversation) · Welltory merge decision · Dependabot moderates · nodejs16/12 Lambda runtime upgrades · React 18 + `@mui/styles` program · repo video relocation (~98 MB).
 

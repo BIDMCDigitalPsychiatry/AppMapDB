@@ -5,8 +5,10 @@ import makeStyles from '@mui/styles/makeStyles';
 import { Users } from '../../application/GenericTable/Users/table';
 import { ROLE_INFO } from '../../application/GenericTable/Users/columns';
 import { useRosterActions } from '../../application/GenericTable/Users/useRosterActions';
+import { useDispatch } from 'react-redux';
 import { RegisteredUsers as RegisteredUsersTable } from '../../application/GenericTable/RegisteredUsers/table';
 import { listRegisteredUsers, RegisteredUser } from '../../../database/listRegisteredUsers';
+import { isNoCurrentUserError, sessionExpired, SESSION_EXPIRED_MESSAGE } from '../../../database/session';
 import { WRITE_API_URL } from '../../../database/useProcessData';
 import { validateEmail } from '../../../helpers';
 import Link from '@mui/material/Link';
@@ -67,13 +69,22 @@ export default function UsersAdmin({ height = undefined as number | undefined })
   const [view, setView] = React.useState<'roster' | 'registered'>('roster');
   const [reg, setReg] = React.useState({ loading: false, error: '', users: [] as RegisteredUser[], statsSkipped: false, loaded: false });
 
+  const dispatch = useDispatch();
   React.useEffect(() => {
     if (view !== 'registered' || reg.loaded || reg.loading) return;
     setReg(prev => ({ ...prev, loading: true, error: '' }));
     listRegisteredUsers()
       .then(({ users, statsSkipped }) => setReg({ loading: false, error: '', users, statsSkipped, loaded: true }))
-      .catch(err => setReg(prev => ({ ...prev, loading: false, error: String(err?.message ?? err), loaded: true })));
-  }, [view, reg.loaded, reg.loading]);
+      .catch(err => {
+        if (isNoCurrentUserError(err)) dispatch(sessionExpired() as any);
+        setReg(prev => ({
+          ...prev,
+          loading: false,
+          error: isNoCurrentUserError(err) ? SESSION_EXPIRED_MESSAGE : String(err?.message ?? err),
+          loaded: true
+        }));
+      });
+  }, [view, reg.loaded, reg.loading, dispatch]);
 
   const handleAdd = () => {
     const email = newEmail.trim().toLowerCase();
