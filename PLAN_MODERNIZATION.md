@@ -81,7 +81,12 @@ Rosters currently ship in the public JS bundle (26 staff emails) and changing th
 
 **Post-merge fix — expired-session UX (`src/database/session.ts`):** redux-persist remembers the signed-in user long after Amplify's ~30-day refresh token dies; the legacy direct-write path never needed a token so this went unnoticed, and the write API surfaced it as "No current user" while the UI looked signed in. Now: a load-time session check signs the UI out if Amplify has no live session; API-model writes with no usable session never fall through to the legacy direct write (which would bypass server-side authorization and the audit trail — they fail with "Your session has expired" instead); a 401 from the write API triggers the same sign-out-and-explain.
 
-**Still deferred, tracked:** DynamoDB public-role write lockdown (awaits the external-org conversation) · Welltory merge decision · Dependabot moderates · nodejs16/12 Lambda runtime upgrades · React 18 + `@mui/styles` program · repo video relocation (~98 MB).
+**Follow-up hardening (approved by Chris 2026-08-26, this branch):**
+- **Authz matrix tightened:** `posts`/`events`/`team`/`filters` + the survey tables are admin-only through the API (matches the UI, which already gates post creation to admins). **Comments now require sign-in** (UI shows "Sign in to comment" to anonymous visitors): any signed-in user may create — `createdBy` is server-stamped from the verified token — edits are author-or-admin, deletes admin-only. Self-registered accounts can therefore: create pending ratings, edit their own rows, and comment — nothing else.
+- **DynamoDB public-role lockdown** (`infrastructure/lockdownPublicRole.js`): replaces `AmazonDynamoDBFullAccess` on `Cognito_AppMapDBUnauth_Role` (which every browser uses — the identity pool issues only unauthenticated identities) with `AppMapDBPublicDataAccess`: reads on the 10 tables + applications GSIs, `PutItem` only on `tracking`/`surveys`/`signUpSurveys` (anonymous submissions). Also detaches `AWSLambdaFullAccess` (visitors could invoke/modify Lambdas; nothing in the frontend uses the Lambda SDK). Rollback = re-attach the managed policies.
+- **Cognito isolation verified:** the user pool has a single app client (ours); doors has its own pools; our identity pool has no linked providers (unauth-only). The leftover `appmapdb5c3f34ab` Amplify identity pool references the pool but both its roles carry zero policies — left in place per Chris (harmless).
+
+**Still deferred, tracked:** Welltory merge decision · Dependabot findings (count jumped 28→158 when the first lockfile made transitives visible — triage pass needed) · nodejs16/12 Lambda runtime upgrades · React 18 + `@mui/styles` program · repo video relocation (~98 MB).
 
 ## Verification & safety
 

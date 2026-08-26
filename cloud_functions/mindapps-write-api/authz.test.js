@@ -6,9 +6,9 @@
  */
 import { authorize, canListRegisteredUsers } from './authz';
 
-const rater = { email: 'rater@x.com', isAdmin: false, isSuperAdmin: false };
-const admin = { email: 'admin@x.com', isAdmin: true, isSuperAdmin: false };
-const superAdmin = { email: 'super@x.com', isAdmin: true, isSuperAdmin: true };
+const rater = { email: 'rater@x.com', username: 'rater-uuid', isAdmin: false, isSuperAdmin: false };
+const admin = { email: 'admin@x.com', username: 'admin-uuid', isAdmin: true, isSuperAdmin: false };
+const superAdmin = { email: 'super@x.com', username: 'super-uuid', isAdmin: true, isSuperAdmin: true };
 
 describe('write-api authorization matrix', () => {
   it('lets any signed-in user create a rating, with authorship forced to the token', () => {
@@ -63,10 +63,30 @@ describe('write-api authorization matrix', () => {
     expect(authorize(admin, { Model: 'tracking', Action: 'c', Data: { _id: '1' } }, undefined).allow).toBe(false);
   });
 
-  it('community writes: signed-in create allowed, delete admin-only', () => {
-    expect(authorize(rater, { Model: 'posts', Action: 'c', Data: { _id: 'p1' } }, undefined).allow).toBe(true);
-    expect(authorize(rater, { Model: 'posts', Action: 'd', Data: { _id: 'p1' } }, undefined).allow).toBe(false);
+  it('staff-owned content (posts/events/team/filters, survey tables) is admin-only', () => {
+    for (const Model of ['posts', 'events', 'team', 'filters', 'surveys', 'signUpSurveys']) {
+      expect(authorize(rater, { Model, Action: 'c', Data: { _id: 'x1' } }, undefined).allow).toBe(false);
+      expect(authorize(admin, { Model, Action: 'c', Data: { _id: 'x1' } }, undefined).allow).toBe(true);
+    }
     expect(authorize(admin, { Model: 'posts', Action: 'd', Data: { _id: 'p1' } }, undefined).allow).toBe(true);
+  });
+
+  it('comments: any signed-in user creates with createdBy forced from the token', () => {
+    const d = authorize(rater, { Model: 'comments', Action: 'c', Data: { _id: 'c1', createdBy: 'spoofed-uuid', content: 'hi' } }, undefined);
+    expect(d.allow).toBe(true);
+    expect(d.data.createdBy).toBe('rater-uuid'); // spoofed author overwritten
+  });
+
+  it('comments: edits are author-or-admin; createdBy is immutable; deletes admin-only', () => {
+    const existing = { _id: 'c1', createdBy: 'rater-uuid', content: 'hi' };
+    const other = { ...rater, email: 'other@x.com', username: 'other-uuid' };
+    expect(authorize(other, { Model: 'comments', Action: 'u', Data: { _id: 'c1', content: 'own it' } }, existing).allow).toBe(false);
+    const own = authorize(rater, { Model: 'comments', Action: 'u', Data: { _id: 'c1', content: 'edited', createdBy: 'spoofed' } }, existing);
+    expect(own.allow).toBe(true);
+    expect(own.data.createdBy).toBe('rater-uuid'); // preserved from the existing row
+    expect(authorize(admin, { Model: 'comments', Action: 'u', Data: { _id: 'c1', content: 'moderated' } }, existing).allow).toBe(true);
+    expect(authorize(rater, { Model: 'comments', Action: 'd', Data: { _id: 'c1' } }, existing).allow).toBe(false);
+    expect(authorize(admin, { Model: 'comments', Action: 'd', Data: { _id: 'c1' } }, existing).allow).toBe(true);
   });
 
   it('restricts the registered-users (Cognito) report to Super Admins', () => {

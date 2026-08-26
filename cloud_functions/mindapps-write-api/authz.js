@@ -11,13 +11,18 @@ const isEmpty = v => v === undefined || v === null || v === '';
 // Models a signed-in browser is allowed to write through this API.
 const AUTHENTICATED_MODELS = new Set(['applications', 'users', 'posts', 'comments', 'events', 'team', 'filters', 'surveys', 'signUpSurveys']);
 
+// Content owned by staff: community posts, the events/team pages, filter
+// configs, and the survey tables (participant PII; anonymous submissions go
+// direct, not through this API). Self-registered accounts get no access.
+const ADMIN_ONLY_MODELS = new Set(['posts', 'events', 'team', 'filters', 'surveys', 'signUpSurveys']);
+
 const normalizeEmails = data => {
   const out = { ...data };
   for (const f of ['email', 'approverEmail']) if (typeof out[f] === 'string') out[f] = out[f].toLowerCase();
   return out;
 };
 
-const authorize = ({ email, isAdmin, isSuperAdmin }, { Model, Action = 'c', Data }, existing) => {
+const authorize = ({ email, username, isAdmin, isSuperAdmin }, { Model, Action = 'c', Data }, existing) => {
   if (!Data) return { allow: false, reason: 'Missing Data' };
   if (!AUTHENTICATED_MODELS.has(Model)) return { allow: false, reason: `Model '${Model}' is not writable via this API` };
 
@@ -34,10 +39,22 @@ const authorize = ({ email, isAdmin, isSuperAdmin }, { Model, Action = 'c', Data
 
   if (isEmpty(Data._id)) return { allow: false, reason: 'Missing Data._id' };
 
-  if (Model !== 'applications') {
-    // Community/content models: any signed-in user. Deletes stay admin-only.
-    if (Action === 'd' && !isAdmin) return { allow: false, reason: 'Deleting requires an admin account' };
+  if (ADMIN_ONLY_MODELS.has(Model)) {
+    if (!isAdmin) return { allow: false, reason: `Writing ${Model} requires an admin account` };
     return { allow: true, data };
+  }
+
+  if (Model === 'comments') {
+    // Comments require sign-in (per Chris, 2026-08-26 — the Add Comment UI is
+    // gated the same way). Anyone signed in may create; edits are limited to
+    // the original author (createdBy = Cognito username) or an admin; deletes
+    // stay admin-only. createdBy is server-stamped so it can't be spoofed.
+    if (Action === 'd' && !isAdmin) return { allow: false, reason: 'Deleting comments requires an admin account' };
+    if (existing) {
+      if (!isAdmin && existing.createdBy !== username) return { allow: false, reason: 'You can only edit your own comments' };
+      return { allow: true, data: { ...data, createdBy: existing.createdBy } };
+    }
+    return { allow: true, data: { ...data, createdBy: isAdmin ? data.createdBy ?? username : username } };
   }
 
   // ---- applications ----
