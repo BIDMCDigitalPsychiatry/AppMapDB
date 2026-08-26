@@ -240,10 +240,11 @@ async function handleEmail(token, payload) {
  * ------------------------------------------------------------------------- */
 const cognito = new CognitoIdentityProviderClient({});
 
-// Above this many accounts the per-user activity queries get slow; return
-// the plain account list instead (statsSkipped tells the UI to hide those
-// columns).
-const STATS_MAX_USERS = 400;
+// Above this many accounts the per-user activity queries risk the 30s
+// timeout; return the plain account list instead (statsSkipped tells the UI
+// to hide those columns). The pool held 530 accounts in Aug 2026 and stats
+// took ~2s, so this leaves generous headroom.
+const STATS_MAX_USERS = 2500;
 
 const ratingStats = async email => {
   // One query on email-index (SK = created, ascending) projecting only the
@@ -301,11 +302,11 @@ async function handleListRegisteredUsers(token) {
 
   const statsSkipped = users.length > STATS_MAX_USERS;
   if (!statsSkipped) {
-    // Bounded concurrency: chunks of 10 keep this well inside the 30s timeout
+    // Bounded concurrency: chunks of 25 keep this well inside the 30s timeout
     // (one tiny projected query per account).
-    for (let i = 0; i < users.length; i += 10) {
+    for (let i = 0; i < users.length; i += 25) {
       await Promise.all(
-        users.slice(i, i + 10).map(async u => {
+        users.slice(i, i + 25).map(async u => {
           try {
             Object.assign(u, await ratingStats(u.email));
           } catch (err) {
