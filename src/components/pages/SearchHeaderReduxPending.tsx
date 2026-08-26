@@ -12,14 +12,15 @@ import { useHeaderHeightSetRef } from '../layout/hooks';
 const padding = 32;
 const spacing = 1;
 
+// Tighter vertical rhythm: keep the horizontal padding, halve the vertical.
 const getMobilePadding = breakpoints => ({
-  padding,
+  padding: `16px ${padding}px`,
   fontWeight: 900,
   [breakpoints.down('sm')]: {
-    padding: getPadding('sm')
+    padding: `12px ${getPadding('sm')}px`
   },
   [breakpoints.down('xs')]: {
-    padding: getPadding('xs')
+    padding: `8px ${getPadding('xs')}px`
   }
 });
 
@@ -35,6 +36,7 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
     },
     primaryText: {
       fontSize: 30,
+      lineHeight: 1.2,
       fontWeight: 900,
       color: palette.primary.dark
     },
@@ -91,8 +93,8 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={spacing}>
-          <Grid item xs={12} sm style={{ marginTop: -4 }}>
+        <Grid container style={{ marginTop: 4 }} alignItems='center' spacing={spacing}>
+          <Grid item xs={12} sm>
             <Grid container spacing={spacing}>
               <Grid item xs>
                 <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />

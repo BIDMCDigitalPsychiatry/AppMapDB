@@ -1,6 +1,6 @@
 import { AppState } from '../../../../store';
 import Application from '../../../../database/models/Application';
-import { isEmpty, getDayTimeFromTimestamp } from '../../../../helpers';
+import { isEmpty, getDayTimeFromTimestamp, EMPTY_OBJECT } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
 import { AndroidStoreProps } from '../../DialogField/AndroidStore';
@@ -108,7 +108,7 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
   // sort by created date
   data = data.sort(({ getValues: a }, { getValues: b }) => (b() as any).created - (a() as any).created);
 
-  const { filters = {} } = useSelector((s: AppState) => s.table[table] || {}) as any;
+  const filters = useSelector((s: AppState) => s.table[table]?.filters ?? EMPTY_OBJECT) as any;
   const {
     Platforms = [],
     Functionalities = [],

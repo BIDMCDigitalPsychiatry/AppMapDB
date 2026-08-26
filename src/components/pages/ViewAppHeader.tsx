@@ -4,7 +4,7 @@ import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import DialogButton, { EditDialogButton } from '../application/GenericDialog/DialogButton';
 import PlatformButtons from '../application/GenericTable/ApplicationsGrid/PlatformButtons';
-import { isEmpty, publicUrl, uuid } from '../../helpers';
+import { isEmpty, publicUrl, uuid, EMPTY_OBJECT } from '../../helpers';
 import { getAppName, getAppCompany, getAppIcon } from '../application/GenericTable/Applications/selectors';
 import { tables } from '../../database/dbConfig';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
@@ -78,7 +78,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
   const costs = asArray(costsRaw);
   const clinicalFoundations = asArray(clinicalFoundationsRaw);
 
-  const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] || {});
+  const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] ?? EMPTY_OBJECT);
   const name = getAppName(app);
   const company = getAppCompany(app);
   const icon = getAppIcon(app);

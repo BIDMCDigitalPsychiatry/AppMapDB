@@ -30,7 +30,7 @@ import { columns } from '../application/GenericDialog/SignUpSurvey';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen, useIsAdmin, useIsTestUser, useSignedInRater, trackingColumns } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin, useIsSuperAdmin, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
@@ -121,12 +121,15 @@ const id = 'AppBar';
 export const noTabPaths = ['/Home', '/'];
 
 // Shared by the desktop tab bar and the mobile nav drawer so they can never
-// disagree about which tabs a given user gets to see.
+// disagree about which tabs a given user gets to see. The Admin entry shows
+// for admins AND Super Admins — a Super Admin without the admin role still
+// needs to reach the Users page (the sub-tabs inside gate themselves).
 const useVisibleTabs = () => {
   const isAdmin = useIsAdmin();
+  const isSuperAdmin = useIsSuperAdmin();
   const signedInRater = useSignedInRater();
   const tabs = useTabs();
-  return tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : !isAdmin ? (t.id === 'Admin' ? false : true) : true));
+  return tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : t.id === 'Admin' ? isAdmin || isSuperAdmin : true));
 };
 
 const AppBarTabSelector = props => {
@@ -379,7 +382,7 @@ export default function ApplicationBar({ trigger }) {
                               <MenuItem key='export-sign-up-surveys' onClick={handleExportSignUpSurveys}>
                                 Export Sign Up Surveys
                               </MenuItem>,
-                              <MenuItem key='export-sign-up-surveys' onClick={handleExportPwaUsage}>
+                              <MenuItem key='export-pwa-usage' onClick={handleExportPwaUsage}>
                                 Export PWA Usage
                               </MenuItem>,
                               <MenuItem key='logout' onClick={handleLogout}>

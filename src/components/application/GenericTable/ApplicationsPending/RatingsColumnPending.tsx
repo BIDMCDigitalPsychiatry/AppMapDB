@@ -1,4 +1,5 @@
-import { Grid } from '@mui/material';
+﻿import { Grid } from '@mui/material';
+import { EMPTY_OBJECT } from '../../../../helpers';
 import { EditDialogButton } from '../../GenericDialog/DialogButton';
 import * as ApplicationHistoryDialogV2 from '../../GenericDialog/ApplicationHistoryDialogV2';
 import { useSelector } from 'react-redux';
@@ -11,7 +12,7 @@ import { publicUrl } from '../../../../helpers';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 
 export default function RatingsColumnPending({ _id }) {
-  const initialValues = useSelector((s: AppState) => s.database?.[tables.applications]?.[_id] || {});
+  const initialValues = useSelector((s: AppState) => s.database?.[tables.applications]?.[_id] ?? EMPTY_OBJECT);
   const signedInRater = useSignedInRater();
   const handleChangeRoute = useHandleChangeRoute();
 
@@ -55,3 +56,5 @@ export default function RatingsColumnPending({ _id }) {
     </Grid>
   );
 }
+
+

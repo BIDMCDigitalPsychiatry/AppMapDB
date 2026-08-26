@@ -125,7 +125,6 @@ const validate = values => {
     }
   }
 
-  console.log({ errors, values, fields });
   return errors;
 };
 

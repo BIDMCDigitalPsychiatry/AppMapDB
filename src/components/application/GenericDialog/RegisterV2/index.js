@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { copyToLower, isEmpty as isValEmpty } from '../../../../helpers';
 import { useDialogState } from '../useDialogState';
@@ -12,7 +12,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { InjectField } from '../Fields';
 import { useFullScreen } from '../../../../hooks';
 import TextLabel from '../../DialogField/TextLabel';
-const passwordValidator = require('password-validator');
+import passwordValidator from 'password-validator';
 export const title = 'Sign Up';
 
 // create a password schema
@@ -303,3 +303,4 @@ export default function RegisterDialog({ id = title }) {
     />
   );
 }
+

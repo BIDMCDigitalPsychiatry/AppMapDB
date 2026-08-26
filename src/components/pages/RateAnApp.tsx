@@ -3,60 +3,12 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
-import pkg from '../../../package.json';
-import { AWS } from '../../database/dbConfig';
+import { sendApiEmail } from '../../database/sendEmail';
 
+// Sent server-side via the write API (template + roster `notify` recipients
+// live in the Lambda — cloud_functions/mindapps-write-api/email.js).
 function sendEmail({ name, title, email, institution, details }) {
-  const emailAddresses = pkg.emailUsers.split(',');
-  const sourceEmailAddress = 'appmap@psych.digital';
-
-  const body = `A user is interested in app rating:
-    
-    <p>User Name: ${name}</p>
-    <p>Title: ${title}</p>
-    <p>User Email: ${email}</p>
-    <p>Institution: ${institution}</p>
-    <p>How did you hear about us?: ${details}</p>`;
-
-  // Create sendEmail params
-  var params = {
-    Destination: {
-      /* required */ CcAddresses: [],
-      ToAddresses: emailAddresses
-    },
-    Message: {
-      /* required */
-      Body: {
-        /* required */
-        Html: {
-          Charset: 'UTF-8',
-          Data: body
-        },
-        Text: {
-          Charset: 'UTF-8',
-          Data: body
-        }
-      },
-      Subject: {
-        Charset: 'UTF-8',
-        Data: 'AppMapDB - App Rating Interest'
-      }
-    },
-    Source: sourceEmailAddress /* required */,
-    ReplyToAddresses: [sourceEmailAddress]
-  };
-
-  // Create the promise and SES service object
-  var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
-
-  // Handle promise's fulfilled/rejected states
-  sendPromise
-    .then(function (data) {
-      console.log(data.MessageId);
-    })
-    .catch(function (err) {
-      console.error(err, err.stack);
-    });
+  sendApiEmail('ratingInterest', { name, title, email, institution, details });
 }
 
 const padding = 32;

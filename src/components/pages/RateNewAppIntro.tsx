@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { Link, Typography, Box, Divider, Button, Grid } from '@mui/material';
 import { useHandleChangeRoute } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
@@ -6,7 +6,7 @@ import { useSignedInRater } from '../../hooks';
 import ReactPlayer from 'react-player';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
-const contentPath = require('../../content/zoom_0.mp4');
+import contentPath from '../../content/zoom_0.mp4';
 
 export default function RateNewAppIntro() {
   const handleChangeRoute = useHandleChangeRoute();
@@ -56,3 +56,4 @@ export default function RateNewAppIntro() {
     </Box>
   );
 }
+

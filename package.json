@@ -5,21 +5,22 @@
   "homepage": "https://mindapps.org",
   "enableLogRocket": true,
   "enableTour": true,
-  "adminUsers": "cvanem@gmail.com,sdl182201@gmail.com,lsunn1979@gmail.com,janeangellmikkelson@gmail.com,quachi1@mcmaster.ca,youthengagement@kidshelpphone.ca,aegbe@bu.edu,eperlmut@bidmc.harvard.edu,kchen10@bidmc.harvard.edu,nram2@bidmc.harvard.edu,bdwyer@bidmc.harvard.edu,malteschmieding@hms.harvard.edu,msingh10@bidmc.harvard.edu,sperret@bu.edu,nalon@bidmc.Harvard.edu,team@digitalpsych.org,slagan@bidmc.harvard.edu,cvanem@gmail.com,jmelcher@bidmc.harvard.edu,tlakhtak@bidmc.harvard.edu,ecamach1@bidmc.harvard.edu,chaudharypooja209@gmail.com,ewagner@hsph.harvard.edu,valeriadiaz097@gmail.com,Shreya.Sharma@kidshelpphone.ca,daniela_basadre@brown.edu,selzzt@bu.edu",
-  "testUsers": "cvanem@gmail.com,bdwyer@bidmc.harvard.edu",
-  "emailUsers": "bdwyer@bidmc.harvard.edu,nalon@bidmc.harvad.edu,sperret@bidmc.harvard.edu",
   "contactEmail": "team@digitalpsych.org",
-  "surveyNotificationEmail": "ecamach1@bidmc.harvard.edu",
   "identityPoolId": "us-east-1:d6802415-4c63-433c-92f5-4a5c05756abe",
   "keyWords": "mental health apps, therapy app, depression apps, free apps, anxiety apps, stress apps, psych app, psychiatry apps",
   "region": "us-east-1",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1118.0",
+    "@aws-sdk/credential-provider-cognito-identity": "3.972.69",
+    "@aws-sdk/lib-dynamodb": "^3.1118.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@mui/icons-material": "5.11.0",
     "@mui/lab": "5.0.0-alpha.112",
     "@mui/material": "5.11.0",
     "@mui/styles": "5.11.0",
+    "@mui/system": "5.11.0",
+    "@mui/utils": "5.11.0",
     "@mui/x-date-pickers": "5.0.10",
     "@reactions/component": "2.0.2",
     "@rehooks/component-size": "1.0.3",
@@ -31,7 +32,6 @@
     "@types/webpack": "5.28.0",
     "@types/webpack-env": "1.16.3",
     "aws-amplify": "5.0.12",
-    "aws-sdk": "2.1309.0",
     "axios": "0.32.0",
     "classnames": "2.3.1",
     "clsx": "1.1.1",
@@ -45,9 +45,10 @@
     "history": "4.10.1",
     "localforage": "1.10.0",
     "logrocket": "2.2.0",
-    "marked": "2.0.6",
+    "marked": "4.3.0",
     "moment": "2.29.4",
     "password-validator": "5.1.1",
+    "prop-types": "15.8.1",
     "react": "17.0.2",
     "react-avatar-editor": "11.1.0",
     "react-dom": "17.0.2",
@@ -60,7 +61,6 @@
     "react-redux": "7.2.4",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
-    "react-scripts": "5.0.1",
     "react-swipeable-views": "0.14.0",
     "react-virtualized": "9.22.3",
     "react-virtuoso": "2.6.0",
@@ -72,30 +72,31 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
-    "@types/jest": "^30.0.0",
+    "@vitejs/plugin-react": "4.7.0",
     "app-store-scraper": "0.17.0",
+    "aws-sdk": "2.1309.0",
     "fs-extra": "9.0.0",
     "google-play-scraper": "9.1.1",
-    "webpack": "^4.44.2"
+    "jsdom": "25.0.1",
+    "vite": "5.4.20",
+    "vitest": "2.1.9"
   },
-  "jest": {
-    "transformIgnorePatterns": [
-      "/node_modules/(?!\\.pnpm/)(?!(get-browser-fingerprint)/)",
-      "/node_modules/\\.pnpm/(?!get-browser-fingerprint@)"
-    ],
-    "moduleNameMapper": {
-      "^@mui/material/(.+)$": "@mui/material/node/$1"
-    }
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:local": "REACT_APP_USE_LOCAL_DATA=true react-scripts start",
+    "start": "vite",
+    "start:local": "vite --mode localdata",
     "refresh-local-data": "node scripts/dumpApplications.js",
     "seed-local-community": "node scripts/seedLocalCommunity.js",
     "export-taxonomy": "node scripts/exportTaxonomy.js",
-    "build": "react-scripts build && node copy404",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "build": "vite build && node copy404",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build"
   },

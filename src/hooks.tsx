@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
-import pkg from '../package.json';
 import { getCurrentDate, isDev, isEmpty } from './helpers';
 import useProcessData from './database/useProcessData';
 import { tables } from './database/dbConfig';
+import { useLoadRoster, useRosterRole } from './database/useUsers';
 import getBrowserFingerprint from 'get-browser-fingerprint';
 
 export const useFullScreen = (size = 'sm' as any) => {
@@ -35,18 +35,30 @@ export const useSignedInRater = () => {
   return signedIn && !signedInPro;
 };
 
+// Role checks: the users table is the single source of truth (the legacy
+// package.json lists were retired 2026-08-26 — PLAN_MODERNIZATION.md §2).
+// These are UI hints only — the write API re-verifies roles server-side on
+// every privileged request.
 export const useIsAdmin = () => {
   const signedIn = useSignedIn();
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
-  const adminEmails = pkg?.adminUsers?.split(',');
-  return signedIn && adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+  useLoadRoster(signedIn);
+  const fromRoster = useRosterRole(email, 'admin');
+  return signedIn && fromRoster === true;
 };
 
-export const useIsTestUser = () => {
+// (useIsTestUser and the testUsers list were removed 2026-08-25 — nothing had
+// called them for years; the roster's role mechanism covers future needs.)
+
+// Super Admins may view/manage the Users roster page. Roster-only (no
+// package.json fallback — the role exists only in the users table); the
+// write API re-verifies server-side, so this is a UI hint like the others.
+export const useIsSuperAdmin = () => {
   const signedIn = useSignedIn();
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
-  const testEmails = pkg?.testUsers?.split(',');
-  return signedIn && testEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+  useLoadRoster(signedIn);
+  const fromRoster = useRosterRole(email, 'superadmin');
+  return signedIn && fromRoster === true;
 };
 
 export const useHandleLink = link => {
@@ -129,13 +141,11 @@ export const useTracking = ({ isPwa = false }) => {
 
       if (!isEmpty(trackingId)) {
         // Store tracking info
-        console.log('Reading metadata...');
         processData({
           Model: tables.tracking,
           Data: { _id: trackingId },
           Action: 'r',
           onSuccess: response => {
-            console.log('Received metadata', response);
             const prev = response?.Item ?? {};
             var newData = {
               _id: trackingId,
@@ -173,9 +183,6 @@ export const useTracking = ({ isPwa = false }) => {
                 Model: tables.tracking,
                 Data: newData,
                 Action: 'c',
-                onSuccess: response => {
-                  console.log('Successfully updated metadata', { response, Data: newData });
-                },
                 onError: response => {
                   console.error('Error updating metadata', { response, Data: newData });
                 }
@@ -193,8 +200,6 @@ export const useTracking = ({ isPwa = false }) => {
 
     if (/*!isDev() &&*/ isClient && !isGoogleBot() && !isBingBot()) {
       runTracking();
-    } else {
-      console.log('Skipping track logic!');
     }
   }, [installed]);
 };

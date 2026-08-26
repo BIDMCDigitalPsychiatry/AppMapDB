@@ -1,0 +1,10 @@
+{
+  "name": "mindapps-write-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Authenticated write API for MindApps: verifies Cognito ID tokens, enforces roles server-side, performs DynamoDB writes, and maintains the current-index flags. See PLAN_MODERNIZATION.md section 1.",
+  "main": "lambda.js",
+  "dependencies": {
+    "aws-jwt-verify": "4.0.1"
+  }
+}

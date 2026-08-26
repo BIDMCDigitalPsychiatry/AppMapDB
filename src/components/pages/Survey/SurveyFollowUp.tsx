@@ -1,4 +1,5 @@
-import * as React from 'react';
+﻿import * as React from 'react';
+import { EMPTY_OBJECT } from '../../../helpers';
 import { Grid, Typography, Divider, Box, Collapse, IconButton, Button } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -46,7 +47,7 @@ export default function SurveyFollowUp() {
     handleGetRow(appId);
   }, [handleGetRow, appId]);
 
-  const app = useSelector((s: AppState) => s.database?.[tables.applications]?.[appId] || {});
+  const app = useSelector((s: AppState) => s.database?.[tables.applications]?.[appId] ?? EMPTY_OBJECT);
 
   const { _id, appleStore, androidStore } = app;
 
@@ -184,3 +185,5 @@ export default function SurveyFollowUp() {
     </Grid>
   );
 }
+
+

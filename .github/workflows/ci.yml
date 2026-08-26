@@ -1,0 +1,39 @@
+name: CI
+on:
+  pull_request:
+  workflow_dispatch:
+
+# Every PR must type-check, pass the test suite, and produce a production
+# build before it can be trusted (PLAN_MODERNIZATION.md §4). Previously no
+# automated checks ran anywhere.
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+        env:
+          REACT_APP_ASSISTANT_URL: ${{ vars.REACT_APP_ASSISTANT_URL }}

@@ -43,8 +43,6 @@ export function ViewAppContent({ app = {}, from }) {
 
   const { _id, androidLink, iosLink, appleStore, androidStore, functionalities = [] } = app as any;
 
-  console.log('Viewing app', app);
-
   const fromSurvey = from === 'Survey';
 
   const handleChangeRoute = useHandleChangeRoute();

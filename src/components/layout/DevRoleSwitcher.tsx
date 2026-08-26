@@ -28,7 +28,7 @@ import { useIsAdmin, useSignedInPro, useSignedInRater } from '../../hooks';
  * list — no production permission list is changed to make this work.
  */
 
-const ADMIN_EMAIL = 'team@digitalpsych.org'; // already in package.json adminUsers
+const ADMIN_EMAIL = 'team@digitalpsych.org'; // holds the admin role in the users table
 const RATER_EMAIL = 'local.rater@example.com'; // deliberately NOT an admin
 const PRO_EMAIL = 'local.pro@example.com';
 
