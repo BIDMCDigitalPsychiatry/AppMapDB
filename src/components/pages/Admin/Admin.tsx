@@ -6,15 +6,18 @@ import UsersAdmin from './UsersAdmin';
 import { Surveys } from '../../application/GenericTable/Surveys/table';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
 import { useHeaderHeight } from '../../layout/hooks';
-import { useIsSuperAdmin } from '../../../hooks';
+import { useIsAdmin, useIsSuperAdmin } from '../../../hooks';
 
 export default function Admin() {
   const [headerHeight] = useHeaderHeight();
   const [{ subRoute: requestedSubRoute = 'pending' }] = useRouteState();
-  // The Users roster is Super Admin only — anyone else landing on that
-  // subRoute falls back to the pending queue (server-side checks apply too).
+  // Land each role on a tab it can actually use: the Users roster is Super
+  // Admin only; approvals/surveys are admin only. A Super Admin without the
+  // admin role defaults to Users. (Server-side checks apply regardless.)
+  const isAdmin = useIsAdmin();
   const isSuperAdmin = useIsSuperAdmin();
-  const subRoute = requestedSubRoute === 'users' && !isSuperAdmin ? 'pending' : requestedSubRoute;
+  const subRoute =
+    requestedSubRoute === 'users' && !isSuperAdmin ? 'pending' : !isAdmin && isSuperAdmin && requestedSubRoute !== 'users' ? 'users' : requestedSubRoute;
 
   const height = useHeight();
   const { layout, palette } = useTheme() as any;
