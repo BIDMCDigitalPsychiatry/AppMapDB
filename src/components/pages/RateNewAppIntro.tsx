@@ -6,7 +6,7 @@ import { useSignedInRater } from '../../hooks';
 import ReactPlayer from 'react-player';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 
-import contentPath from '../../content/zoom_0.mp4';
+import { zoom0VideoUrl as contentPath } from '../../content/videos';
 
 export default function RateNewAppIntro() {
   const handleChangeRoute = useHandleChangeRoute();
