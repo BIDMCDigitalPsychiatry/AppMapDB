@@ -62,17 +62,21 @@ const RatingsCell = ({ ratings = undefined as number | undefined }) =>
     </Typography>
   );
 
+// Sort comparators follow the shared table conventions: 'textLower' for
+// emails, 'decimal' for numeric values — dates are epoch milliseconds and
+// rating counts are numbers, so both order numerically (never as strings);
+// missing values sort as 0.
 const useColumns = (statsSkipped: boolean) =>
   React.useMemo(
     () => [
-      { name: 'email', header: 'Email', Cell: EmailCell },
-      { name: 'created', header: 'Registered', width: 130, Cell: DateCell('created') },
+      { name: 'email', header: 'Email', Cell: EmailCell, sort: 'textLower' },
+      { name: 'created', header: 'Registered', width: 130, Cell: DateCell('created'), sort: 'decimal' },
       ...(statsSkipped
         ? []
         : [
-            { name: 'ratings', header: 'Ratings', width: 100, Cell: RatingsCell },
-            { name: 'firstActivity', header: 'First Rating', width: 130, Cell: DateCell('firstActivity') },
-            { name: 'lastActivity', header: 'Last Activity', width: 130, Cell: DateCell('lastActivity') }
+            { name: 'ratings', header: 'Ratings', width: 100, Cell: RatingsCell, sort: 'decimal' },
+            { name: 'firstActivity', header: 'First Rating', width: 130, Cell: DateCell('firstActivity'), sort: 'decimal' },
+            { name: 'lastActivity', header: 'Last Activity', width: 130, Cell: DateCell('lastActivity'), sort: 'decimal' }
           ])
     ],
     [statsSkipped]
