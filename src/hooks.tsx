@@ -54,6 +54,17 @@ export const useIsAdmin = () => {
 // (useIsTestUser and the testUsers list were removed 2026-08-25 — nothing had
 // called them for years; the roster's role mechanism covers future needs.)
 
+// Super Admins may view/manage the Users roster page. Roster-only (no
+// package.json fallback — the role exists only in the users table); the
+// write API re-verifies server-side, so this is a UI hint like the others.
+export const useIsSuperAdmin = () => {
+  const signedIn = useSignedIn();
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
+  useLoadRoster(signedIn);
+  const fromRoster = useRosterRole(email, 'superadmin');
+  return signedIn && fromRoster === true;
+};
+
 export const useHandleLink = link => {
   return React.useCallback(() => {
     const win = window.open(link, '_blank');

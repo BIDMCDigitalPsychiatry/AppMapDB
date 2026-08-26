@@ -40,6 +40,9 @@ const buildRoster = () => {
     });
   add(list(pkg.adminUsers), 'admin');
   add(list(pkg.emailUsers), 'notify');
+  // Super Admins (may view/manage this roster) — seeded per Chris 2026-08-25;
+  // they grant the role to others via the Users page.
+  add(['selzzt@bu.edu', 'cvanem@gmail.com'], 'superadmin');
   return roster;
 };
 

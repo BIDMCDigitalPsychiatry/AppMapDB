@@ -8,7 +8,7 @@
  */
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
+const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
 const { authorize } = require('./authz');
 const { diffCurrentFlags, groupOf } = require('./currentFlags');
 
@@ -41,13 +41,13 @@ const resolveRoles = async email => {
     const res = await doc.send(new GetCommand({ TableName: USERS_TABLE, Key: { email } }));
     if (res.Item && res.Item.active !== false) {
       const roles = Array.isArray(res.Item.roles) ? res.Item.roles : [];
-      return { isAdmin: roles.includes('admin'), fromTable: true };
+      return { isAdmin: roles.includes('admin'), isSuperAdmin: roles.includes('superadmin'), fromTable: true };
     }
-    if (res.Item && res.Item.active === false) return { isAdmin: false, fromTable: true }; // deactivated: no fallback
+    if (res.Item && res.Item.active === false) return { isAdmin: false, isSuperAdmin: false, fromTable: true }; // deactivated: no fallback
   } catch (err) {
     console.error('users table lookup failed, using fallback lists:', err.message);
   }
-  return { isAdmin: envList('FALLBACK_ADMINS').includes(email), fromTable: false };
+  return { isAdmin: envList('FALLBACK_ADMINS').includes(email), isSuperAdmin: envList('FALLBACK_SUPERADMINS').includes(email), fromTable: false };
 };
 
 const getExisting = async (Model, Data) => {
@@ -58,11 +58,16 @@ const getExisting = async (Model, Data) => {
   return res.Item;
 };
 
-// Guardrails for the Users admin page: never lock the last admin out.
+// Guardrails for the Users admin page: never lock the last admin or the last
+// Super Admin out of the system.
 const usersGuardrails = async (caller, data, existing) => {
-  const losingAdmin = existing && Array.isArray(existing.roles) && existing.roles.includes('admin') && (!(data.roles || []).includes('admin') || data.active === false);
-  if (!losingAdmin) return null;
-  if (data.email === caller) return 'You cannot remove your own admin role';
+  const losing = role =>
+    existing && Array.isArray(existing.roles) && existing.roles.includes(role) && (!(data.roles || []).includes(role) || data.active === false);
+  const losingAdmin = losing('admin');
+  const losingSuper = losing('superadmin');
+  if (!losingAdmin && !losingSuper) return null;
+  if (data.email === caller && losingSuper) return 'You cannot remove your own Super Admin role';
+  if (data.email === caller && losingAdmin) return 'You cannot remove your own admin role';
   const all = [];
   let start;
   do {
@@ -70,8 +75,9 @@ const usersGuardrails = async (caller, data, existing) => {
     all.push(...(page.Items || []));
     start = page.LastEvaluatedKey;
   } while (start);
-  const activeAdmins = all.filter(u => u.active !== false && Array.isArray(u.roles) && u.roles.includes('admin'));
-  if (activeAdmins.length <= 1) return 'Cannot remove the last active admin';
+  const activeWith = role => all.filter(u => u.active !== false && Array.isArray(u.roles) && u.roles.includes(role)).length;
+  if (losingSuper && activeWith('superadmin') <= 1) return 'Cannot remove the last active Super Admin';
+  if (losingAdmin && activeWith('admin') <= 1) return 'Cannot remove the last active admin';
   return null;
 };
 
@@ -127,7 +133,7 @@ async function handleWrite(token, body) {
   const roles = await resolveRoles(email);
 
   const existing = await getExisting(Model, Data).catch(() => undefined);
-  const decision = authorize({ email, isAdmin: roles.isAdmin }, { Model, Action, Data }, existing);
+  const decision = authorize({ email, isAdmin: roles.isAdmin, isSuperAdmin: roles.isSuperAdmin }, { Model, Action, Data }, existing);
   if (!decision.allow) {
     console.log(JSON.stringify({ audit: 'DENIED', email, Model, Action, id: Data._id, reason: decision.reason }));
     return { type: 'forbidden', error: decision.reason };
@@ -135,8 +141,17 @@ async function handleWrite(token, body) {
 
   let data = decision.data;
   if (Model === 'users') {
-    const guard = await usersGuardrails(email, data, existing);
+    // 'd' on the users model is a HARD delete (someone left the company) —
+    // guardrails treat it as losing every role.
+    const effective = Action === 'd' ? { ...data, roles: [], active: false } : data;
+    if (Action === 'd' && data.email === email) return { type: 'forbidden', error: 'You cannot delete your own account' };
+    const guard = await usersGuardrails(email, effective, existing);
     if (guard) return { type: 'forbidden', error: guard };
+    if (Action === 'd') {
+      await doc.send(new DeleteCommand({ TableName: USERS_TABLE, Key: { email: data.email } }));
+      console.log(JSON.stringify({ audit: 'DELETE_USER', email, Model, id: data.email }));
+      return { ok: true, deleted: true, data };
+    }
   }
 
   // The 'd' action mirrors useProcessData's contract: a delete is a put with

@@ -48,6 +48,9 @@ const ENV = {
   USER_POOL_CLIENT_ID: '4ngc7297ls1pngpm8hapdv03f9',
   USERS_TABLE: 'users',
   FALLBACK_ADMINS: list(pkg.adminUsers),
+  // Super Admins may view/manage the users roster; seeded per Chris
+  // 2026-08-25 — these two grant the role to others via the Users page.
+  FALLBACK_SUPERADMINS: 'selzzt@bu.edu,cvanem@gmail.com',
   FALLBACK_NOTIFY: list(pkg.emailUsers)
 };
 

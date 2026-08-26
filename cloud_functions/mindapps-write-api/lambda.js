@@ -8,7 +8,7 @@
  *   USER_POOL_ID          Cognito user pool (us-east-1_hXektTdUL)
  *   USER_POOL_CLIENT_ID   Cognito app client id
  *   USERS_TABLE           roster table name (users)
- *   FALLBACK_ADMINS / FALLBACK_NOTIFY
+ *   FALLBACK_ADMINS / FALLBACK_SUPERADMINS / FALLBACK_NOTIFY
  *                         comma-separated fallback lists (seeded from
  *                         package.json; retire once the users table is trusted)
  */

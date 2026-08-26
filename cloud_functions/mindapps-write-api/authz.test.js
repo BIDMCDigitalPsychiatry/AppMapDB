@@ -6,8 +6,9 @@
  */
 import { authorize } from './authz';
 
-const rater = { email: 'rater@x.com', isAdmin: false };
-const admin = { email: 'admin@x.com', isAdmin: true };
+const rater = { email: 'rater@x.com', isAdmin: false, isSuperAdmin: false };
+const admin = { email: 'admin@x.com', isAdmin: true, isSuperAdmin: false };
+const superAdmin = { email: 'super@x.com', isAdmin: true, isSuperAdmin: true };
 
 describe('write-api authorization matrix', () => {
   it('lets any signed-in user create a rating, with authorship forced to the token', () => {
@@ -50,11 +51,12 @@ describe('write-api authorization matrix', () => {
     expect(d.data.approverEmail).toBe('admin@x.com');
   });
 
-  it('restricts users-table management to admins', () => {
+  it('restricts users-table management to Super Admins — regular admins are denied', () => {
     expect(authorize(rater, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e' } }, undefined).allow).toBe(false);
-    const d = authorize(admin, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e', roles: ['notify'] } }, undefined);
+    expect(authorize(admin, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e', roles: ['notify'] } }, undefined).allow).toBe(false);
+    const d = authorize(superAdmin, { Model: 'users', Action: 'c', Data: { _id: 'e', email: 'e', roles: ['notify'] } }, undefined);
     expect(d.allow).toBe(true);
-    expect(d.data.updatedBy).toBe('admin@x.com'); // audit stamp
+    expect(d.data.updatedBy).toBe('super@x.com'); // audit stamp
   });
 
   it('rejects models this API does not serve (tracking is anonymous-direct)', () => {

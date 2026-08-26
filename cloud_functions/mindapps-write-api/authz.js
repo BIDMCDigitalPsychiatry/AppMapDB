@@ -17,16 +17,18 @@ const normalizeEmails = data => {
   return out;
 };
 
-const authorize = ({ email, isAdmin }, { Model, Action = 'c', Data }, existing) => {
+const authorize = ({ email, isAdmin, isSuperAdmin }, { Model, Action = 'c', Data }, existing) => {
   if (!Data) return { allow: false, reason: 'Missing Data' };
   if (!AUTHENTICATED_MODELS.has(Model)) return { allow: false, reason: `Model '${Model}' is not writable via this API` };
 
   const data = normalizeEmails(Data);
 
   if (Model === 'users') {
-    // users table is keyed by email, not _id
+    // users table is keyed by email, not _id. Roster management is restricted
+    // to Super Admins — regular admins can approve/archive ratings but cannot
+    // see or change who has which permissions.
     if (isEmpty(data.email)) return { allow: false, reason: 'Missing user email' };
-    if (!isAdmin) return { allow: false, reason: 'Managing users requires an admin account' };
+    if (!isSuperAdmin) return { allow: false, reason: 'Managing users requires a Super Admin account' };
     return { allow: true, data: { ...data, _id: data.email, updated: Date.now(), updatedBy: email } };
   }
 

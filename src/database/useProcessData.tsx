@@ -116,7 +116,9 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
   // Optimistic update: apply the change to the local store immediately so the
   // UI responds on click (an admin toggle otherwise waits out the full API
   // round trip). The server response reconciles the finalized row + flag
-  // changes; a rejection rolls the row back.
+  // changes; a rejection rolls the row back. Deleting a user removes the row
+  // optimistically (the users model 'd' is a hard delete server-side).
+  const isUserDelete = Table === tables.users && Action === 'd';
   let previousRow: any;
   let hadPreviousRow = false;
   updateDatabase({
@@ -125,7 +127,7 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
     payload: prev => {
       previousRow = prev;
       hadPreviousRow = prev !== undefined;
-      return { ...Data };
+      return isUserDelete ? undefined : { ...Data };
     }
   });
   const rollback = () =>
@@ -150,7 +152,7 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
       const finalized = json.data ?? Data;
       Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
       onSuccess && onSuccess(json, finalized);
-      if (isLatest()) {
+      if (isLatest() && !json.deleted) {
         updateDatabase({ table: Table as string, id: finalized._id, payload: { ...finalized, _rev: finalized._rev } });
         if (Array.isArray(json.flagChanges)) {
           for (const change of json.flagChanges) {
