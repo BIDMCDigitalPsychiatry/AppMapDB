@@ -22,11 +22,12 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({
     header: {
       background: palette.primary.light,
-      padding: 32,
-      [breakpoints.down('sm')]: { padding: 16 }
+      padding: '16px 32px',
+      [breakpoints.down('sm')]: { padding: '12px 16px' }
     },
     primaryText: {
       fontSize: 30,
+      lineHeight: 1.2,
       fontWeight: 900,
       color: palette.primary.dark
     },

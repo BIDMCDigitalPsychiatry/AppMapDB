@@ -9,14 +9,15 @@ import { publicUrl } from '../../helpers';
 const padding = 32;
 const borderRadius = 7;
 
+// Tighter vertical rhythm: keep the horizontal padding, halve the vertical.
 const getMobilePadding = breakpoints => ({
-  padding,
+  padding: `16px ${padding}px`,
   fontWeight: 900,
   [breakpoints.down('sm')]: {
-    padding: getPadding('sm')
+    padding: `12px ${getPadding('sm')}px`
   },
   [breakpoints.down('xs')]: {
-    padding: getPadding('xs')
+    padding: `8px ${getPadding('xs')}px`
   }
 });
 
@@ -42,12 +43,12 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
     },
     primaryText: {
       fontSize: 30,
+      lineHeight: 1.2,
       fontWeight: 900,
       color: palette.primary.dark
     },
     secondaryText: {
-      fontSize: 20,
-
+      fontSize: 16,
       color: palette.common.white
     }
   })
@@ -69,8 +70,8 @@ export default function RateAnAppHeader({ showArchived = undefined, onToggleArch
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={4}>
-          <Grid item xs={12} sm style={{ marginTop: -4 }}>
+        <Grid container style={{ marginTop: 4 }} alignItems='center' spacing={2}>
+          <Grid item xs={12} sm>
             <Typography className={classes.secondaryText}>
               Rate a new app or update an existing rating by entering the relevant app store link. You will be prompted through 105 different questions about
               the app and its features, privacy settings, and clinical foundation.

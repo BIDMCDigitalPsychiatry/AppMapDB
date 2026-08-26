@@ -20,14 +20,16 @@ export default function Admin() {
   const { layout, palette } = useTheme() as any;
   const { tablefooterheight } = layout;
 
-  const selectorHeight = 104;
+  // Tightened: was pt={3} + selectorHeight 104 — the tab strip carried ~24px
+  // of dead space above it.
+  const selectorHeight = 88;
 
   const tableHeight = height - headerHeight - selectorHeight + tablefooterheight + 18;
 
   return (
-    <Box pt={3} bgcolor={palette.primary.light}>
+    <Box pt={1} bgcolor={palette.primary.light}>
       <AdminLayoutSelector subRoute={subRoute} />
-      <Divider style={{ marginTop: 16 }} />
+      <Divider style={{ marginTop: 8 }} />
       {subRoute === 'surveys' ? <Surveys height={tableHeight + headerHeight} /> : subRoute === 'users' ? <UsersAdmin height={tableHeight} /> : <AdminPendingApprovals height={tableHeight} />}
     </Box>
   );
