@@ -10,7 +10,8 @@ const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
-const { authorize } = require('./authz');
+const { CognitoIdentityProviderClient, ListUsersCommand } = require('@aws-sdk/client-cognito-identity-provider');
+const { authorize, canListRegisteredUsers } = require('./authz');
 const { buildEmail, SOURCE } = require('./email');
 const { diffCurrentFlags, groupOf } = require('./currentFlags');
 
@@ -231,4 +232,92 @@ async function handleEmail(token, payload) {
   return { ok: true };
 }
 
-module.exports = { handleWrite, handleEmail };
+/* ---------------------------------------------------------------------------
+ * Registered-users report (Admin > Users > "View All Registered Users").
+ * Read-only, Super Admin only: lists every Cognito account in the pool
+ * (self-registered raters included) with per-user rating activity derived
+ * from the email-index. No actions are exposed — this is a report.
+ * ------------------------------------------------------------------------- */
+const cognito = new CognitoIdentityProviderClient({});
+
+// Above this many accounts the per-user activity queries get slow; return
+// the plain account list instead (statsSkipped tells the UI to hide those
+// columns).
+const STATS_MAX_USERS = 400;
+
+const ratingStats = async email => {
+  // One query on email-index (SK = created, ascending) projecting only the
+  // sort key: count + first/last activity in a single pass.
+  const created = [];
+  let start;
+  do {
+    const page = await doc.send(
+      new QueryCommand({
+        TableName: 'applications',
+        IndexName: 'email-index',
+        KeyConditionExpression: 'email = :e',
+        ExpressionAttributeValues: { ':e': email },
+        ProjectionExpression: 'created',
+        ExclusiveStartKey: start
+      })
+    );
+    created.push(...(page.Items || []).map(r => r.created).filter(c => typeof c === 'number'));
+    start = page.LastEvaluatedKey;
+  } while (start);
+  return { ratings: created.length, firstActivity: created.length ? Math.min(...created) : undefined, lastActivity: created.length ? Math.max(...created) : undefined };
+};
+
+async function handleListRegisteredUsers(token) {
+  let payload;
+  try {
+    await jwksReady;
+    payload = await verifier.verify(token);
+  } catch {
+    return { type: 'unauthorized', error: 'Sign in required' };
+  }
+  const caller = String(payload.email || '').toLowerCase();
+  const roles = await resolveRoles(caller);
+  if (!canListRegisteredUsers(roles)) {
+    console.log(JSON.stringify({ audit: 'DENIED', email: caller, op: 'listRegisteredUsers' }));
+    return { type: 'forbidden', error: 'Viewing registered users requires a Super Admin account' };
+  }
+
+  const users = [];
+  let PaginationToken;
+  do {
+    const page = await cognito.send(new ListUsersCommand({ UserPoolId: process.env.USER_POOL_ID, Limit: 60, PaginationToken }));
+    for (const u of page.Users || []) {
+      const attr = name => (u.Attributes || []).find(a => a.Name === name)?.Value;
+      users.push({
+        email: String(attr('email') || u.Username || '').toLowerCase(),
+        emailVerified: attr('email_verified') === 'true',
+        status: u.UserStatus,
+        enabled: u.Enabled !== false,
+        created: u.UserCreateDate ? new Date(u.UserCreateDate).getTime() : undefined
+      });
+    }
+    PaginationToken = page.PaginationToken;
+  } while (PaginationToken);
+
+  const statsSkipped = users.length > STATS_MAX_USERS;
+  if (!statsSkipped) {
+    // Bounded concurrency: chunks of 10 keep this well inside the 30s timeout
+    // (one tiny projected query per account).
+    for (let i = 0; i < users.length; i += 10) {
+      await Promise.all(
+        users.slice(i, i + 10).map(async u => {
+          try {
+            Object.assign(u, await ratingStats(u.email));
+          } catch (err) {
+            console.error('rating stats failed for', u.email, err.message);
+          }
+        })
+      );
+    }
+  }
+
+  console.log(JSON.stringify({ audit: 'LIST_REGISTERED_USERS', email: caller, count: users.length, statsSkipped }));
+  return { ok: true, users, statsSkipped };
+}
+
+module.exports = { handleWrite, handleEmail, handleListRegisteredUsers };

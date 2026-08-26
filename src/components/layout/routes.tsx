@@ -21,6 +21,7 @@ const RateNewApp = lazy(() => import('../pages/RateNewApp/RateNewApp'));
 const RateExistingApp = lazy(() => import('../pages/RateNewApp/RateNewApp').then(m => ({ default: m.RateExistingApp })));
 const RateAnApp = lazy(() => import('../pages/RateAnApp'));
 const Admin = lazy(() => import('../pages/Admin/Admin'));
+const RegisteredUsers = lazy(() => import('../pages/Admin/RegisteredUsers'));
 const CommunityLayout = lazy(() => import('../pages/Community/CommunityLayout'));
 const Survey = lazy(() => import('../pages/Survey/Survey'));
 const SurveyFollowUp = lazy(() => import('../pages/Survey/SurveyFollowUp'));
@@ -32,6 +33,7 @@ const Routes = () => {
       <Route exact path={publicUrl('/')} children={<Apps />} />
       <Route exact path={publicUrl('/Home')} children={<Apps />} />
       <Route exact path={publicUrl('/Admin')} children={<Admin />} />
+      <Route exact path={publicUrl('/RegisteredUsers')} children={<RegisteredUsers />} />
       <Route exact path={publicUrl('/MyRatings')} children={<MyRatings />} />
       <Route exact path={publicUrl('/FrameworkQuestions')} children={<FrameworkQuestions />} />
       <Route exact path={publicUrl('/Apps')} children={<Apps />} />

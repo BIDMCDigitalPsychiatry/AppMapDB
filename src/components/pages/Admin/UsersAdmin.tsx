@@ -6,7 +6,9 @@ import { Users } from '../../application/GenericTable/Users/table';
 import { ROLE_INFO } from '../../application/GenericTable/Users/columns';
 import { useRosterActions } from '../../application/GenericTable/Users/useRosterActions';
 import { WRITE_API_URL } from '../../../database/useProcessData';
-import { validateEmail } from '../../../helpers';
+import { validateEmail, publicUrl } from '../../../helpers';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import Link from '@mui/material/Link';
 import { useHeaderHeightSetRef } from '../../layout/hooks';
 
 /*
@@ -73,7 +75,16 @@ export default function UsersAdmin({ height = undefined as number | undefined })
           <Typography className={classes.primaryText}>Users &amp; Roles</Typography>
           <Typography variant='body2' sx={{ color: 'text.secondary' }}>
             Visible to Super Admins only. Changes take effect immediately and are recorded with who made them
-            {!WRITE_API_URL && ' (write API not configured — changes will not be permitted)'}.
+            {!WRITE_API_URL && ' (write API not configured — changes will not be permitted)'}.{' '}
+            <Link
+              component='button'
+              underline='hover'
+              onClick={() => window.open(publicUrl('/RegisteredUsers'), '_blank')}
+              sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
+            >
+              View All Registered Users
+              <OpenInNewIcon sx={{ fontSize: 14, ml: 0.25, verticalAlign: 'text-bottom' }} />
+            </Link>
           </Typography>
         </Grid>
         <Grid item>

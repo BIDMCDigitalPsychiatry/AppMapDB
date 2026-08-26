@@ -4,7 +4,7 @@
  * verified token, approval/archival is admin-only, raters touch only their
  * own rows.
  */
-import { authorize } from './authz';
+import { authorize, canListRegisteredUsers } from './authz';
 
 const rater = { email: 'rater@x.com', isAdmin: false, isSuperAdmin: false };
 const admin = { email: 'admin@x.com', isAdmin: true, isSuperAdmin: false };
@@ -67,5 +67,12 @@ describe('write-api authorization matrix', () => {
     expect(authorize(rater, { Model: 'posts', Action: 'c', Data: { _id: 'p1' } }, undefined).allow).toBe(true);
     expect(authorize(rater, { Model: 'posts', Action: 'd', Data: { _id: 'p1' } }, undefined).allow).toBe(false);
     expect(authorize(admin, { Model: 'posts', Action: 'd', Data: { _id: 'p1' } }, undefined).allow).toBe(true);
+  });
+
+  it('restricts the registered-users (Cognito) report to Super Admins', () => {
+    expect(canListRegisteredUsers({ isAdmin: false, isSuperAdmin: false })).toBe(false);
+    expect(canListRegisteredUsers({ isAdmin: true, isSuperAdmin: false })).toBe(false); // regular admins denied
+    expect(canListRegisteredUsers({ isAdmin: true, isSuperAdmin: true })).toBe(true);
+    expect(canListRegisteredUsers(undefined)).toBe(false);
   });
 });

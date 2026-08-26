@@ -72,6 +72,10 @@ const POLICY = {
     // (the browser SES flows moved behind the API — templates/recipients are
     // owned server-side; see cloud_functions/mindapps-write-api/email.js).
     { Effect: 'Allow', Action: ['ses:SendEmail'], Resource: 'arn:aws:ses:*:*:identity/psych.digital' },
+    // Read-only Cognito listing for the Super Admin "View All Registered
+    // Users" report — scoped to the app's user pool, list only (no admin
+    // user actions).
+    { Effect: 'Allow', Action: ['cognito-idp:ListUsers'], Resource: `arn:aws:cognito-idp:*:*:userpool/${ENV.USER_POOL_ID}` },
     { Effect: 'Allow', Action: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'], Resource: 'arn:aws:logs:*:*:*' }
   ]
 };

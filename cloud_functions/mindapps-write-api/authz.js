@@ -76,4 +76,9 @@ const authorize = ({ email, isAdmin, isSuperAdmin }, { Model, Action = 'c', Data
   return { allow: true, data };
 };
 
-module.exports = { authorize, AUTHENTICATED_MODELS, normalizeEmails };
+// Read-only Cognito account listing (Admin > Users > "View All Registered
+// Users"): the pool holds every self-registered rater, so exposing it is
+// restricted the same as roster management.
+const canListRegisteredUsers = roles => roles?.isSuperAdmin === true;
+
+module.exports = { authorize, AUTHENTICATED_MODELS, normalizeEmails, canListRegisteredUsers };
