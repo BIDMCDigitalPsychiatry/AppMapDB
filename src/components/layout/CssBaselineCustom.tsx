@@ -29,32 +29,30 @@ export default function CssBaseline({ children = null }) {
   const theme = useTheme();
   return (
     <React.Fragment>
+      {/* One GlobalStyles per @font-face: emotion (unlike JSS) collapses an
+          array under a single '@font-face' key into one rule, silently
+          dropping the rest — which unregisters Lato sitewide. */}
+      <GlobalStyles styles={{ '@font-face': lato } as any} />
+      <GlobalStyles styles={{ '@font-face': notoSans } as any} />
       <GlobalStyles
-        // One object per @font-face: emotion (unlike JSS) collapses an array
-        // under a single '@font-face' key into one rule, silently dropping
-        // the rest — which unregisters Lato sitewide.
-        styles={[
-          { '@font-face': lato } as any,
-          { '@font-face': notoSans } as any,
-          {
-            html,
-            '*, *::before, *::after': {
-              boxSizing: 'inherit'
-            },
-            'strong, b': {
-              fontWeight: theme.typography.fontWeightBold
-            },
-            body: {
-              margin: 0, // Remove the margin in all browsers.
-              ...body(theme),
-              // Add support for document.body.requestFullScreen().
-              // Other elements, if background transparent, are not supported.
-              '&::backdrop': {
-                backgroundColor: theme.palette.background.default
-              }
+        styles={{
+          html,
+          '*, *::before, *::after': {
+            boxSizing: 'inherit'
+          },
+          'strong, b': {
+            fontWeight: theme.typography.fontWeightBold
+          },
+          body: {
+            margin: 0, // Remove the margin in all browsers.
+            ...body(theme),
+            // Add support for document.body.requestFullScreen().
+            // Other elements, if background transparent, are not supported.
+            '&::backdrop': {
+              backgroundColor: theme.palette.background.default
             }
           }
-        ]}
+        }}
       />
       {children}
     </React.Fragment>
