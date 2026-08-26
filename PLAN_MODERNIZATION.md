@@ -86,7 +86,11 @@ Rosters currently ship in the public JS bundle (26 staff emails) and changing th
 - **DynamoDB public-role lockdown** (`infrastructure/lockdownPublicRole.js`): replaces `AmazonDynamoDBFullAccess` on `Cognito_AppMapDBUnauth_Role` (which every browser uses — the identity pool issues only unauthenticated identities) with `AppMapDBPublicDataAccess`: reads on the 10 tables + applications GSIs, `PutItem` only on `tracking`/`surveys`/`signUpSurveys` (anonymous submissions). Also detaches `AWSLambdaFullAccess` (visitors could invoke/modify Lambdas; nothing in the frontend uses the Lambda SDK). Rollback = re-attach the managed policies.
 - **Cognito isolation verified:** the user pool has a single app client (ours); doors has its own pools; our identity pool has no linked providers (unauth-only). The leftover `appmapdb5c3f34ab` Amplify identity pool references the pool but both its roles carry zero policies — left in place per Chris (harmless).
 
-**Still deferred, tracked:** Welltory merge decision · Dependabot findings (count jumped 28→158 when the first lockfile made transitives visible — triage pass needed) · nodejs16/12 Lambda runtime upgrades · React 18 + `@mui/styles` program · repo video relocation (~98 MB).
+**Also completed 2026-08-26 (this branch):**
+- **Repo videos → S3** (`infrastructure/createMediaBucket.js`): the three MP4s (~98 MB) now serve from the `mindapps-media-544847369688` bucket (public-read scoped to `videos/*`, immutable-cached); URLs in `src/content/videos.ts`.
+- **Lambda runtime upgrades**: `app-map-db-survey-reminders` rewritten on SDK v3 / nodejs20 (`cloud_functions/app-map-db-survey-reminders/`, deployed by `infrastructure/updateSurveyReminders.js`) — the old version authenticated as the PUBLIC Cognito unauth role in code, so the lockdown had broken it; it now uses its own scoped execution role. `app-map-db` (store-metadata proxy) bumped to nodejs20 config-only; both test-invoked live. NOT touched: `CloudWatchImageAPI` (nodejs12 — belongs to the CloudWatch-dashboard/LAMP projects, not MindApps) and the 4 inert Amplify deploy-time helpers (2 belong to doors).
+
+**Still deferred, tracked:** Welltory merge decision · Dependabot findings (count jumped 28→158 when the first lockfile made transitives visible — triage pass needed) · React 18 + `@mui/styles` program (staged plan agreed: React 18 first, then `tss-react` conversion of the 86 JSS files — own branch after this one merges).
 
 ## Verification & safety
 
