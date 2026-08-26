@@ -74,6 +74,10 @@ const POLICY = {
         'arn:aws:dynamodb:*:*:table/signUpSurveys'
       ]
     },
+    // Hard-delete is intentionally allowed ONLY on the users roster (people
+    // leaving the company) — the Lambda physically cannot delete application
+    // rows or any other table's data.
+    { Effect: 'Allow', Action: ['dynamodb:DeleteItem'], Resource: 'arn:aws:dynamodb:*:*:table/users' },
     { Effect: 'Allow', Action: ['logs:CreateLogGroup', 'logs:CreateLogStream', 'logs:PutLogEvents'], Resource: 'arn:aws:logs:*:*:*' }
   ]
 };
