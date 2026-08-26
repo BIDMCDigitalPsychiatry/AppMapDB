@@ -5,10 +5,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import { Users } from '../../application/GenericTable/Users/table';
 import { ROLE_INFO } from '../../application/GenericTable/Users/columns';
 import { useRosterActions } from '../../application/GenericTable/Users/useRosterActions';
+import { RegisteredUsers as RegisteredUsersTable } from '../../application/GenericTable/RegisteredUsers/table';
+import { listRegisteredUsers, RegisteredUser } from '../../../database/listRegisteredUsers';
 import { WRITE_API_URL } from '../../../database/useProcessData';
-import { validateEmail, publicUrl } from '../../../helpers';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { validateEmail } from '../../../helpers';
 import Link from '@mui/material/Link';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useHeaderHeightSetRef } from '../../layout/hooks';
 
 /*
@@ -58,6 +60,21 @@ export default function UsersAdmin({ height = undefined as number | undefined })
   const [newEmail, setNewEmail] = React.useState('');
   const [newRoles, setNewRoles] = React.useState<string[]>([]);
 
+  // Toggle between the roster (Users & Roles) and the read-only registered-
+  // users report (every Cognito account, self-registered raters included).
+  // The report loads once per visit to the Users tab; the write API
+  // independently verifies the Super Admin role before touching Cognito.
+  const [view, setView] = React.useState<'roster' | 'registered'>('roster');
+  const [reg, setReg] = React.useState({ loading: false, error: '', users: [] as RegisteredUser[], statsSkipped: false, loaded: false });
+
+  React.useEffect(() => {
+    if (view !== 'registered' || reg.loaded || reg.loading) return;
+    setReg(prev => ({ ...prev, loading: true, error: '' }));
+    listRegisteredUsers()
+      .then(({ users, statsSkipped }) => setReg({ loading: false, error: '', users, statsSkipped, loaded: true }))
+      .catch(err => setReg(prev => ({ ...prev, loading: false, error: String(err?.message ?? err), loaded: true })));
+  }, [view, reg.loaded, reg.loading]);
+
   const handleAdd = () => {
     const email = newEmail.trim().toLowerCase();
     if (!validateEmail(email)) return fail('Enter a valid email address');
@@ -72,29 +89,54 @@ export default function UsersAdmin({ height = undefined as number | undefined })
     <>
       <Grid ref={useHeaderHeightSetRef()} container className={classes.header} alignItems='center' justifyContent='space-between'>
         <Grid item>
-          <Typography className={classes.primaryText}>Users &amp; Roles</Typography>
-          <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-            Visible to Super Admins only. Changes take effect immediately and are recorded with who made them
-            {!WRITE_API_URL && ' (write API not configured — changes will not be permitted)'}.{' '}
-            <Link
-              component='button'
-              underline='hover'
-              onClick={() => window.open(publicUrl('/RegisteredUsers'), '_blank')}
-              sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
-            >
-              View All Registered Users
-              <OpenInNewIcon sx={{ fontSize: 14, ml: 0.25, verticalAlign: 'text-bottom' }} />
-            </Link>
-          </Typography>
+          <Typography className={classes.primaryText}>{view === 'roster' ? <>Users &amp; Roles</> : 'Registered Users'}</Typography>
+          {view === 'roster' ? (
+            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+              Visible to Super Admins only. Changes take effect immediately and are recorded with who made them
+              {!WRITE_API_URL && ' (write API not configured — changes will not be permitted)'}.{' '}
+              <Link
+                component='button'
+                underline='hover'
+                onClick={() => setView('registered')}
+                sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
+              >
+                View All Registered Users
+              </Link>
+            </Typography>
+          ) : (
+            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+              Every account registered on the site (including self-registered app raters), with their rating activity. Read-only.{' '}
+              <Link component='button' underline='hover' onClick={() => setView('roster')} sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                Back to Users &amp; Roles
+              </Link>
+            </Typography>
+          )}
         </Grid>
-        <Grid item>
-          <Button className={classes.primaryButton} onClick={() => setAddOpen(true)}>
-            Add User
-          </Button>
-        </Grid>
+        {view === 'roster' && (
+          <Grid item>
+            <Button className={classes.primaryButton} onClick={() => setAddOpen(true)}>
+              Add User
+            </Button>
+          </Grid>
+        )}
       </Grid>
 
-      <Users height={height} />
+      {view === 'roster' ? (
+        <Users height={height} />
+      ) : reg.error ? (
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mt: 8, px: 2 }}>
+          <Typography color='textSecondary'>Could not load registered users: {reg.error}</Typography>
+          <Button variant='outlined' sx={{ textTransform: 'none' }} onClick={() => setReg(prev => ({ ...prev, loaded: false, error: '' }))}>
+            Retry
+          </Button>
+        </Box>
+      ) : reg.loading || !reg.loaded ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <RegisteredUsersTable users={reg.users} statsSkipped={reg.statsSkipped} height={height} />
+      )}
 
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth='xs' fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>Add User</DialogTitle>
