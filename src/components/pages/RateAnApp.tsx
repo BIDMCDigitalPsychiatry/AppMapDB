@@ -3,11 +3,17 @@ import { Grid, Typography, Button, Box } from '@mui/material';
 import createStyles from '@mui/styles/createStyles';
 import makeStyles from '@mui/styles/makeStyles';
 import Text from '../application/DialogField/Text';
-import pkg from '../../../package.json';
 import { sendSesEmail } from '../../database/dbConfig';
+import { getNotifyRecipients } from '../../database/useUsers';
 
-function sendEmail({ name, title, email, institution, details }) {
-  const emailAddresses = pkg.emailUsers.split(',');
+async function sendEmail({ name, title, email, institution, details }) {
+  // Recipients come from the users table's `notify` role (the package.json
+  // emailUsers list was retired 2026-08-26).
+  const emailAddresses = await getNotifyRecipients();
+  if (emailAddresses.length === 0) {
+    console.error('No active notify recipients on the roster — rating-interest email not sent.');
+    return;
+  }
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const body = `A user is interested in app rating:

@@ -35,23 +35,13 @@ const FN = 'mindapps-write-api';
 const ROLE = 'mindapps-write-api-role';
 const SRC = path.join(__dirname, '..', 'cloud_functions', 'mindapps-write-api');
 
-const list = s =>
-  (s || '')
-    .split(',')
-    .map(e => e.trim().toLowerCase())
-    .filter(Boolean)
-    .join(',');
-
 const ENV = {
   ALLOWED_ORIGIN: '*', // tighten to https://mindapps.org at the later lockdown
   USER_POOL_ID: 'us-east-1_hXektTdUL',
   USER_POOL_CLIENT_ID: '4ngc7297ls1pngpm8hapdv03f9',
-  USERS_TABLE: 'users',
-  FALLBACK_ADMINS: list(pkg.adminUsers),
-  // Super Admins may view/manage the users roster; seeded per Chris
-  // 2026-08-25 — these two grant the role to others via the Users page.
-  FALLBACK_SUPERADMINS: 'selzzt@bu.edu,cvanem@gmail.com',
-  FALLBACK_NOTIFY: list(pkg.emailUsers)
+  // Single source of truth for roles (the package.json fallback lists were
+  // retired 2026-08-26).
+  USERS_TABLE: 'users'
 };
 
 // Scoped: only the tables the API writes + the applications indexes + logs.
@@ -92,7 +82,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
   console.log(`createWriteApi — ${isApply ? '*** APPLY ***' : 'DRY RUN (pass --apply to execute)'}`);
   console.log(`function: ${FN}  role: ${ROLE}  runtime: nodejs20.x  handler: lambda.handler`);
-  console.log('env:', { ...ENV, FALLBACK_ADMINS: `${ENV.FALLBACK_ADMINS.split(',').length} emails`, FALLBACK_NOTIFY: `${ENV.FALLBACK_NOTIFY.split(',').length} emails` });
+  console.log('env:', ENV);
   if (!isApply) return;
 
   // 1. Bundle

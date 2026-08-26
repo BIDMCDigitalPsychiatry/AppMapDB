@@ -1,12 +1,18 @@
 import React from 'react';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
-import pkg from '../../../../../package.json';
 import { getAppCompany, getAppName } from '../../GenericTable/Applications/selectors';
 import { sendSesEmail } from '../../../../database/dbConfig';
+import { getNotifyRecipients } from '../../../../database/useUsers';
 
-function sendEmail(name, email, suggestion, applicationInfo) {
-  const emailAddresses = pkg.emailUsers.split(',');
+async function sendEmail(name, email, suggestion, applicationInfo) {
+  // Recipients come from the users table's `notify` role (the package.json
+  // emailUsers list was retired 2026-08-26).
+  const emailAddresses = await getNotifyRecipients();
+  if (emailAddresses.length === 0) {
+    console.error('No active notify recipients on the roster — suggest-edit email not sent.');
+    return;
+  }
   const sourceEmailAddress = 'appmap@psych.digital';
 
   const appName = getAppName(applicationInfo);

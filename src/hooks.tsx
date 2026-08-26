@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTheme, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
-import pkg from '../package.json';
 import { getCurrentDate, isDev, isEmpty } from './helpers';
 import useProcessData from './database/useProcessData';
 import { tables } from './database/dbConfig';
@@ -36,19 +35,16 @@ export const useSignedInRater = () => {
   return signedIn && !signedInPro;
 };
 
-// Role checks: the users table decides when it has an entry for this email;
-// the legacy package.json lists remain as fallback until retired
-// (PLAN_MODERNIZATION.md §2). These are UI hints only — the write API
-// re-verifies roles server-side on every privileged request.
+// Role checks: the users table is the single source of truth (the legacy
+// package.json lists were retired 2026-08-26 — PLAN_MODERNIZATION.md §2).
+// These are UI hints only — the write API re-verifies roles server-side on
+// every privileged request.
 export const useIsAdmin = () => {
   const signedIn = useSignedIn();
   const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
   useLoadRoster(signedIn);
   const fromRoster = useRosterRole(email, 'admin');
-  if (!signedIn) return false;
-  if (fromRoster !== undefined) return fromRoster;
-  const adminEmails = pkg?.adminUsers?.split(',');
-  return adminEmails.findIndex(ae => ae.trim().toLowerCase() === email.trim().toLowerCase()) > -1 ? true : false;
+  return signedIn && fromRoster === true;
 };
 
 // (useIsTestUser and the testUsers list were removed 2026-08-25 — nothing had

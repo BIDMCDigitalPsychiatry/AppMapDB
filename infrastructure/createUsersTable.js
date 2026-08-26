@@ -3,9 +3,11 @@
  *
  * - Table: PK `email` (S, stored lowercase), PAY_PER_REQUEST. Additive — no
  *   existing resource is touched. Rerunnable (skips creation if it exists).
- * - Seed: from package.json adminUsers/emailUsers (deduped,
- *   lowercased). Existing rows are NOT overwritten on re-runs, so manual
- *   roster edits survive.
+ * - Seed: the original 2026-08-25 seed came from the (since retired)
+ *   package.json adminUsers/emailUsers lists; the table is now the single
+ *   source of truth and this script only guarantees the two Super Admins on
+ *   a fresh table (disaster recovery). Existing rows are NOT overwritten on
+ *   re-runs, so roster edits survive.
  *
  * Usage: node infrastructure/createUsersTable.js --profile <admin> [--apply]
  * (dry run by default, mirroring scripts/db-migration conventions)
@@ -25,12 +27,6 @@ const raw = new AWS.DynamoDB();
 const doc = new AWS.DynamoDB.DocumentClient();
 const TableName = 'users';
 
-const list = s =>
-  (s || '')
-    .split(',')
-    .map(e => e.trim().toLowerCase())
-    .filter(Boolean);
-
 const buildRoster = () => {
   const roster = new Map();
   const add = (emails, role) =>
@@ -38,11 +34,10 @@ const buildRoster = () => {
       if (!roster.has(e)) roster.set(e, new Set());
       roster.get(e).add(role);
     });
-  add(list(pkg.adminUsers), 'admin');
-  add(list(pkg.emailUsers), 'notify');
   // Super Admins (may view/manage this roster) — seeded per Chris 2026-08-25;
-  // they grant the role to others via the Users page.
+  // they grant every other role to others via the Users page.
   add(['selzzt@bu.edu', 'cvanem@gmail.com'], 'superadmin');
+  add(['selzzt@bu.edu', 'cvanem@gmail.com'], 'admin');
   return roster;
 };
 

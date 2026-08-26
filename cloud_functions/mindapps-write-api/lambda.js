@@ -7,10 +7,8 @@
  *   ALLOWED_ORIGIN        lock CORS (e.g. https://mindapps.org); '*' for dev
  *   USER_POOL_ID          Cognito user pool (us-east-1_hXektTdUL)
  *   USER_POOL_CLIENT_ID   Cognito app client id
- *   USERS_TABLE           roster table name (users)
- *   FALLBACK_ADMINS / FALLBACK_SUPERADMINS / FALLBACK_NOTIFY
- *                         comma-separated fallback lists (seeded from
- *                         package.json; retire once the users table is trusted)
+ *   USERS_TABLE           roster table name (users) — the single source of
+ *                         truth for roles (package.json lists retired)
  */
 const { handleWrite } = require('./handler');
 

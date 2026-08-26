@@ -28,26 +28,20 @@ const verifier = CognitoJwtVerifier.create({
 // request (the "first click is slow" symptom).
 const jwksReady = verifier.hydrate().catch(err => console.error('JWKS prefetch failed (will retry on first verify):', err.message));
 
-const envList = name =>
-  (process.env[name] || '')
-    .split(',')
-    .map(s => s.trim().toLowerCase())
-    .filter(Boolean);
-
-// Roster: users table is the source of truth; the env fallback (seeded from
-// package.json) covers anyone missing from the table during the transition.
+// Roster: the users table is the single source of truth (the package.json
+// fallback lists were retired 2026-08-26). A failed lookup denies privileged
+// roles — fail closed.
 const resolveRoles = async email => {
   try {
     const res = await doc.send(new GetCommand({ TableName: USERS_TABLE, Key: { email } }));
     if (res.Item && res.Item.active !== false) {
       const roles = Array.isArray(res.Item.roles) ? res.Item.roles : [];
-      return { isAdmin: roles.includes('admin'), isSuperAdmin: roles.includes('superadmin'), fromTable: true };
+      return { isAdmin: roles.includes('admin'), isSuperAdmin: roles.includes('superadmin') };
     }
-    if (res.Item && res.Item.active === false) return { isAdmin: false, isSuperAdmin: false, fromTable: true }; // deactivated: no fallback
   } catch (err) {
-    console.error('users table lookup failed, using fallback lists:', err.message);
+    console.error('users table lookup failed (denying privileged roles):', err.message);
   }
-  return { isAdmin: envList('FALLBACK_ADMINS').includes(email), isSuperAdmin: envList('FALLBACK_SUPERADMINS').includes(email), fromTable: false };
+  return { isAdmin: false, isSuperAdmin: false };
 };
 
 const getExisting = async (Model, Data) => {
