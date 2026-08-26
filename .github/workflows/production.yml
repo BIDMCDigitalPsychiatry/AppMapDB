@@ -37,8 +37,9 @@ jobs:
         REACT_APP_WRITE_API_URL: ${{ vars.REACT_APP_WRITE_API_URL || 'https://c9f9mkxos6.execute-api.us-east-1.amazonaws.com' }}
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v3
+      # v4 renamed the inputs to lowercase and uses the ambient GITHUB_TOKEN
+      # by default (last of the Node-deprecation action bumps).
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: build
+        branch: gh-pages
+        folder: build
