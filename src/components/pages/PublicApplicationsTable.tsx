@@ -36,6 +36,7 @@ import {
 } from '../../database/models/Application';
 import { categories } from '../../constants';
 import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
+import { RaterEmail } from '../application/GenericTable/Applications/RaterEmail';
 import { useHandleTableReset } from '../application/GenericTable/store';
 
 /*
@@ -195,12 +196,15 @@ const useStyles = makeStyles((theme: any) =>
   })
 );
 
-const LastEvaluated = ({ created, updated }) => {
+const LastEvaluated = ({ created, updated, email = undefined }) => {
   const lastRating = useLastRatingDateTime({ created, updated });
   return (
-    <Typography variant='caption' color='textSecondary' noWrap>
-      {lastRating}
-    </Typography>
+    <>
+      <Typography variant='caption' color='textSecondary' noWrap display='block'>
+        {lastRating}
+      </Typography>
+      <RaterEmail email={email} />
+    </>
   );
 };
 
@@ -397,7 +401,7 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                 </Box>
               </td>
               <td className={classes.td} onClick={open}>
-                <LastEvaluated created={app.created} updated={app.updated} />
+                <LastEvaluated created={app.created} updated={app.updated} email={app.email} />
               </td>
               <td className={classes.td} style={{ cursor: 'default' }}>
                 <RowActions app={app} />
