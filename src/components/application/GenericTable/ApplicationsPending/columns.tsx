@@ -4,6 +4,7 @@ import RatingsColumnPending from './RatingsColumnPending';
 import { Typography } from '@mui/material';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
+import { useRaterLabel } from '../Applications/RaterEmail';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -19,15 +20,9 @@ const LastUpdated = ({ updated }) => (
   </Typography>
 );
 
-/*const RatedBy = ({ email }) => (
-  <Typography variant='body2' color='textSecondary'>
-    {email}
-  </Typography>
-);*/
-
 const RatedBy = ({ email }) => (
   <Typography variant='body2' color='textSecondary'>
-    App Rater
+    {useRaterLabel(email)}
   </Typography>
 );
 

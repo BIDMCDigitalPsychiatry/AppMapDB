@@ -5,6 +5,7 @@ import { makeStyles } from '../../styles/jss';
 import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
 import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
 import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
+import { useRaterLabel } from '../application/GenericTable/Applications/RaterEmail';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -24,6 +25,7 @@ export default function ViewAppRating(props) {
   const { updated, created, email } = props;
 
   const lastUpdated = useLastRatingDateTime({ created, updated });
+  const raterLabel = useRaterLabel(email);
 
   return (
     <Paper style={{ padding: 24, paddingTop: 8 }}>
@@ -52,8 +54,7 @@ export default function ViewAppRating(props) {
               </Grid>
               <Grid item>
                 <Typography noWrap className={classes.primaryLightText} variant='body1'>
-                  {/*email*/}
-                  App Rater
+                  {raterLabel}
                 </Typography>
               </Grid>
             </Grid>

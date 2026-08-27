@@ -6,6 +6,7 @@ import { createStyles } from '../../../../styles/jss';
 import { makeStyles } from '../../../../styles/jss';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
+import { useRaterLabel } from '../Applications/RaterEmail';
 import { green, orange, red, yellow } from '@mui/material/colors';
 
 export const name = 'Applications';
@@ -22,15 +23,9 @@ const LastUpdated = ({ updated }) => (
   </Typography>
 );
 
-/*const RatedBy = ({ email }) => (
-  <Typography variant='body2' color='textSecondary'>
-    {email}
-  </Typography>
-);*/
-
 const RatedBy = ({ email }) => (
   <Typography variant='body2' color='textSecondary'>
-    App Rater
+    {useRaterLabel(email)}
   </Typography>
 );
 

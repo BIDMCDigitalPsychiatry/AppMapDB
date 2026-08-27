@@ -28,6 +28,7 @@ import { Typography } from '@mui/material';
 import { makeStyles } from '../../../../styles/jss';
 import { createStyles } from '../../../../styles/jss';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
+import { RaterEmail } from './RaterEmail';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -50,12 +51,15 @@ export const CenterRadio = ({ checked = false }) => {
   return center(<Icon color='action' fontSize='small' />);
 };
 
-const LastUpdated = ({ created, updated }) => {
+const LastUpdated = ({ created, updated, email = undefined }) => {
   const lastRating = useLastRatingDateTime({ created, updated });
   return (
-    <Typography variant='body2' color='textSecondary'>
-      {lastRating}
-    </Typography>
+    <>
+      <Typography variant='body2' color='textSecondary'>
+        {lastRating}
+      </Typography>
+      <RaterEmail email={email} />
+    </>
   );
 };
 
