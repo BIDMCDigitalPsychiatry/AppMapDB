@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card, CardContent, Grid, TextField, Typography, useTheme } from '@mui/material';
 import { readTimes } from '../../../database/models/Post';
-import DateTimePicker from '../../application/DialogField/DateTimePicker';
+import DatePicker from '../../application/DialogField/DatePicker';
 import Text from '../../application/DialogField/Text';
 import Check from '../../application/DialogField/Check';
 import QuillEditor from '../../application/QuillEditor';
@@ -94,7 +94,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
                 </TextField>
               </Box>
               <Box mt={2}>
-                <DateTimePicker
+                <DatePicker
                   id='publishedAt'
                   label='Date Published'
                   color='primary'

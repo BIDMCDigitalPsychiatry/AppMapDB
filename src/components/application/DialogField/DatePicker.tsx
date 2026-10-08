@@ -5,12 +5,12 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { TextField } from '@mui/material';
 
-const DatePicker = ({ onChange, value, error, forceErrorMargin = false, ...other }) => {
+const DatePicker = ({ onChange, value, error, getTime = false, forceErrorMargin = false, ...other }) => {
   const handleChange = React.useCallback(
-    value => {
-      onChange({ target: { value } });
+    (value: any) => {
+      onChange({ target: { value: getTime && value ? value.getTime() : value } });
     },
-    [onChange]
+    [getTime, onChange]
   );
 
   return (
