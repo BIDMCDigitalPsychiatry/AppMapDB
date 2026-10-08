@@ -6,8 +6,7 @@ const CommunitySelector = ({ subRoute, ...other }) => {
   //const handleCalendarLink = useHandleLink('https://www.sodpsych.org/events');
 
   const tabs = [
-    { id: 'News', route: '/Community', routeState: { subRoute: 'list', cateogory: 'News' } },
-    { id: 'Forum', route: '/Community', routeState: { subRoute: 'list', category: 'Forum' } },
+    { id: 'News', route: '/Community', routeState: { subRoute: 'list', category: 'News' } },
     //{ id: 'Calendar', route: '/Community', routeState: { subRoute: 'calendar' }, onClick: handleCalendarLink },
     { id: 'Team', route: '/Community', routeState: { subRoute: 'team' }, altRoutes: ['viewTeamMember', 'createTeamMember', 'editTeamMember', 'viewTeamMember'] }
   ].filter(t => t);

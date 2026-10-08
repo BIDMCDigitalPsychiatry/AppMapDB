@@ -67,9 +67,9 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const QuillEditor = ({ className = undefined, ...other }) => {
+const QuillEditor = ({ className = undefined, disabled = false, ...other }) => {
   const classes = useStyles({});
-  return <Quill className={clsx(classes.root, className)} {...other} />;
+  return <Quill className={clsx(classes.root, className)} readOnly={disabled} {...other} />;
 };
 
 export default QuillEditor;

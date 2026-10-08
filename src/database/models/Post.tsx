@@ -36,6 +36,6 @@ export const useDefaultValues = props => {
   };
 };
 
-export const categories = ['News', 'Forum'];
+export const categories = ['News'];
 
 export const readTimes = ['1 min', '2 min', '3 min', '4 min', '5 min', '6 min', '7 min', '8 min', '9 min', '10 min', '15 min', '> 15 min'];

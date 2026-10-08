@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { isError } from '../../../helpers';
-import MuiDatePicker from '@mui/lab/DatePicker';
+import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { TextField } from '@mui/material';
