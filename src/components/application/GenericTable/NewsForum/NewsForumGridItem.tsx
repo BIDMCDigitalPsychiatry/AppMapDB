@@ -92,7 +92,7 @@ export default function NewsForumGridItem({
 
   const meta = [
     authorName ? 'Registered User' : 'Unknown Author',
-    formatWithDefault(publishedAt, 'dd MMM', 'Unknown Date'),
+    formatWithDefault(publishedAt, 'dd MMM yyyy', 'Unknown Date'),
     `${readTime} read`,
     filtered.length > 0 && `${filtered.length} comment${filtered.length === 1 ? '' : 's'}`
   ]

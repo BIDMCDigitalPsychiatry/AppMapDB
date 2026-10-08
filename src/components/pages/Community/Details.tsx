@@ -183,7 +183,7 @@ const Details = () => {
                   )}
                   <Grid item xs={12}>
                     <Typography align='center' color='textSecondary' variant='body2'>
-                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM') : ''} Â· ${values.readTime} read`}
+                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM yyyy') : ''} · ${values.readTime} read`}
                     </Typography>
                   </Grid>
                 </Grid>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Card, CardContent, Grid, TextField, Typography, useTheme } from '@mui/material';
-import { categories, readTimes } from '../../../database/models/Post';
+import { readTimes } from '../../../database/models/Post';
 import DateTimePicker from '../../application/DialogField/DateTimePicker';
 import Text from '../../application/DialogField/Text';
 import Check from '../../application/DialogField/Check';
@@ -8,7 +8,7 @@ import QuillEditor from '../../application/QuillEditor';
 import ImageBase64 from '../../application/DialogField/ImageBase64';
 
 const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = undefined }) => {
-  const { title = '', authorName, category, content = '', cover, shortDescription = '', readTime } = values;
+  const { title = '', authorName, content = '', cover, shortDescription = '', readTime } = values;
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
   const theme = useTheme();
@@ -63,25 +63,6 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
         <Grid item lg={4} md={6} xl={3} xs={12}>
           <Card variant='outlined'>
             <CardContent>
-              <Box mt={2}>
-                <TextField
-                  value={category}
-                  onChange={handleChange('category')}
-                  fullWidth
-                  label='Category'
-                  name='category'
-                  select
-                  SelectProps={{ native: true }}
-                  variant='outlined'
-                  disabled={loading}
-                >
-                  {categories.map(category => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </TextField>
-              </Box>
               <Box mt={2}>
                 <TextField
                   fullWidth
