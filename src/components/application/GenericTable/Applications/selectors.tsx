@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppState } from '../../../../store';
-import Application from '../../../../database/models/Application';
+import Application, { getAppCountries } from '../../../../database/models/Application';
 import { isEmpty, getDayTimeFromTimestamp, EMPTY_OBJECT } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
@@ -74,6 +74,7 @@ const toRow = (app: Application, includeEmailInSearch = false) => {
     conditions: app.conditions ?? [],
     privacies: app.privacies ?? [],
     uses: app.uses ?? [],
+    countries: getAppCountries(app),
     costs: app.costs ?? [],
     clinicalFoundations: app.clinicalFoundations ?? [],
     developerTypes: app.developerTypes ?? []
@@ -94,6 +95,7 @@ const toRow = (app: Application, includeEmailInSearch = false) => {
     conditions: app.conditions?.join(' '),
     privacies: app.privacies?.join(' '),
     uses: app.uses?.join(' '),
+    countries: getAppCountries(app).join(' '),
     clinicalFoundations: app.clinicalFoundations,
     developerTypes: app.developerTypes
   };

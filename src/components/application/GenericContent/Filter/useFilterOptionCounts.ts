@@ -8,6 +8,7 @@ import {
 } from '../../../pages/useAppTableData';
 import { useTableFilterValues } from '../../GenericTable/store';
 import { isEmpty } from '../../../../helpers';
+import { getAppCountries } from '../../../../database/models/Application';
 
 const CATEGORIES = Object.keys(FILTER_CATEGORY_JOIN_MODE);
 
@@ -41,7 +42,7 @@ export const useFilterOptionCount = () => {
       const values: Record<string, unknown> = {};
       const passes: Record<string, boolean> = {};
       for (const cat of CATEGORIES) {
-        values[cat] = app[CATEGORY_TO_TAG_FIELD[cat]];
+        values[cat] = cat === 'Countries' ? getAppCountries(app) : app[CATEGORY_TO_TAG_FIELD[cat]]; // Countries includes the legacy Canada fallback
         passes[cat] = matchesCategory(FILTER_CATEGORY_JOIN_MODE[cat], (filters as any)[cat] ?? [], values[cat]);
       }
       const passesAllExcept: Record<string, boolean> = {};

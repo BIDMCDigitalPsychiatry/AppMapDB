@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AppState } from '../../../../store';
-import Application from '../../../../database/models/Application';
+import Application, { getAppCountries } from '../../../../database/models/Application';
 import { isEmpty, getDayTimeFromTimestamp, sortDescending, getSurveyEmail } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { dynamo, tables } from '../../../../database/dbConfig';
@@ -129,6 +129,7 @@ export const useSurveyData = table => {
           conditions: app.conditions?.join(' '),
           privacies: app.privacies?.join(' '),
           uses: app.uses?.join(' '),
+          countries: getAppCountries(app).join(' '),
           clinicalFoundations: app.clinicalFoundations,
           developerTypes: app.developerTypes
         };

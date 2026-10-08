@@ -58,6 +58,7 @@ export default function FilterButton({
     Cost = [],
     Privacy = [],
     Uses = [],
+    Countries = [],
     DeveloperTypes = [],
     ClinicalFoundations = []
   } = values as any;
@@ -72,6 +73,7 @@ export default function FilterButton({
     Cost,
     Privacy,
     Uses,
+    Countries,
     DeveloperTypes,
     ClinicalFoundations
   ].reduce((t, c) => (t = t + c.length), 0);

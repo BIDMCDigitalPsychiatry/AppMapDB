@@ -31,7 +31,9 @@ import {
   EngagementQuestions,
   Inputs,
   Outputs,
-  Uses,
+  VisibleUses,
+  Countries,
+  CountryQuestions,
   withReplacement
 } from '../../database/models/Application';
 import { categories } from '../../constants';
@@ -80,7 +82,8 @@ const CATEGORY_DEFS: CategoryDef[] = [
   { id: 'Engagements', field: 'engagements', values: Engagements as any, questions: EngagementQuestions },
   { id: 'Inputs', field: 'inputs', values: Inputs as any },
   { id: 'Outputs', field: 'outputs', values: Outputs as any },
-  { id: 'Uses', field: 'uses', values: Uses as any }
+  { id: 'Uses', field: 'uses', values: VisibleUses as any },
+  { id: 'Countries', header: 'Country Availability', field: 'countries', values: Countries as any, questions: CountryQuestions }
 ];
 
 // Legacy data sometimes stores a question's `short` form instead of its value;

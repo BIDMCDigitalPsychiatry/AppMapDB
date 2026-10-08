@@ -546,6 +546,52 @@ export const UseQuestions = [
 
 export const Uses = UseQuestions.map(uq => uq.value as Use);
 
+// Legacy Uses value, kept in sync from the Canada country answer until we confirm no other organization still reads it
+export const LegacyCanadaUse: Use = 'Available in Canada';
+
+export type Country = 'Canada' | 'France' | 'UK' | 'Germany';
+
+export const CountryQuestions = [
+  { value: 'Canada', label: 'Is the app available in Canada?', tooltip: 'Can someone in Canada download and use the app?' },
+  { value: 'France', label: 'Is the app available in France?', tooltip: 'Can someone in France download and use the app?' },
+  { value: 'UK', label: 'Is the app available in the UK?', tooltip: 'Can someone in the United Kingdom download and use the app?' },
+  { value: 'Germany', label: 'Is the app available in Germany?', tooltip: 'Can someone in Germany download and use the app?' }
+];
+
+export const Countries = CountryQuestions.map(cq => cq.value as Country);
+
+// Uses shown in filters, chips and the rating form; the legacy Canada value is superseded by Country Availability
+export const VisibleUses = Uses.filter(u => u !== LegacyCanadaUse);
+export const VisibleUseQuestions = UseQuestions.filter(uq => uq.value !== LegacyCanadaUse);
+
+const hasLegacyCanadaUse = (app: { uses?: string[] }) => (app?.uses ?? []).includes(LegacyCanadaUse);
+
+// Effective countries for filtering/display: until the backfill migration runs, apps tagged with the legacy
+// Canada use (and never given a countries answer) still count as available in Canada
+export const getAppCountries = (app: { countries?: string[]; uses?: string[] }): Country[] =>
+  Array.isArray(app?.countries) ? (app.countries as Country[]) : hasLegacyCanadaUse(app) ? ['Canada'] : [];
+
+// Keeps the legacy Canada use in sync with the Canada country answer when a rating is saved.
+// Records without a countries answer are left untouched so their legacy value is preserved.
+export const syncLegacyCanadaUse = <T extends { countries?: string[]; uses?: string[] }>(app: T): T => {
+  if (!Array.isArray(app?.countries)) return app;
+  const uses = (app.uses ?? []).filter(u => u !== LegacyCanadaUse);
+  return { ...app, uses: app.countries.includes('Canada') ? [...uses, LegacyCanadaUse] : uses };
+};
+
+// Saved/persisted filters from before Country Availability may select the now-hidden legacy Canada use;
+// move that selection to the Canada country so it stays visible and editable
+export const migrateLegacyFilters = (filters: any) => {
+  const uses: string[] | undefined = filters?.Uses;
+  if (!Array.isArray(uses) || !uses.includes(LegacyCanadaUse)) return filters;
+  const countries: string[] = Array.isArray(filters.Countries) ? filters.Countries : [];
+  return {
+    ...filters,
+    Uses: uses.filter(u => u !== LegacyCanadaUse),
+    Countries: countries.includes('Canada') ? countries : [...countries, 'Canada']
+  };
+};
+
 export default interface Application {
   _id: string;
   _rev: string;
@@ -561,6 +607,7 @@ export default interface Application {
   platforms: Platform[];
   functionalities: Functionality[]; //FunctionalityQuestions
   uses: Use[]; //UseQuestions
+  countries?: Country[]; //CountryQuestions (undefined on records rated before Country Availability)
   privacies: Privacy[]; // PrivacyQuestions
   treatmentApproaches: TreatmentApproach[]; // TreatmentApproachQuestions
   features: Feature[]; // FeatureQuestions

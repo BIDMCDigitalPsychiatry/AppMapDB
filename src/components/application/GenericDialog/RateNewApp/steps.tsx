@@ -9,7 +9,8 @@ import {
   TreatmentApproachQuestions,
   FeatureQuestions,
   EngagementQuestions,
-  UseQuestions,
+  VisibleUseQuestions,
+  CountryQuestions,
   OutputQuestions,
   InputQuestions,
   Conditions
@@ -23,6 +24,7 @@ import AppleStore from '../../DialogField/AppleStore';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import TextLinkStyled from '../../DialogField/TextLinkStyled';
 import YesNoGroup from '../../DialogField/YesNoGroup';
+import CountryYesNoGroup from '../../DialogField/CountryYesNoGroup';
 import PrivacyInfo from './templates/PrivacyInfo';
 import ClinicalFoundationInfo from './templates/ClinicalFoundationInfo';
 import Review from './templates/Review';
@@ -367,7 +369,13 @@ const steps = (type = undefined, data = []) => [
         id: 'uses',
         label: 'Application Uses',
         Field: YesNoGroup,
-        items: UseQuestions
+        items: VisibleUseQuestions
+      },
+      {
+        id: 'countries',
+        label: 'Country Availability',
+        Field: CountryYesNoGroup,
+        items: CountryQuestions
       }
     ].map(f => ({ ...f, container: tables.applications }))
   },

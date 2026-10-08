@@ -10,7 +10,8 @@ import {
   Functionalities,
   DeveloperTypes,
   Engagements,
-  Uses,
+  VisibleUses,
+  Countries,
   withReplacement,
   Platforms,
   Inputs,
@@ -61,7 +62,12 @@ const getFilters = version =>
     },
     version === 'full' && {
       id: 'Uses',
-      items: Uses.map(label => ({ value: label, label: withReplacement(label) }))
+      items: VisibleUses.map(label => ({ value: label, label: withReplacement(label) }))
+    },
+    {
+      id: 'Countries',
+      label: 'Country Availability',
+      items: Countries.map(label => ({ value: label, label }))
     },
     {
       id: 'TreatmentApproaches',

@@ -12,7 +12,9 @@ import Application, {
   Features,
   Inputs,
   Outputs,
-  Uses,
+  VisibleUses,
+  Countries,
+  getAppCountries,
   PrivacyQuestions,
   Privacies,
   Engagements,
@@ -123,7 +125,9 @@ const PlatformRadios =
 const UsesRadios =
   pinned =>
   ({ uses = [] }: Application) =>
-    buildRadios(sortPinned(Uses, 'uses', pinned), uses);
+    buildRadios(sortPinned(VisibleUses, 'uses', pinned), uses);
+
+const CountryRadios = pinned => (app: Application) => buildRadios(sortPinned(Countries, 'countries', pinned), getAppCountries(app));
 
 const DeveloperTypeRadios =
   pinned =>
@@ -465,7 +469,7 @@ export const useColumns = () => {
                 Uses
               </Grid>
             </Grid>
-            {sortPinned(Uses, 'uses', pinned).map(t => (
+            {sortPinned(VisibleUses, 'uses', pinned).map(t => (
               <Grid item xs key={t} onClick={handlePinColumn('uses', t)} className={classes.hover}>
                 {center(t)}
               </Grid>
@@ -474,6 +478,27 @@ export const useColumns = () => {
         </>
       ),
       Cell: UsesRadios(pinned)
+    },
+    {
+      name: 'countries',
+      width: 200,
+      header: (
+        <>
+          <Grid container>
+            <Grid item xs={12}>
+              <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'countries')}>
+                Country Availability
+              </Grid>
+            </Grid>
+            {sortPinned(Countries, 'countries', pinned).map(t => (
+              <Grid item xs key={t} onClick={handlePinColumn('countries', t)} className={classes.hover}>
+                {center(t)}
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      ),
+      Cell: CountryRadios(pinned)
     }
   ];
 

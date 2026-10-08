@@ -13,6 +13,7 @@ export const useFilterCount = (table = 'Applications') => {
       Cost = [],
       Privacy = [],
       Uses = [],
+      Countries = [],
       DeveloperTypes = [],
       ClinicalFoundations = [],
       TreatmentApproaches = []
@@ -31,6 +32,7 @@ export const useFilterCount = (table = 'Applications') => {
     Cost,
     Privacy,
     Uses,
+    Countries,
     DeveloperTypes,
     ClinicalFoundations
   ].reduce((t, c) => (t = t + c.length), 0);

@@ -1,5 +1,5 @@
 import { createTheme, Theme } from '@mui/material/styles';
-import { blue, cyan, deepOrange, red, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
+import { blue, brown, cyan, deepOrange, red, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
 import { onlyUnique } from './helpers';
 import {
   ClinicalFoundationQuestions,
@@ -12,7 +12,10 @@ import {
   InputQuestions,
   OutputQuestions,
   PrivacyQuestions,
-  UseQuestions
+  UseQuestions,
+  CountryQuestions,
+  getAppCountries,
+  LegacyCanadaUse
 } from './database/models/Application';
 
 export const googlePlayProxyUrl = 'https://ke22op7ylg.execute-api.us-east-1.amazonaws.com/default/app-map-db';
@@ -311,8 +314,21 @@ export const categories = {
   Uses: {
     label: 'Uses',
     color: cyan[colorLevel],
-    values: ({ uses = [] }) => uses.filter(onlyUnique),
-    valueItems: ({ uses = [] }) => uses.filter(onlyUnique).map(label => ({ label, tooltip: UseQuestions.find(cq => cq.value === label)?.tooltip }))
+    values: ({ uses = [] }) => uses.filter(u => u !== LegacyCanadaUse).filter(onlyUnique),
+    valueItems: ({ uses = [] }) =>
+      uses
+        .filter(u => u !== LegacyCanadaUse)
+        .filter(onlyUnique)
+        .map(label => ({ label, tooltip: UseQuestions.find(cq => cq.value === label)?.tooltip }))
+  },
+  Countries: {
+    label: 'Country Availability',
+    color: brown[600],
+    values: app => getAppCountries(app).filter(onlyUnique),
+    valueItems: app =>
+      getAppCountries(app)
+        .filter(onlyUnique)
+        .map(label => ({ label, tooltip: CountryQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   DeveloperTypes: {
     label: 'Developer Types',

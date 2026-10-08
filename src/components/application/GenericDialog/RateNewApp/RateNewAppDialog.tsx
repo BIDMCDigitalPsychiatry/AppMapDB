@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDialogState } from '../useDialogState';
-import Application from '../../../../database/models/Application';
+import Application, { syncLegacyCanadaUse } from '../../../../database/models/Application';
 import { tables } from '../../../../database/dbConfig';
 import { useProcessData } from '../../../../database/useProcessData';
 import { uuid, publicUrl, isEmpty } from '../../../../helpers';
@@ -57,6 +57,7 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
 
   const handleProcessData = (values, Action, handleReset = undefined, draft = false) => {
     const application: Application = values[tables.applications];
+    if (Array.isArray(application.countries)) application.uses = syncLegacyCanadaUse(application).uses; // Keep the legacy Canada use in step with the Canada country answer
     const timestamp = new Date().getTime();
 
     if (Action === 'c') {
