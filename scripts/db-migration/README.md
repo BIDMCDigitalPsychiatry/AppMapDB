@@ -43,6 +43,20 @@ maintained by the frontend (`useProcessData`). Any writer that bypasses the
 frontend (external organization, AWS console edits) can cause drift — run
 step 5 periodically as an audit; add `--apply` to repair whatever it reports.
 
+## Country Availability backfill (`05_backfill_countries.js`)
+
+Not part of the index runbook above. Copies the legacy `uses` value
+`'Available in Canada'` into the new `countries` field (`['Canada']`) on
+rows that have no `countries` answer yet. `uses` is left untouched (another
+organization may still read it; the app keeps it in sync on every save).
+
+Run it only after the Country Availability frontend is deployed, and only
+when the plan owner says to. It changes nothing users see: the frontend
+already treats unanswered legacy-Canada rows as available in Canada. Dry run
+first; with `--apply`, every updated `_id` is logged to `backups/` for
+rollback (`REMOVE countries` on those ids). Follow with `04` (no `--apply`)
+as the drift audit.
+
 ## Rollback
 
 - Merges: original groupIds are printed in each apply log; re-point them back.

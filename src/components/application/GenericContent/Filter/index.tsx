@@ -12,7 +12,8 @@ import {
   Functionalities,
   DeveloperTypes,
   Engagements,
-  Uses
+  VisibleUses,
+  Countries
 } from '../../../../database/models/Application';
 import { useProcessData } from '../../../../database/useProcessData';
 import { useFullScreen, useSignedIn } from '../../../../hooks';
@@ -75,6 +76,13 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
           {injectField('DeveloperTypes')}
           {injectField('Conditions')}
         </Grid>
+        <Box mt={spacing / 2}>
+          <Typography variant='h6'>Country Availability</Typography>
+          <Divider style={{ marginBottom: 8 }} />
+          <Grid container spacing={1}>
+            {injectField('Countries')}
+          </Grid>
+        </Box>
         {advanced && (
           <>
             <Box mt={spacing / 2}>
@@ -271,7 +279,14 @@ export default function FilterContent({ id = title, ...other }) {
       {
         id: 'Uses',
         Field: MultiSelectCheck,
-        items: Uses.map(label => ({ value: label, label })),
+        items: VisibleUses.map(label => ({ value: label, label })),
+        style: { minWidth, maxWidth }
+      },
+      {
+        id: 'Countries',
+        label: 'Country Availability',
+        Field: MultiSelectCheck,
+        items: Countries.map(label => ({ value: label, label })),
         style: { minWidth, maxWidth }
       },
       {

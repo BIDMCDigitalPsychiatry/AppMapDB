@@ -54,7 +54,8 @@ const taxonomy = {
   Inputs: m.Inputs,
   Outputs: m.Outputs,
   Privacy: m.Privacies,
-  Uses: m.Uses,
+  Uses: m.VisibleUses, // legacy 'Available in Canada' is superseded by Countries
+  Countries: m.Countries,
   ClinicalFoundations: m.ClinicalFoundations
 };
 

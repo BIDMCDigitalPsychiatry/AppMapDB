@@ -84,7 +84,7 @@ const test = (name, fn) => {
     assert.deepStrictEqual(clean, { Cost: ['Free to Download'] });
   });
 
-  await test('tool schema covers exactly the 13 taxonomy categories', () => {
+  await test('tool schema covers exactly the taxonomy categories', () => {
     const props = searchFiltersTool.input_schema.properties.filters.properties;
     assert.deepStrictEqual(Object.keys(props).sort(), Object.keys(taxonomy).sort());
     assert.strictEqual(searchFiltersTool.strict, true);

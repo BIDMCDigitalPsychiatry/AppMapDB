@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { dynamo, tables, indexes } from '../../database/dbConfig';
-import Application from '../../database/models/Application';
+import Application, { getAppCountries } from '../../database/models/Application';
 import { useApplications } from '../../database/useApplications';
 import { getDayTimeFromTimestamp, isEmpty, EMPTY_OBJECT } from '../../helpers';
 import { termMatchesTag } from '../../database/tagHierarchy';
@@ -126,6 +126,7 @@ export const FILTER_CATEGORY_JOIN_MODE: Record<string, JoinMode> = {
   Conditions: 'and',
   Privacy: 'and',
   Uses: 'and',
+  Countries: 'or', // available in ANY selected country
   ClinicalFoundations: 'and',
   DeveloperTypes: 'and'
 };
@@ -143,6 +144,7 @@ export const CATEGORY_TO_TAG_FIELD: Record<string, string> = {
   Conditions: 'conditions',
   Privacy: 'privacies',
   Uses: 'uses',
+  Countries: 'countries',
   ClinicalFoundations: 'clinicalFoundations',
   DeveloperTypes: 'developerTypes'
 };
@@ -333,6 +335,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
           conditions: app.conditions ?? [],
           privacies: app.privacies ?? [],
           uses: app.uses ?? [],
+          countries: getAppCountries(app),
           costs: app.costs ?? [],
           clinicalFoundations: app.clinicalFoundations ?? [],
           developerTypes: app.developerTypes ?? []
@@ -354,6 +357,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
           conditions: toArray(tags.conditions).join(' '),
           privacies: toArray(tags.privacies).join(' '),
           uses: toArray(tags.uses).join(' '),
+          countries: toArray(tags.countries).join(' '),
           clinicalFoundations: toArray(tags.clinicalFoundations).join(' '),
           developerTypes: toArray(tags.developerTypes).join(' ')
         };

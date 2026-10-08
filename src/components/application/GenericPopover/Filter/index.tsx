@@ -12,7 +12,8 @@ import {
   Functionalities,
   DeveloperTypes,
   Engagements,
-  Uses
+  VisibleUses,
+  Countries
 } from '../../../../database/models/Application';
 import { useFullScreen } from '../../../../hooks';
 import TableSearch from '../../GenericTable/TableSearch';
@@ -95,7 +96,13 @@ export default function FilterPopover({ id = title, ...other }) {
         {
           id: 'Uses',
           Field: MultiSelectCheck,
-          items: Uses.map(label => ({ value: label, label }))
+          items: VisibleUses.map(label => ({ value: label, label }))
+        },
+        {
+          id: 'Countries',
+          label: 'Country Availability',
+          Field: MultiSelectCheck,
+          items: Countries.map(label => ({ value: label, label }))
         },
         {
           id: 'ClinicalFoundations',

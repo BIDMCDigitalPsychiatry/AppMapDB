@@ -128,8 +128,13 @@
     "Self Help",
     "Reference",
     "Hybrid",
-    "Kids Help Phone Approved",
-    "Available in Canada"
+    "Kids Help Phone Approved"
+  ],
+  "Countries": [
+    "Canada",
+    "France",
+    "UK",
+    "Germany"
   ],
   "ClinicalFoundations": [
     "Well Written Relevant Content",

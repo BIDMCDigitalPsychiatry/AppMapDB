@@ -1,5 +1,5 @@
 import { AppState } from '../../../../store';
-import Application from '../../../../database/models/Application';
+import Application, { getAppCountries } from '../../../../database/models/Application';
 import { isEmpty, getDayTimeFromTimestamp, EMPTY_OBJECT } from '../../../../helpers';
 import { useTableFilter } from '../helpers';
 import { tables } from '../../../../database/dbConfig';
@@ -89,6 +89,7 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
               conditions: app.conditions?.join(' '),
               privacies: app.privacies?.join(' '),
               uses: app.uses?.join(' '),
+              countries: getAppCountries(app).join(' '),
               clinicalFoundations: app.clinicalFoundations,
               developerTypes: app.developerTypes
             };
@@ -120,6 +121,7 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
     Conditions = [],
     Privacy = [],
     Uses = [],
+    Countries = [],
     ClinicalFoundations = [],
     DeveloperTypes = []
   } = filters;
@@ -135,6 +137,7 @@ export const useAppHistoryData = (table, id, isAdmin = undefined, includeDeleted
     isMatch(Conditions, r.conditions) &&
     isMatch(Privacy, r.privacies) &&
     isMatch(Uses, r.uses) &&
+    (Countries.length === 0 || Countries.some(c => r.countries?.includes(c))) &&
     isMatch(ClinicalFoundations, r.clinicalFoundations) &&
     isMatch(DeveloperTypes, r.developerTypes);
 

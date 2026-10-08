@@ -29,6 +29,7 @@ export default function ApplicationInfo({ fields, values, mapField, fullWidth, s
           {injectField('features')}
           {injectField('engagements')}
           {injectField('uses')}
+          {injectField('countries')}
           {injectField('inputs')}
           {injectField('outputs')}
         </Grid>

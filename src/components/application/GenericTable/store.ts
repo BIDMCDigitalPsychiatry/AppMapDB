@@ -4,6 +4,7 @@ import { evalFunc, stringifyEqual } from '../../../helpers';
 import { AppState } from '../../../store';
 import { SortComparator, updateState, setDefaults } from './helpers';
 import { useDispatch, useSelector } from 'react-redux';
+import { migrateLegacyFilters } from '../../../database/models/Application';
 
 export type State = Table[];
 const defaultValues: Table[] = [];
@@ -21,7 +22,17 @@ export interface Table {
 }
 
 const tableFilterUpdate = (id: string, filters) => (dispatch, getState) =>
-  dispatch({ type: 'TABLE_UPDATE', table: { id, filters: evalFunc(filters, (getState().table[id] || {}).filters || {}) } });
+  dispatch({ type: 'TABLE_UPDATE', table: { id, filters: migrateLegacyFilters(evalFunc(filters, (getState().table[id] || {}).filters || {})) } });
+
+// Persisted tables may hold filters saved before a taxonomy change; bring them forward on rehydrate
+const migratePersistedTables = (tables: State): State =>
+  tables && typeof tables === 'object'
+    ? (Object.keys(tables).reduce((f, k) => {
+        const t = tables[k];
+        f[k] = t?.filters ? { ...t, filters: migrateLegacyFilters(t.filters) } : t;
+        return f;
+      }, {}) as State)
+    : tables;
 
 const getTable = (state, id) => state[id] ?? { id, searchtext: '', filters: {} };
 export const reducer: Reducer<State> = (state: State, action): State => {
@@ -53,7 +64,7 @@ export const reducer: Reducer<State> = (state: State, action): State => {
     case 'persist/REHYDRATE':
       const payload: AppState = action && (action as any).payload;
       const hydratestate: State = payload && payload.table;
-      return setDefaults(hydratestate ? hydratestate : [], defaultValues);
+      return setDefaults(hydratestate ? migratePersistedTables(hydratestate) : [], defaultValues);
     default:
   }
   return setDefaults(state ? { ...state } : [], defaultValues);
