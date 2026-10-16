@@ -32,8 +32,8 @@ const unescape = (s, quote) =>
     .replace(/\\\\/g, '\\');
 
 // A string literal: '…', "…" or `…` (template literals only without ${…}).
-const LIT = String.raw`(['"\x60])((?:\\.|(?!\1)[^\\])*)\1`;
-const CALL = new RegExp(String.raw`(?<![\w.$])(t|tx)\(\s*` + LIT, 'g');
+// The function name is NON-capturing so the quote is group 1 and \1 matches the closing quote.
+const CALL = new RegExp(String.raw`(?<![\w.$])(?:t|tx)\(\s*(['"\x60])((?:\\.|(?!\1)[^\\])*)\1`, 'g');
 const CTX = new RegExp(String.raw`(?<![\w.$])tc\(\s*(['"])((?:\\.|(?!\1)[^\\])*)\1\s*,\s*(['"\x60])((?:\\.|(?!\3)[^\\])*)\3`, 'g');
 
 const extract = () => {
@@ -47,7 +47,7 @@ const extract = () => {
     };
     let m;
     CALL.lastIndex = 0;
-    while ((m = CALL.exec(text))) if (!(m[2] === '`' && m[3].includes('${'))) add(unescape(m[3], m[2]));
+    while ((m = CALL.exec(text))) if (!(m[1] === '`' && m[2].includes('${'))) add(unescape(m[2], m[1]));
     CTX.lastIndex = 0;
     while ((m = CTX.exec(text))) add(`${unescape(m[2], m[1])}|${unescape(m[4], m[3])}`);
   }

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { dynamo, tables, indexes } from '../../database/dbConfig';
-import Application, { getAppCountries } from '../../database/models/Application';
+import Application, { getAppCountries, withReplacement } from '../../database/models/Application';
+import { useCurrentLanguage, useT } from '../../i18n';
 import { useApplications } from '../../database/useApplications';
 import { getDayTimeFromTimestamp, isEmpty, EMPTY_OBJECT } from '../../helpers';
 import { termMatchesTag } from '../../database/tagHierarchy';
@@ -256,6 +257,11 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
   const filters = useSelector((s: AppState) => s.table[table]?.filters ?? EMPTY_OBJECT) as any;
 
+  // In French/German, free-text search also matches the translated tag names (typing "sommeil" finds Sleep apps).
+  // Stored tag values, displayed columns and exports stay English.
+  const translate = useT();
+  const lang = useCurrentLanguage();
+
   const handleGetRow = React.useCallback(
     id => {
       const getRow = async id => {
@@ -364,7 +370,16 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
 
         // Computed once per row (this mapping is memoized); getSearchValues is
         // called for every row on every search, so it must not re-join fields.
-        const searchValues = Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), '');
+        const englishSearchValues = Object.keys(appSearchable).reduce((f, c) => (f = [f, appSearchable[c]].join(' ')), '');
+        const searchValues =
+          lang === 'en'
+            ? englishSearchValues
+            : [
+                englishSearchValues,
+                ...Object.values(tags)
+                  .flatMap(v => toArray(v))
+                  .map(v => translate(withReplacement(v)))
+              ].join(' ');
 
         return {
           _id: app._id,
@@ -391,7 +406,7 @@ export default function useAppTableData({ trigger = true, triggerWhenEmpty = fal
           groupId: isEmpty(app.groupId) ? app._id : app.groupId
         };
       });
-  }, [apps, adminMode, mode, filters]);
+  }, [apps, adminMode, mode, filters, lang, translate]);
 
   // For public, show only the most recent with a status of approved == true
   // For admin, show only the most recent approved, or if no approvals then show the most recent

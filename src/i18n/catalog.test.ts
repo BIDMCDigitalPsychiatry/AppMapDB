@@ -12,6 +12,13 @@ const placeholders = (s: string) => (s.match(/\{\{\s*\w+\s*\}\}/g) || []).map(p 
 describe('interface translations', () => {
   const source = extract();
 
+  it('extracts whole strings, never code fragments', () => {
+    // Guards the extractor regex: a broken quote match produced keys like "Wha" or "Name')\r\n      }"
+    const fragments = Object.keys(source).filter(k => /\r|'\)|\)\}|=>/.test(k));
+    expect(fragments).toEqual([]);
+    expect(source['Suggest an App']).toBeDefined();
+  });
+
   it.each(LANGS)('%s has a translation for every interface string', (lang: string) => {
     expect(missing(source, lang)).toEqual([]);
   });
