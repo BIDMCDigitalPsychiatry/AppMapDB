@@ -5,9 +5,11 @@ import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
 import * as Icons from '@mui/icons-material';
 import LightTooltip from '../../../../general/LightTooltip/LightTooltip';
 import { ApplicationTabs } from './ApplicationTabs';
+import { useT } from '../../../../../i18n';
 
 export default function PrivacyInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} mapField={mapField} fullWidth={fullWidth} {...props} />;
+  const t = useT();
   const privacies = values.applications.privacies || [];
 
   return (
@@ -22,17 +24,17 @@ export default function PrivacyInfo({ fields, values, mapField, fullWidth, setVa
           </Grid>
           <Grid item xs={12}>
             <Collapse in={privacies.includes('Has Privacy Policy')}>
-              <OutlinedDiv label='Privacy Policy Reading Level'>
+              <OutlinedDiv label={t('Privacy Policy Reading Level')}>
                 <Grid container alignItems='center' justifyContent='space-between' spacing={2}>
                   <Grid item>
-                    <Typography>Reading grade level of the privacy policy?</Typography>
+                    <Typography>{t('Reading grade level of the privacy policy?')}</Typography>
                   </Grid>
                   <Grid item>
                     <Grid container justifyContent='flex-end' alignItems='center' spacing={1}>
                       <Grid item>
                         <LightTooltip
                           title={
-                            'Flesch-Kincaid grade level: https://readabilityformulas.com/free-readability-formula-tests.php (just copy and paste privacy policy in)'
+                            t('Flesch-Kincaid grade level: {{url}} (just copy and paste privacy policy in)', { url: 'https://readabilityformulas.com/free-readability-formula-tests.php' })
                           }
                         >
                           <Icons.HelpOutlined fontSize='small' color='primary' />

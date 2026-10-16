@@ -1,4 +1,6 @@
 import { formatDistanceToNow } from 'date-fns';
+import fr from 'date-fns/locale/fr';
+import de from 'date-fns/locale/de';
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import DialogButton, { EditDialogButton } from '../../application/GenericDialog/DialogButton';
 import * as CommentDialog from '../../application/GenericDialog/Comment';
@@ -7,10 +9,15 @@ import { useUserEmail, useUserId } from '../../layout/hooks';
 import { isEmpty } from '../../../helpers';
 import { sortComments } from './helpers';
 import { useCommentsByParentId } from '../../../database/useComments';
+import { useCurrentLanguage, useT } from '../../../i18n';
+
+const DATE_FNS = { fr, de };
 
 const Comment = ({ mountDialog = true, sortOption, onRefresh = undefined, level = 0, ...props }) => {
   const { _id, parentId, authorName, content, createdAt, createdBy } = props;
 
+  const t = useT();
+  const lang = useCurrentLanguage();
   const isAdmin = useIsAdmin();
   const userId = useUserId();
   const signedIn = useIsAdmin();
@@ -64,8 +71,9 @@ const Comment = ({ mountDialog = true, sortOption, onRefresh = undefined, level 
               <Grid container justifyContent='flex-end' alignContent='flex-end' alignItems='flex-end' spacing={1}>
                 <Grid item xs={12} style={{ textAlign: 'right' }}>
                   <Typography align='right' color='textSecondary' variant='caption'>
-                    {isEmpty(parentId) ? 'Commented ' : 'Replied '}
-                    {formatDistanceToNow(createdAt, { addSuffix: true })}
+                    {isEmpty(parentId)
+                      ? t('Commented {{time}}', { time: formatDistanceToNow(createdAt, { addSuffix: true, locale: DATE_FNS[lang] }) })
+                      : t('Replied {{time}}', { time: formatDistanceToNow(createdAt, { addSuffix: true, locale: DATE_FNS[lang] }) })}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -73,7 +81,7 @@ const Comment = ({ mountDialog = true, sortOption, onRefresh = undefined, level 
                     {canEdit && (
                       <Grid item>
                         <EditDialogButton Module={CommentDialog} mount={mountDialog} initialValues={props} tooltip='' variant='link' onClose={onRefresh}>
-                          Edit
+                          {t('Edit')}
                         </EditDialogButton>
                       </Grid>
                     )}
@@ -87,7 +95,7 @@ const Comment = ({ mountDialog = true, sortOption, onRefresh = undefined, level 
                           variant='link'
                           mount={canEdit ? false : mountDialog}
                         >
-                          Reply
+                          {t('Reply')}
                         </DialogButton>
                       </Grid>
                     )}

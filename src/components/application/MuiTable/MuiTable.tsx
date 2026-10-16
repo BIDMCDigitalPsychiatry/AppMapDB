@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import { makeStyles } from '../../../styles/jss';
 import Draggable from 'react-draggable';
 import { calcColumnWidth } from './utils';
+import { useT } from '../../../i18n';
 
 const FOOTER_BORDER_HEIGHT = 1;
 
@@ -159,6 +160,7 @@ const useCellRenderer = ({
   resizable,
   cellProps: defaultCellProps
 }) => {
+  const t = useT();
   const [{ hoveredColumn, hoveredRowData }, setHovered] = React.useState({
     hoveredColumn: null,
     hoveredRowData: null
@@ -237,7 +239,7 @@ const useCellRenderer = ({
     const contents = (
       <div className={classes.cellContents}>
         <span style={{ flex: 'auto' }}>
-          {isHeader ? (column.header != null ? column.header : column.name) : column.cell ? column.cell(rowData) : rowData[column.name]}
+          {isHeader ? t(column.header != null ? column.header : column.name) : column.cell ? column.cell(rowData) : rowData[column.name]}
         </span>
         <span style={{ float: 'right' }}>
           {isHeader && resizable && columnIndex < columns.length - 1 && (

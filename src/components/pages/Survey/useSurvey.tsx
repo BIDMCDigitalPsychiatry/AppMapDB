@@ -5,8 +5,10 @@ import { useEffect } from 'react';
 import { useDatabaseRow } from '../../../database/useTableState';
 import { tables } from '../../../database/dbConfig';
 import useProcessData from '../../../database/useProcessData';
+import { useT } from '../../../i18n';
 
 const useSurvey = ({ type = 'create', trigger = false, values: Values = undefined } = {}) => {
+  const t = useT();
   const email = useUserEmail();
 
   var initialValues = Values ?? {};
@@ -100,7 +102,7 @@ const useSurvey = ({ type = 'create', trigger = false, values: Values = undefine
             onSuccess && onSuccess(result);
           },
           onError: err => {
-            alert('Error saving survey.');
+            alert(t('Error saving survey.'));
             console.error({ err });
             onError && onError(err);
           }
@@ -108,7 +110,7 @@ const useSurvey = ({ type = 'create', trigger = false, values: Values = undefine
       }
     },
     // eslint-disable-next-line
-    [values, JSON.stringify(values), email, type]
+    [values, JSON.stringify(values), email, type, t]
   );
 
   const handleDelete = React.useCallback(

@@ -3,6 +3,7 @@ import { Avatar, Box, Chip, Typography, useTheme } from '@mui/material';
 import GenericTableContainer, { GenericTableContainerProps } from '../GenericTableContainer';
 import { useTableFilter } from '../helpers';
 import { RegisteredUser } from '../../../../database/listRegisteredUsers';
+import { useT } from '../../../../i18n';
 
 /*
  * Read-only report of every registered Cognito account (self-registered app
@@ -25,6 +26,7 @@ const center = (node: React.ReactNode) => <div style={{ textAlign: 'center' }}>{
 
 const EmailCell = ({ email = '', status = '', enabled = true }) => {
   const { palette } = useTheme();
+  const t = useT();
   const inactive = enabled === false;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, minWidth: 0, opacity: inactive ? 0.55 : 1 }}>
@@ -43,8 +45,8 @@ const EmailCell = ({ email = '', status = '', enabled = true }) => {
       <Typography noWrap sx={{ fontWeight: 500 }}>
         {email}
       </Typography>
-      {status !== 'CONFIRMED' && <Chip label='unconfirmed' size='small' sx={{ height: 20 }} />}
-      {inactive && <Chip label='disabled' size='small' color='error' variant='outlined' sx={{ height: 20 }} />}
+      {status !== 'CONFIRMED' && <Chip label={t('unconfirmed')} size='small' sx={{ height: 20 }} />}
+      {inactive && <Chip label={t('disabled')} size='small' color='error' variant='outlined' sx={{ height: 20 }} />}
     </Box>
   );
 };
@@ -67,21 +69,23 @@ const RatingsCell = ({ ratings = undefined as number | undefined }) =>
 // emails, 'decimal' for numeric values — dates are epoch milliseconds and
 // rating counts are numbers, so both order numerically (never as strings);
 // missing values sort as 0.
-const useColumns = (statsSkipped: boolean) =>
-  React.useMemo(
+const useColumns = (statsSkipped: boolean) => {
+  const t = useT();
+  return React.useMemo(
     () => [
-      { name: 'email', header: 'Email', Cell: EmailCell, sort: 'textLower' },
-      { name: 'created', header: 'Registered', width: 130, Cell: DateCell('created'), sort: 'decimal' },
+      { name: 'email', header: t('Email'), Cell: EmailCell, sort: 'textLower' },
+      { name: 'created', header: t('Registered'), width: 130, Cell: DateCell('created'), sort: 'decimal' },
       ...(statsSkipped
         ? []
         : [
-            { name: 'ratings', header: 'Ratings', width: 100, Cell: RatingsCell, sort: 'decimal' },
-            { name: 'firstActivity', header: 'First Rating', width: 130, Cell: DateCell('firstActivity'), sort: 'decimal' },
-            { name: 'lastActivity', header: 'Last Activity', width: 130, Cell: DateCell('lastActivity'), sort: 'decimal' }
+            { name: 'ratings', header: t('Ratings'), width: 100, Cell: RatingsCell, sort: 'decimal' },
+            { name: 'firstActivity', header: t('First Rating'), width: 130, Cell: DateCell('firstActivity'), sort: 'decimal' },
+            { name: 'lastActivity', header: t('Last Activity'), width: 130, Cell: DateCell('lastActivity'), sort: 'decimal' }
           ])
     ],
-    [statsSkipped]
+    [statsSkipped, t]
   );
+};
 
 // Report rows -> table rows (sortable primitives per column name).
 const toRows = (users: RegisteredUser[]) =>

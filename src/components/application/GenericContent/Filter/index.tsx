@@ -28,8 +28,9 @@ import { useGetFilters } from '../../../../database/useFilterList';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
 import TableSearch from '../../GenericTable/TableSearch';
+import { useT, tx, tc } from '../../../../i18n';
 
-export const title = 'Apply Filters';
+export const title = tx('Apply Filters'); // also the dialog-state id: tx keeps it English
 const maxWidth = 400;
 const minWidth = 280;
 
@@ -38,16 +39,17 @@ const spacing = 6;
 function Content({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
   const { advanced } = values;
+  const t = useT();
   return (
     <Grid container style={{ maxWidth: 1000 }} justifyContent='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>Text Search</Typography>
+        <Typography variant='h6'>{t('Text Search')}</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
           {injectField('TextSearch')}
         </Grid>
         <Box mt={spacing / 2}>
-          <Typography variant='h6'>Engagement Style</Typography>
+          <Typography variant='h6'>{t('Engagement Style')}</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('Features')}
@@ -57,7 +59,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
         {advanced && (
           <>
             <Box mt={spacing / 2}>
-              <Typography variant='h6'>Interoperability</Typography>
+              <Typography variant='h6'>{t('Interoperability')}</Typography>
               <Divider style={{ marginBottom: 8 }} />
               <Grid container spacing={1}>
                 {injectField('Functionalities')}
@@ -68,7 +70,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
         )}
       </Grid>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>Accessibility</Typography>
+        <Typography variant='h6'>{t(tc('apa', 'Accessibility'))}</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
           {injectField('Platforms')}
@@ -77,7 +79,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
           {injectField('Conditions')}
         </Grid>
         <Box mt={spacing / 2}>
-          <Typography variant='h6'>Country Availability</Typography>
+          <Typography variant='h6'>{t('Country Availability')}</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('Countries')}
@@ -86,14 +88,14 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
         {advanced && (
           <>
             <Box mt={spacing / 2}>
-              <Typography variant='h6'>Clinical Foundation</Typography>
+              <Typography variant='h6'>{t('Clinical Foundation')}</Typography>
               <Divider style={{ marginBottom: 8 }} />
               <Grid container spacing={1}>
                 {injectField('ClinicalFoundations')}
               </Grid>
             </Box>
             <Box mt={spacing / 2}>
-              <Typography variant='h6'>Privacy</Typography>
+              <Typography variant='h6'>{t('Privacy')}</Typography>
               <Divider style={{ marginBottom: 8 }} />
               <Grid container spacing={1}>
                 {injectField('Privacy')}
@@ -107,6 +109,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
 }
 
 const FilterButtons = props => {
+  const t = useT();
   const handleChangeRoute = useHandleChangeRoute();
   const signedIn = useSignedIn();
   const { values, setValues, handleReset, advanced, handleToggleAdvanced } = props;
@@ -124,7 +127,7 @@ const FilterButtons = props => {
   }, [SavedFilterStr, setValues]);
 
   const handleSave = React.useCallback(() => {
-    var name = prompt('Enter a name to save current filters under.', filterName);
+    var name = prompt(t('Enter a name to save current filters under.'), filterName);
     if (name) {
       var Data = { ...values, uid, name, time: new Date().getTime() };
       if (name !== filterName) {
@@ -134,44 +137,44 @@ const FilterButtons = props => {
       }
       processData({ Model: tables.filters, Data });
     }
-  }, [uid, filterName, processData, values]);
+  }, [t, uid, filterName, processData, values]);
 
   const handleDelete = React.useCallback(() => {
-    var name = prompt('Enter name of filter to delete.', filterName);
+    var name = prompt(t('Enter name of filter to delete.'), filterName);
     if (name) {
       processData({ Action: 'd', Model: tables.filters, Data: { ...values, uid, name, time: new Date().getTime() }, onSuccess: getFilters });
     }
-  }, [getFilters, filterName, uid, processData, values]);
+  }, [t, getFilters, filterName, uid, processData, values]);
 
   return (
     <Grid container spacing={2} justifyContent='flex-end' alignItems='center'>
       <Grid item>
         <Button variant='outlined' size='small' onClick={handleReset}>
-          Reset
+          {t('Reset')}
         </Button>
       </Grid>
       <Grid item>
         <Button variant='outlined' size='small' onClick={handleToggleAdvanced}>
-          {`${advanced ? 'Hide' : 'Show'} Advanced Filters`}
+          {advanced ? t('Hide Advanced Filters') : t('Show Advanced Filters')}
         </Button>
       </Grid>
       {signedIn && (
         <>
           <Grid item>
             <Button size='small' variant='outlined' onClick={handleSave}>
-              Save Filter
+              {t('Save Filter')}
             </Button>
           </Grid>
           <Grid item>
             <Button size='small' variant='outlined' onClick={handleDelete}>
-              Delete Filter
+              {t('Delete Filter')}
             </Button>
           </Grid>
         </>
       )}
       <Grid item>
         <Button size='small' variant='contained' color='primary' onClick={handleChangeRoute(publicUrl('/Apps'))}>
-          Search
+          {t('Search')}
         </Button>
       </Grid>
     </Grid>
@@ -179,8 +182,11 @@ const FilterButtons = props => {
 };
 
 export default function FilterContent({ id = title, ...other }) {
+  const t = useT();
   const [values, setValues] = useTableFilterValues('Applications');
   const { advanced } = values;
+  // Option values stay English (they are matched and saved); only the displayed label is translated
+  const toItems = (values: string[]) => values.map(value => ({ value, label: t(value) }));
 
   const handleToggleAdvanced = React.useCallback(() => {
     setValues(prev => ({ ...prev, advanced: !prev.advanced }));
@@ -199,13 +205,13 @@ export default function FilterContent({ id = title, ...other }) {
     advanced,
     handleToggleAdvanced,
     submitLabel: null,
-    cancelLabel: 'Close',
+    cancelLabel: t('Close'),
     width,
     fields: [
       { id: 'advanced', initialValue: false, hidden: true },
       {
         id: 'SavedFilter',
-        label: 'Load from Saved Filters',
+        label: t('Load from Saved Filters'),
         Field: AutoCompleteSelect,
         items,
         style: { minWidth, maxWidth },
@@ -217,83 +223,90 @@ export default function FilterContent({ id = title, ...other }) {
         xs: 12,
         hidden: !signedIn
       },
-      { id: 'TextSearch', label: 'Text Search', Field: TableSearch },
+      { id: 'TextSearch', label: t('Text Search'), Field: TableSearch },
       {
         id: 'Platforms',
+        label: t('Platforms'), // previously fell back to the id; same English text
         Field: MultiSelectCheck,
-        items: Platforms.map(label => ({ value: label, label })),
+        items: toItems(Platforms),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Cost',
+        label: t('Cost'),
         Field: MultiSelectCheck,
-        items: Costs.map(label => ({ value: label, label })),
+        items: toItems(Costs),
         style: { minWidth, maxWidth }
       },
       {
         id: 'DeveloperTypes',
-        label: 'Developer Types',
+        label: t('Developer Types'),
         Field: MultiSelectCheck,
-        items: DeveloperTypes.map(label => ({ value: label, label })),
+        items: toItems(DeveloperTypes),
         style: { minWidth, maxWidth }
       },
       {
         id: 'TreatmentApproaches',
-        label: 'Treatment Approaches',
+        label: t('Treatment Approaches'),
         Field: MultiSelectCheck,
-        items: TreatmentApproaches.map(label => ({ value: label, label })),
+        items: toItems(TreatmentApproaches),
         style: { minWidth, maxWidth }
       },
 
       {
         id: 'Features',
+        label: t('Features'),
         Field: MultiSelectCheck,
-        items: Features.map(label => ({ value: label, label })),
+        items: toItems(Features),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Functionalities',
+        label: t('Functionalities'),
         Field: MultiSelectCheck,
-        items: Functionalities.map(label => ({ value: label, label })),
+        items: toItems(Functionalities),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Conditions',
-        label: 'Supported Conditions',
+        label: t('Supported Conditions'),
         Field: MultiSelectCheck,
-        items: Conditions.map(label => ({ value: label, label })),
+        items: toItems(Conditions),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Engagements',
+        label: t('Engagements'),
         Field: MultiSelectCheck,
-        items: Engagements.map(label => ({ value: label, label })),
+        items: toItems(Engagements),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Privacy',
+        label: t('Privacy'),
         Field: MultiSelectCheck,
-        items: Privacies.map(label => ({ value: label, label })),
+        items: toItems(Privacies),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Uses',
+        label: t('Uses'),
         Field: MultiSelectCheck,
-        items: VisibleUses.map(label => ({ value: label, label })),
+        items: toItems(VisibleUses),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Countries',
-        label: 'Country Availability',
+        label: t('Country Availability'),
         Field: MultiSelectCheck,
-        items: Countries.map(label => ({ value: label, label })),
+        items: toItems(Countries),
         style: { minWidth, maxWidth }
       },
       {
         id: 'ClinicalFoundations',
-        label: 'Evidence & Clinical Foundations',
+        label: t('Evidence & Clinical Foundations'),
         Field: MultiSelectCheck,
-        items: ClinicalFoundations.map(label => ({ value: label, label })),
+        items: toItems(ClinicalFoundations),
         style: { minWidth, maxWidth }
       }
     ],

@@ -1,7 +1,9 @@
 import { Button, Grid, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../../../i18n';
 
 export default function ProVersion({ handleRegisterPro }) {
+  const t = useT();
   return (
     <Grid
       container
@@ -17,13 +19,13 @@ export default function ProVersion({ handleRegisterPro }) {
     >
       <Grid item xs={12}>
         <Typography variant='h5' style={{ fontWeight: 900 }}>
-          Interested in the pro version?
+          {t('Interested in the pro version?')}
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Typography>Enables advanced search filters, such as:</Typography>
+        <Typography>{t('Enables advanced search filters, such as:')}</Typography>
         <Typography sx={{ mt: 1 }}>
-          Cost, Developer Type, Supported Conditions, Functionalities, Uses, Features, Engagements, Clinical Foundations, Inputs, Outputs and Privacy Options.
+          {t('Cost, Developer Type, Supported Conditions, Functionalities, Uses, Features, Engagements, Clinical Foundations, Inputs, Outputs and Privacy Options.')}
         </Typography>
       </Grid>
       {handleRegisterPro && (
@@ -37,7 +39,7 @@ export default function ProVersion({ handleRegisterPro }) {
                     color: 'primary.dark'
                   }}
                 >
-                  Sign Up for Pro Version
+                  {t('Sign Up for Pro Version')}
                 </Typography>
               </Grid>
               <Grid item>

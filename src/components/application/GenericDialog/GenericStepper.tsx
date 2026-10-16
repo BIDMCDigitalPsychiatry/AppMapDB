@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT, tx } from '../../../i18n';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
@@ -110,9 +111,9 @@ const GenericStepper = ({
   title: Title, // Title can be set via the state as well as the input props, state takes priority
   initialValues: InitialValues = {}, // If initial values are provided they are merged with the initial values from the state
   draggable = false,
-  cancelLabel = 'Cancel',
-  deleteLabel = 'Delete',
-  submitLabel = 'Finish',
+  cancelLabel = tx('Cancel') as string,
+  deleteLabel = tx('Delete') as string,
+  submitLabel = tx('Finish') as string,
   SubmitIcon = CheckIcon,
   maxWidth = 'xs',
   steps = [] as any[],
@@ -131,6 +132,7 @@ const GenericStepper = ({
   disableInitialize = undefined,
   ...other
 }: ComponentProps & any) => {
+  const t = useT();
   const { layout } = useTheme() as any;
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -187,7 +189,7 @@ const GenericStepper = ({
   const onSaveSuccess = React.useCallback(() => {
     handleReset();
     changeRoute(publicUrl('/MyRatings'));
-    alert('Draft saved!');
+    alert(t('Draft saved!'));
   }, [changeRoute, handleReset]);
 
   const handleSaveDraft = React.useCallback(() => {
@@ -233,12 +235,12 @@ const GenericStepper = ({
             <Grid container style={{ paddingLeft: 12, paddingRight: 12 }} alignItems='center'>
               <Grid item zeroMinWidth xs>
                 <Typography noWrap color='textPrimary' variant='body1'>
-                  {currentStep.label ? currentStep.label : currentStep.id}
+                  {t(currentStep.label ? currentStep.label : currentStep.id)}
                 </Typography>
               </Grid>
               {activeSteps.length > 1 && (
                 <Grid item>
-                  <Chip color='primary' label={`${activeStep + 1} of ${activeSteps.length}`} />
+                  <Chip color='primary' label={t('{{step}} of {{total}}', { step: activeStep + 1, total: activeSteps.length })} />
                 </Grid>
               )}
             </Grid>
@@ -277,13 +279,13 @@ const GenericStepper = ({
           <Grid container spacing={2} justifyContent='center' alignItems='center'>
             <Grid item>
               <Button onClick={handleConfirmDelete} color='secondary'>
-                Cancel
+                {t('Cancel')}
               </Button>
             </Grid>
             <Grid item>
               <Button onClick={handleDelete} className={classes.deleteButton}>
                 <DeleteIcon style={{ marginRight: 4 }} />
-                Confirm {deleteLabel}
+                {t('Confirm {{label}}', { label: t(deleteLabel) })}
               </Button>
             </Grid>
           </Grid>
@@ -301,13 +303,13 @@ const GenericStepper = ({
           nextButton={
             activeStep === activeSteps.length - 1 ? (
               <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
-                {submitLabel}
+                {t(submitLabel)}
                 <SubmitIcon style={{ marginLeft: 4 }} />
               </Button>
             ) : (
               <>
                 <Button color='primary' size='small' variant='contained' onClick={handleNext} disabled={disabled}>
-                  Next
+                  {t('Next')}
                   <KeyboardArrowRight />
                 </Button>
               </>
@@ -317,12 +319,12 @@ const GenericStepper = ({
             activeStep === 0 && type === 'Edit' && onDelete !== undefined ? (
               <Button className={classes.deleteButton} size='small' variant='contained' onClick={handleConfirmDelete} disabled={disabled}>
                 <DeleteIcon style={{ marginRight: 4 }} />
-                {deleteLabel}
+                {t(deleteLabel)}
               </Button>
             ) : (
               <Button size='small' onClick={handleBack} disabled={activeStep === 0 || disabled}>
                 <KeyboardArrowLeft />
-                Back
+                {t('Back')}
               </Button>
             )
           }

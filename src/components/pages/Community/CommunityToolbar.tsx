@@ -3,6 +3,7 @@ import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
 import { useUserEmail } from '../../layout/hooks';
 import InterestedRateApp from './InterestedRateApp';
+import { useT } from '../../../i18n';
 
 const spacing = 3;
 
@@ -18,13 +19,14 @@ const useStyles = makeStyles(({ palette }) =>
 );
 
 const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreeting = false, buttons = [], showInterested = false }) => {
+  const t = useT();
   const email = useUserEmail();
   const classes = useStyles();
 
   const SubTitle = showGreeting ? (
-    <Typography variant='body2'>{email ? `Hello, ${email}` : 'Hello'}</Typography>
+    <Typography variant='body2'>{email ? t('Hello, {{email}}', { email }) : t('Hello')}</Typography>
   ) : subtitle ? (
-    <Typography variant='body2'>{subtitle}</Typography>
+    <Typography variant='body2'>{t(subtitle)}</Typography>
   ) : (
     <></>
   );
@@ -40,7 +42,7 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
               <Grid item>
                 {title && (
                   <Typography color='textPrimary' variant='h4' className={classes.primaryHeaderText}>
-                    {title}
+                    {t(title)}
                   </Typography>
                 )}
                 {SubTitle}
@@ -51,7 +53,7 @@ const CommunityToolbar = ({ title = undefined, subtitle = undefined, showGreetin
                     ({ label, color = 'primary', size = 'large', startIcon = undefined, variant = 'outlined', onClick = undefined, ...other }: any) => (
                       <Grid item key={label}>
                         <Button color={color} size={size} startIcon={startIcon} onClick={onClick} variant='outlined' {...other}>
-                          {label}
+                          {t(label)}
                         </Button>
                       </Grid>
                     )

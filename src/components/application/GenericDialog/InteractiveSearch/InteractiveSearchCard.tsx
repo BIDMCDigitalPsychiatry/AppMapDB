@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Collapse, Grid, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import IntroVideo from '../../../layout/IntroVideo';
+import { useT } from '../../../../i18n';
 
 export const title = 'Interactive Search';
 
@@ -28,6 +29,7 @@ const height = 32;
 export const internalKeys = ['Free', 'YesNoPrivacy', 'YesNoFunctionality', 'YesNoSpanish', 'YesNoOffline', 'YesNoClinicalFoundation'];
 
 export default function InteractiveSearchCard({ id = title, onClose = undefined, state, setState, handleSearch, ...other }) {
+  const t = useT();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -64,7 +66,7 @@ export default function InteractiveSearchCard({ id = title, onClose = undefined,
             onClick={handleOpen}
           >
             {open ? <Icons.Close sx={{ fontSize: 18 }} /> : <Icons.PlayCircleOutline sx={{ fontSize: 18 }} />}
-            <Typography sx={{ fontWeight: 600, fontSize: 14 }}>{open ? 'Close video' : 'Not sure? Watch this short video!'}</Typography>
+            <Typography sx={{ fontWeight: 600, fontSize: 14 }}>{open ? t('Close video') : t('Not sure? Watch this short video!')}</Typography>
           </Box>
         </Grid>
       </Grid>

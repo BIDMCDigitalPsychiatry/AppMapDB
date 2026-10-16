@@ -5,12 +5,14 @@ import useProcessData from '../../../../database/useProcessData';
 import { isEmpty } from '../../../../helpers';
 import WholeNumberUpDown from '../../DialogField/WholeNumberUpDown';
 import useValues from '../../../pages/Team/useValues';
+import { useT, tx } from '../../../../i18n';
 
-export const title = 'Sort Key';
+export const title = tx('Sort Key');
 
 export default function SortKeyDialog({ id = title, onClose, handleRefresh }) {
   const [{ open, initialValues }, setState] = useDialogState(id);
   const { _id } = initialValues;
+  const t = useT();
 
   const { values, loading, handleSave } = useValues({ type: 'edit', values: initialValues, trigger: open && !isEmpty(_id) });
 
@@ -27,7 +29,7 @@ export default function SortKeyDialog({ id = title, onClose, handleRefresh }) {
       setState(prev => ({ ...prev, loading: true }));
       handleSave({
         values: { ...values, sortKey },
-        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onError: () => setState(prev => ({ ...prev, loading: false, error: t('Error submitting values') })),
         onSuccess: () => {
           setState(prev => ({ ...prev, loading: false }));
           handleClose();
@@ -44,7 +46,7 @@ export default function SortKeyDialog({ id = title, onClose, handleRefresh }) {
       title={id}
       loading={loading}
       onSubmit={handleSubmit}
-      submitLabel='Update Sort Key'
+      submitLabel={tx('Update Sort Key')}
       onClose={onClose}
       initialValues={{
         _id,
@@ -61,7 +63,7 @@ export default function SortKeyDialog({ id = title, onClose, handleRefresh }) {
           min: 0,
           max: 99999,
           margin: 'normal',
-          label: 'Sort Key (Leave blank or enter a larger number to move up)'
+          label: tx('Sort Key (Leave blank or enter a larger number to move up)')
         }
       ]}
     />

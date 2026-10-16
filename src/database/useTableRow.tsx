@@ -2,6 +2,7 @@ import * as React from 'react';
 import { tables } from './dbConfig';
 import { isEmpty } from '../helpers';
 import useProcessData from './useProcessData';
+import { tx } from '../i18n';
 
 export default function useTableRow({
   Model = tables.events,
@@ -28,7 +29,7 @@ export default function useTableRow({
           Model,
           Action: 'r',
           Data: { id },
-          onError: response => setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response })),
+          onError: response => setState(prev => ({ ...prev, loading: false, error: tx('Error reading values'), response })),
           onSuccess: response => {
             setState(prev => ({ ...prev, loading: false, error: undefined, response }));
             onSuccess && onSuccess(response);
@@ -60,7 +61,7 @@ export default function useTableRow({
           Action: 'u',
           Data: { ...prevValues, id, ...values },
           onError: response => {
-            setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
+            setState(prev => ({ ...prev, loading: false, error: tx('Error reading values'), response }));
             onError && onError(response);
           },
           onSuccess: response => {
@@ -86,7 +87,7 @@ export default function useTableRow({
           Action: 'u',
           Data: { ...prev, id, ...values },
           onError: response => {
-            setState(prev => ({ ...prev, loading: false, error: 'Error reading values', response }));
+            setState(prev => ({ ...prev, loading: false, error: tx('Error reading values'), response }));
             onError && onError(response);
           },
           onSuccess: response => {

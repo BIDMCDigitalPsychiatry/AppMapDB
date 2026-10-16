@@ -32,6 +32,8 @@ import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin, useIsSuperAdmin, useIsSubmissionReviewer, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
+import LanguageSelector from '../../i18n/LanguageSelector';
+import { useT, tx } from '../../i18n';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
@@ -104,17 +106,18 @@ const useStyles = makeStyles(({ breakpoints, palette, layout }: any) =>
 );
 
 const useTabs = () => {
+  const t = useT();
   const [, setTabSelector] = useTabSelector('CommunitySelector');
   const handleClick = React.useCallback(() => {
     setTabSelector({ value: 'News' });
   }, [setTabSelector]);
   return [
-    { id: 'Application Library', icon: Icons.Apps, route: '/Apps', routes: ['/', '', '/Home', '/Apps'] },
-    { id: 'My Ratings', icon: Icons.RateReview, route: '/MyRatings' },
-    { id: 'Admin', icon: Icons.Dashboard, route: '/Admin', routeState: { subRoute: 'pending' } },
-    { id: 'Framework', icon: Icons.Description, route: '/FrameworkQuestions' },
-    { id: 'Community', icon: Icons.Forum, route: '/Community', routeState: { subRoute: 'list', category: 'News' }, onClick: handleClick }
-  ].filter(t => t);
+    { id: 'Application Library', label: t('Application Library'), icon: Icons.Apps, route: '/Apps', routes: ['/', '', '/Home', '/Apps'] },
+    { id: 'My Ratings', label: t('My Ratings'), icon: Icons.RateReview, route: '/MyRatings' },
+    { id: 'Admin', label: t('Admin'), icon: Icons.Dashboard, route: '/Admin', routeState: { subRoute: 'pending' } },
+    { id: 'Framework', label: t('Framework'), icon: Icons.Description, route: '/FrameworkQuestions' },
+    { id: 'Community', label: t('Community'), icon: Icons.Forum, route: '/Community', routeState: { subRoute: 'list', category: 'News' }, onClick: handleClick }
+  ].filter(tab => tab);
 };
 
 const id = 'AppBar';
@@ -143,6 +146,7 @@ const AppBarTabSelector = props => {
 
 export default function ApplicationBar({ trigger }) {
   const classes = useStyles();
+  const t = useT();
   const [{ open: registerOpen }, setRegisterState] = useDialogState(RegisterDialog.title);
   const [{ open: registerProOpen }, setRegisterProState] = useDialogState(RegisterProDialog.title);
   const [{ open: signUpSurveyOpen }, setSignUpSurveyState] = useDialogState(SignUpSurveyDialog.title);
@@ -271,7 +275,7 @@ export default function ApplicationBar({ trigger }) {
                     grouped tight as one cluster, distinct from the logo. */}
                 <Grid item>
                   <IconButton
-                    aria-label='open navigation menu'
+                    aria-label={t('open navigation menu')}
                     edge='start'
                     onClick={() => setNavDrawerOpen(true)}
                     className={classes.menuButton}
@@ -283,7 +287,7 @@ export default function ApplicationBar({ trigger }) {
                 {leftDrawerEnabled && (
                   <Grid item>
                     <IconButton
-                      aria-label='toggle filter panel'
+                      aria-label={t('toggle filter panel')}
                       onClick={handleOpenLeftDrawer}
                       className={classes.menuButton}
                       style={{ marginLeft: -8 }}
@@ -297,7 +301,10 @@ export default function ApplicationBar({ trigger }) {
                   <Logo condensed autoHide={false} showText={false} />
                 </Grid>
                 <Grid item>
-                  <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
+                  <LanguageSelector />
+                </Grid>
+                <Grid item>
+                  <IconButton color='inherit' aria-label={t('account of current user')} aria-haspopup='true' onClick={handleMenu} size='large'>
                     {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
                   </IconButton>
                 </Grid>
@@ -306,7 +313,7 @@ export default function ApplicationBar({ trigger }) {
               <Grid container alignItems='center' spacing={0}>
                 {leftDrawerEnabled && (
                   <Grid item>
-                    <IconButton aria-label='toggle filter panel' edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
+                    <IconButton aria-label={t('toggle filter panel')} edge='start' onClick={handleOpenLeftDrawer} className={classes.menuButton} size='large'>
                       <Icons.FilterList />
                     </IconButton>
                   </Grid>
@@ -321,7 +328,7 @@ export default function ApplicationBar({ trigger }) {
                   <Grid container justifyContent='flex-end' alignItems='center'>
                     {isAppsPage && (
                       <Grid item>
-                        <ButtonGroup variant='contained' aria-label='version button group'>
+                        <ButtonGroup variant='contained' aria-label={t('version button group')}>
                           <Button
                             sx={{
                               '&:hover': {
@@ -331,7 +338,7 @@ export default function ApplicationBar({ trigger }) {
                             color={version === 'lite' ? 'primary' : 'secondary'}
                             onClick={handleChangeVersion({ version: 'lite' })}
                           >
-                            Lite Version
+                            {t('Lite Version')}
                           </Button>
                           <Button
                             sx={{
@@ -343,13 +350,16 @@ export default function ApplicationBar({ trigger }) {
                             onClick={handleChangeVersion({ version: 'full' })}
                           >
                             {/*<Icons.Lock sx={{ fontSize: 16, mr: 0.5 }} />*/}
-                            Pro Version
+                            {t('Pro Version')}
                           </Button>
                         </ButtonGroup>
                       </Grid>
                     )}
                     <Grid item>
-                      <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
+                      <LanguageSelector />
+                    </Grid>
+                    <Grid item>
+                      <IconButton color='inherit' aria-label={t('account of current user')} aria-haspopup='true' onClick={handleMenu} size='large'>
                         {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
                       </IconButton>
                     </Grid>
@@ -381,13 +391,13 @@ export default function ApplicationBar({ trigger }) {
                               </MenuItem>,
                               <Divider key='divider' />,
                               <MenuItem key='export-sign-up-surveys' onClick={handleExportSignUpSurveys}>
-                                Export Sign Up Surveys
+                                {t('Export Sign Up Surveys')}
                               </MenuItem>,
                               <MenuItem key='export-pwa-usage' onClick={handleExportPwaUsage}>
-                                Export PWA Usage
+                                {t('Export PWA Usage')}
                               </MenuItem>,
                               <MenuItem key='logout' onClick={handleLogout}>
-                                Logout
+                                {t('Logout')}
                               </MenuItem>
                             ]
                           : [
@@ -396,17 +406,17 @@ export default function ApplicationBar({ trigger }) {
                               </MenuItem>,
                               <Divider key='divider' />,
                               <MenuItem key='logout' onClick={handleLogout}>
-                                Logout
+                                {t('Logout')}
                               </MenuItem>
                             ]
                         : [
-                            { label: 'Login', Module: LoginDialog, onClick: handleClose },
+                            { label: tx('Login'), Module: LoginDialog, onClick: handleClose },
                             //{ label: 'Sign Up for Pro Version', Module: RegisterProDialog, onClick: handleClose },
-                            { label: 'Sign Up for App Rater', Module: RegisterDialog, onClick: handleClose }
+                            { label: tx('Sign Up for App Rater'), Module: RegisterDialog, onClick: handleClose }
                             // { label: 'Take Tour', onClick: handleTour }
                           ].map(({ label, Module, onClick }) => (
                             <DialogButton key={label} Module={Module} onClick={onClick} variant='menuitem' tooltip='' mount={false}>
-                              {label}
+                              {t(label)}
                             </DialogButton>
                           ))}
                     </Menu>
@@ -419,37 +429,40 @@ export default function ApplicationBar({ trigger }) {
         </div>
         <Divider />
         <List>
-          {visibleTabs.map(t => {
-            const active = (t.routes ?? [t.route]).some(r => r?.toLowerCase() === pathname.toLowerCase());
+          {visibleTabs.map(tab => {
+            const active = (tab.routes ?? [tab.route]).some(r => r?.toLowerCase() === pathname.toLowerCase());
             return (
               <ListItemButton
-                key={t.id}
+                key={tab.id}
                 className={`${classes.navListItem} ${active ? classes.navListItemActive : ''}`}
                 onClick={() => {
                   closeNavDrawer();
-                  t.onClick && t.onClick();
-                  handleTabChange(t.id);
+                  tab.onClick && tab.onClick();
+                  handleTabChange(tab.id);
                 }}
               >
                 <ListItemIcon>
-                  <t.icon />
+                  <tab.icon />
                 </ListItemIcon>
-                <ListItemText primary={t.id} />
+                <ListItemText primary={tab.label} />
               </ListItemButton>
             );
           })}
         </List>
+        <Divider />
+        <Typography className={classes.navSectionLabel}>{t('Language')}</Typography>
+        <LanguageSelector variant='list' />
         {isAppsPage && (
           <>
             <Divider />
-            <Typography className={classes.navSectionLabel}>Version</Typography>
+            <Typography className={classes.navSectionLabel}>{t('Version')}</Typography>
             <Box sx={{ px: 2, pb: 2 }}>
-              <ButtonGroup variant='outlined' fullWidth aria-label='version button group'>
+              <ButtonGroup variant='outlined' fullWidth aria-label={t('version button group')}>
                 <Button color={version === 'lite' ? 'primary' : 'inherit'} onClick={handleChangeVersion({ version: 'lite' })}>
-                  Lite
+                  {t('Lite')}
                 </Button>
                 <Button color={version !== 'lite' ? 'primary' : 'inherit'} onClick={handleChangeVersion({ version: 'full' })}>
-                  Pro
+                  {t('Pro')}
                 </Button>
               </ButtonGroup>
             </Box>

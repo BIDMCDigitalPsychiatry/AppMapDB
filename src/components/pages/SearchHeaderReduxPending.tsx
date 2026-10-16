@@ -8,6 +8,7 @@ import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import { useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
 import { useHeaderHeightSetRef } from '../layout/hooks';
+import { useT, tx } from '../../i18n';
 
 const padding = 32;
 const spacing = 1;
@@ -53,7 +54,8 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
   })
 );
 const tableId = 'Applications';
-export default function SearchHeaderReduxPending({ title = 'Pending Approvals', showArchived = undefined, onToggleArchive = undefined }) {
+export default function SearchHeaderReduxPending({ title = tx('Pending Approvals'), showArchived = undefined, onToggleArchive = undefined }) {
+  const t = useT();
   const [searchtext, setSearchText] = useTableSearchText(tableId);
   const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
 
@@ -82,12 +84,12 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
         <Grid container justifyContent='space-between'>
           <Grid item xs>
             <Typography variant='h1' className={classes.primaryText}>
-              {title}
+              {t(title)}
             </Typography>
           </Grid>
           <Grid item>
             <Button className={classes.primaryButton} onClick={onToggleArchive}>
-              {showArchived ? 'Hide Archived' : 'Show Archived'}
+              {showArchived ? t('Hide Archived') : t('Show Archived')}
             </Button>
           </Grid>
         </Grid>
@@ -97,14 +99,14 @@ export default function SearchHeaderReduxPending({ title = 'Pending Approvals', 
           <Grid item xs={12} sm>
             <Grid container spacing={spacing}>
               <Grid item xs>
-                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
+                <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder={t('Search by name, company, feature or platform')} />
               </Grid>
               {!fullScreen && (
                 <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
                   <MultiSelectCheck
                     value={filters['Platforms']}
                     onChange={handleChange('Platforms')}
-                    placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                    placeholder={filters['Platforms']?.length > 0 ? t('Platforms') : t('All Platforms')}
                     InputProps={{ style: { background: 'white' } }}
                     items={Platforms.map(label => ({ value: label, label })) as any}
                     fullWidth={true}

@@ -11,6 +11,7 @@ import SnackbarContent from '@mui/material/SnackbarContent';
 import WarningIcon from '@mui/icons-material/Warning';
 import { useSnackBar } from './useSnackBar';
 import { makeStyles } from '../../../styles/jss';
+import { useT } from '../../../i18n';
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
@@ -45,6 +46,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SnackBar({ className = undefined, ...other }) {
+  const t = useT();
   const classes = useStyles();
   const [{ open, message, variant = 'success' }, setSnackBar] = useSnackBar();
   const handleClose = React.useCallback((event, reason) => reason !== 'clickaway' && setSnackBar({ open: false }), [setSnackBar]);
@@ -65,11 +67,11 @@ export default function SnackBar({ className = undefined, ...other }) {
         message={
           <span id='client-snackbar' className={classes.message}>
             <Icon className={clsx(classes.icon, classes.iconVariant)} />
-            {message}
+            {t(message)}
           </span>
         }
         action={[
-          <IconButton key='close' aria-label='close' color='inherit' onClick={handleClose as any} size='large'>
+          <IconButton key='close' aria-label={t('close')} color='inherit' onClick={handleClose as any} size='large'>
             <CloseIcon className={classes.icon} />
           </IconButton>
         ]}

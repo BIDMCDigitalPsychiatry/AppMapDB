@@ -5,10 +5,12 @@ import { publicUrl } from '../../helpers';
 import { useSignedInRater } from '../../hooks';
 import ReactPlayer from 'react-player';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import { useT } from '../../i18n';
 
 import { zoom0VideoUrl as contentPath } from '../../content/videos';
 
 export default function RateNewAppIntro() {
+  const t = useT();
   const handleChangeRoute = useHandleChangeRoute();
   const signedInRater = useSignedInRater();
   const width = useWidth();
@@ -16,12 +18,12 @@ export default function RateNewAppIntro() {
   return (
     <Box pt={2}>
       <Typography variant='h4' align='center'>
-        {`Rate a New App`}
+        {t('Rate a New App')}
       </Typography>
       <Divider />
       <Box mt={3}>
         <Typography variant='h6' align='center'>
-          {`Rating an app is an interactive process. Raters will be prompted through 105 different questions about an app and its features, privacy settings, clinical foundation, and more. For more information about how to become an app rater, please contact:`}
+          {t('Rating an app is an interactive process. Raters will be prompted through 105 different questions about an app and its features, privacy settings, clinical foundation, and more. For more information about how to become an app rater, please contact:')}
           <Typography variant='h6' align='center' noWrap component='div'>
             <Link href='mailto:slagan@bidmc.harvard.edu' target='_blank'>
               slagan@bidmc.harvard.edu
@@ -32,7 +34,7 @@ export default function RateNewAppIntro() {
       <Box mt={3} mb={3}>
         <Typography align='center'>
           <Button disabled={!signedInRater} size='large' color='primary' variant='contained' onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
-            Begin Rating
+            {t('Begin Rating')}
           </Button>
         </Typography>
       </Box>
@@ -41,7 +43,7 @@ export default function RateNewAppIntro() {
         <Grid container justifyContent='center'>
           <Grid item xs={12}>
             <Typography variant='h6' align='center'>
-              Instructional Video
+              {t('Instructional Video')}
             </Typography>
           </Grid>
           <Grid item style={{ paddingTop: 16 }} xs={12}>

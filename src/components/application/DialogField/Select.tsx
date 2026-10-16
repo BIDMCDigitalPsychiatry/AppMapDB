@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormControl, InputLabel, Select as MuiSelect, FormHelperText, MenuItem } from '@mui/material';
 import { isError, setIfEmpty } from '../../../helpers';
+import { useT } from '../../../i18n';
 
 export interface ComponentProps {
   label?: string;
@@ -24,18 +25,19 @@ const Select = ({
   multiple = false,
   ...other
 }: ComponentProps & any) => {
+  const t = useT();
   const labelId = `select-${label}`;
   return (
     <FormControl variant={variant} required={required} error={isError(error)} fullWidth margin={margin}>
-      <InputLabel id={labelId}>{label}</InputLabel>
-      <MuiSelect labelId={labelId} label={label} labelWidth={100} value={setIfEmpty(value)} {...other}>
+      <InputLabel id={labelId}>{t(label)}</InputLabel>
+      <MuiSelect labelId={labelId} label={t(label)} labelWidth={100} value={setIfEmpty(value)} {...other}>
         {items.map((item, i) => (
           <MenuItem key={i} value={multiple ? item : item.value}>
-            {item.label}
+            {t(item.label)}
           </MenuItem>
         ))}
       </MuiSelect>
-      {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
+      {(forceErrorMargin || error) && <FormHelperText>{t(error)}</FormHelperText>}
     </FormControl>
   );
 };

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useProcessData } from '../../../../database/useProcessData';
 import { useRoster, RosterUser } from '../../../../database/useUsers';
 import { updateSnackBar } from '../../SnackBar/store';
+import { useT } from '../../../../i18n';
 
 /*
  * Shared actions for the Users roster table (PLAN_MODERNIZATION.md §2).
@@ -13,6 +14,7 @@ export const useRosterActions = () => {
   const roster = useRoster();
   const processData = useProcessData();
   const dispatch = useDispatch();
+  const t = useT();
   const myEmail = String(useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '')).toLowerCase();
 
   const users = React.useMemo(() => (Object.values(roster) as RosterUser[]).filter(u => u && u.email), [roster]);
@@ -28,43 +30,43 @@ export const useRosterActions = () => {
         Action: action,
         // The roster store (and users table) key by email, so _id = email.
         Data: { ...user, email, _id: email },
-        onError: (response: any) => fail(response?.error ?? 'Update failed')
+        onError: (response: any) => fail(response?.error ?? t('Update failed'))
       });
     },
-    [processData, fail]
+    [processData, fail, t]
   );
 
   const toggleRole = React.useCallback(
     (user: RosterUser, role: string) => {
       const has = (user.roles ?? []).includes(role);
-      if (role === 'superadmin' && has && user.email === myEmail) return fail('You cannot remove your own Super Admin role');
-      if (role === 'superadmin' && has && activeCount('superadmin') <= 1) return fail('Cannot remove the last active Super Admin');
-      if (role === 'admin' && has && user.email === myEmail) return fail('You cannot remove your own admin role');
-      if (role === 'admin' && has && activeCount('admin') <= 1) return fail('Cannot remove the last active admin');
+      if (role === 'superadmin' && has && user.email === myEmail) return fail(t('You cannot remove your own Super Admin role'));
+      if (role === 'superadmin' && has && activeCount('superadmin') <= 1) return fail(t('Cannot remove the last active Super Admin'));
+      if (role === 'admin' && has && user.email === myEmail) return fail(t('You cannot remove your own admin role'));
+      if (role === 'admin' && has && activeCount('admin') <= 1) return fail(t('Cannot remove the last active admin'));
       save({ ...user, roles: has ? (user.roles ?? []).filter(r => r !== role) : [...(user.roles ?? []), role] });
     },
-    [myEmail, activeCount, save, fail]
+    [myEmail, activeCount, save, fail, t]
   );
 
   const toggleActive = React.useCallback(
     (user: RosterUser) => {
       const deactivating = user.active !== false;
-      if (deactivating && user.email === myEmail) return fail('You cannot deactivate your own account');
-      if (deactivating && (user.roles ?? []).includes('superadmin') && activeCount('superadmin') <= 1) return fail('Cannot deactivate the last active Super Admin');
-      if (deactivating && (user.roles ?? []).includes('admin') && activeCount('admin') <= 1) return fail('Cannot deactivate the last active admin');
+      if (deactivating && user.email === myEmail) return fail(t('You cannot deactivate your own account'));
+      if (deactivating && (user.roles ?? []).includes('superadmin') && activeCount('superadmin') <= 1) return fail(t('Cannot deactivate the last active Super Admin'));
+      if (deactivating && (user.roles ?? []).includes('admin') && activeCount('admin') <= 1) return fail(t('Cannot deactivate the last active admin'));
       save({ ...user, active: deactivating ? false : true });
     },
-    [myEmail, activeCount, save, fail]
+    [myEmail, activeCount, save, fail, t]
   );
 
   const deleteUser = React.useCallback(
     (user: RosterUser) => {
-      if (user.email === myEmail) return fail('You cannot delete your own account');
-      if (user.active !== false && (user.roles ?? []).includes('superadmin') && activeCount('superadmin') <= 1) return fail('Cannot delete the last active Super Admin');
-      if (user.active !== false && (user.roles ?? []).includes('admin') && activeCount('admin') <= 1) return fail('Cannot delete the last active admin');
+      if (user.email === myEmail) return fail(t('You cannot delete your own account'));
+      if (user.active !== false && (user.roles ?? []).includes('superadmin') && activeCount('superadmin') <= 1) return fail(t('Cannot delete the last active Super Admin'));
+      if (user.active !== false && (user.roles ?? []).includes('admin') && activeCount('admin') <= 1) return fail(t('Cannot delete the last active admin'));
       save(user, 'd');
     },
-    [myEmail, activeCount, save, fail]
+    [myEmail, activeCount, save, fail, t]
   );
 
   const addUser = React.useCallback(

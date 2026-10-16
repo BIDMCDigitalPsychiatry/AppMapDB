@@ -3,23 +3,28 @@ import logo from '../../images/logo_no_text_large.png';
 import { usePwaActions } from './store';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import { useT } from '../../i18n';
 
 const headerFontSize = 48;
 const textFontSize = 24;
 export const buttonWidth = 140;
 export const buttonMinHeight = 60;
 
-const Header = ({ xs = undefined }) => (
-  <Stack spacing={0}>
-    <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: xs ? headerFontSize - 8 : headerFontSize, textAlign: 'center' }}>Welcome to</Box>
-    <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: xs ? headerFontSize - 8 : headerFontSize, textAlign: 'center' }}>MINDapps!</Box>
-    <Box sx={{ mt: 1 }}>
-      <Divider sx={{ backgroundColor: 'primary.main', height: 6 }} />
-    </Box>
-  </Stack>
-);
+const Header = ({ xs = undefined }) => {
+  const t = useT();
+  return (
+    <Stack spacing={0}>
+      <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: xs ? headerFontSize - 8 : headerFontSize, textAlign: 'center' }}>{t('Welcome to')}</Box>
+      <Box sx={{ color: 'primary.dark', fontWeight: 700, fontSize: xs ? headerFontSize - 8 : headerFontSize, textAlign: 'center' }}>MINDapps!</Box>
+      <Box sx={{ mt: 1 }}>
+        <Divider sx={{ backgroundColor: 'primary.main', height: 6 }} />
+      </Box>
+    </Stack>
+  );
+};
 
 const StartButton = () => {
+  const t = useT();
   const { next } = usePwaActions();
   return (
     <Button
@@ -37,12 +42,13 @@ const StartButton = () => {
         width: buttonWidth
       }}
     >
-      START QUIZ
+      {t('START QUIZ')}
     </Button>
   );
 };
 
 const SearchButton = () => {
+  const t = useT();
   const { search } = usePwaActions();
   return (
     <Button
@@ -60,12 +66,13 @@ const SearchButton = () => {
         width: buttonWidth
       }}
     >
-      SEARCH APPS
+      {t('SEARCH APPS')}
     </Button>
   );
 };
 
 const HorizontalButtons = () => {
+  const t = useT();
   const xs = useMediaQuery('(max-width:800px)');
   const xs2 = useMediaQuery('(max-width:625px)');
   return (
@@ -75,7 +82,7 @@ const HorizontalButtons = () => {
       </Grid>
       {!xs2 && (
         <Grid item sx={{ fontWeight: 'bold' }}>
-          OR
+          {t('OR')}
         </Grid>
       )}
       <Grid item>
@@ -86,6 +93,7 @@ const HorizontalButtons = () => {
 };
 
 const VerticalButtons = () => {
+  const t = useT();
   const xs = useMediaQuery('(max-width:340px)');
   return (
     <Grid container spacing={1.5} justifyContent='center' alignItems='center'>
@@ -95,7 +103,7 @@ const VerticalButtons = () => {
 
       {!xs && (
         <Grid item sx={{ fontWeight: 'bold' }}>
-          OR
+          {t('OR')}
         </Grid>
       )}
 
@@ -107,6 +115,7 @@ const VerticalButtons = () => {
 };
 
 const HorizontalLayout = () => {
+  const t = useT();
   const xs = useMediaQuery('(max-width:800px)');
   return (
     <Stack spacing={0} alignItems='center' justifyContent='space-evenly' height='100vh' px={2}>
@@ -116,7 +125,7 @@ const HorizontalLayout = () => {
         </Grid>
         <Grid item xs>
           <Box sx={{ fontSize: xs ? textFontSize - 4 : textFontSize, textAlign: 'center' }}>
-            Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
+            {t('Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.')}
           </Box>
           <Box sx={{ mt: 4, textAlign: 'center' }}>
             <HorizontalButtons />
@@ -128,12 +137,13 @@ const HorizontalLayout = () => {
 };
 
 const VerticalLayout = () => {
+  const t = useT();
   return (
     <Stack spacing={0} alignItems='center' justifyContent='space-evenly' height='100vh'>
       <Box sx={{ px: 1 }}>
         <Header />
         <Box sx={{ fontSize: textFontSize, textAlign: 'center', maxWidth: 400, pt: 2 }}>
-          Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.
+          {t('Answer a few questions, and we will recommend mental health apps that meet your needs and preferences.')}
         </Box>
       </Box>
       <img src={logo} alt='mindapp' style={{ width: 180 }} />

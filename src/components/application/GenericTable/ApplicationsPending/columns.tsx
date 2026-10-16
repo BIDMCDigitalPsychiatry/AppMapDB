@@ -5,6 +5,7 @@ import { Typography } from '@mui/material';
 import { getDayTimeFromTimestamp } from '../../../../helpers';
 import AppSummary from '../Applications/AppSummary';
 import { useRaterLabel } from '../Applications/RaterEmail';
+import { useT } from '../../../../i18n';
 
 export const name = 'Applications';
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
@@ -20,25 +21,30 @@ const LastUpdated = ({ updated }) => (
   </Typography>
 );
 
-const RatedBy = ({ email }) => (
-  <Typography variant='body2' color='textSecondary'>
-    {useRaterLabel(email)}
-  </Typography>
-);
+const RatedBy = ({ email }) => {
+  const t = useT();
+  const raterLabel = useRaterLabel(email);
+  return (
+    <Typography variant='body2' color='textSecondary'>
+      {t(raterLabel)}
+    </Typography>
+  );
+};
 
 export const useColumns = ({ email }) => {
+  const t = useT();
   const columns = [
-    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummary, hoverable: false, sort: 'textLower' },
-    { name: 'email', header: 'Rated By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
+    { name: 'app', header: t('Application'), minWidth: 300, Cell: AppSummary, hoverable: false, sort: 'textLower' },
+    { name: 'email', header: t('Rated By'), width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
-      header: 'Last MINDapps evaluation',
+      header: t('Last MINDapps evaluation'),
       width: 225,
       Cell: LastUpdated,
       hoverable: false,
       sort: 'decimal'
     },
-    { name: 'rating', header: 'Rating', width: 180, Cell: RatingsColumnPending, hoverable: false }
+    { name: 'rating', header: t('Rating'), width: 180, Cell: RatingsColumnPending, hoverable: false }
   ];
 
   return columns;

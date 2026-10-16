@@ -10,6 +10,7 @@ import { getAndroidIdFromUrl, getAppleIdFromUrl, isEmpty } from '../../../../../
 import { useHandleChange } from '../../helpers';
 import { googlePlayProxyUrl } from '../../../../../constants';
 import Axios from 'axios';
+import { useT, tx } from '../../../../../i18n';
 
 async function getAppInfo(appId, type) {
   const { data } = await Axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}`);
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme: any) => ({
 const labelMap = {
   iOS: 'Apple Store',
   Android: 'Google Play Store',
-  Web: 'Web'
+  Web: tx('Web')
 };
 
 const iconMap = {
@@ -65,6 +66,7 @@ const keyMap = {
 };
 
 export const ApplicationTabs = ({ state, values, injectField, fields, setValues, setState }) => {
+  const t = useT();
   const classes = useStyles();
 
   const handleChange = useHandleChange(setValues);
@@ -125,7 +127,7 @@ export const ApplicationTabs = ({ state, values, injectField, fields, setValues,
       {values.applications.platforms.map(
         (p, i) =>
           tab === i &&
-          !loading && <div key={p}>{p === 'Web' ? <NewWindowLink url={values.applications.webLink} label={'Open Web Link'} /> : injectField(keyMap[p])}</div>
+          !loading && <div key={p}>{p === 'Web' ? <NewWindowLink url={values.applications.webLink} label={t('Open Web Link')} /> : injectField(keyMap[p])}</div>
       )}
     </div>
   );

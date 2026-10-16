@@ -14,6 +14,7 @@ import { validateEmail } from '../../../helpers';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useHeaderHeightSetRef } from '../../layout/hooks';
+import { tx, useT } from '../../../i18n';
 
 /*
  * Admin > Users (Super Admin only — gated in Admin.tsx/AdminLayoutSelector,
@@ -25,11 +26,11 @@ import { useHeaderHeightSetRef } from '../../layout/hooks';
 // Order matters: this drives the Add User dialog's checkbox order (Super
 // Admin first, matching the table's column order).
 const ROLE_LABELS: Record<string, string> = {
-  superadmin: 'Super Admin',
-  admin: 'Admin',
-  notify: 'Notify',
-  surveynotify: 'Survey Notify',
-  submissionreviewer: 'Submission Reviewer'
+  superadmin: tx('Super Admin'),
+  admin: tx('Admin'),
+  notify: tx('Notify'),
+  surveynotify: tx('Survey Notify'),
+  submissionreviewer: tx('Submission Reviewer')
 };
 
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
@@ -62,6 +63,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 
 export default function UsersAdmin({ height = undefined as number | undefined }) {
   const classes = useStyles();
+  const t = useT();
   const { roster, addUser, fail } = useRosterActions();
 
   const [addOpen, setAddOpen] = React.useState(false);
@@ -94,8 +96,8 @@ export default function UsersAdmin({ height = undefined as number | undefined })
 
   const handleAdd = () => {
     const email = newEmail.trim().toLowerCase();
-    if (!validateEmail(email)) return fail('Enter a valid email address');
-    if (roster[email]) return fail('That email is already on the roster');
+    if (!validateEmail(email)) return fail(t('Enter a valid email address'));
+    if (roster[email]) return fail(t('That email is already on the roster'));
     addUser(email, newRoles);
     setAddOpen(false);
     setNewEmail('');
@@ -106,25 +108,27 @@ export default function UsersAdmin({ height = undefined as number | undefined })
     <>
       <Grid ref={useHeaderHeightSetRef()} container className={classes.header} alignItems='center' justifyContent='space-between'>
         <Grid item>
-          <Typography className={classes.primaryText}>{view === 'roster' ? <>Users &amp; Roles</> : 'Registered Users'}</Typography>
+          <Typography className={classes.primaryText}>{view === 'roster' ? t('Users & Roles') : t('Registered Users')}</Typography>
           {view === 'roster' ? (
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              Visible to Super Admins only. Changes take effect immediately and are recorded with who made them
-              {!WRITE_API_URL && ' (write API not configured — changes will not be permitted)'}.{' '}
+              {t('Visible to Super Admins only.')}{' '}
+              {WRITE_API_URL
+                ? t('Changes take effect immediately and are recorded with who made them.')
+                : t('Changes take effect immediately and are recorded with who made them (write API not configured — changes will not be permitted).')}{' '}
               <Link
                 component='button'
                 underline='hover'
                 onClick={() => setView('registered')}
                 sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
               >
-                View All Registered Users
+                {t('View All Registered Users')}
               </Link>
             </Typography>
           ) : (
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              Every account registered on the site (including self-registered app raters), with their rating activity. Read-only.{' '}
+              {t('Every account registered on the site (including self-registered app raters), with their rating activity.')} {t('Read-only.')}{' '}
               <Link component='button' underline='hover' onClick={() => setView('roster')} sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}>
-                Back to Users &amp; Roles
+                {t('Back to Users & Roles')}
               </Link>
             </Typography>
           )}
@@ -132,7 +136,7 @@ export default function UsersAdmin({ height = undefined as number | undefined })
         {view === 'roster' && (
           <Grid item>
             <Button className={classes.primaryButton} onClick={() => setAddOpen(true)}>
-              Add User
+              {t('Add User')}
             </Button>
           </Grid>
         )}
@@ -142,9 +146,9 @@ export default function UsersAdmin({ height = undefined as number | undefined })
         <Users height={height} />
       ) : reg.error ? (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mt: 8, px: 2 }}>
-          <Typography color='textSecondary'>Could not load registered users: {reg.error}</Typography>
+          <Typography color='textSecondary'>{t('Could not load registered users: {{error}}', { error: reg.error })}</Typography>
           <Button variant='outlined' sx={{ textTransform: 'none' }} onClick={() => setReg(prev => ({ ...prev, loaded: false, error: '' }))}>
-            Retry
+            {t('Retry')}
           </Button>
         </Box>
       ) : reg.loading || !reg.loaded ? (
@@ -156,9 +160,9 @@ export default function UsersAdmin({ height = undefined as number | undefined })
       )}
 
       <Dialog open={addOpen} onClose={() => setAddOpen(false)} maxWidth='xs' fullWidth PaperProps={{ sx: { borderRadius: 3 } }}>
-        <DialogTitle sx={{ fontWeight: 700 }}>Add User</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700 }}>{t('Add User')}</DialogTitle>
         <DialogContent>
-          <TextField autoFocus fullWidth label='Email address' value={newEmail} onChange={e => setNewEmail(e.target.value)} sx={{ mt: 1 }} />
+          <TextField autoFocus fullWidth label={t('Email address')} value={newEmail} onChange={e => setNewEmail(e.target.value)} sx={{ mt: 1 }} />
           <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column' }}>
             {Object.keys(ROLE_LABELS).map(key => (
               <FormControlLabel
@@ -166,10 +170,10 @@ export default function UsersAdmin({ height = undefined as number | undefined })
                 control={<Checkbox checked={newRoles.includes(key)} onChange={() => setNewRoles(prev => (prev.includes(key) ? prev.filter(x => x !== key) : [...prev, key]))} />}
                 label={
                   <span>
-                    <b>{ROLE_LABELS[key]}</b>
+                    <b>{t(ROLE_LABELS[key])}</b>
                     <Typography component='span' variant='body2' color='textSecondary'>
                       {' '}
-                      — {ROLE_INFO[key]}
+                      — {t(ROLE_INFO[key])}
                     </Typography>
                   </span>
                 }
@@ -179,10 +183,10 @@ export default function UsersAdmin({ height = undefined as number | undefined })
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button sx={{ textTransform: 'none' }} onClick={() => setAddOpen(false)}>
-            Cancel
+            {t('Cancel')}
           </Button>
           <Button variant='contained' disableElevation sx={{ borderRadius: 2, textTransform: 'none', fontWeight: 600 }} onClick={handleAdd}>
-            Add
+            {t('Add')}
           </Button>
         </DialogActions>
       </Dialog>

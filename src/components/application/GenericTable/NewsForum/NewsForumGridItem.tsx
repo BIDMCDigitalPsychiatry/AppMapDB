@@ -6,6 +6,7 @@ import { bool, formatWithDefault, isEmpty, lineClamp, publicUrl, stripContent } 
 import { useChangeRoute } from '../../../layout/hooks';
 import { useCommentsByPostId } from '../../../../database/useComments';
 import { getObjectUrl } from '../../../../aws-exports';
+import { useT } from '../../../../i18n';
 
 const height = 400;
 const useStyles = makeStyles((theme: any) =>
@@ -81,6 +82,7 @@ export default function NewsForumGridItem({
   ...other
 }) {
   const classes = useStyles({});
+  const t = useT();
   const changeRoute = useChangeRoute();
 
   const handleClick = React.useCallback(() => {
@@ -91,12 +93,12 @@ export default function NewsForumGridItem({
   const filtered = (comments || []).filter(e => !e.deleted);
 
   const meta = [
-    authorName ? 'Registered User' : 'Unknown Author',
-    formatWithDefault(publishedAt, 'dd MMM yyyy', 'Unknown Date'),
-    `${readTime} read`,
-    filtered.length > 0 && `${filtered.length} comment${filtered.length === 1 ? '' : 's'}`
+    authorName ? t('Registered User') : t('Unknown Author'),
+    formatWithDefault(publishedAt, 'dd MMM yyyy', t('Unknown Date')),
+    t('{{readTime}} read', { readTime }),
+    filtered.length > 0 && (filtered.length === 1 ? t('1 comment') : t('{{count}} comments', { count: filtered.length }))
   ]
-    .filter(t => t)
+    .filter(m => m)
     .join(' · ');
 
   return children ? (
@@ -113,12 +115,12 @@ export default function NewsForumGridItem({
       />
       <CardContent sx={{ p: 2, pt: 1.5, display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap' }}>
-          <Chip label={category} size='small' variant='outlined' />
-          {bool(adminOnly) && <Chip label='Admin Only' size='small' variant='outlined' className={classes.adminOnly} />}
-          {bool(deleted) && <Chip label='Archived' size='small' variant='outlined' className={classes.archived} />}
+          <Chip label={t(category)} size='small' variant='outlined' />
+          {bool(adminOnly) && <Chip label={t('Admin Only')} size='small' variant='outlined' className={classes.adminOnly} />}
+          {bool(deleted) && <Chip label={t('Archived')} size='small' variant='outlined' className={classes.archived} />}
         </Box>
         <Box sx={{ mt: 1.25 }}>
-          <div className={classes.title} dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(title || 'Unknown Name'), 2) }} />
+          <div className={classes.title} dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(title || t('Unknown Name')), 2) }} />
         </Box>
         <Box sx={{ mt: 0.75, flex: 1, minHeight: 0, overflow: 'hidden' }}>
           <div className={classes.description} dangerouslySetInnerHTML={{ __html: lineClamp(stripContent(shortDescription), 3) }} />

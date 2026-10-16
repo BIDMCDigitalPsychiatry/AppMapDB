@@ -8,12 +8,13 @@
  * user" and requests 401. When that happens, sync the UI to reality: clear
  * the persisted user and tell the user to sign back in.
  */
+import { tx } from '../i18n';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Auth } from 'aws-amplify';
 import { updateSnackBar } from '../components/application/SnackBar/store';
 
-export const SESSION_EXPIRED_MESSAGE = 'Your session has expired — please sign in again.';
+export const SESSION_EXPIRED_MESSAGE: string = tx('Your session has expired — please sign in again.');
 
 // Thunk: sign the UI out (same SET_USER action the logout menu uses) and
 // explain why. Safe to dispatch repeatedly.

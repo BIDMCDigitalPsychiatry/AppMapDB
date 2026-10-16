@@ -16,6 +16,7 @@ import TourStep from './Tour/TourStep';
 import { publicUrl } from '../../helpers';
 import InteractiveSearchCard from '../application/GenericDialog/InteractiveSearch/InteractiveSearchCard';
 import useQuizOptions from './useQuizOptions';
+import { useT, tx } from '../../i18n';
 
 const padding = 32;
 const spacing = 1;
@@ -67,7 +68,8 @@ const Buttons = ({ onExport, collapsed }) => {
 
 const tableId = 'Applications';
 
-export default function SearchHeaderRedux({ title = 'App Library', onExport = undefined }) {
+export default function SearchHeaderRedux({ title = tx('App Library'), onExport = undefined }) {
+  const t = useT();
   const [searchtext, setSearchText] = useTableSearchText(tableId);
   const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
   const handleReset = useHandleTableReset(tableId);
@@ -118,7 +120,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
             <Grid container justifyContent='space-between' alignItems='flex-end'>
               <Grid>
                 <Typography variant='h1' className={classes.primaryText}>
-                  {title}
+                  {t(title)}
                 </Typography>
               </Grid>
               <Grid item>
@@ -132,7 +134,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
             <Grid item xs={12} sm style={{ marginTop: -4 }}>
               <Grid container alignItems='center' spacing={spacing}>
                 <Grid item xs>
-                  <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
+                  <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder={t('Search by name, company, feature or platform')} />
                 </Grid>
                 {collapseMobile && (
                   <Grid item>
@@ -144,7 +146,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                     <MultiSelectCheck
                       value={filters['Platforms']}
                       onChange={handleChange('Platforms')}
-                      placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                      placeholder={filters['Platforms']?.length > 0 ? t('Platforms') : t('All Platforms')}
                       InputProps={{ style: { background: 'white' } }}
                       items={Platforms.map(label => ({ value: label, label })) as any}
                       fullWidth={true}
@@ -174,7 +176,7 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                           style={{ background: category?.color ?? 'grey', color: 'white', marginRight: 8 }}
                           variant='outlined'
                           size='small'
-                          label={withReplacement(label)}
+                          label={t(withReplacement(label))}
                           onDelete={handleDelete(item.key, label)}
                           classes={{
                             deleteIcon: classes.deleteIcon
@@ -191,8 +193,8 @@ export default function SearchHeaderRedux({ title = 'App Library', onExport = un
                         'textSecondary' was a MUI v4 idiom — v5's Link resolves
                         `color` against the palette by path, so it emitted an
                         invalid declaration and inherited its background.) */}
-                    <DialogButton variant='link' color='common.white' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
-                      Reset all filters
+                    <DialogButton variant='link' color='common.white' underline='always' tooltip={t('Click to reset all filters')} onClick={handleReset}>
+                      {t('Reset all filters')}
                     </DialogButton>
                   </Grid>
                 )}

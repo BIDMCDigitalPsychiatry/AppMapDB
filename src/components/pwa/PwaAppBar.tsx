@@ -7,8 +7,11 @@ import { AppState } from '../../store';
 import QuestionHeader, { usePwaTextFontSize } from './QuestionHeader';
 import { searchIndex } from './questions';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import LanguageSelector from '../../i18n/LanguageSelector';
+import { useT } from '../../i18n';
 
 export default function PwaAppBar() {
+  const t = useT();
   const setRef = useAppBarHeightSetRef();
   const { search, reset, back } = usePwaActions();
   const index = useSelector((s: AppState) => s.pwa.index);
@@ -32,23 +35,26 @@ export default function PwaAppBar() {
             <PwaLogo />
           </Grid>
           <Grid item>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems='center'>
+              <Grid item>
+                <LanguageSelector />
+              </Grid>
               {index === searchIndex && (
                 <Grid item>
                   <Button variant='contained' size={size} onClick={back} disabled={disableBack} sx={{ px, fontSize: pwaTextFontSize, height: 44 }}>
-                    Back
+                    {t('Back')}
                   </Button>
                 </Grid>
               )}
               <Grid item>
                 <Button variant='contained' size={size} onClick={reset} disabled={disableReset} sx={{ px, fontSize: pwaTextFontSize, height: 44 }}>
-                  {(xs && index !== searchIndex) || (xs2 && index === searchIndex) ? 'Restart' : 'Restart Quiz'}
+                  {(xs && index !== searchIndex) || (xs2 && index === searchIndex) ? t('Restart') : t('Restart Quiz')}
                 </Button>
               </Grid>
               {index !== searchIndex && (
                 <Grid item>
                   <Button variant='contained' size={size} onClick={search} disabled={disableSearch} sx={{ px, fontSize: pwaTextFontSize, height: 44 }}>
-                    {xs2 ? 'Search' : 'Search Now'}
+                    {xs2 ? t('Search') : t('Search Now')}
                   </Button>
                 </Grid>
               )}

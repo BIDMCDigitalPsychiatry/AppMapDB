@@ -5,6 +5,7 @@ import { chainPropTypes } from '@mui/utils';
 import { withStyles } from '../../../../styles/jss';
 import { capitalize } from '@mui/material/utils';
 import Star from '@mui/icons-material/Star';
+import { useT } from '../../../../i18n';
 
 function getDecimalPrecision(num) {
   const decimalPart = num.toString().split('.')[1];
@@ -93,8 +94,8 @@ IconContainer.propTypes = {
 
 const defaultIcon = <Star fontSize='inherit' />;
 
-function defaultLabelText(value) {
-  return `${value} Star${value !== 1 ? 's' : ''}`;
+function defaultLabelText(value, t) {
+  return value === 1 ? t('1 Star') : t('{{count}} Stars', { count: value });
 }
 
 const Rating = props => {
@@ -115,6 +116,7 @@ const Rating = props => {
     value: valueProp,
     ...other
   } = props;
+  const t = useT();
 
   const { current: isControlled } = React.useRef(valueProp !== undefined);
   const [valueState] = React.useState(defaultValue);
@@ -163,7 +165,7 @@ const Rating = props => {
         className
       )}
       role={readOnly ? 'img' : null}
-      aria-label={readOnly ? getLabelText(value) : null}
+      aria-label={readOnly ? getLabelText(value, t) : null}
       {...other}
     >
       {Array.from(new Array(max)).map((_, index) => {

@@ -8,13 +8,15 @@ import ViewModeButton from '../Applications/ViewModeButton';
 import AdminToggle from '../Applications/AdminToggle';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import FilterButton from '../Applications/FilterButton';
+import { useT } from '../../../../i18n';
 
 const name = 'Application History';
 
 const AppSummaryHistory = props => <AppSummary {...props} RatingButtonsComponent={RatingsColumnHistory} />;
-const columns = [{ name: 'app', header: 'Application', Cell: AppSummaryHistory }];
 
 export const ApplicationListHistory = ({ initialValues, ...props }) => {
+  const t = useT();
+  const columns = React.useMemo(() => [{ name: 'app', header: t('Application'), Cell: AppSummaryHistory }], [t]);
   const _id = initialValues?.applications?._id;
   return (
     <>

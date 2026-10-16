@@ -6,6 +6,7 @@ import logo from '../../images/mind_logo_new.png';
 import { useHandleChangeRoute } from './hooks';
 import { publicUrl } from '../../helpers';
 import Typography from '@mui/material/Typography';
+import { useT, tx } from '../../i18n';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({
@@ -31,26 +32,27 @@ const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   })
 );
 
-const logoText = 'M-HEALTH INDEX &';
-const logoTextSecondary = 'NAVIGATION DATABASE';
+const logoText = tx('M-HEALTH INDEX &');
+const logoTextSecondary = tx('NAVIGATION DATABASE');
 
 export default function Logo({ condensed = false, autoHide = true, showText = true }) {
   const classes = useStyles({ autoHide, condensed });
   const handleChangeRoute = useHandleChangeRoute();
+  const t = useT();
 
   return (
     <Grid container alignItems='center' onClick={handleChangeRoute(publicUrl('/'))}>
       <Grid item>
-        <img className={classes.logo} src={logo} alt='logo' />
+        <img className={classes.logo} src={logo} alt={t('logo')} />
       </Grid>
       {showText && (
         <Grid item>
           <Grid container alignItems='center' className={classes.logoText}>
             <Grid item xs={12}>
-              <Typography variant='caption'>{logoText}</Typography>
+              <Typography variant='caption'>{t(logoText)}</Typography>
             </Grid>
             <Grid item xs={12} style={{ marginTop: -4 }}>
-              <Typography variant='caption'>{logoTextSecondary}</Typography>
+              <Typography variant='caption'>{t(logoTextSecondary)}</Typography>
             </Grid>
           </Grid>
         </Grid>

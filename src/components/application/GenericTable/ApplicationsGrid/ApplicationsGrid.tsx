@@ -1,5 +1,5 @@
 import { Grid, Box, Typography } from '@mui/material';
-import Application from '../../../../database/models/Application';
+import Application, { withReplacement } from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
 import { publicUrl } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
@@ -8,6 +8,7 @@ import { useHandleChangeRoute } from '../../../layout/hooks';
 import PlatformButtons from './PlatformButtons';
 import ExpandableDescription from './ExpandableDescription';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
+import { useT } from '../../../../i18n';
 
 interface AppGridProps {
   ratingIds: string[];
@@ -34,6 +35,8 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
   } = props;
 
   const { handleRefresh } = props as any;
+  const t = useT();
+  const costLabels = costs.map(c => t(withReplacement(c))).join(' | ');
 
   const handleChangeRoute = useHandleChangeRoute();
 
@@ -46,12 +49,12 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
           <Grid item xs style={{ minWidth: 300 }}>
             <Grid container spacing={1}>
               <Grid item style={{ maxWidth: imageHeight + 16 }}>
-                <img style={{ height: imageHeight }} src={icon} alt='logo' />
+                <img style={{ height: imageHeight }} src={icon} alt={t('logo')} />
               </Grid>
               <Grid item zeroMinWidth xs>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Typography variant='h5'>{name || 'Unknown Name'}</Typography>
+                    <Typography variant='h5'>{name || t('Unknown Name')}</Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography color='textSecondary'>{company}</Typography>
@@ -77,19 +80,19 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
               <Grid item xs={12}>
                 <Typography noWrap color='textSecondary' variant='caption'>
                   {costs.length === 0 ? (
-                    'Unknown Cost'
+                    t('Unknown Cost')
                   ) : costs.length > 2 ? (
-                    <DialogButton variant='link' size='small' Icon={null} tooltip={costs.join(' | ')}>
-                      Multiple Associated Costs
+                    <DialogButton variant='link' size='small' Icon={null} tooltip={costLabels}>
+                      {t('Multiple Associated Costs')}
                     </DialogButton>
                   ) : (
-                    costs.join(' | ')
+                    costLabels
                   )}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography noWrap color='textSecondary' variant='caption'>
-                  Last Rating: {lastRating}
+                  {t('Last Rating: {{date}}', { date: lastRating })}
                 </Typography>
               </Grid>
             </Grid>
@@ -100,7 +103,7 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
                 size='large'
                 onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' })}
               >
-                View
+                {t('View')}
               </DialogButton>
             </Grid>
           </Grid>

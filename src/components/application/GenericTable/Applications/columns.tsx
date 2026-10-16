@@ -31,6 +31,7 @@ import { makeStyles } from '../../../../styles/jss';
 import { createStyles } from '../../../../styles/jss';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
 import { RaterEmail } from './RaterEmail';
+import { useT } from '../../../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -193,6 +194,9 @@ const sortPinned = (columns, column, pinned) => {
 export const useColumns = () => {
   const [pinned, setPinned] = React.useState({});
   const classes = useStyles();
+  const t = useT();
+  // Taxonomy labels stay English in data; translate only for display.
+  const centerT = text => center(t(withReplacement(text)));
 
   const handlePinColumn = React.useCallback(
     (column, subcolumn) => event => {
@@ -203,9 +207,9 @@ export const useColumns = () => {
   );
 
   const columns = [
-    { name: 'app', header: 'Application', minWidth: 330, Cell: AppSummary, hoverable: false, sort: 'textLower' },
-    { name: 'updated', header: 'Last MINDapps evaluation', width: 225, Cell: LastUpdated, hoverable: false, sort: 'decimal' },
-    { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumn, hoverable: false },
+    { name: 'app', header: t('Application'), minWidth: 330, Cell: AppSummary, hoverable: false, sort: 'textLower' },
+    { name: 'updated', header: t('Last MINDapps evaluation'), width: 225, Cell: LastUpdated, hoverable: false, sort: 'decimal' },
+    { name: 'rating', header: t('Rating'), width: 300, Cell: RatingsColumn, hoverable: false },
     {
       name: 'platforms',
       width: 140,
@@ -214,12 +218,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'platforms')}>
               <Grid container justifyContent='center'>
-                Platforms
+                {t('Platforms')}
               </Grid>
             </Grid>
             {sortPinned(Platforms, 'platforms', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('platforms', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -235,12 +239,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'developerType')}>
               <Grid container justifyContent='center'>
-                Developer Type
+                {t('Developer Type')}
               </Grid>
             </Grid>
             {sortPinned(DeveloperTypeLabels, 'developerType', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('developerType', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -256,12 +260,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'cost')}>
               <Grid container justifyContent='center'>
-                Cost
+                {t('Cost')}
               </Grid>
             </Grid>
             {sortPinned(Costs, 'cost', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('cost', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -277,12 +281,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'functionality')}>
-                Access
+                {t('Access')}
               </Grid>
             </Grid>
             {sortPinned(FunctionalityLabels, 'functionality', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('functionality', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -298,12 +302,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' onClick={handlePinColumn('root', 'privacies')} className={classes.hover}>
-                Privacies
+                {t('Privacies')}
               </Grid>
             </Grid>
             {sortPinned(PrivacyLabels, 'privacies', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('privacies', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -319,12 +323,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' onClick={handlePinColumn('root', 'clinicalFoundations')} className={classes.hover}>
-                Clinical Foundations
+                {t('Clinical Foundations')}
               </Grid>
             </Grid>
             {sortPinned(ClinicalFoundationLabels, 'clinicalFoundations', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('clinicalFoundations', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -340,12 +344,12 @@ export const useColumns = () => {
           <Grid container style={{ paddingRight: 16 }}>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'treatmentApproaches')}>
               <Grid container justifyContent='center'>
-                Treatment Approaches
+                {t('Treatment Approaches')}
               </Grid>
             </Grid>
-            {sortPinned(TreatmentApproaches, 'treatmentApproaches', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('treatmentApproaches', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(TreatmentApproaches, 'treatmentApproaches', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('treatmentApproaches', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>
@@ -361,12 +365,12 @@ export const useColumns = () => {
           <Grid container style={{ paddingRight: 16 }}>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'features')}>
               <Grid container justifyContent='center'>
-                Features
+                {t('Features')}
               </Grid>
             </Grid>
-            {sortPinned(Features, 'features', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('features', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(Features, 'features', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('features', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>
@@ -382,12 +386,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12} className={classes.hover} onClick={handlePinColumn('root', 'conditions')}>
               <Grid container justifyContent='center'>
-                Supported Conditions
+                {t('Supported Conditions')}
               </Grid>
             </Grid>
-            {sortPinned(Conditions, 'conditions', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('conditions', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(Conditions, 'conditions', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('conditions', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>
@@ -403,12 +407,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'engagements')}>
-                Engagements
+                {t('Engagements')}
               </Grid>
             </Grid>
             {sortPinned(EngagementLabels, 'engagements', pinned).map(label => (
               <Grid item xs key={label} onClick={handlePinColumn('engagements', label)} className={classes.hover}>
-                {center(label)}
+                {centerT(label)}
               </Grid>
             ))}
           </Grid>
@@ -424,12 +428,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'inputs')}>
-                Inputs
+                {t('Inputs')}
               </Grid>
             </Grid>
-            {sortPinned(Inputs, 'inputs', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('inputs', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(Inputs, 'inputs', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('inputs', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>
@@ -445,12 +449,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'outputs')}>
-                Outputs
+                {t('Outputs')}
               </Grid>
             </Grid>
-            {sortPinned(Outputs, 'outputs', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('outputs', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(Outputs, 'outputs', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('outputs', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>
@@ -466,12 +470,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'uses')}>
-                Uses
+                {t('Uses')}
               </Grid>
             </Grid>
-            {sortPinned(VisibleUses, 'uses', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('uses', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(VisibleUses, 'uses', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('uses', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>
@@ -487,12 +491,12 @@ export const useColumns = () => {
           <Grid container>
             <Grid item xs={12}>
               <Grid container justifyContent='center' className={classes.hover} onClick={handlePinColumn('root', 'countries')}>
-                Country Availability
+                {t('Country Availability')}
               </Grid>
             </Grid>
-            {sortPinned(Countries, 'countries', pinned).map(t => (
-              <Grid item xs key={t} onClick={handlePinColumn('countries', t)} className={classes.hover}>
-                {center(t)}
+            {sortPinned(Countries, 'countries', pinned).map(v => (
+              <Grid item xs key={v} onClick={handlePinColumn('countries', v)} className={classes.hover}>
+                {centerT(v)}
               </Grid>
             ))}
           </Grid>

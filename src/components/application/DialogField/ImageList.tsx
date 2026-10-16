@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
 import { isEmpty } from '../../../helpers';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -22,6 +23,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 const ImageList = ({ value = '', label = undefined, error = undefined, items = [], onChange = undefined }) => {
+  const t = useT();
   const classes = useStyles({});
   const handleSelect = React.useCallback(
     value => () => {
@@ -34,18 +36,18 @@ const ImageList = ({ value = '', label = undefined, error = undefined, items = [
     <Grid container justifyContent='center' spacing={4} alignItems='center'>
       {!isEmpty(label) && (
         <Grid item xs={12}>
-          <Typography variant='h6'>{label}</Typography>
+          <Typography variant='h6'>{t(label)}</Typography>
         </Grid>
       )}
       {items.map(item => (
         <Grid item xs={12} sm={5} md={4} lg={2}>
-          <img alt={item?.label} onClick={handleSelect(item?.value)} src={item?.value} className={item.value === value ? classes.selected : classes.notSelected} />
+          <img alt={t(item?.label)} onClick={handleSelect(item?.value)} src={item?.value} className={item.value === value ? classes.selected : classes.notSelected} />
         </Grid>
       ))}
       {!isEmpty(error) && (
         <Grid item xs={12}>
           <Typography align='right' color='error'>
-            {error}
+            {t(error)}
           </Typography>
         </Grid>
       )}

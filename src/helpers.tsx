@@ -3,6 +3,8 @@ import packageJson from '../package.json';
 import { useAdminMode } from './components/layout/store';
 import { useIsAdmin } from './hooks';
 import { format } from 'date-fns';
+import { fr as dateFr, de as dateDe } from 'date-fns/locale';
+import { getActiveLanguage } from './i18n';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 
@@ -262,7 +264,9 @@ function addZero(i) {
   return i;
 }
 
-export function getDayTimeFromTimestamp(timestamp: number) {
+// Dates follow the interface language (French/German via Intl); English output is unchanged.
+export function getDayTimeFromTimestamp(timestamp: number, lang: string = getActiveLanguage()) {
+  if (lang !== 'en') return new Date(timestamp).toLocaleString(lang, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
   var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
   d.setUTCMilliseconds(timestamp); //utc time
   var day = dayAbbrOfWeek(d.getDay());
@@ -277,7 +281,8 @@ export function getDayTimeFromTimestamp(timestamp: number) {
   return `${day} ${month} ${dayNumber} ${year} ${h}:${m} ${isPM ? 'PM' : 'AM'}`;
 }
 
-export function getDayFromTimestamp(timestamp: number) {
+export function getDayFromTimestamp(timestamp: number, lang: string = getActiveLanguage()) {
+  if (lang !== 'en') return new Date(timestamp).toLocaleDateString(lang, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
   var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
   d.setUTCMilliseconds(timestamp); //utc time
   var day = dayAbbrOfWeek(d.getDay());
@@ -315,7 +320,8 @@ export const bytesToSize = (bytes: number, decimals: number = 2) => {
 export const formatWithDefault = (publishedAt, textFormat, textDefault) => {
   var text = textDefault;
   try {
-    text = format(publishedAt, textFormat);
+    const lang = getActiveLanguage();
+    text = format(publishedAt, textFormat, lang === 'fr' ? { locale: dateFr } : lang === 'de' ? { locale: dateDe } : undefined);
   } catch (err) {
     console.error(err);
   }

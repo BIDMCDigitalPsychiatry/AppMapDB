@@ -4,6 +4,7 @@ import logo from '../../../images/logo.png';
 import NewWindowLink from './NewWindowLink';
 import DialogButton from '../GenericDialog/DialogButton';
 import * as ScreenshotsDialog from '../GenericDialog/ScreenshotsDialog';
+import { useT } from '../../../i18n';
 
 export const androidKeys = ['appId', 'title', 'icon', 'developer', 'description', 'installs', 'offersIAP', 'free', 'adSupported', 'url', 'screenshots'];
 
@@ -61,13 +62,14 @@ export interface AndroidStoreProps {
 }
 
 const AndroidStore = ({ value = {} as AndroidStoreProps }) => {
+  const t = useT();
   const { icon = logo, title, developer, description, installs, offersIAP, free, adSupported, url, screenshots = [] } = value;
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item>
-          <img style={{ height: 100 }} src={icon} alt='logo' />
+          <img style={{ height: 100 }} src={icon} alt={t('logo')} />
         </Grid>
         <Grid item xs>
           <Grid container>
@@ -79,13 +81,13 @@ const AndroidStore = ({ value = {} as AndroidStoreProps }) => {
             </Grid>
             <Grid item xs={12}>
               <Typography color='textSecondary' variant='caption'>
-                {installs} Installs {offersIAP && ' | In-App Purchases'} {free && ' | Free'} {adSupported && ' | Ad Supported'}
+                {t('{{installs}} Installs', { installs })} {offersIAP && ` | ${t('In-App Purchases')}`} {free && ` | ${t('Free')}`} {adSupported && ` | ${t('Ad Supported')}`}
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={1}>
                 <Grid item>
-                  <NewWindowLink url={url} label={'Open in Google Play Store'} />
+                  <NewWindowLink url={url} label={t('Open in Google Play Store')} />
                 </Grid>
                 {screenshots.length > 0 && (
                   <>
@@ -97,11 +99,11 @@ const AndroidStore = ({ value = {} as AndroidStoreProps }) => {
                         variant='link'
                         linkvariant='inherit'
                         underline='always'
-                        tooltip='Click to View'
+                        tooltip={t('Click to View')}
                         Icon={null}
                         initialValues={{ images: screenshots }}
                       >
-                        View Screenshots
+                        {t('View Screenshots')}
                       </DialogButton>
                     </Grid>
                   </>

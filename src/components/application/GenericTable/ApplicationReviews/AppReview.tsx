@@ -6,6 +6,7 @@ import { makeStyles } from '../../../../styles/jss';
 import { createStyles } from '../../../../styles/jss';
 import { grey } from '@mui/material/colors';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
+import { useT } from '../../../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -32,6 +33,7 @@ export default function AppReview({ created, updated, review, handleRefresh, ind
   );
 
   const classes = useStyles();
+  const t = useT();
   const lastUpdated = useLastRatingDateTime({ created, updated });
   return (
     <div className={classes.container} onClick={handleExpand}>
@@ -48,10 +50,10 @@ export default function AppReview({ created, updated, review, handleRefresh, ind
                     <Grid item xs={12}>
                       <Grid container justifyContent='space-between'>
                         <Typography noWrap color='textSecondary' variant='body1'>
-                          Last Updated: {lastUpdated}
+                          {t('Last Updated: {{date}}', { date: lastUpdated })}
                         </Typography>
                         <Typography noWrap color='textSecondary' variant='body1'>
-                          Click to {expand ? 'collapse' : 'expand'}
+                          {expand ? t('Click to collapse') : t('Click to expand')}
                         </Typography>
                       </Grid>
                     </Grid>

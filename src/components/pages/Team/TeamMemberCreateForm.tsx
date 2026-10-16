@@ -2,9 +2,11 @@ import { Box, Card, CardContent, Container } from '@mui/material';
 import Text from '../../application/DialogField/Text';
 import ImageBase64 from '../../application/DialogField/ImageBase64';
 import WholeNumberUpDown from '../../application/DialogField/WholeNumberUpDown';
+import { useT } from '../../../i18n';
 
 const TeamMemberCreateForm = ({ values = {} as any, loading: disabled, setValues, errors = {} }) => {
   const { title = '', sortKey, subTitle, cover, shortDescription = '' } = values;
+  const t = useT();
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
 
   return (
@@ -12,7 +14,7 @@ const TeamMemberCreateForm = ({ values = {} as any, loading: disabled, setValues
       <Card variant='outlined'>
         <CardContent>
           <Text
-            label='Title'
+            label={t('Title')}
             margin='normal'
             name='title'
             value={title}
@@ -22,7 +24,7 @@ const TeamMemberCreateForm = ({ values = {} as any, loading: disabled, setValues
             disabled={disabled}
           />
           <Text
-            label='Position/Subtitle'
+            label={t('Position/Subtitle')}
             margin='normal'
             name='subTitle'
             value={subTitle}
@@ -34,7 +36,7 @@ const TeamMemberCreateForm = ({ values = {} as any, loading: disabled, setValues
             <Text
               margin='normal'
               multiline
-              label='Short description'
+              label={t('Short description')}
               rows={6}
               value={shortDescription}
               onChange={handleChange('shortDescription')}
@@ -43,8 +45,8 @@ const TeamMemberCreateForm = ({ values = {} as any, loading: disabled, setValues
             />
           </Box>
           <ImageBase64
-            label='Image'
-            description='This image will also be shown on the team page. 350 x 350 recommended.'
+            label={t('Image')}
+            description={t('This image will also be shown on the team page. 350 x 350 recommended.')}
             value={cover}
             error={errors['cover']}
             onChange={handleChange('cover')}
@@ -57,7 +59,7 @@ const TeamMemberCreateForm = ({ values = {} as any, loading: disabled, setValues
               min={0}
               max={99999}
               margin='normal'
-              label='Sort Key (Leave blank or enter a larger number to show at the top)'
+              label={t('Sort Key (Leave blank or enter a larger number to show at the top)')}
               value={sortKey}
               onChange={handleChange('sortKey')}
               error={errors['sortKey']}

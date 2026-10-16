@@ -1,6 +1,8 @@
+import { useT } from '../../i18n';
 import { Button } from '@mui/material';
 
 const SharedButton = ({ Icon, label, disabled, color, ...props }) => {
+  const t = useT();
   return (
     <Button
       size='large'
@@ -12,7 +14,7 @@ const SharedButton = ({ Icon, label, disabled, color, ...props }) => {
       {...props}
     >
       {<Icon style={{ marginRight: 8 }} />}
-      {label}
+      {t(label)}
     </Button>
   );
 };

@@ -9,8 +9,9 @@ import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import Label from '../../DialogField/Label';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
+import { useT, tx } from '../../../../i18n';
 
-export const title = 'Delete Filter';
+export const title = tx('Delete Filter');
 
 export default function DeleteFilter({ id = title }) {
   const [, setState] = useDialogState(id);
@@ -29,10 +30,11 @@ export default function DeleteFilter({ id = title }) {
 
   const isAdmin = useIsAdmin();
   const uid = useSelector((s: any) => s.layout.user?.username);
+  const t = useT();
 
   const items = Object.keys(filters)
     .filter(k => (isAdmin ? true : filters[k].uid === uid)) // Only show public filters for deltion if the user is an admin or the managing user
-    .map(k => ({ label: filters[k].isPublic ? `Public Filter | ${filters[k].name}` : filters[k].name, value: filters[k] }));
+    .map(k => ({ label: filters[k].isPublic ? t('Public Filter | {{name}}', { name: filters[k].name }) : filters[k].name, value: filters[k] }));
 
   return (
     <GenericDialog
@@ -44,11 +46,11 @@ export default function DeleteFilter({ id = title }) {
         {
           id: 'label1',
           Field: Label,
-          label: 'Select filter to delete:'
+          label: tx('Select filter to delete:')
         },
         {
           id: 'SavedFilter',
-          label: 'Filter',
+          label: tx('Filter'),
           items,
           Field: AutoCompleteSelect
         }

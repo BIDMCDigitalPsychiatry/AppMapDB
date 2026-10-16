@@ -5,8 +5,10 @@ import AvatarEditor from 'react-avatar-editor';
 import * as Icons from '@mui/icons-material';
 import { isEmpty } from '../../../helpers';
 import SharedButton from '../../general/SharedButton';
+import { useT } from '../../../i18n';
 
 const Image = ({ value = '', onChange = undefined, width = 500, height = 200 }) => {
+  const t = useT();
   const [scale, setScale] = React.useState(1) as any;
   const editorRef = React.useRef() as any;
 
@@ -32,7 +34,7 @@ const Image = ({ value = '', onChange = undefined, width = 500, height = 200 }) 
         <Slider value={scale} min={0.1} max={4} step={0.01} aria-labelledby='Zoom' onChange={(e, scale) => setScale(scale)} />
       </Grid>
       <Grid item style={{ textAlign: 'right' }} xs={12}>
-        <SharedButton disabled={isEmpty(editorRef?.current)} Icon={Icons.Save} label='Select Image' color='success' onClick={handleSave} />
+        <SharedButton disabled={isEmpty(editorRef?.current)} Icon={Icons.Save} label={t('Select Image')} color='success' onClick={handleSave} />
       </Grid>
     </Grid>
   );

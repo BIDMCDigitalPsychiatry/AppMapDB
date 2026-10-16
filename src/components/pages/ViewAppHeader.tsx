@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { useRouteState } from '../layout/store';
 import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
+import { useT } from '../../i18n';
+import { withReplacement } from '../../database/models/Application';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -58,6 +60,7 @@ const asArray = v => (Array.isArray(v) ? v : []);
 
 export default function ViewAppHeader({ app = {} as any, type = 'view', from = undefined }) {
   const classes = useStyles();
+  const t = useT();
   const sm = useFullScreen('sm');
   const {
     _id,
@@ -98,7 +101,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
   return (
     <Grid container spacing={sm ? 2 : 4}>
       <Grid item xs={12} sm='auto' style={{ width: sm ? undefined : iconSize + 16 }}>
-        <img style={{ height: iconSize, width: iconSize, objectFit: 'cover', borderRadius: 28, border: '1px solid #E5EAF0' }} src={icon} alt='logo' />
+        <img style={{ height: iconSize, width: iconSize, objectFit: 'cover', borderRadius: 28, border: '1px solid #E5EAF0' }} src={icon} alt={t('logo')} />
       </Grid>
       <Grid item xs={12} sm>
         <Grid container spacing={sm ? 2 : 4}>
@@ -106,7 +109,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
             <Grid container style={{ minWidth: sm ? undefined : 300 }}>
               <Grid item xs={12}>
                 <Typography variant='h3' style={{ letterSpacing: '-0.02em' }}>
-                  {name || 'Unknown Name'}
+                  {name || t('Unknown Name')}
                 </Typography>
                 <Typography color='textSecondary' style={{ marginTop: 2 }}>
                   {company}
@@ -129,7 +132,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                         }}
                         sx={{ textTransform: 'none', fontWeight: 600 }}
                       >
-                        Visit Website
+                        {t('Visit Website')}
                       </Button>
                     </Grid>
                   )}
@@ -147,12 +150,12 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                 <Grid container spacing={1}>
                   <Grid item>
                     <Typography color='textSecondary' variant='caption'>
-                      Costs:
+                      {t('Costs:')}
                     </Typography>
                   </Grid>
                   <Grid item xs>
                     <Typography className={classes.primaryLightText} variant='caption'>
-                      {costs.length === 0 ? 'Unknown Cost' : costs.join(' | ')}
+                      {costs.length === 0 ? t('Unknown Cost') : costs.map(c => t(withReplacement(c))).join(' | ')}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -161,12 +164,12 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                 <Grid container spacing={1}>
                   <Grid item>
                     <Typography color='textSecondary' variant='caption'>
-                      App Has Privacy Policy:
+                      {t('App Has Privacy Policy:')}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography className={classes.primaryLightText} variant='caption'>
-                      {privacies.includes('Has Privacy Policy') ? 'Yes' : 'No'}
+                      {privacies.includes('Has Privacy Policy') ? t('Yes') : t('No')}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -175,12 +178,12 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                 <Grid container spacing={1}>
                   <Grid item>
                     <Typography color='textSecondary' variant='caption'>
-                      App Has Supporting Studies:
+                      {t('App Has Supporting Studies:')}
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography className={classes.primaryLightText} variant='caption'>
-                      {hasSupportingStudies ? 'Yes' : 'No'}
+                      {hasSupportingStudies ? t('Yes') : t('No')}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -194,8 +197,8 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   // vertical stack (not wrap) since these two labels rarely
                   // fit side by side in this column anyway.
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.25, mt: 0.5 }}>
-                    {!isEmpty(feasibilityStudiesLink) && <ArrowButtonCaption label='See Feasability Studies' link={feasibilityStudiesLink} />}
-                    {!isEmpty(efficacyStudiesLink) && <ArrowButtonCaption label='See Efficacy Studies' link={efficacyStudiesLink} />}
+                    {!isEmpty(feasibilityStudiesLink) && <ArrowButtonCaption label={t('See Feasability Studies')} link={feasibilityStudiesLink} />}
+                    {!isEmpty(efficacyStudiesLink) && <ArrowButtonCaption label={t('See Efficacy Studies')} link={efficacyStudiesLink} />}
                   </Box>
                 )}
               </Grid>
@@ -224,14 +227,14 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                         created: new Date().getTime()
                       }
                     }}
-                    tooltip='Rate App'
+                    tooltip={t('Rate App')}
                     placement='bottom'
                   >
-                    Submit New App Rating
+                    {t('Submit New App Rating')}
                   </EditDialogButton>
                 ) : (
                   <DialogButton variant='primaryButton2' size='large' onClick={handleChangeRoute(publicUrl('/RateAnApp'), routeState)}>
-                    Rate an App
+                    {t('Rate an App')}
                   </DialogButton>
                 )}
               </Grid>
@@ -249,7 +252,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
                   size='large'
                   className={classes.flagButton}
                 >
-                  Flag / Suggest an Edit
+                  {t('Flag / Suggest an Edit')}
                 </DialogButton>
               </Grid>
               <Grid item xs={12}>
@@ -261,7 +264,7 @@ export default function ViewAppHeader({ app = {} as any, type = 'view', from = u
             <Grid container spacing={1} justifyContent='space-between'>
               <Grid item>
                 <Typography color='textSecondary' variant='body2'>
-                  Last updated
+                  {t('Last updated')}
                 </Typography>
               </Grid>
               <Grid item>

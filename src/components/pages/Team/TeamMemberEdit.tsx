@@ -4,6 +4,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import useValues from './useValues';
 import { publicUrl } from '../../../helpers';
 import CommunityToolbar from '../Community/CommunityToolbar';
+import { tx } from '../../../i18n';
 import TeamMemberCreateForm from './TeamMemberCreateForm';
 
 const TeamMemberEdit = ({ values: Values }) => {
@@ -13,17 +14,17 @@ const TeamMemberEdit = ({ values: Values }) => {
   return (
     <Container maxWidth='lg'>
       <CommunityToolbar
-        title='Edit Post'
+        title={tx('Edit Post')}
         showGreeting={true}
         buttons={[
           {
-            label: 'Cancel',
+            label: tx('Cancel'),
             onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'team' })),
             color: 'secondary',
             disabled: loading
           },
           {
-            label: 'Publish Changes',
+            label: tx('Publish Changes'),
             startIcon: <Icons.Save />,
             onClick: handleSave,
             variant: 'contained',

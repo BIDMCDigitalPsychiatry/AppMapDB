@@ -3,6 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, Container } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
+import { useT } from '../../../i18n';
 import useTabSelectorValue from '../../application/Selector/useTabSelectorValue';
 import { useLocation } from 'react-router';
 
@@ -59,6 +60,7 @@ export interface TabSelectorItem {
 }
 
 const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
+  const t = useT();
   const classes = useStyles({ minHeight, rounded });
   const { pathname } = useLocation();
   // Which tab is highlighted must be derived from the URL, not from the last
@@ -97,21 +99,21 @@ const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientati
         {!tabs ? (
           <></>
         ) : (
-          tabs.map(t => (
+          tabs.map(tab => (
             <Tab
-              key={t.id}
+              key={tab.id}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
                 wrapped: classes.labelIcon
               }}
-              icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
-              value={t.id}
+              icon={tab.icon && <tab.icon style={{ marginBottom: 0 }} />}
+              value={tab.id}
               wrapped={wrapped}
-              onClick={t?.onClick && t.onClick}
+              onClick={tab?.onClick && tab.onClick}
               label={
                 <Typography variant='caption' style={{ maxWidth: `calc(100% - ${2}px)` }} noWrap={!wrapped}>
-                  {t.label ? t.label : t.id}
+                  {t(tab.label || tab.id)}
                 </Typography>
               }
             />

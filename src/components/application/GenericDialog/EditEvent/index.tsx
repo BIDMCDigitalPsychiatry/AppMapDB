@@ -9,8 +9,9 @@ import useTableRow from '../../../../database/useTableRow';
 import Label from '../../DialogField/Label';
 import { Divider } from '@mui/material';
 import TextLink from '../../DialogField/TextLink';
+import { tx } from '../../../../i18n';
 
-export const title = 'Edit Event';
+export const title = tx('Edit Event');
 const Model = tables.events;
 
 export default function EditEventDialog({ id = title, disabled = false, onClose }) {
@@ -36,7 +37,7 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
         Model,
         Action: 'u',
         Data,
-        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onError: () => setState(prev => ({ ...prev, loading: false, error: tx('Error submitting values') })),
         onSuccess: () => OnSuccess(Data)
       });
     },
@@ -59,7 +60,7 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
         Model,
         Action: 'u',
         Data,
-        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onError: () => setState(prev => ({ ...prev, loading: false, error: tx('Error submitting values') })),
         onSuccess: () => onSuccess()
       });
     },
@@ -71,13 +72,13 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
   return (
     <GenericDialog
       id={id}
-      title={disabled ? 'View Event' : id}
+      title={disabled ? tx('View Event') : id}
       onSubmit={handleSubmit}
       initialValues={initialValues}
       onClose={onClose}
       onDelete={!disabled ? handleDelete : undefined}
-      submitLabel={disabled ? null : 'Save'}
-      cancelLabel='Close'
+      submitLabel={disabled ? null : tx('Save')}
+      cancelLabel={tx('Close')}
       fields={[
         {
           id: 'id',
@@ -85,45 +86,45 @@ export default function EditEventDialog({ id = title, disabled = false, onClose 
         },
         {
           Field: Label,
-          label: 'Event Information'
+          label: tx('Event Information')
         },
         {
           Field: Divider
         },
         {
           id: 'title',
-          label: 'Title',
+          label: tx('Title'),
           required: true,
           disabled
         },
         {
           id: 'description',
-          label: 'Description',
+          label: tx('Description'),
           disabled,
           multiline: true,
           rows: 4
         },
         {
           id: 'link',
-          label: 'Link',
+          label: tx('Link'),
           Field: TextLink,
           disabled
         },
         {
           id: 'allDay',
-          label: 'All day',
+          label: tx('All day'),
           Field: Switch,
           disabled
         },
         {
           id: 'start',
-          label: 'Start',
+          label: tx('Start'),
           Field: DateTimePicker,
           disabled
         },
         {
           id: 'end',
-          label: 'End',
+          label: tx('End'),
           Field: DateTimePicker,
           disabled
         }

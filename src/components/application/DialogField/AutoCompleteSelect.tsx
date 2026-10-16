@@ -2,6 +2,7 @@ import * as React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import Text from './Text';
 import { Box } from '@mui/material';
+import { useT } from '../../../i18n';
 
 const getLabel = option => ((typeof option === 'object' && option ? option.label : option) ?? '').toString();
 const getValue = option => (typeof option === 'object' && option ? option.value : option) ?? '';
@@ -18,6 +19,7 @@ export default function AutoCompleteSelect({
   freeSolo = undefined,
   ...other
 }) {
+  const t = useT();
   const handleChange = React.useCallback(
     (e, option) => {
       onChange && onChange({ target: { value: getValue(option) } }); // Inject value to mimic behavior of other input on change events
@@ -29,13 +31,13 @@ export default function AutoCompleteSelect({
     <Autocomplete
       freeSolo={freeSolo}
       autoHighlight
-      getOptionLabel={option => getLabel(option)}
+      getOptionLabel={option => t(getLabel(option))}
       disabled={disabled}
       value={getSelectedOption(value, options)} // convert value to option
       options={options}
       renderOption={(props, option) => (
         <Box component='li' {...props}>
-          {getLabel(option)}
+          {t(getLabel(option))}
         </Box>
       )}
       onChange={handleChange}

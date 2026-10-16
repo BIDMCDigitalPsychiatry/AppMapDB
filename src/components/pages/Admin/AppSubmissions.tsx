@@ -45,6 +45,7 @@ import { updateSnackBar } from '../../application/SnackBar/store';
 import { SubmissionSummary } from '../SubmitApp/steps';
 import { toRatingValues, unsureAnswers } from '../SubmitApp/form';
 import { ReviewFlagsContext, useReviewFlagsState } from '../../application/DialogField/ReviewFlags';
+import { tx, useT } from '../../../i18n';
 
 const RATING_DIALOG_ID = 'Create Rating From Submission';
 
@@ -58,17 +59,18 @@ const STATUS_COLORS: Record<SubmissionStatus, 'info' | 'warning' | 'success' | '
 
 type Filter = 'open' | 'converted' | 'closed' | 'all';
 const FILTERS: { value: Filter; label: string; match: (s: SubmissionStatus) => boolean }[] = [
-  { value: 'open', label: 'Open', match: s => s === 'new' || s === 'inreview' },
-  { value: 'converted', label: 'Rating created', match: s => s === 'converted' },
-  { value: 'closed', label: 'Declined / duplicate', match: s => s === 'declined' || s === 'duplicate' },
-  { value: 'all', label: 'All', match: () => true }
+  { value: 'open', label: tx('Open'), match: s => s === 'new' || s === 'inreview' },
+  { value: 'converted', label: tx('Rating created'), match: s => s === 'converted' },
+  { value: 'closed', label: tx('Declined / duplicate'), match: s => s === 'declined' || s === 'duplicate' },
+  { value: 'all', label: tx('All'), match: () => true }
 ];
 
 const formatDate = (ms?: number) => (ms ? new Date(ms).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '');
 
-export const StatusChip = ({ status }: { status: SubmissionStatus }) => (
-  <Chip size='small' color={STATUS_COLORS[status] as any} label={SUBMISSION_STATUS_LABELS[status] ?? status} sx={{ fontWeight: 600 }} />
-);
+export const StatusChip = ({ status }: { status: SubmissionStatus }) => {
+  const t = useT();
+  return <Chip size='small' color={STATUS_COLORS[status] as any} label={t(SUBMISSION_STATUS_LABELS[status] ?? status)} sx={{ fontWeight: 600 }} />;
+};
 
 // Library apps that share a store id or link with the submission.
 const useDuplicates = (s?: AppSubmission) => {
@@ -102,6 +104,7 @@ const SubmissionDetail = ({
   onUpdate: (data: { status?: SubmissionStatus; note?: string }) => Promise<boolean>;
   onCreateRating: () => void;
 }) => {
+  const t = useT();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [note, setNote] = React.useState('');
@@ -128,38 +131,45 @@ const SubmissionDetail = ({
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', mt: 0.5 }}>
             <StatusChip status={s.status} />
             <Typography variant='body2' color='text.secondary'>
-              Submitted {formatDate(s.created)} by {s.submitter?.firstName} {s.submitter?.lastName} ·{' '}
-              <Link href={`mailto:${s.submitter?.email}`}>{s.submitter?.email}</Link>
+              {t('Submitted {{date}} by {{name}}', {
+                date: formatDate(s.created),
+                name: `${s.submitter?.firstName ?? ''} ${s.submitter?.lastName ?? ''}`.trim()
+              })}{' '}
+              · <Link href={`mailto:${s.submitter?.email}`}>{s.submitter?.email}</Link>
             </Typography>
           </Box>
         </Box>
-        <IconButton onClick={onClose} aria-label='Close'>
+        <IconButton onClick={onClose} aria-label={t('Close')}>
           <Icons.Close />
         </IconButton>
       </DialogTitle>
       <DialogContent dividers>
         {duplicates.length > 0 && (
           <Alert severity='warning' sx={{ mb: 2 }}>
-            <b>This app may already be in the library:</b>{' '}
+            <b>{t('This app may already be in the library:')}</b>{' '}
             {duplicates.map((a, i) => (
               <React.Fragment key={a._id}>
                 {i > 0 && ', '}
                 <Link component='button' onClick={changeRoute(publicUrl('/ViewApp'), { app: a, from: 'Admin' })} sx={{ verticalAlign: 'baseline' }}>
                   {a.name}
                 </Link>
-                {a.approved !== true && ' (pending approval)'}
+                {a.approved !== true && ` (${t('pending approval')})`}
               </React.Fragment>
             ))}
-            . Consider “Mark duplicate”, or rate the existing app instead.
+            . {t('Consider “Mark duplicate”, or rate the existing app instead.')}
           </Alert>
         )}
         {unsure.length > 0 && (
           <Alert severity='info' sx={{ mb: 2 }}>
-            <b>The submitter wasn’t sure about {unsure.length === 1 ? 'one question' : `${unsure.length} questions`}</b> — they’re highlighted and left
-            unanswered in the rating form, and you’ll choose Yes or No for each before saving:
+            <b>
+              {unsure.length === 1
+                ? t('The submitter wasn’t sure about one question')
+                : t('The submitter wasn’t sure about {{count}} questions', { count: unsure.length })}
+            </b>{' '}
+            — {t('they’re highlighted and left unanswered in the rating form, and you’ll choose Yes or No for each before saving:')}
             <Box component='ul' sx={{ m: 0, mt: 0.5, pl: 2.5 }}>
               {unsure.map(u => (
-                <li key={`${u.field}.${u.value}`}>{u.label}</li>
+                <li key={`${u.field}.${u.value}`}>{t(u.label)}</li>
               ))}
             </Box>
           </Alert>
@@ -167,59 +177,77 @@ const SubmissionDetail = ({
 
         {s.ratingId && (
           <Alert severity='success' sx={{ mb: 2 }}>
-            A rating was created from this suggestion. It is in <b>Admin → Pending Approvals</b> until an admin approves it.
+            {t('A rating was created from this suggestion. It is in {{place}} until an admin approves it.', { place: '\u0000' })
+              .split('\u0000')
+              .map((part: string, i: number) =>
+                i === 1 ? (
+                  <React.Fragment key={i}>
+                    <b>{t('Admin → Pending Approvals')}</b>
+                    {part}
+                  </React.Fragment>
+                ) : (
+                  part
+                )
+              )}
           </Alert>
         )}
 
         <Box sx={{ p: 2, mb: 3, borderRadius: 2, bgcolor: 'action.hover' }}>
-          <Typography sx={{ fontWeight: 700, mb: 1 }}>Review actions</Typography>
+          <Typography sx={{ fontWeight: 700, mb: 1 }}>{t('Review actions')}</Typography>
           <TextField
             fullWidth
             size='small'
             multiline
             minRows={2}
-            placeholder='Optional note (saved with the status change — e.g. why it was declined)'
+            placeholder={t('Optional note (saved with the status change — e.g. why it was declined)')}
             value={note}
             onChange={e => setNote(e.target.value)}
             sx={{ bgcolor: 'background.paper' }}
           />
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1.5 }}>
-            <Button variant='contained' startIcon={<Icons.RateReview />} disabled={busy} onClick={onCreateRating} sx={{ textTransform: 'none', fontWeight: 700 }}>
-              {s.ratingId ? 'Create another rating' : 'Create rating'}
+            <Button
+              variant='contained'
+              startIcon={<Icons.RateReview />}
+              disabled={busy}
+              onClick={onCreateRating}
+              sx={{ textTransform: 'none', fontWeight: 700 }}
+            >
+              {s.ratingId ? t('Create another rating') : t('Create rating')}
             </Button>
             {s.status !== 'inreview' && (
               <Button variant='outlined' disabled={busy} onClick={act('inreview')} sx={{ textTransform: 'none' }}>
-                Mark in review
+                {t('Mark in review')}
               </Button>
             )}
             {s.status !== 'duplicate' && (
               <Button variant='outlined' disabled={busy} onClick={act('duplicate')} sx={{ textTransform: 'none' }}>
-                Mark duplicate
+                {t('Mark duplicate')}
               </Button>
             )}
             {s.status !== 'declined' && (
               <Button variant='outlined' color='error' disabled={busy} onClick={act('declined')} sx={{ textTransform: 'none' }}>
-                Decline
+                {t('Decline')}
               </Button>
             )}
             {(s.status === 'declined' || s.status === 'duplicate') && (
               <Button variant='text' disabled={busy} onClick={act('new')} sx={{ textTransform: 'none' }}>
-                Reopen
+                {t('Reopen')}
               </Button>
             )}
             <Button variant='text' disabled={busy || !note.trim()} onClick={act(undefined)} sx={{ textTransform: 'none', ml: 'auto' }}>
-              Add note only
+              {t('Add note only')}
             </Button>
           </Box>
           <Typography variant='caption' color='text.secondary' sx={{ display: 'block', mt: 1 }}>
-            “Create rating” opens the rating form pre-filled with these answers. Saving it marks this suggestion “Rating created”; the rating then goes through
-            the usual approval.
+            {t(
+              '“Create rating” opens the rating form pre-filled with these answers. Saving it marks this suggestion “Rating created”; the rating then goes through the usual approval.'
+            )}
           </Typography>
         </Box>
 
         {(s.notes ?? []).length > 0 && (
           <Box sx={{ mb: 3 }}>
-            <Typography sx={{ fontWeight: 700, color: 'primary.dark', mb: 0.5 }}>Review history</Typography>
+            <Typography sx={{ fontWeight: 700, color: 'primary.dark', mb: 0.5 }}>{t('Review history')}</Typography>
             {(s.notes ?? [])
               .slice()
               .reverse()
@@ -227,7 +255,7 @@ const SubmissionDetail = ({
                 <Box key={i} sx={{ py: 1, borderBottom: 1, borderColor: 'divider' }}>
                   <Typography variant='body2' color='text.secondary'>
                     {formatDate(n.at)} · {n.by}
-                    {n.status && <> · marked {SUBMISSION_STATUS_LABELS[n.status]}</>}
+                    {n.status && <> · {t('marked {{status}}', { status: t(SUBMISSION_STATUS_LABELS[n.status]) })}</>}
                   </Typography>
                   <Typography variant='body2' sx={{ whiteSpace: 'pre-wrap' }}>
                     {n.text}
@@ -245,6 +273,7 @@ const SubmissionDetail = ({
 };
 
 export default function AppSubmissions({ height = undefined as number | undefined }) {
+  const t = useT();
   const dispatch = useDispatch();
   const headerRef = useHeaderHeightSetRef();
   const [state, setState] = React.useState({ loading: true, error: '', rows: [] as AppSubmission[] });
@@ -276,14 +305,14 @@ export default function AppSubmissions({ height = undefined as number | undefine
     async (_id: string, data: { status?: SubmissionStatus; note?: string; ratingId?: string }) => {
       try {
         replaceRow(await updateSubmission({ _id, ...data }));
-        dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Suggestion updated' }));
+        dispatch(updateSnackBar({ open: true, variant: 'success', message: t('Suggestion updated') }));
         return true;
       } catch (err) {
         dispatch(updateSnackBar({ open: true, variant: 'error', message: handleError(err) }));
         return false;
       }
     },
-    [dispatch, handleError]
+    [dispatch, handleError, t]
   );
 
   const selected = state.rows.find(r => r._id === selectedId);
@@ -306,7 +335,8 @@ export default function AppSubmissions({ height = undefined as number | undefine
       const submissionId = convertingRef.current;
       convertingRef.current = undefined;
       setFlaggedValues([]);
-      if (submissionId && application?._id) update(submissionId, { status: 'converted', ratingId: application._id, note: `Rating created: ${application.name ?? ''}`.trim() });
+      if (submissionId && application?._id)
+        update(submissionId, { status: 'converted', ratingId: application._id, note: `Rating created: ${application.name ?? ''}`.trim() });
     },
     [update]
   );
@@ -318,19 +348,19 @@ export default function AppSubmissions({ height = undefined as number | undefine
     <>
       <Box ref={headerRef} sx={{ bgcolor: 'primary.light', px: { xs: 2, md: 4 }, py: 2, display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
         <Box sx={{ flex: 1, minWidth: 240 }}>
-          <Typography sx={{ fontSize: 30, lineHeight: 1.2, fontWeight: 900, color: 'primary.dark' }}>App Suggestions</Typography>
+          <Typography sx={{ fontSize: 30, lineHeight: 1.2, fontWeight: 900, color: 'primary.dark' }}>{t('App Suggestions')}</Typography>
           <Typography variant='body2' color='text.secondary'>
-            Apps suggested through the public “Suggest an App” form. Visible to Submission Reviewers and Super Admins.
+            {t('Apps suggested through the public “Suggest an App” form. Visible to Submission Reviewers and Super Admins.')}
           </Typography>
         </Box>
         <ToggleButtonGroup exclusive size='small' value={filter} onChange={(_, v) => v && setFilter(v)} sx={{ bgcolor: 'background.paper' }}>
           {FILTERS.map(f => (
             <ToggleButton key={f.value} value={f.value} sx={{ textTransform: 'none', px: 1.5 }}>
-              {f.label} ({counts[f.value] ?? 0})
+              {t(f.label)} ({counts[f.value] ?? 0})
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
-        <Tooltip title='Refresh'>
+        <Tooltip title={t('Refresh')}>
           <span>
             <IconButton onClick={load} disabled={state.loading} sx={{ bgcolor: 'background.paper' }}>
               <Icons.Refresh />
@@ -346,7 +376,7 @@ export default function AppSubmissions({ height = undefined as number | undefine
               {state.error}
             </Typography>
             <Button variant='outlined' onClick={load} sx={{ textTransform: 'none' }}>
-              Retry
+              {t('Retry')}
             </Button>
           </Box>
         ) : state.loading && state.rows.length === 0 ? (
@@ -356,16 +386,16 @@ export default function AppSubmissions({ height = undefined as number | undefine
         ) : rows.length === 0 ? (
           <Box sx={{ p: 6, textAlign: 'center' }}>
             <Icons.Inbox sx={{ fontSize: 48, color: 'text.disabled' }} />
-            <Typography color='text.secondary'>No suggestions here.</Typography>
+            <Typography color='text.secondary'>{t('No suggestions here.')}</Typography>
           </Box>
         ) : (
           <Table stickyHeader size='small'>
             <TableHead>
               <TableRow>
-                <TableCell>App</TableCell>
-                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Submitted by</TableCell>
-                <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Date</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell>{t('App')}</TableCell>
+                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{t('Submitted by')}</TableCell>
+                <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>{t('Date')}</TableCell>
+                <TableCell>{t('Status')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -382,7 +412,7 @@ export default function AppSubmissions({ height = undefined as number | undefine
                       {r.submitter?.firstName} {r.submitter?.lastName}
                     </Typography>
                     <Typography variant='body2' color='text.secondary'>
-                      {r.submitter?.organization} · {r.submitter?.relationship === 'developer' ? 'App team' : 'Recommender'}
+                      {r.submitter?.organization} · {r.submitter?.relationship === 'developer' ? t('App team') : t('Recommender')}
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' }, whiteSpace: 'nowrap' }}>{formatDate(r.created)}</TableCell>
@@ -396,7 +426,14 @@ export default function AppSubmissions({ height = undefined as number | undefine
         )}
       </Box>
 
-      {selected && <SubmissionDetail submission={selected} onClose={() => setSelectedId(undefined)} onUpdate={data => update(selected._id, data)} onCreateRating={handleCreateRating} />}
+      {selected && (
+        <SubmissionDetail
+          submission={selected}
+          onClose={() => setSelectedId(undefined)}
+          onUpdate={data => update(selected._id, data)}
+          onCreateRating={handleCreateRating}
+        />
+      )}
       <ReviewFlagsContext.Provider value={reviewFlags}>
         <RateNewAppDialog
           id={RATING_DIALOG_ID}

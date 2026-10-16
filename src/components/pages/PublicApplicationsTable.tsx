@@ -40,6 +40,7 @@ import { categories } from '../../constants';
 import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
 import { RaterEmail } from '../application/GenericTable/Applications/RaterEmail';
 import { useHandleTableReset } from '../application/GenericTable/store';
+import { useT, tx } from '../../i18n';
 
 /*
  * Modern public replacement for the table view of the app library.
@@ -64,26 +65,26 @@ const shortLabel = (questions: any[] | undefined) => (label: string) => {
 type CategoryDef = { id: string; header?: string; field: string; values: string[]; questions?: any[] };
 
 const CATEGORY_DEFS: CategoryDef[] = [
-  { id: 'Platforms', field: 'platforms', values: Platforms as any },
-  { id: 'DeveloperTypes', header: 'Developer Type', field: 'developerTypes', values: DeveloperTypes as any, questions: DeveloperTypeQuestions },
-  { id: 'Cost', header: 'Cost', field: 'costs', values: Costs as any },
-  { id: 'Functionalities', header: 'Access', field: 'functionalities', values: Functionalities as any, questions: FunctionalityQuestions },
-  { id: 'Privacy', header: 'Privacy', field: 'privacies', values: Privacies as any, questions: PrivacyQuestions },
+  { id: 'Platforms', header: tx('Platforms'), field: 'platforms', values: Platforms as any },
+  { id: 'DeveloperTypes', header: tx('Developer Type'), field: 'developerTypes', values: DeveloperTypes as any, questions: DeveloperTypeQuestions },
+  { id: 'Cost', header: tx('Cost'), field: 'costs', values: Costs as any },
+  { id: 'Functionalities', header: tx('Access'), field: 'functionalities', values: Functionalities as any, questions: FunctionalityQuestions },
+  { id: 'Privacy', header: tx('Privacy'), field: 'privacies', values: Privacies as any, questions: PrivacyQuestions },
   {
     id: 'ClinicalFoundations',
-    header: 'Clinical Foundations',
+    header: tx('Clinical Foundations'),
     field: 'clinicalFoundations',
     values: ClinicalFoundations as any,
     questions: ClinicalFoundationQuestions
   },
-  { id: 'TreatmentApproaches', header: 'Treatment Approaches', field: 'treatmentApproaches', values: TreatmentApproaches as any },
-  { id: 'Features', field: 'features', values: Features as any },
-  { id: 'Conditions', header: 'Supported Conditions', field: 'conditions', values: Conditions as any },
-  { id: 'Engagements', field: 'engagements', values: Engagements as any, questions: EngagementQuestions },
-  { id: 'Inputs', field: 'inputs', values: Inputs as any },
-  { id: 'Outputs', field: 'outputs', values: Outputs as any },
-  { id: 'Uses', field: 'uses', values: VisibleUses as any },
-  { id: 'Countries', header: 'Country Availability', field: 'countries', values: Countries as any, questions: CountryQuestions }
+  { id: 'TreatmentApproaches', header: tx('Treatment Approaches'), field: 'treatmentApproaches', values: TreatmentApproaches as any },
+  { id: 'Features', header: tx('Features'), field: 'features', values: Features as any },
+  { id: 'Conditions', header: tx('Supported Conditions'), field: 'conditions', values: Conditions as any },
+  { id: 'Engagements', header: tx('Engagements'), field: 'engagements', values: Engagements as any, questions: EngagementQuestions },
+  { id: 'Inputs', header: tx('Inputs'), field: 'inputs', values: Inputs as any },
+  { id: 'Outputs', header: tx('Outputs'), field: 'outputs', values: Outputs as any },
+  { id: 'Uses', header: tx('Uses'), field: 'uses', values: VisibleUses as any },
+  { id: 'Countries', header: tx('Country Availability'), field: 'countries', values: Countries as any, questions: CountryQuestions }
 ];
 
 // Legacy data sometimes stores a question's `short` form instead of its value;
@@ -215,6 +216,7 @@ const stop = e => e.stopPropagation();
 
 const RowActions = ({ app }) => {
   const signedInRater = useSignedInRater();
+  const t = useT();
   const initialValues = { [tables.applications]: app };
   return (
     <Box onClick={stop} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}>
@@ -224,7 +226,7 @@ const RowActions = ({ app }) => {
         mount={false}
         Icon={Icons.History}
         initialValues={initialValues}
-        tooltip='Ratings history'
+        tooltip={t('Ratings history')}
         placement='bottom'
       />
       <EditDialogButton
@@ -233,7 +235,7 @@ const RowActions = ({ app }) => {
         mount={false}
         Icon={Icons.OutlinedFlag}
         initialValues={initialValues}
-        tooltip='Suggest an edit'
+        tooltip={t('Suggest an edit')}
         placement='bottom'
       />
       {signedInRater && (
@@ -243,7 +245,7 @@ const RowActions = ({ app }) => {
           mount={false}
           Icon={Icons.Edit}
           initialValues={initialValues}
-          tooltip='Edit'
+          tooltip={t('Edit')}
           placement='bottom'
         />
       )}
@@ -264,6 +266,7 @@ const VirtuosoTableHead = React.forwardRef((props: any, ref: any) => <thead {...
 
 export default function PublicApplicationsTable({ data = [], height = 500 }) {
   const classes = useStyles();
+  const t = useT();
   const changeRoute = useChangeRoute();
   const handleReset = useHandleTableReset('Applications');
   const [sortKey, setSortKey] = React.useState<SortKey>('name');
@@ -310,13 +313,13 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
       <div className={classes.outer} style={{ height }}>
         <Box sx={{ p: 6, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 1 }}>
-            No apps match your search
+            {t('No apps match your search')}
           </Typography>
           <Typography variant='body2' color='textSecondary' sx={{ mb: 2 }}>
-            Try removing a filter or changing your search text.
+            {t('Try removing a filter or changing your search text.')}
           </Typography>
           <Button variant='outlined' onClick={handleReset} sx={{ textTransform: 'none' }}>
-            Clear all filters
+            {t('Clear all filters')}
           </Button>
         </Box>
       </div>
@@ -353,7 +356,7 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                   className={`${classes.thBase} ${classes.thGroup} ${classes.thRow1}`}
                   style={{ borderBottomColor: categories[c.id]?.color ?? undefined, color: categories[c.id]?.color ?? undefined }}
                 >
-                  {c.header ?? c.id}
+                  {t(c.header ?? c.id)}
                 </th>
               ))}
             </tr>
@@ -363,22 +366,22 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                 style={{ width: APP_COL, left: 0, zIndex: 5, height: VALUE_HEADER_HEIGHT }}
                 onClick={handleSort('name')}
               >
-                Application <SortIcon active={sortKey === 'name'} />
+                {t('Application')} <SortIcon active={sortKey === 'name'} />
               </th>
               <th
                 className={`${classes.thBase} ${classes.thCorner} ${classes.sortable} ${classes.thRow2}`}
                 style={{ width: DATE_COL }}
                 onClick={handleSort('updated')}
               >
-                Last Evaluated <SortIcon active={sortKey === 'updated'} />
+                {t('Last Evaluated')} <SortIcon active={sortKey === 'updated'} />
               </th>
               <th className={`${classes.thBase} ${classes.thCorner} ${classes.thRow2}`} style={{ width: ACTIONS_COL }}>
-                Details
+                {t('Details')}
               </th>
               {CATEGORY_DEFS.map(c =>
                 c.values.map(v => (
                   <th key={`${c.id}-${v}`} className={`${classes.thBase} ${classes.thValue} ${classes.thRow2}`} style={{ width: VALUE_COL }}>
-                    {breakSlashes(shortLabel(c.questions)(v))}
+                    {breakSlashes(t(shortLabel(c.questions)(v)))}
                   </th>
                 ))
               )}
@@ -395,7 +398,7 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
                   <img className={classes.appIcon} src={getAppIcon(app)} alt='' />
                   <div style={{ minWidth: 0 }}>
                     <Typography variant='body2' noWrap style={{ fontWeight: 600 }}>
-                      {r.name || 'Unknown Name'}
+                      {r.name || t('Unknown Name')}
                     </Typography>
                     <Typography variant='caption' color='textSecondary' noWrap display='block'>
                       {r.company}

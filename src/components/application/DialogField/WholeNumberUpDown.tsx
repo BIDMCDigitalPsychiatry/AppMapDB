@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Grid, IconButton } from '@mui/material';
 import WholeNumber from '../../application/DialogField/WholeNumber';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../../i18n';
 
 const WholeNumberUpDown = ({
   value = undefined,
@@ -13,6 +14,7 @@ const WholeNumberUpDown = ({
   InputProps = undefined,
   ...other
 }) => {
+  const t = useT();
   const handleUp = React.useCallback(() => {
     if (!isNaN(step)) {
       if (!isNaN(value)) {
@@ -76,12 +78,12 @@ const WholeNumberUpDown = ({
             {InputProps && InputProps.endAdornment}
             <Grid container style={{ width: 18, marginRight: -4 }}>
               <Grid item xs={12}>
-                <IconButton disabled={disabled} aria-label='up' style={{ marginTop: -2, marginBottom: -2 }} size='small' onClick={handleUp}>
+                <IconButton disabled={disabled} aria-label={t('up')} style={{ marginTop: -2, marginBottom: -2 }} size='small' onClick={handleUp}>
                   <Icons.ArrowDropUp fontSize='inherit' />
                 </IconButton>
               </Grid>
               <Grid item xs={12}>
-                <IconButton aria-label='down' style={{ marginTop: -2, marginBottom: -2 }} size='small' disabled={disabled} onClick={handleDown}>
+                <IconButton aria-label={t('down')} style={{ marginTop: -2, marginBottom: -2 }} size='small' disabled={disabled} onClick={handleDown}>
                   <Icons.ArrowDropDown fontSize='inherit' />
                 </IconButton>
               </Grid>

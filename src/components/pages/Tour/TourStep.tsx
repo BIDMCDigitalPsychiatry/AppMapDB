@@ -4,11 +4,12 @@ import { useTourCompleted, useTourStep } from '../../layout/hooks';
 import { Box } from '@mui/system';
 import { useScrollElement } from '../../layout/ScrollElementProvider';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
+import { useT, tx } from '../../../i18n';
 
 export const tourSteps = {
   1: {
-    title: 'Welcome to MINDApps!',
-    subTitle: 'This tour will walk you through a few of the features in this web application.  Please click next to continue.',
+    title: tx('Welcome to MINDApps!'),
+    subTitle: tx('This tour will walk you through a few of the features in this web application.  Please click next to continue.'),
     arrowPosition: 'none',
     anchorOrigin: {
       vertical: 'top',
@@ -16,28 +17,28 @@ export const tourSteps = {
     }
   },
   2: {
-    title: 'Search by Name',
-    subTitle: 'If you know the name or company of the app you are looking for, then enter it here.',
+    title: tx('Search by Name'),
+    subTitle: tx('If you know the name or company of the app you are looking for, then enter it here.'),
     arrowPosition: 'top-left'
   },
   3: {
-    title: 'Platforms',
-    subTitle: 'Select your desired platform(s): iOS, Android or Web.  Leave blank to search all platforms.',
+    title: tx('Platforms'),
+    subTitle: tx('Select your desired platform(s): iOS, Android or Web.  Leave blank to search all platforms.'),
     arrowPosition: 'top-left'
   },
   4: {
-    title: 'Features',
-    subTitle: 'Select one or many of the desired features.',
+    title: tx('Features'),
+    subTitle: tx('Select one or many of the desired features.'),
     arrowPosition: 'top-left'
   },
   5: {
-    title: 'Search',
-    subTitle: 'Click this button to see the results.',
+    title: tx('Search'),
+    subTitle: tx('Click this button to see the results.'),
     arrowPosition: 'top-right'
   },
   6: {
-    title: 'Results',
-    subTitle: 'The search results are shown here.',
+    title: tx('Results'),
+    subTitle: tx('The search results are shown here.'),
     arrowPosition: 'none',
     anchorOrigin: {
       vertical: 'center',
@@ -45,19 +46,19 @@ export const tourSteps = {
     }
   },
   7: {
-    title: 'More Filters',
+    title: tx('More Filters'),
     subTitle:
-      'Use additional filters to refine your search results. When viewing on mobile, this can be opened by clicking the icon in the top left corner of the application bar.',
+      tx('Use additional filters to refine your search results. When viewing on mobile, this can be opened by clicking the icon in the top left corner of the application bar.'),
     arrowPosition: 'top-left'
   },
   8: {
-    title: 'Toggle View',
-    subTitle: 'Change the view type if you prefer the table view or grid view.',
+    title: tx('Toggle View'),
+    subTitle: tx('Change the view type if you prefer the table view or grid view.'),
     arrowPosition: 'top-right'
   },
   9: {
-    title: 'Tour Complete!',
-    subTitle: 'That covers the basics.  Feel free to explore the other tabs and options within the application.',
+    title: tx('Tour Complete!'),
+    subTitle: tx('That covers the basics.  Feel free to explore the other tabs and options within the application.'),
     arrowPosition: 'none',
     anchorOrigin: {
       vertical: 'top',
@@ -80,6 +81,7 @@ const TourStep = ({ id, onNext = undefined, onPrev = undefined, onOpen = undefin
       horizontal: 'left'
     }
   } = tourSteps[id] ?? {};
+  const t = useT();
   const [el, setEl] = React.useState(null);
   const { step, setStep } = useTourStep();
   const { tourCompleted, setTourCompleted } = useTourCompleted();
@@ -160,12 +162,12 @@ const TourStep = ({ id, onNext = undefined, onPrev = undefined, onOpen = undefin
                       <Grid container alignItems='center'>
                         <Grid item xs>
                           <Typography sx={{ fontSize: 16, fontWeight: 900 }} variant='h5' noWrap>
-                            {title}
+                            {t(title)}
                           </Typography>
                         </Grid>
                         <Grid item>
                           <Typography sx={{ fontSize: 16, fontWeight: 900 }} variant='h5'>
-                            {step} of {Object.keys(tourSteps).length}
+                            {t('{{step}} of {{total}}', { step, total: Object.keys(tourSteps).length })}
                           </Typography>
                         </Grid>
                       </Grid>
@@ -175,7 +177,7 @@ const TourStep = ({ id, onNext = undefined, onPrev = undefined, onOpen = undefin
                     </Grid>
                     <Grid item xs={12}>
                       <Box pt={1}>
-                        <Typography variant='body1'>{subTitle}</Typography>
+                        <Typography variant='body1'>{t(subTitle)}</Typography>
                       </Box>
                     </Grid>
                   </Grid>
@@ -185,16 +187,16 @@ const TourStep = ({ id, onNext = undefined, onPrev = undefined, onOpen = undefin
             <CardActions>
               {!isLast && (
                 <Button size='small' variant='contained' onClick={handleClose}>
-                  Close
+                  {t('Close')}
                 </Button>
               )}
               {step > 1 && (
                 <Button size='small' variant='contained' onClick={handlePrev}>
-                  Previous
+                  {t('Previous')}
                 </Button>
               )}
               <Button size='small' variant='contained' onClick={isLast ? handleClose : handleNext}>
-                {isLast ? 'Done' : 'Next'}
+                {isLast ? t('Done') : t('Next')}
               </Button>
             </CardActions>
           </Card>

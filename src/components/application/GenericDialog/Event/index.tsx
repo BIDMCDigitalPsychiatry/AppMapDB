@@ -12,16 +12,17 @@ import { useTheme } from '@mui/material';
 import Select from '../../DialogField/Select';
 import DatePicker from '../../DialogField/DatePicker';
 import TextLink from '../../DialogField/TextLink';
+import { tx } from '../../../../i18n';
 
-export const title = 'Add Event';
+export const title = tx('Add Event');
 const Model = tables.events;
 
 const frequencyItems = [
-  { label: 'Single Event', value: 'Once' },
-  { label: 'Create Event Every Day', value: 'Daily' },
-  { label: 'Create Event Every Week', value: 'Weekly' },
-  { label: 'Create Event Every Other Week (Bi-Weekly)', value: 'BiWeekly' },
-  { label: 'Create Event Every Month', value: 'Monthly' }
+  { label: tx('Single Event'), value: 'Once' },
+  { label: tx('Create Event Every Day'), value: 'Daily' },
+  { label: tx('Create Event Every Week'), value: 'Weekly' },
+  { label: tx('Create Event Every Other Week (Bi-Weekly)'), value: 'BiWeekly' },
+  { label: tx('Create Event Every Month'), value: 'Monthly' }
 ];
 
 export default function EventDialog({ id = title, onClose }) {
@@ -79,7 +80,7 @@ export default function EventDialog({ id = title, onClose }) {
             Model,
             Action: 'c',
             Data: nextData,
-            onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+            onError: () => setState(prev => ({ ...prev, loading: false, error: tx('Error submitting values') })),
             onSuccess: () => onSuccess({ data: nextData })
           });
         } else {
@@ -92,7 +93,7 @@ export default function EventDialog({ id = title, onClose }) {
         Model,
         Action: 'c',
         Data,
-        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onError: () => setState(prev => ({ ...prev, loading: false, error: tx('Error submitting values') })),
         onSuccess: () => onSuccess({ data: Data })
       });
     },
@@ -118,7 +119,7 @@ export default function EventDialog({ id = title, onClose }) {
       id={id}
       title={id}
       onSubmit={handleSubmit}
-      submitLabel='Add'
+      submitLabel={tx('Add')}
       onClose={onClose}
       fields={[
         {
@@ -127,42 +128,42 @@ export default function EventDialog({ id = title, onClose }) {
         },
         {
           id: 'title',
-          label: 'Title',
+          label: tx('Title'),
           required: true
         },
         {
           id: 'description',
-          label: 'Description',
+          label: tx('Description'),
           multiline: true,
           rows: 4
         },
         {
           id: 'link',
-          label: 'Link',
+          label: tx('Link'),
           Field: TextLink
         },
         {
           id: 'allDay',
-          label: 'All day',
+          label: tx('All day'),
           Field: Switch
         },
         {
           id: 'start',
-          label: 'Start',
+          label: tx('Start'),
           Field: DateTimePicker
         },
         {
           id: 'end',
-          label: 'End',
+          label: tx('End'),
           Field: DateTimePicker,
           validate: values => {
             const { start, end } = values;
-            return moment(end) < moment(start) ? 'Must be after start date' : undefined;
+            return moment(end) < moment(start) ? tx('Must be after start date') : undefined;
           }
         },
         {
           id: 'frequency',
-          label: 'Event Frequency',
+          label: tx('Event Frequency'),
           Field: Select,
           items: frequencyItems,
           disableClearable: true,
@@ -171,7 +172,7 @@ export default function EventDialog({ id = title, onClose }) {
         },
         {
           id: 'frequencyEnd',
-          label: 'Until',
+          label: tx('Until'),
           Field: DatePicker,
           hidden: ({ frequency }) => isEmpty(frequency) || frequency === 'Once',
           fullWidth: true,
@@ -182,49 +183,49 @@ export default function EventDialog({ id = title, onClose }) {
             const e = moment(end);
             var isInvalid = fe < e;
 
-            var error = isInvalid ? 'Must be after event end date' : undefined;
+            var error: string = isInvalid ? tx('Must be after event end date') : undefined;
             if (!error) {
               if (frequency === 'Daily') {
                 const dailyMax = e.add(2, 'months').toDate();
                 var dailyError = fe.toDate() > dailyMax;
                 if (dailyError) {
-                  error = 'Timespan must be 2 months or less';
+                  error = tx('Timespan must be 2 months or less');
                 }
               } else if (frequency === 'Weekly') {
                 const weeklyMinEnd = moment(e).add(1, 'weeks').subtract(1, 'days').toDate();
                 const weeklyMax = moment(e).add(6, 'months').toDate();
                 if (weeklyMinEnd > fe.toDate()) {
-                  error = 'Timespan must be at least 1 week from the event end date';
+                  error = tx('Timespan must be at least 1 week from the event end date');
                 } else {
                   var weeklyError = fe.toDate() > weeklyMax;
                   if (weeklyError) {
-                    error = 'Timespan must be 6 months or less';
+                    error = tx('Timespan must be 6 months or less');
                   }
                 }
               } else if (frequency === 'BiWeekly') {
                 const biWeeklyMinEnd = moment(e).add(2, 'weeks').subtract(1, 'days').toDate();
                 const biWeeklyMax = moment(e).add(6, 'months').toDate();
                 if (biWeeklyMinEnd > fe.toDate()) {
-                  error = 'Timespan must be at least 2 weeks from the event end date';
+                  error = tx('Timespan must be at least 2 weeks from the event end date');
                 } else {
                   var biWeeklyError = fe.toDate() > biWeeklyMax;
                   if (biWeeklyError) {
-                    error = 'Timespan must be 6 months or less';
+                    error = tx('Timespan must be 6 months or less');
                   }
                 }
               } else if (frequency === 'Monthly') {
                 const monthlyMinEnd = moment(e).add(1, 'months').subtract(1, 'days').toDate();
                 const monthlyMax = moment(e).add(12, 'months').toDate();
                 if (monthlyMinEnd > fe.toDate()) {
-                  error = 'Timespan must be at least 1 month from the event end date';
+                  error = tx('Timespan must be at least 1 month from the event end date');
                 } else {
                   var monthlyError = fe.toDate() > monthlyMax;
                   if (monthlyError) {
-                    error = 'Timespan must be 12 months or less';
+                    error = tx('Timespan must be 12 months or less');
                   }
                 }
               } else {
-                error = 'Unknown Frequency';
+                error = tx('Unknown Frequency');
               }
             }
             return error;

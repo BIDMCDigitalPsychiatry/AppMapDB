@@ -6,8 +6,10 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import * as DeleteFilterDialog from '../../GenericDialog/DeleteFilter';
 import * as SaveFilterDialog from '../../GenericDialog/SaveFilter';
 import * as LoadFilterDialog from '../../GenericDialog/LoadFilter';
+import { useT } from '../../../../i18n';
 
 export default function FilterButtons({ variant = 'smallOutlined', underline = 'always' }) {
+  const t = useT();
   const signedIn = useSignedIn();
   const [values, setValues] = useTableFilterValues('Applications');
   const handleReset = useHandleTableReset('Applications');
@@ -23,28 +25,28 @@ export default function FilterButtons({ variant = 'smallOutlined', underline = '
       <>
         <Grid item>
           <DialogButton variant={variant} underline={underline} onClick={handleReset}>
-            Reset Filter
+            {t('Reset Filter')}
           </DialogButton>
         </Grid>
         <Grid item>
           <DialogButton Module={LoadFilterDialog} variant={variant} underline={underline}>
-            Load Filter
+            {t('Load Filter')}
           </DialogButton>
         </Grid>
         <Grid item>
           <DialogButton disabled={!signedIn} Module={SaveFilterDialog} variant={variant} underline={underline}>
-            Save Filter
+            {t('Save Filter')}
           </DialogButton>
         </Grid>
         <Grid item>
           <DialogButton disabled={!signedIn} Module={DeleteFilterDialog} variant={variant} underline={underline}>
-            Delete Filter
+            {t('Delete Filter')}
           </DialogButton>
         </Grid>
         {!signedIn && (
           <Grid item xs={12}>
             <Typography variant='caption' color='textSecondary'>
-              You must create an account and sign in to save and load filters.
+              {t('You must create an account and sign in to save and load filters.')}
             </Typography>
           </Grid>
         )}

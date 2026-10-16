@@ -5,11 +5,14 @@ import { getSurveyEmail, isEmpty } from '../../../../helpers';
 import useValues from './useValues';
 import Label from '../../DialogField/Label';
 import { getAppName } from '../../GenericTable/Applications/selectors';
+import { tx, useT } from '../../../../i18n';
 
-export const title = 'Delete Survey';
+// Dialog id (stays English).
+export const title = tx('Delete Survey');
 
 export default function DeleteSurveyDialog({ id = title, onClose, handleRefresh }) {
   const [{ open, initialValues }, setState] = useDialogState(id);
+  const t = useT();
   const { _id } = initialValues;
 
   const { values, loading, handleDelete } = useValues({ trigger: open && !isEmpty(_id), values: { _id } });
@@ -28,9 +31,9 @@ export default function DeleteSurveyDialog({ id = title, onClose, handleRefresh 
   return (
     <GenericDialog
       id={id}
-      title={values?.deleted ? 'Restore Survey' : 'Delete Survey'}
+      title={values?.deleted ? t('Restore Survey') : t('Delete Survey')}
       loading={loading}
-      deleteLabel={values?.deleted ? 'Restore' : 'Delete'}
+      deleteLabel={values?.deleted ? t('Restore') : t('Delete')}
       onDelete={handleSubmit}
       submitLabel={null}
       onClose={onClose}
@@ -44,11 +47,11 @@ export default function DeleteSurveyDialog({ id = title, onClose, handleRefresh 
         },
         {
           Field: Label,
-          label: `Survey by: ${getSurveyEmail(values) ?? 'Unknown'}`
+          label: t('Survey by: {{email}}', { email: getSurveyEmail(values) ?? t('Unknown') })
         },
         {
           Field: Label,
-          label: `App: ${getAppName(values?.app)}`
+          label: t('App: {{name}}', { name: getAppName(values?.app) })
         }
       ]}
     />

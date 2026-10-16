@@ -7,6 +7,7 @@ import { useFullScreen } from '../../../hooks';
 import { useLeftDrawer } from '../store';
 import useHeight from '../ViewPort/hooks/useHeight';
 import { useAppBarHeight } from '../hooks';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(({ breakpoints, layout }: any) =>
   createStyles({
@@ -38,9 +39,10 @@ const LeftDrawer = () => {
   const classes = useStyles({ height, appBarHeight });
   const [leftDrawer, setLeftDrawer] = useLeftDrawer();
   const handleLeftDrawerClose = React.useCallback(() => setLeftDrawer(false), [setLeftDrawer]);
+  const t = useT();
 
   return (
-    <nav className={classes.drawer} aria-label='navigation drawer'>
+    <nav className={classes.drawer} aria-label={t('navigation drawer')}>
       <Drawer
         variant='temporary'
         open={fullScreen && leftDrawer}

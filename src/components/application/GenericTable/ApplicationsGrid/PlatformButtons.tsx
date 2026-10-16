@@ -3,6 +3,8 @@ import { Grid, Typography, Theme, Button } from '@mui/material';
 import { makeStyles } from '../../../../styles/jss';
 import { createStyles } from '../../../../styles/jss';
 import { onlyUnique, sortAscendingToLower } from '../../../../helpers';
+import { withReplacement } from '../../../../database/models/Application';
+import { useT } from '../../../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function PlatformButtons({ platforms = [], androidLink, iosLink, webLink }) {
   const classes = useStyles({});
+  const t = useT();
 
   const handleLink = React.useCallback(
     platform => event => {
@@ -43,7 +46,7 @@ export default function PlatformButtons({ platforms = [], androidLink, iosLink, 
           .map((p, i) => (
             <Grid item key={`platform-${p}-${i}`}>
               <Button size='small' className={classes.secondaryButton} onClick={handleLink(p)}>
-                {p}
+                {t(withReplacement(p))}
               </Button>
             </Grid>
           ))}

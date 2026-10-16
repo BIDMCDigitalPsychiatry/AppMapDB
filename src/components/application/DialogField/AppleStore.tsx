@@ -4,6 +4,7 @@ import logo from '../../../images/logo.png';
 import NewWindowLink from './NewWindowLink';
 import DialogButton from '../GenericDialog/DialogButton';
 import * as ScreenshotsDialog from '../GenericDialog/ScreenshotsDialog';
+import { useT } from '../../../i18n';
 
 export const appleKeys = ['appId', 'title', 'icon', 'developer', 'description', 'free', 'url', 'screenshots'];
 
@@ -46,13 +47,14 @@ export interface AppleStoreProps {
 }
 
 const AppleStore = ({ value = {} as AppleStoreProps }) => {
+  const t = useT();
   const { icon = logo, title, developer, description, free, url, screenshots = [] } = value;
 
   return (
     <>
       <Grid container spacing={2}>
         <Grid item>
-          <img style={{ height: 100 }} src={icon} alt='logo' />
+          <img style={{ height: 100 }} src={icon} alt={t('logo')} />
         </Grid>
         <Grid item xs>
           <Grid container>
@@ -64,13 +66,13 @@ const AppleStore = ({ value = {} as AppleStoreProps }) => {
             </Grid>
             <Grid item xs={12}>
               <Typography color='textSecondary' variant='caption'>
-                {free && 'Free'}
+                {free && t('Free')}
               </Typography>
             </Grid>
             <Grid item xs={12}>
               <Grid container spacing={1}>
                 <Grid item>
-                  <NewWindowLink url={url} label={'Open in Apple Store'} />
+                  <NewWindowLink url={url} label={t('Open in Apple Store')} />
                 </Grid>
                 {screenshots.length > 0 && (
                   <>
@@ -82,11 +84,11 @@ const AppleStore = ({ value = {} as AppleStoreProps }) => {
                         variant='link'
                         linkvariant='inherit'
                         underline='always'
-                        tooltip='Click to View'
+                        tooltip={t('Click to View')}
                         Icon={null}
                         initialValues={{ images: screenshots }}
                       >
-                        View Screenshots
+                        {t('View Screenshots')}
                       </DialogButton>
                     </Grid>
                   </>

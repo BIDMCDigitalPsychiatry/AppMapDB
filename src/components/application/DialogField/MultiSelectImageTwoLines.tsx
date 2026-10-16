@@ -3,6 +3,7 @@ import { Grid, Box, Typography } from '@mui/material';
 import { makeStyles } from '../../../styles/jss';
 import { createStyles } from '../../../styles/jss';
 import OutlinedDivActive from '../../general/OutlinedDiv/OutlinedDivActive';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -27,6 +28,7 @@ export default function MultiSelectImageTwoLines({
   replace = false,
   ...other
 }) {
+  const t = useT();
   const classes = useStyles({});
   const handleChange = React.useCallback(
     (val, exists) => () => {
@@ -46,13 +48,13 @@ export default function MultiSelectImageTwoLines({
               <Grid container style={{ minHeight: 36 }} justifyContent='center' alignItems='center'>
                 {b.image && (
                   <Grid item style={{ textAlign: 'center', padding: 8, height: 120 }}>
-                    <img draggable='false' className={classes.img} src={b.image} alt={b.label} />
+                    <img draggable='false' className={classes.img} src={b.image} alt={t(b.label)} />
                   </Grid>
                 )}
                 <Grid item xs={12} alignContent='center'>
                   <Box p={1} sx={{ minHeight: 64 }}>
                     <Typography variant='h6' align='center'>
-                      {b.label}
+                      {t(b.label)}
                     </Typography>
                   </Box>
                 </Grid>

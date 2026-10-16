@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { isEmpty } from '../../../../helpers';
+import { useT } from '../../../../i18n';
 
 export const getDescription = ({ appleStore, androidStore }) => {
   var description = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
@@ -37,6 +38,7 @@ export default function ExpandableDescription({
   handleRefresh = undefined
 }) {
   const [expand, setExpand] = React.useState(false);
+  const t = useT();
 
   const handleToggleExpand = React.useCallback(() => {
     setExpand(prev => !prev);
@@ -73,7 +75,7 @@ export default function ExpandableDescription({
         endIcon={expand ? <Icons.ExpandLess /> : <Icons.ExpandMore />}
         sx={{ textTransform: 'none', fontWeight: 600, mt: 0.5, px: 1 }}
       >
-        {expand ? 'Show less' : 'Show more'}
+        {expand ? t('Show less') : t('Show more')}
       </Button>
     </>
   ) : (

@@ -5,9 +5,11 @@ import OutlinedDiv from '../../../../general/OutlinedDiv/OutlinedDiv';
 import LightTooltip from '../../../../general/LightTooltip/LightTooltip';
 import * as Icons from '@mui/icons-material';
 import { ApplicationTabs } from './ApplicationTabs';
+import { useT } from '../../../../../i18n';
 
 export default function ClinicalFoundationInfo({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} mapField={mapField} fullWidth={fullWidth} {...props} />;
+  const t = useT();
   const clinicalFoundations = values.applications.clinicalFoundations || [];
 
   return (
@@ -22,21 +24,21 @@ export default function ClinicalFoundationInfo({ fields, values, mapField, fullW
           </Grid>
           <Grid item xs={12}>
             <Collapse in={clinicalFoundations.includes('Supporting Studies')}>
-              <OutlinedDiv label='Supporting Studies'>
+              <OutlinedDiv label={t('Supporting Studies')}>
                 {[
-                  { id: 'feasibilityStudies', label: 'How many feasibility/usability studies?' },
+                  { id: 'feasibilityStudies', label: t('How many feasibility/usability studies?') },
                   { id: 'feasibilityStudiesLink', label: '', width: 500 },
                   {
                     id: 'feasibilityImpact',
-                    label: 'What is the highest feasibility impact factor?',
-                    tooltip: `What is the impact factor of the journal in which the feasibility study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
+                    label: t('What is the highest feasibility impact factor?'),
+                    tooltip: t(`What is the impact factor of the journal in which the feasibility study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`)
                   },
-                  { id: 'efficacyStudies', label: 'How many evidence/efficacy studies?' },
+                  { id: 'efficacyStudies', label: t('How many evidence/efficacy studies?') },
                   { id: 'efficacyStudiesLink', label: '', width: 500 },
                   {
                     id: 'efficacyImpact',
-                    label: 'What is the highest efficacy impact factor?',
-                    tooltip: `What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`
+                    label: t('What is the highest efficacy impact factor?'),
+                    tooltip: t(`What is the impact factor of the journal in which the efficacy study is published? This can easily be found with a quick google search. If it's not immediately evident, put "0" and assume the journal doesn't have an impact factor.`)
                   }
                 ].map(({ label, id, width = 94, tooltip }) => (
                   <Grid key={id} container alignItems='center' justifyContent='space-between' spacing={2}>

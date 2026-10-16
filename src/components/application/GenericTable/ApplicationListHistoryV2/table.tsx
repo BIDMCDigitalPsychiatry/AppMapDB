@@ -5,6 +5,7 @@ import { useAppHistoryData } from '../ApplicationHistory/selectors';
 import AppSummary from '../ApplicationsList/AppSummary';
 import RatingsColumnHistory from '../Applications/RatingsColumnHistory';
 import { useIsAdmin } from '../../../../hooks';
+import { useT } from '../../../../i18n';
 
 const name = 'App History';
 
@@ -14,9 +15,10 @@ const RatingsButtons = props => {
 };
 
 const AppSummaryHistory = props => <AppSummary {...props} RatingButtonsComponent={RatingsButtons} />;
-const columns = [{ name: 'app', header: 'Application', Cell: AppSummaryHistory }];
 
 export const ApplicationListHistoryV2 = ({ initialValues, includeDrafts = undefined, isAdminEdit, ...props }) => {
+  const t = useT();
+  const columns = React.useMemo(() => [{ name: 'app', header: t('Application'), Cell: AppSummaryHistory }], [t]);
   const _id = initialValues?.applications?._id;
   return (
     <GenericTableContainer

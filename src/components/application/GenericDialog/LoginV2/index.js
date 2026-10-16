@@ -13,8 +13,10 @@ import TextLabel from '../../DialogField/TextLabel';
 import RateAnApp from '../RegisterV2/RateAnApp';
 import ProVersion from '../RegisterPro/ProVersion';
 import { title as registerProTitle } from '../RegisterPro/index';
+import { tx, useT } from '../../../../i18n';
 
-export const title = 'Login';
+// Dialog id (stays English).
+export const title = tx('Login');
 const maxWidth = 'md';
 
 const handleValidation = ({ message }, dialogState) => {
@@ -32,10 +34,11 @@ const handleValidation = ({ message }, dialogState) => {
 };
 
 const ForgotPassword = ({ value = false, onChange, disabled }) => {
+  const t = useT();
   const handleClick = () => onChange({ target: { value: !value } });
   return (
     <DialogButton color='white' variant='link' tooltip='' disabled={disabled} onClick={handleClick}>
-      {value ? 'Back' : 'Forgot Password'}
+      {value ? t('Back') : t('Forgot Password')}
     </DialogButton>
   );
 };
@@ -48,6 +51,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
   const { enterNewPassword, errors } = state;
   const dialogStateStr = JSON.stringify(state);
   const setUser = useSetUser();
+  const t = useT();
 
   const handleLogin = React.useCallback(
     ({ forgotPassword, confirmationCode, newPassword, email, password } = {}) =>
@@ -57,7 +61,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
           if (enterNewPassword) {
             Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
               .then(data => {
-                alert('Successfully updated password.');
+                alert(t('Successfully updated password.'));
                 Auth.signIn(email, newPassword)
                   .then(user => {
                     setUser(user);
@@ -79,7 +83,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
           } else {
             Auth.forgotPassword(email)
               .then(data => {
-                alert('An email has been sent with instructions for resetting your password.');
+                alert(t('An email has been sent with instructions for resetting your password.'));
                 setState(prev => ({ ...prev, loading: false, enterNewPassword: true }));
               })
               .catch(err => {
@@ -102,7 +106,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
             });
         }
       },
-    [enterNewPassword, setUser, dialogStateStr, setState, errors]
+    [enterNewPassword, setUser, dialogStateStr, setState, errors, t]
   );
 
   const handleRegisterPro = React.useCallback(() => {
@@ -110,7 +114,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
     setRegisterProState({ open: true });
   }, [setState]);
 
-  var submitLabel = values.forgotPassword ? (enterNewPassword ? 'Change Password' : 'Request Reset') : 'Login';
+  var submitLabel = values.forgotPassword ? (enterNewPassword ? t('Change Password') : t('Request Reset')) : t('Login');
 
   return (
     <DialogContent
@@ -134,7 +138,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, ...props }) {
             }}
           >
             <Grid item xs={12}>
-              <Typography variant='h5'>Log in to our platform:</Typography>
+              <Typography variant='h5'>{t('Log in to our platform:')}</Typography>
             </Grid>
             <Grid item xs={12}>
               <Grid container style={{ marginTop: 8, marginBottom: 8 }} alignItems='center' spacing={1}>
@@ -202,6 +206,7 @@ export default function LoginDialog({ id = title }) {
   const { enterNewPassword } = dialogState;
 
   const fs = useFullScreen('sm');
+  const t = useT();
 
   const { loading: disabled } = dialogState;
 
@@ -222,8 +227,8 @@ export default function LoginDialog({ id = title }) {
       fields={[
         {
           id: 'email',
-          placeholder: 'Email Address',
-          label: 'Email address',
+          placeholder: t('Email Address'),
+          label: t('Email address'),
           Field: TextLabel,
           autoFocus: true,
           required: true,
@@ -236,7 +241,7 @@ export default function LoginDialog({ id = title }) {
         },
         {
           id: 'password',
-          label: 'Password',
+          label: t('Password'),
           required: true,
           Field: TextLabel,
           inputProps: {
@@ -250,14 +255,14 @@ export default function LoginDialog({ id = title }) {
         },
         {
           id: 'forgotPasswordLabel',
-          label: 'Enter your email address and press request reset. We will send you an email with a code to reset your password.',
+          label: t('Enter your email address and press request reset. We will send you an email with a code to reset your password.'),
           Field: Label,
           initialValue: false,
           hidden: values => !values.forgotPassword || enterNewPassword
         },
         {
           id: 'forgotPassword',
-          label: 'Forgot Password',
+          label: t('Forgot Password'),
           Field: ForgotPassword,
           initialValue: false,
           hidden: enterNewPassword,
@@ -265,7 +270,7 @@ export default function LoginDialog({ id = title }) {
         },
         {
           id: 'confirmationCode',
-          label: 'Enter Verification Code Sent to Email Address',
+          label: t('Enter Verification Code Sent to Email Address'),
           Field: TextLabel,
           required: true,
           hidden: !enterNewPassword,
@@ -277,7 +282,7 @@ export default function LoginDialog({ id = title }) {
         },
         {
           id: 'newPassword',
-          label: 'New Password',
+          label: t('New Password'),
           Field: TextLabel,
           required: true,
           inputProps: {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT, tx } from '../../../i18n';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -102,8 +103,8 @@ const GenericStepperDialog = ({
   title: Title, // Title can be set via the state as well as the input props, state takes priority
   initialValues: InitialValues = {}, // If initial values are provided they are merged with the initial values from the state
   draggable = false,
-  cancelLabel = 'Cancel',
-  deleteLabel = 'Delete',
+  cancelLabel = tx('Cancel') as string,
+  deleteLabel = tx('Delete') as string,
   submitLabel,
   maxWidth = 'xs',
   steps = [] as any[],
@@ -115,6 +116,7 @@ const GenericStepperDialog = ({
   timeout = duration.standard,
   ...other
 }: ComponentProps & any) => {
+  const t = useT();
   const { layout } = useTheme() as any;
   const [confirmDelete, setConfirmDelete] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
@@ -206,13 +208,13 @@ const GenericStepperDialog = ({
             <Grid container justifyContent='space-between' alignItems='center'>
               <Grid item>
                 <Typography variant='h6' className={classes.capitalize}>
-                  {title ? title : [type, id].join(' ')}
+                  {title ? t(title) : [t(type), t(id)].join(' ')}
                 </Typography>
               </Grid>
               <Grid item>
-                <Tooltip title='Close' placement='left'>
+                <Tooltip title={t('Close')} placement='left'>
                   <IconButton
-                    aria-label='close'
+                    aria-label={t('close')}
                     className={classes.closeButton}
                     onClick={handleClose}
                     size="large">
@@ -227,11 +229,11 @@ const GenericStepperDialog = ({
             <DialogActions>
               <Grid container style={{ paddingLeft: 12, paddingRight: 12 }} alignItems='center'>
                 <Grid item xs>
-                  <Typography color='textSecondary'>{currentStep.label ? currentStep.label : currentStep.id}</Typography>
+                  <Typography color='textSecondary'>{t(currentStep.label ? currentStep.label : currentStep.id)}</Typography>
                 </Grid>
                 {activeSteps.length > 1 && (
                   <Grid item>
-                    <Chip color='primary' label={`${activeStep + 1} of ${activeSteps.length}`} />
+                    <Chip color='primary' label={t('{{step}} of {{total}}', { step: activeStep + 1, total: activeSteps.length })} />
                   </Grid>
                 )}
               </Grid>
@@ -262,13 +264,13 @@ const GenericStepperDialog = ({
             <Grid container spacing={2} justifyContent='center' alignItems='center'>
               <Grid item>
                 <Button onClick={handleConfirmDelete} color='secondary'>
-                  Cancel
+                  {t('Cancel')}
                 </Button>
               </Grid>
               <Grid item>
                 <Button onClick={handleDelete} className={classes.deleteButton}>
                   <DeleteIcon style={{ marginRight: 4 }} />
-                  Confirm {deleteLabel}
+                  {t('Confirm {{label}}', { label: t(deleteLabel) })}
                 </Button>
               </Grid>
             </Grid>
@@ -286,13 +288,13 @@ const GenericStepperDialog = ({
             nextButton={
               activeStep === activeSteps.length - 1 ? (
                 <Button color='primary' size='small' variant='contained' disabled={!hasChanged || disabled} onClick={handleSubmit}>
-                  {submitLabel ? submitLabel : 'Finish'}
+                  {submitLabel ? t(submitLabel) : t('Finish')}
                   <CheckIcon style={{ marginLeft: 4 }} />
                 </Button>
               ) : (
                 <>
                   <Button size='small' onClick={handleNext} disabled={disabled}>
-                    Next
+                    {t('Next')}
                     <KeyboardArrowRight />
                   </Button>
                 </>
@@ -302,12 +304,12 @@ const GenericStepperDialog = ({
               activeStep === 0 && type === 'Edit' && onDelete !== undefined ? (
                 <Button className={classes.deleteButton} size='small' variant='contained' onClick={handleConfirmDelete} disabled={disabled}>
                   <DeleteIcon style={{ marginRight: 4 }} />
-                  {deleteLabel}
+                  {t(deleteLabel)}
                 </Button>
               ) : (
                 <Button size='small' onClick={handleBack} disabled={activeStep === 0 || disabled}>
                   <KeyboardArrowLeft />
-                  Back
+                  {t('Back')}
                 </Button>
               )
             }

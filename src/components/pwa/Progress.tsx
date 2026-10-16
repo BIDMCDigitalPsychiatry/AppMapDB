@@ -7,8 +7,10 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
 import { usePwaTextFontSize } from './QuestionHeader';
+import { useT } from '../../i18n';
 
 export default function Progress() {
+  const t = useT();
   const index = useSelector((s: AppState) => s.pwa.index);
   var progress = (100 * (index + 1)) / questions?.length;
   const { back, next } = usePwaActions();
@@ -27,16 +29,16 @@ export default function Progress() {
         <Grid container spacing={0.25} alignItems='center' justifyContent='space-between'>
           <Grid item>
             <Button variant='contained' size={size} onClick={back} startIcon={<KeyboardArrowLeft />} sx={{ fontSize: pwaTextFontSize, height: 44 }}>
-              Back
+              {t('Back')}
             </Button>
           </Grid>
           <Grid item sx={{ color: 'text.secondary', fontSize: pwaTextFontSize }}>
-            Question {index + 1}/{questions.length}
+            {t('Question {{number}}/{{total}}', { number: index + 1, total: questions.length })}
           </Grid>
 
           <Grid item>
             <Button variant='contained' size={size} onClick={next} endIcon={<KeyboardArrowRight />} sx={{ fontSize: pwaTextFontSize, height: 44 }}>
-              Next
+              {t('Next')}
             </Button>
           </Grid>
         </Grid>

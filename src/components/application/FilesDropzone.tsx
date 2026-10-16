@@ -19,6 +19,7 @@ import { makeStyles } from '../../styles/jss';
 import DuplicateIcon from '../icons/Duplicate';
 import XIcon from '../icons/X';
 import { bytesToSize } from '../../helpers';
+import { useT } from '../../i18n';
 
 interface FileDropzoneProps extends DropzoneOptions {
   files?: any[];
@@ -100,26 +101,31 @@ const FileDropzone: FC<FileDropzoneProps> = props => {
   });
 
   const classes = useStyles({ isDragActive });
+  const t = useT();
+  // Whole sentence for translators; the {{link}} marker is replaced by the 'browse' link
+  const link = '\u0000';
+  const dropText: string[] = (
+    maxFiles && maxFiles === 1 ? t('Drop file or {{link}} thorough your machine', { link }) : t('Drop files or {{link}} thorough your machine', { link })
+  ).split(link);
 
   return (
     <div {...other}>
       <Box className={classes.container} {...getRootProps()}>
         <input {...getInputProps()} />
         <Box className={classes.img}>
-          <img alt='Select file' src='/images/undraw_add_file2_gvbb.svg' />
+          <img alt={t('Select file')} src='/images/undraw_add_file2_gvbb.svg' />
         </Box>
         <Box p={2}>
           <Typography color='textPrimary' variant='h6'>
-            {`Select file${maxFiles && maxFiles === 1 ? '' : 's'}`}
+            {maxFiles && maxFiles === 1 ? t('Select file') : t('Select files')}
           </Typography>
           <Box style={{ marginTop: 16 }}>
             <Typography color='textPrimary' variant='body1'>
-              {`Drop file${maxFiles && maxFiles === 1 ? '' : 's'}`}
-              {' or '}
+              {dropText[0]}
               <Link color='primary' underline='always'>
-                browse
-              </Link>{' '}
-              thorough your machine
+                {t('browse')}
+              </Link>
+              {dropText[1]}
             </Typography>
           </Box>
         </Box>
@@ -140,7 +146,7 @@ const FileDropzone: FC<FileDropzoneProps> = props => {
                   }}
                   secondary={bytesToSize(file.size)}
                 />
-                <Tooltip title='Remove'>
+                <Tooltip title={t('Remove')}>
                   <IconButton edge='end' onClick={() => onRemove && onRemove(file)} size="large">
                     <XIcon fontSize='small' />
                   </IconButton>
@@ -156,10 +162,10 @@ const FileDropzone: FC<FileDropzoneProps> = props => {
             }}
           >
             <Button color='primary' onClick={onRemoveAll} size='small' type='button' variant='text'>
-              Remove All
+              {t('Remove All')}
             </Button>
             <Button color='primary' onClick={onUpload} size='small' style={{ marginLeft: 16 }} type='button' variant='contained'>
-              Upload
+              {t('Upload')}
             </Button>
           </Box>
         </Box>

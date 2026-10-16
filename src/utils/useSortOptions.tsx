@@ -1,10 +1,11 @@
 import React from 'react';
+import { tx } from '../i18n';
 import SortAscendingIcon from '../components/icons/SortAscending';
 import SortDescendingIcon from '../components/icons/SortDescending';
 
 const sortOptions = {
-  desc: { label: 'Newest', SortOptionIcon: SortDescendingIcon },
-  asc: { label: 'Older', SortOptionIcon: SortAscendingIcon }
+  desc: { label: tx('Newest') as string, SortOptionIcon: SortDescendingIcon },
+  asc: { label: tx('Older') as string, SortOptionIcon: SortAscendingIcon }
 };
 
 const useSortOptions = () => {

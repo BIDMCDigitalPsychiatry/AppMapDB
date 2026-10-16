@@ -14,6 +14,7 @@ import ViewAppRating from './ViewAppRating';
 import * as Icons from '@mui/icons-material';
 import ViewAppHeader from './ViewAppHeader';
 import ExpandableDescriptionWithLanguages from '../application/GenericTable/ApplicationsGrid/ExpandableDescriptionWithLanguages';
+import { useT } from '../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -38,6 +39,7 @@ export default function ViewApp() {
 
 export function ViewAppContent({ app = {}, from }) {
   const classes = useStyles();
+  const t = useT();
   var sm = useFullScreen('sm');
   var isPwa = from === 'pwa';
 
@@ -84,7 +86,7 @@ export function ViewAppContent({ app = {}, from }) {
             onClick={handleChangeRoute(publicUrl(from === 'Admin' ? '/Admin' : '/Apps'), {})}
             sx={{ textTransform: 'none', fontWeight: 600 }}
           >
-            Back to results
+            {t('Back to results')}
           </Button>
         </Grid>
       )}
@@ -101,7 +103,7 @@ export function ViewAppContent({ app = {}, from }) {
                   severity='success'
                   action={
                     <IconButton
-                      aria-label='close'
+                      aria-label={t('close')}
                       color='inherit'
                       size='small'
                       onClick={() => {
@@ -112,7 +114,7 @@ export function ViewAppContent({ app = {}, from }) {
                     </IconButton>
                   }
                 >
-                  Thank you for participating in our survey!
+                  {t('Thank you for participating in our survey!')}
                 </Alert>
               ) : (
                 <Alert
@@ -138,7 +140,7 @@ export function ViewAppContent({ app = {}, from }) {
                   action={
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', justifyContent: 'flex-end', width: '100%' }}>
                       <Button color='inherit' size='small' onClick={() => setOpen(false)} sx={{ textTransform: 'none', fontWeight: 600, opacity: 0.75 }}>
-                        No thanks
+                        {t('No thanks')}
                       </Button>
                       <DialogButton
                         fullWidth={false}
@@ -157,15 +159,15 @@ export function ViewAppContent({ app = {}, from }) {
                         })}
                         variant='surveyButton'
                       >
-                        Take the Survey
+                        {t('Take the Survey')}
                       </DialogButton>
                     </Box>
                   }
                 >
                   <AlertTitle>
-                    <strong>Are you currently using this App?</strong>
+                    <strong>{t('Are you currently using this App?')}</strong>
                   </AlertTitle>
-                  If so, would you like to participate in a survey to help improve this web application?
+                  {t('If so, would you like to participate in a survey to help improve this web application?')}
                 </Alert>
               )}
             </Box>
@@ -175,9 +177,9 @@ export function ViewAppContent({ app = {}, from }) {
       {/* Store-sourced content: visually distinct (tinted, bordered) from MIND's own data below. */}
       <Grid item xs={12}>
         <Box sx={{ backgroundColor: '#F7F9FC', border: '1px solid #E5EAF0', borderRadius: 3, p: { xs: 2, sm: 3 } }}>
-          <Typography variant='h5'>About this app</Typography>
+          <Typography variant='h5'>{t('About this app')}</Typography>
           <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>
-            Description and screenshots from the app store — not vetted by MIND
+            {t('Description and screenshots from the app store — not vetted by MIND')}
           </Typography>
           <ExpandableDescriptionWithLanguages
             iosLink={iosLink}
@@ -199,8 +201,8 @@ export function ViewAppContent({ app = {}, from }) {
           what marks the store content as external. */}
       <Grid item xs={12}>
         <Box mt={1}>
-          <Typography variant='h5'>Ratings &amp; Reviews ({history.length})</Typography>
-          <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>{`Qualitative ratings & reviews from MIND evaluators`}</Typography>
+          <Typography variant='h5'>{t('Ratings & Reviews ({{count}})', { count: history.length })}</Typography>
+          <Typography variant='caption' color='textSecondary' display='block' sx={{ mb: 1.5 }}>{t('Qualitative ratings & reviews from MIND evaluators')}</Typography>
           {rating && <ViewAppRating {...rating.getValues()} />}
           {history.length > 1 && (
             <Box mt={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>

@@ -24,6 +24,7 @@ import { useTableFilterValues } from '../GenericTable/store';
 import * as Icons from '@mui/icons-material';
 import { useFullScreen } from '../../../hooks';
 import ArrowButton from '../../general/ArrowButton';
+import { useT, tx } from '../../../i18n';
 
 export interface DialogModuleProps {
   default: any;
@@ -36,10 +37,10 @@ export const renderDialogModule = ({ default: Dialog, title = undefined, ...prop
 export const EditDialogButton = ({
   variant = 'iconbutton',
   placement = 'left',
-  tooltip = 'Edit',
+  tooltip = tx('Edit') as string,
   mount = false, // Default to false, as most edit buttons are within the table rows, which get remounted in various scenaries (layout resizing etc)
   ...other
-}) => <DialogButton variant={variant} Icon={EditIcon} type='Edit' tooltip={tooltip} placement={placement} mount={mount} {...other} />;
+}) => <DialogButton variant={variant} Icon={EditIcon} type={tx('Edit')} tooltip={tooltip} placement={placement} mount={mount} {...other} />;
 
 const StyledBadge = withStyles(theme =>
   createStyles({
@@ -51,7 +52,8 @@ const StyledBadge = withStyles(theme =>
   })
 )(Badge);
 
-export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList, tooltip = 'Filter Results' }) => {
+export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList, tooltip = tx('Filter Results') as string }) => {
+  const t = useT();
   const [values, setValues] = useTableFilterValues(table);
   const {
     Features = [],
@@ -82,7 +84,7 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
     Countries,
     DeveloperTypes,
     ClinicalFoundations
-  ].reduce((t, c) => (t = t + c.length), 0);
+  ].reduce((sum, c) => (sum = sum + c.length), 0);
 
   const handleReset = React.useCallback(() => setValues({}), [setValues]);
   const fullScreen = useFullScreen();
@@ -92,13 +94,13 @@ export const TableFilterDialogButton = ({ table, Module, Icon = Icons.FilterList
       <DialogButton
         Module={Module}
         Icon={Icon}
-        tooltip={filterCount === 0 ? tooltip : `${filterCount} Filters Active`}
+        tooltip={filterCount === 0 ? tooltip : t('{{count}} Filters Active', { count: filterCount })}
         table={table}
         values={values}
         setValues={setValues}
         onReset={handleReset}
       >
-        {!fullScreen && 'Filter'}
+        {!fullScreen && t('Filter')}
       </DialogButton>
     </StyledBadge>
   );
@@ -175,7 +177,7 @@ const DialogButton = React.forwardRef(function DialogButton(
   {
     id: Id = undefined,
     Module = undefined,
-    type = 'Add',
+    type = tx('Add') as string,
     tooltip = '',
     placement = 'bottom',
     color = 'primary',
@@ -204,6 +206,8 @@ const DialogButton = React.forwardRef(function DialogButton(
   }: DialogButtonProps & any,
   ref
 ) {
+  const t = useT();
+  const content = t(children); // string children are translated; React nodes pass through
   const classes = useStyles({});
   const theme = useTheme();
   const fullScreen = useFullScreen();
@@ -261,10 +265,10 @@ const DialogButton = React.forwardRef(function DialogButton(
           disabled ? (
             ''
           ) : checkEmpty(tooltip) ? (
-            tooltip
+            t(tooltip)
           ) : (
             <Typography variant='h6' color='inherit'>
-              {tooltip}
+              {t(tooltip)}
             </Typography>
           )
         }
@@ -272,29 +276,29 @@ const DialogButton = React.forwardRef(function DialogButton(
         <span>
           {variant === 'default' ? (
             <Button {...shared} color={color}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'arrowButton' ? (
             <ArrowButton label={label} {...shared} size='normal' />
           ) : variant === 'primaryButton' ? (
             <Button {...shared} className={classes.primaryButton} fullWidth={fullWidth} style={style}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'primaryButton2' ? (
             <Button {...shared} className={classes.primaryButton2} fullWidth={fullWidth} style={style}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'surveyButton' ? (
             <Button {...shared} className={classes.surveyButton} fullWidth={fullWidth} style={style}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'menuitem' ? (
             <MenuItem key={label} {...shared}>
-              {children}
+              {content}
             </MenuItem>
           ) : variant === 'listitem' ? (
             <ListItem key={label} button={true} className={classes.listitem} {...shared}>
-              <ListItemText primary={label} />
+              <ListItemText primary={t(label)} />
             </ListItem>
           ) : variant === 'iconbutton' ? (
             <IconButton className={classes.margin} color={color} {...shared} size="small">
@@ -302,7 +306,7 @@ const DialogButton = React.forwardRef(function DialogButton(
             </IconButton>
           ) : variant === 'primarycontained' ? (
             <Button color='primary' variant='contained' {...shared}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'text' ? (
             <Button
@@ -318,28 +322,28 @@ const DialogButton = React.forwardRef(function DialogButton(
             </Button>
           ) : variant === 'contained' ? (
             <Button fullWidth={fullWidth} variant={variant} color={color as any} {...shared} style={style}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'smallOutlined' ? (
             <Button size='small' variant='outlined' style={{ width: 96 }} {...shared}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'outlined' ? (
             <Button variant='outlined' color={color} startIcon={Icon && <Icon />} {...shared}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'standard' ? (
             <Button color={color as any} {...shared}>
-              {children}
+              {content}
             </Button>
           ) : variant === 'link' ? (
             disabled ? (
               <Typography color='textSecondary' variant='caption'>
-                {children}
+                {content}
               </Typography>
             ) : (
               <Link color={color} variant={linkvariant} underline={underline} style={{ cursor: 'pointer' }} {...shared}>
-                {children}
+                {content}
               </Link>
             )
           ) : (
@@ -353,7 +357,7 @@ const DialogButton = React.forwardRef(function DialogButton(
               {...shared}
             >
               {Icon && <Icon />}
-              {children && <div style={{ marginLeft: Icon ? 4 : 0, marginRight: !fullScreen ? 4 : 0 }}>{children}</div>}
+              {content && <div style={{ marginLeft: Icon ? 4 : 0, marginRight: !fullScreen ? 4 : 0 }}>{content}</div>}
             </Fab>
           )}
         </span>

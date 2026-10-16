@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Link } from '@mui/material';
+import { useT } from '../../../i18n';
 
 const NewWindowLink = ({ url, label }) => {
+  const t = useT();
   const handleLink = React.useCallback(() => {
     var win = window.open(url, '_blank');
     win.focus();
@@ -9,7 +11,7 @@ const NewWindowLink = ({ url, label }) => {
 
   return (
     <Link underline='always' onClick={handleLink} style={{ cursor: 'pointer' }}>
-      {label}
+      {t(label)}
     </Link>
   );
 };

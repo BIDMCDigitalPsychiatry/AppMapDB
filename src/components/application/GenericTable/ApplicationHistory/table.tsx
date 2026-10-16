@@ -9,6 +9,7 @@ import RatingsColumnHistory from '../Applications/RatingsColumnHistory';
 import * as FilterPopover from '../../GenericPopover/Filter';
 import TableFilterDialogButton from '../Applications/FilterButton';
 import { useSignedInRater } from '../../../../hooks';
+import { tx, useT } from '../../../../i18n';
 
 const name = 'Applications History';
 
@@ -16,11 +17,12 @@ const defaultProps: GenericTableContainerProps = {
   name
 };
 
-export const customRatingColumn = { name: 'rating', header: 'Rating', width: 300, Cell: RatingsColumnHistory, hoverable: false };
+export const customRatingColumn = { name: 'rating', header: tx('Rating'), width: 300, Cell: RatingsColumnHistory, hoverable: false };
 
 export const ApplicationHistory = ({ initialValues, ...props }) => {
   const _id = initialValues?.applications?._id;
   const signedInRater = useSignedInRater();
+  const t = useT();
 
   const columns = useColumns();
 
@@ -28,7 +30,7 @@ export const ApplicationHistory = ({ initialValues, ...props }) => {
   const Columns = [...(signedInRater ? columns : (columns as []).filter((c: any) => c.name !== 'rating'))];
   const ratingIndex = Columns.findIndex(c => c.name === 'rating');
   if (ratingIndex > -1) {
-    Columns.splice(ratingIndex, 1, customRatingColumn);
+    Columns.splice(ratingIndex, 1, { ...customRatingColumn, header: t(customRatingColumn.header) });
   }
 
   return (

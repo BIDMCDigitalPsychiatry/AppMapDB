@@ -5,6 +5,7 @@ import { makeStyles } from '../../styles/jss';
 import { useFullScreen } from '../../hooks';
 import { useHandleChangeRoute, useHeaderHeightSetRef } from '../layout/hooks';
 import { publicUrl } from '../../helpers';
+import { useT } from '../../i18n';
 
 const padding = 32;
 const borderRadius = 7;
@@ -55,6 +56,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 );
 
 export default function RateAnAppHeader({ showArchived = undefined, onToggleArchive = undefined }) {
+  const t = useT();
   const classes = useStyles();
   // useFilterList();
 
@@ -66,27 +68,28 @@ export default function RateAnAppHeader({ showArchived = undefined, onToggleArch
     <Grid ref={useHeaderHeightSetRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
-          My App Ratings
+          {t('My App Ratings')}
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <Grid container style={{ marginTop: 4 }} alignItems='center' spacing={2}>
           <Grid item xs={12} sm>
             <Typography className={classes.secondaryText}>
-              Rate a new app or update an existing rating by entering the relevant app store link. You will be prompted through 105 different questions about
-              the app and its features, privacy settings, and clinical foundation.
+              {t(
+                'Rate a new app or update an existing rating by entering the relevant app store link. You will be prompted through 105 different questions about the app and its features, privacy settings, and clinical foundation.'
+              )}
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
             <Grid container spacing={2}>
               <Grid item>
                 <Button className={classes.primaryButton} onClick={onToggleArchive}>
-                  {showArchived ? 'Hide Archived' : 'Show Archived'}
+                  {showArchived ? t('Hide Archived') : t('Show Archived')}
                 </Button>
               </Grid>
               <Grid item>
                 <Button className={classes.primaryButton} onClick={handleChangeRoute(publicUrl('/RateNewApp'))}>
-                  Start App Rating
+                  {t('Start App Rating')}
                 </Button>
               </Grid>
             </Grid>

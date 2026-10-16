@@ -3,6 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, Container } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
+import { useT } from '../../../i18n';
 import { useChangeRoute } from '../../layout/hooks';
 import useTabSelectorValue from '../../application/Selector/useTabSelectorValue';
 
@@ -75,6 +76,7 @@ const TabSelectorTextToolBarNew = ({
   onChange,
   value: Value = undefined
 }: ComponentProps) => {
+  const t = useT();
   const classes = useStyles({ minHeight, rounded, labelColor });
 
   const [tsValue, setTabSelector] = useTabSelectorValue(id, tabs[0] && tabs[0].id);
@@ -111,26 +113,26 @@ const TabSelectorTextToolBarNew = ({
         {!tabs ? (
           <></>
         ) : (
-          tabs.map((t: any) => (
+          tabs.map((tab: any) => (
             <Tab
-              key={t.id}
-              onClick={handleClick(t)}
+              key={tab.id}
+              onClick={handleClick(tab)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
                 wrapped: classes.labelIcon
               }}
-              icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
-              value={t.id}
+              icon={tab.icon && <tab.icon style={{ marginBottom: 0 }} />}
+              value={tab.id}
               wrapped={wrapped}
               label={
                 <Typography
-                  className={value === t.id ? classes.labelActive : classes.label}
+                  className={value === tab.id ? classes.labelActive : classes.label}
                   variant='h6'
                   style={{ maxWidth: `calc(100% - ${2}px)` }}
                   noWrap={!wrapped}
                 >
-                  {t.label ? t.label : t.id}
+                  {t(tab.label || tab.id)}
                 </Typography>
               }
             />

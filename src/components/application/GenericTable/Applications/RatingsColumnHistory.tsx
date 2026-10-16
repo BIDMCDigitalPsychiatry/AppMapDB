@@ -12,6 +12,7 @@ import { useViewMode, useAdminMode } from '../../../layout/store';
 import { useProcessData } from '../../../../database/useProcessData';
 import Check from '../../DialogField/Check';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
+import { useT } from '../../../../i18n';
 
 export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined, isAdminEdit = false }) {
   const application = useSelector((s: AppState) => s.database?.applications?.[_id] ?? EMPTY_OBJECT);
@@ -22,6 +23,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
   const fullScreen = useFullScreen();
   const isAdmin = useIsAdmin();
   const [adminMode] = useAdminMode();
+  const t = useT();
 
   const processData = useProcessData();
 
@@ -73,7 +75,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
               Icon={null}
               initialValues={{ [tables.applications]: application }}
             >
-              <Typography noWrap>View / Edit</Typography>
+              <Typography noWrap>{t('View / Edit')}</Typography>
             </EditDialogButton>
           )}
         </Grid>
@@ -83,13 +85,13 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
               {draft ? (
                 <Status draft={draft} approved={approved} />
               ) : (
-                <Check value={approved} label={approved ? 'Approved' : 'Not approved'} onClick={handleApprove(!approved)} />
+                <Check value={approved} label={approved ? t('Approved') : t('Not approved')} onClick={handleApprove(!approved)} />
               )}
             </Grid>
             <Grid item xs={12} sx={{ mt: -1.5 }}>
               <Check
                 value={deleted}
-                label={deleted ? 'Archived' : 'Not archived'}
+                label={deleted ? t('Archived') : t('Not archived')}
                 onClick={handleDelete(!deleted)}
                 style={{ color: deleted ? 'red' : undefined }}
               />
@@ -97,7 +99,7 @@ export default function RatingsColumnHistory({ _id, isAdmin: IsAdmin = undefined
           </Grid>
         )}
       </Grid>
-      {IsAdmin && <Typography variant='caption'>Rated by: {application?.email}</Typography>}
+      {IsAdmin && <Typography variant='caption'>{t('Rated by: {{email}}', { email: application?.email })}</Typography>}
     </>
   );
 }

@@ -14,6 +14,7 @@ import ViewAppHeader from '../ViewAppHeader';
 import { isEmpty, publicUrl, validateEmail } from '../../../helpers';
 import { sendSurveyEmail, sendSurveyNotificationEmail } from './sendSurveyEmail';
 import { getAppName } from '../../application/GenericTable/Applications/selectors';
+import { tx, useT } from '../../../i18n';
 
 const width = 300;
 
@@ -39,19 +40,20 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 const StepTOS = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
+  const t = useT();
 
   const questions = {
     TOS: {
       Field: Check,
-      label: 'I agree to the terms of service'
+      label: tx('I agree to the terms of service')
     }
   };
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Participate in Research:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('Participate in Research:')}</Typography>
       <Box mt={1}>
-        {`Thank you for your interest in completing our survey! The surveys will take less than 10 minutes to complete total. You will be asked to complete these surveys three times over the course of six weeks. Once now, once two weeks from now, and once four weeks from the two week mark (i.e. six weeks from now). By completing the following surveys, you are granting consent to use your anonymous survey information.`}
+        {t('Thank you for your interest in completing our survey! The surveys will take less than 10 minutes to complete total. You will be asked to complete these surveys three times over the course of six weeks. Once now, once two weeks from now, and once four weeks from the two week mark (i.e. six weeks from now). By completing the following surveys, you are granting consent to use your anonymous survey information.')}
         <Grid container justifyContent='flex-end'>
           <Grid item>
             {Object.keys(questions).map(label => {
@@ -70,52 +72,52 @@ const StepTOS = ({ state, onChange, errors = {}, disabled = false }) => {
 };
 
 const step0Questions = {
-  'What is the best email address we can reach you at?': {
+  [tx('What is the best email address we can reach you at?')]: {
     required: true,
     email: true
   },
-  'Sex (assigned at birth)?': {
+  [tx('Sex (assigned at birth)?')]: {
     Field: RadioRow,
     required: true,
     items: [
-      { value: 'Male', label: 'Male' },
-      { value: 'Female', label: 'Female' },
-      { value: 'Intersex', label: 'Intersex' }
+      { value: 'Male', label: tx('Male') },
+      { value: 'Female', label: tx('Female') },
+      { value: 'Intersex', label: tx('Intersex') }
     ]
   },
-  'Gender Identity?': {
+  [tx('Gender Identity?')]: {
     Field: RadioRow,
     required: true,
     items: [
-      { value: 'Male', label: 'Male' },
-      { value: 'Female', label: 'Female' },
-      { value: 'Non-binary', label: 'Non-binary' },
-      { value: 'Transgender female', label: 'Transgender female' },
-      { value: 'Transgender male', label: 'Transgender male' },
-      { value: 'Other', label: 'Other' }
+      { value: 'Male', label: tx('Male') },
+      { value: 'Female', label: tx('Female') },
+      { value: 'Non-binary', label: tx('Non-binary') },
+      { value: 'Transgender female', label: tx('Transgender female') },
+      { value: 'Transgender male', label: tx('Transgender male') },
+      { value: 'Other', label: tx('Other') }
     ]
   },
-  'Race?': {
+  [tx('Race?')]: {
     Field: RadioRow,
     required: true,
     items: [
-      { value: 'Black or African American', label: 'Black or African American' },
-      { value: 'American Indian or Alaskan Native', label: 'American Indian or Alaskan Native' },
-      { value: 'Asian', label: 'Asian' },
-      { value: 'Native Hawaiian or other Pacific Islander', label: 'Native Hawaiian or other Pacific Islander' },
-      { value: 'White', label: 'White' },
-      { value: 'Other', label: 'Other' }
+      { value: 'Black or African American', label: tx('Black or African American') },
+      { value: 'American Indian or Alaskan Native', label: tx('American Indian or Alaskan Native') },
+      { value: 'Asian', label: tx('Asian') },
+      { value: 'Native Hawaiian or other Pacific Islander', label: tx('Native Hawaiian or other Pacific Islander') },
+      { value: 'White', label: tx('White') },
+      { value: 'Other', label: tx('Other') }
     ]
   },
-  'Ethnicity?': {
+  [tx('Ethnicity?')]: {
     Field: RadioRow,
     required: true,
     items: [
-      { value: 'Hispanic or Latino/a', label: 'Hispanic or Latino/a' },
-      { value: 'Not Hispanic or Latino/a', label: 'Not Hispanic or Latino/a' }
+      { value: 'Hispanic or Latino/a', label: tx('Hispanic or Latino/a') },
+      { value: 'Not Hispanic or Latino/a', label: tx('Not Hispanic or Latino/a') }
     ]
   },
-  'Annual household income?': {
+  [tx('Annual household income?')]: {
     Field: RadioRow,
     required: true,
     items: [
@@ -126,26 +128,27 @@ const step0Questions = {
       { value: '$100,000+', label: '$100,000+' }
     ]
   },
-  'How much school have you completed?': {
+  [tx('How much school have you completed?')]: {
     Field: RadioRow,
     required: true,
     items: [
-      { value: 'Eighth grade or less', label: 'Eighth grade or less' },
-      { value: 'Some high school', label: 'Some high school' },
-      { value: 'High school graduate/GED', label: 'High school graduate/GED' },
-      { value: 'Some college', label: 'Some college' },
-      { value: '4-year college graduate or higher', label: '4-year college graduate or higher' }
+      { value: 'Eighth grade or less', label: tx('Eighth grade or less') },
+      { value: 'Some high school', label: tx('Some high school') },
+      { value: 'High school graduate/GED', label: tx('High school graduate/GED') },
+      { value: 'Some college', label: tx('Some college') },
+      { value: '4-year college graduate or higher', label: tx('4-year college graduate or higher') }
     ]
   }
 };
 
 const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
+  const t = useT();
   const questions = step0Questions;
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Demographics:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('Demographics:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -159,8 +162,8 @@ const Step0 = ({ state, onChange, errors = {}, disabled = false }) => {
 };
 
 const yesNoItems = [
-  { value: 'Yes', label: 'Yes' },
-  { value: 'No', label: 'No' }
+  { value: 'Yes', label: tx('Yes') },
+  { value: 'No', label: tx('No') }
 ];
 
 const phoneItems = [
@@ -170,67 +173,68 @@ const phoneItems = [
   { value: 'LG', label: 'LG' },
   { value: 'Motorola', label: 'Motorola' },
   { value: 'HTC', label: 'HTC' },
-  { value: 'Other', label: 'Other' },
-  { value: `I don't own a smartphone`, label: `I don't own a smartphone` }
+  { value: 'Other', label: tx('Other') },
+  { value: `I don't own a smartphone`, label: tx("I don't own a smartphone") }
 ];
 
 const comfortableItems = [
-  { value: 'I cannot do it on my own', label: 'I cannot do it on my own' },
-  { value: 'I can do it on my own, but with step by step instructions', label: 'I can do it on my own, but with step by step instructions' },
-  { value: 'I can do it mostly on my own, but may have a few questions', label: 'I can do it mostly on my own, but may have a few questions' },
-  { value: 'I can do it on my own with ease', label: 'I can do it on my own with ease' },
-  { value: 'I can do it and teach someone else', label: 'I can do it and teach someone else' }
+  { value: 'I cannot do it on my own', label: tx('I cannot do it on my own') },
+  { value: 'I can do it on my own, but with step by step instructions', label: tx('I can do it on my own, but with step by step instructions') },
+  { value: 'I can do it mostly on my own, but may have a few questions', label: tx('I can do it mostly on my own, but may have a few questions') },
+  { value: 'I can do it on my own with ease', label: tx('I can do it on my own with ease') },
+  { value: 'I can do it and teach someone else', label: tx('I can do it and teach someone else') }
 ];
 
 const items3 = [
-  { value: 'Strongly disagree', label: 'Strongly disagree' },
-  { value: 'Disagree', label: 'Disagree' },
-  { value: 'Neutral', label: 'Neutral' },
-  { value: 'Agree', label: 'Agree' },
-  { value: 'Strongly agree', label: 'Strongly agree' }
+  { value: 'Strongly disagree', label: tx('Strongly disagree') },
+  { value: 'Disagree', label: tx('Disagree') },
+  { value: 'Neutral', label: tx('Neutral') },
+  { value: 'Agree', label: tx('Agree') },
+  { value: 'Strongly agree', label: tx('Strongly agree') }
 ];
 
 const items3b = [
-  { value: 'Strongly disagree', label: 'Strongly disagree' },
-  { value: 'Disagree', label: 'Disagree' },
-  { value: 'Neutral', label: 'Neutral' },
-  { value: 'Agree', label: 'Agree' },
-  { value: 'Strongly agree', label: 'Strongly agree' },
-  { value: 'Not applicable', label: 'Not applicable' }
+  { value: 'Strongly disagree', label: tx('Strongly disagree') },
+  { value: 'Disagree', label: tx('Disagree') },
+  { value: 'Neutral', label: tx('Neutral') },
+  { value: 'Agree', label: tx('Agree') },
+  { value: 'Strongly agree', label: tx('Strongly agree') },
+  { value: 'Not applicable', label: tx('Not applicable') }
 ];
 
 const items4 = [
-  { value: 'Not at all true', label: 'Not at all true' },
-  { value: 'Hardly true', label: 'Hardly true' },
-  { value: 'Moderately true', label: 'Moderately true' },
-  { value: 'Exactly true', label: 'Exactly true' }
+  { value: 'Not at all true', label: tx('Not at all true') },
+  { value: 'Hardly true', label: tx('Hardly true') },
+  { value: 'Moderately true', label: tx('Moderately true') },
+  { value: 'Exactly true', label: tx('Exactly true') }
 ];
 
 const step1Questions = {
-  'What is the make of your phone?': {
+  [tx('What is the make of your phone?')]: {
     Field: RadioRow,
     items: phoneItems,
     required: true
   },
-  'What is the model of your phone? (eg. 8, XR, Galaxy S8, Pixel 4, etc.)': { required: true },
-  'How comfortable are you connecting your phone to Wi-Fi?': { Field: RadioRow, items: comfortableItems, required: true },
-  'How comfortable are you downloading an app from the app store?': { Field: RadioRow, items: comfortableItems, required: true },
-  'Have you used a smartphone app for your mental health in the past?': {
+  [tx('What is the model of your phone? (eg. 8, XR, Galaxy S8, Pixel 4, etc.)')]: { required: true },
+  [tx('How comfortable are you connecting your phone to Wi-Fi?')]: { Field: RadioRow, items: comfortableItems, required: true },
+  [tx('How comfortable are you downloading an app from the app store?')]: { Field: RadioRow, items: comfortableItems, required: true },
+  [tx('Have you used a smartphone app for your mental health in the past?')]: {
     Field: RadioRow,
     items: yesNoItems,
     required: true
   },
-  'If yes, which app?': {}
+  [tx('If yes, which app?')]: {}
 };
 
 const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
+  const t = useT();
 
   const questions = step1Questions;
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Technology Usage:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('Technology Usage:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -244,16 +248,17 @@ const Step1 = ({ state, onChange, errors = {}, disabled = false }) => {
 };
 
 const step2Questions = {
-  'Do you have health insurance?': { Field: RadioRow, items: yesNoItems, required: true },
-  'Have you been diagnosed with a mental illness?': { Field: RadioRow, items: yesNoItems, required: true }
+  [tx('Do you have health insurance?')]: { Field: RadioRow, items: yesNoItems, required: true },
+  [tx('Have you been diagnosed with a mental illness?')]: { Field: RadioRow, items: yesNoItems, required: true }
 };
 
 const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
   const classes = useStyles();
+  const t = useT();
   const questions = step2Questions;
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Access to Health:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('Access to Health:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -267,36 +272,37 @@ const Step2 = ({ state, onChange, errors = {}, disabled = false }) => {
 };
 
 const step3Questions = {
-  'Which filters were most important to you when choosing a mobile app?': {
+  [tx('Which filters were most important to you when choosing a mobile app?')]: {
     Field: MultiSelectCheck,
     required: true,
     items: [
-      'Cost',
-      'Developer type (e.g. for-profit, non-profit, healthcare company, academic institution)',
-      'Supported Condition (e.g. anxiety, sleep, OCD, mood disorder, substance use, etc.)',
-      'Functionality (e.g. available in Spanish, functions offline, email or export data, etc.)',
-      'Uses (e.g. self-help, reference, hybrid)',
-      'Features (e.g. track mood, journaling, mindfulness, CBT, peer support, chatbot, etc.)',
-      'Engagements (e.g. user generated data, messaging, gamification, network support, etc.)',
-      'Evidence & Clinical Foundations (e.g. patient facing, risk of harm, warning, supporting studies, etc.)',
-      'Privacy (e.g. has privacy policy, delete data, personal health information shared, meets HIPAA, etc.)'
+      tx('Cost'),
+      tx('Developer type (e.g. for-profit, non-profit, healthcare company, academic institution)'),
+      tx('Supported Condition (e.g. anxiety, sleep, OCD, mood disorder, substance use, etc.)'),
+      tx('Functionality (e.g. available in Spanish, functions offline, email or export data, etc.)'),
+      tx('Uses (e.g. self-help, reference, hybrid)'),
+      tx('Features (e.g. track mood, journaling, mindfulness, CBT, peer support, chatbot, etc.)'),
+      tx('Engagements (e.g. user generated data, messaging, gamification, network support, etc.)'),
+      tx('Evidence & Clinical Foundations (e.g. patient facing, risk of harm, warning, supporting studies, etc.)'),
+      tx('Privacy (e.g. has privacy policy, delete data, personal health information shared, meets HIPAA, etc.)')
     ].map(value => ({ value, label: value }))
   },
-  'Did outside factors impact your app decision (e.g. star ratings, reviews)?': {
+  [tx('Did outside factors impact your app decision (e.g. star ratings, reviews)?')]: {
     Field: RadioRow,
     items: yesNoItems,
     required: true
   },
-  'If yes, which specific aspects?': {}
+  [tx('If yes, which specific aspects?')]: {}
 };
 
 const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
   const questions = step3Questions;
   const classes = useStyles();
+  const t = useT();
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>App Selection:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('App Selection:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -310,20 +316,21 @@ const Step3 = ({ state, onChange, errors = {}, disabled = false }) => {
 };
 
 const step4Keys = [
-  'I think that I would like to use this app frequently.',
-  'I think that I would need the support of a technical person to be able to use this app.',
-  'I felt very confident using this app.',
-  'I needed to learn a lot of things before I could get going with this app.'
+  tx('I think that I would like to use this app frequently.'),
+  tx('I think that I would need the support of a technical person to be able to use this app.'),
+  tx('I felt very confident using this app.'),
+  tx('I needed to learn a lot of things before I could get going with this app.')
 ];
 const Step4 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = false }) => {
   const questions = {};
   step4Keys.forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
 
   const classes = useStyles();
+  const t = useT();
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>System Usability Scale:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('System Usability Scale:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -337,12 +344,12 @@ const Step4 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = fa
 };
 
 const step5Keys = [
-  'I trust this app to guide me towards my personal goals.',
-  'I believe this app tasks will help me to address my problem.',
-  'This app encourages me to accomplish tasks and make progress.',
-  'I agree that the tasks within this app are important for my goals.',
-  'This app is easy to use and operate.',
-  'This app supports me to overcome challenges.'
+  tx('I trust this app to guide me towards my personal goals.'),
+  tx('I believe this app tasks will help me to address my problem.'),
+  tx('This app encourages me to accomplish tasks and make progress.'),
+  tx('I agree that the tasks within this app are important for my goals.'),
+  tx('This app is easy to use and operate.'),
+  tx('This app supports me to overcome challenges.')
 ];
 
 const Step5 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = false }) => {
@@ -350,10 +357,11 @@ const Step5 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = fa
   step5Keys.forEach(qt => (questions[qt] = { Field: RadioRow, items: isFollowUp ? items3 : items3b }));
 
   const classes = useStyles();
+  const t = useT();
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>Digital Working Alliance Inventory:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('Digital Working Alliance Inventory:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -368,15 +376,15 @@ const Step5 = ({ state, onChange, errors = {}, disabled = false, isFollowUp = fa
 
 const step6Keys = [
   //'I can always manage to solve difficult problems if I try hard enough.',
-  'If someone opposes me, I can find the means and ways to get what I want.',
-  'It is easy for me to stick to my aims and accomplish my goals.',
-  'I am confident that I could deal efficiently with unexpected events.',
-  'Thanks to my resourcefulness, I know how to handle unforeseen situations.',
+  tx('If someone opposes me, I can find the means and ways to get what I want.'),
+  tx('It is easy for me to stick to my aims and accomplish my goals.'),
+  tx('I am confident that I could deal efficiently with unexpected events.'),
+  tx('Thanks to my resourcefulness, I know how to handle unforeseen situations.'),
   //'I can solve most problems if I invest the necessary effort.',
-  'I can remain calm when facing difficulties because I can rely on my coping abilities',
+  tx('I can remain calm when facing difficulties because I can rely on my coping abilities'),
   //'When I am confirted with a problem, I can usually find several solutions.',
   //'If I am in trouble, I can usually think of a solution.',
-  'I can usually handle whatever comes my way.'
+  tx('I can usually handle whatever comes my way.')
 ];
 
 const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
@@ -384,10 +392,11 @@ const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
   step6Keys.forEach(qt => (questions[qt] = { Field: RadioRow, items: items4 }));
 
   const classes = useStyles();
+  const t = useT();
 
   return (
     <Box mt={2}>
-      <Typography className={classes.primaryTextMedium}>General Self-Efficacy Scale-6:</Typography>
+      <Typography className={classes.primaryTextMedium}>{t('General Self-Efficacy Scale-6:')}</Typography>
       {Object.keys(questions).map(label => {
         const { Field = TextLabel, ...other } = questions[label];
         return (
@@ -403,7 +412,7 @@ const Step6 = ({ state, onChange, errors = {}, disabled = false }) => {
 const validateStepTOS = values => {
   const newErrors = {};
   if (!(values['TOS'] === true || values['TOS'] === 1 || values['TOS'] === '1' || values['TOS'] === 'true')) {
-    newErrors['TOS'] = 'You must agree to continue.';
+    newErrors['TOS'] = tx('You must agree to continue.');
   }
   return newErrors;
 };
@@ -412,9 +421,9 @@ const validateStep0 = values => {
   const newErrors = {};
   Object.keys(step0Questions).forEach(key => {
     if (step0Questions[key].required && isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     } else if (step0Questions[key].email && !validateEmail(values[key])) {
-      newErrors[key] = 'Invalid email';
+      newErrors[key] = tx('Invalid email');
     }
   });
   return newErrors;
@@ -424,13 +433,13 @@ const validateStep1 = values => {
   const newErrors = {};
   Object.keys(step1Questions).forEach(key => {
     if (step1Questions[key].required && isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     }
   });
 
   if (values['Have you used a smartphone app for your mental health in the past?'] === 'Yes') {
     if (isEmpty(values['If yes, which app?'])) {
-      newErrors['If yes, which app?'] = 'Required';
+      newErrors['If yes, which app?'] = tx('Required');
     }
   }
 
@@ -441,7 +450,7 @@ const validateStep2 = values => {
   const newErrors = {};
   Object.keys(step2Questions).forEach(key => {
     if (step2Questions[key].required && isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     }
   });
   return newErrors;
@@ -451,7 +460,7 @@ const validateStep3 = values => {
   const newErrors = {};
   Object.keys(step3Questions).forEach(key => {
     if (step3Questions[key].required && isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     }
   });
   return newErrors;
@@ -461,7 +470,7 @@ const validateStep4 = values => {
   const newErrors = {};
   step4Keys.forEach(key => {
     if (isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     }
   });
   return newErrors;
@@ -471,7 +480,7 @@ const validateStep5 = values => {
   const newErrors = {};
   step5Keys.forEach(key => {
     if (isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     }
   });
   return newErrors;
@@ -481,7 +490,7 @@ const validateStep6 = values => {
   const newErrors = {};
   step6Keys.forEach(key => {
     if (isEmpty(values[key])) {
-      newErrors[key] = 'Required';
+      newErrors[key] = tx('Required');
     }
   });
   return newErrors;
@@ -502,6 +511,7 @@ export const surveyQuestionKeys = [
 
 export default function Survey() {
   const classes = useStyles();
+  const t = useT();
   var sm = useFullScreen('sm');
 
   const { handleSave, getRow } = useSurvey();
@@ -598,13 +608,13 @@ export default function Survey() {
         <Grid item>
           <Grid container className={classes.whiteHeader} spacing={1}>
             <Grid item component={Button} onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
-              <Typography>{`<   Back To Surveys`}</Typography>
+              <Typography>{`<   ${t('Back To Surveys')}`}</Typography>
             </Grid>
           </Grid>
         </Grid>
         <Grid item xs={12}>
           <Typography align='center' color='error'>
-            Selected application is empty. Please go back and try to select the desired application again.
+            {t('Selected application is empty. Please go back and try to select the desired application again.')}
           </Typography>
         </Grid>
       </Grid>
@@ -615,18 +625,18 @@ export default function Survey() {
         <Grid container className={classes.whiteHeader} spacing={1}>
           {mode === 'view' && (
             <Grid item component={Button} onClick={handleChangeRoute(publicUrl('/Admin'), { subRoute: 'surveys' })}>
-              <Typography>{`<   Back To Surveys`}</Typography>
+              <Typography>{`<   ${t('Back To Surveys')}`}</Typography>
             </Grid>
           )}
           <Grid item style={{ width }} xs={12}>
             <Grid container alignItems='flex-end' justifyContent='space-between'>
               <Grid item>
                 <Typography className={classes.primaryText}>
-                  {isEmpty(surveyType) || surveyType === 'Initial' ? `Survey` : `${surveyType} Follow Up Survey`}
+                  {isEmpty(surveyType) || surveyType === 'Initial' ? t('Survey') : t('{{surveyType}} Follow Up Survey', { surveyType: t(surveyType) })}
                 </Typography>
               </Grid>
               <Grid item>
-                <Typography className={classes.primaryTextMedium}>{`${state.step + 1} of ${Steps.length}`}</Typography>
+                <Typography className={classes.primaryTextMedium}>{t('{{step}} of {{total}}', { step: state.step + 1, total: Steps.length })}</Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -650,18 +660,18 @@ export default function Survey() {
             {state.step > 0 && (
               <Grid item>
                 <Button variant='contained' color='primary' onClick={handleBack}>
-                  Back
+                  {t('Back')}
                 </Button>
               </Grid>
             )}
             <Grid item>
               {state.step === Steps.length - 1 ? (
                 <Button disabled={disabled} variant='contained' color='primary' onClick={handleSubmit}>
-                  Submit
+                  {t('Submit')}
                 </Button>
               ) : (
                 <Button variant='contained' color='primary' onClick={handleNext}>
-                  Next
+                  {t('Next')}
                 </Button>
               )}
             </Grid>

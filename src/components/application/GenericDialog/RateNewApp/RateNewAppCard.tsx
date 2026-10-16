@@ -10,8 +10,9 @@ import { useChangeRoute } from '../../../layout/hooks';
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 import { useAppData } from '../../GenericTable/Applications/selectors';
+import { useT, tx } from '../../../../i18n';
 
-export const title = 'Rate an App V2';
+export const title = tx('Rate an App V2'); // also the dialog-state id: tx keeps it English
 
 export interface ComponentProps {
   id?: string;
@@ -19,6 +20,7 @@ export interface ComponentProps {
 }
 
 export default function RateNewAppCard({ id = title, onClose }: ComponentProps) {
+  const t = useT();
   const [{ type }, setDialogState] = useDialogState(id);
   const data = useAppData('');
   const [_steps, setSteps] = React.useState(steps(type, data));
@@ -52,7 +54,7 @@ export default function RateNewAppCard({ id = title, onClose }: ComponentProps) 
       Model: tables.applications,
       Action,
       Data: { ...application, email, uid, draft },
-      onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+      onError: () => setDialogState(prev => ({ ...prev, loading: false, error: t('Error submitting values') })),
       onSuccess: () => {
         handleReset && handleReset();
         changeRoute(publicUrl('/MyRatings'));

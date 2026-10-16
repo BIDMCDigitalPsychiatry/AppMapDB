@@ -4,16 +4,20 @@ import DialogTableContent from '../DialogTableContent';
 import { useAdminMode } from '../../../layout/store';
 import { useDialogState } from '../useDialogState';
 import * as tables from '../../GenericTable';
+import { tx, useT } from '../../../../i18n';
 
-export const title = 'App History';
+// Dialog id (stays English); translated for display.
+export const title = tx('App History');
 
 const ContentWithDrafts = props => {
-  return <DialogTableContent Table={tables.ApplicationListHistoryV2WithDrafts} buttonPosition='bottom' title={title} {...props} />;
+  const t = useT();
+  return <DialogTableContent Table={tables.ApplicationListHistoryV2WithDrafts} buttonPosition='bottom' title={t(title)} {...props} />;
 };
 
 export default function ApplicationHistoryDialogV2WithDrafts({ id = title, onClose, ...other }) {
   const [{ initialValues }] = useDialogState(id);
   const [adminMode, setAdminMode] = useAdminMode() as any;
+  const t = useT();
 
   // This hack forces a refresh of the data if the admin may have closed something
   const handleClose = React.useCallback(() => {
@@ -29,7 +33,7 @@ export default function ApplicationHistoryDialogV2WithDrafts({ id = title, onClo
       id={id}
       title={null}
       maxWidth='xl'
-      cancelLabel='Close'
+      cancelLabel={t('Close')}
       submitLabel={null}
       Content={ContentWithDrafts}
       ContentProps={{ initialValues }}
