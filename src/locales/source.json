@@ -214,9 +214,6 @@
   },
   "Accessibility": {
     "files": [
-      "src/components/application/GenericContent/Filter/FilterContentInteractive.tsx",
-      "src/components/application/GenericContent/Filter/index.tsx",
-      "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx",
       "src/database/models/Application.tsx"
     ]
   },
@@ -497,6 +494,13 @@
   "APA App Evaluation Model": {
     "files": [
       "src/components/application/GenericDialog/Framework/index.js"
+    ]
+  },
+  "apa|Accessibility": {
+    "files": [
+      "src/components/application/GenericContent/Filter/FilterContentInteractive.tsx",
+      "src/components/application/GenericContent/Filter/index.tsx",
+      "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
     ]
   },
   "App": {
@@ -5891,6 +5895,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "research|Surveys": {
+    "files": [
+      "src/components/pages/Admin/AdminLayoutSelector.tsx"
+    ]
+  },
   "Reset": {
     "files": [
       "src/components/application/GenericContent/Filter/index.tsx",
@@ -6728,7 +6737,6 @@
   },
   "Surveys": {
     "files": [
-      "src/components/pages/Admin/AdminLayoutSelector.tsx",
       "src/components/pages/SubmitApp/content.ts",
       "src/database/models/Application.tsx"
     ]

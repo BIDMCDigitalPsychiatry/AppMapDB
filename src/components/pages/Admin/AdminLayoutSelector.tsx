@@ -2,7 +2,7 @@ import { useTheme } from '@mui/material';
 import * as React from 'react';
 import TabSelectorTextToolBar from '../../general/TabSelector/TabSelectorTextToolBar';
 import { useIsAdmin, useIsSubmissionReviewer, useIsSuperAdmin } from '../../../hooks';
-import { useT } from '../../../i18n';
+import { useT, tc } from '../../../i18n';
 
 const AdminLayoutSelector = ({ subRoute, ...other }) => {
   const { palette } = useTheme();
@@ -19,7 +19,7 @@ const AdminLayoutSelector = ({ subRoute, ...other }) => {
       [
         isAdmin && { id: 'Pending Approvals', label: t('Pending Approvals'), route: '/Admin', routeState: { subRoute: 'pending' } },
         isSubmissionReviewer && { id: 'App Suggestions', label: t('App Suggestions'), route: '/Admin', routeState: { subRoute: 'submissions' } },
-        isAdmin && { id: 'Surveys', label: t('Surveys'), route: '/Admin', routeState: { subRoute: 'surveys' } },
+        isAdmin && { id: 'Surveys', label: t(tc('research', 'Surveys')), route: '/Admin', routeState: { subRoute: 'surveys' } },
         isSuperAdmin && { id: 'Users', label: t('Users'), route: '/Admin', routeState: { subRoute: 'users' } }
       ].filter(x => x),
     [isAdmin, isSuperAdmin, isSubmissionReviewer, t]

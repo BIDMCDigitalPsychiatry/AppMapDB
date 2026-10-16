@@ -61,6 +61,11 @@ const stripContext = (key: string) => {
   return i > 0 && !key.slice(0, i).includes(' ') ? key.slice(i + 1) : key;
 };
 
+// The active language for plain helpers that can't use hooks (e.g. date formatting in src/helpers.tsx).
+// Set by I18nProvider on every render, so helpers called during render see the current language.
+let activeLanguage: Language = 'en';
+export const getActiveLanguage = (): Language => activeLanguage;
+
 export const translate = (lang: Language, key: string, vars?: Record<string, any>) => interpolate(loaded[lang]?.[key] || stripContext(key), vars);
 
 export type TFunction = (text: any, vars?: Record<string, any>) => any;
@@ -83,6 +88,7 @@ export const useLanguage = (): [Language, (lang: Language) => void] => {
 export const I18nProvider = ({ children }: { children: React.ReactNode }) => {
   const [lang, setLang] = useLanguage();
   const [, setVersion] = React.useState(0);
+  activeLanguage = lang;
 
   React.useEffect(() => {
     try {

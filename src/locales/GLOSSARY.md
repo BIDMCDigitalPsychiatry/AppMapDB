@@ -43,6 +43,30 @@ the files where each string appears, which gives you its context.
 | privacy policy | politique de confidentialité | Datenschutzerklärung |
 | data | données | Daten |
 
+## Category names (fixed; used in filters, chips, the rating form and the Suggest form)
+| English | French | German |
+|---|---|---|
+| Platforms | Plateformes | Plattformen |
+| Cost | Coût | Kosten |
+| Developer Type / Application Origin / Origin | Origine | Herkunft |
+| Supported Conditions / Conditions | Troubles pris en charge / Troubles | Unterstützte Erkrankungen / Erkrankungen |
+| Privacy / Privacy & Security | Confidentialité / Confidentialité et sécurité | Datenschutz / Datenschutz und Sicherheit |
+| Functionalities / Functionality (column header "Access") | Fonctionnement (header: Accès) | Funktionalität (header: Zugang) |
+| Features | Fonctionnalités | Funktionen |
+| Engagements / Engagement Style | Engagement / Style d’engagement | Interaktion / Interaktionsstil |
+| Inputs / Outputs | Entrées / Sorties | Eingaben / Ausgaben |
+| Uses | Utilisations | Verwendungszwecke |
+| Treatment Approaches | Approches thérapeutiques | Therapieansätze |
+| Evidence & Clinical Foundations / Clinical Foundation | Données probantes et fondements cliniques / Fondement clinique | Evidenz und klinische Grundlagen / Klinische Grundlage |
+| Country Availability | Disponibilité par pays | Länderverfügbarkeit |
+| Accessibility (APA framework category = access: cost, platforms, offline) | Accessibilité | Zugänglichkeit |
+| accessibility feature (for people with disabilities: text size, screen reader) | fonctionnalité d’accessibilité | Barrierefreiheitsfunktion / Barrierefreiheit |
+| APA categories: Privacy & Security / Clinical Foundation / Engagement Style / Interoperability | Confidentialité et sécurité / Fondement clinique / Style d’engagement / Interopérabilité | Datenschutz und Sicherheit / Klinische Grundlage / Interaktionsstil / Interoperabilität |
+| Not sure (answer) | Je ne sais pas | Nicht sicher |
+| Next / Back / Previous (buttons) | Suivant / Retour / Précédent | Weiter / Zurück / Zurück |
+| Survey (research questionnaire) | Questionnaire | Umfrage |
+| Surveys (app input feature) | Questionnaires | Fragebögen |
+
 ## Clinical and evidence terms
 | English | French | German |
 |---|---|---|
@@ -75,7 +99,11 @@ the files where each string appears, which gives you its context.
 | self-help | auto-assistance | Selbsthilfe |
 | clinician | clinicien | Behandelnde/r (prefer **Fachperson** in neutral contexts) |
 | personal health information (PHI) | informations personnelles de santé (IPS) | personenbezogene Gesundheitsdaten |
-| de-identified / aggregate data | données anonymisées / agrégées | anonymisierte / aggregierte Daten |
+| de-identified / anonymized data (identifiers removed, individual records remain) | données anonymisées (not *dépersonnalisées*: in Québec law that means pseudonymized) | anonymisierte Daten |
+| aggregate data (pooled/statistical, no individual records) | données agrégées | aggregierte Daten |
+| shared (data disclosed to third parties) | partagées | weitergegeben (not *geteilt*) |
+| app store (generic, not Apple's) | boutique d’applications | App-Store |
+| reviewers (people who check Suggest an App submissions) | réviseurs | Prüfer |
 | crisis line / hotline | ligne d’écoute de crise | Krisentelefon |
 
 ## Do not translate

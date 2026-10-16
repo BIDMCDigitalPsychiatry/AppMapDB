@@ -22,7 +22,7 @@ import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { Grid } from '@mui/material';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
-import { useT, tx } from '../../../../i18n';
+import { useT, tx, tc } from '../../../../i18n';
 
 export const title = tx('Apply Filters'); // also the dialog-state id: tx keeps it English
 const maxWidth = 400;
@@ -36,7 +36,7 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
   return (
     <Grid container justifyContent='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>{t('Accessibility')}</Typography>
+        <Typography variant='h6'>{t(tc('apa', 'Accessibility'))}</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
           {injectField('Platforms')}

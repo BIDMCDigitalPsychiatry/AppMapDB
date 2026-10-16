@@ -42,7 +42,12 @@ const useStyles = makeStyles((theme: any) =>
       border: `1px solid ${theme.palette.divider ?? '#E5EAF0'}`,
       objectFit: 'cover',
       backgroundColor: theme.palette.common.white,
-      flexShrink: 0
+      flexShrink: 0,
+      // A broken icon must not push the card layout around with its alt text (long in German);
+      // screen readers still get the alt text.
+      display: 'block',
+      overflow: 'hidden',
+      fontSize: 0
     },
     // Show full names by wrapping up to two lines instead of truncating one.
     clamp2: {

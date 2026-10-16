@@ -10,7 +10,7 @@ import * as ExploreQuestionsDialog from '../../application/GenericDialog/Explore
 import DialogButton from '../../application/GenericDialog/DialogButton';
 import ReactPlayer from 'react-player';
 import { zoom1VideoUrl as videoPath, zoom0VideoUrl as videoPath2, introVideoUrl as videoPath3 } from '../../../content/videos';
-import { useT, tx } from '../../../i18n';
+import { useT, tx, tc } from '../../../i18n';
 
 const padding = 32;
 const width = 300;
@@ -226,7 +226,7 @@ export default function FrameworkQuestions() {
         </Grid>
         {[
           {
-            title: tx('Accessibility'),
+            title: tc('apa', 'Accessibility'), // APA category (access), not the accessibility-feature chip
             background: '#2278CF',
             rows: [tx('Who is the app developer?'), tx('How much does the app cost?'), tx('Does it work offline and with accessibility features?')]
           },
