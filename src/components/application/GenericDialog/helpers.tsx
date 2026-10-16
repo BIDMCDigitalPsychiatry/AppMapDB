@@ -154,8 +154,11 @@ export const useValues = ({
 }) => {
   const { initialValues = {}, submitting, showErrors } = state;
   const defaultValues = getDefaultValues(fields); // Get any default values from the individual fields first
-  var mergedInitialValues = merge(defaultValues, InitialValues); // Merge with any incoming initialValues from the properties
-  mergedInitialValues = merge(mergedInitialValues, initialValues); // Merge any initial values from the external dialog state
+  // Incoming arrays REPLACE defaults rather than concatenating (deepmerge's default) — e.g. a rating pre-filled with
+  // platforms ['iOS'] must not become [Android, iOS, Web] from the new-rating default.
+  const replaceArrays = { arrayMerge: (_destination, source) => source };
+  var mergedInitialValues = merge(defaultValues, InitialValues, replaceArrays); // Merge with any incoming initialValues from the properties
+  mergedInitialValues = merge(mergedInitialValues, initialValues, replaceArrays); // Merge any initial values from the external dialog state
   const [internalValues, setInternalValues] = React.useState(mergedInitialValues);
   const values = externalValues ? externalValues : internalValues;
 
