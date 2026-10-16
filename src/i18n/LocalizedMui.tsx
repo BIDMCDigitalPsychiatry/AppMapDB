@@ -32,8 +32,11 @@ export const LocalizedDatePickers = ({ children }: { children: React.ReactNode }
 // Layers MUI component text (e.g. "Rows per page") onto the surrounding theme.
 export const LocalizedTheme = ({ children }: { children: React.ReactNode }) => {
   const lang = useCurrentLanguage();
-  if (lang === 'en') return <>{children}</>;
-  return <ThemeProvider theme={outer => createTheme(outer, MUI[lang])}>{children}</ThemeProvider>;
+  // Always render the same ThemeProvider: switching between a bare fragment (English) and a provider
+  // changed the tree's shape, which remounted the whole app on every language change (re-opening the
+  // first-visit PWA notice and losing scroll/panel state).
+  const theme = React.useCallback(outer => (lang === 'en' ? outer : createTheme(outer, MUI[lang])), [lang]);
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
 // Locale-aware date formatting for display (Intl): formatDate(ms, lang)

@@ -4,9 +4,34 @@
  * `variant='list'` renders an inline list for the mobile navigation drawer.
  */
 import * as React from 'react';
-import { Box, Button, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
+import { Box, Button, ListItemButton, ListItemText, Menu, MenuItem, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { LANGUAGES, useLanguage, useT } from '.';
+
+// Two-letter language code chip (matches the code on the top-bar button). Deliberately not flags:
+// flags are countries, and French/German are spoken in several (Canada, Belgium, Austria, Switzerland…).
+const CodeBadge = ({ code, selected }: { code: string; selected: boolean }) => (
+  <Box
+    component='span'
+    aria-hidden
+    sx={{
+      minWidth: 30,
+      px: 0.5,
+      py: 0.25,
+      borderRadius: 1,
+      fontSize: 12,
+      fontWeight: 700,
+      textAlign: 'center',
+      letterSpacing: 0.5,
+      border: 1,
+      borderColor: selected ? 'primary.main' : 'divider',
+      bgcolor: selected ? 'primary.main' : 'transparent',
+      color: selected ? 'primary.contrastText' : 'text.secondary'
+    }}
+  >
+    {code}
+  </Box>
+);
 
 export default function LanguageSelector({ variant = 'button' }: { variant?: 'button' | 'list' }) {
   const [lang, setLang] = useLanguage();
@@ -17,12 +42,16 @@ export default function LanguageSelector({ variant = 'button' }: { variant?: 'bu
   if (variant === 'list')
     return (
       <Box>
-        {LANGUAGES.map(l => (
-          <ListItemButton key={l.code} selected={l.code === lang} onClick={() => setLang(l.code)} lang={l.code}>
-            <ListItemIcon>{l.code === lang ? <Icons.Check /> : <Icons.Translate sx={{ opacity: 0 }} />}</ListItemIcon>
-            <ListItemText primary={l.label} />
-          </ListItemButton>
-        ))}
+        {LANGUAGES.map(l => {
+          const selected = l.code === lang;
+          return (
+            <ListItemButton key={l.code} selected={selected} onClick={() => setLang(l.code)} lang={l.code} sx={{ gap: 1.5 }}>
+              <CodeBadge code={l.short} selected={selected} />
+              <ListItemText primary={l.label} primaryTypographyProps={{ fontWeight: selected ? 700 : 400 }} />
+              <Icons.Check fontSize='small' color='primary' sx={{ visibility: selected ? 'visible' : 'hidden' }} />
+            </ListItemButton>
+          );
+        })}
       </Box>
     );
 
@@ -42,20 +71,27 @@ export default function LanguageSelector({ variant = 'button' }: { variant?: 'bu
         <Typography variant='caption' color='text.secondary' sx={{ px: 2, display: 'block' }}>
           {t('Language')}
         </Typography>
-        {LANGUAGES.map(l => (
-          <MenuItem
-            key={l.code}
-            selected={l.code === lang}
-            lang={l.code}
-            onClick={() => {
-              setLang(l.code);
-              setAnchor(null);
-            }}
-          >
-            <ListItemIcon>{l.code === lang && <Icons.Check fontSize='small' />}</ListItemIcon>
-            {l.label}
-          </MenuItem>
-        ))}
+        {LANGUAGES.map(l => {
+          const selected = l.code === lang;
+          return (
+            <MenuItem
+              key={l.code}
+              selected={selected}
+              lang={l.code}
+              onClick={() => {
+                setLang(l.code);
+                setAnchor(null);
+              }}
+              sx={{ gap: 1.5, minWidth: 180 }}
+            >
+              <CodeBadge code={l.short} selected={selected} />
+              <Box component='span' sx={{ flex: 1, fontWeight: selected ? 700 : 400 }}>
+                {l.label}
+              </Box>
+              <Icons.Check fontSize='small' color='primary' sx={{ visibility: selected ? 'visible' : 'hidden' }} />
+            </MenuItem>
+          );
+        })}
       </Menu>
     </>
   );
