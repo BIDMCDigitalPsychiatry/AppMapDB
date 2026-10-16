@@ -860,6 +860,7 @@
   },
   "Back to the app library": {
     "files": [
+      "src/components/pages/Admin/Admin.tsx",
       "src/components/pages/SubmitApp/SubmitApp.tsx"
     ]
   },
@@ -4739,6 +4740,11 @@
       "src/components/application/GenericTable/TablePlaceHolder.tsx"
     ]
   },
+  "No access": {
+    "files": [
+      "src/components/pages/Admin/Admin.tsx"
+    ]
+  },
   "No apps match your search": {
     "files": [
       "src/components/pages/PublicApplicationsTable.tsx"
@@ -6281,6 +6287,7 @@
   },
   "Sign in required": {
     "files": [
+      "src/components/pages/Admin/Admin.tsx",
       "src/database/useProcessData.tsx"
     ]
   },
@@ -6886,6 +6893,11 @@
   "That's the limit for this visit — you can keep refining results with the filter panel.": {
     "files": [
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
+    ]
+  },
+  "The admin area is only available to signed-in team members. Please sign in from the account menu (top right).": {
+    "files": [
+      "src/components/pages/Admin/Admin.tsx"
     ]
   },
   "The app": {
@@ -8014,6 +8026,11 @@
   "You must create an account and sign in to save and load filters.": {
     "files": [
       "src/components/application/GenericContent/FilterButtons/index.tsx"
+    ]
+  },
+  "Your account doesn’t have access to the admin area. If you think it should, contact a Super Admin.": {
+    "files": [
+      "src/components/pages/Admin/Admin.tsx"
     ]
   },
   "Your answers are saved in this browser": {
