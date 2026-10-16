@@ -10,7 +10,7 @@
  *   USERS_TABLE           roster table name (users) — the single source of
  *                         truth for roles (package.json lists retired)
  */
-const { handleWrite, handleEmail, handleListRegisteredUsers } = require('./handler');
+const { handleWrite, handleEmail, handleListRegisteredUsers, handleSubmission } = require('./handler');
 
 const STATUS_BY_TYPE = { bad_request: 400, unauthorized: 401, forbidden: 403, conflict: 409, error: 502 };
 
@@ -43,9 +43,16 @@ exports.handler = async event => {
 
   try {
     // Email operations carry an `email` payload; the registered-users report
-    // carries `listRegisteredUsers`; everything else is a write.
+    // carries `listRegisteredUsers`; App Submissions carry `submission`;
+    // everything else is a write.
     const result =
-      body && body.listRegisteredUsers ? await handleListRegisteredUsers(token) : body && body.email ? await handleEmail(token, body.email) : await handleWrite(token, body);
+      body && body.listRegisteredUsers
+        ? await handleListRegisteredUsers(token)
+        : body && body.submission
+        ? await handleSubmission(token, body.submission)
+        : body && body.email
+        ? await handleEmail(token, body.email)
+        : await handleWrite(token, body);
     return { statusCode: STATUS_BY_TYPE[result.type] || 200, headers, body: JSON.stringify(result) };
   } catch (err) {
     console.error(err);

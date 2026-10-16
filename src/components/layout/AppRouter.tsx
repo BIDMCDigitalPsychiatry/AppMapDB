@@ -50,7 +50,11 @@ function AppRouter(props: AppRouterProps) {
 const mapStateToProps = (state: AppState, ownProp: AppRouterProps): AppRouterProps => {
   var history = ownProp.history;
   const location = state && state.router && state.router.location; //location from redux store (previously persisted location)
-  history.location = location ? location : history.location; //if a previous location exists, then set it, otherwise use the passed in/default value
+  // Restore the persisted location (and its route state) only when it is the
+  // page actually being opened — otherwise a shared link (e.g. /SuggestApp
+  // from an email) would show whatever page the visitor last viewed.
+  const samePage = location && location.pathname === history.location?.pathname;
+  history.location = samePage ? location : history.location;
   return { history };
 };
 

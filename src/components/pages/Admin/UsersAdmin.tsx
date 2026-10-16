@@ -24,7 +24,13 @@ import { useHeaderHeightSetRef } from '../../layout/hooks';
 
 // Order matters: this drives the Add User dialog's checkbox order (Super
 // Admin first, matching the table's column order).
-const ROLE_LABELS: Record<string, string> = { superadmin: 'Super Admin', admin: 'Admin', notify: 'Notify', surveynotify: 'Survey Notify' };
+const ROLE_LABELS: Record<string, string> = {
+  superadmin: 'Super Admin',
+  admin: 'Admin',
+  notify: 'Notify',
+  surveynotify: 'Survey Notify',
+  submissionreviewer: 'Submission Reviewer'
+};
 
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
   createStyles({

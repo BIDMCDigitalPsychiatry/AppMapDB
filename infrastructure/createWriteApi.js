@@ -61,7 +61,9 @@ const POLICY = {
         'arn:aws:dynamodb:*:*:table/team',
         'arn:aws:dynamodb:*:*:table/filters',
         'arn:aws:dynamodb:*:*:table/surveys',
-        'arn:aws:dynamodb:*:*:table/signUpSurveys'
+        'arn:aws:dynamodb:*:*:table/signUpSurveys',
+        // App Submissions queue (createSubmissionsTable.js) — API-only access
+        'arn:aws:dynamodb:*:*:table/appSubmissions'
       ]
     },
     // Hard-delete is intentionally allowed ONLY on the users roster (people

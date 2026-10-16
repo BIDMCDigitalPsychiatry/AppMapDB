@@ -24,6 +24,7 @@ const Admin = lazy(() => import('../pages/Admin/Admin'));
 const CommunityLayout = lazy(() => import('../pages/Community/CommunityLayout'));
 const Survey = lazy(() => import('../pages/Survey/Survey'));
 const SurveyFollowUp = lazy(() => import('../pages/Survey/SurveyFollowUp'));
+const SubmitApp = lazy(() => import('../pages/SubmitApp/SubmitApp'));
 
 const Routes = () => {
   return (
@@ -44,6 +45,7 @@ const Routes = () => {
       <Route exact path={publicUrl('/Community')} children={<CommunityLayout />} />
       <Route exact path={publicUrl('/Survey')} children={<Survey />} />
       <Route exact path={publicUrl('/SurveyFollowUp')} children={<SurveyFollowUp />} />
+      <Route exact path={publicUrl('/SuggestApp')} children={<SubmitApp />} />
       <Route exact path={publicUrl('/PlayGround')} children={<PlayGround />} />
     </Switch>
   );
