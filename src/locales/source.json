@@ -934,6 +934,11 @@
       "src/components/application/FilesDropzone.tsx"
     ]
   },
+  "Browse all apps": {
+    "files": [
+      "src/components/pages/ViewApp.tsx"
+    ]
+  },
   "Button group with select": {
     "files": [
       "src/components/pwa/MultiAnswerButtons.tsx"
@@ -4231,6 +4236,11 @@
       "src/components/pages/Survey/Survey.tsx"
     ]
   },
+  "It may have been removed or merged with another listing.": {
+    "files": [
+      "src/components/pages/ViewApp.tsx"
+    ]
+  },
   "It must be available to ALL users — not only California residents, EU residents, or children.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -7100,6 +7110,11 @@
   "This app is easy to use and operate.": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
+    ]
+  },
+  "This app is no longer listed": {
+    "files": [
+      "src/components/pages/ViewApp.tsx"
     ]
   },
   "This app may already be in the library:": {

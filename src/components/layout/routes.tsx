@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { Route, Switch } from 'react-router';
 import Apps from '../pages/Apps';
-import ViewApp from '../pages/ViewApp';
+import ViewApp, { AppPage } from '../pages/ViewApp';
 import { publicUrl } from '../../helpers';
 
 /*
@@ -42,6 +42,8 @@ const Routes = () => {
       <Route exact path={publicUrl('/RateAnApp')} children={<RateAnApp />} />
       <Route exact path={publicUrl('/RateNewAppIntro')} children={<RateNewAppIntro />} />
       <Route exact path={publicUrl('/ViewApp')} children={<ViewApp />} />
+      {/* Public app addresses: /apps/<name>-<id>, /fr/apps/…, /de/apps/… (src/appUrl.ts) */}
+      <Route exact path={[publicUrl('/apps/:slug'), publicUrl('/fr/apps/:slug'), publicUrl('/de/apps/:slug')]} children={<AppPage />} />
       <Route exact path={publicUrl('/Community')} children={<CommunityLayout />} />
       <Route exact path={publicUrl('/Survey')} children={<Survey />} />
       <Route exact path={publicUrl('/SurveyFollowUp')} children={<SurveyFollowUp />} />

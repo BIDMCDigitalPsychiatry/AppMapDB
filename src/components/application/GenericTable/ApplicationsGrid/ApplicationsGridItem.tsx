@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Box, Card, CardContent, Chip, Grid, Typography } from '@mui/material';
 import { createStyles } from '../../../../styles/jss';
 import { makeStyles } from '../../../../styles/jss';
-import { isEmpty, lineClamp, publicUrl, stripContent } from '../../../../helpers';
-import { useChangeRoute } from '../../../layout/hooks';
+import { isEmpty, lineClamp, stripContent } from '../../../../helpers';
+import { useOpenApp } from '../../../layout/hooks';
 import { getAppCompany, getAppIcon, getAppName } from '../Applications/selectors';
 import PlatformButtons from './PlatformButtons';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
@@ -147,15 +147,15 @@ export default function ApplicationsGridItem(props: any) {
   var areFiltersActive = useAreFiltersActive();
 
   const classes = useStyles({ isPwa: isPwa && areFiltersActive });
-  const changeRoute = useChangeRoute();
+  const openApp = useOpenApp();
   const content = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
 
   const [, setDialogState] = useDialogState(title);
 
   const onClick = React.useCallback(() => {
-    isPwa ? setDialogState({ open: true, app: props, from: 'pwa' }) : changeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' });
+    isPwa ? setDialogState({ open: true, app: props, from: 'pwa' }) : openApp(props, 'ApplicationGrid');
     // eslint-disable-next-line
-  }, [isPwa, JSON.stringify(props), changeRoute, setDialogState]);
+  }, [isPwa, JSON.stringify(props), openApp, setDialogState]);
 
   return children ? (
     <Card className={classes.root}>

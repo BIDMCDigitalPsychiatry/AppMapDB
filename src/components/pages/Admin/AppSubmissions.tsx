@@ -37,8 +37,8 @@ import { useDispatch } from 'react-redux';
 import { AppSubmission, listSubmissions, SubmissionStatus, SUBMISSION_STATUS_LABELS, updateSubmission } from '../../../database/appSubmissions';
 import { isNoCurrentUserError, sessionExpired, SESSION_EXPIRED_MESSAGE } from '../../../database/session';
 import { useApplications } from '../../../database/useApplications';
-import { getAndroidIdFromUrl, getAppleIdFromUrl, isEmpty, publicUrl } from '../../../helpers';
-import { useHeaderHeightSetRef, useHandleChangeRoute } from '../../layout/hooks';
+import { getAndroidIdFromUrl, getAppleIdFromUrl, isEmpty } from '../../../helpers';
+import { useHeaderHeightSetRef, useOpenApp } from '../../layout/hooks';
 import { useDialogState } from '../../application/GenericDialog/useDialogState';
 import RateNewAppDialog from '../../application/GenericDialog/RateNewApp/RateNewAppDialog';
 import { updateSnackBar } from '../../application/SnackBar/store';
@@ -111,7 +111,7 @@ const SubmissionDetail = ({
   const [busy, setBusy] = React.useState(false);
   const duplicates = useDuplicates(submission);
   const unsure = unsureAnswers(submission);
-  const changeRoute = useHandleChangeRoute();
+  const openApp = useOpenApp();
   const s = submission;
 
   const act = (status?: SubmissionStatus) => async () => {
@@ -150,7 +150,7 @@ const SubmissionDetail = ({
             {duplicates.map((a, i) => (
               <React.Fragment key={a._id}>
                 {i > 0 && ', '}
-                <Link component='button' onClick={changeRoute(publicUrl('/ViewApp'), { app: a, from: 'Admin' })} sx={{ verticalAlign: 'baseline' }}>
+                <Link component='button' onClick={() => openApp(a, 'Admin')} sx={{ verticalAlign: 'baseline' }}>
                   {a.name}
                 </Link>
                 {a.approved !== true && ` (${t('pending approval')})`}

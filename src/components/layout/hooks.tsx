@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useRouteState } from './store';
 import { useHistory, useLocation } from 'react-router';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { evalFunc, isEmpty } from '../../helpers';
+import { evalFunc, isEmpty, publicUrl } from '../../helpers';
+import { appPath } from '../../appUrl';
+import { useCurrentLanguage } from '../../i18n';
 import { AppState } from '../../store';
 import useRefDimensions from './ViewPort/hooks/useRefDimensions';
 
@@ -26,6 +28,19 @@ export const useHeaderHeight = () => useLayoutResizeKey('headerHeight');
 export const useAppBarHeightSetRef = () => useLayoutHeightObserverKey('appBarHeight');
 export const useFooterHeightSetRef = () => useLayoutHeightObserverKey('footerHeight');
 export const useHeaderHeightSetRef = () => useLayoutHeightObserverKey('headerHeight');
+
+// Opens an app's detail page. Approved apps (what the public library shows) get their shareable address
+// in the current interface language (src/appUrl.ts); anything else, e.g. a pending rating an admin is
+// reviewing, keeps the private /ViewApp page. The record travels with the navigation either way, so the
+// page renders without a lookup.
+export const useOpenApp = () => {
+  const changeRoute = useChangeRoute();
+  const lang = useCurrentLanguage();
+  return React.useCallback(
+    (app, from: string) => changeRoute(app?.cur === 'approved' ? appPath(app, lang) : publicUrl('/ViewApp'), { app, from }),
+    [changeRoute, lang]
+  );
+};
 
 export const useHandleChangeRoute = () => {
   const changeRoute = useChangeRoute();

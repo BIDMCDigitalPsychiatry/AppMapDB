@@ -12,6 +12,7 @@ import { getPwaFilterMatches, useTableFilter } from '../application/GenericTable
 import { useAdminMode } from '../layout/store';
 import { getDescription } from '../application/GenericTable/ApplicationsGrid/ExpandableDescription';
 import fuzzysort from 'fuzzysort';
+import { matchesShortId } from '../../appUrl';
 
 const table = 'Applications';
 
@@ -483,6 +484,54 @@ export function useGroupHistoryByGroupId(groupId) {
       setApps
     ).catch(err => console.error('Error querying group-index:', err));
   }, [groupId, setApps]);
+}
+
+// Resolves a public app address (/apps/<name>-<shortId>, see src/appUrl.ts) to the app's current approved
+// record. The id is only a groupId prefix, which DynamoDB can't look up directly, so: use the store when the
+// library has already loaded it (the usual case when arriving from a card), otherwise read the approved
+// partition page by page and stop at the first match.
+// status: 'loading' → 'found' | 'missing' (no current approved record: removed, merged or never approved).
+export function useApprovedAppByShortId(shortId: string) {
+  const [apps, setApps] = useApplications();
+  const found = React.useMemo(
+    () => (shortId ? Object.values(apps ?? {}).find((a: any) => a?.cur === 'approved' && matchesShortId(a, shortId)) : undefined),
+    [apps, shortId]
+  );
+  const [searched, setSearched] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (!shortId || found || searched === shortId) return;
+    let cancelled = false;
+    (async () => {
+      const params: any = {
+        TableName: tables.applications,
+        IndexName: indexes.current,
+        KeyConditionExpression: '#c = :v',
+        ExpressionAttributeNames: { '#c': 'cur' },
+        ExpressionAttributeValues: { ':v': 'approved' },
+        ExclusiveStartKey: undefined
+      };
+      try {
+        let page;
+        do {
+          page = await dynamo.query(params).promise();
+          if (cancelled) return;
+          const items = page.Items ?? [];
+          mergeRows(setApps, items);
+          if (items.some(a => matchesShortId(a, shortId))) break;
+          params.ExclusiveStartKey = page.LastEvaluatedKey;
+        } while (page.LastEvaluatedKey);
+      } catch (err) {
+        console.error('Error looking up app by address:', err);
+      }
+      if (!cancelled) setSearched(shortId);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [shortId, found, searched, setApps]);
+
+  return { app: found as any, status: found ? 'found' : searched === shortId ? 'missing' : 'loading' };
 }
 
 export function useGroupHistory(id) {

@@ -9,8 +9,7 @@ import * as RateNewAppDialog from '../application/GenericDialog/RateNewApp/RateN
 import * as ApplicationHistoryDialog from '../application/GenericDialog/ApplicationHistoryDialog';
 import * as SuggestEditDialog from '../application/GenericDialog/SuggestEdit';
 import { useSignedInRater } from '../../hooks';
-import { useChangeRoute } from '../layout/hooks';
-import { publicUrl } from '../../helpers';
+import { useOpenApp } from '../layout/hooks';
 import { getAppIcon } from '../application/GenericTable/Applications/selectors';
 import { tables } from '../../database/dbConfig';
 import {
@@ -267,7 +266,7 @@ const VirtuosoTableHead = React.forwardRef((props: any, ref: any) => <thead {...
 export default function PublicApplicationsTable({ data = [], height = 500 }) {
   const classes = useStyles();
   const t = useT();
-  const changeRoute = useChangeRoute();
+  const openApp = useOpenApp();
   const handleReset = useHandleTableReset('Applications');
   const [sortKey, setSortKey] = React.useState<SortKey>('name');
   const [sortAsc, setSortAsc] = React.useState(true);
@@ -303,9 +302,9 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
       // store links) — not the mapped table row, whose tag fields are
       // flattened search strings.
       const app = r.getValues ? r.getValues() : r;
-      changeRoute(publicUrl('/ViewApp'), { app, from: 'ApplicationTable' });
+      openApp(app, 'ApplicationTable');
     },
-    [changeRoute]
+    [openApp]
   );
 
   if (rows.length === 0) {
