@@ -6,6 +6,7 @@ import { createStyles } from '../../../styles/jss';
 import * as Icons from '@mui/icons-material';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import Text from '../DialogField/Text';
+import { tx } from '../../../i18n';
 
 export interface TableToolbarProps {
   name?: string;
@@ -34,7 +35,7 @@ const useStyles = makeStyles(({ palette }: any) =>
   })
 );
 
-export default function TableSearch({ name = 'Applications', label = 'Enter Text to Search' }) {
+export default function TableSearch({ name = 'Applications', label = tx('Enter Text to Search') as string }) {
   const classes = useStyles();
   const { searchtext = '' } = useTable(name);
   const tableUpdate = useTableUpdate();

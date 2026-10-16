@@ -17,98 +17,109 @@ import {
 } from '../../../../database/models/Application';
 import { useFullScreen } from '../../../../hooks';
 import TableSearch from '../../GenericTable/TableSearch';
+import { useT, tx } from '../../../../i18n';
 
-export const title = 'Apply Filters';
+export const title = tx('Apply Filters'); // also the dialog-state id: tx keeps it English
 
 export default function FilterPopover({ id = title, ...other }) {
+  const t = useT();
+  // Option values stay English (they are matched and saved); only the displayed label is translated
+  const toItems = (values: string[]) => values.map(value => ({ value, label: t(value) }));
   const fullScreen = useFullScreen();
   const width = fullScreen ? 290 : 700;
   return (
     <GenericPopover
       id={id}
       submitLabel={null}
-      cancelLabel='Close'
+      cancelLabel={t('Close')}
       width={width}
       columns={2}
       minColumnWidth={275}
       maxColumnWidth={350}
       disableInitialize={true}
       fields={[
-        { id: 'TextSearch', label: 'Text Search', Field: TableSearch },
+        { id: 'TextSearch', label: t('Text Search'), Field: TableSearch },
         {
           id: 'Platforms',
+          label: t('Platforms'),
           Field: MultiSelectCheck,
-          items: Platforms.map(label => ({ value: label, label }))
+          items: toItems(Platforms)
         },
         {
           id: 'Cost',
+          label: t('Cost'),
           Field: MultiSelectCheck,
-          items: Costs.map(label => ({ value: label, label }))
+          items: toItems(Costs)
         },
         {
           id: 'DeveloperTypes',
-          label: 'Developer Types',
+          label: t('Developer Types'),
           Field: MultiSelectCheck,
-          items: DeveloperTypes.map(label => ({ value: label, label }))
+          items: toItems(DeveloperTypes)
         },
         {
           id: 'Functionalities',
+          label: t('Functionalities'),
           Field: MultiSelectCheck,
-          items: Functionalities.map(label => ({ value: label, label }))
+          items: toItems(Functionalities)
         },
         {
           id: 'TreatmentApproaches',
-          label: 'Treatment Approaches',
+          label: t('Treatment Approaches'),
           Field: MultiSelectCheck,
-          items: TreatmentApproaches.map(label => ({ value: label, label }))
+          items: toItems(TreatmentApproaches)
         },
         {
           id: 'Features',
+          label: t('Features'),
           Field: MultiSelectCheck,
-          items: Features.map(label => ({ value: label, label }))
+          items: toItems(Features)
         },
         {
           id: 'Conditions',
-          label: 'Supported Conditions',
+          label: t('Supported Conditions'),
           Field: MultiSelectCheck,
-          items: Conditions.map(label => ({ value: label, label }))
+          items: toItems(Conditions)
         },
         {
           id: 'Engagements',
+          label: t('Engagements'),
           Field: MultiSelectCheck,
-          items: Engagements.map(label => ({ value: label, label }))
+          items: toItems(Engagements)
         },
         /*{
           id: 'Inputs',
           Field: MultiSelectCheck,
-          items: Inputs.map(label => ({ value: label, label }))
+          items: toItems(Inputs)
         },
         {
           id: 'Outputs',
           Field: MultiSelectCheck,
-          items: Outputs.map(label => ({ value: label, label }))
+          items: toItems(Outputs)
         },*/
         {
           id: 'Privacy',
+          label: t('Privacy'),
           Field: MultiSelectCheck,
-          items: Privacies.map(label => ({ value: label, label }))
+          items: toItems(Privacies)
         },
         {
           id: 'Uses',
+          label: t('Uses'),
           Field: MultiSelectCheck,
-          items: VisibleUses.map(label => ({ value: label, label }))
+          items: toItems(VisibleUses)
         },
         {
           id: 'Countries',
-          label: 'Country Availability',
+          label: t('Country Availability'),
           Field: MultiSelectCheck,
-          items: Countries.map(label => ({ value: label, label }))
+          items: toItems(Countries)
         },
         {
           id: 'ClinicalFoundations',
-          label: 'Evidence & Clinical Foundations',
+          label: t('Evidence & Clinical Foundations'),
           Field: MultiSelectCheck,
-          items: ClinicalFoundations.map(label => ({ value: label, label }))
+          items: toItems(ClinicalFoundations)
         }
       ]}
       {...other}

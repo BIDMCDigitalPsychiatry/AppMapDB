@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useReviewFlags } from '../../DialogField/ReviewFlags';
 import { updateSnackBar } from '../../SnackBar/store';
 import { useApplications } from '../../../../database/useApplications';
+import { useT, tx } from '../../../../i18n';
 
-export const title = 'View/Edit App';
+export const title = tx('View/Edit App'); // also the dialog-state id: tx keeps it English
 
 // Duplicate-group prevention: if the "new" app is already in the library
 // (matched by its store package ids), reuse the existing groupId so the
@@ -41,6 +42,7 @@ export interface ComponentProps {
 }
 
 export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = false, onSaved, successRoute = '/Apps' }: ComponentProps) {
+  const t = useT();
   const [{ type }, setDialogState] = useDialogState(id);
   const [_steps, setSteps] = React.useState(steps(type));
 
@@ -95,7 +97,7 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
         uid,
         draft
       },
-      onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+      onError: () => setDialogState(prev => ({ ...prev, loading: false, error: t('Error submitting values') })),
       onSuccess: (_result, saved) => {
         handleReset && handleReset();
         onSaved && onSaved(saved ?? application);
@@ -117,9 +119,10 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
         updateSnackBar({
           open: true,
           variant: 'warning',
-          message: `${pending === 1 ? '1 highlighted question still needs' : `${pending} highlighted questions still need`} a Yes or No — the submitter wasn’t sure about ${
-            pending === 1 ? 'it' : 'them'
-          }. Use Back to find the orange rows.`
+          message:
+            pending === 1
+              ? t('1 highlighted question still needs a Yes or No — the submitter wasn’t sure about it. Use Back to find the orange rows.')
+              : t('{{count}} highlighted questions still need a Yes or No — the submitter wasn’t sure about them. Use Back to find the orange rows.', { count: pending })
         })
       );
       return;
@@ -132,5 +135,5 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
     onClose && onClose();
   }, [setDialogState, onClose]);
 
-  return <GenericStepperDialog id={id} maxWidth='lg' submitLabel='Save' title={title} onSubmit={handleSubmit} steps={_steps} onClose={onClose} timeout={0} />;
+  return <GenericStepperDialog id={id} maxWidth='lg' submitLabel={t('Save')} title={title} onSubmit={handleSubmit} steps={_steps} onClose={onClose} timeout={0} />;
 }

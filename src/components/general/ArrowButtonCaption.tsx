@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import { createStyles } from '../../styles/jss';
 import { makeStyles } from '../../styles/jss';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../i18n';
 import { useHandleLink } from '../../hooks';
 
 const useStyles = makeStyles(({ palette }: any) =>
@@ -22,13 +23,14 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export default function ArrowButtonCaption({ size = 'small' as any, variant = 'caption' as any, label, link }) {
+  const t = useT();
   const classes = useStyles();
   const handleClick = useHandleLink(link);
   return (
     <Grid container className={classes.container} spacing={1} onClick={handleClick}>
       <Grid item>
         <Typography variant={variant} className={classes.primaryTextSmall} color='textSecondary'>
-          {label}
+          {t(label)}
         </Typography>
       </Grid>
       <Grid item>

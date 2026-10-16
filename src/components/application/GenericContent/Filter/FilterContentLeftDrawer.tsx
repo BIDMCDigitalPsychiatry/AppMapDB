@@ -25,29 +25,32 @@ import { isEmpty, sortAscending, sortAscendingLabel } from '../../../../helpers'
 import { useSelector } from 'react-redux';
 import InterestedAddApp from '../../../pages/Community/InterestedAddApp';
 import useFilterOptionCount from './useFilterOptionCounts';
+import { tx } from '../../../../i18n';
 
-export const title = 'Apply Filters';
+export const title = tx('Apply Filters'); // also the dialog-state id: tx keeps it English
 
 const getFilters = version =>
   [
     {
       id: 'Platforms',
+      label: tx('Platforms'),
       items: Platforms.map(label => ({ value: label, label }))
     },
     {
       id: 'Cost',
+      label: tx('Cost'),
       items: Costs.map(label => ({ value: label, label })).filter(({ value }) =>
         version === 'full' ? true : ['Free to Download', 'Totally Free', 'Subscription'].includes(value)
       )
     },
     version === 'full' && {
       id: 'DeveloperTypes',
-      label: 'Developer Types',
+      label: tx('Developer Types'),
       items: DeveloperTypes.map(label => ({ value: label, label }))
     },
     {
       id: 'Conditions',
-      label: 'Supported Conditions',
+      label: tx('Supported Conditions'),
       items: Conditions.map(label => ({ value: label, label })).filter(({ value }) =>
         version === 'full'
           ? true
@@ -58,24 +61,27 @@ const getFilters = version =>
     },
     version === 'full' && {
       id: 'Functionalities',
+      label: tx('Functionalities'),
       items: Functionalities.map(label => ({ value: label, label }))
     },
     version === 'full' && {
       id: 'Uses',
+      label: tx('Uses'),
       items: VisibleUses.map(label => ({ value: label, label: withReplacement(label) }))
     },
     {
       id: 'Countries',
-      label: 'Country Availability',
+      label: tx('Country Availability'),
       items: Countries.map(label => ({ value: label, label }))
     },
     {
       id: 'TreatmentApproaches',
-      label: 'Treatment Approaches',
+      label: tx('Treatment Approaches'),
       items: TreatmentApproaches.map(label => ({ value: label, label: withReplacement(label) }))
     },
     {
       id: 'Features',
+      label: tx('Features'),
       items: Features.map(label => ({ value: label, label: withReplacement(label) })).filter(({ value }) =>
         version === 'full'
           ? true
@@ -84,23 +90,27 @@ const getFilters = version =>
     },
     version === 'full' && {
       id: 'Engagements',
+      label: tx('Engagements'),
       items: Engagements.map(label => ({ value: label, label }))
     },
     version === 'full' && {
       id: 'ClinicalFoundations',
-      label: 'Evidence & Clinical Foundations',
+      label: tx('Evidence & Clinical Foundations'),
       items: ClinicalFoundations.filter(label => label !== 'Can Cause Harm').map(label => ({ value: label, label: withReplacement(label) })) // Exclude Can Cause Harm per request
     },
     version === 'full' && {
       id: 'Inputs',
+      label: tx('Inputs'),
       items: Inputs.map(label => ({ value: label, label }))
     },
     version === 'full' && {
       id: 'Outputs',
+      label: tx('Outputs'),
       items: Outputs.map(label => ({ value: label, label }))
     },
     {
       id: 'Privacy',
+      label: tx('Privacy'),
       items: Privacies.map(label => ({ value: label, label: withReplacement(label) })).filter(({ value }) =>
         version === 'full' ? true : ['Can Opt Out of Data Collection', 'Can Delete Data', 'Data Stored on Device'].includes(value)
       )

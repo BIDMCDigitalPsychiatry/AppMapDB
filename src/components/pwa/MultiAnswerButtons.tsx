@@ -4,8 +4,10 @@ import { isEmpty } from '../../helpers';
 import * as Icons from '@mui/icons-material';
 import { usePwaTextFontSize } from './QuestionHeader';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { useT } from '../../i18n';
 
 const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
+  const t = useT();
   const handleClick = React.useCallback(
     o => () => {
       if (value?.find(v => v.label === o.label)) {
@@ -23,17 +25,17 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
   return (
     <>
       <Box sx={{ color: 'text.secondary', pb: 1 }}>
-        <Typography fontSize={pwaTextFontSize}>Select one or more options. Click done to continue:</Typography>
+        <Typography fontSize={pwaTextFontSize}>{t('Select one or more options. Click done to continue:')}</Typography>
       </Box>
       <Grid container spacing={2}>
         {options.map((o, idx) => {
           const isSelected = value?.find(v => v.label === o.label) ? true : false;
           return (
             <Grid item xs={12} key={`${idx}-${isSelected}`}>
-              <ButtonGroup aria-label='Button group with select' fullWidth>
+              <ButtonGroup aria-label={t('Button group with select')} fullWidth>
                 <Button
                   size='small'
-                  aria-label='select button option'
+                  aria-label={t('select button option')}
                   onClick={handleClick(o)}
                   color='primary'
                   fullWidth={false}
@@ -67,7 +69,7 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
                     }
                   }}
                 >
-                  {!isEmpty(o?.label) ? o.label : o}
+                  {t(!isEmpty(o?.label) ? o.label : o)}
                 </Button>
               </ButtonGroup>
             </Grid>
@@ -82,7 +84,7 @@ const MultiAnswerButtons = ({ value = [], onChange, onNext, options = [] }) => {
             sx={{ fontSize: pwaTextFontSize, minHeight: 48 }}
             endIcon={<Icons.ArrowForward />}
           >
-            Next
+            {t('Next')}
           </Button>
         </Grid>
       </Grid>

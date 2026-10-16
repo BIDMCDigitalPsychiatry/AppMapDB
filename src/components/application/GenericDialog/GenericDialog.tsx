@@ -17,6 +17,7 @@ import Fields from './Fields';
 import ErrorGate from './ErrorGate';
 import { useFullScreen } from '../../../hooks';
 import { evalFunc } from '../../../helpers';
+import { useT, tx } from '../../../i18n';
 
 const useStyles = makeStyles(({ spacing, palette, layout }: any) =>
   createStyles({
@@ -103,8 +104,8 @@ const GenericDialog = ({
   title: Title, // Title can be set via the state as well as the input props, state takes priority
   initialValues: InitialValues, // If initial values are provided they are merged with the initial values from the state
   draggable = false,
-  cancelLabel = 'Cancel',
-  deleteLabel = 'Delete',
+  cancelLabel = tx('Cancel') as string,
+  deleteLabel = tx('Delete') as string,
   submitLabel,
   dialogActions = true,
   divider = true,
@@ -122,6 +123,7 @@ const GenericDialog = ({
   titleBackgroundColor = undefined,
   ...other
 }: ComponentProps & any) => {
+  const t = useT();
   const { layout, palette } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { type, open, loading, submitting } = state;
@@ -207,13 +209,13 @@ const GenericDialog = ({
             <Grid container justifyContent='space-between' alignItems='center'>
               <Grid item zeroMinWidth xs>
                 <Typography noWrap variant='h6' className={classes.capitalize}>
-                  {title ? title : title === '' ? '' : [type, id].join(' ')}
+                  {title ? t(title) : title === '' ? '' : [t(type), t(id)].join(' ')}
                 </Typography>
               </Grid>
               <Grid item>
                 {handleClose ? (
-                  <Tooltip title='Close' placement='left'>
-                    <IconButton aria-label='close' className={classes.closeButton} onClick={handleClose} size='large'>
+                  <Tooltip title={t('Close')} placement='left'>
+                    <IconButton aria-label={t('close')} className={classes.closeButton} onClick={handleClose} size='large'>
                       <CloseIcon />
                     </IconButton>
                   </Tooltip>
@@ -242,13 +244,13 @@ const GenericDialog = ({
                 <Grid container spacing={2} justifyContent='center' alignItems='center'>
                   <Grid item>
                     <Button onClick={handleConfirmDelete} color='secondary'>
-                      Cancel
+                      {t('Cancel')}
                     </Button>
                   </Grid>
                   <Grid item>
                     <Button onClick={handleDelete} className={classes.deleteButton}>
                       <DeleteIcon style={{ marginRight: 4 }} />
-                      Confirm {deleteLabel}
+                      {t('Confirm {{label}}', { label: t(deleteLabel) })}
                     </Button>
                   </Grid>
                 </Grid>
@@ -261,13 +263,13 @@ const GenericDialog = ({
         <DialogActions className={classes.actions}>
           {type?.toLowerCase() === 'edit' && onDelete !== undefined && (
             <Button disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
-              {deleteLabel}
+              {t(deleteLabel)}
             </Button>
           )}
-          {cancelLabel !== null && <Button onClick={handleClose}>{cancelLabel}</Button>}
+          {cancelLabel !== null && <Button onClick={handleClose}>{t(cancelLabel)}</Button>}
           {submitLabel !== null && (
             <Button autoFocus disabled={disabled || !hasChanged} color='primary' onClick={handleSubmit}>
-              {evalFunc(submitLabel, values) || type}
+              {t(evalFunc(submitLabel, values) || type)}
             </Button>
           )}
         </DialogActions>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useT, tx } from '../../../i18n';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -122,8 +123,8 @@ const GenericDialogContent = ({
   TabSelector,
   ContentSelector,
   initialValues: InitialValues, // If initial values are provided they are merged with the initial values from the state
-  cancelLabel = 'Cancel',
-  deleteLabel = 'Delete',
+  cancelLabel = tx('Cancel') as string,
+  deleteLabel = tx('Delete') as string,
   submitLabel,
   toolbarButtons = [],
   modelNames = undefined,
@@ -144,6 +145,7 @@ const GenericDialogContent = ({
   children,
   ...other
 }: ComponentProps & any) => {
+  const t = useT();
   const { layout } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { type, open, loading, submitting } = state;
@@ -210,8 +212,8 @@ const GenericDialogContent = ({
       key='revert'
       onClick={handleRevert}
       Icon={Icons.Cancel}
-      text='Revert'
-      tooltip='Click to Revert Changes'
+      text={tx('Revert')}
+      tooltip={tx('Click to Revert Changes')}
       placement='bottom'
       disabled={!hasChanged || inProgress}
     />
@@ -222,8 +224,8 @@ const GenericDialogContent = ({
       key='apply'
       onClick={handleApply}
       Icon={Icons.Check}
-      text='Apply'
-      tooltip='Click to Apply Changes'
+      text={tx('Apply')}
+      tooltip={tx('Click to Apply Changes')}
       placement='bottom'
       disabled={errorCount > 0 || !hasChanged || inProgress}
     />
@@ -250,14 +252,14 @@ const GenericDialogContent = ({
             <Grid container className={classes.dialogTitleGrid} justifyContent='space-between' alignItems='center'>
               <Grid item>
                 <Typography variant='h6' className={classes.capitalize}>
-                  {dialogTitle ? dialogTitle : [type, id].join(' ')}
+                  {dialogTitle ? t(dialogTitle) : [t(type), t(id)].join(' ')}
                 </Typography>
               </Grid>
               <Grid item>
                 {handleClose ? (
-                  <Tooltip title='Close' placement='left'>
+                  <Tooltip title={t('Close')} placement='left'>
                     <IconButton
-                      aria-label='close'
+                      aria-label={t('close')}
                       className={classes.closeButton}
                       onClick={handleClose}
                       size="large">
@@ -288,13 +290,13 @@ const GenericDialogContent = ({
               <Grid container spacing={2} justifyContent='center' alignItems='center'>
                 <Grid item>
                   <Button onClick={handleConfirmDelete} color='secondary'>
-                    Cancel
+                    {t('Cancel')}
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button onClick={handleDelete} className={classes.deleteButton}>
                     <DeleteIcon style={{ marginRight: 4 }} />
-                    Confirm {deleteLabel}
+                    {t('Confirm {{label}}', { label: t(deleteLabel) })}
                   </Button>
                 </Grid>
               </Grid>
@@ -306,17 +308,17 @@ const GenericDialogContent = ({
         <DialogActions className={classes.dialogActions}>
           {type === 'Edit' && onDelete !== undefined && (
             <Button disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
-              {deleteLabel}
+              {t(deleteLabel)}
             </Button>
           )}
           {cancelLabel !== null && (
             <Button color='secondary' onClick={handleClose}>
-              {cancelLabel}
+              {t(cancelLabel)}
             </Button>
           )}
           {submitLabel !== null && (
             <Button autoFocus disabled={disabled || !hasChanged} color='primary' onClick={handleSubmit}>
-              {submitLabel || type}
+              {t(submitLabel || type)}
             </Button>
           )}
         </DialogActions>

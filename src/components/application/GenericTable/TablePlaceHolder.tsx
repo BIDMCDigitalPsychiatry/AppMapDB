@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '../../../store';
 import { Typography } from '@mui/material';
+import { useT } from '../../../i18n';
 
 export interface TablePlaceholderProps {
   name?: string;
@@ -13,7 +14,10 @@ export interface TablePlaceholderProps {
   classes?: any;
 }
 
-const TablePlaceholder = (props: TablePlaceholderProps) => {
+const TablePlaceholder = (Props: TablePlaceholderProps) => {
+  const t = useT();
+  // Default primary text is built here (not in mapStateToProps) so it can be translated
+  const props = { ...Props, primary: Props.primary ? t(Props.primary) : t('No {{name}}', { name: t(Props.name) }), secondary: t(Props.secondary) };
   const { primary, secondary, renderPlaceholder } = props;
 
   return renderPlaceholder ? (
@@ -37,7 +41,7 @@ const TablePlaceholder = (props: TablePlaceholderProps) => {
 const mapStateToProps = (state: AppState, ownProp: TablePlaceholderProps): TablePlaceholderProps => {
   const { name, placeholder } = ownProp;
   const table = state.table[name];
-  const primary = ownProp.primary || `No ${name}`;
+  const primary = ownProp.primary;
   const secondary = ownProp.secondary || placeholder;
   return {
     ...ownProp,

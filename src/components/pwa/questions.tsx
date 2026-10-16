@@ -2,12 +2,21 @@ import { isEmpty } from '../../helpers';
 import { Conditions } from '../../database/models/Application';
 import SingleAnswerButtons from './SingleAnswerButtons';
 import MultiAnswerButtons from './MultiAnswerButtons';
+import { tx } from '../../i18n';
 
-export const questions = [
+interface Question {
+  label: string;
+  options: { label: string; filterValue: string[] }[];
+  Field?: any;
+  id: string;
+  appKey: string;
+}
+
+export const questions: Question[] = [
   {
-    label: 'Type of device?',
+    label: tx('Type of device?'),
     options: [
-      { label: 'Any', filterValue: [] },
+      { label: tx('Any'), filterValue: [] },
       { label: 'Apple', filterValue: ['iOS'] },
       { label: 'Android', filterValue: ['Android'] }
     ],
@@ -16,72 +25,74 @@ export const questions = [
     appKey: 'platforms' // key mapping to app structure
   },
   {
-    label: 'Willing to pay?',
+    label: tx('Willing to pay?'),
     options: [
-      { label: `It doesn't matter`, filterValue: [] },
-      { label: 'No, totally free only', filterValue: ['Totally Free'] },
-      { label: 'Yes, can pay one time download fee', filterValue: ['Payment'] },
-      { label: 'Yes, can pay subscription fee', filterValue: ['Subscription'] },
-      { label: 'Yes, can pay in app payments', filterValue: ['In-App Purchase'] }
+      { label: tx(`It doesn't matter`), filterValue: [] },
+      { label: tx('No, totally free only'), filterValue: ['Totally Free'] },
+      { label: tx('Yes, can pay one time download fee'), filterValue: ['Payment'] },
+      { label: tx('Yes, can pay subscription fee'), filterValue: ['Subscription'] },
+      { label: tx('Yes, can pay in app payments'), filterValue: ['In-App Purchase'] }
     ],
     id: 'Cost',
     appKey: 'costs'
   },
   {
-    label: 'Need a privacy policy?',
+    label: tx('Need a privacy policy?'),
     id: 'Privacy',
     appKey: 'privacies',
     options: [
-      { label: `It doesn't matter`, filterValue: [] },
-      { label: 'Yes, only apps with privacy policies', filterValue: ['Has Privacy Policy'] }
+      { label: tx(`It doesn't matter`), filterValue: [] },
+      { label: tx('Yes, only apps with privacy policies'), filterValue: ['Has Privacy Policy'] }
     ]
   },
   {
-    label: 'Need supporting evidence?',
+    label: tx('Need supporting evidence?'),
     id: 'ClinicalFoundations',
     appKey: 'clinicalFoundations',
     options: [
-      { label: `It doesn't matter`, filterValue: [] },
+      { label: tx(`It doesn't matter`), filterValue: [] },
       //{ label: 'Supporting Evidence & Crisis Support', filterValue: ['Supporting Studies', 'Appropriately Advises Patient in Case of Emergency'] },
-      { label: 'Yes, only apps with supporting studies', filterValue: ['Supporting Studies'] }
+      { label: tx('Yes, only apps with supporting studies'), filterValue: ['Supporting Studies'] }
       //{ label: 'Crisis Support', filterValue: ['Appropriately Advises Patient in Case of Emergency'] }
     ]
   },
   {
-    label: 'Condition target?',
+    label: tx('Condition target?'),
     id: 'Conditions',
     appKey: 'conditions',
-    options: [{ label: `It doesn't matter`, filterValue: [] }].concat(Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] })))
+    options: ([{ label: tx(`It doesn't matter`), filterValue: [] }] as Question['options']).concat(
+      Conditions.filter(v => v !== 'Non-Specific').map(c => ({ label: c, filterValue: [c] }))
+    )
   },
   {
-    label: 'Desired treatment approach?',
+    label: tx('Desired treatment approach?'),
     id: 'TreatmentApproaches',
     appKey: 'treatmentApproaches',
     options: [
-      { label: `It doesn't matter`, filterValue: [] },
+      { label: tx(`It doesn't matter`), filterValue: [] },
       //{ label: 'Acceptance and Commitment', filterValue: [] },
-      { label: 'Acceptance and Commitment Therapy (ACT)', filterValue: ['ACT'] },
-      { label: 'Cognitive Behavioral Therapy (CBT)', filterValue: ['CBT'] },
-      { label: 'Dialectical Behavioral Therapy (DBT)', filterValue: ['DBT'] },
-      { label: 'Exercise', filterValue: ['Physical Health Exercises'] },
-      { label: 'Insomnia Cognitive Behavioral Therapy (iCBT)', filterValue: ['iCBT or Sleep Therapy'] },
-      { label: 'Mindfulness', filterValue: ['Mindfulness'] }
+      { label: tx('Acceptance and Commitment Therapy (ACT)'), filterValue: ['ACT'] },
+      { label: tx('Cognitive Behavioral Therapy (CBT)'), filterValue: ['CBT'] },
+      { label: tx('Dialectical Behavioral Therapy (DBT)'), filterValue: ['DBT'] },
+      { label: tx('Exercise'), filterValue: ['Physical Health Exercises'] },
+      { label: tx('Insomnia Cognitive Behavioral Therapy (iCBT)'), filterValue: ['iCBT or Sleep Therapy'] },
+      { label: tx('Mindfulness'), filterValue: ['Mindfulness'] }
     ]
   },
   {
-    label: 'Feature included?',
+    label: tx('Feature included?'),
     id: 'Features',
     appKey: 'features',
     Field: MultiAnswerButtons,
     options: [
       //{ label: `It doesn't matter`, filterValue: [] },
-      { label: 'Goal Setting', filterValue: ['Goal Setting/Habits'] },
-      { label: 'Journaling', filterValue: ['Journaling'] },
-      { label: 'Medication Tracking', filterValue: ['Track Medication'] },
-      { label: 'Mood Tracking', filterValue: ['Track Mood'] },
-      { label: 'Psychoeducation', filterValue: ['Psychoeducation'] },
-      { label: 'Sleep Tracking', filterValue: ['Track Sleep'] },
-      { label: 'Symptom Tracking', filterValue: ['Track Symptoms'] }
+      { label: tx('Goal Setting'), filterValue: ['Goal Setting/Habits'] },
+      { label: tx('Journaling'), filterValue: ['Journaling'] },
+      { label: tx('Medication Tracking'), filterValue: ['Track Medication'] },
+      { label: tx('Mood Tracking'), filterValue: ['Track Mood'] },
+      { label: tx('Psychoeducation'), filterValue: ['Psychoeducation'] },
+      { label: tx('Sleep Tracking'), filterValue: ['Track Sleep'] },
+      { label: tx('Symptom Tracking'), filterValue: ['Track Symptoms'] }
     ]
   }
 ];
@@ -99,7 +110,7 @@ export const getQuestionFilters = values => {
     //console.log({ values, idx, vidx: values[idx] });
     if (!isEmpty(values[idx]?.label)) {
       var selectedOption = options.find(o => o.label === values[idx]?.label);
-//      console.log({ selectedOption });
+      //      console.log({ selectedOption });
       if (selectedOption) {
         filters[id] = selectedOption.filterValue;
       }

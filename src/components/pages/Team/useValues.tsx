@@ -7,6 +7,7 @@ import { useDatabaseRow } from '../../../database/useTableState';
 import { tables } from '../../../database/dbConfig';
 import useProcessData from '../../../database/useProcessData';
 import { uploadFiles } from '../../../database/utils';
+import { tx, useT } from '../../../i18n';
 
 const table = tables.team;
 
@@ -14,13 +15,14 @@ const validate = values => {
   const newErrors = {};
   ['title'].forEach(k => {
     if (isEmpty(values[k])) {
-      newErrors[k] = 'Required';
+      newErrors[k] = tx('Required');
     }
   });
   return newErrors;
 };
 
 const useValues = ({ type = 'create', trigger = false, values: Values = undefined, category: Category = undefined }) => {
+  const t = useT();
   const changeRoute = useChangeRoute();
   const email = useUserEmail();
 
@@ -129,7 +131,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
           onSuccess && onSuccess(result);
         },
         onError: err => {
-          alert('Error publishing content.');
+          alert(t('Error publishing content.'));
           console.error({ err });
           setLoading(false);
           onError && onError(err);
@@ -137,7 +139,7 @@ const useValues = ({ type = 'create', trigger = false, values: Values = undefine
       });
     },
     // eslint-disable-next-line
-    [values, JSON.stringify(values), updateRow, changeRoute, email, type]
+    [values, JSON.stringify(values), updateRow, changeRoute, email, type, t]
   );
 
   const handleDelete = React.useCallback(

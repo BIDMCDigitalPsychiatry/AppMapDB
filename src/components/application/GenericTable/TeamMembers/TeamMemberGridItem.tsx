@@ -9,6 +9,7 @@ import * as Icons from '@mui/icons-material';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as SortKeyDialog from '../../GenericDialog/SortKey';
 import { useLastRatingDateTime } from '../ApplicationsGrid/useLastRatingDateTime';
+import { useT } from '../../../../i18n';
 
 const height = 416; // tall: team photos are portraits
 const mediaHeight = 300;
@@ -65,6 +66,7 @@ export default function TeamMemberGridItem({
 }) {
   const classes = useStyles();
   const changeRoute = useChangeRoute();
+  const t = useT();
 
   const handleClick = () => changeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'viewTeamMember', _id }));
   const lastUpdated = useLastRatingDateTime({ created, updated });
@@ -85,11 +87,11 @@ export default function TeamMemberGridItem({
         component='img'
         height={mediaHeight}
         width='100%'
-        alt='cover image'
+        alt={t('cover image')}
       />
       <CardContent className={classes.cardContent} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, paddingBottom: 8 }}>
         <Typography variant='h5' noWrap>
-          {title || 'Unknown Name'}
+          {title || t('Unknown Name')}
         </Typography>
         <Typography color='textSecondary' noWrap>
           {subTitle}
@@ -101,7 +103,7 @@ export default function TeamMemberGridItem({
                 <Grid container justifyContent='center' alignItems='center' spacing={0}>
                   <Grid item xs={12}>
                     <Typography color='textSecondary' align='center' variant='caption' noWrap>
-                      Sort Key
+                      {t('Sort Key')}
                     </Typography>
                   </Grid>
                   <Grid item>
@@ -112,7 +114,7 @@ export default function TeamMemberGridItem({
                   <Grid item xs={12}>
                     <DialogButton
                       Module={SortKeyDialog}
-                      label='Edit Sort Key'
+                      label={t('Edit Sort Key')}
                       size='large'
                       mount={false}
                       type='Edit'
@@ -120,7 +122,7 @@ export default function TeamMemberGridItem({
                       variant='extended'
                       Icon={Icons.Edit}
                     >
-                      Edit Sort Key
+                      {t('Edit Sort Key')}
                     </DialogButton>
                   </Grid>
                 </Grid>
@@ -130,7 +132,7 @@ export default function TeamMemberGridItem({
             <>
               <div style={{ flex: 1 }} />
               <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                Last Updated: {lastUpdated}
+                {t('Last Updated: {{date}}', { date: lastUpdated })}
               </Typography>
             </>
           )}

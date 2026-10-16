@@ -6,7 +6,9 @@ import { Auth } from 'aws-amplify';
 import DialogButton from '../DialogButton';
 import { useLayout, useSetUser } from '../../../layout/store';
 import passwordValidator from 'password-validator';
-export const title = 'Sign Up';
+import { tx, useT } from '../../../../i18n';
+// Dialog id (stays English); GenericDialog translates it for display.
+export const title = tx('Sign Up');
 
 // create a password schema
 const schema = new passwordValidator();
@@ -16,15 +18,15 @@ schema.is().min(8).has().uppercase().has().lowercase().has().digits().has().symb
 const formatPasswordValidateError = errors => {
   for (let i = 0; i < errors.length; i++) {
     if (errors[i] === 'min') {
-      return 'password length should be a at least 8 characters';
+      return tx('password length should be a at least 8 characters');
     } else if (errors[i] === 'lowercase') {
-      return 'password should contain lowercase letters';
+      return tx('password should contain lowercase letters');
     } else if (errors[i] === 'uppercase') {
-      return 'password should contain uppercase letters';
+      return tx('password should contain uppercase letters');
     } else if (errors[i] === 'digits') {
-      return 'password should contain digits';
+      return tx('password should contain digits');
     } else if (errors[i] === 'symbols') {
-      return 'password should contain symbols';
+      return tx('password should contain symbols');
     }
   }
 };
@@ -33,8 +35,9 @@ const handleValidation = ({ password, confirmationCodeError, confirmPassword, me
   var errors = copyToLower(dialogState.errors); // start with server generated errors, ensure all keys start with lowercase letter
 
   if (password !== confirmPassword) {
-    errors['confirmPassword'] = 'Passwords must match.';
-    errors['password'] = 'Passwords must match.';
+    // Field components translate error text when displaying it.
+    errors['confirmPassword'] = tx('Passwords must match.');
+    errors['password'] = tx('Passwords must match.');
   }
 
   const validationRulesErrors = schema.validate(password, { list: true });
@@ -59,10 +62,11 @@ const handleValidation = ({ password, confirmationCodeError, confirmPassword, me
 };
 
 const EnterConfirmationCode = ({ value = false, onChange }) => {
+  const t = useT();
   const handleClick = () => onChange({ target: { value: !value } });
   return (
     <DialogButton variant='link' tooltip='' onClick={handleClick}>
-      {value ? 'Back' : 'Enter Verification Code'}
+      {value ? t('Back') : t('Enter Verification Code')}
     </DialogButton>
   );
 };
@@ -73,6 +77,7 @@ export default function RegisterDialog({ id = title }) {
   const dialogStateStr = JSON.stringify(dialogState);  
 
   const setUser = useSetUser();
+  const t = useT();
 
   const handleAdd = React.useCallback(
     ({ email, password }, setValues) => {
@@ -132,19 +137,19 @@ export default function RegisterDialog({ id = title }) {
     <GenericDialog
       id={id}
       title={id}
-      submitLabel={values => (values.confirm ? 'Confirm' : id)}
+      submitLabel={values => (values.confirm ? t('Confirm') : t(id))}
       onSubmit={handleSubmit}
       validate={handleValidation}
       fields={[
         {
           id: 'email',
-          label: 'Email',
+          label: t('Email'),
           required: true,
           email: true
         },
         {
           id: 'password',
-          label: 'Password',
+          label: t('Password'),
           required: true,
           inputProps: {
             type: 'password'
@@ -153,7 +158,7 @@ export default function RegisterDialog({ id = title }) {
         },
         {
           id: 'confirmPassword',
-          label: 'Confirm Password',
+          label: t('Confirm Password'),
           required: true,
           inputProps: {
             type: 'password'
@@ -162,13 +167,13 @@ export default function RegisterDialog({ id = title }) {
         },
         {
           id: 'confirmationCode',
-          label: 'Enter Verification Code Sent to above Email Address',
+          label: t('Enter Verification Code Sent to above Email Address'),
           required: confirm ? true : false,
           hidden: ({ confirm }) => !confirm
         },
         {
           id: 'confirm',
-          label: 'Enter Verification Code',
+          label: t('Enter Verification Code'),
           Field: EnterConfirmationCode,
           initialValue: false
         }

@@ -22,8 +22,9 @@ import AutoCompleteSelect from '../../DialogField/AutoCompleteSelect';
 import { Grid } from '@mui/material';
 import { InjectField } from '../../GenericDialog/Fields';
 import { useTableFilterValues } from '../../GenericTable/store';
+import { useT, tx } from '../../../../i18n';
 
-export const title = 'Apply Filters';
+export const title = tx('Apply Filters'); // also the dialog-state id: tx keeps it English
 const maxWidth = 400;
 const minWidth = 280;
 
@@ -31,10 +32,11 @@ const spacing = 6;
 
 function Content({ fields, values, mapField, fullWidth, setValues, state, setState, ...props }) {
   const injectField = id => <InjectField id={id} fields={fields} values={values} setValues={setValues} mapField={mapField} fullWidth={fullWidth} {...props} />;
+  const t = useT();
   return (
     <Grid container justifyContent='center' spacing={spacing}>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>Accessibility</Typography>
+        <Typography variant='h6'>{t('Accessibility')}</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
           {injectField('Platforms')}
@@ -43,14 +45,14 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
           {injectField('Conditions')}
         </Grid>
         <Box mt={spacing / 2}>
-          <Typography variant='h6'>Country Availability</Typography>
+          <Typography variant='h6'>{t('Country Availability')}</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('Countries')}
           </Grid>
         </Box>
         <Box mt={spacing / 2}>
-          <Typography variant='h6'>Interoperability</Typography>
+          <Typography variant='h6'>{t('Interoperability')}</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('Functionalities')}
@@ -59,21 +61,21 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
         </Box>
       </Grid>
       <Grid item xs style={{ minWidth: 280, maxWidth: 400 }}>
-        <Typography variant='h6'>Engagement Style</Typography>
+        <Typography variant='h6'>{t('Engagement Style')}</Typography>
         <Divider style={{ marginBottom: 8 }} />
         <Grid container spacing={1}>
           {injectField('Features')}
           {injectField('Engagements')}
         </Grid>
         <Box mt={spacing / 2}>
-          <Typography variant='h6'>Clinical Foundation</Typography>
+          <Typography variant='h6'>{t('Clinical Foundation')}</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('ClinicalFoundations')}
           </Grid>
         </Box>
         <Box mt={spacing / 2}>
-          <Typography variant='h6'>Privacy</Typography>
+          <Typography variant='h6'>{t('Privacy')}</Typography>
           <Divider style={{ marginBottom: 8 }} />
           <Grid container spacing={1}>
             {injectField('Privacy')}
@@ -85,7 +87,10 @@ function Content({ fields, values, mapField, fullWidth, setValues, state, setSta
 }
 
 export default function FilterContentInteractive({ id = title, ...other }) {
+  const t = useT();
   const [advanced, setAdvanced] = React.useState(false);
+  // Option values stay English (they are matched and saved); only the displayed label is translated
+  const toItems = (values: string[]) => values.map(value => ({ value, label: t(value) }));
   const handleToggleAdvanced = React.useCallback(() => {
     setAdvanced(prev => !prev);
   }, [setAdvanced]);
@@ -101,12 +106,12 @@ export default function FilterContentInteractive({ id = title, ...other }) {
     advanced,
     handleToggleAdvanced,
     submitLabel: null,
-    cancelLabel: 'Close',
+    cancelLabel: t('Close'),
     width,
     fields: [
       {
         id: 'SavedFilter',
-        label: 'Load from Saved Filters',
+        label: t('Load from Saved Filters'),
         Field: AutoCompleteSelect,
         items,
         style: { minWidth, maxWidth },
@@ -120,79 +125,86 @@ export default function FilterContentInteractive({ id = title, ...other }) {
       },
       {
         id: 'Platforms',
+        label: t('Platforms'),
         Field: MultiSelectCheck,
-        items: Platforms.map(label => ({ value: label, label })),
+        items: toItems(Platforms),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Cost',
+        label: t('Cost'),
         Field: MultiSelectCheck,
-        items: Costs.map(label => ({ value: label, label })),
+        items: toItems(Costs),
         style: { minWidth, maxWidth }
       },
       {
         id: 'DeveloperTypes',
-        label: 'Developer Types',
+        label: t('Developer Types'),
         Field: MultiSelectCheck,
-        items: DeveloperTypes.map(label => ({ value: label, label })),
+        items: toItems(DeveloperTypes),
         style: { minWidth, maxWidth }
       },
       {
         id: 'TreatmentApproaches',
-        label: 'Treatment Approaches',
+        label: t('Treatment Approaches'),
         Field: MultiSelectCheck,
         items: TreatmentApproachQuestions.map(label => ({ value: label, label })),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Features',
+        label: t('Features'),
         Field: MultiSelectCheck,
-        items: Features.map(label => ({ value: label, label })),
+        items: toItems(Features),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Functionalities',
+        label: t('Functionalities'),
         Field: MultiSelectCheck,
-        items: Functionalities.map(label => ({ value: label, label })),
+        items: toItems(Functionalities),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Conditions',
-        label: 'Supported Conditions',
+        label: t('Supported Conditions'),
         Field: MultiSelectCheck,
-        items: Conditions.map(label => ({ value: label, label })),
+        items: toItems(Conditions),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Engagements',
+        label: t('Engagements'),
         Field: MultiSelectCheck,
-        items: Engagements.map(label => ({ value: label, label })),
+        items: toItems(Engagements),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Privacy',
+        label: t('Privacy'),
         Field: MultiSelectCheck,
-        items: Privacies.map(label => ({ value: label, label })),
+        items: toItems(Privacies),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Uses',
+        label: t('Uses'),
         Field: MultiSelectCheck,
-        items: VisibleUses.map(label => ({ value: label, label })),
+        items: toItems(VisibleUses),
         style: { minWidth, maxWidth }
       },
       {
         id: 'Countries',
-        label: 'Country Availability',
+        label: t('Country Availability'),
         Field: MultiSelectCheck,
-        items: Countries.map(label => ({ value: label, label })),
+        items: toItems(Countries),
         style: { minWidth, maxWidth }
       },
       {
         id: 'ClinicalFoundations',
-        label: 'Evidence & Clinical Foundations',
+        label: t('Evidence & Clinical Foundations'),
         Field: MultiSelectCheck,
-        items: ClinicalFoundations.map(label => ({ value: label, label })),
+        items: toItems(ClinicalFoundations),
         style: { minWidth, maxWidth }
       }
     ],

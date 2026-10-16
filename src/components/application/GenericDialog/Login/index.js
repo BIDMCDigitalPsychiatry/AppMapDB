@@ -6,8 +6,10 @@ import DialogButton from '../DialogButton';
 import Label from '../../DialogField/Label';
 import { Auth } from 'aws-amplify';
 import { useSetUser } from '../../../layout/store';
+import { tx, useT } from '../../../../i18n';
 
-export const title = 'Login';
+// Dialog id (stays English); GenericDialog translates it for display.
+export const title = tx('Login');
 
 const handleValidation = ({ message }, dialogState) => {
   var errors = copyToLower(dialogState.errors); // start with server generated errors, ensure all keys start with lowercase letter
@@ -24,10 +26,11 @@ const handleValidation = ({ message }, dialogState) => {
 };
 
 const ForgotPassword = ({ value = false, onChange }) => {
+  const t = useT();
   const handleClick = () => onChange({ target: { value: !value } });
   return (
     <DialogButton variant='link' tooltip='' onClick={handleClick}>
-      {value ? 'Back' : 'Forgot Password'}
+      {value ? t('Back') : t('Forgot Password')}
     </DialogButton>
   );
 };
@@ -37,6 +40,7 @@ export default function LoginDialog({ id = title }) {
   const { enterNewPassword, errors } = dialogState;
   const dialogStateStr = JSON.stringify(dialogState);
   const setUser = useSetUser();
+  const t = useT();
 
   const handleLogin = React.useCallback(
     ({ forgotPassword, confirmationCode, newPassword, email, password }) => {
@@ -44,7 +48,7 @@ export default function LoginDialog({ id = title }) {
         if (enterNewPassword) {
           Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
             .then(data => {
-              alert('Successfully updated password.');
+              alert(t('Successfully updated password.'));
               Auth.signIn(email, newPassword)
                 .then(user => {
                   setUser(user);
@@ -66,7 +70,7 @@ export default function LoginDialog({ id = title }) {
         } else {
           Auth.forgotPassword(email)
             .then(data => {
-              alert('An email has been sent with instructions for resetting your password.');
+              alert(t('An email has been sent with instructions for resetting your password.'));
               setState(prev => ({ ...prev, loading: false, enterNewPassword: true }));
             })
             .catch(err => {
@@ -89,7 +93,7 @@ export default function LoginDialog({ id = title }) {
           });
       }
     },
-    [enterNewPassword, setUser, dialogStateStr, setState, errors]
+    [enterNewPassword, setUser, dialogStateStr, setState, errors, t]
   );
 
   return (
@@ -98,18 +102,18 @@ export default function LoginDialog({ id = title }) {
       title={id}
       onSubmit={handleLogin}
       validate={handleValidation}
-      submitLabel={values => (values.forgotPassword ? (enterNewPassword ? 'Change Password' : 'Request Reset') : id)}
+      submitLabel={values => (values.forgotPassword ? (enterNewPassword ? t('Change Password') : t('Request Reset')) : t(id))}
       fields={[
         {
           id: 'email',
-          label: 'Email',
+          label: t('Email'),
           required: true,
           email: true,
           hidden: enterNewPassword
         },
         {
           id: 'password',
-          label: 'Password',
+          label: t('Password'),
           required: true,
           inputProps: {
             type: 'password'
@@ -118,27 +122,27 @@ export default function LoginDialog({ id = title }) {
         },
         {
           id: 'forgotPasswordLabel',
-          label: 'Enter your email address and press request reset. We will send you an email with a code to reset your password.',
+          label: t('Enter your email address and press request reset. We will send you an email with a code to reset your password.'),
           Field: Label,
           initialValue: false,
           hidden: values => !values.forgotPassword || enterNewPassword
         },
         {
           id: 'forgotPassword',
-          label: 'Forgot Password',
+          label: t('Forgot Password'),
           Field: ForgotPassword,
           initialValue: false,
           hidden: enterNewPassword
         },
         {
           id: 'confirmationCode',
-          label: 'Enter Verification Code Sent to Email Address',
+          label: t('Enter Verification Code Sent to Email Address'),
           required: true,
           hidden: !enterNewPassword
         },
         {
           id: 'newPassword',
-          label: 'New Password',
+          label: t('New Password'),
           required: true,
           inputProps: {
             type: 'password'

@@ -5,6 +5,7 @@ import { Tab, Tabs, Grid, Divider } from '@mui/material';
 
 import { makeStyles } from '../../../styles/jss';
 import { createStyles } from '../../../styles/jss';
+import { useT } from '../../../i18n';
 const useStyles = makeStyles(({ breakpoints, palette, spacing }: any) =>
   createStyles({
     root: {
@@ -136,6 +137,7 @@ interface ComponentProps {
 
 export default function NavPills(props: ComponentProps) {
   const { contentHeight = undefined, scrollable, tabs, direction, color, horizontal, alignCenter, onChange, active: Active, overflowY = 'hidden' } = props;
+  const t = useT();
   const [state, setState] = React.useState({ active: Active });
   const handleChange = React.useCallback(
     (event, active) => {
@@ -185,7 +187,7 @@ export default function NavPills(props: ComponentProps) {
         });
         return (
           <Tab
-            label={prop.tabButton}
+            label={t(prop.tabButton)}
             key={key}
             {...icon}
             classes={{

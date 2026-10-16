@@ -12,6 +12,7 @@ import { categories } from '../../constants';
 import { useHeaderHeightSetRef } from '../layout/hooks';
 import { green } from '@mui/material/colors';
 import { isEmpty } from '../../helpers';
+import { useT } from '../../i18n';
 
 const padding = 8;
 const spacing = 1;
@@ -51,6 +52,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 const tableId = 'Applications';
 
 export default function PwaSearchHeader() {
+  const t = useT();
   const [searchtext, setSearchText] = useTableSearchText(tableId);
   const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
   const handleReset = useHandleTableReset(tableId);
@@ -79,7 +81,7 @@ export default function PwaSearchHeader() {
 
   if (!isEmpty(searchtext)) {
     // Append search text to filter tags if set
-    items = items.concat({ key: 'searchtext', label: `Search Text: ${searchtext}`, value: searchtext });
+    items = items.concat({ key: 'searchtext', label: t('Search Text: {{text}}', { text: searchtext }), value: searchtext });
   }
 
   let showClear = items.reduce((f, c) => (f = f || c?.value?.length > 0), false);
@@ -100,14 +102,14 @@ export default function PwaSearchHeader() {
               {(!showClear || !isEmpty(searchtext)) && (
                 <Grid container alignItems='center' spacing={spacing}>
                   <Grid item xs>
-                    <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder='Search by name, company, feature or platform' />
+                    <TableSearchV2 value={searchtext} onChange={handleChange('searchtext')} placeholder={t('Search by name, company, feature or platform')} />
                   </Grid>
                   {!fullScreen && (
                     <Grid item xs={sm ? 12 : undefined} style={{ minWidth: sm ? undefined : 360 }}>
                       <MultiSelectCheck
                         value={filters['Platforms']}
                         onChange={handleChange('Platforms')}
-                        placeholder={filters['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                        placeholder={filters['Platforms']?.length > 0 ? t('Platforms') : t('All Platforms')}
                         InputProps={{ style: { background: 'white' } }}
                         items={Platforms.map(label => ({ value: label, label })) as any}
                         fullWidth={true}
@@ -125,7 +127,7 @@ export default function PwaSearchHeader() {
               <Grid container alignItems='center' spacing={0.5} style={{ marginTop: 0 }}>
                 <Grid item>
                   <Box sx={{ fontSize: 16, mr: 0, color: 'white', fontWeight: 900, ml: 0, pt: 0.2, pr: 0.5 }}>
-                    {showClear ? 'My Search Criteria:' : 'No Search Criteria Specified'}
+                    {showClear ? t('My Search Criteria:') : t('No Search Criteria Specified')}
                   </Box>
                 </Grid>
                 {items.map((item, i) => {
@@ -154,7 +156,7 @@ export default function PwaSearchHeader() {
                           style={{ /*background: category?.color ?? 'grey',*/ background: green[700], color: 'white', marginRight: 0 }}
                           variant='outlined'
                           size='small'
-                          label={withReplacement(label)}
+                          label={t(withReplacement(label))}
                           onDelete={handleDelete(item.key, label)}
                           classes={{
                             deleteIcon: classes.deleteIcon
@@ -168,8 +170,8 @@ export default function PwaSearchHeader() {
                   <Grid item>
                     <Box sx={{ pl: 1 }}>
                       {/* White to match the rest of this header band (see SearchHeaderRedux) */}
-                      <DialogButton variant='link' color='common.white' underline='always' tooltip='Click to reset all filters' onClick={handleReset}>
-                        Reset all filters
+                      <DialogButton variant='link' color='common.white' underline='always' tooltip={t('Click to reset all filters')} onClick={handleReset}>
+                        {t('Reset all filters')}
                       </DialogButton>
                     </Box>
                   </Grid>

@@ -15,8 +15,10 @@ import AdminToggle from '../application/GenericTable/Applications/AdminToggle';
 import SearchAssistant from './SearchAssistant/SearchAssistant';
 import useFilterMetrics from './SearchAssistant/useFilterMetrics';
 import { useFullScreen } from '../../hooks';
+import { useT } from '../../i18n';
 
 export default function Apps() {
+  const t = useT();
   const [viewMode] = useViewMode() as any;
   const [adminMode] = useAdminMode();
   const [headerHeight] = useHeaderHeight();
@@ -53,7 +55,7 @@ export default function Apps() {
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: tableHeight }}>
           <CircularProgress />
           <Typography sx={{ mt: 2 }} color='textSecondary'>
-            Loading apps…
+            {t('Loading apps…')}
           </Typography>
         </Box>
       ) : effectiveViewMode === 'table' ? (

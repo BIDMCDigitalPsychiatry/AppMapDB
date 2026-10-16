@@ -11,11 +11,13 @@ import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
+import { useT } from '../../../../i18n';
 
 export default function RatingsColumn({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database[tables.applications][_id]);
   const signedInRater = useSignedInRater();
   const handleChangeRoute = useHandleChangeRoute();
+  const t = useT();
 
   return (
     <Grid container alignItems='center' spacing={1}>
@@ -25,7 +27,7 @@ export default function RatingsColumn({ _id }) {
           mount={false}
           Icon={Icons.Pageview}
           onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'ApplicationTable' })}
-          tooltip='View Additional Application Info'
+          tooltip={t('View Additional Application Info')}
           placement='bottom'
         />
       </Grid>
@@ -37,7 +39,7 @@ export default function RatingsColumn({ _id }) {
             mount={false}
             Icon={Icons.Edit}
             initialValues={{ [tables.applications]: initialValues }}
-            tooltip='Edit'
+            tooltip={t('Edit')}
             placement='bottom'
           />
         </Grid>
@@ -49,7 +51,7 @@ export default function RatingsColumn({ _id }) {
           mount={false}
           Icon={Icons.Timeline}
           initialValues={{ [tables.applications]: initialValues }}
-          tooltip='Open Ratings History'
+          tooltip={t('Open Ratings History')}
           placement='bottom'
         />
       </Grid>
@@ -60,7 +62,7 @@ export default function RatingsColumn({ _id }) {
           mount={false}
           Icon={Icons.Report}
           initialValues={{ [tables.applications]: initialValues }}
-          tooltip='Suggest Edit'
+          tooltip={t('Suggest Edit')}
           placement='bottom'
         />
       </Grid>

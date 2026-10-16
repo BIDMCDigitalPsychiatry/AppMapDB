@@ -14,6 +14,7 @@ import { withReplacement } from '../../../../database/models/Application';
 import { categories } from '../../../../constants';
 import { useAreFiltersActive } from '../../../pages/useAppTableData';
 import { useFilterCount } from '../../../layout/useFilterCount';
+import { useT } from '../../../../i18n';
 
 const height = 352;
 const extraPwaHeight = 48;
@@ -82,8 +83,9 @@ const FilterMatchCount = props => {
   const filterMatches = props?.filterMatches ?? [];
   const matchCount = filterMatches?.length ?? 0;
   const filterCount = useFilterCount();
+  const t = useT();
 
-  const matchText = `Meets ${matchCount}/${filterCount} Criteria:`;
+  const matchText = t('Meets {{matchCount}}/{{filterCount}} Criteria:', { matchCount, filterCount });
 
   return matchCount > 0 ? (
     <Box sx={{ pb: 0.5 }}>
@@ -102,7 +104,7 @@ const FilterMatchCount = props => {
                     style={{ background: green[700], color: 'white', marginRight: 0, fontSize: 12, height: 20 }}
                     variant='outlined'
                     size='small'
-                    label={withReplacement(item?.value)}
+                    label={t(withReplacement(item?.value))}
                   />
                 </Grid>
               );
@@ -135,6 +137,7 @@ export default function ApplicationsGridItem(props: any) {
   } = props;
 
   const lastRating = useLastRatingDateTime({ created, updated });
+  const t = useT();
 
   var areFiltersActive = useAreFiltersActive();
 
@@ -159,11 +162,11 @@ export default function ApplicationsGridItem(props: any) {
         {/* Header: app icon + name/company (full names, wrapped up to 2 lines) */}
         <Grid container spacing={1.5} wrap='nowrap' alignItems='flex-start'>
           <Grid item>
-            <img className={classes.icon} src={icon} alt={`${name || 'app'} icon`} />
+            <img className={classes.icon} src={icon} alt={name ? t('{{name}} icon', { name }) : t('app icon')} />
           </Grid>
           <Grid item zeroMinWidth xs>
             <Typography variant='h5' className={classes.clamp2} title={name}>
-              {name || 'Unknown Name'}
+              {name || t('Unknown Name')}
             </Typography>
             <Typography color='textSecondary' variant='body2' className={classes.clamp2} title={company}>
               {company}
@@ -175,7 +178,7 @@ export default function ApplicationsGridItem(props: any) {
         <Box sx={{ mt: 1.5 }}>
           <PlatformButtons platforms={platforms} androidLink={androidLink} iosLink={iosLink} webLink={webLink} />
           <Typography display='block' color='textSecondary' variant='caption' className={classes.clamp2} sx={{ mt: 0.5 }}>
-            {costs.length === 0 ? 'Unknown Cost' : costs.join(' | ')}
+            {costs.length === 0 ? t('Unknown Cost') : costs.map(c => t(withReplacement(c))).join(' | ')}
           </Typography>
         </Box>
 
@@ -191,7 +194,7 @@ export default function ApplicationsGridItem(props: any) {
         {/* Footer */}
         <Box sx={{ pt: 1 }}>
           <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-            Last updated: {lastRating}
+            {t('Last updated: {{date}}', { date: lastRating })}
           </Typography>
           {isPwa && areFiltersActive && (
             <Box sx={{ pt: 0.5 }}>

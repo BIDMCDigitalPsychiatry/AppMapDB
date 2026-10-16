@@ -6,6 +6,7 @@ import { getDayTimeFromTimestamp, isEmpty } from '../../helpers';
 import ExpandableCategories from '../application/GenericTable/ApplicationsList/ExpandableCategories';
 import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
 import { useRaterLabel } from '../application/GenericTable/Applications/RaterEmail';
+import { useT } from '../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -22,6 +23,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 export default function ViewAppRating(props) {
   const classes = useStyles();
+  const t = useT();
   const { updated, created, email } = props;
 
   const lastUpdated = useLastRatingDateTime({ created, updated });
@@ -34,7 +36,7 @@ export default function ViewAppRating(props) {
           <Grid container spacing={1}>
             <Grid item>
               <Typography color='textSecondary' variant='body1'>
-                Last Updated:
+                {t('Last Updated:')}
               </Typography>
             </Grid>
             <Grid item>
@@ -49,12 +51,12 @@ export default function ViewAppRating(props) {
             <Grid container spacing={1}>
               <Grid item>
                 <Typography color='textSecondary' variant='body1'>
-                  By:
+                  {t('By:')}
                 </Typography>
               </Grid>
               <Grid item>
                 <Typography noWrap className={classes.primaryLightText} variant='body1'>
-                  {raterLabel}
+                  {t(raterLabel)}
                 </Typography>
               </Grid>
             </Grid>
@@ -64,16 +66,16 @@ export default function ViewAppRating(props) {
       <Grid container style={{ marginTop: 4 }} justifyContent='space-between' alignItems='center' spacing={2}>
         <Grid item xs={12}>
           <Typography variant='body1' className={classes.bold}>
-            Qualitative Review
+            {t('Qualitative Review')}
           </Typography>
-          <Typography variant='body1'>{`This review represents the view of the app rater and is not an endorsement by MIND.`}</Typography>
+          <Typography variant='body1'>{t('This review represents the view of the app rater and is not an endorsement by MIND.')}</Typography>
           <Box mt={1}>
-            <Typography variant='body1'>{isEmpty(props.review) ? 'Not available' : props.review}</Typography>
+            <Typography variant='body1'>{isEmpty(props.review) ? t('Not available') : props.review}</Typography>
           </Box>
         </Grid>
         <Grid item xs={12}>
           <Typography variant='body1' className={classes.bold}>
-            Qualitative Ratings
+            {t('Qualitative Ratings')}
           </Typography>
         </Grid>
         {/*<Grid item>

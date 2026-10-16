@@ -4,6 +4,7 @@ import { makeStyles } from '../../../styles/jss';
 import { createStyles } from '../../../styles/jss';
 import NotchedOutline from '@mui/material/OutlinedInput/NotchedOutline';
 import { isError } from '../../../helpers';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(({ palette, shape }: any) =>
   createStyles({
@@ -49,19 +50,20 @@ export default function OutlinedDiv({
   height = undefined,
   children = undefined
 }) {
+  const t = useT();
   const classes = useStyles({ error });
 
   return (
     <div className={classes.root} style={{ width, maxWidth, margin, marginTop, marginBottom, height }}>
       <InputLabel htmlFor={label} variant='outlined' className={classes.inputLabel} shrink>
-        {label}
+        {t(label)}
       </InputLabel>
       <div className={classes.container}>
         <Grid container id={label} className={classes.content} alignItems='center'>
           <Grid item xs={12}>
             {children}
           </Grid>
-          <NotchedOutline label={label} className={classes.notchedOutline} notched />
+          <NotchedOutline label={t(label)} className={classes.notchedOutline} notched />
         </Grid>
       </div>
     </div>

@@ -7,6 +7,7 @@ import { sessionExpired } from './session';
 import { useUpdateDatabase } from './useUpdateDatabase';
 import { diffCurrentFlags, groupOf } from './currentFlags';
 import { normalizeEmailFields } from './normalize';
+import { tx } from '../i18n';
 
 export interface ProcessDataInfo {
   Model: TableName | 'users';
@@ -156,7 +157,7 @@ async function executeViaApi(pdi: ProcessDataInfo, Data, token: string, updateDa
         return;
       }
       const finalized = json.data ?? Data;
-      Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
+      Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: tx('Success') }));
       onSuccess && onSuccess(json, finalized);
       if (isLatest() && !json.deleted) {
         updateDatabase({ table: Table as string, id: finalized._id, payload: { ...finalized, _rev: finalized._rev } });
@@ -195,7 +196,7 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
         onError && onError(err, Data);
         console.error({ message, err, Data });
       } else {
-        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: tx('Success') }));
         onSuccess && onSuccess(data, Data);
         (Action === 'c' || Action === 'u' || Action === 'd') && updateDatabase({ table: Table, id: Data._id, payload: { ...Data, _rev: Data._rev } }); // write data to local state, make sure to update the revision as well so subsequent writes won't throw a document conflict error
         Table === tables.applications && recomputeCurrentFlags(Data, updateDatabase); // fire-and-forget: keep the current-index flags in sync
@@ -209,7 +210,7 @@ async function executeTransaction(pdi, Data, updateDatabase, dispatch) {
         onError && onError(err, Data);
         console.error({ message, err, Data });
       } else {
-        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: 'Success' }));
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'success', message: tx('Success') }));
         onSuccess && onSuccess(data, Data);
       }
     });
@@ -235,7 +236,7 @@ const processData = (pdi: ProcessDataInfo, updateDatabase) => async (dispatch: a
       if (getState()?.layout?.user !== undefined) {
         dispatch(sessionExpired());
       } else {
-        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message: 'Sign in required' }));
+        Snackbar && dispatch(updateSnackBar({ open: true, variant: 'error', message: tx('Sign in required') }));
       }
       onError && onError({ error: 'Sign in required' }, Data);
       return;

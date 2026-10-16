@@ -7,6 +7,7 @@ import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms } from '../../database/models/Application';
 import TourStep from './Tour/TourStep';
+import { useT, tx } from '../../i18n';
 
 const padding = 32;
 const spacing = 1;
@@ -51,8 +52,9 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
   })
 );
 
-export default function SearchHeader({ title = 'App Library', handleSearch, state, setState = undefined }) {
+export default function SearchHeader({ title = tx('App Library'), handleSearch, state, setState = undefined }) {
   const classes = useStyles();
+  const t = useT();
   // useFilterList();
 
   var sm = useFullScreen('sm');
@@ -70,7 +72,7 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
       <Grid container className={classes.header}>
         <Grid item xs={12}>
           <Typography variant='h1' className={classes.primaryText}>
-            {title}
+            {t(title)}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -82,7 +84,7 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
                     <TableSearchV2
                       value={state['searchtext']}
                       onChange={handleChange('searchtext')}
-                      placeholder='Search by name, company, feature or platform'
+                      placeholder={t('Search by name, company, feature or platform')}
                     />
                   </TourStep>
                 </Grid>
@@ -91,7 +93,7 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
                     <MultiSelectCheck
                       value={state['Platforms']}
                       onChange={handleChange('Platforms')}
-                      placeholder={state['Platforms']?.length > 0 ? 'Platforms' : 'All Platforms'}
+                      placeholder={state['Platforms']?.length > 0 ? t('Platforms') : t('All Platforms')}
                       InputProps={{ style: { background: 'white' } }}
                       items={Platforms.map(label => ({ value: label, label })) as any}
                       fullWidth={true}
@@ -103,7 +105,7 @@ export default function SearchHeader({ title = 'App Library', handleSearch, stat
             <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
               <TourStep id={5} onNext={handleSearch}>
                 <Button className={classes.primaryButton} onClick={handleSearch}>
-                  Search
+                  {t('Search')}
                 </Button>
               </TourStep>
             </Grid>

@@ -7,6 +7,7 @@ import { AppSubmission, SubmissionForm, YesNoUnsure } from '../../../database/ap
 import { tables } from '../../../database/dbConfig';
 import { isEmpty, validateEmail } from '../../../helpers';
 import { AnswerField, ITEMS_BY_FIELD, RESEARCH_YES_NO, CHECKLIST_FIELDS, YES_NO_FIELDS } from './content';
+import { tx } from '../../../i18n';
 
 export const emptyForm = (): SubmissionForm => ({ submitter: {}, app: {}, research: {}, answers: {} });
 
@@ -25,13 +26,27 @@ export type StepId =
   | 'final'
   | 'review';
 
-export const STEP_IDS: StepId[] = ['about', 'app', 'eligibility', 'research', 'basics', 'privacy', 'functionality', 'clinical', 'features', 'inputsOutputs', 'uses', 'final', 'review'];
+export const STEP_IDS: StepId[] = [
+  'about',
+  'app',
+  'eligibility',
+  'research',
+  'basics',
+  'privacy',
+  'functionality',
+  'clinical',
+  'features',
+  'inputsOutputs',
+  'uses',
+  'final',
+  'review'
+];
 
 // Errors are keyed by a dotted path so the page can mark and scroll to the
 // exact question (e.g. 'answers.costs.Totally Free').
 export type Errors = Record<string, string>;
 
-const REQUIRED = 'Please answer this question';
+const REQUIRED = tx('Please answer this question');
 const isHttpUrl = (v?: string) => !isEmpty(v) && /^https?:\/\/\S+$/i.test((v as string).trim());
 
 const parseUrl = (v?: string) => {
@@ -71,7 +86,7 @@ const requireYesNo = (errors: Errors, f: SubmissionForm, field: AnswerField) =>
     if (!f.answers[field]?.[i.value]) errors[`answers.${field}.${i.value}`] = REQUIRED;
   });
 
-const requireText = (errors: Errors, key: string, value: any, message = 'This field is required') => {
+const requireText = (errors: Errors, key: string, value: any, message: string = tx('This field is required')) => {
   if (isEmpty(typeof value === 'string' ? value.trim() : value)) errors[key] = message;
 };
 
@@ -90,29 +105,31 @@ export const validateStep = (step: StepId, f: SubmissionForm): Errors => {
       requireText(errors, 'submitter.firstName', f.submitter.firstName);
       requireText(errors, 'submitter.lastName', f.submitter.lastName);
       requireText(errors, 'submitter.organization', f.submitter.organization);
-      if (!validateEmail(f.submitter.email ?? '')) errors['submitter.email'] = 'Please enter a valid email address';
-      requireText(errors, 'submitter.relationship', f.submitter.relationship, 'Please choose one');
+      if (!validateEmail(f.submitter.email ?? '')) errors['submitter.email'] = tx('Please enter a valid email address');
+      requireText(errors, 'submitter.relationship', f.submitter.relationship, tx('Please choose one'));
       break;
     case 'app':
       requireText(errors, 'app.name', f.app.name);
       (['iosLink', 'androidLink', 'webLink'] as const).forEach(k => {
-        if (!isEmpty(f.app[k]) && !isHttpUrl(f.app[k])) errors[`app.${k}`] = 'Please enter a full link starting with https://';
+        if (!isEmpty(f.app[k]) && !isHttpUrl(f.app[k])) errors[`app.${k}`] = tx('Please enter a full link starting with https://');
       });
       if (!errors['app.iosLink'] && !isEmpty(f.app.iosLink) && !appleStoreId(f.app.iosLink))
-        errors['app.iosLink'] = 'This doesn’t look like an App Store link — it should look like https://apps.apple.com/us/app/name/id123456789';
+        errors['app.iosLink'] = tx('This doesn’t look like an App Store link — it should look like https://apps.apple.com/us/app/name/id123456789');
       if (!errors['app.androidLink'] && !isEmpty(f.app.androidLink) && !playStoreId(f.app.androidLink))
-        errors['app.androidLink'] = 'This doesn’t look like a Google Play link — it should look like https://play.google.com/store/apps/details?id=com.example.app';
-      if (isEmpty(f.app.iosLink) && isEmpty(f.app.androidLink) && isEmpty(f.app.webLink)) errors['app.links'] = 'Please enter at least one link to the app';
+        errors['app.androidLink'] = tx(
+          'This doesn’t look like a Google Play link — it should look like https://play.google.com/store/apps/details?id=com.example.app'
+        );
+      if (isEmpty(f.app.iosLink) && isEmpty(f.app.androidLink) && isEmpty(f.app.webLink)) errors['app.links'] = tx('Please enter at least one link to the app');
       requireText(errors, 'pitch', f.pitch);
       break;
     case 'eligibility':
-      requireText(errors, 'meetsCriteria', f.meetsCriteria, 'Please choose Yes or No');
-      if (f.meetsCriteria === 'no') requireText(errors, 'criteriaNote', f.criteriaNote, 'Please tell us which criteria the app doesn’t meet');
-      if (!(f.risks ?? []).length) errors['risks'] = 'Please select at least one option';
+      requireText(errors, 'meetsCriteria', f.meetsCriteria, tx('Please choose Yes or No'));
+      if (f.meetsCriteria === 'no') requireText(errors, 'criteriaNote', f.criteriaNote, tx('Please tell us which criteria the app doesn’t meet'));
+      if (!(f.risks ?? []).length) errors['risks'] = tx('Please select at least one option');
       break;
     case 'research':
-      if (f.research.feasibilityStudies === undefined) errors['research.feasibilityStudies'] = 'Enter a number (0 if none)';
-      if (f.research.efficacyStudies === undefined) errors['research.efficacyStudies'] = 'Enter a number (0 if none)';
+      if (f.research.feasibilityStudies === undefined) errors['research.feasibilityStudies'] = tx('Enter a number (0 if none)');
+      if (f.research.efficacyStudies === undefined) errors['research.efficacyStudies'] = tx('Enter a number (0 if none)');
       if (hasStudies(f)) {
         RESEARCH_YES_NO.forEach(q => {
           if (!f.research[q.value]) errors[`research.${q.value}`] = REQUIRED;
@@ -120,11 +137,11 @@ export const validateStep = (step: StepId, f: SubmissionForm): Errors => {
       }
       break;
     case 'basics':
-      if (!(f.answers.conditions ?? []).length) errors['answers.conditions'] = 'Please select at least one condition';
+      if (!(f.answers.conditions ?? []).length) errors['answers.conditions'] = tx('Please select at least one condition');
       break;
     case 'privacy':
       if (!isEmpty(f.answers.privacyPolicyLink) && !isHttpUrl(f.answers.privacyPolicyLink))
-        errors['answers.privacyPolicyLink'] = 'Please enter a full link starting with https://';
+        errors['answers.privacyPolicyLink'] = tx('Please enter a full link starting with https://');
       break;
     case 'features':
       break;

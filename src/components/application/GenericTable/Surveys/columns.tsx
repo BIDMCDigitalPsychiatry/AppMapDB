@@ -10,8 +10,17 @@ import { sendSurveyFollowUpEmail } from '../../../pages/Survey/sendSurveyEmail';
 import { tables } from '../../../../database/dbConfig';
 import useProcessData from '../../../../database/useProcessData';
 import * as DeleteSurveyDialog from '../../GenericDialog/DeleteSurvey';
+import { tx, useT } from '../../../../i18n';
 
 export const name = 'Applications';
+
+// Stored survey type values (data stays English; displayed via t()).
+const surveyTypeLabels: string[] = [tx('Initial'), tx('2 Week'), tx('6 Week'), tx('Unknown')];
+
+const SurveyType = ({ surveyType = '' }) => {
+  const t = useT();
+  return <>{surveyTypeLabels.includes(surveyType) ? t(surveyType) : surveyType}</>;
+};
 const center = text => <div style={{ textAlign: 'center' }}>{text}</div>;
 
 export const CenterRadio = ({ checked = false }) => {
@@ -47,26 +56,28 @@ const Actions = ({
   ...other
 } = {}) => {
   const handleChangeRoute = useHandleChangeRoute();
+  const t = useT();
 
   const email = other['What is the best email address we can reach you at?'];
   const appName = getAppName(app);
 
   const processData = useProcessData();
 
-  const followUpSurveyType = surveyType === 'Initial' ? '2 Week' : surveyType === '2 Week' ? '6 Week' : 'Unknown';
+  // Stored values (sent to the email API unchanged); tx() only marks them for extraction.
+  const followUpSurveyType: string = surveyType === 'Initial' ? tx('2 Week') : surveyType === '2 Week' ? tx('6 Week') : tx('Unknown');
 
   const handleFollowUp = () => {
     const reminderId = uuid();
     sendSurveyFollowUpEmail({ email, appName, surveyId: _id, appId: app._id, followUpSurveyType });
     processData({ Model: tables.surveyReminders, Data: { _id: reminderId, surveyId: _id, email, appId: app._id, appName, time: new Date().getTime() } });
-    alert('Follow up email sent');
+    alert(t('Follow up email sent'));
   };
 
   return (
     <Grid container spacing={1}>
       <Grid item>
         <DialogButton Module={DeleteSurveyDialog} type='Edit' mount={false} variant='link' underline='always' initialValues={{ _id }}>
-          {deleted ? 'Restore' : 'Delete'}
+          {deleted ? t('Restore') : t('Delete')}
         </DialogButton>
       </Grid>
       <Grid item>
@@ -81,13 +92,15 @@ const Actions = ({
             mode: 'view'
           })}
         >
-          View
+          {t('View')}
         </DialogButton>
       </Grid>
       {surveyType !== '6 Week' && (
         <Grid item>
           <DialogButton variant='link' underline='always' onClick={handleFollowUp} disabled={followUpCompleted === 'True'}>
-            {followUpCompleted === 'True' ? `${followUpSurveyType} Follow Up Completed` : `Send ${followUpSurveyType} Reminder`}
+            {followUpCompleted === 'True'
+              ? t('{{surveyType}} Follow Up Completed', { surveyType: t(followUpSurveyType) })
+              : t('Send {{surveyType}} Reminder', { surveyType: t(followUpSurveyType) })}
           </DialogButton>
         </Grid>
       )}
@@ -98,22 +111,23 @@ const Actions = ({
 const AppSummaryMapped = ({ app, ...other }) => <AppSummary {...app} {...other} />;
 
 export const useColumns = () => {
+  const t = useT();
   const columns = [
-    { name: 'app', header: 'Application', minWidth: 300, Cell: AppSummaryMapped, hoverable: false, sort: 'textLower' },
-    { name: 'surveyType', header: 'Survey Type', width: 140, sort: 'text' },
-    { name: 'actions', header: 'Actions', width: 280, Cell: Actions },
+    { name: 'app', header: t('Application'), minWidth: 300, Cell: AppSummaryMapped, hoverable: false, sort: 'textLower' },
+    { name: 'surveyType', header: t('Survey Type'), width: 140, Cell: SurveyType, sort: 'text' },
+    { name: 'actions', header: t('Actions'), width: 280, Cell: Actions },
     {
       name: 'lastReminderSent',
-      header: 'Last Reminder Sent',
+      header: t('Last Reminder Sent'),
       width: 225,
       Cell: LastReminderSent,
       hoverable: false,
       sort: 'decimal'
     },
-    { name: 'email', header: 'Submitted By', width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
+    { name: 'email', header: t('Submitted By'), width: 240, Cell: RatedBy, hoverable: false, sort: 'textLower' },
     {
       name: 'updated',
-      header: 'Last Updated',
+      header: t('Last Updated'),
       width: 225,
       Cell: LastUpdated,
       hoverable: false,

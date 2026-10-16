@@ -5,6 +5,7 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import ExpandableDescription from './ExpandableDescription';
 import Axios from 'axios';
 import { googlePlayProxyUrl } from '../../../../constants';
+import { useT, tx } from '../../../../i18n';
 
 async function getAppInfo(appId, type, lang) {
   const { data } = await Axios.get(`${googlePlayProxyUrl}?appId=${appId}&type=${type}&lang=${lang}`);
@@ -26,19 +27,21 @@ export default function ExpandableDescriptionWithLanguages({
   appleStore = undefined,
   handleRefresh = undefined
 }) {
+  const t = useT();
   const isFrench = functionalities?.includes('French');
   const isSpanish = functionalities?.includes('Spanish');
   const [state, setState] = React.useState({ loading: false, appleStore: undefined, androidStore: undefined });
 
   const [tab, setTab] = React.useState('English');
 
-  var languageTabs = ['English'];
+  // Tab values stay English (compared below); only the label is translated.
+  var languageTabs: string[] = [tx('English')];
 
   if (isFrench) {
-    languageTabs = languageTabs.concat('French');
+    languageTabs = languageTabs.concat(tx('French'));
   }
   if (isSpanish) {
-    languageTabs = languageTabs.concat('Spanish');
+    languageTabs = languageTabs.concat(tx('Spanish'));
   }
 
   const googleAppId = !isEmpty(androidLink) ? getAndroidIdFromUrl(androidLink) : undefined;
@@ -86,12 +89,12 @@ export default function ExpandableDescriptionWithLanguages({
       {languageTabs?.length > 1 && (
         <Tabs value={tab} onChange={handleChangeTab} sx={{ mb: 2, minHeight: 40 }}>
           {languageTabs.map(p => (
-            <Tab key={p} value={p} label={p} sx={{ minHeight: 40 }} />
+            <Tab key={p} value={p} label={t(p)} sx={{ minHeight: 40 }} />
           ))}
         </Tabs>
       )}
       {state?.loading ? (
-        <Typography>Loading...</Typography>
+        <Typography>{t('Loading...')}</Typography>
       ) : (
         <ExpandableDescription maxDescription={maxDescription} appleStore={selectedAppleStore} androidStore={selectedAndroidStore} />
       )}

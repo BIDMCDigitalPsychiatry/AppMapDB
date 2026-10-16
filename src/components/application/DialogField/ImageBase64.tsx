@@ -8,6 +8,7 @@ import { isObject } from '../../application/GenericTable/helpers';
 import * as Icons from '@mui/icons-material';
 import SharedButton from '../../general/SharedButton';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
+import { useT } from '../../../i18n';
 
 const ImageBase64 = ({
   value,
@@ -20,13 +21,14 @@ const ImageBase64 = ({
   disabled = undefined,
   required = undefined
 }) => {
+  const t = useT();
   var isBase64 = isObject(value);
   var base64 = isBase64 && value?.base64;
 
   const handleDropCover = async ([file]: File[]) => {
     if (file) {
       if ((file as any).size > 20 * 1024 * 1024) {
-        alert('File exceeds 20 MB upload limit.');
+        alert(t('File exceeds 20 MB upload limit.'));
       } else {
         const base64 = (await toBase64(file)) as string;
         onChange({
@@ -73,13 +75,13 @@ const ImageBase64 = ({
             }}
             variant='subtitle2'
           >
-            {label}
+            {t(label)}
             {required ? ' *' : ''}
           </Typography>
         )}
         {description && (
           <Typography color='textSecondary' variant='caption'>
-            {description}
+            {t(description)}
           </Typography>
         )}
         {!isEmpty(value) || isBase64 ? (
@@ -88,7 +90,7 @@ const ImageBase64 = ({
               <Image value={base64} onChange={handleSelectCover} width={width} height={height} />
             ) : (
               <Box mt={6}>
-                <img src={isBase64 ? base64 : getObjectUrl(value)} alt='cover' style={{ width, height }} />
+                <img src={isBase64 ? base64 : getObjectUrl(value)} alt={t('cover')} style={{ width, height }} />
               </Box>
             )}
             <Box
@@ -102,14 +104,14 @@ const ImageBase64 = ({
                 {isBase64 && ( // Only allow resizing when working with local base64 copy because of cross origin editing limitations
                   <Grid item>
                     {resizing ? (
-                      <SharedButton disabled={disabled} Icon={Icons.Cancel} label='Cancel Resize' color='error' onClick={handleResizeCover} />
+                      <SharedButton disabled={disabled} Icon={Icons.Cancel} label={t('Cancel Resize')} color='error' onClick={handleResizeCover} />
                     ) : (
-                      <SharedButton disabled={disabled} Icon={Icons.AspectRatio} label='Resize Image' color='primary' onClick={handleResizeCover} />
+                      <SharedButton disabled={disabled} Icon={Icons.AspectRatio} label={t('Resize Image')} color='primary' onClick={handleResizeCover} />
                     )}
                   </Grid>
                 )}
                 <Grid item>
-                  <SharedButton disabled={disabled} Icon={Icons.Delete} label='Remove Image' color='error' onClick={handleRemoveCover} />
+                  <SharedButton disabled={disabled} Icon={Icons.Delete} label={t('Remove Image')} color='error' onClick={handleRemoveCover} />
                 </Grid>
               </Grid>
             </Box>
@@ -120,7 +122,7 @@ const ImageBase64 = ({
         {!isEmpty(error) && (
           <Box mt={2}>
             <Typography align='right' color='error'>
-              {error}
+              {t(error)}
             </Typography>
           </Box>
         )}

@@ -14,10 +14,12 @@ import { useSelector } from 'react-redux';
 import { tables } from '../../../../database/dbConfig';
 import useProcessData from '../../../../database/useProcessData';
 import SelectLabel from '../../DialogField/SelectLabel';
+import { tx, useT } from '../../../../i18n';
 
-export const title = 'Sign Up Survey';
+// Dialog id (stays English).
+export const title = tx('Sign Up Survey');
 
-const ageRangeItems = ['Under 18', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75 or older', 'Prefer not to say'].map(v => ({ label: v, value: v }));
+const ageRangeItems = [tx('Under 18'), '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', tx('75 or older'), tx('Prefer not to say')].map(v => ({ label: v, value: v }));
 const fields = [
   {
     id: 'email',
@@ -29,7 +31,7 @@ const fields = [
   },
   {
     id: 'How did you hear about MINDapps?',
-    label: 'How did you hear about MINDapps?',
+    label: tx('How did you hear about MINDapps?'),
     autoFocus: true,
     rows: 2,
     Field: TextLabel,
@@ -39,7 +41,7 @@ const fields = [
   },
   {
     id: 'Are you a mental health care professional?',
-    label: 'Are you a mental health care professional?',
+    label: tx('Are you a mental health care professional?'),
     Field: YesNoAlignRight,
     required: true,
     InputProps: {
@@ -48,7 +50,7 @@ const fields = [
   },
   {
     id: 'Are you a student?',
-    label: 'Are you a student?',
+    label: tx('Are you a student?'),
     required: true,
     Field: YesNoAlignRight,
     InputProps: {
@@ -57,7 +59,7 @@ const fields = [
   },
   {
     id: 'Are you affiliated with an organization/school?',
-    label: 'Are you affiliated with an organization/school?',
+    label: tx('Are you affiliated with an organization/school?'),
     Field: YesNoAlignRight,
     InputProps: {
       style: { background: 'white' }
@@ -65,7 +67,7 @@ const fields = [
   },
   {
     id: 'If so, please indicate which organization/school?',
-    label: 'If so, please indicate which organization/school?',
+    label: tx('If so, please indicate which organization/school?'),
     Field: TextLabel,
     hidden: values => (isTrue(values['Are you affiliated with an organization/school?']) ? false : true),
     InputProps: {
@@ -75,7 +77,7 @@ const fields = [
   { Field: () => <Divider sx={{ my: 1, background: 'white' }} /> },
   {
     id: 'Please select your age range:',
-    label: 'Please select your age range:',
+    label: tx('Please select your age range:'),
     Field: SelectLabel,
     items: ageRangeItems,
     required: true,
@@ -85,7 +87,7 @@ const fields = [
   },
   {
     id: 'Please share any additional information that may be relevant:',
-    label: 'Please share any additional information that may be relevant:',
+    label: tx('Please share any additional information that may be relevant:'),
     rows: 2,
     Field: TextLabel,
     InputProps: {
@@ -94,7 +96,7 @@ const fields = [
   },
   {
     id: 'Are you okay with receiving email updates from our team?',
-    label: 'Are you okay with receiving email updates from our team?',
+    label: tx('Are you okay with receiving email updates from our team?'),
     required: true,
     Field: YesNoAlignRight,
     InputProps: {
@@ -115,13 +117,13 @@ const validate = values => {
     .filter(f => f.required)
     .forEach(f => {
       if (isEmpty(values[f.id]) && values[f.id] !== false) {
-        errors[f.id] = 'Required!';
+        errors[f.id] = tx('Required!');
       }
     });
 
   if (isTrue(values['Are you affiliated with an organization/school?'])) {
     if (isEmpty(values['If so, please indicate which organization/school?'])) {
-      errors['If so, please indicate which organization/school?'] = 'Required!';
+      errors['If so, please indicate which organization/school?'] = tx('Required!');
     }
   }
 
@@ -178,6 +180,7 @@ function Content({ fields, values = {}, mapField, fullWidth, setValues, ...props
   const values_str = JSON.stringify(values);
 
   const processData = useProcessData();
+  const t = useT();
 
   const handleSubmit = React.useCallback(() => {
     const values = JSON.parse(values_str);
@@ -196,13 +199,13 @@ function Content({ fields, values = {}, mapField, fullWidth, setValues, ...props
         onSuccess: () => {
           setState({ open: false });
           setValues({});
-          alert('Survey results submitted.  Thank you!');
+          alert(t('Survey results submitted.  Thank you!'));
         }
       });
     }
-  }, [setUser, dialogStateStr, setState, errors, values_str, email]);
+  }, [setUser, dialogStateStr, setState, errors, values_str, email, t]);
 
-  var submitLabel = 'Submit';
+  var submitLabel = t('Submit');
 
   const handleChange = React.useCallback(
     id => e => {
@@ -219,7 +222,7 @@ function Content({ fields, values = {}, mapField, fullWidth, setValues, ...props
           <Grid container alignItems='center' spacing={0} className={classes.infoContainer}>
             <Grid item xs={12}>
               <Typography variant='h5' textAlign='center'>
-                Thanks for signing up!
+                {t('Thanks for signing up!')}
               </Typography>
             </Grid>
             <Grid item xs={12}>

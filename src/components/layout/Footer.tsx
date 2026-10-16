@@ -6,6 +6,7 @@ import Logo from './Logo';
 import { useFooterHeightSetRef, useHandleChangeRoute } from './hooks';
 import { useIsAdmin } from '../../hooks';
 import pkg from '../../../package.json';
+import { useT, tx } from '../../i18n';
 
 // Flexbox + gap throughout (no MUI Grid `spacing`): Grid's spacing relies on
 // a negative container margin to offset padding it adds to every item: any
@@ -97,13 +98,14 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 const navLinks = [
-  { id: 'Find an App', route: '/Home' },
-  { id: 'App Library', route: '/Apps' },
-  { id: 'Framework', route: '/FrameworkQuestions' }
+  { id: tx('Find an App'), route: '/Home' },
+  { id: tx('App Library'), route: '/Apps' },
+  { id: tx('Framework'), route: '/FrameworkQuestions' }
 ];
 
 export default function Footer({ variant = 'normal' }) {
   const classes = useStyles();
+  const t = useT();
   const handleChangeRoute = useHandleChangeRoute();
   const isAdmin = useIsAdmin();
 
@@ -115,34 +117,34 @@ export default function Footer({ variant = 'normal' }) {
             <div className={classes.brandColumn}>
               <Logo autoHide={false} showText={true} />
               <Typography variant='body2' className={classes.tagline}>
-                An objective, evidence-informed database of mental health apps from the BIDMC Division of Digital Psychiatry.
+                {t('An objective, evidence-informed database of mental health apps from the BIDMC Division of Digital Psychiatry.')}
               </Typography>
             </div>
           )}
           <div className={classes.linkColumnsRow}>
             <div className={classes.column}>
-              <Typography className={classes.columnHeading}>Explore</Typography>
+              <Typography className={classes.columnHeading}>{t('Explore')}</Typography>
               {navLinks.map(({ id, route }) => (
                 <Link key={id} className={classes.link} underline='none' onClick={handleChangeRoute(route)}>
-                  {id}
+                  {t(id)}
                 </Link>
               ))}
               {isAdmin && (
                 <Link className={classes.link} underline='none' onClick={handleChangeRoute('/Admin')}>
-                  Admin
+                  {t('Admin')}
                 </Link>
               )}
             </div>
             <div className={classes.column}>
-              <Typography className={classes.columnHeading}>Contact</Typography>
+              <Typography className={classes.columnHeading}>{t('Contact')}</Typography>
               <Link className={classes.link} underline='none' href={`mailto:${pkg.contactEmail}`} target='_blank'>
                 {pkg.contactEmail}
               </Link>
               <Link className={classes.link} underline='none' href='https://www.digitalpsych.org/' target='_blank'>
-                Division of Digital Psychiatry
+                {t('Division of Digital Psychiatry')}
               </Link>
               <Link className={classes.link} underline='none' onClick={handleChangeRoute('/Community')}>
-                Community
+                {t('Community')}
               </Link>
             </div>
           </div>
@@ -150,9 +152,9 @@ export default function Footer({ variant = 'normal' }) {
 
         <Divider style={{ marginTop: 16 }} />
         <div className={classes.bottomBar}>
-          <Typography className={classes.bottomText}>© {new Date().getFullYear()} BIDMC Division of Digital Psychiatry</Typography>
+          <Typography className={classes.bottomText}>{t('© {{year}} BIDMC Division of Digital Psychiatry', { year: new Date().getFullYear() })}</Typography>
           <Link className={classes.bottomLink} underline='none' href='https://www.argosyfnd.org/' target='_blank'>
-            Made possible by support from the Argosy Foundation
+            {t('Made possible by support from the Argosy Foundation')}
           </Link>
         </div>
       </div>

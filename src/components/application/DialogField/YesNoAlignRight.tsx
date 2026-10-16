@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { FormControl, FormHelperText, Grid, Typography, ButtonGroup, Button } from '@mui/material';
 import { isError, isTrue, isFalse } from '../../../helpers';
+import { useT } from '../../../i18n';
 
 const YesNoAlignRight = ({
   label = '',
@@ -16,12 +17,13 @@ const YesNoAlignRight = ({
   initialValue = undefined,
   ...other
 }) => {
+  const t = useT();
   const handleChange = React.useCallback(value => () => onChange && onChange({ target: { value } }), [onChange]);
   return (
     <FormControl variant={variant} error={isError(error)} fullWidth={true} margin={margin}>
       <Grid container justifyContent='space-between' alignItems='center' spacing={2}>
         <Grid item xs>
-          <Typography variant='body2'>{label}</Typography>
+          <Typography variant='body2'>{t(label)}</Typography>
         </Grid>
         <Grid item>
           <ButtonGroup size={size} sx={{ color: 'white' }} aria-label={`${label}-button-group`} {...other}>
@@ -37,7 +39,7 @@ const YesNoAlignRight = ({
               variant={isTrue(value) ? 'contained' : undefined}
               onClick={handleChange(true)}
             >
-              Yes
+              {t('Yes')}
             </Button>
             <Button
               sx={{
@@ -51,12 +53,12 @@ const YesNoAlignRight = ({
               variant={isFalse(value) ? 'contained' : undefined}
               onClick={handleChange(false)}
             >
-              No
+              {t('No')}
             </Button>
           </ButtonGroup>
         </Grid>
       </Grid>
-      {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
+      {(forceErrorMargin || error) && <FormHelperText>{t(error)}</FormHelperText>}
     </FormControl>
   );
 };

@@ -13,6 +13,7 @@ import { useHandleChangeRoute } from '../../layout/hooks';
 import { SECTIONS } from './content';
 import { clearDraft, emptyForm, Errors, firstInvalidStep, loadDraft, prepareForSubmit, saveDraft, STEP_IDS, validateStep } from './form';
 import { STEP_COMPONENTS } from './steps';
+import { useT } from '../../../i18n';
 
 const setIn = (obj: any, path: string[], value: any): any => {
   const [head, ...rest] = path;
@@ -27,6 +28,7 @@ const scrollToField = (key: string) => {
 };
 
 export default function SubmitApp() {
+  const t = useT();
   const draft = React.useMemo(() => loadDraft(), []);
   const [form, setForm] = React.useState<SubmissionForm>(draft?.form ?? emptyForm());
   const [step, setStep] = React.useState(Math.min(draft?.step ?? 0, STEP_IDS.length - 1));
@@ -93,7 +95,7 @@ export default function SubmitApp() {
       setDone(true);
       topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (err: any) {
-      setSubmitError(err?.message ?? 'Something went wrong');
+      setSubmitError(err?.message ?? t('Something went wrong'));
     } finally {
       setSubmitting(false);
     }
@@ -117,18 +119,25 @@ export default function SubmitApp() {
         <Paper variant='outlined' sx={{ maxWidth: 640, p: { xs: 3, md: 5 }, textAlign: 'center', borderRadius: 3 }}>
           <Icons.CheckCircleOutline color='success' sx={{ fontSize: 64 }} />
           <Typography variant='h4' sx={{ fontWeight: 800, mt: 1, color: 'primary.dark' }}>
-            Thank you!
+            {t('Thank you!')}
           </Typography>
           <Typography sx={{ mt: 2 }}>
-            We’ve received your suggestion for <b>{form.app.name}</b>. Our team will review it, and we’ll contact you at <b>{form.submitter.email}</b> if we have
-            any questions.
+            {/* Placeholders are swapped for bold values after translation, so translators can move them */}
+            {t('We’ve received your suggestion for {{app}}. Our team will review it, and we’ll contact you at {{email}} if we have any questions.', {
+              app: '\u0000app\u0000',
+              email: '\u0000email\u0000'
+            })
+              .split('\u0000')
+              .map((part: string, i: number) =>
+                part === 'app' ? <b key={i}>{form.app.name}</b> : part === 'email' ? <b key={i}>{form.submitter.email}</b> : part
+              )}
           </Typography>
           <Box sx={{ mt: 4, display: 'flex', gap: 1.5, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button variant='contained' sx={{ textTransform: 'none' }} onClick={changeRoute(publicUrl('/Apps'))}>
-              Back to the app library
+              {t('Back to the app library')}
             </Button>
             <Button variant='outlined' sx={{ textTransform: 'none' }} onClick={handleStartOver}>
-              Suggest another app
+              {t('Suggest another app')}
             </Button>
           </Box>
         </Paper>
@@ -138,10 +147,10 @@ export default function SubmitApp() {
   return (
     <Box ref={topRef} sx={{ px: { xs: 2, md: 4 }, py: { xs: 2, md: 4 }, maxWidth: 1200, mx: 'auto', scrollMarginTop: 80 }}>
       <Typography variant='h4' component='h1' sx={{ fontWeight: 800, color: 'primary.dark', fontSize: { xs: 26, md: 32 } }}>
-        Suggest an App
+        {t('Suggest an App')}
       </Typography>
       <Typography color='text.secondary' sx={{ mt: 0.5, mb: 2 }}>
-        Suggest a mental health app for MINDapps. Every suggestion is reviewed by our team before an app is listed.
+        {t('Suggest a mental health app for MINDapps. Every suggestion is reviewed by our team before an app is listed.')}
       </Typography>
 
       {resumed && (
@@ -151,11 +160,11 @@ export default function SubmitApp() {
           sx={{ mb: 2 }}
           action={
             <Button color='inherit' size='small' sx={{ textTransform: 'none', whiteSpace: 'nowrap' }} onClick={handleStartOver}>
-              Start over
+              {t('Start over')}
             </Button>
           }
         >
-          Welcome back — we restored the answers you saved in this browser.
+          {t('Welcome back — we restored the answers you saved in this browser.')}
         </Alert>
       )}
 
@@ -189,7 +198,7 @@ export default function SubmitApp() {
                       </Box>
                     )}
                   </ListItemIcon>
-                  <ListItemText primary={SECTIONS[id].title} primaryTypographyProps={{ fontWeight: i === step ? 700 : 500 }} />
+                  <ListItemText primary={t(SECTIONS[id].title)} primaryTypographyProps={{ fontWeight: i === step ? 700 : 500 }} />
                 </ListItemButton>
               );
             })}
@@ -197,35 +206,48 @@ export default function SubmitApp() {
         </Paper>
 
         {/* Current section */}
-        <Paper elevation={0} sx={{ flex: 1, minWidth: 0, borderRadius: { xs: 0, sm: 2 }, overflow: 'hidden', border: { xs: 'none', sm: '1px solid' }, borderColor: { sm: 'divider' }, mx: { xs: -2, sm: 0 } }}>
+        <Paper
+          elevation={0}
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            borderRadius: { xs: 0, sm: 2 },
+            overflow: 'hidden',
+            border: { xs: 'none', sm: '1px solid' },
+            borderColor: { sm: 'divider' },
+            mx: { xs: -2, sm: 0 }
+          }}
+        >
           <LinearProgress variant='determinate' value={((step + 1) / STEP_IDS.length) * 100} sx={{ height: 6 }} />
           <Box sx={{ p: { xs: 2, md: 4 } }}>
             <Typography variant='overline' color='text.secondary'>
-              Step {step + 1} of {STEP_IDS.length}
+              {t('Step {{step}} of {{total}}', { step: step + 1, total: STEP_IDS.length })}
             </Typography>
             <Typography variant='h5' component='h2' sx={{ fontWeight: 800, mb: 1, fontSize: { xs: 22, md: 26 }, color: 'primary.dark' }}>
-              {SECTIONS[stepId].title}
+              {t(SECTIONS[stepId].title)}
             </Typography>
 
             <StepComponent form={form} set={set} errors={errors} goTo={goTo} />
 
             {errorCount > 0 && (
               <Alert severity='warning' sx={{ mt: 2 }}>
-                {errorCount === 1 ? 'One question needs an answer' : `${errorCount} questions need answers`} before you can continue — they’re highlighted above.
+                {errorCount === 1
+                  ? t('One question needs an answer before you can continue — they’re highlighted above.')
+                  : t('{{count}} questions need answers before you can continue — they’re highlighted above.', { count: errorCount })}
               </Alert>
             )}
             {submitError && (
               <Alert severity='error' sx={{ mt: 2 }}>
-                We couldn’t send your suggestion: {submitError}. Your answers are still saved — please try again.
+                {t('We couldn’t send your suggestion: {{error}}. Your answers are still saved — please try again.', { error: submitError })}
               </Alert>
             )}
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3, pt: 2, borderTop: 1, borderColor: 'divider', gap: 1 }}>
               <Button startIcon={<Icons.ArrowBack />} disabled={step === 0} onClick={() => goTo(step - 1)} sx={{ textTransform: 'none' }}>
-                Back
+                {t('Back')}
               </Button>
               <Typography variant='caption' color='text.secondary' sx={{ display: { xs: 'none', sm: 'block' } }}>
-                Your answers are saved in this browser
+                {t('Your answers are saved in this browser')}
               </Typography>
               {isReview ? (
                 <Button
@@ -236,18 +258,18 @@ export default function SubmitApp() {
                   startIcon={submitting ? <CircularProgress size={18} color='inherit' /> : <Icons.Send />}
                   sx={{ textTransform: 'none', fontWeight: 700 }}
                 >
-                  {submitting ? 'Sending…' : 'Send suggestion'}
+                  {submitting ? t('Sending…') : t('Send suggestion')}
                 </Button>
               ) : (
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   {/* After "Edit" from the review page, jump straight back instead of clicking through every step */}
                   {maxVisited === STEP_IDS.length - 1 && step < STEP_IDS.length - 2 && (
                     <Button variant='outlined' onClick={() => handleNext(STEP_IDS.length - 1)} sx={{ textTransform: 'none', fontWeight: 700 }}>
-                      Back to review
+                      {t('Back to review')}
                     </Button>
                   )}
                   <Button variant='contained' endIcon={<Icons.ArrowForward />} onClick={() => handleNext()} sx={{ textTransform: 'none', fontWeight: 700 }}>
-                    {step === STEP_IDS.length - 2 ? 'Review answers' : 'Continue'}
+                    {step === STEP_IDS.length - 2 ? t('Review answers') : t('Continue')}
                   </Button>
                 </Box>
               )}

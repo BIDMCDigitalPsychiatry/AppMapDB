@@ -17,6 +17,7 @@ import i9 from '../../images/questions/9.png';
 import i10 from '../../images/questions/10.png';
 import i11 from '../../images/questions/11.png';
 import { useFullScreen } from '../../hooks';
+import { useT } from '../../i18n';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -31,6 +32,7 @@ const useStyles = makeStyles(() =>
 const images = [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9, i10, i11];
 
 export default function ObjecttiveQuestions() {
+  const t = useT();
   const classes = useStyles({});
   const theme = useTheme();
   const [index, setIndex] = React.useState(0);
@@ -48,18 +50,18 @@ export default function ObjecttiveQuestions() {
           className={classes.button}
           size='large'
           variant='outlined'
-          tooltip='Click to View Previous'
+          tooltip={t('Click to View Previous')}
           Icon={null}
           onClick={handleBack}
           disabledColor={theme.palette.text.disabled}
         >
-          Back
+          {t('Back')}
         </DialogButton>
       </Grid>
       {hidden && (
         <Grid item xs>
           <Typography align='center' color='textSecondary'>
-            {index + 1} of {images.length}
+            {t('{{current}} of {{total}}', { current: index + 1, total: images.length })}
           </Typography>
         </Grid>
       )}
@@ -69,12 +71,12 @@ export default function ObjecttiveQuestions() {
           className={classes.button}
           size='large'
           variant='outlined'
-          tooltip='Click to View Next'
+          tooltip={t('Click to View Next')}
           Icon={null}
           onClick={handleNext}
           disabledColor={theme.palette.text.disabled}
         >
-          Next
+          {t('Next')}
         </DialogButton>
       </Grid>
     </Grid>

@@ -3,6 +3,7 @@ import { Grid, Typography, Button } from '@mui/material';
 import { createStyles } from '../../styles/jss';
 import { makeStyles } from '../../styles/jss';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -19,13 +20,14 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export default function ArrowButton({ size = 'normal' as any, variant = 'body1' as any, label, onClick = undefined }) {
+  const t = useT();
   const classes = useStyles({ fontSize: size === 'small' ? 19 : undefined, marginTop: size === 'small' ? 1 : undefined });
   return (
     <Button size={size} onClick={onClick}>
       <Grid container spacing={1}>
         <Grid item>
           <Typography variant={variant} className={classes.primaryTextSmall}>
-            {label}
+            {t(label)}
           </Typography>
         </Grid>
         <Grid item>

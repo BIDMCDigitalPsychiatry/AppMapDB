@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import Progress from './Progress';
 import { getQuestion } from './questions';
+import { useT } from '../../i18n';
 
 export const usePwaTextFontSize = () => {
   const xs = useMediaQuery('(max-width:450px)');
@@ -10,6 +11,7 @@ export const usePwaTextFontSize = () => {
 };
 
 export default function QuestionHeader() {
+  const t = useT();
   const index = useSelector((s: AppState) => s.pwa.index);
   const { label } = getQuestion(index);
   const pwaTextFontSize = usePwaTextFontSize();
@@ -30,7 +32,7 @@ export default function QuestionHeader() {
       <Grid item xs={12} sx={{ textAlign: 'center', color: 'primary.dark' }}>
         <Box sx={{ px: 2 }}>
           <Typography fontSize={pwaTextFontSize + 2} fontWeight='bold'>
-            {label}
+            {t(label)}
           </Typography>
         </Box>
       </Grid>

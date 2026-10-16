@@ -11,6 +11,7 @@ import { useFullScreen } from '../../../hooks';
 import TourStep from '../../pages/Tour/TourStep';
 import { useHandleTableReset } from '../../application/GenericTable/store';
 import { useFilterCount } from '../useFilterCount';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +37,7 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
   const handleOpen = React.useCallback(() => setLeftDrawer && setLeftDrawer(true), [setLeftDrawer]);
   const handleReset = useHandleTableReset('Applications');
   const filterCount = useFilterCount('Applications');
+  const t = useT();
   return (
     <>
       <div className={classes.header}>
@@ -48,17 +50,17 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
           )}
           <Grid item xs>
             <Typography variant='caption' color='textPrimary' className={classes.primaryText}>
-              Filters
+              {t('Filters')}
             </Typography>
           </Grid>
           <Grid item style={{ display: 'flex', alignItems: 'center' }}>
             {filterCount > 0 && (
               <Button size='small' onClick={handleReset} style={{ textTransform: 'none', fontWeight: 600 }}>
-                Clear all ({filterCount})
+                {t('Clear all ({{count}})', { count: filterCount })}
               </Button>
             )}
-            <Tooltip title='Hide filters'>
-              <IconButton size='small' onClick={handleClose} aria-label='hide filter panel'>
+            <Tooltip title={t('Hide filters')}>
+              <IconButton size='small' onClick={handleClose} aria-label={t('hide filter panel')}>
                 <Icons.ChevronLeft />
               </IconButton>
             </Tooltip>

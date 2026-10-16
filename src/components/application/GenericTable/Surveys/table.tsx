@@ -10,6 +10,7 @@ import { createStyles } from '../../../../styles/jss';
 import { useSurveyExport } from './useSurveyExport';
 import { renderDialogModule } from '../../GenericDialog/DialogButton';
 import * as DeleteSurveyDialog from '../../GenericDialog/DeleteSurvey';
+import { useT } from '../../../../i18n';
 
 export const name = 'Surveys';
 
@@ -51,6 +52,7 @@ export const Surveys = ({ height: Height, ...other }) => {
   const columns = useColumns();
   const { data, handleRefresh } = useSurveyData(name);
   const classes = useStyles();
+  const t = useT();
 
   const [showArchived, setShowArchived] = React.useState(false);
   const handleExport = useSurveyExport(name,showArchived);
@@ -67,13 +69,13 @@ export const Surveys = ({ height: Height, ...other }) => {
           <Grid item>
             <Button size='small' className={classes.primaryButton} onClick={handleShowArchived}>
               <Icons.Delete style={{ marginRight: 4 }} />
-              {showArchived ? 'Hide Archived' : 'Show Archived'}
+              {showArchived ? t('Hide Archived') : t('Show Archived')}
             </Button>
           </Grid>
           <Grid item>
             <Button size='small' className={classes.primaryButton} onClick={handleExport}>
               <Icons.GetApp style={{ marginRight: 4 }} />
-              Export Surveys
+              {t('Export Surveys')}
             </Button>
           </Grid>
         </Grid>

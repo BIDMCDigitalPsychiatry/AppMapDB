@@ -8,6 +8,7 @@ import { makeStyles } from '../../../styles/jss';
 import { createStyles } from '../../../styles/jss';
 import ExploreGrid from './ExploreGrid';
 import VirtualList from './VirtualList';
+import { useT } from '../../../i18n';
 
 export interface GenericTableProps extends VirtualTableProps {
   footer?: boolean;
@@ -41,6 +42,7 @@ const useStyles = makeStyles(({ palette, spacing, layout }: any) =>
 
 export default function GenericTable(props: GenericTableProps) {
   const { elevation = 4, placeholder, footer, name, selector, data: Data = [], height: Height, isList, isGrid, ...other } = props;
+  const t = useT();
   const classes = useStyles(props);
   const { layout } = useTheme() as any;
   const data = useSelector((state: AppState) => (selector ? selector(state, props) : Data));
@@ -67,7 +69,7 @@ export default function GenericTable(props: GenericTableProps) {
           <Grid container className={classes.footer} alignContent='center' alignItems='center' justifyContent='flex-end'>
             <Grid item container alignItems='center' justifyContent='flex-end'>
               <Typography align='right' variant='caption'>
-                Viewing {length} {name}
+                {t('Viewing {{count}} {{name}}', { count: length, name: t(name) })}
               </Typography>
             </Grid>
           </Grid>

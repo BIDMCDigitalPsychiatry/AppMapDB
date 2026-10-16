@@ -13,6 +13,7 @@ import { Card, CardContent, CardMedia } from '@mui/material';
 import { getDayTimeFromTimestamp, isEmpty, publicUrl } from '../../../helpers';
 import { getObjectUrl } from '../../../aws-exports';
 import { useLastRatingDateTime } from '../../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
+import { tx, useT } from '../../../i18n';
 
 const height = 400;
 const useStyles = makeStyles(theme =>
@@ -48,6 +49,7 @@ const useStyles = makeStyles(theme =>
 
 const TeamMemberView = () => {
   const classes = useStyles();
+  const t = useT();
   const isAdmin = useIsAdmin();
   const changeRoute = useChangeRoute();
 
@@ -73,18 +75,18 @@ const TeamMemberView = () => {
     <>
       <Container maxWidth='lg'>
         <CommunityToolbar
-          title='Team Member Details'
-          subtitle='View member'
+          title={tx('Team Member Details')}
+          subtitle={tx('View member')}
           showGreeting={false}
           buttons={[
             {
-              label: 'Back',
+              label: tx('Back'),
               startIcon: <Icons.ArrowBack fontSize='small' />,
               onClick: handleBack
             },
             isAdmin &&
               values?.deleted && {
-                label: 'Restore member',
+                label: tx('Restore member'),
                 startIcon: <Icons.RestoreFromTrash fontSize='small' />,
                 onClick: () => {
                   handleDelete({ deleted: false, onSuccess: handleBack });
@@ -92,7 +94,7 @@ const TeamMemberView = () => {
               },
             isAdmin &&
               !values?.deleted && {
-                label: 'Archive member',
+                label: tx('Archive member'),
                 startIcon: <Icons.Delete fontSize='small' />,
                 onClick: () => {
                   handleDelete({ onSuccess: handleBack });
@@ -100,7 +102,7 @@ const TeamMemberView = () => {
                 className: classes.deleteButton
               },
             isAdmin && {
-              label: 'Edit member',
+              label: tx('Edit member'),
               startIcon: <PencilAltIcon fontSize='small' />,
               onClick: handleEdit
             }
@@ -123,7 +125,7 @@ const TeamMemberView = () => {
                   component='img'
                   height='100%'
                   width='100%'
-                  alt='cover image'
+                  alt={t('cover image')}
                 />
               </Card>
             </Grid>
@@ -134,7 +136,7 @@ const TeamMemberView = () => {
                     <Grid container>
                       <Grid item xs={12}>
                         <Typography variant='h5' noWrap>
-                          {title || 'Unknown Name'}
+                          {title || t('Unknown Name')}
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>
@@ -151,7 +153,7 @@ const TeamMemberView = () => {
                   <Grid container style={{ marginTop: 8 }}>
                     <Grid item xs={12}>
                       <Typography noWrap display='block' align='right' color='textSecondary' variant='caption'>
-                        Last Updated: {lastUpdated}
+                        {t('Last Updated: {{date}}', { date: lastUpdated })}
                       </Typography>
                     </Grid>
                   </Grid>

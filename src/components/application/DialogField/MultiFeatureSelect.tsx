@@ -4,6 +4,7 @@ import { Chip, emphasize, Grid, Typography } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -51,6 +52,7 @@ export default function MultiFeatureSelectCheck({
   InputProps = undefined,
   ...other
 }) {
+  const t = useT();
   const classes = useStyles();
   const handleChange = React.useCallback(
     (f, isActive = false) =>
@@ -78,7 +80,7 @@ export default function MultiFeatureSelectCheck({
               className={isActive ? classes.chipActive : classes.chip}
               onClick={handleChange(f, isActive)}
               icon={<StartIcon style={iconStyle} />}
-              label={<Typography style={{ minWidth: 200 }}>{f}</Typography>}
+              label={<Typography style={{ minWidth: 200 }}>{t(f)}</Typography>}
             />
           </Grid>
         );

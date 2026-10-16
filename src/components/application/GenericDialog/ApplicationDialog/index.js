@@ -8,8 +8,10 @@ import { ApplicationTabsView } from '../RateNewApp/templates/ApplicationTabsView
 import { useDialogState } from '../useDialogState';
 import { ApplicationReviews } from '../../GenericTable/ApplicationReviews/table';
 import { tables } from '../../../../database/dbConfig';
+import { tx, useT } from '../../../../i18n';
 
-export const title = 'Application Information';
+// Dialog id (stays English); GenericDialog translates it for display.
+export const title = tx('Application Information');
 
 const useStyles = makeStyles(({ palette, spacing }) =>
   createStyles({
@@ -29,12 +31,13 @@ const useStyles = makeStyles(({ palette, spacing }) =>
 
 export default function ApplicationDialog({ id = title }) {
   const classes = useStyles({});
+  const t = useT();
   const [{ initialValues = {} }] = useDialogState(id);
   const applications = initialValues[tables.applications] ?? {};
   const { groupId } = applications;
 
   return (
-    <GenericDialog id={id} title={id} submitLabel={null} cancelLabel='Close' maxWidth='lg'>
+    <GenericDialog id={id} title={id} submitLabel={null} cancelLabel={t('Close')} maxWidth='lg'>
       <DialogContent dividers>
         <Container className={classes.root}>
           <Grid container justifyContent='center' spacing={3}>
@@ -43,7 +46,7 @@ export default function ApplicationDialog({ id = title }) {
             </Grid>
             <Grid item xs style={{ minWidth: 280, maxWidth: 600 }}>
               <Paper className={classes.paper}>
-                <Typography variant='h6'>Qualitative Reviews</Typography>
+                <Typography variant='h6'>{t('Qualitative Reviews')}</Typography>
               </Paper>
               <ApplicationReviews groupId={groupId} height={500} />
             </Grid>

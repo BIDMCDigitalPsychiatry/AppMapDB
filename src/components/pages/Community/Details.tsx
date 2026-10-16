@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 import { format } from 'date-fns';
+import fr from 'date-fns/locale/fr';
+import de from 'date-fns/locale/de';
 import { Box, Button, Chip, Container, Divider, Grid, Typography } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
@@ -20,6 +22,9 @@ import { useCommentsByPostId } from '../../../database/useComments';
 import { sortComments } from './helpers';
 import useSortOptions from '../../../utils/useSortOptions';
 import { getObjectUrl } from '../../../aws-exports';
+import { tx, useCurrentLanguage, useT } from '../../../i18n';
+
+const DATE_FNS = { fr, de };
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -61,6 +66,8 @@ const useStyles = makeStyles(theme =>
 
 const Details = () => {
   const classes = useStyles();
+  const t = useT();
+  const lang = useCurrentLanguage();
   const isAdmin = useIsAdmin();
   const signedIn = useSignedIn();
   const changeRoute = useChangeRoute();
@@ -98,18 +105,18 @@ const Details = () => {
     <>
       <Container maxWidth='lg'>
         <CommunityToolbar
-          title='Post Details'
-          subtitle='View additional information'
+          title={tx('Post Details')}
+          subtitle={tx('View additional information')}
           showGreeting={false}
           buttons={[
             {
-              label: 'Back',
+              label: tx('Back'),
               startIcon: <Icons.ArrowBack fontSize='small' />,
               onClick: handleBack
             },
             isAdmin &&
               values?.deleted && {
-                label: 'Restore this post',
+                label: tx('Restore this post'),
                 startIcon: <Icons.RestoreFromTrash fontSize='small' />,
                 onClick: () => {
                   handleDelete({ deleted: false, onSuccess: handleBack });
@@ -117,7 +124,7 @@ const Details = () => {
               },
             isAdmin &&
               !values?.deleted && {
-                label: 'Archive this post',
+                label: tx('Archive this post'),
                 startIcon: <Icons.Delete fontSize='small' />,
                 onClick: () => {
                   handleDelete({ onSuccess: handleBack });
@@ -125,7 +132,7 @@ const Details = () => {
                 className: classes.deleteButton
               },
             isAdmin && {
-              label: 'Edit this post',
+              label: tx('Edit this post'),
               startIcon: <PencilAltIcon fontSize='small' />,
               onClick: handleEdit
             }
@@ -140,7 +147,7 @@ const Details = () => {
                 justifyContent: 'center'
               }}
             >
-              <Chip label={values.category} variant='outlined' />
+              <Chip label={t(values.category)} variant='outlined' />
             </Box>
             <Typography
               align='center'
@@ -177,13 +184,13 @@ const Details = () => {
                     <Grid item xs={12}>
                       <Typography align='center' color='textPrimary' variant='subtitle2'>
                         {/*values.authorName*/}
-                        Registered User
+                        {t('Registered User')}
                       </Typography>
                     </Grid>
                   )}
                   <Grid item xs={12}>
                     <Typography align='center' color='textSecondary' variant='body2'>
-                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM yyyy') : ''} · ${values.readTime} read`}
+                      {`${!isEmptyObject(values?.publishedAt) ? format(values?.publishedAt, 'dd MMM yyyy', { locale: DATE_FNS[lang] }) : ''} · ${t('{{readTime}} read', { readTime: values.readTime })}`}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -197,7 +204,7 @@ const Details = () => {
               <Grid container justifyContent='center'>
                 <Grid item>
                   <img
-                    alt='cover'
+                    alt={t('cover')}
                     src={isEmpty(values?.cover) ? '' : values?.cover?.startsWith('data:') ? values.cover : getObjectUrl(values.cover)}
                     style={{ maxHeight: 350 }}
                   />
@@ -219,7 +226,7 @@ const Details = () => {
               <Grid container justifyContent='space-between' spacing={2}>
                 <Grid item>
                   <Typography color='textPrimary' variant='h6'>
-                    {`Comments (${commentCount})`}
+                    {t('Comments ({{count}})', { count: commentCount })}
                   </Typography>
                 </Grid>
 
@@ -227,7 +234,7 @@ const Details = () => {
                   <Grid container spacing={1}>
                     <Grid item>
                       <Button color='primary' onClick={handleToggleSortDirection} size='small' startIcon={<SortOptionIcon fontSize='small' />} variant='text'>
-                        {sortLabel}
+                        {t(sortLabel)}
                       </Button>
                     </Grid>
 
@@ -241,11 +248,11 @@ const Details = () => {
                           initialValues={{ authorName: isEmpty(userEmail) ? 'Anonymous' : userEmail, postId: _id }}
                           variant='default'
                         >
-                          Add Comment
+                          {t('Add Comment')}
                         </DialogButton>
                       ) : (
                         <Typography variant='body2' color='textSecondary' style={{ lineHeight: '36px' }}>
-                          Sign in to comment
+                          {t('Sign in to comment')}
                         </Typography>
                       )}
                     </Grid>
@@ -254,7 +261,7 @@ const Details = () => {
               </Grid>
               <Box mt={3}>
                 {filtered.length === 0 ? (
-                  <Typography color='textSecondary'>There are no comments</Typography>
+                  <Typography color='textSecondary'>{t('There are no comments')}</Typography>
                 ) : (
                   filtered.map((comment, i) => (
                     <Comment key={comment.id} {...comment} sortOption={sortOption} onRefresh={handleRefresh} mountDialog={i === 0} />

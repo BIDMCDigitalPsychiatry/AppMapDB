@@ -19,6 +19,7 @@ import { tables } from '../../../database/dbConfig';
 import { AppState } from '../../../store';
 import { useSelector } from 'react-redux';
 import useAppTableData from '../useAppTableData';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -36,6 +37,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 export default function SurveyFollowUp() {
   const classes = useStyles();
+  const t = useT();
   var sm = useFullScreen('sm');
 
   const [state] = useRouteState();
@@ -80,7 +82,7 @@ export default function SurveyFollowUp() {
   return (
     <Grid container justifyContent='center' style={{ padding: sm ? 16 : 32 }} spacing={2}>
       <Grid item component={Button} onClick={handleChangeRoute(publicUrl('/Apps'), {})}>
-        <Typography>{`<   Back To Applications`}</Typography>
+        <Typography>{`<   ${t('Back To Applications')}`}</Typography>
       </Grid>
       <Grid item xs={12}>
         <ViewAppHeader app={app} />
@@ -105,7 +107,7 @@ export default function SurveyFollowUp() {
                   </IconButton>
                 }
               >
-                Thank you for participating in our survey!
+                {t('Thank you for participating in our survey!')}
               </Alert>
             ) : (
               <Alert
@@ -126,9 +128,9 @@ export default function SurveyFollowUp() {
                 <Grid container spacing={4} justifyContent='space-between'>
                   <Grid item>
                     <AlertTitle>
-                      <strong>Thank you for participating in our previous survey!</strong>
+                      <strong>{t('Thank you for participating in our previous survey!')}</strong>
                     </AlertTitle>
-                    Would you like to participate in our follow up survey to help improve this web application?
+                    {t('Would you like to participate in our follow up survey to help improve this web application?')}
                   </Grid>
                   <Grid item xs>
                     <DialogButton
@@ -142,7 +144,7 @@ export default function SurveyFollowUp() {
                       })}
                       variant='surveyButton'
                     >
-                      Click Here to Take Follow Up Survey
+                      {t('Click Here to Take Follow Up Survey')}
                     </DialogButton>
                   </Grid>
                 </Grid>
@@ -154,7 +156,7 @@ export default function SurveyFollowUp() {
       <Grid item xs={12}>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-            <Typography className={classes.bold}>Description from App Store, Not Vetted by MIND:</Typography>
+            <Typography className={classes.bold}>{t('Description from App Store, Not Vetted by MIND:')}</Typography>
           </Grid>
           <Grid item xs={12}>
             <ExpandableDescription maxDescription={2000} appleStore={appleStore} androidStore={androidStore} />
@@ -166,9 +168,9 @@ export default function SurveyFollowUp() {
           </Grid>
           <Grid item xs={12}>
             <Typography className={classes.primaryText} variant='body1'>
-              Ratings and Reviews ({history.length})
+              {t('Ratings and Reviews ({{count}})', { count: history.length })}
             </Typography>
-            <Typography variant='body1'>{`Explore the app's qualitative ratings & reviews`}</Typography>
+            <Typography variant='body1'>{t("Explore the app's qualitative ratings & reviews")}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Box mt={2}>{rating && <ViewAppRating {...rating.getValues()} />}</Box>

@@ -5,11 +5,13 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../../../i18n';
 
 const fontSize = 18;
 const StepIcon = props => <Icons.Circle {...props} sx={{ color: 'primary.dark', fontSize: fontSize * 1.5 }} />;
 
 export default function InstallStepper() {
+  const t = useT();
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -32,7 +34,7 @@ export default function InstallStepper() {
             <Box sx={{ display: 'flex', ml: 2 }}>
               <Typography
                 sx={{ fontSize, color: 'text.primary', textAlign: 'left', display: 'inline' }}
-              >{`Press the share symbol at the bottom or top of your screen.`}</Typography>
+              >{t('Press the share symbol at the bottom or top of your screen.')}</Typography>
               <Box sx={{ pt: 0, ml: 1, display: 'inline' }}>
                 <Icons.IosShare sx={{ fontSize: fontSize * 2 }} />
               </Box>
@@ -44,7 +46,7 @@ export default function InstallStepper() {
             <Box sx={{ display: 'flex', ml: 2 }}>
               <Typography
                 sx={{ fontSize, color: 'text.primary', textAlign: 'left', display: 'inline' }}
-              >{`Select the "Add to Home Screen" option.`}</Typography>
+              >{t('Select the "Add to Home Screen" option.')}</Typography>
               <Box sx={{ pt: 0, ml: 2, display: 'inline' }}>
                 <Icons.AddBoxOutlined sx={{ fontSize: fontSize * 2 }} />
               </Box>
@@ -53,7 +55,7 @@ export default function InstallStepper() {
         </Step>
         <Step key={2} active={true}>
           <StepLabel StepIconComponent={StepIcon}>
-            <Box sx={{ fontSize, color: 'text.primary', textAlign: 'left', ml: 2 }}>Press “Add” in the top right corner.</Box>
+            <Box sx={{ fontSize, color: 'text.primary', textAlign: 'left', ml: 2 }}>{t('Press “Add” in the top right corner.')}</Box>
           </StepLabel>
         </Step>
       </Stepper>

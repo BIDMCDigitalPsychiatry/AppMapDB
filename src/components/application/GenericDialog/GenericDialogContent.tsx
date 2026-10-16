@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Typography, Box, Grid, Divider, DialogContent } from '@mui/material';
 import { useFullScreen } from '../../../hooks';
+import { useT } from '../../../i18n';
 
 export default function GenericDialogContent({ questions = [], title = '', img = undefined }) {
+  const t = useT();
   const fullScreen = useFullScreen();
   return (
     <DialogContent dividers>
@@ -11,20 +13,20 @@ export default function GenericDialogContent({ questions = [], title = '', img =
           {img && (
             <Grid item style={{ width: 200 }}>
               <Typography>
-                <img style={{ width: '80%' }} src={img} alt={title} />
+                <img style={{ width: '80%' }} src={img} alt={t(title)} />
               </Typography>
             </Grid>
           )}
           <Grid item xs>
             <Box mb={1}>
-              <Typography variant='h4'>{title}</Typography>
+              <Typography variant='h4'>{t(title)}</Typography>
             </Box>
             <Box mb={1}>
               <Divider />
             </Box>
             {questions.map(label => (
               <Box key={label} pt={1} pb={1}>
-                <Typography variant='h5'>{label}</Typography>
+                <Typography variant='h5'>{t(label)}</Typography>
               </Box>
             ))}
           </Grid>

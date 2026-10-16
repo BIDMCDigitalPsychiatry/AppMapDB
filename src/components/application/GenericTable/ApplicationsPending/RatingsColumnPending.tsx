@@ -10,11 +10,13 @@ import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
+import { useT } from '../../../../i18n';
 
 export default function RatingsColumnPending({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database?.[tables.applications]?.[_id] ?? EMPTY_OBJECT);
   const signedInRater = useSignedInRater();
   const handleChangeRoute = useHandleChangeRoute();
+  const t = useT();
 
   return (
     <Grid container alignItems='center' spacing={1}>
@@ -24,7 +26,7 @@ export default function RatingsColumnPending({ _id }) {
           mount={false}
           Icon={Icons.Pageview}
           onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'Admin' })}
-          tooltip='View Additional Application Info'
+          tooltip={t('View Additional Application Info')}
           placement='bottom'
         />
       </Grid>
@@ -36,7 +38,7 @@ export default function RatingsColumnPending({ _id }) {
             mount={false}
             Icon={Icons.Edit}
             initialValues={{ [tables.applications]: initialValues }}
-            tooltip='Edit'
+            tooltip={t('Edit')}
             placement='bottom'
           />
         </Grid>
@@ -48,7 +50,7 @@ export default function RatingsColumnPending({ _id }) {
           mount={false}
           Icon={Icons.Timeline}
           initialValues={{ [tables.applications]: initialValues }}
-          tooltip='Open Ratings History'
+          tooltip={t('Open Ratings History')}
           placement='bottom'
           isAdminEdit={true}
         />

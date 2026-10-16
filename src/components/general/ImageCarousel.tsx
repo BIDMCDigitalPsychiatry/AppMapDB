@@ -6,6 +6,7 @@ import Carousel from 'react-elastic-carousel';
 import * as Icons from '@mui/icons-material';
 import { grey } from '@mui/material/colors';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import { useT } from '../../i18n';
 
 const Arrow = ({ type, onClick }) => {
   const Icon = type === 'PREV' ? Icons.NavigateBefore : Icons.NavigateNext;
@@ -38,6 +39,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 );
 
 export default function ImageCarousel({ images = [] }) {
+  const t = useT();
   const width = useWidth();
   var imageWidth = Math.max(225, Math.min(width * 0.2, 225));
 
@@ -50,7 +52,7 @@ export default function ImageCarousel({ images = [] }) {
   const classes = useStyles();
   return (images?.length ?? []) <= 0 ? (
     <Typography color='textSecondary' align='center'>
-      No images available
+      {t('No images available')}
     </Typography>
   ) : (
     // @ts-ignore

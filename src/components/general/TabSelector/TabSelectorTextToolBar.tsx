@@ -3,6 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Typography, Container } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
+import { useT } from '../../../i18n';
 import useTabSelector from '../../application/Selector/useTabSelector';
 import { useLocation } from 'react-router';
 import { useChangeRoute } from '../../layout/hooks';
@@ -75,6 +76,7 @@ export interface TabSelectorItem {
 }
 
 const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orientation, wrapped, minHeight = 64, rounded = true, onChange }: ComponentProps) => {
+  const t = useT();
   const classes = useStyles({ minHeight, rounded, labelColor });
 
   const [tabSelector, setTabSelector] = useTabSelector(id);
@@ -132,27 +134,27 @@ const TabSelectorTextToolBar = ({ id, tabs = [], labelColor = undefined, orienta
         {!tabs ? (
           <></>
         ) : (
-          tabs.map((t: any) => (
+          tabs.map((tab: any) => (
             <Tab
-              key={t.id}
-              onClick={handleClick(t)}
+              key={tab.id}
+              onClick={handleClick(tab)}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
                 //wrapper: classes.wrapper,
                 wrapped: classes.labelIcon
               }}
-              icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
-              value={t.id}
+              icon={tab.icon && <tab.icon style={{ marginBottom: 0 }} />}
+              value={tab.id}
               wrapped={wrapped}
               label={
                 <Typography
-                  className={selectedId === t.id ? classes.labelActive : classes.label}
+                  className={selectedId === tab.id ? classes.labelActive : classes.label}
                   variant='h6'
                   style={{ maxWidth: `calc(100% - ${2}px)` }}
                   noWrap={!wrapped}
                 >
-                  {t.label ? t.label : t.id}
+                  {t(tab.label || tab.id)}
                 </Typography>
               }
             />

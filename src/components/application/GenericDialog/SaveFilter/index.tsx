@@ -9,8 +9,9 @@ import YesNo from '../../DialogField/YesNo';
 import { useTableFilterValues } from '../../GenericTable/store';
 import GenericDialog from '../GenericDialog';
 import { useDialogState } from '../useDialogState';
+import { tx } from '../../../../i18n';
 
-export const title = 'Save Filter';
+export const title = tx('Save Filter');
 
 export default function SaveFilter({ id = title }) {
   const [, setState] = useDialogState(id);
@@ -53,17 +54,17 @@ export default function SaveFilter({ id = title }) {
         {
           id: 'label1',
           Field: Label,
-          label: 'Please enter a filter name to save the current filters.'
+          label: tx('Please enter a filter name to save the current filters.')
         },
         {
           id: 'name',
-          label: 'Filter Name',
+          label: tx('Filter Name'),
           items,
           required: true
         },
         {
           id: 'isPublic',
-          label: 'Visible to the public?',
+          label: tx('Visible to the public?'),
           Field: YesNo,
           initialValue: false
         }

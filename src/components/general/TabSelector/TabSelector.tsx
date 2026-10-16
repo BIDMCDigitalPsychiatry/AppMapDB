@@ -3,6 +3,7 @@ import { triggerResize, isEmpty } from '../../../helpers';
 import { Tabs, Tab, Paper, Typography } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
+import { useT } from '../../../i18n';
 import useTabSelector from '../../application/Selector/useTabSelector';
 
 export interface ComponentProps {
@@ -63,6 +64,7 @@ export interface TabSelectorItem {
 }
 
 const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, rounded = true }: ComponentProps) => {
+  const t = useT();
   const classes = useStyles({ minHeight, rounded });
 
   const [tabSelector, setTabSelector] = useTabSelector(id);
@@ -93,21 +95,21 @@ const TabSelector = ({ id, tabs = [], orientation, wrapped, minHeight = 52, roun
         {!tabs ? (
           <></>
         ) : (
-          tabs.map(t => (
+          tabs.map(tab => (
             <Tab
-              key={t.id}
+              key={tab.id}
               classes={{
                 root: classes.tabroot,
                 labelIcon: classes.labelIcon,
                 //wrapper: classes.wrapper,
                 wrapped: classes.labelIcon
               }}
-              icon={t.icon && <t.icon style={{ marginBottom: 0 }} />}
-              value={t.id}
+              icon={tab.icon && <tab.icon style={{ marginBottom: 0 }} />}
+              value={tab.id}
               wrapped={wrapped}
               label={
                 <Typography variant='caption' style={{ maxWidth: `calc(100% - ${2}px)` }} noWrap={!wrapped}>
-                  {t.label ? t.label : t.id}
+                  {t(tab.label || tab.id)}
                 </Typography>
               }
             />

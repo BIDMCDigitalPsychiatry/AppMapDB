@@ -2,6 +2,7 @@ import { makeStyles } from '../../styles/jss';
 import { createStyles } from '../../styles/jss';
 import clsx from 'clsx';
 import Quill from 'react-quill';
+import { useT } from '../../i18n';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -67,9 +68,10 @@ const useStyles = makeStyles(theme =>
   })
 );
 
-const QuillEditor = ({ className = undefined, disabled = false, ...other }) => {
+const QuillEditor = ({ className = undefined, disabled = false, placeholder = undefined, ...other }) => {
+  const t = useT();
   const classes = useStyles({});
-  return <Quill className={clsx(classes.root, className)} readOnly={disabled} {...other} />;
+  return <Quill className={clsx(classes.root, className)} readOnly={disabled} placeholder={t(placeholder)} {...other} />;
 };
 
 export default QuillEditor;

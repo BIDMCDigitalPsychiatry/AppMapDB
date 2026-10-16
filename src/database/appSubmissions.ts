@@ -8,16 +8,17 @@
  */
 import { Auth } from 'aws-amplify';
 import { WRITE_API_URL } from './useProcessData';
+import { tx } from '../i18n';
 
 export type YesNoUnsure = 'yes' | 'no' | 'unsure';
 export type SubmissionStatus = 'new' | 'inreview' | 'converted' | 'declined' | 'duplicate';
 
 export const SUBMISSION_STATUS_LABELS: Record<SubmissionStatus, string> = {
-  new: 'New',
-  inreview: 'In review',
-  converted: 'Rating created',
-  declined: 'Declined',
-  duplicate: 'Duplicate'
+  new: tx('New'),
+  inreview: tx('In review'),
+  converted: tx('Rating created'),
+  declined: tx('Declined'),
+  duplicate: tx('Duplicate')
 };
 
 export interface SubmissionForm {

@@ -9,14 +9,16 @@ import { useFullScreen } from '../../../hooks';
 import { getAssistantClientId, newConversationId } from './clientId';
 import ConsentNotice, { hasConsented, recordConsent } from './ConsentNotice';
 import { ASSISTANT_ENDPOINT, assistantEnabled, MAX_HISTORY_TURNS, MAX_MESSAGE_CHARS, MAX_USER_TURNS } from './config';
+import { useT, tx } from '../../../i18n';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
 }
 
-const WELCOME =
-  "Hi! I can help you search the app library. Tell me what you're looking for — for example: “a free app for anxiety that works offline” — and I'll set the filters for you.";
+const WELCOME = tx(
+  "Hi! I can help you search the app library. Tell me what you're looking for — for example: “a free app for anxiety that works offline” — and I'll set the filters for you."
+);
 
 const flattenFilters = (filters: Record<string, string[]> = {}) => Object.values(filters).reduce((acc, v) => acc.concat(v), [] as string[]);
 
@@ -36,6 +38,7 @@ const flattenFilters = (filters: Record<string, string[]> = {}) => Object.values
  * AWS wiring exists) — see ./config.ts.
  */
 export default function SearchAssistant() {
+  const t = useT();
   const [open, setOpen] = useAssistantPanel();
   const [messages, setMessages] = React.useState<ChatMessage[]>([]);
   const [input, setInput] = React.useState('');
@@ -98,10 +101,10 @@ export default function SearchAssistant() {
         setMessages(prev => [...prev, { role: 'assistant', content: result.reply }]);
       } else {
         // 'crisis', 'bad_request' and 'error' all carry a displayable message
-        setMessages(prev => [...prev, { role: 'assistant', content: result.reply || result.error || 'Something went wrong — please try again.' }]);
+        setMessages(prev => [...prev, { role: 'assistant', content: result.reply || result.error || t('Something went wrong — please try again.') }]);
       }
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: "I couldn't reach the search assistant — please try again in a moment." }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: t("I couldn't reach the search assistant — please try again in a moment.") }]);
     } finally {
       setLoading(false);
     }
@@ -142,14 +145,14 @@ export default function SearchAssistant() {
           <Box sx={{ px: 2, py: 1.25, display: 'flex', alignItems: 'center', gap: 1, bgcolor: 'primary.dark', color: 'common.white' }}>
             <AssistantIcon size={26} />
             <Box sx={{ flex: 1, minWidth: 0 }}>
-              <Typography sx={{ fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>Search assistant</Typography>
-              <Typography sx={{ fontSize: 12, opacity: 0.8, lineHeight: 1.2 }}>Finds filters, not medical advice</Typography>
+              <Typography sx={{ fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>{t('Search assistant')}</Typography>
+              <Typography sx={{ fontSize: 12, opacity: 0.8, lineHeight: 1.2 }}>{t('Finds filters, not medical advice')}</Typography>
             </Box>
-            <Tooltip title='Start a new chat'>
+            <Tooltip title={t('Start a new chat')}>
               <span>
                 <IconButton
                   size='small'
-                  aria-label='Start a new chat'
+                  aria-label={t('Start a new chat')}
                   disabled={messages.length === 0 || loading}
                   onClick={() => {
                     // A new chat starts from a clean search: the filters the
@@ -166,7 +169,7 @@ export default function SearchAssistant() {
                 </IconButton>
               </span>
             </Tooltip>
-            <IconButton size='small' aria-label='Close assistant' onClick={() => setOpen(false)} sx={{ color: 'inherit' }}>
+            <IconButton size='small' aria-label={t('Close assistant')} onClick={() => setOpen(false)} sx={{ color: 'inherit' }}>
               <Icons.Close fontSize='small' />
             </IconButton>
           </Box>
@@ -187,19 +190,19 @@ export default function SearchAssistant() {
           ) : (
             <>
               <Box ref={scrollRef} sx={{ flex: 1, overflowY: 'auto', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, bgcolor: '#F7F9FC' }}>
-                <AssistantBubble content={WELCOME} />
+                <AssistantBubble content={t(WELCOME)} />
                 {messages.map((m, i) => (m.role === 'user' ? <UserBubble key={i} content={m.content} /> : <AssistantBubble key={i} content={m.content} />))}
                 {loading && (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, pl: 0.5 }}>
                     <CircularProgress size={14} thickness={5} />
                     <Typography variant='caption' color='textSecondary'>
-                      Thinking…
+                      {t('Thinking…')}
                     </Typography>
                   </Box>
                 )}
                 {atTurnLimit && (
                   <Typography variant='caption' color='textSecondary' sx={{ textAlign: 'center', mt: 0.5 }}>
-                    That's the limit for this visit — you can keep refining results with the filter panel.
+                    {t("That's the limit for this visit — you can keep refining results with the filter panel.")}
                   </Typography>
                 )}
               </Box>
@@ -210,13 +213,13 @@ export default function SearchAssistant() {
                   multiline
                   maxRows={3}
                   size='small'
-                  placeholder='What kind of app are you looking for?'
+                  placeholder={t('What kind of app are you looking for?')}
                   value={input}
                   disabled={loading || atTurnLimit}
                   onChange={e => setInput(e.target.value.slice(0, MAX_MESSAGE_CHARS))}
                   onKeyDown={handleKeyDown}
                 />
-                <IconButton color='primary' aria-label='Send' disabled={!input.trim() || loading || atTurnLimit} onClick={send}>
+                <IconButton color='primary' aria-label={t('Send')} disabled={!input.trim() || loading || atTurnLimit} onClick={send}>
                   <Icons.Send />
                 </IconButton>
               </Box>
@@ -224,7 +227,7 @@ export default function SearchAssistant() {
               {/* Standing reminder after consent, so the disclosure isn't a
                   one-time thing they clicked past and forgot. */}
               <Typography variant='caption' color='textSecondary' sx={{ px: 1.25, pb: 1, textAlign: 'center', fontSize: 10.5 }}>
-                Messages are sent to Claude (Anthropic). Conversations aren't saved.
+                {t("Messages are sent to Claude (Anthropic). Conversations aren't saved.")}
               </Typography>
             </>
           )}
@@ -235,8 +238,8 @@ export default function SearchAssistant() {
           close button, and a floating button over the reflowed grid would be
           the very occlusion the docking is meant to avoid. */}
       {!open && (
-        <Tooltip title='Ask the search assistant' placement='left'>
-          <Fab color='primary' aria-label='Search assistant' onClick={() => setOpen(true)} sx={{ position: 'fixed', right: 24, bottom: 24, zIndex: 1250 }}>
+        <Tooltip title={t('Ask the search assistant')} placement='left'>
+          <Fab color='primary' aria-label={t('Search assistant')} onClick={() => setOpen(true)} sx={{ position: 'fixed', right: 24, bottom: 24, zIndex: 1250 }}>
             <AssistantIcon size={32} />
           </Fab>
         </Tooltip>

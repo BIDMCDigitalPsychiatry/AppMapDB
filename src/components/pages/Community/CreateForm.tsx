@@ -6,24 +6,26 @@ import Text from '../../application/DialogField/Text';
 import Check from '../../application/DialogField/Check';
 import QuillEditor from '../../application/QuillEditor';
 import ImageBase64 from '../../application/DialogField/ImageBase64';
+import { useT } from '../../../i18n';
 
 const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = undefined }) => {
   const { title = '', authorName, content = '', cover, shortDescription = '', readTime } = values;
   const changeValue = id => value => setValues(prev => ({ ...prev, [id]: value }));
   const handleChange = id => event => setValues(prev => ({ ...prev, [id]: event?.target?.value }));
   const theme = useTheme();
+  const t = useT();
   return (
     <div>
       <Grid container spacing={3}>
         <Grid item lg={8} md={6} xl={9} xs={12}>
           <Card variant='outlined'>
             <CardContent>
-              <Text label='Post title' margin='normal' name='title' value={title} error={errors['title']} onChange={handleChange('title')} />
+              <Text label={t('Post title')} margin='normal' name='title' value={title} error={errors['title']} onChange={handleChange('title')} />
               <Box mt={3}>
                 <Text
                   margin='normal'
                   multiline
-                  label='Short description'
+                  label={t('Short description')}
                   rows={6}
                   value={shortDescription}
                   onChange={handleChange('shortDescription')}
@@ -32,8 +34,8 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
                 />
               </Box>
               <ImageBase64
-                label='Cover Image'
-                description='This image will also be shown on the news page. 350 x 350 recommended.'
+                label={t('Cover Image')}
+                description={t('This image will also be shown on the news page. 350 x 350 recommended.')}
                 value={cover}
                 error={errors['cover']}
                 onChange={handleChange('cover')}
@@ -43,10 +45,10 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
               />
               <Box style={{ marginTop: 24 }}>
                 <Typography color='textSecondary' style={{ marginBottom: 16 }} variant='subtitle2'>
-                  Content
+                  {t('Content')}
                 </Typography>
                 <QuillEditor
-                  placeholder='Write something'
+                  placeholder={t('Write something')}
                   style={{
                     height: 400,
                     borderRadius: 5,
@@ -67,7 +69,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
                 <TextField
                   fullWidth
                   multiline
-                  label='Author Name'
+                  label={t('Author Name')}
                   variant='outlined'
                   value={authorName}
                   onChange={handleChange('authorName')}
@@ -79,7 +81,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
                   value={readTime}
                   onChange={handleChange('readTime')}
                   fullWidth
-                  label='Read Time'
+                  label={t('Read Time')}
                   name='readTime'
                   select
                   SelectProps={{ native: true }}
@@ -96,7 +98,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
               <Box mt={2}>
                 <DatePicker
                   id='publishedAt'
-                  label='Date Published'
+                  label={t('Date Published')}
                   color='primary'
                   onChange={handleChange('publishedAt')}
                   value={values['publishedAt']}
@@ -109,7 +111,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
               <Box mt={0}>
                 <Check
                   id='adminOnly'
-                  label='Admin Only'
+                  label={t('Admin Only')}
                   color='primary'
                   onChange={handleChange('adminOnly')}
                   value={values['adminOnly']}
@@ -118,7 +120,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
                 />
                 <Check
                   id='enableComments'
-                  label='Enable Comments'
+                  label={t('Enable Comments')}
                   color='primary'
                   onChange={handleChange('enableComments')}
                   value={values['enableComments']}
@@ -127,7 +129,7 @@ const CreateForm = ({ values = {} as any, setValues, errors = {}, loading = unde
                 />
                 <Check
                   id='deleted'
-                  label='Archived'
+                  label={t('Archived')}
                   color='primary'
                   onChange={handleChange('deleted')}
                   value={values['deleted']}

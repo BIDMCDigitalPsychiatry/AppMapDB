@@ -1,6 +1,7 @@
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Tooltip, Grid, Typography, Fab, useTheme } from '@mui/material';
+import { useT, tx } from '../../../i18n';
 
 const ExtendedButton = ({
   onClick = undefined,
@@ -9,13 +10,14 @@ const ExtendedButton = ({
   color = 'primary' as 'primary',
   size = 'small' as 'small',
   variant = 'extended' as 'extended',
-  tooltip = 'Process',
+  tooltip = tx('Process') as string,
   placement = 'bottom',
   disabled = false,
   setDisabledColor = true,
   fullWidth = false,
   noGrid = true
 }) => {
+  const t = useT();
   const theme = useTheme();
   const wrapGrid = Component =>
     noGrid ? (
@@ -30,7 +32,7 @@ const ExtendedButton = ({
       placement={placement as any}
       title={
         <Typography variant='h6' color='inherit'>
-          {tooltip}
+          {t(tooltip)}
         </Typography>
       }
     >
@@ -53,7 +55,7 @@ const ExtendedButton = ({
             <Grid item xs>
               {text && (
                 <Typography style={{ paddingLeft: 4, paddingRight: 8 }} align='center'>
-                  {text}
+                  {t(text)}
                 </Typography>
               )}
             </Grid>

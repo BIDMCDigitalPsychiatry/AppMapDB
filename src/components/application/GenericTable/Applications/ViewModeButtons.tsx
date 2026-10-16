@@ -3,6 +3,7 @@ import * as Icons from '@mui/icons-material';
 import { useViewMode } from '../../../layout/store';
 import { Grid, Button } from '@mui/material';
 import { useFullScreen } from '../../../../hooks';
+import { useT } from '../../../../i18n';
 
 import { makeStyles } from '../../../../styles/jss';
 import { createStyles } from '../../../../styles/jss';
@@ -34,6 +35,7 @@ const useStyles = makeStyles(({ palette }: any) =>
 
 export default function ViewModeButtons({ onExport = undefined, collapsed = false }) {
   const classes = useStyles();
+  const t = useT();
   const [viewMode, setViewMode] = useViewMode() as any;
   const handleClick = React.useCallback(mode => () => setViewMode(mode), [setViewMode]);
   const handleExport = React.useCallback(isTableData => () => onExport && onExport(isTableData), [onExport]);
@@ -51,14 +53,14 @@ export default function ViewModeButtons({ onExport = undefined, collapsed = fals
           <Grid item>
             <Button style={buttonStyle} size='small' className={classes.primaryButton} onClick={handleExport(false)}>
               <Icons.GetApp style={style} />
-              {!collapsed && 'Export Database'}
+              {!collapsed && t('Export Database')}
             </Button>
           </Grid>
           <Grid item>
             <Button style={buttonStyle} size='small' className={classes.primaryButton} onClick={handleExport(true)}>
               <Icons.GetApp style={style} />
 
-              {!collapsed && 'Export Table Data'}
+              {!collapsed && t('Export Table Data')}
             </Button>
           </Grid>
         </>
@@ -74,7 +76,7 @@ export default function ViewModeButtons({ onExport = undefined, collapsed = fals
               onClick={handleClick('grid')}
             >
               <Icons.Apps style={style} />
-              {!collapsed && 'Grid View'}
+              {!collapsed && t('Grid View')}
             </Button>
           </Grid>
           <Grid item>
@@ -86,7 +88,7 @@ export default function ViewModeButtons({ onExport = undefined, collapsed = fals
               onClick={handleClick('table')}
             >
               <Icons.List style={style} />
-              {!collapsed && 'Table View'}
+              {!collapsed && t('Table View')}
             </Button>
           </Grid>
         </>

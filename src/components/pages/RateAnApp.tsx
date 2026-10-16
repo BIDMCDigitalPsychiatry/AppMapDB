@@ -4,6 +4,7 @@ import { createStyles } from '../../styles/jss';
 import { makeStyles } from '../../styles/jss';
 import Text from '../application/DialogField/Text';
 import { sendApiEmail } from '../../database/sendEmail';
+import { useT, tx } from '../../i18n';
 
 // Sent server-side via the write API (template + roster `notify` recipients
 // live in the Lambda — cloud_functions/mindapps-write-api/email.js).
@@ -76,14 +77,15 @@ const useStyles = makeStyles(({ breakpoints, palette, spacing, layout }: any) =>
 );
 
 const fields = {
-  name: { label: 'Full Name', placeholder: 'Full Name' },
-  title: { label: 'Title', placeholder: 'Title' },
-  email: { label: 'Email', placeholder: 'Email address' },
-  institution: { label: 'Institution:', placeholder: 'Institution name' },
-  details: { label: 'How did you hear about us?', placeholder: 'Enter information', multiline: true, rows: 3 }
+  name: { label: tx('Full Name'), placeholder: tx('Full Name') },
+  title: { label: tx('Title'), placeholder: tx('Title') },
+  email: { label: tx('Email'), placeholder: tx('Email address') },
+  institution: { label: tx('Institution:'), placeholder: tx('Institution name') },
+  details: { label: tx('How did you hear about us?'), placeholder: tx('Enter information'), multiline: true, rows: 3 }
 };
 
 export default function RanAnApp() {
+  const t = useT();
   const classes = useStyles();
 
   const [state, setState] = React.useState({});
@@ -91,8 +93,8 @@ export default function RanAnApp() {
 
   const handleSend = React.useCallback(() => {
     sendEmail(JSON.parse(state_str));
-    alert('We have received your request!  Thank you.');
-  }, [state_str]);
+    alert(t('We have received your request!  Thank you.'));
+  }, [t, state_str]);
 
   const handleChange = React.useCallback(
     key => event => {
@@ -108,27 +110,28 @@ export default function RanAnApp() {
         <Grid container alignItems='center' spacing={spacing} className={classes.container}>
           <Grid item xs={12}>
             <Typography variant='h1' className={classes.primaryText}>
-              Rate An App
+              {t('Rate An App')}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography color='textSecondary'>
-              Our database is sourced by app reviews from trained app raters. Rating an app is an interactive process based on the principles of the American
-              Psychiatric Association's App Evaluation Model. Raters will be prompted through 105 different questions about an app and its features, privacy
-              settings, clinical foundations and more.
+              {t(
+                "Our database is sourced by app reviews from trained app raters. Rating an app is an interactive process based on the principles of the American Psychiatric Association's App Evaluation Model. Raters will be prompted through 105 different questions about an app and its features, privacy settings, clinical foundations and more."
+              )}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Box mt={2}>
               <Typography variant='h1' className={classes.primaryText}>
-                Our Review Approach
+                {t('Our Review Approach')}
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={12}>
             <Typography color='textSecondary'>
-              We welcome app raters from all backgrounds. The training program is an interactive, self-paced online process lasting about three hours, after
-              which trainees contribute their ratings to the database. Raters are integral members of the database community.
+              {t(
+                'We welcome app raters from all backgrounds. The training program is an interactive, self-paced online process lasting about three hours, after which trainees contribute their ratings to the database. Raters are integral members of the database community.'
+              )}
             </Typography>
           </Grid>
         </Grid>
@@ -136,8 +139,8 @@ export default function RanAnApp() {
       <Grid item xs={12} sm={7} md={5} lg={4}>
         <Grid container alignItems='center' spacing={0} className={classes.infoContainer}>
           <Grid item xs={12}>
-            <Typography variant='h5'>Interested in joining the team?</Typography>
-            <Typography variant='body2'>Fill out the following for and we'll get in touch with you.</Typography>
+            <Typography variant='h5'>{t('Interested in joining the team?')}</Typography>
+            <Typography variant='body2'>{t("Fill out the following for and we'll get in touch with you.")}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container style={{ marginTop: 8, marginBottom: 8 }} alignItems='center' spacing={1}>
@@ -146,12 +149,12 @@ export default function RanAnApp() {
                 return (
                   <Grid item xs={12}>
                     <Typography variant='body2' className={classes.primaryLabel}>
-                      {label}
+                      {t(label)}
                     </Typography>
                     <Text
                       value={state[k]}
                       onChange={handleChange(k)}
-                      placeholder={placeholder}
+                      placeholder={t(placeholder)}
                       rows={rows}
                       multiline={multiline}
                       margin='dense'
@@ -164,7 +167,7 @@ export default function RanAnApp() {
           </Grid>
           <Grid item xs={12} style={{ textAlign: 'center' }}>
             <Button onClick={handleSend} className={classes.primaryButton}>
-              Send
+              {t('Send')}
             </Button>
           </Grid>
         </Grid>

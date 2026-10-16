@@ -9,6 +9,7 @@ import NewWindowLink from '../../../DialogField/NewWindowLink';
 import { getAndroidIdFromUrl, getAppleIdFromUrl, isEmpty } from '../../../../../helpers';
 import { googlePlayProxyUrl } from '../../../../../constants';
 import Axios from 'axios';
+import { useT, tx } from '../../../../../i18n';
 import AppleStore from '../../../DialogField/AppleStore';
 import AndroidStore from '../../../DialogField/AndroidStore';
 
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: any) => ({
 const labelMap = {
   iOS: 'Apple Store',
   Android: 'Google Play Store',
-  Web: 'Web'
+  Web: tx('Web')
 };
 
 const iconMap = {
@@ -60,6 +61,7 @@ const iconMap = {
 };
 
 export const ApplicationTabsView = ({ platforms = [], androidLink, iosLink, webLink }) => {
+  const t = useT();
   const classes = useStyles();
 
   const googleAppId = getAndroidIdFromUrl(androidLink);
@@ -127,7 +129,7 @@ export const ApplicationTabsView = ({ platforms = [], androidLink, iosLink, webL
           !loading && (
             <div key={p}>
               {p === 'Web' ? (
-                <NewWindowLink url={webLink} label={'Open Web Link'} />
+                <NewWindowLink url={webLink} label={t('Open Web Link')} />
               ) : p === 'Android' ? (
                 <AndroidStore value={androidStore.value as any} />
               ) : (

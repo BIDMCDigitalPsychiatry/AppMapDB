@@ -21,6 +21,7 @@ import { useValues, FieldProps } from '../GenericDialog/helpers';
 import ErrorGate from '../GenericDialog/ErrorGate';
 import * as Icons from '@mui/icons-material';
 import Fields from '../GenericDialog/Fields';
+import { useT, tx } from '../../../i18n';
 
 export interface ComponentProps {
   id: string;
@@ -85,9 +86,9 @@ export default function GenericPopover({
   title: Title, // Title can be set via the state as well as the input props, state takes priority
   anchorEl,
   initialValues: InitialValues, // If initial values are provided they are merged with the initial values from the state
-  cancelLabel = 'Cancel',
-  deleteLabel = 'Delete',
-  submitLabel = 'Submit',
+  cancelLabel = tx('Cancel'),
+  deleteLabel = tx('Delete'),
+  submitLabel = tx('Submit'),
   fields = [] as any[],
   width,
   onSubmit,
@@ -105,6 +106,7 @@ export default function GenericPopover({
   children,
   ...other
 }: ComponentProps) {
+  const t = useT();
   const { layout } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { open, type, loading, submitting } = state;
@@ -182,11 +184,11 @@ export default function GenericPopover({
           <>
             <CardHeader
               className={classes.title}
-              title={title ? title : id}
+              title={t(title ? title : id)}
               action={
                 handleClose && (
-                  <Tooltip title='Close' placement='left'>
-                    <IconButton aria-label='close' onClick={handleClose} size="large">
+                  <Tooltip title={t('Close')} placement='left'>
+                    <IconButton aria-label={t('close')} onClick={handleClose} size="large">
                       <Icons.Close />
                     </IconButton>
                   </Tooltip>
@@ -215,13 +217,13 @@ export default function GenericPopover({
                     <Grid container spacing={2} justifyContent='center' alignItems='center'>
                       <Grid item>
                         <Button onClick={handleConfirmDelete} color='secondary'>
-                          Cancel
+                          {t('Cancel')}
                         </Button>
                       </Grid>
                       <Grid item>
                         <Button onClick={handleDelete} className={classes.deleteButton}>
                           <Icons.Delete style={{ marginRight: 4 }} />
-                          Confirm {deleteLabel}
+                          {t('Confirm {{label}}', { label: t(deleteLabel) })}
                         </Button>
                       </Grid>
                     </Grid>
@@ -234,21 +236,21 @@ export default function GenericPopover({
         <Divider />
         <CardActions>
           <Button size='small' onClick={handleReset}>
-            Reset
+            {t('Reset')}
           </Button>
           {type === 'Edit' && onDelete !== undefined && (
             <Button size='small' disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
-              {deleteLabel}
+              {t(deleteLabel)}
             </Button>
           )}
           {cancelLabel !== null && (
             <Button size='small' onClick={handleClose}>
-              {cancelLabel}
+              {t(cancelLabel)}
             </Button>
           )}
           {submitLabel !== null && (
             <Button autoFocus size='small' disabled={disabled || !hasChanged} color='primary' onClick={handleSubmit}>
-              {submitLabel || type}
+              {t(submitLabel || type)}
             </Button>
           )}
         </CardActions>

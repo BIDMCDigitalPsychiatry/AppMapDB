@@ -3,6 +3,7 @@ import { getLabel, checkEmpty, hasChanged, validateHttpUrl } from '../../../help
 import merge from 'deepmerge';
 import { validateEmail, emptyUndefined } from '../../../helpers';
 import { isObjectWithKeys } from '../GenericTable/helpers';
+import { tx } from '../../../i18n';
 
 export interface FieldProps {
   id: string | number;
@@ -230,11 +231,11 @@ export const handleValidation = ({ values, fields, errors: Errors }) => {
   var errors = { ...Errors }; // Make a copy
   fields.forEach(f => {
     if (f.email && !checkEmpty(getValue(f, values)) && !validateEmail(getValue(f, values))) {
-      setMappedValue({ field: f, value: 'Invalid email format.', prev: errors });
+      setMappedValue({ field: f, value: tx('Invalid email format.'), prev: errors });
     } else if (f.required && checkEmpty(getValue(f, values))) {
-      setMappedValue({ field: f, value: 'Required', prev: errors });
+      setMappedValue({ field: f, value: tx('Required'), prev: errors });
     } else if (f.http && !checkEmpty(getValue(f, values)) && !validateHttpUrl(getValue(f, values))) {
-      setMappedValue({ field: f, value: 'Invalid http url format.', prev: errors });
+      setMappedValue({ field: f, value: tx('Invalid http url format.'), prev: errors });
     } else if (f.validate) {
       setMappedValue({ field: f, value: emptyUndefined(f.validate(values)), prev: errors });
     }

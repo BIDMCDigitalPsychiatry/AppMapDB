@@ -2,12 +2,14 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { isEmpty } from '../../../../helpers';
 import { useIsSuperAdmin } from '../../../../hooks';
+import { tx } from '../../../../i18n';
 
 // Rater identity is only exposed to super admins; everyone else sees the
 // generic label so public/rater views stay anonymous.
 export const useRaterLabel = (email?: string) => {
   const isSuperAdmin = useIsSuperAdmin();
-  return isSuperAdmin && !isEmpty(email) ? email : 'App Rater';
+  // English label; display sites translate it with t().
+  return isSuperAdmin && !isEmpty(email) ? email : tx('App Rater');
 };
 
 // Caption line showing the rater's email (e.g. under an evaluation date).

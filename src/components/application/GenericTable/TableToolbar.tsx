@@ -10,6 +10,7 @@ import { evalFunc } from '../../../helpers';
 import { GenericTableContainerProps } from './GenericTableContainer';
 import { useFullScreen } from '../../../hooks';
 import useWidth from '../../layout/ViewPort/hooks/useWidth';
+import { useT } from '../../../i18n';
 
 
 export interface TableToolbarProps {
@@ -73,6 +74,7 @@ const useStyles = makeStyles(({ palette, spacing, typography, layout }: any) =>
 );
 
 function TableToolbar(props: TableToolbarProps) {
+  const t = useT();
   const classes = useStyles({});
   const [searchOpen, setSearchOpen] = React.useState(false);
   const { layout } = useTheme() as any;
@@ -153,7 +155,7 @@ function TableToolbar(props: TableToolbarProps) {
         classes={{ underline: classes.underline }}
         value={searchtext ? searchtext : ''}
         onChange={handleChange}
-        placeholder={inputplaceholder}
+        placeholder={t(inputplaceholder)}
         startAdornment={
           <InputAdornment position='start'>
             <Icons.Search className={classes.searchIcon} />
@@ -178,13 +180,13 @@ function TableToolbar(props: TableToolbarProps) {
           placement='bottom'
           title={
             <Typography variant='h6' color='inherit'>
-              Search
+              {t('Search')}
             </Typography>
           }
         >
           <Fab variant='extended' size='small' color='primary' onClick={handleOpenSearch}>
             <Icons.Search />
-            {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>Search</div>}
+            {!fullScreen && <div style={{ marginLeft: 4, marginRight: 4 }}>{t('Search')}</div>}
           </Fab>
         </Tooltip>
       </>
@@ -249,7 +251,7 @@ function TableToolbar(props: TableToolbarProps) {
           <Grid container justifyContent='flex-start' alignItems='center'>
             {tableiconvisible && showicon === true && (
               <Grid item>
-                <Tooltip title={title}>
+                <Tooltip title={t(title)}>
                   <IconComponent className={classes.titleicon} />
                 </Tooltip>
               </Grid>
@@ -258,7 +260,7 @@ function TableToolbar(props: TableToolbarProps) {
               <Grid item xs zeroMinWidth>
                 {title && (
                   <Typography variant='body2' noWrap className={classes.title}>
-                    {title}
+                    {t(title)}
                   </Typography>
                 )}
               </Grid>

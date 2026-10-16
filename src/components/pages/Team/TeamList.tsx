@@ -16,6 +16,7 @@ import { tables } from '../../../database/dbConfig';
 import { useRows } from '../../../database/useRows';
 import { TeamMembers } from '../../application/GenericTable/TeamMembers/table';
 import TeamMemberGridItem, { TeamMemberGridItemSortKey } from '../../application/GenericTable/TeamMembers/TeamMemberGridItem';
+import { tx, useT } from '../../../i18n';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -31,6 +32,7 @@ const useStyles = makeStyles(theme =>
 
 const TeamList = () => {
   const classes = useStyles({});
+  const t = useT();
   const { rows, handleRefresh } = useRows({ table: tables.team });
 
   const { sortOption } = useSortOptions();
@@ -66,14 +68,14 @@ const TeamList = () => {
   return (
     <Container maxWidth='lg'>
       <CommunityToolbar
-        title='Team Members'
-        subtitle='Meet our team'
+        title={tx('Team Members')}
+        subtitle={tx('Meet our team')}
         showInterested={true}
         buttons={
           isAdmin
             ? [
                 {
-                  label: 'Add new team member',
+                  label: tx('Add new team member'),
                   onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'createTeamMember', values })),
                   startIcon: <PlusIcon fontSize='small' />
                 }
@@ -89,14 +91,14 @@ const TeamList = () => {
               {isAdmin && (
                 <Grid item>
                   <Button color='primary' onClick={handleToggleShowArchived} size='small' startIcon={<ArchiveIcon fontSize='small' />} variant='text'>
-                    {showArchived ? 'Hide Archived' : 'Show Archived'}
+                    {showArchived ? t('Hide Archived') : t('Show Archived')}
                   </Button>
                 </Grid>
               )}
               {isAdmin && (
                 <Grid item>
                   <Button color='primary' onClick={handleToggleShowSortKeys} size='small' startIcon={<ArchiveIcon fontSize='small' />} variant='text'>
-                    {showSortKeys ? 'Hide Sort Keys' : 'Show Sort Keys'}
+                    {showSortKeys ? t('Hide Sort Keys') : t('Show Sort Keys')}
                   </Button>
                 </Grid>
               )}
@@ -108,7 +110,7 @@ const TeamList = () => {
             <Grid container>
               <Grid item xs={12} className={classes.archiveBanner}>
                 <Typography variant='h6' style={{ color: 'white' }}>
-                  {`Viewing Archived`}
+                  {t('Viewing Archived')}
                 </Typography>
               </Grid>
             </Grid>
@@ -117,7 +119,7 @@ const TeamList = () => {
         {filtered.length === 0 ? (
           <Box m={3}>
             <Typography variant='h6' color='textSecondary' align='center'>
-              {`There are no ${showArchived ? 'archived items' : 'items'} to view at this time.`}
+              {showArchived ? t('There are no archived items to view at this time.') : t('There are no items to view at this time.')}
             </Typography>
           </Box>
         ) : (

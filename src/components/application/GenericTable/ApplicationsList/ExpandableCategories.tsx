@@ -7,6 +7,7 @@ import DialogButton from '../../GenericDialog/DialogButton';
 import { categoryArray } from '../../../../constants';
 import LightTooltip from '../../../general/LightTooltip/LightTooltip';
 import { withReplacement } from '../../../../database/models/Application';
+import { useT } from '../../../../i18n';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ExpandableCategories({ titleVariant = 'body1' as any, isExpandable = true, handleRefresh = undefined, ...other }) {
   const classes = useStyles({});
+  const t = useT();
   const [expand, setExpand] = React.useState(false);
 
   const [state, setState] = React.useState({});
@@ -56,32 +58,32 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
         return (
           <Grid key={i} container alignItems='center' spacing={1} className={classes.row}>
             <Grid item xs={xs ? 12 : undefined} style={{ width: 172 }}>
-              <Typography variant={titleVariant}>{row.label}:</Typography>
+              <Typography variant={titleVariant}>{t(row.label)}:</Typography>
             </Grid>
             <Grid item zeroMinWidth xs className={classes.chipRoot}>
               {values.map(({ label, tooltip }, i) => (
                 <div key={label}>
                   {isExpandable && i === 3 && values.length > 4 && state[row.label] !== true ? (
-                    <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
+                    <LightTooltip title={isEmpty(tooltip) ? '' : t(tooltip)}>
                       <Chip
                         key={`${label}-${i}`}
                         style={{ background: row.color, color: 'white', marginRight: 8 }}
                         variant='outlined'
                         size='small'
-                        label={`${values.length - 3} More ...`}
+                        label={t('{{count}} More ...', { count: values.length - 3 })}
                         onClick={handleExpand(row.label)}
                       />
                     </LightTooltip>
                   ) : isExpandable && i > 3 && values.length > 4 && state[row.label] !== true ? (
                     <div key={`${label}-${i}`}></div>
                   ) : (
-                    <LightTooltip title={isEmpty(tooltip) ? '' : tooltip}>
+                    <LightTooltip title={isEmpty(tooltip) ? '' : t(tooltip)}>
                       <Chip
                         key={`${label}-${i}`}
                         style={{ background: row.color, color: 'white', marginRight: 0 }}
                         variant='outlined'
                         size='small'
-                        label={withReplacement(label)}
+                        label={t(withReplacement(label))}
                       />
                     </LightTooltip>
                   )}
@@ -101,7 +103,7 @@ export default function ExpandableCategories({ titleVariant = 'body1' as any, is
           underline='always'
           onClick={handleToggleExpand}
         >
-          {`${expand ? 'Hide' : `Show  ${categoryArray.length - filtered.length}`} More`}
+          {expand ? t('Hide More') : t('Show {{count}} More', { count: categoryArray.length - filtered.length })}
         </DialogButton>
       )}
     </>

@@ -10,12 +10,14 @@ import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
 import { useHandleChangeRoute } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
+import { useT } from '../../../../i18n';
 
 export default function MyRatingsColumnPending({ _id, canEdit = true, showRatings = true, showInfo = true }) {
   const initialValues = useSelector((s: AppState) => s.database?.applications?.[_id] ?? EMPTY_OBJECT);
   const signedInRater = useSignedInRater();
 
   const handleChangeRoute = useHandleChangeRoute();
+  const t = useT();
 
   return (
     <Grid container alignItems='center' spacing={1}>
@@ -26,7 +28,7 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
             mount={false}
             Icon={Icons.Pageview}
             onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'ApplicationTable' })}
-            tooltip='View Additional Application Info'
+            tooltip={t('View Additional Application Info')}
             placement='bottom'
           />
         </Grid>
@@ -41,7 +43,7 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
               Icon={Icons.Edit}
               onClick={handleChangeRoute(publicUrl('/RateExistingApp'))}
               initialValues={{ [tables.applications]: initialValues }}
-              tooltip='Edit'
+              tooltip={t('Edit')}
               placement='bottom'
             />
           ) : (
@@ -57,7 +59,7 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
             mount={false}
             Icon={Icons.Timeline}
             initialValues={{ [tables.applications]: initialValues }}
-            tooltip='Open My Ratings History'
+            tooltip={t('Open My Ratings History')}
             placement='bottom'
           />
         </Grid>

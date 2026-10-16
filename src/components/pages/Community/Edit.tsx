@@ -4,6 +4,7 @@ import * as Icons from '@mui/icons-material';
 import CreateForm from '../../pages/Community/CreateForm';
 import { useHandleChangeRoute } from '../../layout/hooks';
 import CommunityToolbar from './CommunityToolbar';
+import { tx } from '../../../i18n';
 import useValues from './useValues';
 import { publicUrl } from '../../../helpers';
 
@@ -14,16 +15,16 @@ const Edit = ({ values: Values }) => {
   return (
     <Container maxWidth='lg'>
       <CommunityToolbar
-        title='Edit Post'
+        title={tx('Edit Post')}
         showGreeting={true}
         buttons={[
           {
-            label: 'Cancel',
+            label: tx('Cancel'),
             onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'list' })),
             color: 'secondary'
           },
           {
-            label: 'Publish Changes',
+            label: tx('Publish Changes'),
             startIcon: <Icons.Save />,
             onClick: handleSave,
             variant: 'contained'

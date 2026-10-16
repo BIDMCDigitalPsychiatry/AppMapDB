@@ -5,8 +5,9 @@ import useProcessData from '../../../../database/useProcessData';
 import { tables } from '../../../../database/dbConfig';
 import { uuid } from '../../../../helpers';
 import { useUserId } from '../../../layout/hooks';
+import { tx } from '../../../../i18n';
 
-export const title = 'Comment';
+export const title = tx('Comment');
 const Model = tables.comments;
 
 export default function CommentDialog({ id = title, onClose }) {
@@ -33,7 +34,7 @@ export default function CommentDialog({ id = title, onClose }) {
         Model,
         Action: 'u',
         Data,
-        onError: () => setState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
+        onError: () => setState(prev => ({ ...prev, loading: false, error: tx('Error submitting values') })),
         onSuccess: () => handleClose()
       });
     },
@@ -47,7 +48,7 @@ export default function CommentDialog({ id = title, onClose }) {
       id={id}
       title={id}
       onSubmit={handleSubmit}
-      submitLabel={type === 'Add' ? 'Add' : 'Save'}
+      submitLabel={type === 'Add' ? tx('Add') : tx('Save')}
       onClose={onClose}
       onDelete={type === 'Edit' && handleDelete}
       fields={[
@@ -61,12 +62,12 @@ export default function CommentDialog({ id = title, onClose }) {
         },
         {
           id: 'authorName',
-          label: 'Author Name',
+          label: tx('Author Name'),
           required: true
         },
         {
           id: 'content',
-          label: 'Comment',
+          label: tx('Comment'),
           autoFocus: true,
           multiline: true,
           rows: 4

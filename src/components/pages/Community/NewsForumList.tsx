@@ -14,6 +14,7 @@ import { usePosts } from '../../../database/usePosts';
 import { bool, publicUrl } from '../../../helpers';
 import useSortOptions from '../../../utils/useSortOptions';
 import { NewsForum } from '../../application/GenericTable/NewsForum/table';
+import { tx, useT } from '../../../i18n';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -29,6 +30,7 @@ const useStyles = makeStyles(theme =>
 
 const NewsForumList = ({ category = 'News' }) => {
   const classes = useStyles({});
+  const t = useT();
   const { posts, handleRefresh } = usePosts();
 
   const { sortOption, handleToggleSortDirection, sortLabel, SortOptionIcon } = useSortOptions();
@@ -70,12 +72,12 @@ const NewsForumList = ({ category = 'News' }) => {
     <Container maxWidth='lg'>
       <CommunityToolbar
         title={category}
-        subtitle='Keep up to date with the latest news and community resources.'
+        subtitle={tx('Keep up to date with the latest news and community resources.')}
         buttons={
           isAdmin
             ? [
                 {
-                  label: 'Add new post',
+                  label: tx('Add new post'),
                   onClick: handleChangeRoute(publicUrl('/Community'), prev => ({ ...prev, subRoute: 'create', values })),
                   startIcon: <PlusIcon fontSize='small' />
                 }
@@ -107,7 +109,7 @@ const NewsForumList = ({ category = 'News' }) => {
                   )
                 }}
                 size='small'
-                placeholder='Search posts'
+                placeholder={t('Search posts')}
                 variant='outlined'
               />
             </Box>
@@ -117,13 +119,13 @@ const NewsForumList = ({ category = 'News' }) => {
               {isAdmin && (
                 <Grid item>
                   <Button color='primary' onClick={handleToggleShowArchived} size='small' startIcon={<ArchiveIcon fontSize='small' />} variant='text'>
-                    {showArchived ? 'Hide Archived' : 'Show Archived'}
+                    {showArchived ? t('Hide Archived') : t('Show Archived')}
                   </Button>
                 </Grid>
               )}
               <Grid item>
                 <Button color='primary' onClick={handleToggleSortDirection} size='small' startIcon={<SortOptionIcon fontSize='small' />} variant='text'>
-                  {sortLabel}
+                  {t(sortLabel)}
                 </Button>
               </Grid>
             </Grid>
@@ -134,14 +136,14 @@ const NewsForumList = ({ category = 'News' }) => {
             {showArchived && (
               <Grid item xs={12} className={classes.archiveBanner}>
                 <Typography variant='h6' style={{ color: 'white' }}>
-                  {`Viewing Archived Posts`}
+                  {t('Viewing Archived Posts')}
                 </Typography>
               </Grid>
             )}
             {filtered.length === 0 ? (
               <Box m={3}>
                 <Typography variant='h6' color='textSecondary' align='center'>
-                  {`There are no ${showArchived ? 'archived posts' : 'posts'} to view at this time.`}
+                  {showArchived ? t('There are no archived posts to view at this time.') : t('There are no posts to view at this time.')}
                 </Typography>
               </Box>
             ) : (

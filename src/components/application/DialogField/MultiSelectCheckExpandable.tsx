@@ -3,6 +3,7 @@ import { Box, Button, Checkbox, Collapse, Grid, Typography } from '@mui/material
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
 import * as Icons from '@mui/icons-material';
+import { useT } from '../../../i18n';
 
 const useStyles = makeStyles(({ palette, transitions }: any) =>
   createStyles({
@@ -70,6 +71,7 @@ const useStyles = makeStyles(({ palette, transitions }: any) =>
 );
 
 export default function MuliSelectCheckExpandable({ value = [], onChange = undefined, label = undefined, items = [], color = undefined, counts = undefined }) {
+  const t = useT();
   const classes = useStyles();
   const [expand, setExpand] = React.useState(value.length > 0 ? true : false);
 
@@ -103,7 +105,7 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
             </Grid>
             <Grid item zeroMinWidth xs>
               <Typography variant='body2' noWrap style={{ fontWeight: 700 }}>
-                {label}
+                {t(label)}
               </Typography>
             </Grid>
           </Grid>
@@ -114,8 +116,8 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
               <span className={classes.countPill} style={{ background: color ?? 'grey' }}>
                 {value.length}
               </span>
-              <Button size='small' className={classes.clearButton} onClick={handleClear} aria-label={`Clear ${label} filters`}>
-                Clear
+              <Button size='small' className={classes.clearButton} onClick={handleClear} aria-label={t('Clear {{label}} filters', { label: t(label) })}>
+                {t('Clear')}
               </Button>
             </>
           )}
@@ -131,7 +133,7 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
               <label key={index} className={classes.optionRow} style={checked ? { background: `${color}14` } : undefined}>
                 <Checkbox size='small' checked={checked} onChange={handleToggleItem(i.value)} style={{ color, padding: 4 }} />
                 <Typography variant='body2' style={{ lineHeight: 1.3 }}>
-                  {i.label}
+                  {t(i.label)}
                 </Typography>
                 {/* Count = results if this option is selected; hidden once
                     checked (the would-be-unselected count reads as noise). */}

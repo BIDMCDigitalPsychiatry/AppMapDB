@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { isEmpty } from '../helpers';
 import useS3Bucket from './useS3Bucket';
+import { useT } from '../i18n';
 
 const useS3FileUpload = () => {
+  const t = useT();
   const [{ loading, uploading, error }, setState] = React.useState({ loading: false, success: false, uploading: false, error: null });
   const { handleUpload } = useS3Bucket({ setState });
 
   const s3FileUpload = async ({ id, file, fileBase64 = undefined, onSuccess = undefined, onError = undefined }) => {
     if (file) {
       if ((file as any).size > 20 * 1024 * 1024) {
-        alert('File exceeds 20 MB upload limit.');
+        alert(t('File exceeds 20 MB upload limit.'));
       } else {
         const blob = await fetch(fileBase64).then(res => res.blob());
         handleUpload({
@@ -28,7 +30,7 @@ const useS3FileUpload = () => {
           onError: () => {
             console.error('Error uploading file');
             setState(prev => ({ ...prev, uploading: false }));
-            alert('Error uploading file');
+            alert(t('Error uploading file'));
             onError && onError('Error uploading file');
           }
         });

@@ -6,6 +6,7 @@ import { useDialogState } from '../GenericDialog/useDialogState';
 import { useValues, FieldProps } from '../GenericDialog/helpers';
 import ErrorGate from '../GenericDialog/ErrorGate';
 import Fields from '../GenericDialog/Fields';
+import { useT } from '../../../i18n';
 
 export interface ComponentProps {
   id: string;
@@ -84,6 +85,7 @@ export default function GenericContent({
   children,
   ...other
 }: ComponentProps) {
+  const t = useT();
   const { layout } = useTheme() as any;
   const [state, setState] = useDialogState(id);
   const { open, type, loading, submitting } = state;
@@ -146,7 +148,7 @@ export default function GenericContent({
         type === 'Edit' &&
         onDelete !== undefined && (
           <Button size='small' disabled={disabled} className={classes.deleteButtonEmpty} onClick={handleConfirmDelete}>
-            {deleteLabel}
+            {t(deleteLabel)}
           </Button>
         )
       )}

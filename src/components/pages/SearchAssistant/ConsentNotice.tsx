@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Button, Link, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import AssistantIcon from './AssistantIcon';
+import { useT, TFunction } from '../../../i18n';
 
 const STORAGE_KEY = 'mindapps-assistant-consent';
 
@@ -33,20 +34,29 @@ export const recordConsent = () => {
  *  - the id really is a random value we generate, NOT a device fingerprint
  *    (see clientId.ts). Do not describe it as "based on your browser".
  */
-const POINTS = [
+// Renders a translated sentence with a {{token}} placeholder replaced by a React node
+// (bold text, a link) so the whole sentence stays one translatable key.
+const fill = (text: string, token: string, node: React.ReactNode) => {
+  const [before, after = ''] = String(text).split(`{{${token}}}`);
+  return (
+    <>
+      {before}
+      {node}
+      {after}
+    </>
+  );
+};
+
+const getPoints = (t: TFunction) => [
   {
     Icon: Icons.Send,
-    text: (
-      <>
-        Your message goes to <strong>Claude</strong>, an AI service from Anthropic, which uses it to pick search filters.
-      </>
-    )
+    text: fill(t('Your message goes to {{name}}, an AI service from Anthropic, which uses it to pick search filters.'), 'name', <strong>Claude</strong>)
   },
   {
     Icon: Icons.VisibilityOff,
     text: (
       <>
-        <strong>We don't save your conversations.</strong> We count how many messages people send, nothing more.
+        <strong>{t("We don't save your conversations.")}</strong> {t('We count how many messages people send, nothing more.')}
       </>
     )
   },
@@ -54,7 +64,8 @@ const POINTS = [
     Icon: Icons.Shuffle,
     text: (
       <>
-        A <strong>random ID</strong> is kept in this browser to prevent abuse. It says nothing about you, and clearing your browsing data erases it.
+        {fill(t('A {{randomId}} is kept in this browser to prevent abuse.'), 'randomId', <strong>{t('random ID')}</strong>)}{' '}
+        {t('It says nothing about you, and clearing your browsing data erases it.')}
       </>
     )
   },
@@ -62,17 +73,22 @@ const POINTS = [
     Icon: Icons.MedicalServices,
     text: (
       <>
-        This is a search tool, not medical care. Please leave out personal health details. In a crisis, call or text{' '}
-        <Link href='tel:988' underline='always'>
-          988
-        </Link>
-        .
+        {t('This is a search tool, not medical care. Please leave out personal health details.')}{' '}
+        {fill(
+          t('In a crisis, call or text {{number}}.'),
+          'number',
+          <Link href='tel:988' underline='always'>
+            988
+          </Link>
+        )}
       </>
     )
   }
 ];
 
 export default function ConsentNotice({ onAccept }: { onAccept: () => void }) {
+  const t = useT();
+  const POINTS = getPoints(t);
   return (
     // Two-part column: the notice text scrolls if it must, the button is a
     // fixed footer that never scrolls out of view. (The earlier version put
@@ -83,7 +99,7 @@ export default function ConsentNotice({ onAccept }: { onAccept: () => void }) {
       <Box sx={{ flex: 1, minHeight: 0, overflowY: 'auto', p: 2, display: 'flex', flexDirection: 'column', gap: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: 'primary.dark' }}>
           <AssistantIcon size={28} />
-          <Typography sx={{ fontWeight: 700, fontSize: 14.5 }}>Before you start</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 14.5 }}>{t('Before you start')}</Typography>
         </Box>
 
         {POINTS.map(({ Icon, text }, i) => (
@@ -98,7 +114,7 @@ export default function ConsentNotice({ onAccept }: { onAccept: () => void }) {
 
       <Box sx={{ p: 1.5, pt: 1, flexShrink: 0, borderTop: '1px solid #E5EAF0', bgcolor: 'background.paper' }}>
         <Button fullWidth variant='contained' onClick={onAccept} sx={{ textTransform: 'none', fontWeight: 600 }}>
-          Got it, start chatting
+          {t('Got it, start chatting')}
         </Button>
       </Box>
     </Box>

@@ -1,6 +1,7 @@
 import { createTheme, Theme } from '@mui/material/styles';
 import { blue, brown, cyan, deepOrange, red, green, grey, indigo, lime, pink, purple, yellow } from '@mui/material/colors';
 import { onlyUnique } from './helpers';
+import { tx } from './i18n';
 import {
   ClinicalFoundationQuestions,
   CostQuestions,
@@ -254,65 +255,65 @@ const colorLevel = 700;
 
 export const categories = {
   Cost: {
-    label: 'Cost',
+    label: tx('Cost'),
     color: green[colorLevel],
     values: ({ costs = [] }) => costs.filter(onlyUnique),
     valueItems: ({ costs = [] }) => costs.filter(onlyUnique).map(label => ({ label, tooltip: CostQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Privacy: {
-    label: 'Privacy',
+    label: tx('Privacy'),
     color: pink[400],
     values: ({ privacies = [] }) => privacies.filter(onlyUnique),
     valueItems: ({ privacies = [] }) =>
       privacies.filter(onlyUnique).map(label => ({ label, tooltip: PrivacyQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   ClinicalFoundations: {
-    label: 'Clinical Foundation',
+    label: tx('Clinical Foundation'),
     color: indigo[colorLevel],
     values: ({ clinicalFoundations = [] }) => clinicalFoundations.filter(onlyUnique),
     valueItems: ({ clinicalFoundations = [] }) =>
       clinicalFoundations.filter(onlyUnique).map(label => ({ label, tooltip: ClinicalFoundationQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   TreatmentApproaches: {
-    label: 'Treatment Approach',
+    label: tx('Treatment Approach'),
     color: red[colorLevel],
     values: ({ treatmentApproaches = [] }) => treatmentApproaches.filter(onlyUnique),
     valueItems: ({ treatmentApproaches = [] }) =>
       treatmentApproaches.filter(onlyUnique).map(label => ({ label, tooltip: TreatmentApproachQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Features: {
-    label: 'Features',
+    label: tx('Features'),
     color: green[colorLevel],
     values: ({ features = [] }) => features.filter(onlyUnique),
     valueItems: ({ features = [] }) => features.filter(onlyUnique).map(label => ({ label, tooltip: FeatureQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Conditions: {
-    label: 'Conditions Supported',
+    label: tx('Conditions Supported'),
     color: purple[colorLevel],
     values: ({ conditions = [] }) => conditions.filter(onlyUnique),
     valueItems: ({ conditions = [] }) => conditions.filter(onlyUnique).map(label => ({ label }))
   },
   Engagements: {
-    label: 'Engagements',
+    label: tx('Engagements'),
     color: lime[colorLevel],
     values: ({ engagements = [] }) => engagements.filter(onlyUnique),
     valueItems: ({ engagements = [] }) =>
       engagements.filter(onlyUnique).map(label => ({ label, tooltip: EngagementQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Inputs: {
-    label: 'Inputs',
+    label: tx('Inputs'),
     color: yellow[colorLevel],
     values: ({ inputs = [] }) => inputs.filter(onlyUnique),
     valueItems: ({ inputs = [] }) => inputs.filter(onlyUnique).map(label => ({ label, tooltip: InputQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Outputs: {
-    label: 'Outputs',
+    label: tx('Outputs'),
     color: deepOrange[400],
     values: ({ outputs = [] }) => outputs.filter(onlyUnique),
     valueItems: ({ outputs = [] }) => outputs.filter(onlyUnique).map(label => ({ label, tooltip: OutputQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Uses: {
-    label: 'Uses',
+    label: tx('Uses'),
     color: cyan[colorLevel],
     values: ({ uses = [] }) => uses.filter(u => u !== LegacyCanadaUse).filter(onlyUnique),
     valueItems: ({ uses = [] }) =>
@@ -322,7 +323,7 @@ export const categories = {
         .map(label => ({ label, tooltip: UseQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   Countries: {
-    label: 'Country Availability',
+    label: tx('Country Availability'),
     color: brown[600],
     values: app => getAppCountries(app).filter(onlyUnique),
     valueItems: app =>
@@ -331,14 +332,14 @@ export const categories = {
         .map(label => ({ label, tooltip: CountryQuestions.find(cq => cq.value === label)?.tooltip }))
   },
   DeveloperTypes: {
-    label: 'Developer Types',
+    label: tx('Developer Types'),
     color: grey[colorLevel],
     values: ({ developerTypes = [] }) => developerTypes.filter(onlyUnique),
     valueItems: ({ developerTypes = [] }) =>
       developerTypes.filter(onlyUnique).map(label => ({ label, tooltip: (DeveloperTypeQuestions as any).find(cq => cq.value === label)?.tooltip }))
   },
   Functionalities: {
-    label: 'Access',
+    label: tx('Access'),
     color: blue[colorLevel],
     values: ({ functionalities = [] }) => functionalities.filter(onlyUnique),
     valueItems: ({ functionalities = [] }) =>

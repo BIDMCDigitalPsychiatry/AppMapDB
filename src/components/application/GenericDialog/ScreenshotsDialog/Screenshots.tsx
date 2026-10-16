@@ -5,6 +5,7 @@ import { createStyles } from '../../../../styles/jss';
 import DialogButton from '../../../application/GenericDialog/DialogButton';
 
 import { useFullScreen } from '../../../../hooks';
+import { useT } from '../../../../i18n';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -19,6 +20,7 @@ const useStyles = makeStyles(() =>
 export default function Screenshots({ images }) {
   const classes = useStyles({});
   const theme = useTheme();
+  const t = useT();
   const [index, setIndex] = React.useState(0);
 
   const handleNext = React.useCallback(() => setIndex(prev => prev + 1), [setIndex]);
@@ -34,18 +36,18 @@ export default function Screenshots({ images }) {
           className={classes.button}
           size='large'
           variant='outlined'
-          tooltip='Click to View Previous'
+          tooltip={t('Click to View Previous')}
           Icon={null}
           onClick={handleBack}
           disabledColor={theme.palette.text.disabled}
         >
-          Back
+          {t('Back')}
         </DialogButton>
       </Grid>
       {hidden && (
         <Grid item xs>
           <Typography align='center' color='textSecondary'>
-            {index + 1} of {images.length}
+            {t('{{step}} of {{total}}', { step: index + 1, total: images.length })}
           </Typography>
         </Grid>
       )}
@@ -55,12 +57,12 @@ export default function Screenshots({ images }) {
           className={classes.button}
           size='large'
           variant='outlined'
-          tooltip='Click to View Next'
+          tooltip={t('Click to View Next')}
           Icon={null}
           onClick={handleNext}
           disabledColor={theme.palette.text.disabled}
         >
-          Next
+          {t('Next')}
         </DialogButton>
       </Grid>
     </Grid>

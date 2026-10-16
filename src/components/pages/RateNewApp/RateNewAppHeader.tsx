@@ -4,6 +4,7 @@ import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
 import { useFullScreen } from '../../../hooks';
 import { useHeaderHeightSetRef } from '../../layout/hooks';
+import { useT } from '../../../i18n';
 
 const padding = 32;
 const borderRadius = 7;
@@ -53,6 +54,7 @@ const useStyles = makeStyles(({ breakpoints, palette }: any) =>
 );
 
 export default function RateNewAppHeader({ onSave = undefined, onReset = undefined }) {
+  const t = useT();
   const classes = useStyles();
   // useFilterList();
 
@@ -62,14 +64,14 @@ export default function RateNewAppHeader({ onSave = undefined, onReset = undefin
     <Grid ref={useHeaderHeightSetRef()} container className={classes.header}>
       <Grid item xs={12}>
         <Typography variant='h1' className={classes.primaryText}>
-          Rate an App
+          {t('Rate an App')}
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <Grid container style={{ marginTop: 8 }} alignItems='center' spacing={4}>
           <Grid item xs={12} sm style={{ marginTop: -4 }}>
             <Typography className={classes.secondaryText}>
-              On the following pages, you will be guided through each of the 105 questions. You will be able to save your progress as a draft.
+              {t('On the following pages, you will be guided through each of the 105 questions. You will be able to save your progress as a draft.')}
             </Typography>
           </Grid>
           <Grid item xs={sm ? 12 : undefined} style={{ textAlign: 'right' }}>
@@ -77,14 +79,14 @@ export default function RateNewAppHeader({ onSave = undefined, onReset = undefin
               {onReset && (
                 <Grid item>
                   <Button className={classes.primaryButton} onClick={onReset}>
-                    Reset Form
+                    {t('Reset Form')}
                   </Button>
                 </Grid>
               )}
               {onSave && (
                 <Grid item>
                   <Button className={classes.primaryButton} onClick={onSave}>
-                    Save as Draft
+                    {t('Save as Draft')}
                   </Button>
                 </Grid>
               )}
