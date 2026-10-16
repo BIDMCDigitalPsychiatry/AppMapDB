@@ -1,10 +1,9 @@
 import { Grid, Box, Typography } from '@mui/material';
 import Application, { withReplacement } from '../../../../database/models/Application';
 import { getAppName, getAppCompany, getAppIcon } from '../Applications/selectors';
-import { publicUrl } from '../../../../helpers';
 import DialogButton from '../../GenericDialog/DialogButton';
 import { grey } from '@mui/material/colors';
-import { useHandleChangeRoute } from '../../../layout/hooks';
+import { useOpenApp } from '../../../layout/hooks';
 import PlatformButtons from './PlatformButtons';
 import ExpandableDescription from './ExpandableDescription';
 import { useLastRatingDateTime } from './useLastRatingDateTime';
@@ -38,7 +37,7 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
   const t = useT();
   const costLabels = costs.map(c => t(withReplacement(c))).join(' | ');
 
-  const handleChangeRoute = useHandleChangeRoute();
+  const openApp = useOpenApp();
 
   const lastRating = useLastRatingDateTime({ created, updated });
 
@@ -101,7 +100,7 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
                 tooltip=''
                 variant='primaryButton2'
                 size='large'
-                onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: props, from: 'ApplicationGrid' })}
+                onClick={() => openApp(props, 'ApplicationGrid')}
               >
                 {t('View')}
               </DialogButton>

@@ -7,7 +7,7 @@ import TextLabel from '../../application/DialogField/TextLabel';
 import Check from '../../application/DialogField/Check';
 import MultiSelectCheck from '../../application/DialogField/MultiSelectCheck';
 import RadioRow from '../../application/DialogField/RadioRow';
-import { useChangeRoute, useHandleChangeRoute, useUserEmail } from '../../layout/hooks';
+import { useHandleChangeRoute, useOpenApp, useUserEmail } from '../../layout/hooks';
 import useSurvey from './useSurvey';
 import { useRouteState } from '../../layout/store';
 import ViewAppHeader from '../ViewAppHeader';
@@ -542,7 +542,7 @@ export default function Survey() {
     // eslint-disable-next-line
   }, [_id, JSON.stringify(app), mode, getRow, setState]);
 
-  const changeRoute = useChangeRoute();
+  const openApp = useOpenApp();
 
   const handleChange = React.useCallback(
     key => event => {
@@ -585,7 +585,7 @@ export default function Survey() {
           sendSurveyEmail({ email: surveyEmail });
           sendSurveyNotificationEmail({ email: surveyEmail, appName: getAppName(app) });
           setState(prev => ({ ...prev, submitting: false }));
-          changeRoute(publicUrl('/ViewApp'), { app, from: 'Survey' });
+          openApp(app, 'Survey');
         }
       });
     }

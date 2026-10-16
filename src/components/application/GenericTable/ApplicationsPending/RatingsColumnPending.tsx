@@ -7,15 +7,14 @@ import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
 import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
-import { useHandleChangeRoute } from '../../../layout/hooks';
-import { publicUrl } from '../../../../helpers';
+import { useOpenApp } from '../../../layout/hooks';
 import * as RateNewAppDialogAdminEdit from '../../GenericDialog/RateNewApp/RateNewAppDialogAdminEdit';
 import { useT } from '../../../../i18n';
 
 export default function RatingsColumnPending({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database?.[tables.applications]?.[_id] ?? EMPTY_OBJECT);
   const signedInRater = useSignedInRater();
-  const handleChangeRoute = useHandleChangeRoute();
+  const openApp = useOpenApp();
   const t = useT();
 
   return (
@@ -25,7 +24,7 @@ export default function RatingsColumnPending({ _id }) {
           variant='iconbutton'
           mount={false}
           Icon={Icons.Pageview}
-          onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'Admin' })}
+          onClick={() => openApp(initialValues, 'Admin')}
           tooltip={t('View Additional Application Info')}
           placement='bottom'
         />

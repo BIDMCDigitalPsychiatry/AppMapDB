@@ -7,6 +7,7 @@ import { useFooterHeightSetRef, useHandleChangeRoute } from './hooks';
 import { useIsAdmin } from '../../hooks';
 import pkg from '../../../package.json';
 import { useT, tx } from '../../i18n';
+import { isAnalyticsActive, isEuropeanVisitor, openConsentSettings } from '../../analytics/consent';
 
 // Flexbox + gap throughout (no MUI Grid `spacing`): Grid's spacing relies on
 // a negative container margin to offset padding it adds to every item: any
@@ -108,6 +109,8 @@ export default function Footer({ variant = 'normal' }) {
   const t = useT();
   const handleChangeRoute = useHandleChangeRoute();
   const isAdmin = useIsAdmin();
+  // Lets visitors in Europe change their analytics choice (the banner only shows until they first choose).
+  const showCookieSettings = isAnalyticsActive() && isEuropeanVisitor();
 
   return (
     <div ref={useFooterHeightSetRef()} className={classes.root}>
@@ -156,6 +159,11 @@ export default function Footer({ variant = 'normal' }) {
           <Link className={classes.bottomLink} underline='none' href='https://www.argosyfnd.org/' target='_blank'>
             {t('Made possible by support from the Argosy Foundation')}
           </Link>
+          {showCookieSettings && (
+            <Link className={classes.bottomLink} underline='none' component='button' onClick={openConsentSettings}>
+              {t('Cookie settings')}
+            </Link>
+          )}
         </div>
       </div>
     </div>

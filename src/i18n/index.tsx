@@ -85,6 +85,10 @@ export const useLanguage = (): [Language, (lang: Language) => void] => {
  *  - honors ?lang=fr|de|en in the URL (shareable translated links), and
  *  - keeps <html lang> in sync for screen readers and browser translation.
  */
+// Captured before React renders: /fr/Apps and /de/Apps redirect to /Apps during the first render
+// (src/components/layout/routes.tsx), before the provider's effect below runs.
+const ARRIVAL_PATH_LANGUAGE = typeof window === 'undefined' ? undefined : /^\/(fr|de)\//.exec(window.location.pathname)?.[1];
+
 export const I18nProvider = ({ children }: { children: React.ReactNode }) => {
   const [lang, setLang] = useLanguage();
   const [, setVersion] = React.useState(0);
@@ -92,7 +96,8 @@ export const I18nProvider = ({ children }: { children: React.ReactNode }) => {
 
   React.useEffect(() => {
     try {
-      const fromUrl = new URLSearchParams(window.location.search).get('lang');
+      // ?lang=fr, or a /fr/… or /de/… address (the translated library and app pages, see src/appUrl.ts).
+      const fromUrl = new URLSearchParams(window.location.search).get('lang') ?? ARRIVAL_PATH_LANGUAGE;
       if (isLanguage(fromUrl) && fromUrl !== lang) setLang(fromUrl);
     } catch {
       // ignore malformed URLs
