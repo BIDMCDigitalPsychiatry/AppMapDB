@@ -44,6 +44,7 @@ import RateNewAppDialog from '../../application/GenericDialog/RateNewApp/RateNew
 import { updateSnackBar } from '../../application/SnackBar/store';
 import { SubmissionSummary } from '../SubmitApp/steps';
 import { toRatingValues, unsureAnswers } from '../SubmitApp/form';
+import { ReviewFlagsContext, useReviewFlagsState } from '../../application/DialogField/ReviewFlags';
 
 const RATING_DIALOG_ID = 'Create Rating From Submission';
 
@@ -154,8 +155,8 @@ const SubmissionDetail = ({
         )}
         {unsure.length > 0 && (
           <Alert severity='info' sx={{ mb: 2 }}>
-            <b>The submitter wasn’t sure about {unsure.length === 1 ? 'one question' : `${unsure.length} questions`}</b> — these are pre-filled as “No” in the
-            rating, so please check them:
+            <b>The submitter wasn’t sure about {unsure.length === 1 ? 'one question' : `${unsure.length} questions`}</b> — they’re highlighted and left
+            unanswered in the rating form, and you’ll choose Yes or No for each before saving:
             <Box component='ul' sx={{ m: 0, mt: 0.5, pl: 2.5 }}>
               {unsure.map(u => (
                 <li key={`${u.field}.${u.value}`}>{u.label}</li>
@@ -287,9 +288,14 @@ export default function AppSubmissions({ height = undefined as number | undefine
 
   const selected = state.rows.find(r => r._id === selectedId);
 
+  // "Not sure" answers of the suggestion being rated — highlighted inside the rating form (see ReviewFlags.tsx)
+  const [flaggedValues, setFlaggedValues] = React.useState<string[]>([]);
+  const reviewFlags = useReviewFlagsState(flaggedValues);
+
   const handleCreateRating = () => {
     if (!selected) return;
     convertingRef.current = selected._id;
+    setFlaggedValues(unsureAnswers(selected).map(u => u.value));
     setSelectedId(undefined);
     setRatingDialog({ open: true, type: 'Add', initialValues: toRatingValues(selected), errors: {}, showErrors: false, submitting: false, loading: false });
     if (selected.status === 'new') update(selected._id, { status: 'inreview' });
@@ -299,6 +305,7 @@ export default function AppSubmissions({ height = undefined as number | undefine
     (application: any) => {
       const submissionId = convertingRef.current;
       convertingRef.current = undefined;
+      setFlaggedValues([]);
       if (submissionId && application?._id) update(submissionId, { status: 'converted', ratingId: application._id, note: `Rating created: ${application.name ?? ''}`.trim() });
     },
     [update]
@@ -390,7 +397,18 @@ export default function AppSubmissions({ height = undefined as number | undefine
       </Box>
 
       {selected && <SubmissionDetail submission={selected} onClose={() => setSelectedId(undefined)} onUpdate={data => update(selected._id, data)} onCreateRating={handleCreateRating} />}
-      <RateNewAppDialog id={RATING_DIALOG_ID} isAdminEdit={false} onSaved={handleRatingSaved} successRoute={null} onClose={() => (convertingRef.current = undefined)} />
+      <ReviewFlagsContext.Provider value={reviewFlags}>
+        <RateNewAppDialog
+          id={RATING_DIALOG_ID}
+          isAdminEdit={false}
+          onSaved={handleRatingSaved}
+          successRoute={null}
+          onClose={() => {
+            convertingRef.current = undefined;
+            setFlaggedValues([]);
+          }}
+        />
+      </ReviewFlagsContext.Provider>
     </>
   );
 }

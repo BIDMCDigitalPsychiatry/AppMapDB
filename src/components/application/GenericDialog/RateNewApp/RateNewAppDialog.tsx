@@ -7,7 +7,9 @@ import { uuid, publicUrl, isEmpty } from '../../../../helpers';
 import steps from './steps';
 import { useChangeRoute } from '../../../layout/hooks';
 import GenericStepperDialog from '../GenericStepperDialog';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useReviewFlags } from '../../DialogField/ReviewFlags';
+import { updateSnackBar } from '../../SnackBar/store';
 import { useApplications } from '../../../../database/useApplications';
 
 export const title = 'View/Edit App';
@@ -103,7 +105,25 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
     });
   };
 
+  // Ratings started from an App Suggestion: every question the submitter answered "Not sure" is left
+  // unanswered and must get a Yes or No before saving (empty for every other rating — see ReviewFlags.tsx).
+  const { flagged, reviewed } = useReviewFlags();
+  const dispatch = useDispatch();
+
   const handleSubmit = (values, handleReset) => {
+    const pending = Array.from(flagged).filter(v => !reviewed.has(v)).length;
+    if (pending > 0) {
+      dispatch(
+        updateSnackBar({
+          open: true,
+          variant: 'warning',
+          message: `${pending === 1 ? '1 highlighted question still needs' : `${pending} highlighted questions still need`} a Yes or No — the submitter wasn’t sure about ${
+            pending === 1 ? 'it' : 'them'
+          }. Use Back to find the orange rows.`
+        })
+      );
+      return;
+    }
     handleProcessData(values, type === 'Edit' ? 'u' : 'c', handleReset, false);
   };
 
