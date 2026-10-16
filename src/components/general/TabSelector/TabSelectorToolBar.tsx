@@ -74,8 +74,10 @@ const TabSelectorToolBar = ({ id, value: Value = undefined, tabs = [], orientati
 
   const [tsValue, setTabSelector] = useTabSelectorValue(id, tabs[0] && tabs[0].id);
 
-  // Priority: External, interal, else default first tab, support null as well
-  const value = tabOverride ? tabOverride.id : !isEmpty(Value) ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
+  // Priority: URL match, external, internal, else default first tab. An explicit null external value means
+  // "no tab" (pages outside the tabs, e.g. /SuggestApp) — MUI Tabs takes `false` for that. Without this, null
+  // fell through to the last tab the user clicked (e.g. Admin).
+  const value = tabOverride ? tabOverride.id : Value === null ? false : !isEmpty(Value) ? Value : !isEmpty(tsValue) ? tsValue : tabs[0] && tabs[0].id;
 
   React.useEffect(() => {
     triggerResize(); //User has roated the device, so trigger a resize so the indicator updates correctly
