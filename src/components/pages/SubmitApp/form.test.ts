@@ -1,4 +1,4 @@
-import { emptyForm, prepareForSubmit, toRatingValues, unsureAnswers, validateStep, visibleItems } from './form';
+import { appleStoreId, emptyForm, playStoreId, prepareForSubmit, toRatingValues, unsureAnswers, validateStep, visibleItems } from './form';
 import { ITEMS_BY_FIELD, YES_NO_FIELDS, CHECKLIST_FIELDS } from './content';
 import {
   CostQuestions,
@@ -78,6 +78,25 @@ describe('Submit an App: validation', () => {
     expect(validateStep('app', f)['app.webLink']).toBeTruthy();
     f.app.webLink = 'https://calm.com';
     expect(validateStep('app', f)).toEqual({});
+  });
+
+  it('recognizes real store links and rejects look-alikes', () => {
+    expect(appleStoreId('https://apps.apple.com/us/app/netflix/id363590051')).toBe('363590051');
+    expect(appleStoreId('https://apps.apple.com/app/id571800810?platform=iphone')).toBe('571800810');
+    expect(appleStoreId('https://apps.apple.com/us/app/netflix/id36359oo51')).toBeUndefined(); // typo in the id
+    expect(appleStoreId('https://example.com/id363590051')).toBeUndefined();
+    expect(playStoreId('https://play.google.com/store/apps/details?id=com.netflix.mediaclient&hl=en_US')).toBe('com.netflix.mediaclient');
+    expect(playStoreId('https://play.google.com/store/apps/details?hl=en')).toBeUndefined();
+    expect(playStoreId('https://example.com/details?id=com.netflix.mediaclient')).toBeUndefined();
+  });
+
+  it('asks for a proper store link when a store field has something else in it', () => {
+    const f = emptyForm();
+    f.app = { name: 'Netflix', iosLink: 'https://www.netflix.com', androidLink: 'https://play.google.com/store/apps/details?id=com.netflix.mediaclient' };
+    f.pitch = 'x';
+    const errors = validateStep('app', f);
+    expect(errors['app.iosLink']).toMatch(/App Store link/);
+    expect(errors['app.androidLink']).toBeUndefined();
   });
 
   it('requires every yes/no question in a section, but "Not sure" counts as an answer', () => {

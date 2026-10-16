@@ -34,6 +34,30 @@ export type Errors = Record<string, string>;
 const REQUIRED = 'Please answer this question';
 const isHttpUrl = (v?: string) => !isEmpty(v) && /^https?:\/\/\S+$/i.test((v as string).trim());
 
+const parseUrl = (v?: string) => {
+  try {
+    return isHttpUrl(v) ? new URL((v as string).trim()) : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+// Store app ids from full store links, or undefined if the link isn't a store link of that kind.
+// e.g. https://apps.apple.com/us/app/calm/id571800810 -> '571800810'
+export const appleStoreId = (v?: string): string | undefined => {
+  const u = parseUrl(v);
+  if (!u || !/(^|\.)(apps|itunes)\.apple\.com$/i.test(u.hostname)) return undefined;
+  return u.pathname.match(/\/id(\d+)(\/|$)/)?.[1];
+};
+
+// e.g. https://play.google.com/store/apps/details?id=com.calm.android&hl=en -> 'com.calm.android'
+export const playStoreId = (v?: string): string | undefined => {
+  const u = parseUrl(v);
+  if (!u || !/(^|\.)play\.google\.com$/i.test(u.hostname)) return undefined;
+  const id = u.searchParams.get('id') ?? '';
+  return /^[a-zA-Z][\w]*(\.[\w]+)+$/.test(id) ? id : undefined;
+};
+
 export const hasPrivacyPolicy = (f: SubmissionForm) => f.answers.privacies?.['Has Privacy Policy'] !== 'no';
 
 // The privacy follow-ups only apply when there is a policy (mirrors the rating form).
@@ -74,6 +98,10 @@ export const validateStep = (step: StepId, f: SubmissionForm): Errors => {
       (['iosLink', 'androidLink', 'webLink'] as const).forEach(k => {
         if (!isEmpty(f.app[k]) && !isHttpUrl(f.app[k])) errors[`app.${k}`] = 'Please enter a full link starting with https://';
       });
+      if (!errors['app.iosLink'] && !isEmpty(f.app.iosLink) && !appleStoreId(f.app.iosLink))
+        errors['app.iosLink'] = 'This doesn’t look like an App Store link — it should look like https://apps.apple.com/us/app/name/id123456789';
+      if (!errors['app.androidLink'] && !isEmpty(f.app.androidLink) && !playStoreId(f.app.androidLink))
+        errors['app.androidLink'] = 'This doesn’t look like a Google Play link — it should look like https://play.google.com/store/apps/details?id=com.example.app';
       if (isEmpty(f.app.iosLink) && isEmpty(f.app.androidLink) && isEmpty(f.app.webLink)) errors['app.links'] = 'Please enter at least one link to the app';
       requireText(errors, 'pitch', f.pitch);
       break;
