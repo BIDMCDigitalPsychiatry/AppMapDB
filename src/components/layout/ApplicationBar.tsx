@@ -33,7 +33,6 @@ import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin, useIsSuperAdmin, useIsSubmissionReviewer, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import LanguageSelector from '../../i18n/LanguageSelector';
-import LanguageSelector from '../../i18n/LanguageSelector';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
