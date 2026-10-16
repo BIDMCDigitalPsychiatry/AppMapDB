@@ -35,6 +35,26 @@ describe('Submit an App: content stays in sync with the rating model', () => {
     });
   });
 
+  it('"Not sure" flags are unambiguous: each flaggable question value appears in exactly one rating question list', () => {
+    // ReviewFlags.tsx keys highlights by question value alone, so a value shared between two lists would light up both rows.
+    const ratingLists = [
+      CostQuestions,
+      PrivacyQuestions,
+      FeatureQuestions,
+      EngagementQuestions,
+      FunctionalityQuestions,
+      ClinicalFoundationQuestions,
+      TreatmentApproachQuestions,
+      InputQuestions,
+      OutputQuestions,
+      CountryQuestions,
+      DeveloperTypeQuestions
+    ];
+    YES_NO_FIELDS.flatMap(field => ITEMS_BY_FIELD[field].map(i => i.value)).forEach(value => {
+      expect(ratingLists.filter(list => list.some(q => q.value === value)).length).toBe(1);
+    });
+  });
+
   it('every field is either a yes/no group or a checklist', () => {
     expect([...YES_NO_FIELDS, ...CHECKLIST_FIELDS].sort()).toEqual(Object.keys(ITEMS_BY_FIELD).sort());
   });

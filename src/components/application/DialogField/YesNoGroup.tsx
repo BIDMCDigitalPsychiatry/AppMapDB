@@ -1,8 +1,35 @@
 import * as React from 'react';
 import { FormControl, Box, FormHelperText, Typography } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 import { isError, isTrue, onlyUnique, evalFunc } from '../../../helpers';
 import OutlinedDiv from '../../general/OutlinedDiv/OutlinedDiv';
 import YesNo from './YesNo';
+import { useReviewFlags } from './ReviewFlags';
+
+// Light orange row + label for questions the App Suggestion submitter answered "Not sure"
+// (only ever non-empty for ratings opened from Admin > App Suggestions — see ReviewFlags.tsx).
+const FlaggedRow = ({ reviewed, children }: { reviewed: boolean; children: React.ReactNode }) => (
+  <Box
+    sx={{
+      my: 0.5,
+      px: 1,
+      pb: 0.5,
+      borderRadius: 1,
+      borderLeft: 4,
+      borderColor: reviewed ? 'success.light' : 'warning.main',
+      bgcolor: reviewed ? 'rgba(76, 175, 80, 0.08)' : 'rgba(255, 152, 0, 0.12)'
+    }}
+  >
+    <Typography
+      variant='caption'
+      sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pt: 0.5, fontWeight: 700, color: reviewed ? 'success.dark' : 'warning.dark' }}
+    >
+      {reviewed ? <Icons.CheckCircleOutline sx={{ fontSize: 14 }} /> : <Icons.HelpOutline sx={{ fontSize: 14 }} />}
+      {reviewed ? 'Reviewed' : 'Submitter wasn’t sure — needs review (pre-filled as No)'}
+    </Typography>
+    {children}
+  </Box>
+);
 
 const YesNoGroup = ({
   label = '',
@@ -18,15 +45,21 @@ const YesNoGroup = ({
   onChange = undefined,
   ...other
 }) => {
+  const { flagged, reviewed, markReviewed } = useReviewFlags();
+
   const handleChange = React.useCallback(
     key => event => {
       const itemValue = event.target.value; // true or false
+      markReviewed(key);
       onChange && onChange({ target: { value: isTrue(itemValue) ? [...value, key].filter(onlyUnique) : value.filter(v => v !== key) } });
     },
-    [value, onChange]
+    [value, onChange, markReviewed]
   );
 
   const getValue = key => value.includes(key);
+
+  const visible = items.filter(i => !evalFunc(i.hidden, value));
+  const toReview = visible.filter(i => flagged.has(i.value) && !reviewed.has(i.value)).length;
 
   return (
     <FormControl variant={variant} error={isError(error)} fullWidth margin={margin}>
@@ -37,13 +70,20 @@ const YesNoGroup = ({
               {description}
             </Typography>
           )}
-          {items
-            .filter(i => !evalFunc(i.hidden, value))
-            .map(({ label, value: key, ...more }) => (
+          {toReview > 0 && (
+            <Typography variant='body2' sx={{ mb: 1, color: 'warning.dark', fontWeight: 600 }}>
+              {toReview === 1 ? '1 answer below needs review' : `${toReview} answers below need review`} — the submitter marked {toReview === 1 ? 'it' : 'them'}{' '}
+              “Not sure”.
+            </Typography>
+          )}
+          {visible.map(({ label, value: key, ...more }) => {
+            const row = <YesNo label={label} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />;
+            return (
               <div key={key}>
-                <YesNo label={label} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />
+                {flagged.has(key) ? <FlaggedRow reviewed={reviewed.has(key)}>{row}</FlaggedRow> : row}
               </div>
-            ))}
+            );
+          })}
           {(forceErrorMargin || error) && <FormHelperText>{error}</FormHelperText>}
         </Box>
       </OutlinedDiv>
