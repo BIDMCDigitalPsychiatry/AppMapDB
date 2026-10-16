@@ -7,6 +7,7 @@ import { AppState } from '../../store';
 import QuestionHeader, { usePwaTextFontSize } from './QuestionHeader';
 import { searchIndex } from './questions';
 import useWidth from '../layout/ViewPort/hooks/useWidth';
+import LanguageSelector from '../../i18n/LanguageSelector';
 
 export default function PwaAppBar() {
   const setRef = useAppBarHeightSetRef();
@@ -32,7 +33,10 @@ export default function PwaAppBar() {
             <PwaLogo />
           </Grid>
           <Grid item>
-            <Grid container spacing={1}>
+            <Grid container spacing={1} alignItems='center'>
+              <Grid item>
+                <LanguageSelector />
+              </Grid>
               {index === searchIndex && (
                 <Grid item>
                   <Button variant='contained' size={size} onClick={back} disabled={disableBack} sx={{ px, fontSize: pwaTextFontSize, height: 44 }}>

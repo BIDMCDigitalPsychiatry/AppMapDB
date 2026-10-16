@@ -32,6 +32,8 @@ import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
 import { useSignedIn, useFullScreen, useIsAdmin, useIsSuperAdmin, useIsSubmissionReviewer, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
+import LanguageSelector from '../../i18n/LanguageSelector';
+import LanguageSelector from '../../i18n/LanguageSelector';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
 import Logo from './Logo';
@@ -297,6 +299,9 @@ export default function ApplicationBar({ trigger }) {
                   <Logo condensed autoHide={false} showText={false} />
                 </Grid>
                 <Grid item>
+                  <LanguageSelector />
+                </Grid>
+                <Grid item>
                   <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
                     {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
                   </IconButton>
@@ -348,6 +353,9 @@ export default function ApplicationBar({ trigger }) {
                         </ButtonGroup>
                       </Grid>
                     )}
+                    <Grid item>
+                      <LanguageSelector />
+                    </Grid>
                     <Grid item>
                       <IconButton color='inherit' aria-label='account of current user' aria-haspopup='true' onClick={handleMenu} size='large'>
                         {signedIn ? <Icons.AccountCircleTwoTone /> : <Icons.AccountCircle />}
@@ -439,6 +447,9 @@ export default function ApplicationBar({ trigger }) {
             );
           })}
         </List>
+        <Divider />
+        <Typography className={classes.navSectionLabel}>Language</Typography>
+        <LanguageSelector variant='list' />
         {isAppsPage && (
           <>
             <Divider />

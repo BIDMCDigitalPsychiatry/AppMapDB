@@ -126,7 +126,9 @@
     "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "i18n:extract": "node scripts/i18n/extract.js",
+    "i18n:check": "node scripts/i18n/extract.js --check"
   },
   "eslintConfig": {
     "extends": "react-app"

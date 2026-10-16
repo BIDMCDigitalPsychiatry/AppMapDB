@@ -14,8 +14,8 @@ import { isDev, useLayoutTheme } from './helpers';
 import LogRocket from 'logrocket';
 import pkg from '../package.json';
 import ViewPort from './components/layout/ViewPort/ViewPort';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers'
+import { I18nProvider } from './i18n';
+import { LocalizedDatePickers, LocalizedTheme } from './i18n/LocalizedMui';
 
 export const history = createBrowserHistory(); // Create browser history to use in the Redux store'
 export const initialState = (window as any).initialReduxState as AppState; // Get the application-wide store instance, prepopulating with state from the server where available.
@@ -35,7 +35,9 @@ function ThemedViewPort(props: any) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={layoutTheme}>
         <CssBaselineCustom />
-        <ViewPort>{children}</ViewPort>
+        <LocalizedTheme>
+          <ViewPort>{children}</ViewPort>
+        </LocalizedTheme>
       </ThemeProvider>
     </StyledEngineProvider>
   );
@@ -46,9 +48,11 @@ function AppWrapper(props: any) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <ThemedViewPort>{children}</ThemedViewPort>
-        </LocalizationProvider>
+        <I18nProvider>
+          <LocalizedDatePickers>
+            <ThemedViewPort>{children}</ThemedViewPort>
+          </LocalizedDatePickers>
+        </I18nProvider>
       </PersistGate>
     </Provider>
   );
