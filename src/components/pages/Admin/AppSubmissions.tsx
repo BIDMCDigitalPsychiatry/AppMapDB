@@ -155,8 +155,8 @@ const SubmissionDetail = ({
         )}
         {unsure.length > 0 && (
           <Alert severity='info' sx={{ mb: 2 }}>
-            <b>The submitter wasn’t sure about {unsure.length === 1 ? 'one question' : `${unsure.length} questions`}</b> — these are pre-filled as “No” in the
-            rating, so please check them:
+            <b>The submitter wasn’t sure about {unsure.length === 1 ? 'one question' : `${unsure.length} questions`}</b> — they’re highlighted and left
+            unanswered in the rating form, and you’ll choose Yes or No for each before saving:
             <Box component='ul' sx={{ m: 0, mt: 0.5, pl: 2.5 }}>
               {unsure.map(u => (
                 <li key={`${u.field}.${u.value}`}>{u.label}</li>

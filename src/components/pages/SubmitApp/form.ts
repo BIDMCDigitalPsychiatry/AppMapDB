@@ -166,8 +166,8 @@ const known = (field: AnswerField, values?: string[]) => {
   return (values ?? []).filter(v => allowed.has(v));
 };
 
-// Questions the submitter answered "Not sure" — pre-filled as No in the
-// rating and flagged for the reviewer to check.
+// Questions the submitter answered "Not sure" — shown unanswered and highlighted in the
+// rating form, which won't save until the reviewer answers each (see ReviewFlags.tsx).
 export const unsureAnswers = (s: SubmissionForm): { field: AnswerField; value: string; label: string }[] =>
   YES_NO_FIELDS.flatMap(field =>
     Object.entries(s.answers?.[field] ?? {})

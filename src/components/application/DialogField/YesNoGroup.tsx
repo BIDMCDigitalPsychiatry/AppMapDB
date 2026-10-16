@@ -25,7 +25,7 @@ const FlaggedRow = ({ reviewed, children }: { reviewed: boolean; children: React
       sx={{ display: 'flex', alignItems: 'center', gap: 0.5, pt: 0.5, fontWeight: 700, color: reviewed ? 'success.dark' : 'warning.dark' }}
     >
       {reviewed ? <Icons.CheckCircleOutline sx={{ fontSize: 14 }} /> : <Icons.HelpOutline sx={{ fontSize: 14 }} />}
-      {reviewed ? 'Reviewed' : 'Submitter wasn’t sure — needs review (pre-filled as No)'}
+      {reviewed ? 'Reviewed' : 'Submitter wasn’t sure — please choose Yes or No'}
     </Typography>
     {children}
   </Box>
@@ -77,7 +77,7 @@ const YesNoGroup = ({
             </Typography>
           )}
           {visible.map(({ label, value: key, ...more }) => {
-            const row = <YesNo label={label} value={getValue(key)} onChange={handleChange(key)} {...other} {...more} />;
+            const row = <YesNo label={label} value={flagged.has(key) && !reviewed.has(key) ? undefined : getValue(key)} onChange={handleChange(key)} {...other} {...more} />;
             return (
               <div key={key}>
                 {flagged.has(key) ? <FlaggedRow reviewed={reviewed.has(key)}>{row}</FlaggedRow> : row}
