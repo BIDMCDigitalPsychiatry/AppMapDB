@@ -195,6 +195,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Accept": {
+    "files": [
+      "src/components/layout/AnalyticsConsentBanner.tsx"
+    ]
+  },
   "Acceptance and Commitment Therapy (ACT)": {
     "files": [
       "src/components/pwa/questions.tsx"
@@ -1550,6 +1555,12 @@
       "src/components/pages/SubmitApp/SubmitApp.tsx"
     ]
   },
+  "Cookie settings": {
+    "files": [
+      "src/components/layout/AnalyticsConsentBanner.tsx",
+      "src/components/layout/Footer.tsx"
+    ]
+  },
   "COPD": {
     "files": [
       "src/database/models/Application.tsx"
@@ -1786,6 +1797,7 @@
   },
   "Decline": {
     "files": [
+      "src/components/layout/AnalyticsConsentBanner.tsx",
       "src/components/pages/Admin/AppSubmissions.tsx"
     ]
   },
@@ -4533,6 +4545,11 @@
   "Microphone?": {
     "files": [
       "src/database/models/Application.tsx"
+    ]
+  },
+  "MIND uses analytics cookies to understand how the site is used so we can improve it. They are only set if you accept.": {
+    "files": [
+      "src/components/layout/AnalyticsConsentBanner.tsx"
     ]
   },
   "MINDapps only lists apps that meet four basic criteria. We also ask about potential risks so our reviewers know what to look for.": {
