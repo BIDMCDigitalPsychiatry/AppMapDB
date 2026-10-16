@@ -59,6 +59,11 @@
       "src/components/application/DialogField/AndroidStore.tsx"
     ]
   },
+  "{{name}} – MIND app evaluation": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "{{name}} icon": {
     "files": [
       "src/components/application/GenericTable/ApplicationsGrid/ApplicationsGridItem.tsx"
@@ -387,6 +392,11 @@
       "src/components/application/GenericDialog/Event/index.tsx"
     ]
   },
+  "All evaluated apps ({{count}})": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "All Platforms": {
     "files": [
       "src/components/pages/PwaSearchHeader.tsx",
@@ -569,6 +579,11 @@
   "App Selection:": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
+    ]
+  },
+  "App Store": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "App Suggestions": {
@@ -939,9 +954,19 @@
       "src/components/pages/ViewApp.tsx"
     ]
   },
+  "Browse all evaluated apps": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Button group with select": {
     "files": [
       "src/components/pwa/MultiAnswerButtons.tsx"
+    ]
+  },
+  "By {{company}}": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "by {{name}}": {
@@ -1318,7 +1343,8 @@
       "src/components/application/GenericContent/Filter/FilterContentInteractive.tsx",
       "src/components/application/GenericContent/Filter/index.tsx",
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Clinical Foundation: Is the app supported by research?": {
@@ -1456,6 +1482,11 @@
       "src/components/layout/Footer.tsx"
     ]
   },
+  "Community | MIND": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Company": {
     "files": [
       "src/components/application/GenericDialog/RateNewApp/steps.tsx"
@@ -1582,7 +1613,8 @@
       "src/components/pages/PublicApplicationsTable.tsx",
       "src/components/pages/SubmitApp/steps.tsx",
       "src/components/pages/Survey/Survey.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Cost, Developer Type, Supported Conditions, Functionalities, Uses, Features, Engagements, Clinical Foundations, Inputs, Outputs and Privacy Options.": {
@@ -1639,7 +1671,8 @@
       "src/components/application/GenericPopover/Filter/index.tsx",
       "src/components/application/GenericTable/Applications/columns.tsx",
       "src/components/pages/PublicApplicationsTable.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "cover": {
@@ -1887,6 +1920,11 @@
       "src/components/pages/Survey/SurveyFollowUp.tsx"
     ]
   },
+  "Description from the app store — not vetted by MIND": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Designed to support in-person care, not replace it.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -1910,7 +1948,8 @@
   "Developer Type": {
     "files": [
       "src/components/application/GenericTable/Applications/columns.tsx",
-      "src/components/pages/PublicApplicationsTable.tsx"
+      "src/components/pages/PublicApplicationsTable.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Developer type (e.g. for-profit, non-profit, healthcare company, academic institution)": {
@@ -2756,7 +2795,8 @@
       "src/components/application/GenericPopover/Filter/index.tsx",
       "src/components/application/GenericTable/Applications/columns.tsx",
       "src/components/pages/PublicApplicationsTable.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Engagements (e.g. user generated data, messaging, gamification, network support, etc.)": {
@@ -3105,7 +3145,8 @@
       "src/components/pages/PublicApplicationsTable.tsx",
       "src/components/pages/SubmitApp/steps.tsx",
       "src/components/pages/Tour/TourStep.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Features (e.g. track mood, journaling, mindfulness, CBT, peer support, chatbot, etc.)": {
@@ -3278,6 +3319,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "From the app store": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Full Name": {
     "files": [
       "src/components/pages/RateAnApp.tsx"
@@ -3293,7 +3339,8 @@
       "src/components/application/GenericContent/Filter/FilterContentInteractive.tsx",
       "src/components/application/GenericContent/Filter/FilterContentLeftDrawer.tsx",
       "src/components/application/GenericContent/Filter/index.tsx",
-      "src/components/application/GenericPopover/Filter/index.tsx"
+      "src/components/application/GenericPopover/Filter/index.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Functionality (e.g. available in Spanish, functions offline, email or export data, etc.)": {
@@ -3357,6 +3404,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Get the app": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Given a new phone": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -3380,6 +3432,11 @@
   "Goal Setting/Habits": {
     "files": [
       "src/database/models/Application.tsx"
+    ]
+  },
+  "Google Play": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "Google Play link": {
@@ -3546,6 +3603,11 @@
       "src/components/pages/Survey/Survey.tsx"
     ]
   },
+  "How apps are evaluated": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "How are you connected to the app?": {
     "files": [
       "src/components/pages/SubmitApp/steps.tsx"
@@ -3604,6 +3666,11 @@
   "How many feasibility/usability studies?": {
     "files": [
       "src/components/application/GenericDialog/RateNewApp/templates/ClinicalFoundationInfo.tsx"
+    ]
+  },
+  "How MIND evaluates mental health apps | MIND": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "How much does the app cost?": {
@@ -3851,6 +3918,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Independent MIND evaluation of {{name}}: cost, privacy, supporting evidence and features.": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Individual records with names and identifiers removed. Usage and log data count.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -3877,7 +3949,8 @@
       "src/components/application/GenericTable/Applications/columns.tsx",
       "src/components/pages/PublicApplicationsTable.tsx",
       "src/components/pages/SubmitApp/steps.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Inputs — what the app collects": {
@@ -4324,6 +4397,11 @@
       "src/components/application/GenericTable/Surveys/columns.tsx"
     ]
   },
+  "Last reviewed: {{date}}": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Last updated": {
     "files": [
       "src/components/pages/ViewAppHeader.tsx"
@@ -4536,6 +4614,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Mental health apps evaluated by MIND": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Messages are sent to Claude (Anthropic). Conversations aren't saved.": {
     "files": [
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
@@ -4557,9 +4640,24 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "MIND evaluation": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "MIND uses analytics cookies to understand how the site is used so we can improve it. They are only set if you accept.": {
     "files": [
       "src/components/layout/AnalyticsConsentBanner.tsx"
+    ]
+  },
+  "MIND, the M-Health Index and Navigation Database, is a free library of mental health apps evaluated by trained raters at the Division of Digital Psychiatry at BIDMC. Each app is assessed on cost, privacy, supporting evidence, features and the conditions it supports, using the American Psychiatric Association’s app evaluation framework.": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
+  "MIND: Find and Compare Mental Health Apps": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "MINDapps only lists apps that meet four basic criteria. We also ask about potential risks so our reviewers know what to look for.": {
@@ -4734,6 +4832,11 @@
       "src/database/models/Post.tsx"
     ]
   },
+  "News, events and resources from the MIND team and the Division of Digital Psychiatry at BIDMC.": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Next": {
     "files": [
       "src/components/application/GenericDialog/GenericCardStepper.tsx",
@@ -4759,7 +4862,8 @@
       "src/components/pages/SubmitApp/fields.tsx",
       "src/components/pages/SubmitApp/steps.tsx",
       "src/components/pages/Survey/Survey.tsx",
-      "src/components/pages/ViewAppHeader.tsx"
+      "src/components/pages/ViewAppHeader.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "No {{name}}": {
@@ -5093,7 +5197,8 @@
       "src/components/application/GenericTable/Applications/columns.tsx",
       "src/components/pages/PublicApplicationsTable.tsx",
       "src/components/pages/SubmitApp/steps.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Outputs — what the app gives back": {
@@ -5361,7 +5466,8 @@
       "src/components/pages/SearchHeader.tsx",
       "src/components/pages/SearchHeaderRedux.tsx",
       "src/components/pages/SearchHeaderReduxPending.tsx",
-      "src/components/pages/Tour/TourStep.tsx"
+      "src/components/pages/Tour/TourStep.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Please answer this question": {
@@ -5523,7 +5629,8 @@
       "src/components/application/GenericContent/Filter/index.tsx",
       "src/components/application/GenericPopover/Filter/index.tsx",
       "src/components/pages/PublicApplicationsTable.tsx",
-      "src/constants.tsx"
+      "src/constants.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Privacy (e.g. has privacy policy, delete data, personal health information shared, meets HIPAA, etc.)": {
@@ -5720,6 +5827,11 @@
   "Rated by: {{email}}": {
     "files": [
       "src/components/application/GenericTable/Applications/RatingsColumnHistory.tsx"
+    ]
+  },
+  "Rater review": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "Raters will be prompted through 105 different questions about an app and its features, privacy settings, clinical foundations and more.": {
@@ -6080,6 +6192,11 @@
       "src/components/pages/SearchHeader.tsx",
       "src/components/pages/Tour/TourStep.tsx",
       "src/components/pwa/PwaAppBar.tsx"
+    ]
+  },
+  "Search {{count}}+ mental health apps independently evaluated on privacy, cost, evidence and features. A free resource from the Division of Digital Psychiatry at BIDMC.": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "Search {{url}} on your mobile device.": {
@@ -6658,6 +6775,11 @@
       "src/components/application/GenericDialog/LoginV2/index.js"
     ]
   },
+  "Suggest a mental health app for MIND to evaluate. Developers can submit their own app for review.": {
+    "files": [
+      "src/seo/pageText.ts"
+    ]
+  },
   "Suggest a mental health app for MINDapps. Every suggestion is reviewed by our team before an app is listed.": {
     "files": [
       "src/components/pages/SubmitApp/SubmitApp.tsx"
@@ -6667,6 +6789,11 @@
     "files": [
       "src/components/pages/Community/InterestedAddApp.tsx",
       "src/components/pages/SubmitApp/SubmitApp.tsx"
+    ]
+  },
+  "Suggest an App | MIND": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "Suggest an edit": {
@@ -6729,7 +6856,8 @@
       "src/components/application/GenericDialog/RateNewApp/steps.tsx",
       "src/components/application/GenericPopover/Filter/index.tsx",
       "src/components/application/GenericTable/Applications/columns.tsx",
-      "src/components/pages/PublicApplicationsTable.tsx"
+      "src/components/pages/PublicApplicationsTable.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Supporting Studies": {
@@ -6950,6 +7078,11 @@
   "The app claims to identify new conditions.": {
     "files": [
       "src/database/models/Application.tsx"
+    ]
+  },
+  "The app evaluation framework behind MIND: the questions trained raters answer about cost, privacy, evidence, features and engagement for every app.": {
+    "files": [
+      "src/seo/pageText.ts"
     ]
   },
   "The app has a built-in way to connect with a provider or coach.": {
@@ -7174,7 +7307,8 @@
   },
   "This review represents the view of the app rater and is not an endorsement by MIND.": {
     "files": [
-      "src/components/pages/ViewAppRating.tsx"
+      "src/components/pages/ViewAppRating.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "This tour will walk you through a few of the features in this web application.  Please click next to continue.": {
@@ -7298,7 +7432,8 @@
       "src/components/application/GenericDialog/RateNewApp/steps.tsx",
       "src/components/application/GenericPopover/Filter/index.tsx",
       "src/components/application/GenericTable/Applications/columns.tsx",
-      "src/components/pages/PublicApplicationsTable.tsx"
+      "src/components/pages/PublicApplicationsTable.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Try MIND Mobile App!": {
@@ -7347,7 +7482,8 @@
       "src/components/application/GenericTable/ApplicationsGrid/ApplicationsGrid.tsx",
       "src/components/application/GenericTable/ApplicationsGrid/ApplicationsGridItem.tsx",
       "src/components/application/GenericTable/ApplicationsList/AppSummary.tsx",
-      "src/components/pages/ViewAppHeader.tsx"
+      "src/components/pages/ViewAppHeader.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Unknown Date": {
@@ -7757,7 +7893,8 @@
   },
   "Website": {
     "files": [
-      "src/components/pages/SubmitApp/steps.tsx"
+      "src/components/pages/SubmitApp/steps.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Website (for web apps)": {
@@ -7997,7 +8134,8 @@
       "src/components/pages/SubmitApp/fields.tsx",
       "src/components/pages/SubmitApp/steps.tsx",
       "src/components/pages/Survey/Survey.tsx",
-      "src/components/pages/ViewAppHeader.tsx"
+      "src/components/pages/ViewAppHeader.tsx",
+      "src/seo/pageText.ts"
     ]
   },
   "Yes, can pay in app payments": {

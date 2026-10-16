@@ -490,17 +490,40 @@ export function useGroupHistoryByGroupId(groupId) {
 // record. The id is only a groupId prefix, which DynamoDB can't look up directly, so: use the store when the
 // library has already loaded it (the usual case when arriving from a card), otherwise read the approved
 // partition page by page and stop at the first match.
+// `initial` is the record a statically generated page embeds (scripts/seo/generate.ts): it shows at once,
+// and one GetItem confirms it's still the current approved record. If a newer rating has replaced it since
+// the site was built, the partition search finds the new one.
 // status: 'loading' → 'found' | 'missing' (no current approved record: removed, merged or never approved).
-export function useApprovedAppByShortId(shortId: string) {
+export function useApprovedAppByShortId(shortId: string, initial?: any) {
   const [apps, setApps] = useApplications();
   const found = React.useMemo(
     () => (shortId ? Object.values(apps ?? {}).find((a: any) => a?.cur === 'approved' && matchesShortId(a, shortId)) : undefined),
     [apps, shortId]
   );
   const [searched, setSearched] = React.useState<string | null>(null);
+  const initialMatches = !!initial && !!shortId && matchesShortId(initial, shortId);
+  const [initialStale, setInitialStale] = React.useState(false);
 
   React.useEffect(() => {
-    if (!shortId || found || searched === shortId) return;
+    if (!initialMatches || found) return;
+    let cancelled = false;
+    dynamo
+      .get({ TableName: tables.applications, Key: { _id: initial._id } })
+      .promise()
+      .then(({ Item }) => {
+        if (cancelled) return;
+        if (Item?.cur === 'approved') mergeRows(setApps, [Item]);
+        else setInitialStale(true);
+      })
+      .catch(err => console.error('Error refreshing app record:', err)); // keep showing the embedded copy
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialMatches, initial?._id, setApps]);
+
+  React.useEffect(() => {
+    if (!shortId || found || searched === shortId || (initialMatches && !initialStale)) return;
     let cancelled = false;
     (async () => {
       const params: any = {
@@ -529,9 +552,10 @@ export function useApprovedAppByShortId(shortId: string) {
     return () => {
       cancelled = true;
     };
-  }, [shortId, found, searched, setApps]);
+  }, [shortId, found, searched, setApps, initialMatches, initialStale]);
 
-  return { app: found as any, status: found ? 'found' : searched === shortId ? 'missing' : 'loading' };
+  const app = found ?? (initialMatches && !initialStale ? initial : undefined);
+  return { app: app as any, status: app ? 'found' : searched === shortId ? 'missing' : 'loading' };
 }
 
 export function useGroupHistory(id) {

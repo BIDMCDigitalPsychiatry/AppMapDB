@@ -3,6 +3,19 @@ on:
   push:
     branches:
       - master
+  # Weekly rebuild so the static pages for search engines (scripts/seo/generate.ts) pick up newly approved
+  # and edited apps: Mondays 09:00 UTC (early morning in Boston). New apps work on the site before then;
+  # they just aren't in the generated pages and sitemap until the next run. Run it by hand from the
+  # Actions tab ("Run workflow") to publish sooner.
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+# A scheduled run and a push landing together would otherwise race to publish.
+concurrency:
+  group: deploy-pages
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -43,3 +56,6 @@ jobs:
       with:
         branch: gh-pages
         folder: build
+        # The ~1,500 generated pages change on every release (they reference that release's script
+        # files), so keep only the latest deploy on gh-pages instead of letting its history grow.
+        single-commit: true

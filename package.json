@@ -120,7 +120,7 @@
     "refresh-local-data": "node scripts/dumpApplications.js",
     "seed-local-community": "node scripts/seedLocalCommunity.js",
     "export-taxonomy": "node scripts/exportTaxonomy.js",
-    "build": "vite build && node copy404",
+    "build": "vite build && node copy404 && node scripts/seo/run.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

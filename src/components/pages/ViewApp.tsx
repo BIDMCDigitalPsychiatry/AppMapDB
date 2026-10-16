@@ -42,6 +42,17 @@ export default function ViewApp() {
 
 const DEFAULT_TITLE = 'MIND: Find and Compare Mental Health Apps'; // matches index.html
 
+// The app record a statically generated page embeds (scripts/seo/generate.ts), read once at load. It only
+// applies to the app whose page was loaded; later in-app navigation won't match its id.
+const EMBEDDED_APP = (() => {
+  try {
+    const json = document.getElementById('mind-app-data')?.textContent;
+    return json ? JSON.parse(json) : undefined;
+  } catch {
+    return undefined;
+  }
+})();
+
 /**
  * Public app page at /apps/<name>-<id> (and /fr/…, /de/…), see src/appUrl.ts. Arriving from a card, the
  * record comes with the navigation and shows immediately; opening the address directly (a shared link, a
@@ -58,7 +69,7 @@ export function AppPage() {
   const shortId = parsed?.shortId ?? '';
 
   const fromNavigation = state?.app && matchesShortId(state.app, shortId) ? state.app : undefined;
-  const lookup = useApprovedAppByShortId(fromNavigation ? '' : shortId);
+  const lookup = useApprovedAppByShortId(fromNavigation ? '' : shortId, EMBEDDED_APP);
   const app = fromNavigation ?? lookup.app;
   const status = fromNavigation ? 'found' : lookup.status;
 
