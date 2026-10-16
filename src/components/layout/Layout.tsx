@@ -107,11 +107,15 @@ export default function Layout({ children }) {
   const [, setState] = useDialogState(title);
   const { tourCompleted } = useTourCompleted();
 
+  // First-visit "Try MIND Mobile App" prompt — not over the Suggest an App
+  // form (developers often land there straight from a link); it shows on
+  // their next page instead.
+  const isFormPage = pathname === publicUrl('/SuggestApp');
   React.useEffect(() => {
-    if (!tourCompleted) {
+    if (!tourCompleted && !isFormPage) {
       setState({ open: true });
     }
-  }, [setState, tourCompleted]);
+  }, [setState, tourCompleted, isFormPage]);
 
   return (
     <div data-testid='app-container' className={classes.root}>

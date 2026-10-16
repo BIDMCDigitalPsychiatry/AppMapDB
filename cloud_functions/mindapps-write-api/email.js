@@ -148,9 +148,38 @@ const EMAIL_TYPES = {
   }
 };
 
+// Sent only by the handler after an App Submission is stored (internal:
+// never reachable through the public email operation, so it can't be used
+// to spam reviewers without leaving a row in the queue).
+const INTERNAL_EMAIL_TYPES = {
+  appSubmission: {
+    to: 'roster:submissionreviewer',
+    requiresAdmin: false,
+    validate: d => (!isId(d.id) ? 'Invalid submission id' : null),
+    build: d => {
+      const s = d.submitter || {};
+      const a = d.app || {};
+      const relationship = s.relationship === 'developer' ? 'Developer / app team' : 'Recommending the app';
+      const link = `${PUBLIC_BASE_URL}/Admin?tab=submissions`;
+      const linkRow = (label, url) => (url ? `<p>${label}: ${esc(url)}</p>` : '');
+      return {
+        subject: `MIND - New App Suggestion: ${String(a.name ?? '').slice(0, 120)}`,
+        body: `A new app has been suggested for MINDapps:
+    <p><b>App:</b> ${esc(a.name)}</p>
+    ${linkRow('iOS', a.iosLink)}${linkRow('Android', a.androidLink)}${linkRow('Web', a.webLink)}
+    <p><b>Suggested by:</b> ${esc(s.firstName)} ${esc(s.lastName)} (${esc(s.email)})</p>
+    <p><b>Organization:</b> ${esc(s.organization)}</p>
+    <p><b>Relationship:</b> ${relationship}</p>
+    <p>Review it in the <a href="${link}">Admin portal &rarr; App Suggestions</a>.</p>`
+      };
+    }
+  }
+};
+
 // Validates and renders; returns {error} or {subject, body, to, requiresAdmin, participantEmail}.
-const buildEmail = (type, data = {}) => {
-  const def = EMAIL_TYPES[type];
+// Internal types are only available when the handler passes { internal: true }.
+const buildEmail = (type, data = {}, { internal = false } = {}) => {
+  const def = EMAIL_TYPES[type] ?? (internal ? INTERNAL_EMAIL_TYPES[type] : undefined);
   if (!def) return { error: `Unknown email type '${type}'` };
   const invalid = def.validate(data);
   if (invalid) return { error: invalid };
@@ -158,4 +187,4 @@ const buildEmail = (type, data = {}) => {
   return { subject, body, to: def.to, requiresAdmin: def.requiresAdmin, participantEmail: def.to === 'participant' ? data.email : undefined };
 };
 
-module.exports = { buildEmail, EMAIL_TYPES, SOURCE, esc };
+module.exports = { buildEmail, EMAIL_TYPES, INTERNAL_EMAIL_TYPES, SOURCE, esc };

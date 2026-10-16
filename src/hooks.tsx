@@ -61,6 +61,17 @@ export const useIsSuperAdmin = () => {
   return signedIn && fromRoster === true;
 };
 
+// Submission Reviewers (and Super Admins) work the Admin > App Submissions
+// queue. UI hint only — the write API re-verifies the role on list/update.
+export const useIsSubmissionReviewer = () => {
+  const signedIn = useSignedIn();
+  const email = useSelector((s: any) => s.layout.user?.signInUserSession?.idToken?.payload?.email ?? '');
+  useLoadRoster(signedIn);
+  const reviewer = useRosterRole(email, 'submissionreviewer');
+  const superAdmin = useRosterRole(email, 'superadmin');
+  return signedIn && (reviewer === true || superAdmin === true);
+};
+
 export const useHandleLink = link => {
   return React.useCallback(() => {
     const win = window.open(link, '_blank');

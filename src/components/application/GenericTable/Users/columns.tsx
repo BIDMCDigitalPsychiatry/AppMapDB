@@ -15,7 +15,9 @@ export const ROLE_INFO: Record<string, string> = {
   superadmin:
     'Only Super Admins can see this Users page and assign roles. They can add, edit, deactivate, and permanently delete users — regular admins cannot.',
   notify: 'Notify recipients receive the site’s notification emails: "Flag / Suggest an Edit" submissions and "Rate An App" interest form entries.',
-  surveynotify: 'Survey Notify recipients receive the notice sent each time a visitor completes an app survey.'
+  surveynotify: 'Survey Notify recipients receive the notice sent each time a visitor completes an app survey.',
+  submissionreviewer:
+    'Submission Reviewers see the Admin > App Suggestions queue, are emailed when someone suggests an app, and can turn suggestions into app ratings.'
 };
 
 const center = (node: React.ReactNode) => <div style={{ textAlign: 'center' }}>{node}</div>;
@@ -126,6 +128,13 @@ export const useColumns = () => [
   { name: 'admin', header: <RoleHeader label='Admin' info={ROLE_INFO.admin} />, width: 110, Cell: RoleCell('admin'), hoverable: false },
   { name: 'notify', header: <RoleHeader label='Notify' info={ROLE_INFO.notify} />, width: 110, Cell: RoleCell('notify'), hoverable: false },
   { name: 'surveynotify', header: <RoleHeader label='Survey Notify' info={ROLE_INFO.surveynotify} />, width: 150, Cell: RoleCell('surveynotify'), hoverable: false },
+  {
+    name: 'submissionreviewer',
+    header: <RoleHeader label='Submission Reviewer' info={ROLE_INFO.submissionreviewer} />,
+    width: 190,
+    Cell: RoleCell('submissionreviewer'),
+    hoverable: false
+  },
   { name: 'updated', header: 'Last Changed', width: 240, Cell: LastChangedCell },
   { name: 'actions', header: 'Actions', width: 120, Cell: ActionsCell, hoverable: false }
 ];

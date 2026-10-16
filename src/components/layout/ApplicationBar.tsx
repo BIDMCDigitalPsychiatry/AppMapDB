@@ -30,7 +30,7 @@ import { columns } from '../application/GenericDialog/SignUpSurvey';
 import DialogButton, { renderDialogModule } from '../application/GenericDialog/DialogButton';
 import { useSelector } from 'react-redux';
 import { useDialogState } from '../application/GenericDialog/useDialogState';
-import { useSignedIn, useFullScreen, useIsAdmin, useIsSuperAdmin, useSignedInRater, trackingColumns } from '../../hooks';
+import { useSignedIn, useFullScreen, useIsAdmin, useIsSuperAdmin, useIsSubmissionReviewer, useSignedInRater, trackingColumns } from '../../hooks';
 import TabSelectorToolBar from '../general/TabSelector/TabSelectorToolBar';
 import * as Icons from '@mui/icons-material';
 import { useLayout, useLeftDrawer, useSetUser } from './store';
@@ -118,18 +118,19 @@ const useTabs = () => {
 };
 
 const id = 'AppBar';
-export const noTabPaths = ['/Home', '/'];
+export const noTabPaths = ['/Home', '/', '/SuggestApp'];
 
 // Shared by the desktop tab bar and the mobile nav drawer so they can never
 // disagree about which tabs a given user gets to see. The Admin entry shows
-// for admins AND Super Admins — a Super Admin without the admin role still
-// needs to reach the Users page (the sub-tabs inside gate themselves).
+// for admins, Super Admins and Submission Reviewers — each may hold only
+// their own role and still needs their page (the sub-tabs inside gate themselves).
 const useVisibleTabs = () => {
   const isAdmin = useIsAdmin();
   const isSuperAdmin = useIsSuperAdmin();
+  const isSubmissionReviewer = useIsSubmissionReviewer();
   const signedInRater = useSignedInRater();
   const tabs = useTabs();
-  return tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : t.id === 'Admin' ? isAdmin || isSuperAdmin : true));
+  return tabs.filter(t => (t.id === 'My Ratings' ? signedInRater : t.id === 'Admin' ? isAdmin || isSuperAdmin || isSubmissionReviewer : true));
 };
 
 const AppBarTabSelector = props => {

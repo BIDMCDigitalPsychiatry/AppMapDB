@@ -13,6 +13,8 @@ const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { CognitoIdentityProviderClient, ListUsersCommand } = require('@aws-sdk/client-cognito-identity-provider');
 const { authorize, canListRegisteredUsers } = require('./authz');
 const { buildEmail, SOURCE } = require('./email');
+const submissions = require('./submissions');
+const { randomUUID } = require('crypto');
 const { diffCurrentFlags, groupOf } = require('./currentFlags');
 
 const doc = DynamoDBDocumentClient.from(new DynamoDBClient({}), { marshallOptions: { removeUndefinedValues: true } });
@@ -39,12 +41,12 @@ const resolveRoles = async email => {
     const res = await doc.send(new GetCommand({ TableName: USERS_TABLE, Key: { email } }));
     if (res.Item && res.Item.active !== false) {
       const roles = Array.isArray(res.Item.roles) ? res.Item.roles : [];
-      return { isAdmin: roles.includes('admin'), isSuperAdmin: roles.includes('superadmin') };
+      return { isAdmin: roles.includes('admin'), isSuperAdmin: roles.includes('superadmin'), isSubmissionReviewer: roles.includes('submissionreviewer') };
     }
   } catch (err) {
     console.error('users table lookup failed (denying privileged roles):', err.message);
   }
-  return { isAdmin: false, isSuperAdmin: false };
+  return { isAdmin: false, isSuperAdmin: false, isSubmissionReviewer: false };
 };
 
 const getExisting = async (Model, Data) => {
@@ -215,8 +217,15 @@ async function handleEmail(token, payload) {
     }
   }
 
+  const sent = await sendBuiltEmail(built);
+  if (sent.error) return { type: 'error', error: sent.error };
+  console.log(JSON.stringify({ audit: 'EMAIL', by: caller, emailType: type, recipients: sent.recipients }));
+  return { ok: true };
+}
+
+async function sendBuiltEmail(built) {
   const recipients = built.to === 'participant' ? [built.participantEmail] : await rosterRecipients(built.to.split(':')[1]);
-  if (recipients.length === 0) return { type: 'error', error: 'No active recipients configured for this notification' };
+  if (recipients.length === 0) return { error: 'No active recipients configured for this notification' };
 
   await ses.send(
     new SendEmailCommand({
@@ -229,8 +238,111 @@ async function handleEmail(token, payload) {
       ReplyToAddresses: [SOURCE]
     })
   );
-  console.log(JSON.stringify({ audit: 'EMAIL', by: caller, emailType: type, recipients: recipients.length }));
-  return { ok: true };
+  return { recipients: recipients.length };
+}
+
+/* ---------------------------------------------------------------------------
+ * App Submissions (public "Submit an App" form -> Admin > App Submissions).
+ *   submit - anonymous; sanitized against a fixed schema (submissions.js),
+ *            stored with status 'new', then reviewers are emailed.
+ *   list   - Submission Reviewer / Super Admin only (the rows hold submitter
+ *            PII, so the table is NOT readable by the public Cognito role).
+ *   update - same roles; status / linked rating id / appended review note.
+ * ------------------------------------------------------------------------- */
+const verifyCaller = async token => {
+  try {
+    await jwksReady;
+    const jwt = await verifier.verify(token);
+    const email = String(jwt.email || '').toLowerCase();
+    return email ? { email, roles: await resolveRoles(email) } : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+async function handleSubmission(token, payload) {
+  const { op } = payload || {};
+
+  if (op === 'submit') {
+    const result = submissions.sanitizeSubmission(payload.data);
+    if (result.error) return { type: 'bad_request', error: result.error };
+    if (result.spam) {
+      console.log(JSON.stringify({ audit: 'SUBMISSION_SPAM' }));
+      return { ok: true };
+    }
+    const now = Date.now();
+    const item = { _id: randomUUID(), created: now, updated: now, status: 'new', ...result.item };
+    await doc.send(
+      new PutCommand({ TableName: submissions.TABLE, Item: item, ConditionExpression: 'attribute_not_exists(#id)', ExpressionAttributeNames: { '#id': '_id' } })
+    );
+    console.log(JSON.stringify({ audit: 'SUBMISSION', id: item._id, app: item.app.name }));
+    try {
+      const built = buildEmail('appSubmission', { id: item._id, submitter: item.submitter, app: item.app }, { internal: true });
+      const sent = built.error ? built : await sendBuiltEmail(built);
+      if (sent.error) console.error('submission notification not sent:', sent.error);
+    } catch (err) {
+      // The submission is stored and visible in the queue; a failed email must not fail the submit.
+      console.error('submission notification failed:', err);
+    }
+    return { ok: true, id: item._id };
+  }
+
+  if (op !== 'list' && op !== 'update') return { type: 'bad_request', error: 'Unknown submission operation' };
+
+  const caller = await verifyCaller(token);
+  if (!caller) return { type: 'unauthorized', error: 'Sign in required' };
+  if (!submissions.canReviewSubmissions(caller.roles)) {
+    console.log(JSON.stringify({ audit: 'DENIED', email: caller.email, op: `submission:${op}` }));
+    return { type: 'forbidden', error: 'Reviewing submissions requires the Submission Reviewer role' };
+  }
+
+  if (op === 'list') {
+    const rows = [];
+    let start;
+    do {
+      const page = await doc.send(new ScanCommand({ TableName: submissions.TABLE, ExclusiveStartKey: start }));
+      rows.push(...(page.Items || []));
+      start = page.LastEvaluatedKey;
+    } while (start);
+    rows.sort((a, b) => (b.created ?? 0) - (a.created ?? 0));
+    return { ok: true, submissions: rows };
+  }
+
+  const result = submissions.sanitizeStatusUpdate(payload.data);
+  if (result.error) return { type: 'bad_request', error: result.error };
+  const now = Date.now();
+  const sets = { ...result.update, updated: now, updatedBy: caller.email };
+  const names = { '#id': '_id' };
+  const values = {};
+  const clauses = Object.entries(sets).map(([k, v], i) => {
+    names[`#f${i}`] = k;
+    values[`:v${i}`] = v;
+    return `#f${i} = :v${i}`;
+  });
+  if (result.note) {
+    names['#notes'] = 'notes';
+    values[':note'] = [{ at: now, by: caller.email, text: result.note, ...(result.update.status ? { status: result.update.status } : {}) }];
+    values[':empty'] = [];
+    clauses.push('#notes = list_append(if_not_exists(#notes, :empty), :note)');
+  }
+  try {
+    const res = await doc.send(
+      new UpdateCommand({
+        TableName: submissions.TABLE,
+        Key: { _id: payload.data._id },
+        UpdateExpression: `SET ${clauses.join(', ')}`,
+        ConditionExpression: 'attribute_exists(#id)',
+        ExpressionAttributeNames: names,
+        ExpressionAttributeValues: values,
+        ReturnValues: 'ALL_NEW'
+      })
+    );
+    console.log(JSON.stringify({ audit: 'SUBMISSION_UPDATE', email: caller.email, id: payload.data._id, status: result.update.status }));
+    return { ok: true, data: res.Attributes };
+  } catch (err) {
+    if (err.name === 'ConditionalCheckFailedException') return { type: 'bad_request', error: 'Submission not found' };
+    throw err;
+  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -322,4 +434,4 @@ async function handleListRegisteredUsers(token) {
   return { ok: true, users, statsSkipped };
 }
 
-module.exports = { handleWrite, handleEmail, handleListRegisteredUsers };
+module.exports = { handleWrite, handleEmail, handleListRegisteredUsers, handleSubmission };

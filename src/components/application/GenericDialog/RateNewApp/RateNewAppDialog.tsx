@@ -34,9 +34,11 @@ export interface ComponentProps {
   id?: string;
   onClose?: () => any;
   isAdminEdit: boolean;
+  onSaved?: (application: Application) => any; // called with the saved row (e.g. to link an App Submission)
+  successRoute?: string | null; // where to go after saving; null stays on the current page
 }
 
-export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = false }: ComponentProps) {
+export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = false, onSaved, successRoute = '/Apps' }: ComponentProps) {
   const [{ type }, setDialogState] = useDialogState(id);
   const [_steps, setSteps] = React.useState(steps(type));
 
@@ -92,9 +94,10 @@ export default function RateNewAppDialog({ id = title, onClose, isAdminEdit = fa
         draft
       },
       onError: () => setDialogState(prev => ({ ...prev, loading: false, error: 'Error submitting values' })),
-      onSuccess: () => {
+      onSuccess: (_result, saved) => {
         handleReset && handleReset();
-        changeRoute(publicUrl('/Apps'));
+        onSaved && onSaved(saved ?? application);
+        successRoute !== null && changeRoute(publicUrl(successRoute));
         handleClose();
       }
     });

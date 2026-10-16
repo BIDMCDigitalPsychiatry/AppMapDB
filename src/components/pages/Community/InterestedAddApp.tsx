@@ -1,8 +1,11 @@
 import { Box, Button, Typography } from '@mui/material';
-import { useHandleLink } from '../../../hooks';
+import { useHandleChangeRoute } from '../../layout/hooks';
+import { publicUrl } from '../../../helpers';
 
 const InterestedAddApp = () => {
-  const handleLink = useHandleLink('https://docs.google.com/forms/d/1n6HLuUhbncZG2NGbQgF5_cCmDkd8dY4UrEMVLmNFJA4/viewform?edit_requested=true');
+  // In-app submission form (replaced the Google Form, Oct 2026) — submissions
+  // land in Admin > App Suggestions.
+  const changeRoute = useHandleChangeRoute();
 
   return (
     <Box sx={{ pl: 2, pr: 2, pb: 3 }}>
@@ -10,7 +13,7 @@ const InterestedAddApp = () => {
       <Typography variant='body2' sx={{ mt: 0.5, mb: 1.5 }}>
         Fill out these questions for our team to review, and we'll get back to you soon!
       </Typography>
-      <Button variant='contained' onClick={handleLink} sx={{ textTransform: 'none' }}>
+      <Button variant='contained' onClick={changeRoute(publicUrl('/SuggestApp'))} sx={{ textTransform: 'none' }}>
         Suggest an App
       </Button>
     </Box>
