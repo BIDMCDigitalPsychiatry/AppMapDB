@@ -8,9 +8,9 @@ import { Alert, Box, Button, Chip, CircularProgress, Link, TextField, Typography
 import * as Icons from '@mui/icons-material';
 import { SubmissionForm } from '../../../database/appSubmissions';
 import { googlePlayProxyUrl } from '../../../constants';
-import { getAndroidIdFromUrl, getAppleIdFromUrl, isEmpty } from '../../../helpers';
+import { isEmpty } from '../../../helpers';
 import * as C from './content';
-import { Errors, StepId, hasStudies, visibleItems, STEP_IDS } from './form';
+import { Errors, StepId, hasStudies, visibleItems, STEP_IDS, appleStoreId, playStoreId } from './form';
 import { ChecklistGroup, ChoiceQuestion, Question, SectionIntro, SubHeading, TextQuestion, YesNoGroup, YesNoUnsureToggle, HelpText } from './fields';
 
 export type SetField = (path: string, value: any) => void;
@@ -31,74 +31,114 @@ interface StoreInfo {
   icon?: string;
 }
 
-const fetchStoreInfo = async (appId: string, type: 'apple' | 'google'): Promise<StoreInfo | undefined> => {
+type StoreType = 'apple' | 'google';
+const STORE_NAMES: Record<StoreType, string> = { apple: 'the App Store', google: 'Google Play' };
+
+// One cache per page load: re-typing a link that was already looked up doesn't call the proxy again.
+const storeCache = new Map<string, StoreInfo | null>();
+
+const fetchStoreInfo = async (appId: string, type: StoreType): Promise<StoreInfo | null> => {
+  const key = `${type}:${appId}`;
+  if (storeCache.has(key)) return storeCache.get(key) ?? null;
   try {
     const { data } = await Axios.get(`${googlePlayProxyUrl}?appId=${encodeURIComponent(appId)}&type=${type}`);
-    return data && data.title ? { title: data.title, developer: data.developer, icon: data.icon } : undefined;
+    const info = data && data.title ? { title: data.title, developer: data.developer, icon: data.icon } : null;
+    storeCache.set(key, info);
+    return info;
   } catch {
-    return undefined;
+    return null; // not cached: a network hiccup should be retried next time
   }
 };
 
-const StoreLookup = ({ form, set }: StepProps) => {
-  const appleId = getAppleIdFromUrl(form.app.iosLink ?? '');
-  const googleId = getAndroidIdFromUrl(form.app.androidLink ?? '');
-  const [state, setState] = React.useState<{ loading: boolean; info?: StoreInfo; failed?: boolean }>({ loading: false });
-  const nameRef = React.useRef(form.app);
-  nameRef.current = form.app;
+type LookupState = { status: 'empty' | 'invalid' | 'loading' | 'found' | 'notfound'; info?: StoreInfo };
 
+// Looks up ONE store link. Re-runs whenever that link's app id changes, so the status always
+// describes the link currently in the box (never a stale result from the other store).
+const useStoreLookup = (type: StoreType, link?: string): LookupState => {
+  const appId = type === 'apple' ? appleStoreId(link) : playStoreId(link);
+  const [state, setState] = React.useState<LookupState>({ status: 'empty' });
   React.useEffect(() => {
-    if (isEmpty(appleId) && isEmpty(googleId)) {
-      setState({ loading: false });
-      return;
-    }
+    if (isEmpty(link)) return setState({ status: 'empty' });
+    if (!appId) return setState({ status: 'invalid' });
     let cancelled = false;
-    setState({ loading: true });
+    setState({ status: 'loading' });
     const timer = setTimeout(async () => {
-      const info = (!isEmpty(appleId) && (await fetchStoreInfo(appleId, 'apple'))) || (!isEmpty(googleId) && (await fetchStoreInfo(googleId, 'google'))) || undefined;
-      if (cancelled) return;
-      setState({ loading: false, info, failed: !info });
-      // Fill name/developer only when the person hasn't typed their own.
-      if (info?.title && isEmpty(nameRef.current.name)) set('app.name', info.title);
-      if (info?.developer && isEmpty(nameRef.current.company)) set('app.company', info.developer);
-    }, 600);
+      const info = await fetchStoreInfo(appId, type);
+      if (!cancelled) setState(info ? { status: 'found', info } : { status: 'notfound' });
+    }, 500);
     return () => {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [appleId, googleId, set]);
+  }, [type, appId, link]);
+  return state;
+};
 
-  if (state.loading)
+// Status line shown directly under a store link field.
+const StoreLinkStatus = ({ type, lookup, hasError }: { type: StoreType; lookup: LookupState; hasError?: boolean }) => {
+  const store = STORE_NAMES[type];
+  if (lookup.status === 'invalid' && !hasError)
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 1 }}>
-        <CircularProgress size={18} />
+      <Typography variant='body2' color='text.secondary' sx={{ mt: 0.75, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+        <Icons.InfoOutlined sx={{ fontSize: 16 }} />
+        This doesn’t look like a {type === 'apple' ? 'App Store' : 'Google Play'} link yet — copy the full link from the store page.
+      </Typography>
+    );
+  if (lookup.status === 'loading')
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+        <CircularProgress size={16} />
         <Typography variant='body2' color='text.secondary'>
-          Looking up the app…
+          Checking {store}…
         </Typography>
       </Box>
     );
-  if (state.info)
+  if (lookup.status === 'found' && lookup.info)
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1.5, mt: 1, borderRadius: 1.5, border: 1, borderColor: 'success.light' }}>
-        {state.info.icon && <img src={state.info.icon} alt='' style={{ width: 48, height: 48, borderRadius: 10 }} />}
-        <Box sx={{ minWidth: 0 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, p: 1, mt: 1, borderRadius: 1.5, border: 1, borderColor: 'success.light' }}>
+        {lookup.info.icon && <img src={lookup.info.icon} alt='' style={{ width: 40, height: 40, borderRadius: 8, flexShrink: 0 }} />}
+        <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography sx={{ fontWeight: 700 }} noWrap>
-            {state.info.title}
+            {lookup.info.title}
           </Typography>
           <Typography variant='body2' color='text.secondary' noWrap>
-            {state.info.developer}
+            {lookup.info.developer}
           </Typography>
         </Box>
-        <Chip size='small' color='success' icon={<Icons.Check />} label='Found' sx={{ ml: 'auto' }} />
+        <Chip
+          size='small'
+          color='success'
+          icon={<Icons.Check />}
+          label={
+            <>
+              {/* Short label on phones so the app name isn't squeezed; the field above already names the store */}
+              <Box component='span' sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                Found on {type === 'apple' ? 'App Store' : 'Google Play'}
+              </Box>
+              <Box component='span' sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                Found
+              </Box>
+            </>
+          }
+          sx={{ flexShrink: 0 }}
+        />
       </Box>
     );
-  if (state.failed)
+  if (lookup.status === 'notfound')
     return (
-      <Typography variant='body2' color='text.secondary' sx={{ py: 1 }}>
-        We couldn’t look this app up automatically — that’s fine, just fill in the name below.
-      </Typography>
+      <Alert severity='warning' sx={{ mt: 1, py: 0 }}>
+        We couldn’t find this app on {store}. Please check the link — if it’s right, you can still continue and our reviewers will check it.
+      </Alert>
     );
-  return null;
+  return null; // empty, or invalid (the field shows the format error on Continue)
+};
+
+// Different apps behind the two store links (titles share no common word).
+const looksLikeDifferentApps = (a?: StoreInfo, b?: StoreInfo) => {
+  if (!a?.title || !b?.title) return false;
+  const words = (t: string) => new Set(t.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2));
+  const wa = words(a.title);
+  return !Array.from(words(b.title)).some(w => wa.has(w));
 };
 
 /* -------------------------------- Steps -------------------------------- */
@@ -155,6 +195,20 @@ const About = ({ form, set, errors }: StepProps) => (
 
 const AppStep = (props: StepProps) => {
   const { form, set, errors } = props;
+  const apple = useStoreLookup('apple', form.app.iosLink);
+  const google = useStoreLookup('google', form.app.androidLink);
+
+  // Fill name/developer from the first store result — only when the person hasn't typed their own.
+  const found = apple.info ?? google.info;
+  const appRef = React.useRef(form.app);
+  appRef.current = form.app;
+  React.useEffect(() => {
+    if (found?.title && isEmpty(appRef.current.name)) set('app.name', found.title);
+    if (found?.developer && isEmpty(appRef.current.company)) set('app.company', found.developer);
+  }, [found, set]);
+
+  const lookups: Record<string, { type: StoreType; lookup: LookupState }> = { iosLink: { type: 'apple', lookup: apple }, androidLink: { type: 'google', lookup: google } };
+
   return (
     <>
       <SectionIntro intro={C.SECTIONS.app.intro} />
@@ -166,19 +220,29 @@ const AppStep = (props: StepProps) => {
       >
         {(
           [
-            ['iosLink', 'Apple App Store link', 'https://apps.apple.com/us/app/…/id123456789'],
-            ['androidLink', 'Google Play link', 'https://play.google.com/store/apps/details?id=…'],
-            ['webLink', 'Website (for web apps)', 'https://…']
+            ['iosLink', 'Apple App Store link', 'https://apps.apple.com/us/app/…/id123456789', undefined],
+            ['androidLink', 'Google Play link', 'https://play.google.com/store/apps/details?id=…', undefined],
+            ['webLink', 'Website (for web apps)', 'https://…', 'Only if people can use the app in a web browser. Websites aren’t looked up automatically.']
           ] as const
-        ).map(([key, label, placeholder]) => (
-          <Box key={key} data-field={`app.${key}`} sx={{ mb: 1.5 }}>
+        ).map(([key, label, placeholder, note]) => (
+          <Box key={key} data-field={`app.${key}`} sx={{ mb: 2 }}>
             <Typography variant='body2' sx={{ fontWeight: 600, mb: 0.5 }}>
               {label}
             </Typography>
             <TextFieldInline value={form.app[key]} placeholder={placeholder} onChange={v => set(`app.${key}`, v.trim())} error={errors[`app.${key}`]} label={label} />
+            {note && (
+              <Typography variant='caption' color='text.secondary' sx={{ display: 'block', mt: 0.5 }}>
+                {note}
+              </Typography>
+            )}
+            {lookups[key] && <StoreLinkStatus type={lookups[key].type} lookup={lookups[key].lookup} hasError={!!errors[`app.${key}`]} />}
           </Box>
         ))}
-        <StoreLookup {...props} />
+        {looksLikeDifferentApps(apple.info, google.info) && (
+          <Alert severity='warning'>
+            These two links seem to point to different apps (“{apple.info?.title}” and “{google.info?.title}”). Please check that both are for the same app.
+          </Alert>
+        )}
       </Question>
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, columnGap: 2 }}>
         <TextQuestion fieldKey='app.name' label='App name' value={form.app.name} onChange={v => set('app.name', v)} error={errors['app.name']} />
