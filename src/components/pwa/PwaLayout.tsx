@@ -5,6 +5,7 @@ import { useAppBarHeight } from '../layout/hooks';
 import ScrollElementProvider from '../layout/ScrollElementProvider';
 import useHeight from '../layout/ViewPort/hooks/useHeight';
 import PwaAppBar from './PwaAppBar';
+import AnalyticsConsentBanner from '../layout/AnalyticsConsentBanner';
 import { useAppTableDataInit } from '../pages/useAppTableData';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
@@ -68,6 +69,7 @@ export function PwaLayout({ children }) {
           {!showLanding && <PwaAppBar />}
           {!showLanding && <div className={classes.toolbar} />}
           <div className={classes.innerContent}>{children}</div>
+          <AnalyticsConsentBanner />
         </ScrollElementProvider>
       </main>
     </div>

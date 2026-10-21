@@ -3,6 +3,7 @@ import { useScrollTrigger } from '@mui/material';
 import { makeStyles } from '../../styles/jss';
 import { createStyles } from '../../styles/jss';
 import SnackBar from '../application/SnackBar/SnackBar';
+import AnalyticsConsentBanner from './AnalyticsConsentBanner';
 import { useAssistantPanel, useLeftDrawer } from './store';
 import { useAppBarHeight, useFooterHeight, useTourCompleted } from './hooks';
 import ApplicationBar from './ApplicationBar';
@@ -128,6 +129,7 @@ export default function Layout({ children }) {
           <div className={classes.innerContent}>{children}</div>
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
           <SnackBar />
+          <AnalyticsConsentBanner />
           <KeyWords />
           {/* Renders only under REACT_APP_USE_LOCAL_DATA (npm run start:local) */}
           <DevRoleSwitcher />

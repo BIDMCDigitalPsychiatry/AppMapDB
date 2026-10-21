@@ -9,14 +9,13 @@ import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
 import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
-import { useHandleChangeRoute } from '../../../layout/hooks';
-import { publicUrl } from '../../../../helpers';
+import { useOpenApp } from '../../../layout/hooks';
 import { useT } from '../../../../i18n';
 
 export default function RatingsColumn({ _id }) {
   const initialValues = useSelector((s: AppState) => s.database[tables.applications][_id]);
   const signedInRater = useSignedInRater();
-  const handleChangeRoute = useHandleChangeRoute();
+  const openApp = useOpenApp();
   const t = useT();
 
   return (
@@ -26,7 +25,7 @@ export default function RatingsColumn({ _id }) {
           variant='iconbutton'
           mount={false}
           Icon={Icons.Pageview}
-          onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'ApplicationTable' })}
+          onClick={() => openApp(initialValues, 'ApplicationTable')}
           tooltip={t('View Additional Application Info')}
           placement='bottom'
         />

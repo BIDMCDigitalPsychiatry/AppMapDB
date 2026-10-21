@@ -8,7 +8,7 @@ import { AppState } from '../../../../store';
 import { tables } from '../../../../database/dbConfig';
 import { useSignedInRater } from '../../../../hooks';
 import * as Icons from '@mui/icons-material';
-import { useHandleChangeRoute } from '../../../layout/hooks';
+import { useHandleChangeRoute, useOpenApp } from '../../../layout/hooks';
 import { publicUrl } from '../../../../helpers';
 import { useT } from '../../../../i18n';
 
@@ -17,6 +17,7 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
   const signedInRater = useSignedInRater();
 
   const handleChangeRoute = useHandleChangeRoute();
+  const openApp = useOpenApp();
   const t = useT();
 
   return (
@@ -27,7 +28,7 @@ export default function MyRatingsColumnPending({ _id, canEdit = true, showRating
             variant='iconbutton'
             mount={false}
             Icon={Icons.Pageview}
-            onClick={handleChangeRoute(publicUrl('/ViewApp'), { app: initialValues, from: 'ApplicationTable' })}
+            onClick={() => openApp(initialValues, 'ApplicationTable')}
             tooltip={t('View Additional Application Info')}
             placement='bottom'
           />

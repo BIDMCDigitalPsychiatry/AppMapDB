@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Grid, Typography, Divider, Box, Collapse, IconButton, Button } from '@mui/material';
+import { Grid, Typography, Divider, Box, Collapse, IconButton, Button, CircularProgress } from '@mui/material';
+import { useHistory, useLocation } from 'react-router';
 import { createStyles } from '../../styles/jss';
 import { makeStyles } from '../../styles/jss';
 import { useFullScreen } from '../../hooks';
@@ -14,7 +15,9 @@ import ViewAppRating from './ViewAppRating';
 import * as Icons from '@mui/icons-material';
 import ViewAppHeader from './ViewAppHeader';
 import ExpandableDescriptionWithLanguages from '../application/GenericTable/ApplicationsGrid/ExpandableDescriptionWithLanguages';
-import { useT } from '../../i18n';
+import { useLanguage, useT } from '../../i18n';
+import { appDisplayName, appPath, matchesShortId, parseAppPath } from '../../appUrl';
+import { useApprovedAppByShortId } from './useAppTableData';
 
 const useStyles = makeStyles(({ palette }: any) =>
   createStyles({
@@ -35,6 +38,94 @@ export default function ViewApp() {
   const { app = {}, from } = state;
 
   return <ViewAppContent app={app} from={from} />;
+}
+
+const DEFAULT_TITLE = 'MIND: Find and Compare Mental Health Apps'; // matches index.html
+
+// The app record a statically generated page embeds (scripts/seo/generate.ts), read once at load. It only
+// applies to the app whose page was loaded; later in-app navigation won't match its id.
+const EMBEDDED_APP = (() => {
+  try {
+    const json = document.getElementById('mind-app-data')?.textContent;
+    return json ? JSON.parse(json) : undefined;
+  } catch {
+    return undefined;
+  }
+})();
+
+/**
+ * Public app page at /apps/<name>-<id> (and /fr/…, /de/…), see src/appUrl.ts. Arriving from a card, the
+ * record comes with the navigation and shows immediately; opening the address directly (a shared link, a
+ * search result) looks it up. A /fr or /de address sets the language on arrival; afterwards the address is
+ * kept in step with the interface language and the app's current name.
+ */
+export function AppPage() {
+  const t = useT();
+  const { pathname } = useLocation();
+  const history = useHistory();
+  const [state] = useRouteState();
+  const [lang, setLang] = useLanguage();
+  const parsed = parseAppPath(pathname);
+  const shortId = parsed?.shortId ?? '';
+
+  const fromNavigation = state?.app && matchesShortId(state.app, shortId) ? state.app : undefined;
+  const lookup = useApprovedAppByShortId(fromNavigation ? '' : shortId, EMBEDDED_APP);
+  const app = fromNavigation ?? lookup.app;
+  const status = fromNavigation ? 'found' : lookup.status;
+
+  // On arrival, a /fr or /de address sets the interface language, like ?lang= does. A plain address keeps
+  // the visitor's own choice (a French visitor opening a shared English link stays in French).
+  const urlLanguage = parsed && parsed.lang !== 'en' ? parsed.lang : null;
+  const arrivalLanguageApplied = React.useRef(!urlLanguage);
+  React.useEffect(() => {
+    if (urlLanguage && urlLanguage !== lang) setLang(urlLanguage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Afterwards, keep the address matching the interface language and the app's current name. Until the
+  // arrival language has taken effect, `lang` is still the previous one and must not rewrite the address.
+  React.useEffect(() => {
+    if (!app || !parsed) return;
+    if (!arrivalLanguageApplied.current) {
+      if (lang !== urlLanguage) return;
+      arrivalLanguageApplied.current = true;
+    }
+    const canonical = appPath(app, lang);
+    if (canonical !== pathname) history.replace(canonical, history.location.state);
+  }, [app, lang, pathname, parsed, history]);
+
+  const name = app ? appDisplayName(app) : '';
+  React.useEffect(() => {
+    if (!name) return;
+    document.title = `${name} | MIND`;
+    return () => {
+      document.title = DEFAULT_TITLE;
+    };
+  }, [name]);
+
+  if (status === 'loading') {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (status === 'missing' || !app) {
+    return (
+      <Box sx={{ maxWidth: 720, mx: 'auto', p: 4 }}>
+        <Alert severity='info'>
+          <AlertTitle>{t('This app is no longer listed')}</AlertTitle>
+          {t('It may have been removed or merged with another listing.')}
+        </Alert>
+        <Button startIcon={<Icons.ArrowBack />} onClick={() => history.push(publicUrl('/Apps'))} sx={{ mt: 2, textTransform: 'none', fontWeight: 600 }}>
+          {t('Browse all apps')}
+        </Button>
+      </Box>
+    );
+  }
+
+  return <ViewAppContent app={app} from={fromNavigation ? state.from : undefined} />;
 }
 
 export function ViewAppContent({ app = {}, from }) {
