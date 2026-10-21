@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Google Analytics 4 (property "mindapps.org" in the MIND account). Production hostnames only, so local
+         dev and previews aren't counted. Consent Mode: analytics storage is denied by default for visitors in the
+         EEA, UK and Switzerland (Google applies the region server-side), so no analytics cookies are set for them
+         unless they accept in the consent banner (src/components/layout/AnalyticsConsentBanner.tsx). Page changes inside the app are tracked by GA4's enhanced
+         measurement (browser history events). -->
+    <script>
+      if (/(^|\.)mindapps\.org$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+                   'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+        });
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        // A choice made in the consent banner (src/analytics/consent.ts, same storage key) applies before the
+        // first page view is sent.
+        try {
+          var choice = localStorage.getItem('mindapps-analytics-consent');
+          if (choice === 'granted' || choice === 'denied') gtag('consent', 'update', { analytics_storage: choice });
+        } catch (e) {}
+        gtag('js', new Date());
+        gtag('config', 'G-NMVKGDPRMS');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NMVKGDPRMS';
+        document.head.appendChild(s);
+      }
+    </script>
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="google-site-verification" content="W_RJ9COb6zt36nIh3LrgbTq6MR5CfYyrtdBZiO101cU" />
+    <title>Be Safe – MIND app evaluation</title>
+    <meta name="description" content="Independent MIND evaluation of Be Safe: cost, privacy, supporting evidence and features." />
+    <link rel="canonical" href="https://mindapps.org/apps/be-safe-45ac9a36" />
+    <link rel="alternate" hreflang="en" href="https://mindapps.org/apps/be-safe-45ac9a36" />
+    <link rel="alternate" hreflang="fr" href="https://mindapps.org/fr/apps/be-safe-45ac9a36" />
+    <link rel="alternate" hreflang="de" href="https://mindapps.org/de/apps/be-safe-45ac9a36" />
+    <link rel="alternate" hreflang="x-default" href="https://mindapps.org/apps/be-safe-45ac9a36" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MIND" />
+    <meta property="og:title" content="Be Safe – MIND app evaluation" />
+    <meta property="og:description" content="Independent MIND evaluation of Be Safe: cost, privacy, supporting evidence and features." />
+    <meta property="og:url" content="https://mindapps.org/apps/be-safe-45ac9a36" />
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/bf/aa/78/bfaa7859-5957-efed-776d-c281fb90c1f3/AppIcon-1x_U007emarketing-0-8-0-0-85-220-0.png/512x512bb.jpg" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Be Safe","url":"https://mindapps.org/apps/be-safe-45ac9a36","description":"Independent MIND evaluation of Be Safe: cost, privacy, supporting evidence and features.","applicationCategory":"HealthApplication","operatingSystem":"Android, iOS","image":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/bf/aa/78/bfaa7859-5957-efed-776d-c281fb90c1f3/AppIcon-1x_U007emarketing-0-8-0-0-85-220-0.png/512x512bb.jpg","author":{"@type":"Organization","name":"Accent HR"},"dateModified":"2026-10-04","inLanguage":"en"}</script>
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- manifest.json provides metadata used when the app is installed to a home screen -->
+    <link rel="manifest" href="/manifest.json" />
+    <script type="module" crossorigin src="/assets/index-DHNwhq64.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ChbXY_Ci.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><style>.seo-static{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px 16px;line-height:1.5;color:#1d2433}.seo-static img{border-radius:16px}.seo-static dt{font-weight:600;margin-top:8px}.seo-static dd{margin:0}</style><main class="seo-static"><nav><a href="/">Browse all evaluated apps</a></nav><header><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/bf/aa/78/bfaa7859-5957-efed-776d-c281fb90c1f3/AppIcon-1x_U007emarketing-0-8-0-0-85-220-0.png/512x512bb.jpg" alt="" width="96" height="96" /><h1>Be Safe</h1><p>By Accent HR</p></header><section><h2>MIND evaluation</h2><dl><dt>Cost</dt><dd>Free to Download, Totally Free</dd><dt>Platforms</dt><dd>Android, iOS</dd><dt>Supported Conditions</dt><dd>Self-Harm</dd><dt>Privacy</dt><dd>Has Privacy Policy, Data Stored on Server, App Declares Data Use and Purpose, App Reports Security Measures in Place, Is PHI Shared, Is De-Identified Data Shared</dd><dt>Clinical Foundation</dt><dd>Well Written Relevant Content, Does What it Claims, Patient Facing</dd><dt>Features</dt><dd>Journaling</dd><dt>Functionalities</dt><dd>Offline, Email or Export Your Data</dd><dt>Engagements</dt><dd>User Generated Data, Network Support</dd><dt>Inputs</dt><dd>Diary</dd><dt>Developer Type</dt><dd>For Profit Company</dd></dl><p>Last reviewed: October 3, 2026</p><p><a href="/FrameworkQuestions">How apps are evaluated</a></p></section><section><h2>From the app store</h2><p><em>Description from the app store — not vetted by MIND</em></p><p>The Be Safe app is free and enables the person with thoughts of suicide to create a safety plan that will help keep them safe should another suicidal crisis occur. It is a person driven app that empowers them to manage their thoughts/behaviours.</p><p>Phone contacts and Helplines can be called directly from the app without scrolling through their contact list. When they have completed their safety plan, they can email it directly from the app to formal or informal supports of their choice.</p><p>And their safety plan can be updated at any time.This app is based on the latest research by Barbara Stanley and Gregory Brown. You can read more about the authors by clicking on this link: https://suicidesafetyplan.com</p></section><section><h2>Get the app</h2><ul><li><a href="https://apps.apple.com/us/app/be-safe/id1372439182" rel="nofollow">App Store</a></li><li><a href="https://play.google.com/store/apps/details?id=org.au.keepcalm.keepsafe&amp;hl=en_US&amp;gl=US" rel="nofollow">Google Play</a></li></ul></section></main></div>
+    <script type="application/json" id="mind-app-data">{"updated":1791078774713,"readingLevel":"12","efficacyImpact":0,"features":["Journaling"],"groupId":"45ac9a362cdc4117854af0f3c5bc66b0","feasibilityStudies":0,"feasibilityImpact":0,"engagements":["User Generated Data","Network Support"],"cur":"approved","inputs":["Diary"],"created":1790993144320,"draft":false,"appleStore":{"screenshots":["https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/79/d1/37/79d13762-272c-d081-f633-a64f5ec354ef/mzl.ztaxdsig.png/392x696bb.png","https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/c6/dc/58/c6dc5843-246d-e736-67b9-fbc0539705f4/mzl.fbybvyer.png/392x696bb.png","https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/11/ab/38/11ab386c-5170-fb17-0a38-4d3389dbb667/mzl.mztlnhja.png/392x696bb.png","https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/b2/06/a1/b206a1a3-9bb7-a8e9-f154-c9e078b25fec/mzl.bddqmygh.png/392x696bb.png","https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/e8/fb/9d/e8fb9d0b-dc62-2c2a-1c56-4ce2f1e5eef5/mzl.xqffywis.png/392x696bb.png"],"icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/bf/aa/78/bfaa7859-5957-efed-776d-c281fb90c1f3/AppIcon-1x_U007emarketing-0-8-0-0-85-220-0.png/512x512bb.jpg","developer":"Accent HR Pty Ltd","free":true,"title":"Be Safe","url":"https://apps.apple.com/us/app/be-safe/id1372439182?uo=4","description":"The Be Safe app is free and enables the person with thoughts of suicide to create a safety plan that will help keep them safe should another suicidal crisis occur. It is a person driven app that empowers them to manage their thoughts/behaviours.\n\nPhone contacts and Helplines can be called directly from the app without scrolling through their contact list. When they have completed their safety plan, they can email it directly from the app to formal or informal supports of their choice.\n\nAnd their safety plan can be updated at any time.This app is based on the latest research by Barbara Stanley and Gregory Brown. You can read more about the authors by clicking on this link: https://suicidesafetyplan.com","appId":"org.au.keepcalm.keepsafe"},"iosLink":"https://apps.apple.com/us/app/be-safe/id1372439182","functionalities":["Offline","Email or Export Your Data"],"privacies":["Has Privacy Policy","Data Stored on Server","App Declares Data Use and Purpose","App Reports Security Measures in Place","Is PHI Shared","Is De-Identified Data Shared"],"approved":true,"efficacyStudies":0,"delete":false,"developerTypes":["For Profit Company"],"conditions":["Self-Harm"],"androidLink":"https://play.google.com/store/apps/details?id=org.au.keepcalm.keepsafe&hl=en_US&gl=US","_id":"504b4fc013c14dab83faeec73b1d5f07","costs":["Free to Download","Totally Free"],"platforms":["Android","iOS"],"androidStore":{"installs":"10,000+","icon":"https://play-lh.googleusercontent.com/82Bu_A97shzyaBQm1SZmPpQFqqRBA1q4G79OtMxP6RArONMnV-FhSdcXvh7q9OUCnGixX8S_mlsWhGIF5nDw","developer":"Accent HR","adSupported":false,"title":"Be Safe","screenshots":["https://play-lh.googleusercontent.com/kABLCEpbHiE50-H0PrE5WZN4gBeBkxIkt0WPfvhH8ntg6WNG8feqG6jXBQ0yeDfCT_Kzh91V40kGTKc7cXq07Tk","https://play-lh.googleusercontent.com/BYjlrsUHTBX-0hHkwdVtC1MPo2dnJEMwCstKHsLvz21JOchPu5SsOBSLDFZtTJESLaSLcv5BbtOCMQE4DCVVqtI","https://play-lh.googleusercontent.com/AXneeKvpfwUpuswHCdmjsGhbpSUJc70Gp_ZaIZ-YDawzJMfv0xZO2NZ3uF4h4oq7x9A0nU1tYrvSpe4uSlq5uBY","https://play-lh.googleusercontent.com/Ac6z6u1NDDA8pNmFq8mqJPzWN89mmMltaLKzKMKoV8WF1oMxFqIW_gLk2ivFBhS-vlnonKT-PXSZjhP7Ze35kA","https://play-lh.googleusercontent.com/CMQHzvylafaegiuNJGin7CLPzdeYTwhRoF5QNMUwwtgWsyE79-I3uQ1d0wr3Ouj4YLcxu5D_ZXoaXlEuU62ZAX0"],"description":"CALM Safety Plan\n\nThis app empowers you to help yourself to stay safe and to reach out to others when you have thoughts of suicide. It will help you recognise your triggers; things you can do to divert your mind, people you can see or places where you can go to be safe, connected and distracted; who you can contact when you are struggling, who will help you from a professional perspective, and what you can do to keep your environment safe.","offersIAP":false,"appId":"org.au.keepcalm.keepsafe","free":true,"url":"https://play.google.com/store/apps/details?id=org.au.keepcalm.keepsafe&hl=en&gl=us"},"clinicalFoundations":["Well Written Relevant Content","Does What it Claims","Patient Facing"],"parent":"34635a5a22c54197ba36a3bc2104d845"}</script>
+  </body>
+</html>
