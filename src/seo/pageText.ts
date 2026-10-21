@@ -16,7 +16,7 @@ export const text = {
   ),
   libraryHeading: tx('Mental health apps evaluated by MIND'),
   libraryIntro: tx(
-    'MIND, the M-Health Index and Navigation Database, is a free library of mental health apps evaluated by trained raters at the Division of Digital Psychiatry at BIDMC. Each app is assessed on cost, privacy, supporting evidence, features and the conditions it supports, using the American Psychiatric Association’s app evaluation framework.'
+    'MIND, the M-Health Index and Navigation Database, is a free library of mental health apps evaluated by trained raters. Each app is assessed on cost, privacy, supporting evidence, features and the conditions it supports, using 105 objective questions based on the American Psychiatric Association’s App Evaluation Model.'
   ),
   allApps: tx('All evaluated apps ({{count}})'),
 
