@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Google Analytics 4 (property "mindapps.org" in the MIND account). Production hostnames only, so local
+         dev and previews aren't counted. Consent Mode: analytics storage is denied by default for visitors in the
+         EEA, UK and Switzerland (Google applies the region server-side), so no analytics cookies are set for them
+         unless they accept in the consent banner (src/components/layout/AnalyticsConsentBanner.tsx). Page changes inside the app are tracked by GA4's enhanced
+         measurement (browser history events). -->
+    <script>
+      if (/(^|\.)mindapps\.org$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+                   'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+        });
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        // A choice made in the consent banner (src/analytics/consent.ts, same storage key) applies before the
+        // first page view is sent.
+        try {
+          var choice = localStorage.getItem('mindapps-analytics-consent');
+          if (choice === 'granted' || choice === 'denied') gtag('consent', 'update', { analytics_storage: choice });
+        } catch (e) {}
+        gtag('js', new Date());
+        gtag('config', 'G-NMVKGDPRMS');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NMVKGDPRMS';
+        document.head.appendChild(s);
+      }
+    </script>
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="google-site-verification" content="W_RJ9COb6zt36nIh3LrgbTq6MR5CfYyrtdBZiO101cU" />
+    <title>Qwell  – MIND app evaluation</title>
+    <meta name="description" content="Independent MIND evaluation of Qwell : cost, privacy, supporting evidence and features." />
+    <link rel="canonical" href="https://mindapps.org/apps/qwell-20dcdcbb" />
+    <link rel="alternate" hreflang="en" href="https://mindapps.org/apps/qwell-20dcdcbb" />
+    <link rel="alternate" hreflang="fr" href="https://mindapps.org/fr/apps/qwell-20dcdcbb" />
+    <link rel="alternate" hreflang="de" href="https://mindapps.org/de/apps/qwell-20dcdcbb" />
+    <link rel="alternate" hreflang="x-default" href="https://mindapps.org/apps/qwell-20dcdcbb" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MIND" />
+    <meta property="og:title" content="Qwell  – MIND app evaluation" />
+    <meta property="og:description" content="Independent MIND evaluation of Qwell : cost, privacy, supporting evidence and features." />
+    <meta property="og:url" content="https://mindapps.org/apps/qwell-20dcdcbb" />
+    <meta property="og:image" content="https://mindapps.org/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Qwell ","url":"https://mindapps.org/apps/qwell-20dcdcbb","description":"Independent MIND evaluation of Qwell : cost, privacy, supporting evidence and features.","applicationCategory":"HealthApplication","operatingSystem":"Web","author":{"@type":"Organization","name":"Kooth PLC"},"dateModified":"2026-10-23","inLanguage":"en"}</script>
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- manifest.json provides metadata used when the app is installed to a home screen -->
+    <link rel="manifest" href="/manifest.json" />
+    <script type="module" crossorigin src="/assets/index-DHNwhq64.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ChbXY_Ci.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><style>.seo-static{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px 16px;line-height:1.5;color:#1d2433}.seo-static img{border-radius:16px}.seo-static dt{font-weight:600;margin-top:8px}.seo-static dd{margin:0}</style><main class="seo-static"><nav><a href="/">Browse all evaluated apps</a></nav><header><h1>Qwell </h1><p>By Kooth PLC</p></header><section><h2>MIND evaluation</h2><dl><dt>Cost</dt><dd>Free to Download, Totally Free</dd><dt>Platforms</dt><dd>Web</dd><dt>Supported Conditions</dt><dd>Non-Specific, Stress &amp; Anxiety</dd><dt>Privacy</dt><dd>Has Privacy Policy, Can Delete Data, App Declares Data Use and Purpose, App Reports Security Measures in Place, Is PHI Shared, Data Stored on Server, Is De-Identified Data Shared, Is Anonymized/Aggregate Data Shared, Can Opt Out of Data Collection</dd><dt>Clinical Foundation</dt><dd>Well Written Relevant Content, Does What it Claims, Patient Facing, Can Cause Harm, Appropriately Advises Patient in Case of Emergency, Supporting Studies</dd><dt>Features</dt><dd>Track Mood, Psychoeducation, Journaling, Peer Support, Coach/Therapist Connection, Goal Setting/Habits</dd><dt>Functionalities</dt><dd>Own Your Own Data</dd><dt>Engagements</dt><dd>User Generated Data, Chat/Message, Real Time Response, Asynchronous Response, Peer Support</dd><dt>Inputs</dt><dd>Diary, Surveys</dd><dt>Outputs</dt><dd>References/Information, Link to Formal Care/Coaching</dd><dt>Developer Type</dt><dd>For Profit Company, Healthcare Company</dd><dt>Country Availability</dt><dd>Canada</dd></dl><p>Last reviewed: October 23, 2026</p><p><a href="/FrameworkQuestions">How apps are evaluated</a></p></section><section><h2>Get the app</h2><ul><li><a href="https://www.qwell.io/" rel="nofollow">Website</a></li></ul></section></main></div>
+    <script type="application/json" id="mind-app-data">{"outputs":["References/Information","Link to Formal Care/Coaching"],"parent":{"_id":"386d8c136f8f4289ad81035eb8f15bab"},"developerTypes":["For Profit Company","Healthcare Company"],"inputs":["Diary","Surveys"],"features":["Track Mood","Psychoeducation","Journaling","Peer Support","Coach/Therapist Connection","Goal Setting/Habits"],"countries":["Canada"],"company":"Kooth PLC","_id":"3154301a771e48d7946c4b98d4a0c7a5","updated":1792732038066,"approved":true,"functionalities":["Own Your Own Data"],"uses":["Self Help","Reference","Hybrid","Kids Help Phone Approved","Available in Canada"],"engagements":["User Generated Data","Chat/Message","Real Time Response","Asynchronous Response","Peer Support"],"efficacyStudies":"1","privacies":["Has Privacy Policy","Can Delete Data","App Declares Data Use and Purpose","App Reports Security Measures in Place","Is PHI Shared","Data Stored on Server","Is De-Identified Data Shared","Is Anonymized/Aggregate Data Shared","Can Opt Out of Data Collection"],"name":"Qwell ","webLink":"https://www.qwell.io/","cur":"approved","groupId":"20dcdcbbb05e49ae8c2340f9375a56ba","efficacyImpact":"3","clinicalFoundations":["Well Written Relevant Content","Does What it Claims","Patient Facing","Can Cause Harm","Appropriately Advises Patient in Case of Emergency","Supporting Studies"],"costs":["Free to Download","Totally Free"],"platforms":["Web"],"draft":false,"created":1792732035465,"feasibilityImpact":0,"feasibilityStudies":0,"readingLevel":"11","conditions":["Non-Specific","Stress & Anxiety"],"efficacyStudiesLink":"https://onlinelibrary.wiley.com/doi/10.1002/capr.12584","delete":false}</script>
+  </body>
+</html>

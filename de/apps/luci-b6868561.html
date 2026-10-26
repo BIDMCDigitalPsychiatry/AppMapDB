@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Google Analytics 4 (property "mindapps.org" in the MIND account). Production hostnames only, so local
+         dev and previews aren't counted. Consent Mode: analytics storage is denied by default for visitors in the
+         EEA, UK and Switzerland (Google applies the region server-side), so no analytics cookies are set for them
+         unless they accept in the consent banner (src/components/layout/AnalyticsConsentBanner.tsx). Page changes inside the app are tracked by GA4's enhanced
+         measurement (browser history events). -->
+    <script>
+      if (/(^|\.)mindapps\.org$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+                   'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+        });
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        // A choice made in the consent banner (src/analytics/consent.ts, same storage key) applies before the
+        // first page view is sent.
+        try {
+          var choice = localStorage.getItem('mindapps-analytics-consent');
+          if (choice === 'granted' || choice === 'denied') gtag('consent', 'update', { analytics_storage: choice });
+        } catch (e) {}
+        gtag('js', new Date());
+        gtag('config', 'G-NMVKGDPRMS');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NMVKGDPRMS';
+        document.head.appendChild(s);
+      }
+    </script>
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="google-site-verification" content="W_RJ9COb6zt36nIh3LrgbTq6MR5CfYyrtdBZiO101cU" />
+    <title>Luci – MIND-Bewertung</title>
+    <meta name="description" content="Unabhängige MIND-Bewertung von Luci: Kosten, Datenschutz, wissenschaftliche Belege und Funktionen." />
+    <link rel="canonical" href="https://mindapps.org/de/apps/luci-b6868561" />
+    <link rel="alternate" hreflang="en" href="https://mindapps.org/apps/luci-b6868561" />
+    <link rel="alternate" hreflang="fr" href="https://mindapps.org/fr/apps/luci-b6868561" />
+    <link rel="alternate" hreflang="de" href="https://mindapps.org/de/apps/luci-b6868561" />
+    <link rel="alternate" hreflang="x-default" href="https://mindapps.org/apps/luci-b6868561" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MIND" />
+    <meta property="og:title" content="Luci – MIND-Bewertung" />
+    <meta property="og:description" content="Unabhängige MIND-Bewertung von Luci: Kosten, Datenschutz, wissenschaftliche Belege und Funktionen." />
+    <meta property="og:url" content="https://mindapps.org/de/apps/luci-b6868561" />
+    <meta property="og:image" content="https://mindapps.org/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Luci","url":"https://mindapps.org/de/apps/luci-b6868561","description":"Unabhängige MIND-Bewertung von Luci: Kosten, Datenschutz, wissenschaftliche Belege und Funktionen.","applicationCategory":"HealthApplication","operatingSystem":"Web","author":{"@type":"Organization","name":"Lucilab"},"dateModified":"2026-09-30","inLanguage":"de"}</script>
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- manifest.json provides metadata used when the app is installed to a home screen -->
+    <link rel="manifest" href="/manifest.json" />
+    <script type="module" crossorigin src="/assets/index-DHNwhq64.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ChbXY_Ci.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><style>.seo-static{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px 16px;line-height:1.5;color:#1d2433}.seo-static img{border-radius:16px}.seo-static dt{font-weight:600;margin-top:8px}.seo-static dd{margin:0}</style><main class="seo-static"><nav><a href="/de/Apps">Alle bewerteten Apps durchsuchen</a></nav><header><h1>Luci</h1><p>Von Lucilab</p></header><section><h2>MIND-Bewertung</h2><dl><dt>Kosten</dt><dd>Kostenloser Download, Komplett kostenlos</dd><dt>Plattformen</dt><dd>Web</dd><dt>Unterstützte Erkrankungen</dt><dd>Unspezifisch</dd><dt>Datenschutz</dt><dd>Datenschutzerklärung vorhanden, Daten auf einem Server gespeichert, Daten löschbar, App gibt Datennutzung und Zweck an, App nennt bestehende Sicherheitsmaßnahmen, Widerspruch gegen Datenerhebung möglich</dd><dt>Klinische Grundlage</dt><dd>Gut geschriebene, relevante Inhalte, Hält, was sie verspricht, Für Patienten, Warnhinweis, Berät Patienten im Notfall angemessen, Unterstützende Studien</dd><dt>Funktionen</dt><dd>Zielsetzung/Gewohnheiten, Produktivität, Körperliche Gesundheit, Verbindung zu Coach/Therapeut</dd><dt>Funktionalität</dt><dd>Spanisch, Datenhoheit, Daten per E-Mail senden oder exportieren</dd><dt>Interaktion</dt><dd>Nutzergenerierte Daten, Chat/Nachrichten, Assessments/Screenings, Antwort in Echtzeit, Videos, Zusammenarbeit mit Fachperson/anderen</dd><dt>Therapieansätze</dt><dd>Übungen für die körperliche Gesundheit</dd><dt>Eingaben</dt><dd>Fragebögen, Kamera, Mikrofon</dd><dt>Ausgaben</dt><dd>Quellen/Informationen, Datenzusammenfassung</dd><dt>Herkunft</dt><dd>Gewinnorientiertes Unternehmen</dd><dt>Länderverfügbarkeit</dt><dd>Kanada</dd></dl><p>Zuletzt bewertet: 30. September 2026</p><p><a href="/FrameworkQuestions">So werden Apps bewertet</a></p></section><section><h2>App herunterladen</h2><ul><li><a href="https://luciapp.ca/fr/public/dashboard/home/detail" rel="nofollow">Website</a></li></ul></section></main></div>
+    <script type="application/json" id="mind-app-data">{"features":["Goal Setting/Habits","Productivity","Physical Health","Coach/Therapist Connection"],"conditions":["Non-Specific"],"clinicalFoundations":["Well Written Relevant Content","Does What it Claims","Patient Facing","Use Warning","Appropriately Advises Patient in Case of Emergency","Supporting Studies"],"treatmentApproaches":["Physical Health Exercises"],"outputs":["References/Information","Summary of Data"],"created":1783444604521,"cur":"approved","name":"Luci","feasibilityStudiesLink":"https://alz-journals.onlinelibrary.wiley.com/doi/10.1002/alz70860_106996","webLink":"https://luciapp.ca/fr/public/dashboard/home/detail","company":"Lucilab","draft":false,"platforms":["Web"],"feasibilityImpact":"12.8","efficacyImpact":"10.8","costs":["Free to Download","Totally Free"],"engagements":["User Generated Data","Chat/Message","Assessments/Screenings","Real Time Response","Videos","Collaborative With Provider/Other"],"approved":true,"_id":"fd97d99631214397ba8bb2d9d5242eda","delete":false,"efficacyStudies":"1","feasibilityStudies":"1","countries":["Canada"],"readingLevel":"12","inputs":["Surveys","Camera","Microphone"],"developerTypes":["For Profit Company"],"efficacyStudiesLink":"https://academic.oup.com/abm/article-abstract/59/1/kaae087/7985307?redirectedFrom=fulltext&login=false","functionalities":["Spanish","Own Your Own Data","Email or Export Your Data"],"privacies":["Has Privacy Policy","Data Stored on Server","Can Delete Data","App Declares Data Use and Purpose","App Reports Security Measures in Place","Can Opt Out of Data Collection"],"groupId":"b6868561b3d544a0be4534d8d05e7c74","updated":1790781242447,"uses":["Self Help","Reference","Available in Canada"]}</script>
+  </body>
+</html>

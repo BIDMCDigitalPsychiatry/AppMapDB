@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Google Analytics 4 (property "mindapps.org" in the MIND account). Production hostnames only, so local
+         dev and previews aren't counted. Consent Mode: analytics storage is denied by default for visitors in the
+         EEA, UK and Switzerland (Google applies the region server-side), so no analytics cookies are set for them
+         unless they accept in the consent banner (src/components/layout/AnalyticsConsentBanner.tsx). Page changes inside the app are tracked by GA4's enhanced
+         measurement (browser history events). -->
+    <script>
+      if (/(^|\.)mindapps\.org$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+                   'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+        });
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        // A choice made in the consent banner (src/analytics/consent.ts, same storage key) applies before the
+        // first page view is sent.
+        try {
+          var choice = localStorage.getItem('mindapps-analytics-consent');
+          if (choice === 'granted' || choice === 'denied') gtag('consent', 'update', { analytics_storage: choice });
+        } catch (e) {}
+        gtag('js', new Date());
+        gtag('config', 'G-NMVKGDPRMS');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NMVKGDPRMS';
+        document.head.appendChild(s);
+      }
+    </script>
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="google-site-verification" content="W_RJ9COb6zt36nIh3LrgbTq6MR5CfYyrtdBZiO101cU" />
+    <title>Cigarette counter – MIND app evaluation</title>
+    <meta name="description" content="Independent MIND evaluation of Cigarette counter: cost, privacy, supporting evidence and features." />
+    <link rel="canonical" href="https://mindapps.org/apps/cigarette-counter-f1b88dde" />
+    <link rel="alternate" hreflang="en" href="https://mindapps.org/apps/cigarette-counter-f1b88dde" />
+    <link rel="alternate" hreflang="fr" href="https://mindapps.org/fr/apps/cigarette-counter-f1b88dde" />
+    <link rel="alternate" hreflang="de" href="https://mindapps.org/de/apps/cigarette-counter-f1b88dde" />
+    <link rel="alternate" hreflang="x-default" href="https://mindapps.org/apps/cigarette-counter-f1b88dde" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MIND" />
+    <meta property="og:title" content="Cigarette counter – MIND app evaluation" />
+    <meta property="og:description" content="Independent MIND evaluation of Cigarette counter: cost, privacy, supporting evidence and features." />
+    <meta property="og:url" content="https://mindapps.org/apps/cigarette-counter-f1b88dde" />
+    <meta property="og:image" content="https://play-lh.googleusercontent.com/Mj4Y8RXGvruJjU9rtAZuWkgTw3KdbfgQRmNdNRKs_dORaAacc8JHB6iaTZhLHEDRpEc" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Cigarette counter","url":"https://mindapps.org/apps/cigarette-counter-f1b88dde","description":"Independent MIND evaluation of Cigarette counter: cost, privacy, supporting evidence and features.","applicationCategory":"HealthApplication","operatingSystem":"Android","image":"https://play-lh.googleusercontent.com/Mj4Y8RXGvruJjU9rtAZuWkgTw3KdbfgQRmNdNRKs_dORaAacc8JHB6iaTZhLHEDRpEc","author":{"@type":"Organization","name":"Murashev & Kozarez"},"dateModified":"2026-07-23","inLanguage":"en"}</script>
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- manifest.json provides metadata used when the app is installed to a home screen -->
+    <link rel="manifest" href="/manifest.json" />
+    <script type="module" crossorigin src="/assets/index-DHNwhq64.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ChbXY_Ci.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><style>.seo-static{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px 16px;line-height:1.5;color:#1d2433}.seo-static img{border-radius:16px}.seo-static dt{font-weight:600;margin-top:8px}.seo-static dd{margin:0}</style><main class="seo-static"><nav><a href="/">Browse all evaluated apps</a></nav><header><img src="https://play-lh.googleusercontent.com/Mj4Y8RXGvruJjU9rtAZuWkgTw3KdbfgQRmNdNRKs_dORaAacc8JHB6iaTZhLHEDRpEc" alt="" width="96" height="96" /><h1>Cigarette counter</h1><p>By Murashev &amp; Kozarez</p></header><section><h2>MIND evaluation</h2><dl><dt>Cost</dt><dd>Free to Download, In-App Purchase, Payment</dd><dt>Platforms</dt><dd>Android</dd><dt>Supported Conditions</dt><dd>Substance Use (Smoking &amp; Tobacco)</dd><dt>Privacy</dt><dd>Has Privacy Policy, Is PHI Shared, App Declares Data Use and Purpose, App Reports Security Measures in Place, Is De-Identified Data Shared, Is Anonymized/Aggregate Data Shared, Data Stored on Device</dd><dt>Clinical Foundation</dt><dd>Well Written Relevant Content, Does What it Claims, Patient Facing</dd><dt>Features</dt><dd>Track Symptoms, Goal Setting/Habits</dd><dt>Functionalities</dt><dd>Offline, Accessibility</dd><dt>Engagements</dt><dd>User Generated Data</dd><dt>Outputs</dt><dd>Graphs of Data, Summary of Data, Notifications, Reminders</dd><dt>Developer Type</dt><dd>For Profit Company</dd></dl><p>Last reviewed: July 23, 2026</p><p><a href="/FrameworkQuestions">How apps are evaluated</a></p></section><section><h2>From the app store</h2><p><em>Description from the app store — not vetted by MIND</em></p><p>This app is for people who want to keep their bad habit under control.</p><p>Features:</p><p>- simple and light to use;</p><p>- possibility of changing from simple cigarettes to electronic and vice versa;</p><p>- view in the statistics how much and when you smoked;</p><p>- you can add information on purchased cigarettes and view statistics for a specific period.</p></section><section><h2>Get the app</h2><ul><li><a href="https://play.google.com/store/apps/details?id=com.sersh.howmuchdoismoke" rel="nofollow">Google Play</a></li></ul></section></main></div>
+    <script type="application/json" id="mind-app-data">{"androidLink":"https://play.google.com/store/apps/details?id=com.sersh.howmuchdoismoke","engagements":["User Generated Data"],"functionalities":["Offline","Accessibility"],"appleStore":{},"cur":"approved","parent":{"_id":"a69e1f2eb3584433a89515ac96a2f941"},"conditions":["Substance Use (Smoking & Tobacco)"],"treatmentApproaches":[],"efficacyImpact":0,"draft":false,"inputs":[],"feasibilityStudies":0,"uses":["Self Help"],"costs":["Free to Download","In-App Purchase","Payment"],"platforms":["Android"],"updated":1784838250428,"approved":true,"delete":false,"feasibilityImpact":0,"outputs":["Graphs of Data","Summary of Data","Notifications","Reminders"],"groupId":"f1b88ddec35c460a9611f41408499b11","clinicalFoundations":["Well Written Relevant Content","Does What it Claims","Patient Facing"],"readingLevel":"12","androidStore":{"title":"Cigarette counter","installs":"10,000+","url":"https://play.google.com/store/apps/details?id=com.sersh.howmuchdoismoke&hl=en&gl=us","adSupported":true,"appId":"com.sersh.howmuchdoismoke","description":"This app is for people who want to keep their bad habit under control.\n\nFeatures:\n- simple and light to use;\n- possibility of changing from simple cigarettes to electronic and vice versa;\n- view in the statistics how much and when you smoked;\n- you can add information on purchased cigarettes and view statistics for a specific period.","offersIAP":true,"icon":"https://play-lh.googleusercontent.com/Mj4Y8RXGvruJjU9rtAZuWkgTw3KdbfgQRmNdNRKs_dORaAacc8JHB6iaTZhLHEDRpEc","developer":"Murashev & Kozarez","free":true,"screenshots":["https://play-lh.googleusercontent.com/VU0FzMqvJEhZQQ4kylZcRf_i7J8iWCCC6Zc5zYWivMwfx-e_6uugV3hlZxSympmBOA","https://play-lh.googleusercontent.com/IxI7ziWKS-xw4y-IVvRpQkQeia94vaAmiucDLsqnNNPjtNSYvZJyhRwKKdo-cysmVOQ","https://play-lh.googleusercontent.com/pKlaosvvv-GvEc8yqPYr4kS7spU58YRB-G0xkXt1uqSKygBxMDFSmSi6KZqoDLGHag","https://play-lh.googleusercontent.com/xD_PJ0Y8l4GICxVa2Vi7HISN_wEL94e40bK4f2CSOpi3Z1pphs7zWudwQ0gO5BpMwk4"]},"developerTypes":["For Profit Company"],"efficacyStudies":0,"privacies":["Has Privacy Policy","Is PHI Shared","App Declares Data Use and Purpose","App Reports Security Measures in Place","Is De-Identified Data Shared","Is Anonymized/Aggregate Data Shared","Data Stored on Device"],"review":"","_id":"0e522ba0a5cf47b2af56d49a69a8d58e","features":["Track Symptoms","Goal Setting/Habits"],"created":1780947793286}</script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Google Analytics 4 (property "mindapps.org" in the MIND account). Production hostnames only, so local
+         dev and previews aren't counted. Consent Mode: analytics storage is denied by default for visitors in the
+         EEA, UK and Switzerland (Google applies the region server-side), so no analytics cookies are set for them
+         unless they accept in the consent banner (src/components/layout/AnalyticsConsentBanner.tsx). Page changes inside the app are tracked by GA4's enhanced
+         measurement (browser history events). -->
+    <script>
+      if (/(^|\.)mindapps\.org$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+                   'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+        });
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        // A choice made in the consent banner (src/analytics/consent.ts, same storage key) applies before the
+        // first page view is sent.
+        try {
+          var choice = localStorage.getItem('mindapps-analytics-consent');
+          if (choice === 'granted' || choice === 'denied') gtag('consent', 'update', { analytics_storage: choice });
+        } catch (e) {}
+        gtag('js', new Date());
+        gtag('config', 'G-NMVKGDPRMS');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NMVKGDPRMS';
+        document.head.appendChild(s);
+      }
+    </script>
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="google-site-verification" content="W_RJ9COb6zt36nIh3LrgbTq6MR5CfYyrtdBZiO101cU" />
+    <title>Calmaria – MIND app evaluation</title>
+    <meta name="description" content="Independent MIND evaluation of Calmaria: cost, privacy, supporting evidence and features." />
+    <link rel="canonical" href="https://mindapps.org/apps/calmaria-602e57ec" />
+    <link rel="alternate" hreflang="en" href="https://mindapps.org/apps/calmaria-602e57ec" />
+    <link rel="alternate" hreflang="fr" href="https://mindapps.org/fr/apps/calmaria-602e57ec" />
+    <link rel="alternate" hreflang="de" href="https://mindapps.org/de/apps/calmaria-602e57ec" />
+    <link rel="alternate" hreflang="x-default" href="https://mindapps.org/apps/calmaria-602e57ec" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MIND" />
+    <meta property="og:title" content="Calmaria – MIND app evaluation" />
+    <meta property="og:description" content="Independent MIND evaluation of Calmaria: cost, privacy, supporting evidence and features." />
+    <meta property="og:url" content="https://mindapps.org/apps/calmaria-602e57ec" />
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/63/cb/cf/63cbcf33-6c35-67ec-db87-a734c68a7e3d/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Calmaria","url":"https://mindapps.org/apps/calmaria-602e57ec","description":"Independent MIND evaluation of Calmaria: cost, privacy, supporting evidence and features.","applicationCategory":"HealthApplication","operatingSystem":"Android, iOS","image":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/63/cb/cf/63cbcf33-6c35-67ec-db87-a734c68a7e3d/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg","author":{"@type":"Organization","name":"ABDZ"},"dateModified":"2026-09-16","inLanguage":"en"}</script>
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- manifest.json provides metadata used when the app is installed to a home screen -->
+    <link rel="manifest" href="/manifest.json" />
+    <script type="module" crossorigin src="/assets/index-DHNwhq64.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ChbXY_Ci.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><style>.seo-static{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px 16px;line-height:1.5;color:#1d2433}.seo-static img{border-radius:16px}.seo-static dt{font-weight:600;margin-top:8px}.seo-static dd{margin:0}</style><main class="seo-static"><nav><a href="/">Browse all evaluated apps</a></nav><header><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/63/cb/cf/63cbcf33-6c35-67ec-db87-a734c68a7e3d/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg" alt="" width="96" height="96" /><h1>Calmaria</h1><p>By ABDZ</p></header><section><h2>MIND evaluation</h2><dl><dt>Cost</dt><dd>Free to Download, Totally Free</dd><dt>Platforms</dt><dd>Android, iOS</dd><dt>Supported Conditions</dt><dd>Stress &amp; Anxiety</dd><dt>Privacy</dt><dd>Has Privacy Policy, Data Stored on Device, App Declares Data Use and Purpose, App Reports Security Measures in Place</dd><dt>Clinical Foundation</dt><dd>Well Written Relevant Content, Does What it Claims, Patient Facing</dd><dt>Features</dt><dd>Deep Breathing, Productivity, Physical Health</dd><dt>Functionalities</dt><dd>Spanish, French, Accessibility</dd><dt>Engagements</dt><dd>User Generated Data</dd><dt>Treatment Approaches</dt><dd>Mindfulness</dd><dt>Inputs</dt><dd>External Devices</dd><dt>Outputs</dt><dd>Summary of Data</dd><dt>Developer Type</dt><dd>For Profit Company</dd><dt>Country Availability</dt><dd>Canada</dd></dl><p>Last reviewed: September 16, 2026</p><p><a href="/FrameworkQuestions">How apps are evaluated</a></p></section><section><h2>From the app store</h2><p><em>Description from the app store — not vetted by MIND</em></p><p>Calmaria — meaning calmness in Portuguese — returns with its biggest update yet. Version 3.0 introduces HealthKit integration and seamless sync between iPhone and Apple Watch, keeping your breathing sessions and progress perfectly aligned across devices.</p><p>Designed to bring moments of stillness into your day, Calmaria helps you practice mindful breathing through exercises like 4-7-8, Box, 7-11, and 5-0-5-0. Personalize your experience with new themes, track your journey with detailed statistics, and let Calmaria guide you toward better focus, relaxation, and balance.</p><p>Whether you’re just beginning or refining your breathing practice, Calmaria 3.0 is your pocket companion for a calmer, clearer mind — now smarter, smoother, and more connected than ever.</p></section><section><h2>Get the app</h2><ul><li><a href="https://apps.apple.com/us/app/calmaria/id1523108871" rel="nofollow">App Store</a></li><li><a href="https://play.google.com/store/apps/details?id=com.abdz.breathing&amp;hl=en_US" rel="nofollow">Google Play</a></li></ul></section></main></div>
+    <script type="application/json" id="mind-app-data">{"functionalities":["Spanish","French","Accessibility"],"engagements":["User Generated Data"],"cur":"approved","privacies":["Has Privacy Policy","Data Stored on Device","App Declares Data Use and Purpose","App Reports Security Measures in Place"],"platforms":["Android","iOS"],"efficacyImpact":0,"_id":"fe83c257f7714d9fa4131d7bcbe8624e","draft":false,"feasibilityStudies":0,"costs":["Free to Download","Totally Free"],"features":["Deep Breathing","Productivity","Physical Health"],"approved":true,"delete":false,"feasibilityImpact":0,"androidLink":"https://play.google.com/store/apps/details?id=com.abdz.breathing&hl=en_US","created":1783367603076,"conditions":["Stress & Anxiety"],"countries":["Canada"],"iosLink":"https://apps.apple.com/us/app/calmaria/id1523108871","groupId":"602e57ec68bf43d7820f2366ffbb2efa","clinicalFoundations":["Well Written Relevant Content","Does What it Claims","Patient Facing"],"outputs":["Summary of Data"],"uses":["Self Help","Kids Help Phone Approved","Available in Canada"],"developerTypes":["For Profit Company"],"efficacyStudies":0,"inputs":["External Devices"],"appleStore":{"url":"https://apps.apple.com/us/app/calmaria/id1523108871?uo=4","description":"Calmaria — meaning calmness in Portuguese — returns with its biggest update yet. Version 3.0 introduces HealthKit integration and seamless sync between iPhone and Apple Watch, keeping your breathing sessions and progress perfectly aligned across devices.\n\nDesigned to bring moments of stillness into your day, Calmaria helps you practice mindful breathing through exercises like 4-7-8, Box, 7-11, and 5-0-5-0. Personalize your experience with new themes, track your journey with detailed statistics, and let Calmaria guide you toward better focus, relaxation, and balance.\n\nWhether you’re just beginning or refining your breathing practice, Calmaria 3.0 is your pocket companion for a calmer, clearer mind — now smarter, smoother, and more connected than ever.","developer":"Steale LLC","screenshots":["https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/7e/84/dd/7e84dd19-f908-61ec-aba2-4f0ef6196276/5bc233cf-302d-4240-ba20-7365e37d8212_cover-se.jpg/392x696bb.jpg","https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/2b/8f/0f/2b8f0f75-d3d4-ea66-88b5-22fb479c9d74/b466854c-9498-4c82-a13b-16eaaa86f12c_se-settings.png/392x696bb.png","https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/6f/61/5c/6f615c86-d49c-6c28-3b3b-291ccd761d4e/34408db7-5831-42ff-bf04-382ef080ae65_se-themes.png/392x696bb.png"],"appId":"app.calmaria","free":true,"title":"Calmaria","icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/63/cb/cf/63cbcf33-6c35-67ec-db87-a734c68a7e3d/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg"},"treatmentApproaches":["Mindfulness"],"updated":1789572454260,"androidStore":{"developer":"ABDZ","appId":"com.abdz.breathing","url":"https://play.google.com/store/apps/details?id=com.abdz.breathing&hl=en&gl=us","free":true,"installs":"50,000+","icon":"https://play-lh.googleusercontent.com/nedbpKKTGM0-PqIbZMiLYhDCg3gP2tj1_FUiixeCFpn2MpUT9X2iKvr_1QAw9Ci0pE0x9g-o6ZcYWSD51oeQ8A","offersIAP":false,"screenshots":["https://play-lh.googleusercontent.com/duQ2ldAohbxBTqxBRFUBef8RWxxo5RhtaOJ2lYFobxw0aB3FwYBsMmCU1mQVexRzH1T6cWaU1TO_9o_Ipy9wAA","https://play-lh.googleusercontent.com/JdaAiXebiPJqO0mvYayUNdJ_4SMccpJgZmYu0oDRvv-TbPVqurf56FSCuB8Ur8TVZvxB8NBxZR1Ig87iCmvb4A","https://play-lh.googleusercontent.com/3b4V53OjVv_BSPAofgHPvrxAH44l_xopk9jcJIWdiXXsmVOwm28tAtyeBx1mT_M6-32u6l3QvpATcuBuB85YFSc","https://play-lh.googleusercontent.com/RKV0iJqrt0hu_vbPWroMU7DOKQESiUdGtAHelaxW8TupzM3J4IguaGzCEL6gr6rCTooOBncRH8AdPi_ovTAjb_A","https://play-lh.googleusercontent.com/McAGYmkOGcyHZtrH9QJoFvPXvy6vtxcKCsovNioUIMTeu6C-mu0L19K8tLavDU0d_CwrPuzQgXjF5GQxkygnaw","https://play-lh.googleusercontent.com/XqzahgoDhpnosyKIK2LGl717T2yHXQPn_-9aJ54Obabbd0hvs0KA5W8IU63_IFDdQv8pLb1BuJlLyzS_LVFOQVA","https://play-lh.googleusercontent.com/TgilIc_uQL6og6K4ANj7lISUCAQHGcvnh6qDrPkoJpR5nrgdd9hdV1UMBR7EGB4CMeN8SV6LBjMHgWbMEP26hQ","https://play-lh.googleusercontent.com/3Jirqh5g0e73scAUkij3n_frFTQsJzYzNoFY5RX-5u8ntdoEV9JGafvzw249iqmc-yCItI6CUefRCqddfCQNcw"],"adSupported":false,"description":"Discover peace with Calmaria 2.0: Customizable breathing exercises, new themes, enhanced stats, and the same simplicity\n\nThe Calmaria App, embodying the essence of its name which signifies calmness in Portuguese, returns with its transformative 2.0 update. Crafted to infuse tranquility into your dynamic lifestyle, Calmaria 2.0 enriches your daily routine by offering enhanced features for personalizing your breathing exercises. This version introduces a variety of new themes and provides comprehensive statistics that track your usage patterns, highlighting your progress in managing stress and improving well-being. \n\nWhether you're a novice or an adept in techniques like 4-7-8, Box, 7-11, or 5-0-5-0 breathing, Calmaria 2.0 is your dedicated companion in the pursuit of a serene mind and a relaxed body.","title":"Calmaria"},"readingLevel":0}</script>
+  </body>
+</html>

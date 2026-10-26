@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Google Analytics 4 (property "mindapps.org" in the MIND account). Production hostnames only, so local
+         dev and previews aren't counted. Consent Mode: analytics storage is denied by default for visitors in the
+         EEA, UK and Switzerland (Google applies the region server-side), so no analytics cookies are set for them
+         unless they accept in the consent banner (src/components/layout/AnalyticsConsentBanner.tsx). Page changes inside the app are tracked by GA4's enhanced
+         measurement (browser history events). -->
+    <script>
+      if (/(^|\.)mindapps\.org$/.test(location.hostname)) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+          region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+                   'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+        });
+        gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted' });
+        // A choice made in the consent banner (src/analytics/consent.ts, same storage key) applies before the
+        // first page view is sent.
+        try {
+          var choice = localStorage.getItem('mindapps-analytics-consent');
+          if (choice === 'granted' || choice === 'denied') gtag('consent', 'update', { analytics_storage: choice });
+        } catch (e) {}
+        gtag('js', new Date());
+        gtag('config', 'G-NMVKGDPRMS');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NMVKGDPRMS';
+        document.head.appendChild(s);
+      }
+    </script>
+    <link rel="icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="google-site-verification" content="W_RJ9COb6zt36nIh3LrgbTq6MR5CfYyrtdBZiO101cU" />
+    <title>Counter Tally Count – MIND app evaluation</title>
+    <meta name="description" content="Independent MIND evaluation of Counter Tally Count: cost, privacy, supporting evidence and features." />
+    <link rel="canonical" href="https://mindapps.org/apps/counter-tally-count-4dcbbefd" />
+    <link rel="alternate" hreflang="en" href="https://mindapps.org/apps/counter-tally-count-4dcbbefd" />
+    <link rel="alternate" hreflang="fr" href="https://mindapps.org/fr/apps/counter-tally-count-4dcbbefd" />
+    <link rel="alternate" hreflang="de" href="https://mindapps.org/de/apps/counter-tally-count-4dcbbefd" />
+    <link rel="alternate" hreflang="x-default" href="https://mindapps.org/apps/counter-tally-count-4dcbbefd" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MIND" />
+    <meta property="og:title" content="Counter Tally Count – MIND app evaluation" />
+    <meta property="og:description" content="Independent MIND evaluation of Counter Tally Count: cost, privacy, supporting evidence and features." />
+    <meta property="og:url" content="https://mindapps.org/apps/counter-tally-count-4dcbbefd" />
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9e/4d/d4/9e4dd425-e6b4-29dc-be60-6465bad47954/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Counter Tally Count","url":"https://mindapps.org/apps/counter-tally-count-4dcbbefd","description":"Independent MIND evaluation of Counter Tally Count: cost, privacy, supporting evidence and features.","applicationCategory":"HealthApplication","operatingSystem":"iOS","image":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9e/4d/d4/9e4dd425-e6b4-29dc-be60-6465bad47954/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg","author":{"@type":"Organization","name":"Tevfik Yucek"},"dateModified":"2026-09-23","inLanguage":"en"}</script>
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <!-- manifest.json provides metadata used when the app is installed to a home screen -->
+    <link rel="manifest" href="/manifest.json" />
+    <script type="module" crossorigin src="/assets/index-DHNwhq64.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-ChbXY_Ci.css">
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><style>.seo-static{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;max-width:860px;margin:0 auto;padding:24px 16px;line-height:1.5;color:#1d2433}.seo-static img{border-radius:16px}.seo-static dt{font-weight:600;margin-top:8px}.seo-static dd{margin:0}</style><main class="seo-static"><nav><a href="/">Browse all evaluated apps</a></nav><header><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9e/4d/d4/9e4dd425-e6b4-29dc-be60-6465bad47954/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg" alt="" width="96" height="96" /><h1>Counter Tally Count</h1><p>By Tevfik Yucek</p></header><section><h2>MIND evaluation</h2><dl><dt>Cost</dt><dd>Free to Download, In-App Purchase, Payment</dd><dt>Platforms</dt><dd>iOS</dd><dt>Supported Conditions</dt><dd>Non-Specific</dd><dt>Privacy</dt><dd>Has Privacy Policy, App Declares Data Use and Purpose, App Reports Security Measures in Place, Data Stored on Device, Is PHI Shared</dd><dt>Clinical Foundation</dt><dd>Well Written Relevant Content, Does What it Claims, Patient Facing</dd><dt>Features</dt><dd>Track Symptoms, Productivity, Goal Setting/Habits</dd><dt>Functionalities</dt><dd>Spanish, Offline, Email or Export Your Data, Accessibility, French</dd><dt>Engagements</dt><dd>User Generated Data</dd><dt>Outputs</dt><dd>Summary of Data</dd><dt>Developer Type</dt><dd>For Profit Company</dd></dl><p>Last reviewed: September 23, 2026</p><p><a href="/FrameworkQuestions">How apps are evaluated</a></p></section><section><h2>Rater review</h2><p><em>This review represents the view of the app rater and is not an endorsement by MIND.</em></p><p>This app allows users to count and track your tallies.</p></section><section><h2>From the app store</h2><p><em>Description from the app store — not vetted by MIND</em></p><p>Counter is a simple yet powerful tally counter for iPhone and iPad.</p><p>Features:</p><p>+ Simple interface</p><p>+ Unlimited counters</p><p>+ Rename each counter as you want</p><p>+ Assign different colors to each counter</p><p>+ Optional audible confirmation (tic sound or speech of each number!)</p><p>+ Select the step size for your count (-100 to 100)</p><p>+ Lock specific counter for preventing accidental change</p><p>+ View the log for each counter (exact time of each count) &amp; export as CSV file</p><p>+ Export all counter data at once</p><p>+ Reorder counters manually</p><p>+ Reorder counters by name, date created, last update time or by color</p><p>+ Widget support</p><p>+ Add remove previous tally counts</p><p>Please send your suggestions and issues to feedback@mikrasya.com</p></section><section><h2>Get the app</h2><ul><li><a href="https://apps.apple.com/us/app/counter-tally-counter/id1144352844" rel="nofollow">App Store</a></li></ul></section></main></div>
+    <script type="application/json" id="mind-app-data">{"uses":["Self Help","Kids Help Phone Approved"],"readingLevel":"9","efficacyStudies":0,"outputs":["Summary of Data"],"_id":"19d0a151209f48439a99f81cebccc604","developerTypes":["For Profit Company"],"privacies":["Has Privacy Policy","App Declares Data Use and Purpose","App Reports Security Measures in Place","Data Stored on Device","Is PHI Shared"],"parent":{"_id":"598b5a6fde774d32916886f433ba27c6"},"approved":true,"updated":1790186712217,"androidStore":{},"efficacyImpact":0,"costs":["Free to Download","In-App Purchase","Payment"],"inputs":[],"platforms":["iOS"],"cur":"approved","conditions":["Non-Specific"],"groupId":"4dcbbefd84ab4f71bbd18182f4c8a93d","clinicalFoundations":["Well Written Relevant Content","Does What it Claims","Patient Facing"],"engagements":["User Generated Data"],"appleStore":{"icon":"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/9e/4d/d4/9e4dd425-e6b4-29dc-be60-6465bad47954/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg","screenshots":["https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/cb/28/e6/cb28e606-2a52-5958-54b5-c46a5e1afda5/iPhone_16_Plus-0List.png/320x480bb.jpg","https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/13/21/41/13214127-2f77-5fe7-b7cd-136d03a544d0/iPhone_16_Plus-1Detail.png/320x480bb.jpg","https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/da/98/da/da98da44-dede-53b9-c871-cf070bb21f7c/iPhone_16_Plus-2GlobalSettings.png/320x480bb.jpg","https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/b3/7a/20/b37a2033-9391-4070-13d4-1eb52d1d067b/iPhone_16_Plus-3Settings.png/320x480bb.jpg"],"developer":"Tevfik Yucek","description":"Counter is a simple yet powerful tally counter for iPhone and iPad. \n\nFeatures:\n+ Simple interface\n+ Unlimited counters\n+ Rename each counter as you want\n+ Assign different colors to each counter\n+ Optional audible confirmation (tic sound or speech of each number!)\n+ Select the step size for your count (-100 to 100)\n+ Lock specific counter for preventing accidental change\n+ View the log for each counter (exact time of each count) & export as CSV file\n+ Export all counter data at once\n+ Reorder counters manually\n+ Reorder counters by name, date created, last update time or by color\n+ Widget support\n+ Add remove previous tally counts\n\nPlease send your suggestions and issues to feedback@mikrasya.com","free":true,"appId":"mikrasya.CounterSwift","url":"https://apps.apple.com/us/app/counter-tally-count/id1144352844?uo=4","title":"Counter Tally Count"},"review":"This app allows users to count and track your tallies.","draft":false,"feasibilityImpact":0,"created":1790186710068,"functionalities":["Spanish","Offline","Email or Export Your Data","Accessibility","French"],"feasibilityStudies":0,"features":["Track Symptoms","Productivity","Goal Setting/Habits"],"iosLink":"https://apps.apple.com/us/app/counter-tally-counter/id1144352844","delete":false,"treatmentApproaches":[]}</script>
+  </body>
+</html>
