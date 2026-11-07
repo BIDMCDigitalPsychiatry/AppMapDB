@@ -16,6 +16,7 @@ import {
   FunctionalityQuestions,
   ClinicalFoundationQuestions,
   TreatmentApproachQuestions,
+  StaffOnlyTreatmentApproaches,
   FeatureQuestions,
   EngagementQuestions,
   InputQuestions,
@@ -329,7 +330,8 @@ export const CLINICAL_ITEMS = fromModel(ClinicalFoundationQuestions, {
   }
 });
 
-export const TREATMENT_ITEMS = fromModel(TreatmentApproachQuestions, {
+// Staff-only values (e.g. MIND-PATH Study) are left out: a submitter can't know them.
+export const TREATMENT_ITEMS = fromModel(TreatmentApproachQuestions.filter(q => !StaffOnlyTreatmentApproaches.includes(q.value)), {
   ACT: { label: tx('Does the app use Acceptance and Commitment Therapy (ACT)?'), hint: tx('The app must explicitly say it uses or is based on ACT.') },
   CBT: { label: tx('Does the app use Cognitive Behavioral Therapy (CBT)?'), hint: tx('The app must explicitly say it uses or is based on CBT.') },
   DBT: { label: tx('Does the app use Dialectical Behavior Therapy (DBT)?'), hint: tx('The app must explicitly say it uses or is based on DBT.') },

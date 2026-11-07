@@ -324,7 +324,7 @@ export const Outputs: Output[] = [
   tx('Link to Formal Care/Coaching')
 ];
 
-export type TreatmentApproach = 'ACT' | 'CBT' | 'DBT' | 'iCBT or Sleep Therapy' | 'Mindfulness' | 'Physical Health Exercises';
+export type TreatmentApproach = 'ACT' | 'CBT' | 'DBT' | 'iCBT or Sleep Therapy' | 'Mindfulness' | 'Physical Health Exercises' | 'MIND-PATH Study';
 
 export const TreatmentApproachQuestions = [
   { value: tx('ACT'), label: tx('Does app have ACT?'), tooltip: tx('Does the app provide Acceptance and Commitment Therapy?') },
@@ -340,8 +340,18 @@ export const TreatmentApproachQuestions = [
     value: tx('Physical Health Exercises'),
     label: tx('Does app have physical health exercises?'),
     tooltip: tx('Something like a 7 minute workout that actually gives a workout.  This is a recommendation of exercises, NOT exercise tracking.')
+  },
+  {
+    // A research-study tag, not a therapy style. Only the 8 mindfulness apps in the MIND-PATH study get Yes
+    // (tagged by scripts/db-migration/06_tag_mind_path.js). Not asked on the public Suggest an App form.
+    value: tx('MIND-PATH Study'),
+    label: tx('Is this app part of the MIND-PATH Study?'),
+    tooltip: tx('Only the 8 mindfulness apps selected for the MIND-PATH research study. Answer No for all other apps.')
   }
 ];
+
+// Treatment-approach values only MINDapps staff can know, so the public Suggest an App form doesn't ask them.
+export const StaffOnlyTreatmentApproaches: string[] = ['MIND-PATH Study'];
 
 export const TreatmentApproaches = TreatmentApproachQuestions.map(fq => fq.value as Feature);
 
