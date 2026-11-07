@@ -57,6 +57,21 @@ first; with `--apply`, every updated `_id` is logged to `backups/` for
 rollback (`REMOVE countries` on those ids). Follow with `04` (no `--apply`)
 as the drift audit.
 
+## MIND-PATH Study tag (`06_tag_mind_path.js`)
+
+Not part of the index runbook above. Adds the `'MIND-PATH Study'` treatment
+approach to the 8 MIND-PATH study apps (list at the top of the script), on
+each one's current approved rating and on its current pending rating if one
+is in progress. Rows are edited in place, so `cur` flags and rating history
+don't change.
+
+Run it only after the frontend with the MIND-PATH filter is deployed. It runs
+in two steps: the dry run prints the matches and writes a plan file of `_id`s
+to `backups/`. A person checks it (and edits it if a match is wrong or
+missing), then `--apply --plan <file>` tags exactly those rows. Each change
+is logged to `backups/` with the previous value for rollback. Follow with
+`04` (no `--apply`) as the drift audit.
+
 ## Rollback
 
 - Merges: original groupIds are printed in each apply log; re-point them back.

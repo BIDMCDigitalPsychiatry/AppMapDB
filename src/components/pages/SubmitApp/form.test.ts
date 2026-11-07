@@ -8,6 +8,7 @@ import {
   FunctionalityQuestions,
   ClinicalFoundationQuestions,
   TreatmentApproachQuestions,
+  StaffOnlyTreatmentApproaches,
   InputQuestions,
   OutputQuestions,
   CountryQuestions,
@@ -23,7 +24,8 @@ describe('Submit an App: content stays in sync with the rating model', () => {
       engagements: EngagementQuestions,
       functionalities: FunctionalityQuestions,
       clinicalFoundations: ClinicalFoundationQuestions,
-      treatmentApproaches: TreatmentApproachQuestions,
+      // Staff-only values (MIND-PATH Study) are deliberately not asked of submitters.
+      treatmentApproaches: TreatmentApproachQuestions.filter(q => !StaffOnlyTreatmentApproaches.includes(q.value)),
       inputs: InputQuestions,
       outputs: OutputQuestions,
       countries: CountryQuestions,
