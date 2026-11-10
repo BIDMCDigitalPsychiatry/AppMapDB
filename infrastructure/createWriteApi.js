@@ -63,9 +63,15 @@ const POLICY = {
         'arn:aws:dynamodb:*:*:table/surveys',
         'arn:aws:dynamodb:*:*:table/signUpSurveys',
         // App Submissions queue (createSubmissionsTable.js) — API-only access
-        'arn:aws:dynamodb:*:*:table/appSubmissions'
+        'arn:aws:dynamodb:*:*:table/appSubmissions',
+        // Workflow Analytics (createStudyTables.js) — API-only access
+        'arn:aws:dynamodb:*:*:table/studyRuns',
+        'arn:aws:dynamodb:*:*:table/studyEvents'
       ]
     },
+    // Study events arrive in batches of up to 200 (append-only: BatchWriteItem
+    // here only ever carries PutRequests — see handler.js batchPut).
+    { Effect: 'Allow', Action: ['dynamodb:BatchWriteItem'], Resource: 'arn:aws:dynamodb:*:*:table/studyEvents' },
     // Hard-delete is intentionally allowed ONLY on the users roster (people
     // leaving the company) — the Lambda physically cannot delete application
     // rows or any other table's data.

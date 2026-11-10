@@ -10,6 +10,8 @@ import { getAssistantClientId, newConversationId } from './clientId';
 import ConsentNotice, { hasConsented, recordConsent } from './ConsentNotice';
 import { ASSISTANT_ENDPOINT, assistantEnabled, MAX_HISTORY_TURNS, MAX_MESSAGE_CHARS, MAX_USER_TURNS } from './config';
 import { useT, tx } from '../../../i18n';
+import { studyTracker, trackStudy } from '../../../study/tracker';
+import { useStudyActive } from '../../../study/hooks';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -51,6 +53,15 @@ export default function SearchAssistant() {
   const { layout } = useTheme() as any;
   const isMobile = useFullScreen('sm');
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  // MIND study (only while a participant's trial is running): when typing of
+  // the current message began, and whether the panel was open last render.
+  const studyActive = useStudyActive();
+  const typingStarted = React.useRef<number | undefined>(undefined);
+  const wasOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (wasOpen.current !== open) trackStudy(open ? 'assistant_open' : 'assistant_close', { messages: messages.length });
+    wasOpen.current = open;
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useEffect(() => {
     const el = scrollRef.current;
@@ -71,6 +82,11 @@ export default function SearchAssistant() {
     const message = input.trim();
     if (!message || loading || atTurnLimit) return;
     setInput('');
+    const turn = userTurns + 1;
+    const typingMs = typingStarted.current !== undefined ? Date.now() - typingStarted.current : undefined;
+    typingStarted.current = undefined;
+    trackStudy('assistant_message', { turn, text: message, chars: message.length, words: message.split(/\s+/).filter(Boolean).length, typingMs });
+    const sentAt = Date.now();
     const nextMessages: ChatMessage[] = [...messages, { role: 'user', content: message }];
     setMessages(nextMessages);
     setLoading(true);
@@ -94,16 +110,28 @@ export default function SearchAssistant() {
         })
       });
       const result = await res.json();
+      trackStudy('assistant_reply', {
+        turn,
+        text: result.reply || result.error,
+        latencyMs: Date.now() - sentAt,
+        type: result.type,
+        applied: result.type === 'filters' ? result.apply === true : false,
+        filters: result.type === 'filters' && result.apply ? result.filters || {} : undefined
+      });
       if (result.type === 'filters') {
         // `apply` distinguishes "clear everything" (empty filters, apply=true)
         // from "that wasn't a search, leave the filters alone" (apply=false).
-        if (result.apply) setFilterValues(result.filters || {});
+        if (result.apply) {
+          studyTracker.markFilterSource('assistant'); // the checks/unchecks that follow came from the assistant
+          setFilterValues(result.filters || {});
+        }
         setMessages(prev => [...prev, { role: 'assistant', content: result.reply }]);
       } else {
         // 'crisis', 'bad_request' and 'error' all carry a displayable message
         setMessages(prev => [...prev, { role: 'assistant', content: result.reply || result.error || t('Something went wrong — please try again.') }]);
       }
     } catch {
+      trackStudy('assistant_reply', { turn, latencyMs: Date.now() - sentAt, type: 'network_error' });
       setMessages(prev => [...prev, { role: 'assistant', content: t("I couldn't reach the search assistant — please try again in a moment.") }]);
     } finally {
       setLoading(false);
@@ -158,6 +186,8 @@ export default function SearchAssistant() {
                     // A new chat starts from a clean search: the filters the
                     // old conversation applied go with it, so what's on screen
                     // always matches what was said.
+                    trackStudy('assistant_new_chat', { messages: messages.length });
+                    studyTracker.markFilterSource('assistant');
                     setMessages([]);
                     setInput('');
                     setFilterValues({});
@@ -182,6 +212,7 @@ export default function SearchAssistant() {
             <Box sx={{ flex: 1, minHeight: 0, bgcolor: '#F7F9FC' }}>
               <ConsentNotice
                 onAccept={() => {
+                  trackStudy('assistant_consent');
                   recordConsent();
                   setConsented(true);
                 }}
@@ -189,7 +220,7 @@ export default function SearchAssistant() {
             </Box>
           ) : (
             <>
-              <Box ref={scrollRef} sx={{ flex: 1, overflowY: 'auto', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, bgcolor: '#F7F9FC' }}>
+              <Box ref={scrollRef} data-study-scroll='assistant' sx={{ flex: 1, overflowY: 'auto', p: 2, display: 'flex', flexDirection: 'column', gap: 1.25, bgcolor: '#F7F9FC' }}>
                 <AssistantBubble content={t(WELCOME)} />
                 {messages.map((m, i) => (m.role === 'user' ? <UserBubble key={i} content={m.content} /> : <AssistantBubble key={i} content={m.content} />))}
                 {loading && (
@@ -216,7 +247,12 @@ export default function SearchAssistant() {
                   placeholder={t('What kind of app are you looking for?')}
                   value={input}
                   disabled={loading || atTurnLimit}
-                  onChange={e => setInput(e.target.value.slice(0, MAX_MESSAGE_CHARS))}
+                  onChange={e => {
+                    const next = e.target.value.slice(0, MAX_MESSAGE_CHARS);
+                    if (studyActive && typingStarted.current === undefined && next.trim() !== '') typingStarted.current = Date.now();
+                    if (next.trim() === '') typingStarted.current = undefined;
+                    setInput(next);
+                  }}
                   onKeyDown={handleKeyDown}
                 />
                 <IconButton color='primary' aria-label={t('Send')} disabled={!input.trim() || loading || atTurnLimit} onClick={send}>
@@ -227,7 +263,9 @@ export default function SearchAssistant() {
               {/* Standing reminder after consent, so the disclosure isn't a
                   one-time thing they clicked past and forgot. */}
               <Typography variant='caption' color='textSecondary' sx={{ px: 1.25, pb: 1, textAlign: 'center', fontSize: 10.5 }}>
-                {t("Messages are sent to Claude (Anthropic). Conversations aren't saved.")}
+                {studyActive
+                  ? t('Messages are sent to Claude (Anthropic). During this study session, the conversation is saved for the research team.')
+                  : t("Messages are sent to Claude (Anthropic). Conversations aren't saved.")}
               </Typography>
             </>
           )}

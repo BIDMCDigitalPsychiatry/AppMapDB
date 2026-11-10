@@ -7,6 +7,7 @@ import AdminLayoutSelector from './AdminLayoutSelector';
 import AdminPendingApprovals from './AdminPendingApprovals';
 import UsersAdmin from './UsersAdmin';
 import AppSubmissions from './AppSubmissions';
+import StudyAnalytics from './StudyAnalytics';
 import { Surveys } from '../../application/GenericTable/Surveys/table';
 import useHeight from '../../layout/ViewPort/hooks/useHeight';
 import { useHandleChangeRoute, useHeaderHeight } from '../../layout/hooks';
@@ -56,7 +57,7 @@ export default function Admin() {
   const isAdmin = useIsAdmin();
   const isSuperAdmin = useIsSuperAdmin();
   const isSubmissionReviewer = useIsSubmissionReviewer();
-  const allowed = [isAdmin && 'pending', isSubmissionReviewer && 'submissions', isAdmin && 'surveys', isSuperAdmin && 'users'].filter(Boolean) as string[];
+  const allowed = [isAdmin && 'pending', isSubmissionReviewer && 'submissions', isAdmin && 'surveys', isAdmin && 'study', isSuperAdmin && 'users'].filter(Boolean) as string[];
   const subRoute = allowed.includes(requestedSubRoute) ? requestedSubRoute : allowed[0] ?? 'pending';
 
   const height = useHeight();
@@ -94,6 +95,8 @@ export default function Admin() {
         <Surveys height={tableHeight + headerHeight} />
       ) : subRoute === 'users' ? (
         <UsersAdmin height={tableHeight} />
+      ) : subRoute === 'study' ? (
+        <StudyAnalytics height={tableHeight + headerHeight} />
       ) : subRoute === 'submissions' ? (
         <AppSubmissions height={tableHeight} />
       ) : (

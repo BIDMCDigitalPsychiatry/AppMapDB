@@ -6,6 +6,7 @@ import { useFullScreen } from '../../hooks';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms, withReplacement } from '../../database/models/Application';
+import { withStudyFilterAction } from '../../study/tracker';
 import { useHandleTableReset, useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import { categories } from '../../constants';
@@ -55,7 +56,7 @@ export default function PwaSearchHeader() {
   const t = useT();
   const [searchtext, setSearchText] = useTableSearchText(tableId);
   const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
-  const handleReset = useHandleTableReset(tableId);
+  const handleReset = withStudyFilterAction('reset', 'search-header-pwa', useHandleTableReset(tableId));
 
   const classes = useStyles();
   // useFilterList();

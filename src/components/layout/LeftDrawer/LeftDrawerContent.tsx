@@ -12,6 +12,7 @@ import TourStep from '../../pages/Tour/TourStep';
 import { useHandleTableReset } from '../../application/GenericTable/store';
 import { useFilterCount } from '../useFilterCount';
 import { useT } from '../../../i18n';
+import { withStudyFilterAction } from '../../../study/tracker';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +36,8 @@ export default function LeftDrawerContent({ setLeftDrawer = undefined }) {
   const xs = useFullScreen('xs');
   const handleClose = React.useCallback(() => setLeftDrawer && setLeftDrawer(false), [setLeftDrawer]);
   const handleOpen = React.useCallback(() => setLeftDrawer && setLeftDrawer(true), [setLeftDrawer]);
-  const handleReset = useHandleTableReset('Applications');
+  // 'Clear all' in the filter menu (the MIND study records it apart from 'Reset all filters')
+  const handleReset = withStudyFilterAction('clear', 'filter-menu', useHandleTableReset('Applications'));
   const filterCount = useFilterCount('Applications');
   const t = useT();
   return (

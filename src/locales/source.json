@@ -155,6 +155,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "A few quick questions": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "A rating was created from this suggestion. It is in {{place}} until an admin approves it.": {
     "files": [
       "src/components/pages/Admin/AppSubmissions.tsx"
@@ -235,6 +240,16 @@
   "Accessibility: Is the app accessible for a user?": {
     "files": [
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
+    ]
+  },
+  "Account": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Account contains": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "account of current user": {
@@ -405,6 +420,11 @@
       "src/components/pages/SearchHeaderReduxPending.tsx"
     ]
   },
+  "All tasks": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "American Indian or Alaskan Native": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
@@ -441,6 +461,17 @@
       "src/components/layout/Footer.tsx"
     ]
   },
+  "Analytics User": {
+    "files": [
+      "src/components/application/GenericTable/Users/columns.tsx",
+      "src/components/pages/Admin/UsersAdmin.tsx"
+    ]
+  },
+  "Analytics Users are MIND study participants. They see a Start / Stop panel for timed trials, and what they do during a trial is recorded for Admin > Study Analytics. Untick to switch the study tools off.": {
+    "files": [
+      "src/components/application/GenericTable/Users/columns.tsx"
+    ]
+  },
   "Annual household income?": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
@@ -471,6 +502,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Answers after Stop": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Any": {
     "files": [
       "src/components/pwa/questions.tsx"
@@ -494,6 +530,11 @@
   "Anyone can download and use it — for example, it doesn’t require an insurance code, employer login, or clinic referral.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
+    ]
+  },
+  "Anything confusing, or any suggestions? (optional)": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Anything else we should know about your research?": {
@@ -521,6 +562,11 @@
   "App": {
     "files": [
       "src/components/pages/Admin/AppSubmissions.tsx"
+    ]
+  },
+  "App chosen": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "App Declares Data Use and Purpose": {
@@ -703,6 +749,11 @@
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
     ]
   },
+  "Apps opened": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Apps suggested through the public “Suggest an App” form. Visible to Submission Reviewers and Super Admins.": {
     "files": [
       "src/components/pages/Admin/AppSubmissions.tsx"
@@ -790,6 +841,26 @@
   "Assessments/Screenings": {
     "files": [
       "src/database/models/Application.tsx"
+    ]
+  },
+  "Assistant": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Assistant transcript": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Assistant turns": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Assistant wait": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Asynchronous Response": {
@@ -884,6 +955,11 @@
       "src/components/pages/SubmitApp/SubmitApp.tsx"
     ]
   },
+  "Back to the task": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Back to Users & Roles": {
     "files": [
       "src/components/pages/Admin/UsersAdmin.tsx"
@@ -973,6 +1049,11 @@
     "files": [
       "src/components/application/GenericTable/Applications/AppSummary.tsx",
       "src/components/application/GenericTable/Users/columns.tsx"
+    ]
+  },
+  "By task": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "By:": {
@@ -1129,12 +1210,23 @@
       "src/components/pages/Community/Create.tsx",
       "src/components/pages/Community/Edit.tsx",
       "src/components/pages/Team/TeamMemberCreate.tsx",
-      "src/components/pages/Team/TeamMemberEdit.tsx"
+      "src/components/pages/Team/TeamMemberEdit.tsx",
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Cancel Resize": {
     "files": [
       "src/components/application/DialogField/ImageBase64.tsx"
+    ]
+  },
+  "Cancel this trial?": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
+  "Cancel trial": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Cannot deactivate the last active admin": {
@@ -1243,9 +1335,29 @@
       "src/components/pages/SubmitApp/steps.tsx"
     ]
   },
+  "checks": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Checks": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Choose \"Not sure\" if you don’t know — our reviewers will check it.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
+    ]
+  },
+  "Choose a task": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
+  "Choose between two mindfulness apps using the evidence information shown for each.": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Choose No if it is designed mainly for clinicians (e.g. a diagnosis guide).": {
@@ -1276,6 +1388,16 @@
   "Clear all filters": {
     "files": [
       "src/components/pages/PublicApplicationsTable.tsx"
+    ]
+  },
+  "clears": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Click a run to see its timeline.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Click Here to Take Follow Up Survey": {
@@ -1402,6 +1524,7 @@
       "src/components/application/GenericPopover/Filter/index.tsx",
       "src/components/application/GenericPopover/GenericPopover.tsx",
       "src/components/pages/Admin/AppSubmissions.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx",
       "src/components/pages/Tour/TourStep.tsx"
     ]
   },
@@ -1490,6 +1613,16 @@
   "Company": {
     "files": [
       "src/components/application/GenericDialog/RateNewApp/steps.tsx"
+    ]
+  },
+  "Compare two apps": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "Completed": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Condition target?": {
@@ -1635,6 +1768,11 @@
   "Could not load registered users: {{error}}": {
     "files": [
       "src/components/pages/Admin/UsersAdmin.tsx"
+    ]
+  },
+  "Could not load study analytics: {{error}}": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Could the app cause harm?": {
@@ -1994,6 +2132,11 @@
   "Did outside factors impact your app decision (e.g. star ratings, reviews)?": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
+    ]
+  },
+  "Did you find an app that fits the task?": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Digital Working Alliance Inventory:": {
@@ -2502,6 +2645,16 @@
       "src/components/application/DialogField/WholeNumberUpDown.tsx"
     ]
   },
+  "Downloading events…": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Downloading events… {{count}}": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Draft": {
     "files": [
       "src/components/application/GenericTable/MyApplicationsPending/columns.tsx"
@@ -2660,6 +2813,16 @@
   "Each app's entry in the database is informed by 105 objective questions based on the American Psychiatric Association's App Evaluation Model, which introduces Accessibility, Privacy & Security, Clinical Foundation, Engagement Style, and Interoperability as major categories to consider.": {
     "files": [
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
+    ]
+  },
+  "Ease": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Ease (1–7)": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Eating Disorders": {
@@ -3016,6 +3179,11 @@
       "src/components/application/GenericDialog/EditEvent/index.tsx"
     ]
   },
+  "Events CSV": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Every account registered on the site (including self-registered app raters), with their rating activity.": {
     "files": [
       "src/components/pages/Admin/UsersAdmin.tsx"
@@ -3073,6 +3241,11 @@
   "Explore Questions": {
     "files": [
       "src/components/application/GenericDialog/ExploreQuestions/index.js"
+    ]
+  },
+  "Explore the app library however you like, and press Stop when you are done.": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Explore the app's qualitative ratings & reviews": {
@@ -3192,6 +3365,11 @@
       "src/components/application/GenericDialog/LoadFilter/index.tsx"
     ]
   },
+  "Filter checks": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Filter Name": {
     "files": [
       "src/components/application/GenericDialog/SaveFilter/index.tsx"
@@ -3202,9 +3380,40 @@
       "src/components/application/GenericDialog/DialogButton.tsx"
     ]
   },
+  "filters": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Filters": {
     "files": [
-      "src/components/layout/LeftDrawer/LeftDrawerContent.tsx"
+      "src/components/layout/LeftDrawer/LeftDrawerContent.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Filters only": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "final tags": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Find a free app for depression that works on Android, using only the filters on the left.": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "Find a free app for depression that works on Android, using only the search assistant (the chat button at the bottom right).": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "Find a specific app": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Find an App": {
@@ -3212,9 +3421,19 @@
       "src/components/layout/Footer.tsx"
     ]
   },
+  "Find an app you would recommend to a friend who has trouble sleeping. Use any part of the site.": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
   "Find and Select the \"Add to Home Screen\" option.": {
     "files": [
       "src/components/application/GenericDialog/IntroInstallPrompt/IntroInstallStepper.tsx"
+    ]
+  },
+  "Find the app Headspace and check how it handles your data.": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Finds filters, not medical advice": {
@@ -3277,7 +3496,18 @@
   },
   "Found": {
     "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx",
       "src/components/pages/SubmitApp/steps.tsx"
+    ]
+  },
+  "Found an app": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Found it": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Found on {{store}}": {
@@ -3303,6 +3533,11 @@
       "src/components/application/DialogField/AppleStore.tsx"
     ]
   },
+  "Free exploration": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
   "Free of stigmatizing, racist, or inaccurate content": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -3317,6 +3552,11 @@
     "files": [
       "src/components/application/GenericTable/ApplicationsGrid/ExpandableDescriptionWithLanguages.tsx",
       "src/database/models/Application.tsx"
+    ]
+  },
+  "From": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "From the app store": {
@@ -3593,6 +3833,11 @@
       "src/components/pages/Team/TeamList.tsx"
     ]
   },
+  "Hide test_subject": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "High school graduate/GED": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
@@ -3601,6 +3846,16 @@
   "Hispanic or Latino/a": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
+    ]
+  },
+  "hovers": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Hovers": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "How apps are evaluated": {
@@ -4346,6 +4601,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Keep going": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Keep up to date with the latest news and community resources.": {
     "files": [
       "src/components/pages/Community/NewsForumList.tsx"
@@ -4439,6 +4699,11 @@
   "Less info": {
     "files": [
       "src/components/pages/SubmitApp/fields.tsx"
+    ]
+  },
+  "library": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Link": {
@@ -4583,6 +4848,46 @@
       "src/components/pages/Admin/AppSubmissions.tsx"
     ]
   },
+  "Mean chatbot loading time per message.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Mean Single Ease Question score: 1 = very difficult, 7 = very easy.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Mean time": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Mean time spent scrolling the app library.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Mean time spent scrolling the filter menu.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Median time": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Median time (completed)": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Median time from Start to the first app page opened.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Medication tracking": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -4625,6 +4930,11 @@
     ]
   },
   "Messages are sent to Claude (Anthropic). Conversations aren't saved.": {
+    "files": [
+      "src/components/pages/SearchAssistant/SearchAssistant.tsx"
+    ]
+  },
+  "Messages are sent to Claude (Anthropic). During this study session, the conversation is saved for the research team.": {
     "files": [
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
     ]
@@ -4689,6 +4999,11 @@
   "Mindfulness must be explicitly named in the listing or the app.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
+    ]
+  },
+  "Minimize": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Moderately true": {
@@ -4873,7 +5188,8 @@
       "src/components/pages/SubmitApp/steps.tsx",
       "src/components/pages/Survey/Survey.tsx",
       "src/components/pages/ViewAppHeader.tsx",
-      "src/seo/pageText.ts"
+      "src/seo/pageText.ts",
+      "src/study/workflows.ts"
     ]
   },
   "No {{name}}": {
@@ -4914,6 +5230,11 @@
   "No thanks": {
     "files": [
       "src/components/pages/ViewApp.tsx"
+    ]
+  },
+  "No trials yet": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "No up-front cost AND no in-app purchases or subscriptions of any kind.": {
@@ -5141,6 +5462,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Open-ended search": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
   "Opting out of cookies alone doesn’t count.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -5221,6 +5547,11 @@
       "src/components/pages/SubmitApp/steps.tsx"
     ]
   },
+  "Overall, how easy or difficult was this task?": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Own Data": {
     "files": [
       "src/database/models/Application.tsx"
@@ -5251,9 +5582,19 @@
       "src/components/pages/SubmitApp/steps.tsx"
     ]
   },
+  "Participants": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Participate in Research:": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
+    ]
+  },
+  "Partly": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Passive Data": {
@@ -5458,6 +5799,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Pick the task the study team asked you to do. The timer starts when you press Start.": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Picture gallery or hope board": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -5614,6 +5960,11 @@
     "files": [
       "src/components/application/GenericDialog/InstallPrompt/InstallStepper.tsx",
       "src/components/application/GenericDialog/IntroInstallPrompt/IntroInstallStepper.tsx"
+    ]
+  },
+  "Press Start when you are ready to begin a task. A timer will run until you press Stop.": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Press the share symbol at the bottom or top of your screen.": {
@@ -5966,7 +6317,8 @@
   },
   "Refresh": {
     "files": [
-      "src/components/pages/Admin/AppSubmissions.tsx"
+      "src/components/pages/Admin/AppSubmissions.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Registered": {
@@ -6084,6 +6436,11 @@
       "src/components/pages/RateNewApp/RateNewAppHeader.tsx"
     ]
   },
+  "resets": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Resize Image": {
     "files": [
       "src/components/application/DialogField/ImageBase64.tsx"
@@ -6166,6 +6523,21 @@
       "src/components/application/DialogField/YesNoGroup.tsx"
     ]
   },
+  "Runs": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Runs appear here as soon as a participant presses Start.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Runs CSV": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Save": {
     "files": [
       "src/components/application/GenericDialog/Comment/index.tsx",
@@ -6190,6 +6562,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Saving…": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Schizophrenia": {
     "files": [
       "src/database/models/Application.tsx"
@@ -6198,6 +6575,21 @@
   "Screenshots": {
     "files": [
       "src/components/application/GenericDialog/ScreenshotsDialog/index.tsx"
+    ]
+  },
+  "Scroll: filters": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Scroll: library": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Scrolling": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Search": {
@@ -6227,6 +6619,11 @@
   "Search assistant": {
     "files": [
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
+    ]
+  },
+  "Search assistant only": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Search by Name": {
@@ -6404,10 +6801,25 @@
       "src/components/pages/Survey/Survey.tsx"
     ]
   },
+  "Share answering \"Yes\" to \"Did you find an app that fits the task?\"": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Share of finished runs that were completed (not cancelled or abandoned).": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Short description": {
     "files": [
       "src/components/pages/Community/CreateForm.tsx",
       "src/components/pages/Team/TeamMemberCreateForm.tsx"
+    ]
+  },
+  "Show": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Show {{count}} More": {
@@ -6439,9 +6851,19 @@
       "src/components/application/GenericTable/ApplicationsGrid/ExpandableDescription.tsx"
     ]
   },
+  "Show scrolling": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Show Sort Keys": {
     "files": [
       "src/components/pages/Team/TeamList.tsx"
+    ]
+  },
+  "Show the {{count}} study accounts (Analytics User role only)": {
+    "files": [
+      "src/components/pages/Admin/UsersAdmin.tsx"
     ]
   },
   "Sign in required": {
@@ -6632,12 +7054,18 @@
   "Start": {
     "files": [
       "src/components/application/GenericDialog/EditEvent/index.tsx",
-      "src/components/application/GenericDialog/Event/index.tsx"
+      "src/components/application/GenericDialog/Event/index.tsx",
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Start a new chat": {
     "files": [
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
+    ]
+  },
+  "Start a trial": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Start App Rating": {
@@ -6655,10 +7083,16 @@
       "src/components/pwa/Landing.tsx"
     ]
   },
+  "Started": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Status": {
     "files": [
       "src/components/application/GenericTable/MyApplicationsPending/columns.tsx",
-      "src/components/pages/Admin/AppSubmissions.tsx"
+      "src/components/pages/Admin/AppSubmissions.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Step {{step}} of {{total}}": {
@@ -6686,6 +7120,11 @@
       "src/components/application/GenericDialog/StockImageSelector/index.tsx"
     ]
   },
+  "Stop": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Stress & Anxiety": {
     "files": [
       "src/database/models/Application.tsx"
@@ -6711,9 +7150,20 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Study Analytics": {
+    "files": [
+      "src/components/pages/Admin/AdminLayoutSelector.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Study links": {
     "files": [
       "src/components/pages/SubmitApp/steps.tsx"
+    ]
+  },
+  "Study session": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Submission Reviewer": {
@@ -6731,7 +7181,8 @@
     "files": [
       "src/components/application/GenericDialog/SignUpSurvey/index.js",
       "src/components/application/GenericPopover/GenericPopover.tsx",
-      "src/components/pages/Survey/Survey.tsx"
+      "src/components/pages/Survey/Survey.tsx",
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Submit New App Rating": {
@@ -6835,6 +7286,11 @@
   "Suggestion updated": {
     "files": [
       "src/components/pages/Admin/AppSubmissions.tsx"
+    ]
+  },
+  "Suggestions": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Summary of Data": {
@@ -6968,6 +7424,11 @@
       "src/components/pages/ViewApp.tsx"
     ]
   },
+  "Task": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Team": {
     "files": [
       "src/components/pages/Community/CommunitySelector.tsx"
@@ -7012,6 +7473,11 @@
     "files": [
       "src/components/application/GenericContent/Filter/index.tsx",
       "src/components/application/GenericPopover/Filter/index.tsx"
+    ]
+  },
+  "Thank you — your answers were saved.": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Thank you for participating in our previous survey!": {
@@ -7185,6 +7651,11 @@
       "src/components/pages/Admin/AppSubmissions.tsx"
     ]
   },
+  "The trial will be marked as cancelled and you will not be asked any questions.": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "The United States Food and Drug Administration (FDA) has taken a \"hands-off\" approach towards regulating apps. This lack of oversight means that not all available apps are safe and effective, and some may even pose significant dangers to users.": {
     "files": [
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
@@ -7336,6 +7807,21 @@
       "src/components/application/GenericDialog/IntroVideo/index.js"
     ]
   },
+  "Time": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Timed trials by MIND study participants (accounts with the Analytics User role). Times are from Start to Stop.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Timeline": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Timespan must be 12 months or less": {
     "files": [
       "src/components/application/GenericDialog/Event/index.tsx"
@@ -7372,6 +7858,16 @@
       "src/components/application/GenericDialog/Event/index.tsx",
       "src/components/pages/RateAnApp.tsx",
       "src/components/pages/Team/TeamMemberCreateForm.tsx"
+    ]
+  },
+  "To": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "To first app": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "To test: force-quit the app, turn on airplane mode, then reopen it.": {
@@ -7461,14 +7957,39 @@
       "src/components/pages/PublicApplicationsTable.tsx"
     ]
   },
+  "turns": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Turns": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Type of device?": {
     "files": [
       "src/components/pwa/questions.tsx"
     ]
   },
+  "typing": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "UK": {
     "files": [
       "src/database/models/Application.tsx"
+    ]
+  },
+  "unchecks": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Unchecks": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "unconfirmed": {
@@ -7734,6 +8255,16 @@
       "src/components/layout/ApplicationBar.tsx"
     ]
   },
+  "Very difficult": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
+  "Very easy": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "video {{number}}": {
     "files": [
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
@@ -7847,6 +8378,11 @@
   "Visit Website": {
     "files": [
       "src/components/pages/ViewAppHeader.tsx"
+    ]
+  },
+  "waiting": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Was the app approved by Kids Help Phone?": {
@@ -8052,6 +8588,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Which app did you choose?": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Which conditions does the app support?": {
     "files": [
       "src/components/pages/SubmitApp/steps.tsx"
@@ -8150,7 +8691,8 @@
       "src/components/pages/SubmitApp/steps.tsx",
       "src/components/pages/Survey/Survey.tsx",
       "src/components/pages/ViewAppHeader.tsx",
-      "src/seo/pageText.ts"
+      "src/seo/pageText.ts",
+      "src/study/workflows.ts"
     ]
   },
   "Yes, can pay in app payments": {
@@ -8221,6 +8763,11 @@
   "Your answers are saved in this browser": {
     "files": [
       "src/components/pages/SubmitApp/SubmitApp.tsx"
+    ]
+  },
+  "Your answers could not be saved. Check your connection and press Submit again.": {
+    "files": [
+      "src/study/StudyPanel.tsx"
     ]
   },
   "Your company, university or organization. If you’re an independent developer, put your own name.": {

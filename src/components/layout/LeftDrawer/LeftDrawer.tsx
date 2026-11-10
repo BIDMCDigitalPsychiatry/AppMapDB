@@ -53,6 +53,7 @@ const LeftDrawer = () => {
         ModalProps={{
           keepMounted: true // Better open performance on mobile.
         }}
+        PaperProps={{ 'data-study-scroll': 'filters' } as any} // MIND study: scrolling time in the filter menu
       >
         {fullScreen && leftDrawer && <LeftDrawerContent setLeftDrawer={setLeftDrawer} />}
       </Drawer>
@@ -62,6 +63,7 @@ const LeftDrawer = () => {
         }}
         variant='persistent'
         open={leftDrawer}
+        PaperProps={{ 'data-study-scroll': 'filters' } as any}
       >
         <LeftDrawerContent setLeftDrawer={setLeftDrawer} />
       </Drawer>

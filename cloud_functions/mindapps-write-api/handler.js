@@ -8,12 +8,13 @@
  */
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
-const { DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
+const { BatchWriteCommand, DeleteCommand, DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand, ScanCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { CognitoIdentityProviderClient, ListUsersCommand } = require('@aws-sdk/client-cognito-identity-provider');
 const { authorize, canListRegisteredUsers } = require('./authz');
 const { buildEmail, SOURCE } = require('./email');
 const submissions = require('./submissions');
+const study = require('./study');
 const { randomUUID } = require('crypto');
 const { diffCurrentFlags, groupOf } = require('./currentFlags');
 
@@ -41,12 +42,17 @@ const resolveRoles = async email => {
     const res = await doc.send(new GetCommand({ TableName: USERS_TABLE, Key: { email } }));
     if (res.Item && res.Item.active !== false) {
       const roles = Array.isArray(res.Item.roles) ? res.Item.roles : [];
-      return { isAdmin: roles.includes('admin'), isSuperAdmin: roles.includes('superadmin'), isSubmissionReviewer: roles.includes('submissionreviewer') };
+      return {
+        isAdmin: roles.includes('admin'),
+        isSuperAdmin: roles.includes('superadmin'),
+        isSubmissionReviewer: roles.includes('submissionreviewer'),
+        isAnalytics: roles.includes('analytics')
+      };
     }
   } catch (err) {
     console.error('users table lookup failed (denying privileged roles):', err.message);
   }
-  return { isAdmin: false, isSuperAdmin: false, isSubmissionReviewer: false };
+  return { isAdmin: false, isSuperAdmin: false, isSubmissionReviewer: false, isAnalytics: false };
 };
 
 const getExisting = async (Model, Data) => {
@@ -434,4 +440,108 @@ async function handleListRegisteredUsers(token) {
   return { ok: true, users, statsSkipped };
 }
 
-module.exports = { handleWrite, handleEmail, handleListRegisteredUsers, handleSubmission };
+/* ---------------------------------------------------------------------------
+ * Workflow Analytics (MIND study). Validation + summaries live in study.js.
+ *   record - accounts with the `analytics` role (admins too, for testing):
+ *            upserts the run and appends a batch of events. When a run ends
+ *            (completed / cancelled) its summary numbers are computed from
+ *            every stored event and saved on the run.
+ *   list   - admins: every run (summaries included, events not).
+ *   events - admins: one run's events, in order (the run timeline).
+ *   export - admins: every event of every run, one page per request.
+ * ------------------------------------------------------------------------- */
+const queryRunEvents = async runId => {
+  const rows = [];
+  let start;
+  do {
+    const page = await doc.send(
+      new QueryCommand({
+        TableName: study.EVENTS_TABLE,
+        KeyConditionExpression: 'runId = :r',
+        ExpressionAttributeValues: { ':r': runId },
+        ExclusiveStartKey: start
+      })
+    );
+    rows.push(...(page.Items || []));
+    start = page.LastEvaluatedKey;
+  } while (start);
+  return rows;
+};
+
+const batchPut = async (TableName, items) => {
+  for (let i = 0; i < items.length; i += 25) {
+    let requests = items.slice(i, i + 25).map(Item => ({ PutRequest: { Item } }));
+    for (let attempt = 0; requests.length && attempt < 5; attempt++) {
+      const res = await doc.send(new BatchWriteCommand({ RequestItems: { [TableName]: requests } }));
+      requests = res.UnprocessedItems?.[TableName] || [];
+      if (requests.length) await new Promise(r => setTimeout(r, 100 * 2 ** attempt));
+    }
+    if (requests.length) throw new Error(`${requests.length} events not stored after retries`);
+  }
+};
+
+async function handleStudy(token, payload) {
+  const { op } = payload || {};
+  if (!['record', 'list', 'events', 'export'].includes(op)) return { type: 'bad_request', error: 'Unknown study operation' };
+
+  const caller = await verifyCaller(token);
+  if (!caller) return { type: 'unauthorized', error: 'Sign in required' };
+
+  if (op === 'record') {
+    if (!caller.roles.isAnalytics && !caller.roles.isAdmin) {
+      console.log(JSON.stringify({ audit: 'DENIED', email: caller.email, op: 'study:record' }));
+      return { type: 'forbidden', error: 'Recording study sessions requires an Analytics User account' };
+    }
+    const result = study.sanitizeRecord(payload.data, caller.email);
+    if (result.error) return { type: 'bad_request', error: result.error };
+    const { run, events } = result;
+
+    const existing = (await doc.send(new GetCommand({ TableName: study.RUNS_TABLE, Key: { _id: run._id } }))).Item;
+    if (existing && existing.email !== caller.email) return { type: 'forbidden', error: 'This run belongs to another account' };
+
+    if (events.length) await batchPut(study.EVENTS_TABLE, events);
+
+    // A run that has ended stays ended: a late batch (e.g. from a second tab)
+    // must not flip it back to active or drop its answers.
+    const merged = study.mergeRun(existing, run);
+    if (merged.status !== 'active') merged.summary = study.summarizeRun(merged, await queryRunEvents(run._id));
+    merged.updated = Date.now();
+    await doc.send(new PutCommand({ TableName: study.RUNS_TABLE, Item: merged }));
+    if (!existing || existing.status !== merged.status)
+      console.log(JSON.stringify({ audit: 'STUDY_RUN', email: caller.email, id: run._id, workflow: run.workflowId, status: merged.status }));
+    return { ok: true, stored: events.length, status: merged.status };
+  }
+
+  if (!caller.roles.isAdmin) {
+    console.log(JSON.stringify({ audit: 'DENIED', email: caller.email, op: `study:${op}` }));
+    return { type: 'forbidden', error: 'Viewing study analytics requires an admin account' };
+  }
+
+  if (op === 'list') {
+    const runs = [];
+    let start;
+    do {
+      const page = await doc.send(new ScanCommand({ TableName: study.RUNS_TABLE, ExclusiveStartKey: start }));
+      runs.push(...(page.Items || []));
+      start = page.LastEvaluatedKey;
+    } while (start);
+    runs.sort((a, b) => (b.started ?? 0) - (a.started ?? 0));
+    return { ok: true, runs };
+  }
+
+  if (op === 'events') {
+    const runId = String(payload.runId || '');
+    if (!runId) return { type: 'bad_request', error: 'runId is required' };
+    const events = await queryRunEvents(runId);
+    events.sort((a, b) => a.seq - b.seq);
+    return { ok: true, events };
+  }
+
+  // export: one scan page per request (API Gateway caps a response at 6 MB and
+  // 30 s); the browser keeps asking with `next` until it comes back empty.
+  const page = await doc.send(new ScanCommand({ TableName: study.EVENTS_TABLE, ExclusiveStartKey: payload.next || undefined, Limit: 2000 }));
+  console.log(JSON.stringify({ audit: 'STUDY_EXPORT', email: caller.email, count: (page.Items || []).length }));
+  return { ok: true, events: page.Items || [], next: page.LastEvaluatedKey };
+}
+
+module.exports = { handleWrite, handleEmail, handleListRegisteredUsers, handleSubmission, handleStudy };

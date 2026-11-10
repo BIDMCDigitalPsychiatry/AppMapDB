@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
-import { Users } from '../../application/GenericTable/Users/table';
+import { isStudyOnlyAccount, Users } from '../../application/GenericTable/Users/table';
 import { ROLE_INFO } from '../../application/GenericTable/Users/columns';
 import { useRosterActions } from '../../application/GenericTable/Users/useRosterActions';
 import { useDispatch } from 'react-redux';
@@ -30,7 +30,8 @@ const ROLE_LABELS: Record<string, string> = {
   admin: tx('Admin'),
   notify: tx('Notify'),
   surveynotify: tx('Survey Notify'),
-  submissionreviewer: tx('Submission Reviewer')
+  submissionreviewer: tx('Submission Reviewer'),
+  analytics: tx('Analytics User')
 };
 
 const useStyles = makeStyles(({ breakpoints, palette }: any) =>
@@ -75,6 +76,8 @@ export default function UsersAdmin({ height = undefined as number | undefined })
   // The report loads once per visit to the Users tab; the write API
   // independently verifies the Super Admin role before touching Cognito.
   const [view, setView] = React.useState<'roster' | 'registered'>('roster');
+  const [showStudyAccounts, setShowStudyAccounts] = React.useState(false);
+  const studyAccounts = Object.values(roster).filter(u => u && isStudyOnlyAccount(u as any)).length;
   const [reg, setReg] = React.useState({ loading: false, error: '', users: [] as RegisteredUser[], statsSkipped: false, loaded: false });
 
   const dispatch = useDispatch();
@@ -110,24 +113,38 @@ export default function UsersAdmin({ height = undefined as number | undefined })
         <Grid item>
           <Typography className={classes.primaryText}>{view === 'roster' ? t('Users & Roles') : t('Registered Users')}</Typography>
           {view === 'roster' ? (
-            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-              {t('Visible to Super Admins only.')}{' '}
-              {WRITE_API_URL
-                ? t('Changes take effect immediately and are recorded with who made them.')
-                : t('Changes take effect immediately and are recorded with who made them (write API not configured — changes will not be permitted).')}{' '}
-              <Link
-                component='button'
-                underline='hover'
-                onClick={() => setView('registered')}
-                sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
-              >
-                {t('View All Registered Users')}
-              </Link>
-            </Typography>
+            <>
+              <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+                {t('Visible to Super Admins only.')}{' '}
+                {WRITE_API_URL
+                  ? t('Changes take effect immediately and are recorded with who made them.')
+                  : t('Changes take effect immediately and are recorded with who made them (write API not configured — changes will not be permitted).')}{' '}
+                <Link
+                  component='button'
+                  underline='hover'
+                  onClick={() => setView('registered')}
+                  sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
+                >
+                  {t('View All Registered Users')}
+                </Link>
+              </Typography>
+              {studyAccounts > 0 && (
+                <FormControlLabel
+                  sx={{ mt: 0.5 }}
+                  control={<Checkbox size='small' checked={showStudyAccounts} onChange={e => setShowStudyAccounts(e.target.checked)} />}
+                  label={<Typography variant='body2'>{t('Show the {{count}} study accounts (Analytics User role only)', { count: studyAccounts })}</Typography>}
+                />
+              )}
+            </>
           ) : (
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>
               {t('Every account registered on the site (including self-registered app raters), with their rating activity.')} {t('Read-only.')}{' '}
-              <Link component='button' underline='hover' onClick={() => setView('roster')} sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}>
+              <Link
+                component='button'
+                underline='hover'
+                onClick={() => setView('roster')}
+                sx={{ verticalAlign: 'baseline', fontWeight: 600, whiteSpace: 'nowrap' }}
+              >
                 {t('Back to Users & Roles')}
               </Link>
             </Typography>
@@ -143,7 +160,7 @@ export default function UsersAdmin({ height = undefined as number | undefined })
       </Grid>
 
       {view === 'roster' ? (
-        <Users height={height} />
+        <Users height={height} showStudyAccounts={showStudyAccounts} />
       ) : reg.error ? (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mt: 8, px: 2 }}>
           <Typography color='textSecondary'>{t('Could not load registered users: {{error}}', { error: reg.error })}</Typography>
@@ -167,7 +184,12 @@ export default function UsersAdmin({ height = undefined as number | undefined })
             {Object.keys(ROLE_LABELS).map(key => (
               <FormControlLabel
                 key={key}
-                control={<Checkbox checked={newRoles.includes(key)} onChange={() => setNewRoles(prev => (prev.includes(key) ? prev.filter(x => x !== key) : [...prev, key]))} />}
+                control={
+                  <Checkbox
+                    checked={newRoles.includes(key)}
+                    onChange={() => setNewRoles(prev => (prev.includes(key) ? prev.filter(x => x !== key) : [...prev, key]))}
+                  />
+                }
                 label={
                   <span>
                     <b>{t(ROLE_LABELS[key])}</b>
