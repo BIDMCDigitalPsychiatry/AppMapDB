@@ -230,6 +230,9 @@ const AppStep = (props: StepProps) => {
         hint={tx('Enter every link that applies — at least one is required.')}
         error={errors['app.links']}
       >
+        <Alert severity='info' sx={{ mb: 2 }}>
+          {t('We currently do not publish apps that are only available on the web. If the app is also in the App Store or on Google Play, please include those links.')}
+        </Alert>
         {(
           [
             ['iosLink', tx('Apple App Store link'), 'https://apps.apple.com/us/app/…/id123456789', undefined],
@@ -499,7 +502,7 @@ const Basics = ({ form, set, errors }: StepProps) => {
         hint={tx('Only select conditions the app explicitly says it supports in its description.')}
         items={C.CONDITION_ITEMS}
         value={form.answers.conditions}
-        onChange={v => set('answers.conditions', v)}
+        onChange={v => set('answers.conditions', C.withNonSpecificRule(v))}
         error={errors['answers.conditions']}
         columns={2}
       />

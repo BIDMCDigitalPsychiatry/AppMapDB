@@ -1,5 +1,5 @@
 import { appleStoreId, emptyForm, playStoreId, prepareForSubmit, toRatingValues, unsureAnswers, validateStep, visibleItems } from './form';
-import { ITEMS_BY_FIELD, YES_NO_FIELDS, CHECKLIST_FIELDS } from './content';
+import { ITEMS_BY_FIELD, YES_NO_FIELDS, CHECKLIST_FIELDS, CONDITION_ITEMS, NON_SPECIFIC, withNonSpecificRule } from './content';
 import {
   CostQuestions,
   PrivacyQuestions,
@@ -171,5 +171,21 @@ describe('Submit an App: submission → rating pre-fill', () => {
     const out = prepareForSubmit(f);
     expect(out.answers.privacies).toEqual({ 'Has Privacy Policy': 'no' });
     expect(out.research.rctDigital).toBeUndefined();
+  });
+});
+
+describe('Non-Specific condition rule', () => {
+  it('adds Non-Specific once 4 or more specific conditions are ticked', () => {
+    const three = ['Sleep', 'PTSD', 'OCD'];
+    expect(withNonSpecificRule(three)).toEqual(three);
+    expect(withNonSpecificRule([...three, 'Bipolar Disorder'])).toEqual([...three, 'Bipolar Disorder', NON_SPECIFIC]);
+    // already there: not duplicated; Non-Specific itself doesn't count toward the 4
+    expect(withNonSpecificRule([...three, NON_SPECIFIC])).toEqual([...three, NON_SPECIFIC]);
+    expect(withNonSpecificRule([...three, 'Schizophrenia', NON_SPECIFIC]).filter(c => c === NON_SPECIFIC)).toHaveLength(1);
+  });
+
+  it('offers Non-Specific as the last choice', () => {
+    expect(CONDITION_ITEMS[CONDITION_ITEMS.length - 1].value).toBe(NON_SPECIFIC);
+    expect(CONDITION_ITEMS.filter(i => i.value === NON_SPECIFIC)).toHaveLength(1);
   });
 });
