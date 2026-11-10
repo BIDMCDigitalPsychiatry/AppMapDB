@@ -5,6 +5,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { evalFunc, isEmpty, publicUrl } from '../../helpers';
 import { appPath } from '../../appUrl';
 import { useCurrentLanguage } from '../../i18n';
+import { trackStudy } from '../../study/tracker';
 import { AppState } from '../../store';
 import useRefDimensions from './ViewPort/hooks/useRefDimensions';
 
@@ -37,7 +38,13 @@ export const useOpenApp = () => {
   const changeRoute = useChangeRoute();
   const lang = useCurrentLanguage();
   return React.useCallback(
-    (app, from: string) => changeRoute(app?.cur === 'approved' ? appPath(app, lang) : publicUrl('/ViewApp'), { app, from }),
+    (app, from: string) => {
+      // MIND study: which app was opened, and from where (grid card, table row...)
+      // (name fallback mirrors getAppName in GenericTable/Applications/selectors)
+      const name = app?.name || app?.androidStore?.title || app?.appleStore?.title;
+      trackStudy('app_open', { appId: app?._id, groupId: app?.groupId, name, from });
+      changeRoute(app?.cur === 'approved' ? appPath(app, lang) : publicUrl('/ViewApp'), { app, from });
+    },
     [changeRoute, lang]
   );
 };

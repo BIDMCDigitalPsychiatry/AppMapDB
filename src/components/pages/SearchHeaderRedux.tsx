@@ -6,6 +6,7 @@ import { useFullScreen, useIsAdmin } from '../../hooks';
 import TableSearchV2 from '../application/GenericTable/TableSearchV2';
 import MultiSelectCheck from '../application/DialogField/MultiSelectCheck';
 import { Platforms, withReplacement } from '../../database/models/Application';
+import { withStudyFilterAction } from '../../study/tracker';
 import { useHandleTableReset, useTableFilterValues, useTableSearchText } from '../application/GenericTable/store';
 import DialogButton from '../application/GenericDialog/DialogButton';
 import ViewModeButtons from '../application/GenericTable/Applications/ViewModeButtons';
@@ -72,7 +73,7 @@ export default function SearchHeaderRedux({ title = tx('App Library'), onExport 
   const t = useT();
   const [searchtext, setSearchText] = useTableSearchText(tableId);
   const [filters = {}, setFilterValues] = useTableFilterValues(tableId);
-  const handleReset = useHandleTableReset(tableId);
+  const handleReset = withStudyFilterAction('reset', 'search-header', useHandleTableReset(tableId));
 
   const classes = useStyles();
   // useFilterList();

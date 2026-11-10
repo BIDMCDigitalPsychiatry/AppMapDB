@@ -4,6 +4,7 @@ import { createStyles } from '../../../styles/jss';
 import { makeStyles } from '../../../styles/jss';
 import * as Icons from '@mui/icons-material';
 import { useT } from '../../../i18n';
+import { studyTracker, trackStudy } from '../../../study/tracker';
 
 const useStyles = makeStyles(({ palette, transitions }: any) =>
   createStyles({
@@ -70,7 +71,17 @@ const useStyles = makeStyles(({ palette, transitions }: any) =>
   })
 );
 
-export default function MuliSelectCheckExpandable({ value = [], onChange = undefined, label = undefined, items = [], color = undefined, counts = undefined }) {
+// studyId: the filter category id (e.g. 'Conditions'); tags the options for the
+// MIND study's hover tracking and names the group in its expand/clear events.
+export default function MuliSelectCheckExpandable({
+  value = [],
+  onChange = undefined,
+  label = undefined,
+  items = [],
+  color = undefined,
+  counts = undefined,
+  studyId = undefined as string | undefined
+}) {
   const t = useT();
   const classes = useStyles();
   const [expand, setExpand] = React.useState(value.length > 0 ? true : false);
@@ -85,14 +96,21 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
     [onChange, value]
   );
 
-  const handleToggleExpand = React.useCallback(() => setExpand(prev => !prev), [setExpand]);
+  const handleToggleExpand = React.useCallback(() => {
+    trackStudy(expand ? 'filter_group_collapse' : 'filter_group_expand', { category: studyId ?? label });
+    setExpand(!expand);
+  }, [expand, studyId, label]);
 
   const handleClear = React.useCallback(
     e => {
       e.stopPropagation();
+      if (studyTracker.isActive()) {
+        studyTracker.markFilterSource('clear');
+        trackStudy('filter_clear', { scope: 'group', category: studyId ?? label, cleared: value.length });
+      }
       onChange && onChange([], e);
     },
-    [onChange]
+    [onChange, studyId, label, value.length]
   );
 
   return (
@@ -130,7 +148,12 @@ export default function MuliSelectCheckExpandable({ value = [], onChange = undef
             const checked = value.find(v => v === i.value) ? true : false;
             const count = counts?.[i.value];
             return (
-              <label key={index} className={classes.optionRow} style={checked ? { background: `${color}14` } : undefined}>
+              <label
+                key={index}
+                className={classes.optionRow}
+                style={checked ? { background: `${color}14` } : undefined}
+                data-study-filter={studyId ? `${studyId}|${i.value}` : undefined}
+              >
                 <Checkbox size='small' checked={checked} onChange={handleToggleItem(i.value)} style={{ color, padding: 4 }} />
                 <Typography variant='body2' style={{ lineHeight: 1.3 }}>
                   {t(i.label)}

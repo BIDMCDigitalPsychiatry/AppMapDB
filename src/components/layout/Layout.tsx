@@ -11,6 +11,7 @@ import Footer from './Footer';
 import { useLocation } from 'react-router';
 import LeftDrawer from './LeftDrawer/LeftDrawer';
 import DevRoleSwitcher from './DevRoleSwitcher';
+import StudyPanel from '../../study/StudyPanel';
 import KeyWords from './KeyWords';
 import { useUrlParameter } from '../../hooks';
 import { useChangeRoute } from './hooks';
@@ -130,6 +131,8 @@ export default function Layout({ children }) {
           {!noFooterPaths.find(p => p === pathname) && <Footer variant={variant} />}
           <SnackBar />
           <AnalyticsConsentBanner />
+          {/* MIND study participants only (analytics role); renders nothing for anyone else */}
+          <StudyPanel />
           <KeyWords />
           {/* Renders only under REACT_APP_USE_LOCAL_DATA (npm run start:local) */}
           <DevRoleSwitcher />

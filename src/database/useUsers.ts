@@ -56,7 +56,7 @@ export const useRoster = (): Record<string, RosterUser> => useSelector((s: AppSt
 // the email has no entry — treat as "no role").
 export const useRosterRole = (
   email: string | undefined,
-  role: 'admin' | 'superadmin' | 'notify' | 'surveynotify' | 'submissionreviewer'
+  role: 'admin' | 'superadmin' | 'notify' | 'surveynotify' | 'submissionreviewer' | 'analytics'
 ): boolean | undefined => {
   const entry = useRoster()[(email ?? '').trim().toLowerCase()];
   if (!entry) return undefined;

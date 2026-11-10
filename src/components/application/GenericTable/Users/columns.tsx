@@ -20,6 +20,9 @@ export const ROLE_INFO: Record<string, string> = {
   surveynotify: tx('Survey Notify recipients receive the notice sent each time a visitor completes an app survey.'),
   submissionreviewer: tx(
     'Submission Reviewers see the Admin > App Suggestions queue, are emailed when someone suggests an app, and can turn suggestions into app ratings.'
+  ),
+  analytics: tx(
+    'Analytics Users are MIND study participants. They see a Start / Stop panel for timed trials, and what they do during a trial is recorded for Admin > Study Analytics. Untick to switch the study tools off.'
   )
 };
 
@@ -149,6 +152,7 @@ export const useColumns = () => {
       Cell: RoleCell('submissionreviewer'),
       hoverable: false
     },
+    { name: 'analytics', header: <RoleHeader label={t('Analytics User')} info={t(ROLE_INFO.analytics)} />, width: 160, Cell: RoleCell('analytics'), hoverable: false },
     { name: 'updated', header: t('Last Changed'), width: 240, Cell: LastChangedCell },
     { name: 'actions', header: t('Actions'), width: 120, Cell: ActionsCell, hoverable: false }
   ];

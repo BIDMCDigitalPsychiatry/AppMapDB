@@ -3,6 +3,7 @@ import { Button, Typography } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { isEmpty } from '../../../../helpers';
 import { useT } from '../../../../i18n';
+import { trackStudy } from '../../../../study/tracker';
 
 export const getDescription = ({ appleStore, androidStore }) => {
   var description = !isEmpty(appleStore?.description) ? appleStore.description : androidStore?.description;
@@ -35,15 +36,17 @@ export default function ExpandableDescription({
   maxDescription = 1000,
   androidStore = undefined,
   appleStore = undefined,
-  handleRefresh = undefined
+  handleRefresh = undefined,
+  appName = undefined as string | undefined // names the app in the MIND study's card-expand events
 }) {
   const [expand, setExpand] = React.useState(false);
   const t = useT();
 
   const handleToggleExpand = React.useCallback(() => {
-    setExpand(prev => !prev);
+    trackStudy(expand ? 'app_card_collapse' : 'app_card_expand', { name: appName });
+    setExpand(!expand);
     handleRefresh && handleRefresh();
-  }, [setExpand, handleRefresh]);
+  }, [expand, handleRefresh, appName]);
 
   var description = getDescription({ appleStore, androidStore });
   // Expandable when long by characters OR by rendered lines — store text is

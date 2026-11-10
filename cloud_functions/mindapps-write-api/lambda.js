@@ -10,7 +10,7 @@
  *   USERS_TABLE           roster table name (users) — the single source of
  *                         truth for roles (package.json lists retired)
  */
-const { handleWrite, handleEmail, handleListRegisteredUsers, handleSubmission } = require('./handler');
+const { handleWrite, handleEmail, handleListRegisteredUsers, handleSubmission, handleStudy } = require('./handler');
 
 const STATUS_BY_TYPE = { bad_request: 400, unauthorized: 401, forbidden: 403, conflict: 409, error: 502 };
 
@@ -50,6 +50,8 @@ exports.handler = async event => {
         ? await handleListRegisteredUsers(token)
         : body && body.submission
         ? await handleSubmission(token, body.submission)
+        : body && body.study // Workflow Analytics (MIND study) — see study.js
+        ? await handleStudy(token, body.study)
         : body && body.email
         ? await handleEmail(token, body.email)
         : await handleWrite(token, body);

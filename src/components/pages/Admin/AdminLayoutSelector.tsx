@@ -20,6 +20,7 @@ const AdminLayoutSelector = ({ subRoute, ...other }) => {
         isAdmin && { id: 'Pending Approvals', label: t('Pending Approvals'), route: '/Admin', routeState: { subRoute: 'pending' } },
         isSubmissionReviewer && { id: 'App Suggestions', label: t('App Suggestions'), route: '/Admin', routeState: { subRoute: 'submissions' } },
         isAdmin && { id: 'Surveys', label: t(tc('research', 'Surveys')), route: '/Admin', routeState: { subRoute: 'surveys' } },
+        isAdmin && { id: 'Study Analytics', label: t('Study Analytics'), route: '/Admin', routeState: { subRoute: 'study' } },
         isSuperAdmin && { id: 'Users', label: t('Users'), route: '/Admin', routeState: { subRoute: 'users' } }
       ].filter(x => x),
     [isAdmin, isSuperAdmin, isSubmissionReviewer, t]

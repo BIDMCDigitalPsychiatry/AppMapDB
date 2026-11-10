@@ -14,13 +14,17 @@ const defaultProps: GenericTableContainerProps = {
 };
 
 // Roster rows -> table rows (sortable primitives per column name).
-const useUsersTableData = () => {
+// Study accounts (only the analytics role — 101 MIND study logins) are
+// hidden unless asked for, so they don't bury the staff roster.
+export const isStudyOnlyAccount = (u: RosterUser) => (u.roles ?? []).length > 0 && (u.roles ?? []).every(r => r === 'analytics');
+
+const useUsersTableData = (showStudyAccounts: boolean) => {
   useLoadRoster(true);
   const roster = useRoster();
   return React.useMemo(
     () =>
       (Object.values(roster) as RosterUser[])
-        .filter(u => u && u.email)
+        .filter(u => u && u.email && (showStudyAccounts || !isStudyOnlyAccount(u)))
         .sort((a, b) => a.email.localeCompare(b.email))
         .map(u => ({
           _id: u.email,
@@ -31,6 +35,7 @@ const useUsersTableData = () => {
           notify: (u.roles ?? []).includes('notify'),
           surveynotify: (u.roles ?? []).includes('surveynotify'),
           submissionreviewer: (u.roles ?? []).includes('submissionreviewer'),
+          analytics: (u.roles ?? []).includes('analytics'),
           active: u.active,
           status: u.active === false ? 'deactivated' : 'active',
           updated: u.updated,
@@ -38,12 +43,12 @@ const useUsersTableData = () => {
           getSearchValues: () => `${u.email} ${(u.roles ?? []).join(' ')}`,
           getValues: () => u
         })),
-    [roster]
+    [roster, showStudyAccounts]
   );
 };
 
-export const Users = ({ height = undefined, ...other }) => {
+export const Users = ({ height = undefined, showStudyAccounts = false, ...other }) => {
   const columns = useColumns();
-  const data = useUsersTableData();
+  const data = useUsersTableData(showStudyAccounts);
   return <GenericTableContainer {...defaultProps} data={data} columns={columns} showScroll={true} height={height} {...other} />;
 };

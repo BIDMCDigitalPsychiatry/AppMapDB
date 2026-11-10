@@ -2,6 +2,7 @@ import React from 'react';
 import { useSignedIn } from '../../../../hooks';
 import { Grid, Typography } from '@mui/material';
 import { useTableFilterValues, useHandleTableReset } from '../../GenericTable/store';
+import { withStudyFilterAction } from '../../../../study/tracker';
 import DialogButton from '../../GenericDialog/DialogButton';
 import * as DeleteFilterDialog from '../../GenericDialog/DeleteFilter';
 import * as SaveFilterDialog from '../../GenericDialog/SaveFilter';
@@ -12,7 +13,7 @@ export default function FilterButtons({ variant = 'smallOutlined', underline = '
   const t = useT();
   const signedIn = useSignedIn();
   const [values, setValues] = useTableFilterValues('Applications');
-  const handleReset = useHandleTableReset('Applications');
+  const handleReset = withStudyFilterAction('reset', 'filter-buttons', useHandleTableReset('Applications'));
   const { SavedFilter } = values;
   const SavedFilterStr = JSON.stringify(SavedFilter);
 

@@ -67,7 +67,7 @@ export default function ApplicationsGrid(props: Application & AppGridProps) {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <ExpandableDescription appleStore={appleStore} androidStore={androidStore} handleRefresh={handleRefresh} />
+                <ExpandableDescription appleStore={appleStore} androidStore={androidStore} handleRefresh={handleRefresh} appName={name} />
               </Grid>
             </Grid>
           </Grid>

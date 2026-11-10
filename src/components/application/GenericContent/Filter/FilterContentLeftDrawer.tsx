@@ -131,7 +131,7 @@ const ConnectedMultiSelect = ({ id, label, color, items, getCount }) => {
     });
     return c;
   }, [items, getCount, id]);
-  return <MultiSelectCheckExpandable value={value} label={label ?? id} color={color} items={items} onChange={setValue} counts={counts} />;
+  return <MultiSelectCheckExpandable value={value} label={label ?? id} color={color} items={items} onChange={setValue} counts={counts} studyId={id} />;
 };
 
 export default function FilterContentLeftDrawer() {

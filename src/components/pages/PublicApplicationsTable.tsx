@@ -39,6 +39,7 @@ import { categories } from '../../constants';
 import { useLastRatingDateTime } from '../application/GenericTable/ApplicationsGrid/useLastRatingDateTime';
 import { RaterEmail } from '../application/GenericTable/Applications/RaterEmail';
 import { useHandleTableReset } from '../application/GenericTable/store';
+import { withStudyFilterAction } from '../../study/tracker';
 import { useT, tx } from '../../i18n';
 
 /*
@@ -267,7 +268,7 @@ export default function PublicApplicationsTable({ data = [], height = 500 }) {
   const classes = useStyles();
   const t = useT();
   const openApp = useOpenApp();
-  const handleReset = useHandleTableReset('Applications');
+  const handleReset = withStudyFilterAction('reset', 'no-results', useHandleTableReset('Applications'));
   const [sortKey, setSortKey] = React.useState<SortKey>('name');
   const [sortAsc, setSortAsc] = React.useState(true);
 
