@@ -167,7 +167,19 @@ export const RESEARCH_FREE_TEXT = {
 
 /* ------------------------- Evaluation framework ------------------------ */
 
-export const CONDITION_ITEMS: HelpItem[] = Conditions.filter(c => c !== 'Non-Specific').map(c => ({ value: c, label: c }));
+// 'Non-Specific' (study team, Nov 2026): offered as a choice, listed last, and
+// added automatically once 4 or more specific conditions are ticked.
+export const NON_SPECIFIC = 'Non-Specific';
+export const NON_SPECIFIC_MIN_CONDITIONS = 4;
+
+export const CONDITION_ITEMS: HelpItem[] = [
+  ...Conditions.filter(c => c !== NON_SPECIFIC).map(c => ({ value: c, label: c })),
+  { value: NON_SPECIFIC, label: NON_SPECIFIC, hint: tx('For apps that support many conditions or general mental health. Selected automatically when 4 or more conditions are ticked.') }
+];
+
+/** Applies the Non-Specific rule to a conditions answer: 4+ specific conditions → Non-Specific is added. */
+export const withNonSpecificRule = (conditions: string[]): string[] =>
+  conditions.filter(c => c !== NON_SPECIFIC).length >= NON_SPECIFIC_MIN_CONDITIONS && !conditions.includes(NON_SPECIFIC) ? [...conditions, NON_SPECIFIC] : conditions;
 
 export const COST_ITEMS = fromModel(CostQuestions, {
   'Free to Download': {

@@ -1664,5 +1664,7 @@
   "Very easy": "Très facile",
   "waiting": "attente",
   "Which app did you choose?": "Quelle application avez-vous choisie ?",
-  "Your answers could not be saved. Check your connection and press Submit again.": "Vos réponses n’ont pas pu être enregistrées. Vérifiez votre connexion et appuyez de nouveau sur Envoyer."
+  "Your answers could not be saved. Check your connection and press Submit again.": "Vos réponses n’ont pas pu être enregistrées. Vérifiez votre connexion et appuyez de nouveau sur Envoyer.",
+  "For apps that support many conditions or general mental health. Selected automatically when 4 or more conditions are ticked.": "Pour les applications qui couvrent de nombreuses conditions ou la santé mentale en général. Sélectionné automatiquement lorsque 4 conditions ou plus sont cochées.",
+  "We currently do not publish apps that are only available on the web. If the app is also in the App Store or on Google Play, please include those links.": "Nous ne publions pas actuellement les applications disponibles uniquement sur le Web. Si l’application est aussi sur l’App Store ou Google Play, veuillez inclure ces liens."
 }
