@@ -56,6 +56,13 @@ const STATUS_COLOR: Record<string, 'success' | 'default' | 'warning' | 'info'> =
   'in progress': 'info'
 };
 
+// The date fields' labels float above the box, onto the blue header — give
+// them a white pill and dark text so they stay readable.
+const dateLabelProps = {
+  shrink: true,
+  sx: { color: 'primary.dark', fontWeight: 700, bgcolor: 'background.paper', px: 0.75, borderRadius: 1, '&.Mui-focused': { color: 'primary.dark' } }
+};
+
 export default function StudyAnalytics({ height = undefined as number | undefined }) {
   const t = useT();
   const dispatch = useDispatch();
@@ -135,8 +142,8 @@ export default function StudyAnalytics({ height = undefined as number | undefine
             ))}
           </TextField>
           <TextField size='small' label={t('Account contains')} value={filters.account} onChange={e => setFilters(f => ({ ...f, account: e.target.value }))} sx={{ bgcolor: 'background.paper' }} />
-          <TextField size='small' type='date' label={t('From')} InputLabelProps={{ shrink: true }} value={filters.from} onChange={e => setFilters(f => ({ ...f, from: e.target.value }))} sx={{ bgcolor: 'background.paper' }} />
-          <TextField size='small' type='date' label={t('To')} InputLabelProps={{ shrink: true }} value={filters.to} onChange={e => setFilters(f => ({ ...f, to: e.target.value }))} sx={{ bgcolor: 'background.paper' }} />
+          <TextField size='small' type='date' label={t('From')} InputLabelProps={dateLabelProps} value={filters.from} onChange={e => setFilters(f => ({ ...f, from: e.target.value }))} sx={{ bgcolor: 'background.paper' }} />
+          <TextField size='small' type='date' label={t('To')} InputLabelProps={dateLabelProps} value={filters.to} onChange={e => setFilters(f => ({ ...f, to: e.target.value }))} sx={{ bgcolor: 'background.paper' }} />
           <FormControlLabel
             control={<Switch size='small' checked={filters.hideTestAccount} onChange={e => setFilters(f => ({ ...f, hideTestAccount: e.target.checked }))} />}
             label={<Typography variant='body2'>{t('Hide test_subject')}</Typography>}
