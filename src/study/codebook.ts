@@ -73,6 +73,12 @@ export const CODEBOOK: CodebookEntry[] = [
   { section: RUNS, name: 'assistant_typing_s', definition: 'Total time spent typing assistant messages (from the first keystroke of a message to sending it).' },
   { section: RUNS, name: 'assistant_wait_s', definition: 'Total time spent waiting for assistant replies (send → reply shown).' },
   { section: RUNS, name: 'assistant_final_tags', definition: 'The filter tags applied by the last assistant reply that applied filters.' },
+  {
+    section: RUNS,
+    name: 'assistant_transcript',
+    definition:
+      'The whole AI search assistant conversation of the trial in one cell, one message per line in order: "Participant: …" or "AI search assistant: …". "[New chat]" marks the participant starting over; "(no reply: …)" means the assistant could not be reached. Empty if the assistant was not used. The Assistant transcripts CSV has the same messages one per row, with times.'
+  },
   { section: RUNS, name: 'filter_checks', definition: 'Number of filter tags turned on, by any means (checkbox, assistant, chips).' },
   { section: RUNS, name: 'filter_checks_by_assistant', definition: 'The part of filter_checks that the AI search assistant applied.' },
   { section: RUNS, name: 'filter_unchecks', definition: 'Number of filter tags turned off, by any means.' },

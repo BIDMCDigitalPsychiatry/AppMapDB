@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { deleteStudyRuns, exportStudyEvents, getRunEvents, listStudyRuns, saveRunNotes, StudyEvent, StudyRun } from '../../../study/api';
-import { codebookCsv, displayStatus, downloadText, eventsCsv, RunSort, runsCsv, sortRuns, summarizeByWorkflow, transcriptCsv } from '../../../study/report';
+import { codebookCsv, displayStatus, downloadText, eventsCsv, RunSort, runsCsv, sortRuns, summarizeByWorkflow, transcriptCsv, transcriptsByRun } from '../../../study/report';
 import { CODEBOOK, CODEBOOK_SECTIONS } from '../../../study/codebook';
 import { STUDY_WORKFLOWS } from '../../../study/workflows';
 import { isNoCurrentUserError, sessionExpired, SESSION_EXPIRED_MESSAGE } from '../../../database/session';
@@ -178,16 +178,16 @@ export default function StudyAnalytics({ height = undefined as number | undefine
     setOpenRun(r => (r && r._id === id ? { ...r, notes, notesUpdated: Date.now(), notesBy: undefined } : r));
   };
 
-  const exportRuns = () => downloadText(`mindapps-study-runs-${new Date().toISOString().slice(0, 10)}.csv`, runsCsv(runs));
-
-  // Both the events CSV and the assistant-transcripts CSV are built from the full event export.
-  const exportFromEvents = async (kind: 'events' | 'transcripts') => {
+  // All three CSVs need the full event export: the Runs CSV for its
+  // assistant_transcript column (one cell per trial with the whole chat).
+  const exportFromEvents = async (kind: 'runs' | 'events' | 'transcripts') => {
     setExporting(t('Downloading events…'));
     try {
       const ids = new Set(runs.map(r => r._id));
       const all = (await exportStudyEvents(n => setExporting(t('Downloading events… {{count}}', { count: n })))).filter(e => ids.has(e.runId ?? ''));
       const day = new Date().toISOString().slice(0, 10);
-      if (kind === 'events') downloadText(`mindapps-study-events-${day}.csv`, eventsCsv(all, runs));
+      if (kind === 'runs') downloadText(`mindapps-study-runs-${day}.csv`, runsCsv(runs, Date.now(), transcriptsByRun(all)));
+      else if (kind === 'events') downloadText(`mindapps-study-events-${day}.csv`, eventsCsv(all, runs));
       else downloadText(`mindapps-study-assistant-transcripts-${day}.csv`, transcriptCsv(all, runs));
       setExporting('');
     } catch (err) {
@@ -229,7 +229,14 @@ export default function StudyAnalytics({ height = undefined as number | undefine
           <Button size='small' startIcon={<Icons.Refresh />} onClick={load} sx={{ textTransform: 'none' }}>
             {t('Refresh')}
           </Button>
-          <Button size='small' variant='outlined' startIcon={<Icons.Download />} disabled={runs.length === 0} onClick={exportRuns} sx={{ textTransform: 'none', bgcolor: 'background.paper' }}>
+          <Button
+            size='small'
+            variant='outlined'
+            startIcon={<Icons.Download />}
+            disabled={runs.length === 0 || !!exporting}
+            onClick={() => exportFromEvents('runs')}
+            sx={{ textTransform: 'none', bgcolor: 'background.paper' }}
+          >
             {t('Runs CSV')}
           </Button>
           <Button

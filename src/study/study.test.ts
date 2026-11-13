@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { StudyTracker } from './tracker';
 import { diffFilters } from './hooks';
-import { displayStatus, eventsCsv, runsCsv, sortRuns, summarizeByWorkflow, toCsv, transcriptCsv, ABANDONED_AFTER_MS } from './report';
+import { displayStatus, eventsCsv, runsCsv, sortRuns, summarizeByWorkflow, toCsv, transcriptCsv, transcriptsByRun, ABANDONED_AFTER_MS } from './report';
 import { CODEBOOK } from './codebook';
 import type { StudyEvent, StudyRun } from './api';
 
@@ -162,6 +162,21 @@ describe('assistant transcript CSV', () => {
     expect(lines[1]).toContain(',Participant,free apps please,');
     expect(lines[2]).toContain(',AI search assistant,Here are free apps.,filters,1.2,Cost: Totally Free');
     expect(lines[3]).toContain('(no reply: network_error)');
+  });
+
+  it('puts the whole conversation in one Runs CSV cell per trial', () => {
+    const events: StudyEvent[] = [
+      { runId: 'r1', seq: 5, type: 'assistant_reply', t: NOW, elapsedMs: 0, data: { turn: 1, text: 'Try "Calm".', type: 'filters' } },
+      { runId: 'r1', seq: 2, type: 'assistant_message', t: NOW, elapsedMs: 0, data: { turn: 1, text: 'sleep apps, free' } },
+      { runId: 'r1', seq: 7, type: 'assistant_new_chat', t: NOW, elapsedMs: 0, data: {} },
+      { runId: 'r2', seq: 1, type: 'filter_check', t: NOW, elapsedMs: 0, data: {} }
+    ];
+    const tr = transcriptsByRun(events);
+    expect(tr.get('r1')).toBe('Participant: sleep apps, free\nAI search assistant: Try "Calm".\n[New chat]');
+    expect(tr.has('r2')).toBe(false);
+    const csv = runsCsv([run({ _id: 'r1' }), run({ _id: 'r2' })], NOW, tr);
+    expect(csv).toContain('"Participant: sleep apps, free\nAI search assistant: Try ""Calm"".\n[New chat]"');
+    expect(csv.split('\r\n')).toHaveLength(4); // header + 2 runs + trailing newline: the multi-line cell stays inside its quotes
   });
 });
 
