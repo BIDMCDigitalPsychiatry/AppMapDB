@@ -11,7 +11,7 @@ import ConsentNotice, { hasConsented, recordConsent } from './ConsentNotice';
 import { ASSISTANT_ENDPOINT, assistantEnabled, MAX_HISTORY_TURNS, MAX_MESSAGE_CHARS, MAX_USER_TURNS } from './config';
 import { useT, tx } from '../../../i18n';
 import { studyTracker, trackStudy } from '../../../study/tracker';
-import { useStudyActive } from '../../../study/hooks';
+import { useStudyActive, useStudyRun } from '../../../study/hooks';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -58,6 +58,19 @@ export default function SearchAssistant() {
   const studyActive = useStudyActive();
   const typingStarted = React.useRef<number | undefined>(undefined);
   const wasOpen = React.useRef(open);
+  // MIND study: every trial starts with an empty chat, so one trial's
+  // transcript never carries over into the next.
+  const studyRunId = useStudyRun()?.runId;
+  const lastRunId = React.useRef(studyRunId);
+  React.useEffect(() => {
+    if (studyRunId && studyRunId !== lastRunId.current) {
+      setMessages([]);
+      setInput('');
+      conversationId.current = newConversationId();
+    }
+    lastRunId.current = studyRunId;
+  }, [studyRunId]);
+
   React.useEffect(() => {
     if (wasOpen.current !== open) trackStudy(open ? 'assistant_open' : 'assistant_close', { messages: messages.length });
     wasOpen.current = open;

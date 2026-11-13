@@ -208,6 +208,39 @@ export const eventsCsv = (events: StudyEvent[], runs: StudyRun[]) => {
   );
 };
 
+// The search-assistant conversation of each trial, one row per message, in
+// order. speaker is "Participant" or "AI search assistant"; a row with
+// speaker "—" marks the participant pressing New chat.
+export const transcriptCsv = (events: StudyEvent[], runs: StudyRun[]) => {
+  const byId = new Map(runs.map(r => [r._id, r]));
+  const kinds = new Set(['assistant_message', 'assistant_reply', 'assistant_new_chat']);
+  const sorted = events.filter(e => kinds.has(e.type)).sort((a, b) => (a.runId ?? '').localeCompare(b.runId ?? '') || a.seq - b.seq);
+  return toCsv(
+    ['run_id', 'account', 'task_id', 'task', 'turn', 'time_utc', 'elapsed_s', 'speaker', 'message', 'reply_type', 'reply_wait_s', 'filters_applied'],
+    sorted.map(e => {
+      const run = byId.get(e.runId ?? '');
+      const d = e.data ?? {};
+      const reply = e.type === 'assistant_reply';
+      const newChat = e.type === 'assistant_new_chat';
+      const filters = reply && d.filters ? Object.entries(d.filters as Record<string, string[]>).map(([k, v]) => `${k}: ${(v ?? []).join(', ')}`).join('; ') : '';
+      return [
+        e.runId,
+        run?.email,
+        run?.workflowId,
+        run?.workflowLabel,
+        d.turn,
+        iso(e.t),
+        secs(e.elapsedMs),
+        newChat ? '—' : reply ? 'AI search assistant' : 'Participant',
+        newChat ? '(new chat started)' : (d.text ?? (reply ? `(no reply: ${d.type ?? 'error'})` : '')),
+        reply ? d.type : '',
+        reply ? secs(d.latencyMs) : '',
+        filters
+      ];
+    })
+  );
+};
+
 export const downloadText = (filename: string, text: string, type = 'text/csv;charset=utf-8') => {
   // BOM so Excel opens UTF-8 (French/German text, curly quotes) correctly.
   const blob = new Blob(['﻿' + text], { type });
