@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { StudyTracker } from './tracker';
 import { diffFilters } from './hooks';
-import { displayStatus, eventsCsv, runsCsv, summarizeByWorkflow, toCsv, ABANDONED_AFTER_MS } from './report';
-import type { StudyRun } from './api';
+import { displayStatus, eventsCsv, runsCsv, summarizeByWorkflow, toCsv, transcriptCsv, ABANDONED_AFTER_MS } from './report';
+import type { StudyEvent, StudyRun } from './api';
 
 const memoryStorage = () => {
   const m = new Map<string, string>();
@@ -145,5 +145,34 @@ describe('report', () => {
     const ev = eventsCsv([{ runId: 'r1', seq: 0, type: 'filter_check', t: NOW, elapsedMs: 1500, data: { category: 'Cost', value: 'Totally Free', source: 'manual', activeFilters: 1 } }], [run({ _id: 'r1' })]);
     expect(ev).toContain('r1,a@mind.org,filters-only,0,');
     expect(ev).toContain('filter_check,,Cost,Totally Free,manual,,,"{""activeFilters"":1}"');
+  });
+});
+
+describe('assistant transcript CSV', () => {
+  it('lists each message in order with who said it', () => {
+    const events: StudyEvent[] = [
+      { runId: 'r1', seq: 3, type: 'assistant_reply', t: NOW + 3000, elapsedMs: 3000, data: { turn: 1, text: 'Here are free apps.', type: 'filters', latencyMs: 1200, filters: { Cost: ['Totally Free'] } } },
+      { runId: 'r1', seq: 1, type: 'filter_check', t: NOW + 500, elapsedMs: 500, data: { category: 'Cost', value: 'Totally Free' } },
+      { runId: 'r1', seq: 2, type: 'assistant_message', t: NOW + 1000, elapsedMs: 1000, data: { turn: 1, text: 'free apps please' } },
+      { runId: 'r1', seq: 4, type: 'assistant_reply', t: NOW + 5000, elapsedMs: 5000, data: { turn: 2, type: 'network_error', latencyMs: 900 } }
+    ];
+    const lines = transcriptCsv(events, [run({ _id: 'r1' })]).trim().split('\r\n');
+    expect(lines).toHaveLength(4); // header + 3 messages; the filter click is not part of the transcript
+    expect(lines[1]).toContain(',Participant,free apps please,');
+    expect(lines[2]).toContain(',AI search assistant,Here are free apps.,filters,1.2,Cost: Totally Free');
+    expect(lines[3]).toContain('(no reply: network_error)');
+  });
+});
+
+describe('study tasks', () => {
+  it('underline a phrase that appears in each task, in every language', async () => {
+    const { STUDY_WORKFLOWS } = await import('./workflows');
+    const fr = (await import('../locales/fr.json')).default as Record<string, string>;
+    const de = (await import('../locales/de.json')).default as Record<string, string>;
+    expect(STUDY_WORKFLOWS.map(w => w.id)).toEqual(['filters-only', 'assistant-only']);
+    for (const w of STUDY_WORKFLOWS) {
+      expect(w.task).toContain(w.emphasis);
+      for (const dict of [fr, de]) expect(dict[w.task]).toContain(dict[w.emphasis]);
+    }
   });
 });

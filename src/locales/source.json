@@ -385,6 +385,16 @@
       "src/components/pages/Survey/Survey.tsx"
     ]
   },
+  "AI search assistant": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "AI search assistant only": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
   "AI support": {
     "files": [
       "src/components/pages/SubmitApp/content.ts",
@@ -530,11 +540,6 @@
   "Anyone can download and use it — for example, it doesn’t require an insurance code, employer login, or clinic referral.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
-    ]
-  },
-  "Anything confusing, or any suggestions? (optional)": {
-    "files": [
-      "src/study/StudyPanel.tsx"
     ]
   },
   "Anything else we should know about your research?": {
@@ -849,6 +854,11 @@
     ]
   },
   "Assistant transcript": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Assistant transcripts CSV": {
     "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
@@ -1360,11 +1370,6 @@
       "src/study/StudyPanel.tsx"
     ]
   },
-  "Choose between two mindfulness apps using the evidence information shown for each.": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
   "Choose No if it is designed mainly for clinicians (e.g. a diagnosis guide).": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -1618,11 +1623,6 @@
   "Company": {
     "files": [
       "src/components/application/GenericDialog/RateNewApp/steps.tsx"
-    ]
-  },
-  "Compare two apps": {
-    "files": [
-      "src/study/workflows.ts"
     ]
   },
   "Completed": {
@@ -3248,11 +3248,6 @@
       "src/components/application/GenericDialog/ExploreQuestions/index.js"
     ]
   },
-  "Explore the app library however you like, and press Stop when you are done.": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
   "Explore the app's qualitative ratings & reviews": {
     "files": [
       "src/components/pages/Survey/SurveyFollowUp.tsx"
@@ -3375,6 +3370,16 @@
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
+  "filter function": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "Filter function only": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
   "Filter Name": {
     "files": [
       "src/components/application/GenericDialog/SaveFilter/index.tsx"
@@ -3396,29 +3401,9 @@
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
-  "Filters only": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
   "final tags": {
     "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
-    ]
-  },
-  "Find a free app for depression that works on Android, using only the filters on the left.": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
-  "Find a free app for depression that works on Android, using only the search assistant (the chat button at the bottom right).": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
-  "Find a specific app": {
-    "files": [
-      "src/study/workflows.ts"
     ]
   },
   "Find an App": {
@@ -3426,19 +3411,9 @@
       "src/components/layout/Footer.tsx"
     ]
   },
-  "Find an app you would recommend to a friend who has trouble sleeping. Use any part of the site.": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
   "Find and Select the \"Add to Home Screen\" option.": {
     "files": [
       "src/components/application/GenericDialog/IntroInstallPrompt/IntroInstallStepper.tsx"
-    ]
-  },
-  "Find the app Headspace and check how it handles your data.": {
-    "files": [
-      "src/study/workflows.ts"
     ]
   },
   "Finds filters, not medical advice": {
@@ -3541,11 +3516,6 @@
     "files": [
       "src/components/application/DialogField/AndroidStore.tsx",
       "src/components/application/DialogField/AppleStore.tsx"
-    ]
-  },
-  "Free exploration": {
-    "files": [
-      "src/study/workflows.ts"
     ]
   },
   "Free of stigmatizing, racist, or inaccurate content": {
@@ -5478,11 +5448,6 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
-  "Open-ended search": {
-    "files": [
-      "src/study/workflows.ts"
-    ]
-  },
   "Opting out of cookies alone doesn’t count.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -5561,11 +5526,6 @@
   "Outputs — what the app gives back": {
     "files": [
       "src/components/pages/SubmitApp/steps.tsx"
-    ]
-  },
-  "Overall, how easy or difficult was this task?": {
-    "files": [
-      "src/study/StudyPanel.tsx"
     ]
   },
   "Own Data": {
@@ -5815,7 +5775,7 @@
       "src/database/models/Application.tsx"
     ]
   },
-  "Pick the task the study team asked you to do. The timer starts when you press Start.": {
+  "Pick the task the study team asked you to do. The trial starts when you press Start.": {
     "files": [
       "src/study/StudyPanel.tsx"
     ]
@@ -5978,7 +5938,7 @@
       "src/components/application/GenericDialog/IntroInstallPrompt/IntroInstallStepper.tsx"
     ]
   },
-  "Press Start when you are ready to begin a task. A timer will run until you press Stop.": {
+  "Press Start when you are ready to begin a task, and press Stop when you are done.": {
     "files": [
       "src/study/StudyPanel.tsx"
     ]
@@ -6635,11 +6595,6 @@
   "Search assistant": {
     "files": [
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
-    ]
-  },
-  "Search assistant only": {
-    "files": [
-      "src/study/workflows.ts"
     ]
   },
   "Search by Name": {
@@ -7968,6 +7923,11 @@
       "src/seo/pageText.ts"
     ]
   },
+  "Trial in Progress…": {
+    "files": [
+      "src/study/StudyPanel.tsx"
+    ]
+  },
   "Try MIND Mobile App!": {
     "files": [
       "src/components/application/GenericDialog/IntroInstallPrompt/index.js"
@@ -8108,6 +8068,16 @@
   "Use additional filters to refine your search results. When viewing on mobile, this can be opened by clicking the icon in the top left corner of the application bar.": {
     "files": [
       "src/components/pages/Tour/TourStep.tsx"
+    ]
+  },
+  "Use the AI search assistant to identify the most appropriate app for your assigned scenario.": {
+    "files": [
+      "src/study/workflows.ts"
+    ]
+  },
+  "Use the filter function to identify the most appropriate app for your assigned scenario.": {
+    "files": [
+      "src/study/workflows.ts"
     ]
   },
   "Use the free Flesch-Kincaid test: paste your privacy policy into the text box and enter the “grade level” it reports.": {
@@ -8279,16 +8249,6 @@
   "version button group": {
     "files": [
       "src/components/layout/ApplicationBar.tsx"
-    ]
-  },
-  "Very difficult": {
-    "files": [
-      "src/study/StudyPanel.tsx"
-    ]
-  },
-  "Very easy": {
-    "files": [
-      "src/study/StudyPanel.tsx"
     ]
   },
   "video {{number}}": {

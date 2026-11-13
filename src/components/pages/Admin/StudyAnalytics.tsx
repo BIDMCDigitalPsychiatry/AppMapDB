@@ -25,7 +25,7 @@ import {
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { exportStudyEvents, getRunEvents, listStudyRuns, StudyEvent, StudyRun } from '../../../study/api';
-import { displayStatus, downloadText, eventsCsv, runsCsv, summarizeByWorkflow } from '../../../study/report';
+import { displayStatus, downloadText, eventsCsv, runsCsv, summarizeByWorkflow, transcriptCsv } from '../../../study/report';
 import { STUDY_WORKFLOWS } from '../../../study/workflows';
 import { isNoCurrentUserError, sessionExpired, SESSION_EXPIRED_MESSAGE } from '../../../database/session';
 import { useDispatch } from 'react-redux';
@@ -110,12 +110,15 @@ export default function StudyAnalytics({ height = undefined as number | undefine
 
   const exportRuns = () => downloadText(`mindapps-study-runs-${new Date().toISOString().slice(0, 10)}.csv`, runsCsv(runs));
 
-  const exportEvents = async () => {
+  // Both the events CSV and the assistant-transcripts CSV are built from the full event export.
+  const exportFromEvents = async (kind: 'events' | 'transcripts') => {
     setExporting(t('Downloading events…'));
     try {
       const ids = new Set(runs.map(r => r._id));
-      const all = await exportStudyEvents(n => setExporting(t('Downloading events… {{count}}', { count: n })));
-      downloadText(`mindapps-study-events-${new Date().toISOString().slice(0, 10)}.csv`, eventsCsv(all.filter(e => ids.has(e.runId ?? '')), runs));
+      const all = (await exportStudyEvents(n => setExporting(t('Downloading events… {{count}}', { count: n })))).filter(e => ids.has(e.runId ?? ''));
+      const day = new Date().toISOString().slice(0, 10);
+      if (kind === 'events') downloadText(`mindapps-study-events-${day}.csv`, eventsCsv(all, runs));
+      else downloadText(`mindapps-study-assistant-transcripts-${day}.csv`, transcriptCsv(all, runs));
       setExporting('');
     } catch (err) {
       setExporting('');
@@ -123,7 +126,8 @@ export default function StudyAnalytics({ height = undefined as number | undefine
     }
   };
 
-  const workflowOptions = Array.from(new Map([...STUDY_WORKFLOWS.map(w => [w.id, w.label] as const), ...state.runs.map(r => [r.workflowId, r.workflowLabel ?? r.workflowId] as const)]).entries());
+  // Current task names win over the names stored on older runs (tasks get renamed).
+  const workflowOptions = Array.from(new Map([...state.runs.map(r => [r.workflowId, r.workflowLabel ?? r.workflowId] as const), ...STUDY_WORKFLOWS.map(w => [w.id, w.label] as const)]).entries());
 
   return (
     <Box sx={{ height, overflowY: 'auto', bgcolor: 'background.default' }}>
@@ -160,10 +164,20 @@ export default function StudyAnalytics({ height = undefined as number | undefine
             variant='outlined'
             startIcon={exporting ? <CircularProgress size={14} /> : <Icons.Download />}
             disabled={runs.length === 0 || !!exporting}
-            onClick={exportEvents}
+            onClick={() => exportFromEvents('events')}
             sx={{ textTransform: 'none', bgcolor: 'background.paper' }}
           >
             {exporting || t('Events CSV')}
+          </Button>
+          <Button
+            size='small'
+            variant='outlined'
+            startIcon={<Icons.Download />}
+            disabled={runs.length === 0 || !!exporting}
+            onClick={() => exportFromEvents('transcripts')}
+            sx={{ textTransform: 'none', bgcolor: 'background.paper' }}
+          >
+            {t('Assistant transcripts CSV')}
           </Button>
         </Box>
       </Box>

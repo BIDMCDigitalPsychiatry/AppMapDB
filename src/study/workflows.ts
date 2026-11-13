@@ -1,64 +1,61 @@
 /*
  * The tasks a study participant can pick when they press Start, and the
- * questions asked after Stop. Kept as a fixed list in code: changing a task
+ * question asked after Stop. Kept as a fixed list in code: changing a task
  * is a one-line edit + deploy. Each run stores the task's id AND its English
  * label, so renaming a task later never mislabels old runs.
  *
- * The wording below is a first draft from the analytics plan — the study
- * team should confirm or replace it.
+ * The study team asked (2026-11) to keep only these two tasks. Runs of the
+ * removed tasks (open-ended, known-app, comparison, free) keep their stored
+ * labels, so they still show in Study Analytics.
  */
 import { tx } from '../i18n';
+
+// How the page is set up when a trial starts (before the timer begins, so none
+// of it is recorded): the filter panel and the search assistant are opened or
+// minimized to match the task.
+export interface StudyWorkflowSetup {
+  filters: 'open' | 'closed';
+  assistant: 'open' | 'closed';
+}
 
 export interface StudyWorkflow {
   id: string;
   label: string;
   task: string;
+  emphasis: string; // the part of `task` shown underlined (must appear in it, also in translations)
+  setup: StudyWorkflowSetup;
 }
 
+// Ids are stable (stored on every run); labels and wording can change freely.
 export const STUDY_WORKFLOWS: StudyWorkflow[] = [
   {
     id: 'filters-only',
-    label: tx('Filters only'),
-    task: tx('Find a free app for depression that works on Android, using only the filters on the left.')
+    label: tx('Filter function only'),
+    task: tx('Use the filter function to identify the most appropriate app for your assigned scenario.'),
+    emphasis: tx('filter function'),
+    setup: { filters: 'open', assistant: 'closed' }
   },
   {
     id: 'assistant-only',
-    label: tx('Search assistant only'),
-    task: tx('Find a free app for depression that works on Android, using only the search assistant (the chat button at the bottom right).')
-  },
-  {
-    id: 'open-ended',
-    label: tx('Open-ended search'),
-    task: tx('Find an app you would recommend to a friend who has trouble sleeping. Use any part of the site.')
-  },
-  {
-    id: 'known-app',
-    label: tx('Find a specific app'),
-    task: tx('Find the app Headspace and check how it handles your data.')
-  },
-  {
-    id: 'comparison',
-    label: tx('Compare two apps'),
-    task: tx('Choose between two mindfulness apps using the evidence information shown for each.')
-  },
-  {
-    id: 'free',
-    label: tx('Free exploration'),
-    task: tx('Explore the app library however you like, and press Stop when you are done.')
+    label: tx('AI search assistant only'),
+    task: tx('Use the AI search assistant to identify the most appropriate app for your assigned scenario.'),
+    emphasis: tx('AI search assistant'),
+    setup: { filters: 'closed', assistant: 'open' }
   }
 ];
 
 export const workflowById = (id: string | undefined) => STUDY_WORKFLOWS.find(w => w.id === id);
 
-// Questions after Stop. `ease` is the standard 7-point Single Ease Question
-// (SEQ) used in usability research, so results compare with published norms.
+// The question asked after Stop (plus "which app", when one was found). The
+// study team dropped the ease rating and the suggestions box in 2026-11; old
+// runs keep those answers and the dashboard still shows them.
 export type FoundAnswer = 'yes' | 'partly' | 'no';
 
 export interface StopAnswers {
   found?: FoundAnswer;
   app?: string;
-  ease?: number;
-  suggestions?: string;
+  ease?: number; // no longer asked; kept for runs recorded before 2026-11
+  suggestions?: string; // no longer asked; kept for runs recorded before 2026-11
 }
 
 export const FOUND_OPTIONS: { value: FoundAnswer; label: string }[] = [

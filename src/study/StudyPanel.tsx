@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,37 +20,44 @@ import {
 import * as Icons from '@mui/icons-material';
 import { studyTracker } from './tracker';
 import { useIsAnalyticsUser, useStudyObservers, useStudyRun, useUserEmailRaw } from './hooks';
-import { FOUND_OPTIONS, StopAnswers, STUDY_WORKFLOWS, workflowById } from './workflows';
+import { FOUND_OPTIONS, StopAnswers, StudyWorkflow, STUDY_WORKFLOWS, workflowById } from './workflows';
 import { useCurrentLanguage, useT } from '../i18n';
 import { useTheme } from '@mui/material';
-import { useLeftDrawer } from '../components/layout/store';
+import { useAssistantPanel, useLeftDrawer } from '../components/layout/store';
+import { useChangeRoute } from '../components/layout/hooks';
+import { useHandleTableReset } from '../components/application/GenericTable/store';
 import { useFullScreen } from '../hooks';
+import { publicUrl } from '../helpers';
+import { assistantEnabled } from '../components/pages/SearchAssistant/config';
 
 /*
  * The study panel for MIND study participants (accounts with the `analytics`
  * role): a small card in the bottom-left corner of every page.
- *   idle    → "Start a trial" → pick a task → the timer starts
- *   running → the task, the timer, Stop (→ questions) and Cancel
+ *   idle    → "Start a trial" → pick a task → the page is reset, then the trial starts
+ *   running → "Trial in Progress…", the task, Stop (→ question) and Cancel
+ * The elapsed time is recorded but never shown, so it can't change how
+ * participants behave (study team request, 2026-11).
  * Everyone else never sees it, and nothing is recorded for them.
  */
 
-const formatClock = (ms: number) => {
-  const s = Math.max(0, Math.floor(ms / 1000));
-  const h = Math.floor(s / 3600);
-  const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
-  const ss = String(s % 60).padStart(2, '0');
-  return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
-};
-
-const useClock = (since: number | undefined, frozenAt: number | undefined) => {
-  const [now, setNow] = React.useState(Date.now());
-  React.useEffect(() => {
-    if (!since || frozenAt) return;
-    setNow(Date.now());
-    const id = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, [since, frozenAt]);
-  return since ? (frozenAt ?? now) - since : 0;
+// The task text with its key phrase ("filter function" / "AI search
+// assistant") underlined. Falls back to plain text if a translation doesn't
+// contain the phrase.
+export const TaskText = ({ workflow }: { workflow: StudyWorkflow }) => {
+  const t = useT();
+  const task = t(workflow.task);
+  const em = t(workflow.emphasis);
+  const i = em ? task.indexOf(em) : -1;
+  if (i < 0) return <>{task}</>;
+  return (
+    <>
+      {task.slice(0, i)}
+      <Box component='span' sx={{ fontWeight: 700, textDecoration: 'underline' }}>
+        {em}
+      </Box>
+      {task.slice(i + em.length)}
+    </>
+  );
 };
 
 export default function StudyPanel() {
@@ -67,7 +75,6 @@ function StudyPanelInner() {
   const run = storedRun && storedRun.email === email.toLowerCase() ? storedRun : undefined;
   useStudyObservers(run !== undefined);
 
-  const elapsed = useClock(run?.started, run?.stoppedAt);
   const [minimized, setMinimized] = React.useState(false);
   const [pickOpen, setPickOpen] = React.useState(false);
   // Stop was pressed (possibly before a reload): the questions are showing.
@@ -76,6 +83,33 @@ function StudyPanelInner() {
   const [thanks, setThanks] = React.useState(false);
 
   const workflow = workflowById(run?.workflowId);
+
+  // Starting a trial first resets the page: back to the app library, all
+  // filters and the search box cleared, and the filter panel / search
+  // assistant opened or minimized to suit the task. The run only starts once
+  // that has rendered, so none of the reset is recorded as part of the trial.
+  const resetFilters = useHandleTableReset('Applications');
+  const changeRoute = useChangeRoute();
+  const [, setDrawerOpen] = useLeftDrawer();
+  const [, setAssistantOpen] = useAssistantPanel();
+  const [pendingStart, setPendingStart] = React.useState<StudyWorkflow | undefined>(undefined);
+  const beginTrial = (w: StudyWorkflow) => {
+    resetFilters();
+    changeRoute(publicUrl('/Apps'));
+    setDrawerOpen(w.setup.filters === 'open');
+    setAssistantOpen(assistantEnabled && w.setup.assistant === 'open');
+    setPendingStart(w);
+  };
+  React.useEffect(() => {
+    if (!pendingStart) return;
+    // A short delay lets every component's effects for the reset run (and be
+    // ignored, as no run is active yet) before the run begins.
+    const timer = setTimeout(() => {
+      studyTracker.start(email, pendingStart, lang);
+      setPendingStart(undefined);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [pendingStart]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sit just right of the docked filter menu so it never covers filters.
   const { layout } = useTheme() as any;
@@ -92,8 +126,10 @@ function StudyPanelInner() {
         sx={{ position: 'fixed', left, bottom: 16, zIndex: 1300, width: minimized ? 'auto' : 300, maxWidth: 'calc(100vw - 32px)', borderRadius: 3, overflow: 'hidden' }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1.5, py: 0.75, bgcolor: 'primary.dark', color: 'common.white' }}>
-          <Icons.Timer fontSize='small' />
-          <Typography sx={{ fontWeight: 700, fontSize: 13, flex: 1 }}>{run ? formatClock(elapsed) : t('Study session')}</Typography>
+          {run || pendingStart ? <CircularProgress size={14} thickness={6} sx={{ color: 'inherit' }} aria-hidden /> : <Icons.Assignment fontSize='small' />}
+          <Typography sx={{ fontWeight: 700, fontSize: 13, flex: 1 }} role='status'>
+            {run || pendingStart ? t('Trial in Progress…') : t('Study session')}
+          </Typography>
           <Tooltip title={minimized ? t('Show') : t('Minimize')}>
             <IconButton size='small' onClick={() => setMinimized(m => !m)} sx={{ color: 'inherit' }} aria-label={minimized ? t('Show') : t('Minimize')}>
               {minimized ? <Icons.ExpandLess fontSize='small' /> : <Icons.ExpandMore fontSize='small' />}
@@ -109,7 +145,7 @@ function StudyPanelInner() {
                 </Typography>
                 {workflow && (
                   <Typography variant='body2' sx={{ mt: 0.5, color: 'text.secondary' }}>
-                    {t(workflow.task)}
+                    <TaskText workflow={workflow} />
                   </Typography>
                 )}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1.5 }}>
@@ -129,11 +165,12 @@ function StudyPanelInner() {
                   </Alert>
                 )}
                 <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-                  {t('Press Start when you are ready to begin a task. A timer will run until you press Stop.')}
+                  {t('Press Start when you are ready to begin a task, and press Stop when you are done.')}
                 </Typography>
                 <Button
                   variant='contained'
                   fullWidth
+                  disabled={!!pendingStart}
                   startIcon={<Icons.PlayArrow />}
                   onClick={() => {
                     setThanks(false);
@@ -153,7 +190,7 @@ function StudyPanelInner() {
         open={pickOpen}
         onClose={() => setPickOpen(false)}
         onStart={w => {
-          studyTracker.start(email, w, lang);
+          beginTrial(w);
           setPickOpen(false);
           setMinimized(false);
         }}
@@ -193,7 +230,7 @@ function PickTaskDialog({ open, onClose, onStart }) {
       <DialogTitle>{t('Choose a task')}</DialogTitle>
       <DialogContent dividers>
         <Typography variant='body2' sx={{ mb: 1.5, color: 'text.secondary' }}>
-          {t('Pick the task the study team asked you to do. The timer starts when you press Start.')}
+          {t('Pick the task the study team asked you to do. The trial starts when you press Start.')}
         </Typography>
         {STUDY_WORKFLOWS.map(w => (
           <Paper
@@ -215,7 +252,7 @@ function PickTaskDialog({ open, onClose, onStart }) {
             <Box>
               <Typography sx={{ fontWeight: 700 }}>{t(w.label)}</Typography>
               <Typography variant='body2' color='text.secondary'>
-                {t(w.task)}
+                <TaskText workflow={w} />
               </Typography>
             </Box>
           </Paper>
@@ -247,13 +284,13 @@ function StopDialog({ open, onClose, onDone }) {
     setAnswers(a => ({ ...a, app: a.app || lastApp || '' }));
   }, [open]);
 
-  const valid = answers.found !== undefined && answers.ease !== undefined;
+  const valid = answers.found !== undefined;
 
   const submit = async () => {
     setSaving(true);
     setError('');
     try {
-      await studyTracker.stop({ ...answers, app: answers.app?.trim() || undefined, suggestions: answers.suggestions?.trim() || undefined });
+      await studyTracker.stop({ found: answers.found, app: answers.found === 'no' ? undefined : answers.app?.trim() || undefined });
       setAnswers({});
       onDone();
     } catch {
@@ -283,33 +320,6 @@ function StopDialog({ open, onClose, onDone }) {
           </>
         )}
 
-        <Typography sx={{ fontWeight: 600, mt: 2.5 }}>{t('Overall, how easy or difficult was this task?')}</Typography>
-        <ToggleButtonGroup exclusive size='small' color='primary' value={answers.ease ?? null} onChange={(_, v) => v && setAnswers(a => ({ ...a, ease: v }))} sx={{ mt: 1, flexWrap: 'wrap' }}>
-          {[1, 2, 3, 4, 5, 6, 7].map(n => (
-            <ToggleButton key={n} value={n} sx={{ width: 44 }} aria-label={String(n)}>
-              {n}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', maxWidth: 7 * 44, mt: 0.5 }}>
-          <Typography variant='caption' color='text.secondary'>
-            {t('Very difficult')}
-          </Typography>
-          <Typography variant='caption' color='text.secondary'>
-            {t('Very easy')}
-          </Typography>
-        </Box>
-
-        <Typography sx={{ fontWeight: 600, mt: 2.5 }}>{t('Anything confusing, or any suggestions? (optional)')}</Typography>
-        <TextField
-          multiline
-          minRows={2}
-          maxRows={6}
-          fullWidth
-          value={answers.suggestions ?? ''}
-          onChange={e => setAnswers(a => ({ ...a, suggestions: e.target.value.slice(0, 2000) }))}
-          sx={{ mt: 1 }}
-        />
         {error && (
           <Alert severity='error' sx={{ mt: 2 }}>
             {error}
