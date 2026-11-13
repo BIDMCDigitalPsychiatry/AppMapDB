@@ -44,6 +44,11 @@
       "src/components/pages/SubmitApp/SubmitApp.tsx"
     ]
   },
+  "{{count}} selected": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "{{count}} Stars": {
     "files": [
       "src/components/application/GenericTable/Applications/RatingReadOnly.js"
@@ -243,6 +248,11 @@
     ]
   },
   "Account": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Account (grouped)": {
     "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
@@ -1221,6 +1231,7 @@
       "src/components/application/GenericDialog/GenericStepperDialog.tsx",
       "src/components/application/GenericPopover/GenericPopover.tsx",
       "src/components/application/GenericTable/Users/columns.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx",
       "src/components/pages/Admin/UsersAdmin.tsx",
       "src/components/pages/Community/Create.tsx",
       "src/components/pages/Community/Edit.tsx",
@@ -1400,12 +1411,17 @@
       "src/components/pages/PublicApplicationsTable.tsx"
     ]
   },
+  "Clear selection": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "clears": {
     "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
-  "Click a run to see its timeline.": {
+  "Click a run to see its timeline and add notes.": {
     "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
@@ -1557,6 +1573,11 @@
   "Coach/Therapist Connection": {
     "files": [
       "src/database/models/Application.tsx"
+    ]
+  },
+  "Codebook": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Cognitive Behavioral Therapy": {
@@ -2017,7 +2038,13 @@
       "src/components/application/GenericDialog/GenericStepperDialog.tsx",
       "src/components/application/GenericPopover/GenericPopover.tsx",
       "src/components/application/GenericTable/Surveys/columns.tsx",
-      "src/components/application/GenericTable/Users/columns.tsx"
+      "src/components/application/GenericTable/Users/columns.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Delete {{count}} runs?": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Delete Filter": {
@@ -2025,6 +2052,11 @@
       "src/components/application/GenericContent/Filter/index.tsx",
       "src/components/application/GenericContent/FilterButtons/index.tsx",
       "src/components/application/GenericDialog/DeleteFilter/index.tsx"
+    ]
+  },
+  "Delete selected": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Delete Survey": {
@@ -2040,6 +2072,11 @@
   "Delete user?": {
     "files": [
       "src/components/application/GenericTable/Users/columns.tsx"
+    ]
+  },
+  "Deleting… {{count}}": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Demographics:": {
@@ -2648,6 +2685,11 @@
   "down": {
     "files": [
       "src/components/application/DialogField/WholeNumberUpDown.tsx"
+    ]
+  },
+  "Download codebook CSV": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Downloading events…": {
@@ -4789,6 +4831,11 @@
       "src/components/layout/ApplicationBar.tsx"
     ]
   },
+  "Longest first": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "M-HEALTH INDEX &": {
     "files": [
       "src/components/layout/Logo.tsx"
@@ -5137,6 +5184,11 @@
       "src/utils/useSortOptions.tsx"
     ]
   },
+  "Newest first": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "News": {
     "files": [
       "src/components/pages/Community/CommunitySelector.tsx",
@@ -5304,6 +5356,16 @@
       "src/components/application/GenericDialog/InteractiveSearch/InteractiveSearchCard.tsx"
     ]
   },
+  "Notes": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Notes about this run (only the study team sees these)": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Nothing has to be paid to download it, even if there are purchases later.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -5354,6 +5416,11 @@
   "Older": {
     "files": [
       "src/utils/useSortOptions.tsx"
+    ]
+  },
+  "Oldest first": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "On the following pages, you will be guided through each of the 105 questions. You will be able to save your progress as a draft.": {
@@ -6533,6 +6600,16 @@
       "src/components/application/GenericDialog/SaveFilter/index.tsx"
     ]
   },
+  "Save notes": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Saved": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Saves our reviewers time.": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -6540,6 +6617,7 @@
   },
   "Saving…": {
     "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx",
       "src/study/StudyPanel.tsx"
     ]
   },
@@ -6650,6 +6728,16 @@
       "src/components/application/GenericDialog/LoadFilter/index.tsx"
     ]
   },
+  "Select all runs": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Select all runs from": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Select all that apply.": {
     "files": [
       "src/components/pages/SubmitApp/steps.tsx"
@@ -6699,6 +6787,11 @@
   "Select one or more options. Click done to continue:": {
     "files": [
       "src/components/pwa/MultiAnswerButtons.tsx"
+    ]
+  },
+  "Select run": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Select the \"Add to Home Screen\" option.": {
@@ -6786,6 +6879,11 @@
     "files": [
       "src/components/pages/Community/CreateForm.tsx",
       "src/components/pages/Team/TeamMemberCreateForm.tsx"
+    ]
+  },
+  "Shortest first": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "Show": {
@@ -7000,6 +7098,11 @@
       "src/components/pages/SearchAssistant/SearchAssistant.tsx"
     ]
   },
+  "Sort by": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
   "Sort Key": {
     "files": [
       "src/components/application/GenericDialog/SortKey/index.tsx",
@@ -7068,6 +7171,11 @@
     "files": [
       "src/components/application/GenericTable/MyApplicationsPending/columns.tsx",
       "src/components/pages/Admin/AppSubmissions.tsx",
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Status (grouped)": {
+    "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
@@ -7401,6 +7509,11 @@
     ]
   },
   "Task": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
+    ]
+  },
+  "Task (grouped)": {
     "files": [
       "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
@@ -7765,6 +7878,11 @@
   "This is a search tool, not medical care. Please leave out personal health details.": {
     "files": [
       "src/components/pages/SearchAssistant/ConsentNotice.tsx"
+    ]
+  },
+  "This permanently deletes the selected runs with all their recorded actions, assistant transcripts and notes. It cannot be undone.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "This review represents the view of the app rater and is not an endorsement by MIND.": {
@@ -8482,6 +8600,11 @@
   "What are the app's inputs and outputs?": {
     "files": [
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
+    ]
+  },
+  "What each figure and CSV column means and how it is measured.": {
+    "files": [
+      "src/components/pages/Admin/StudyAnalytics.tsx"
     ]
   },
   "What features does the app have?": {

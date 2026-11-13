@@ -2,6 +2,7 @@
  * Pure helpers for Admin > Study Analytics: run status, the summary table
  * by task, and the CSV exports. No React, no network — unit-tested.
  */
+import { CODEBOOK } from './codebook';
 import type { StudyEvent, StudyRun } from './api';
 
 // An "active" run that has heard nothing for this long was left open (tab
@@ -117,6 +118,7 @@ export const runsCsv = (runs: StudyRun[], now = Date.now()) =>
       'app_chosen',
       'ease_1_7',
       'suggestions',
+      'notes',
       'time_to_first_action_s',
       'time_to_first_app_s',
       'assistant_turns',
@@ -156,6 +158,7 @@ export const runsCsv = (runs: StudyRun[], now = Date.now()) =>
         r.answers?.app,
         r.answers?.ease,
         r.answers?.suggestions,
+        r.notes,
         secs(s?.timeToFirstActionMs),
         secs(s?.timeToFirstAppMs),
         s?.assistantTurns,
@@ -207,6 +210,31 @@ export const eventsCsv = (events: StudyEvent[], runs: StudyRun[]) => {
     })
   );
 };
+
+// ---- Sorting the runs table
+export type RunSort = 'newest' | 'oldest' | 'account' | 'task' | 'status' | 'longest' | 'shortest';
+export const RUN_SORTS: RunSort[] = ['newest', 'oldest', 'account', 'task', 'status', 'longest', 'shortest'];
+
+const runDuration = (r: StudyRun) => r.summary?.durationMs ?? (r.ended ? r.ended - r.started : undefined);
+const byText = (a = '', b = '') => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+
+// Grouping sorts (account, task, status) keep each group newest-first;
+// duration sorts put runs without a duration last.
+export const sortRuns = (runs: StudyRun[], sort: RunSort, now = Date.now()): StudyRun[] => {
+  const newest = (a: StudyRun, b: StudyRun) => b.started - a.started;
+  const cmp: Record<RunSort, (a: StudyRun, b: StudyRun) => number> = {
+    newest,
+    oldest: (a, b) => a.started - b.started,
+    account: (a, b) => byText(a.email, b.email) || newest(a, b),
+    task: (a, b) => byText(a.workflowLabel ?? a.workflowId, b.workflowLabel ?? b.workflowId) || newest(a, b),
+    status: (a, b) => byText(displayStatus(a, now), displayStatus(b, now)) || newest(a, b),
+    longest: (a, b) => (runDuration(b) ?? -1) - (runDuration(a) ?? -1) || newest(a, b),
+    shortest: (a, b) => (runDuration(a) ?? Infinity) - (runDuration(b) ?? Infinity) || newest(a, b)
+  };
+  return [...runs].sort(cmp[sort] ?? newest);
+};
+
+export const codebookCsv = () => toCsv(['section', 'variable', 'definition'], CODEBOOK.map(e => [e.section, e.name, e.definition]));
 
 // The search-assistant conversation of each trial, one row per message, in
 // order. speaker is "Participant" or "AI search assistant"; a row with
