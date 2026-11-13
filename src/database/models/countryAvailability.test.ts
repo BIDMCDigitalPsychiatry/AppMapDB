@@ -1,4 +1,4 @@
-import { getAppCountries, syncLegacyCanadaUse, migrateLegacyFilters, LegacyCanadaUse, VisibleUses, VisibleUseQuestions } from './Application';
+import { getAppCountries, syncLegacyCanadaUse, migrateLegacyFilters, LegacyCanadaUse, VisibleUses, VisibleUseQuestions, Countries } from './Application';
 import { passesNormalModeFilters, FILTER_CATEGORY_JOIN_MODE } from '../../components/pages/useAppTableData';
 
 describe('getAppCountries', () => {
@@ -57,6 +57,11 @@ describe('Country Availability filter', () => {
     expect(FILTER_CATEGORY_JOIN_MODE.Countries).toBe('or');
     expect(passesNormalModeFilters({ countries: ['UK'] }, { Countries: ['Canada', 'UK'] })).toBe(true);
     expect(passesNormalModeFilters({ countries: ['France'] }, { Countries: ['Canada', 'UK'] })).toBe(false);
+    expect(passesNormalModeFilters({ countries: ['Turkey'] }, { Countries: ['Turkey'] })).toBe(true);
+  });
+
+  it('offers Turkey as a country', () => {
+    expect(Countries).toContain('Turkey');
   });
 
   it('hides the legacy Canada use from the visible Uses', () => {

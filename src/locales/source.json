@@ -1122,6 +1122,11 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Can someone in Turkey download and use the app?": {
+    "files": [
+      "src/database/models/Application.tsx"
+    ]
+  },
   "Can the app be used in French?": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -4446,6 +4451,12 @@
       "src/database/models/Application.tsx"
     ]
   },
+  "Is the app available in Turkey?": {
+    "files": [
+      "src/components/pages/SubmitApp/content.ts",
+      "src/database/models/Application.tsx"
+    ]
+  },
   "Is the app content well-written, correct, and relevant?": {
     "files": [
       "src/database/models/Application.tsx"
@@ -7004,6 +7015,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Someone in Turkey can download and use it.": {
+    "files": [
+      "src/components/pages/SubmitApp/content.ts"
+    ]
+  },
   "Someone or something replies right away (e.g. a chatbot or live chat).": {
     "files": [
       "src/components/pages/SubmitApp/content.ts"
@@ -7960,6 +7976,11 @@
   "Try removing a filter or changing your search text.": {
     "files": [
       "src/components/pages/PublicApplicationsTable.tsx"
+    ]
+  },
+  "Turkey": {
+    "files": [
+      "src/database/models/Application.tsx"
     ]
   },
   "turns": {
