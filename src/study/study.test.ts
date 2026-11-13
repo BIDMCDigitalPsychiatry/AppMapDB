@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { StudyTracker } from './tracker';
 import { diffFilters } from './hooks';
-import { displayStatus, eventsCsv, runsCsv, summarizeByWorkflow, toCsv, transcriptCsv, ABANDONED_AFTER_MS } from './report';
+import { displayStatus, eventsCsv, runsCsv, sortRuns, summarizeByWorkflow, toCsv, transcriptCsv, ABANDONED_AFTER_MS } from './report';
+import { CODEBOOK } from './codebook';
 import type { StudyEvent, StudyRun } from './api';
 
 const memoryStorage = () => {
@@ -174,5 +175,40 @@ describe('study tasks', () => {
       expect(w.task).toContain(w.emphasis);
       for (const dict of [fr, de]) expect(dict[w.task]).toContain(dict[w.emphasis]);
     }
+  });
+});
+
+describe('runs sorting', () => {
+  const rs = [
+    run({ _id: 'a', email: 'subject10@mind.org', started: NOW - 3000, summary: { durationMs: 5000 } as any }),
+    run({ _id: 'b', email: 'subject2@mind.org', started: NOW - 1000, workflowId: 'assistant-only', workflowLabel: 'AI search assistant only' }),
+    run({ _id: 'c', email: 'subject2@mind.org', started: NOW - 2000, summary: { durationMs: 9000 } as any })
+  ];
+  it('sorts by date, groups by account / task, and by duration', () => {
+    expect(sortRuns(rs, 'newest', NOW).map(r => r._id)).toEqual(['b', 'c', 'a']);
+    expect(sortRuns(rs, 'oldest', NOW).map(r => r._id)).toEqual(['a', 'c', 'b']);
+    expect(sortRuns(rs, 'account', NOW).map(r => r._id)).toEqual(['b', 'c', 'a']); // subject2 before subject10, newest first within
+    expect(sortRuns(rs, 'task', NOW).map(r => r._id)).toEqual(['b', 'c', 'a']);
+    expect(sortRuns(rs, 'longest', NOW).map(r => r._id)).toEqual(['c', 'a', 'b']);
+  });
+});
+
+describe('codebook', () => {
+  const names = () => new Set(CODEBOOK.flatMap(e => e.name.split(/,\s*|\s*\/\s*/)));
+  it('defines every column of every CSV export', () => {
+    const defined = names();
+    const header = (csv: string) => csv.split('\r\n')[0].split(',');
+    const cols = [
+      ...header(runsCsv([run({})], NOW)),
+      ...header(eventsCsv([], [])),
+      ...header(transcriptCsv([], []))
+    ];
+    expect(cols.filter(c => !defined.has(c))).toEqual([]);
+  });
+
+  it('defines every event type the server accepts', async () => {
+    const { EVENT_TYPES } = await import('../../cloud_functions/mindapps-write-api/study.js');
+    const defined = names();
+    expect(Array.from(EVENT_TYPES as Set<string>).filter(t => !defined.has(t))).toEqual([]);
   });
 });

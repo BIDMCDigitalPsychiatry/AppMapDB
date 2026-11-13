@@ -3,6 +3,7 @@ import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Chip,
   CircularProgress,
   Dialog,
@@ -24,18 +25,30 @@ import {
   Typography
 } from '@mui/material';
 import * as Icons from '@mui/icons-material';
-import { exportStudyEvents, getRunEvents, listStudyRuns, StudyEvent, StudyRun } from '../../../study/api';
-import { displayStatus, downloadText, eventsCsv, runsCsv, summarizeByWorkflow, transcriptCsv } from '../../../study/report';
+import { deleteStudyRuns, exportStudyEvents, getRunEvents, listStudyRuns, saveRunNotes, StudyEvent, StudyRun } from '../../../study/api';
+import { codebookCsv, displayStatus, downloadText, eventsCsv, RunSort, runsCsv, sortRuns, summarizeByWorkflow, transcriptCsv } from '../../../study/report';
+import { CODEBOOK, CODEBOOK_SECTIONS } from '../../../study/codebook';
 import { STUDY_WORKFLOWS } from '../../../study/workflows';
 import { isNoCurrentUserError, sessionExpired, SESSION_EXPIRED_MESSAGE } from '../../../database/session';
 import { useDispatch } from 'react-redux';
-import { useT } from '../../../i18n';
+import { tx, useT } from '../../../i18n';
 
 /*
  * Admin > Study Analytics (admins only; the write API re-checks). Shows the
  * MIND study's timed trials: a summary per task, every run, a step-by-step
- * timeline for any run (with the assistant transcript), and CSV exports.
+ * timeline for any run (with the assistant transcript and notes), CSV
+ * exports, a codebook of every variable, and deleting selected runs.
  */
+
+const SORT_LABELS: Record<RunSort, string> = {
+  newest: tx('Newest first'),
+  oldest: tx('Oldest first'),
+  account: tx('Account (grouped)'),
+  task: tx('Task (grouped)'),
+  status: tx('Status (grouped)'),
+  longest: tx('Longest first'),
+  shortest: tx('Shortest first')
+};
 
 const fmtDuration = (ms?: number) => {
   if (ms === undefined || ms === null || Number.isNaN(ms)) return '–';
@@ -70,6 +83,26 @@ export default function StudyAnalytics({ height = undefined as number | undefine
   const [filters, setFilters] = React.useState({ workflow: '', account: '', from: '', to: '', hideTestAccount: false });
   const [openRun, setOpenRun] = React.useState<StudyRun | undefined>();
   const [exporting, setExporting] = React.useState('');
+  const [sort, setSort] = React.useState<RunSort>('newest');
+  const [selected, setSelected] = React.useState<Set<string>>(() => new Set());
+  const [confirmDelete, setConfirmDelete] = React.useState(false);
+  const [deleting, setDeleting] = React.useState('');
+  const [codebookOpen, setCodebookOpen] = React.useState(false);
+
+  // The page scrolls inside this box (Admin pages don't scroll as a whole), so
+  // it must end exactly at the bottom of the window. Measured rather than
+  // computed from header heights, which left the last runs out of reach.
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [fitHeight, setFitHeight] = React.useState<number | undefined>(undefined);
+  React.useLayoutEffect(() => {
+    const measure = () => {
+      const el = scrollRef.current;
+      if (el) setFitHeight(Math.max(240, Math.floor(window.innerHeight - el.getBoundingClientRect().top)));
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [height]);
 
   const handleError = React.useCallback(
     (err: any) => {
@@ -107,6 +140,43 @@ export default function StudyAnalytics({ height = undefined as number | undefine
 
   const byWorkflow = React.useMemo(() => summarizeByWorkflow(runs), [runs]);
   const accounts = new Set(runs.map(r => r.email)).size;
+  const sortedRuns = React.useMemo(() => sortRuns(runs, sort), [runs, sort]);
+  const accountList = React.useMemo(() => Array.from(new Set(runs.map(r => r.email))).sort((a, b) => a.localeCompare(b, undefined, { numeric: true })), [runs]);
+
+  // Only runs shown under the current filters can be selected / deleted.
+  const selectedRuns = runs.filter(r => selected.has(r._id));
+  const allSelected = runs.length > 0 && selectedRuns.length === runs.length;
+  const toggleRun = (id: string) =>
+    setSelected(s => {
+      const next = new Set(s);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  const selectAll = (on: boolean) => setSelected(on ? new Set(runs.map(r => r._id)) : new Set());
+  const selectAccount = (email: string) => setSelected(s => new Set([...Array.from(s), ...runs.filter(r => r.email === email).map(r => r._id)]));
+
+  const deleteSelected = async () => {
+    const ids = selectedRuns.map(r => r._id);
+    setDeleting(t('Deleting… {{count}}', { count: 0 }));
+    try {
+      await deleteStudyRuns(ids, n => setDeleting(t('Deleting… {{count}}', { count: n })));
+      const gone = new Set(ids);
+      setState(s => ({ ...s, runs: s.runs.filter(r => !gone.has(r._id)) }));
+      setSelected(new Set());
+      setConfirmDelete(false);
+    } catch (err) {
+      setState(s => ({ ...s, error: handleError(err) }));
+      setConfirmDelete(false);
+      load(); // some runs may have been deleted before the error
+    } finally {
+      setDeleting('');
+    }
+  };
+
+  const onNotesSaved = (id: string, notes: string) => {
+    setState(s => ({ ...s, runs: s.runs.map(r => (r._id === id ? { ...r, notes, notesUpdated: Date.now(), notesBy: undefined } : r)) }));
+    setOpenRun(r => (r && r._id === id ? { ...r, notes, notesUpdated: Date.now(), notesBy: undefined } : r));
+  };
 
   const exportRuns = () => downloadText(`mindapps-study-runs-${new Date().toISOString().slice(0, 10)}.csv`, runsCsv(runs));
 
@@ -130,7 +200,7 @@ export default function StudyAnalytics({ height = undefined as number | undefine
   const workflowOptions = Array.from(new Map([...state.runs.map(r => [r.workflowId, r.workflowLabel ?? r.workflowId] as const), ...STUDY_WORKFLOWS.map(w => [w.id, w.label] as const)]).entries());
 
   return (
-    <Box sx={{ height, overflowY: 'auto', bgcolor: 'background.default' }}>
+    <Box ref={scrollRef} sx={{ height: fitHeight ?? height, overflowY: 'auto', bgcolor: 'background.default' }}>
       <Box sx={{ px: { xs: 2, sm: 4 }, py: 2, bgcolor: 'primary.light' }}>
         <Typography sx={{ fontSize: 30, lineHeight: 1.2, fontWeight: 900, color: 'primary.dark' }}>{t('Study Analytics')}</Typography>
         <Typography variant='body2' color='text.secondary'>
@@ -153,6 +223,9 @@ export default function StudyAnalytics({ height = undefined as number | undefine
             label={<Typography variant='body2'>{t('Hide test_subject')}</Typography>}
           />
           <Box sx={{ flex: 1 }} />
+          <Button size='small' startIcon={<Icons.MenuBook />} onClick={() => setCodebookOpen(true)} sx={{ textTransform: 'none' }}>
+            {t('Codebook')}
+          </Button>
           <Button size='small' startIcon={<Icons.Refresh />} onClick={load} sx={{ textTransform: 'none' }}>
             {t('Refresh')}
           </Button>
@@ -182,7 +255,7 @@ export default function StudyAnalytics({ height = undefined as number | undefine
         </Box>
       </Box>
 
-      <Box sx={{ px: { xs: 2, sm: 4 }, py: 2 }}>
+      <Box sx={{ px: { xs: 2, sm: 4 }, pt: 2, pb: 6 }}>
         {state.error && (
           <Alert severity='error' sx={{ mb: 2 }}>
             {t('Could not load study analytics: {{error}}', { error: state.error })}
@@ -264,13 +337,51 @@ export default function StudyAnalytics({ height = undefined as number | undefine
             <Typography variant='h6' sx={{ fontWeight: 800, color: 'primary.dark', mb: 1 }}>
               {t('Runs')}{' '}
               <Typography component='span' variant='body2' color='text.secondary'>
-                {t('Click a run to see its timeline.')}
+                {t('Click a run to see its timeline and add notes.')}
               </Typography>
             </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, alignItems: 'center', mb: 1 }}>
+              <TextField select size='small' label={t('Sort by')} value={sort} onChange={e => setSort(e.target.value as RunSort)} sx={{ minWidth: 190 }}>
+                {(Object.keys(SORT_LABELS) as RunSort[]).map(k => (
+                  <MenuItem key={k} value={k}>
+                    {t(SORT_LABELS[k])}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField select size='small' label={t('Select all runs from')} value='' onChange={e => selectAccount(e.target.value)} sx={{ minWidth: 230 }}>
+                {accountList.map(a => (
+                  <MenuItem key={a} value={a}>
+                    {a} ({runs.filter(r => r.email === a).length})
+                  </MenuItem>
+                ))}
+              </TextField>
+              {selectedRuns.length > 0 && (
+                <>
+                  <Typography variant='body2' sx={{ fontWeight: 700 }}>
+                    {t('{{count}} selected', { count: selectedRuns.length })}
+                  </Typography>
+                  <Button size='small' onClick={() => selectAll(false)} sx={{ textTransform: 'none' }}>
+                    {t('Clear selection')}
+                  </Button>
+                  <Button size='small' variant='contained' color='error' startIcon={<Icons.DeleteOutline />} onClick={() => setConfirmDelete(true)} sx={{ textTransform: 'none' }}>
+                    {t('Delete selected')}
+                  </Button>
+                </>
+              )}
+            </Box>
             <TableContainer component={Paper} variant='outlined'>
               <Table size='small'>
                 <TableHead>
                   <TableRow>
+                    <TableCell padding='checkbox'>
+                      <Checkbox
+                        size='small'
+                        checked={allSelected}
+                        indeterminate={selectedRuns.length > 0 && !allSelected}
+                        onChange={e => selectAll(e.target.checked)}
+                        inputProps={{ 'aria-label': t('Select all runs') }}
+                      />
+                    </TableCell>
                     <TableCell>{t('Started')}</TableCell>
                     <TableCell>{t('Account')}</TableCell>
                     <TableCell>{t('Task')}</TableCell>
@@ -282,13 +393,17 @@ export default function StudyAnalytics({ height = undefined as number | undefine
                     <Th label={t('Turns')} />
                     <Th label={t('Checks')} />
                     <Th label={t('Apps opened')} />
+                    <TableCell>{t('Notes')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {runs.map(r => {
+                  {sortedRuns.map(r => {
                     const status = displayStatus(r);
                     return (
-                      <TableRow key={r._id} hover onClick={() => setOpenRun(r)} sx={{ cursor: 'pointer' }}>
+                      <TableRow key={r._id} hover selected={selected.has(r._id)} onClick={() => setOpenRun(r)} sx={{ cursor: 'pointer' }}>
+                        <TableCell padding='checkbox' onClick={e => e.stopPropagation()}>
+                          <Checkbox size='small' checked={selected.has(r._id)} onChange={() => toggleRun(r._id)} inputProps={{ 'aria-label': t('Select run') }} />
+                        </TableCell>
                         <TableCell sx={{ whiteSpace: 'nowrap' }}>{fmtDate(r.started)}</TableCell>
                         <TableCell>{r.email}</TableCell>
                         <TableCell sx={{ whiteSpace: 'nowrap' }}>{t(r.workflowLabel ?? r.workflowId)}</TableCell>
@@ -302,6 +417,17 @@ export default function StudyAnalytics({ height = undefined as number | undefine
                         <Td>{r.summary?.assistantTurns ?? '–'}</Td>
                         <Td>{r.summary?.filterChecks ?? '–'}</Td>
                         <Td>{r.summary?.appOpens ?? '–'}</Td>
+                        <TableCell sx={{ maxWidth: 220 }}>
+                          {r.notes ? (
+                            <Tooltip title={<span style={{ whiteSpace: 'pre-line' }}>{r.notes}</span>} arrow>
+                              <Typography variant='body2' noWrap>
+                                {r.notes}
+                              </Typography>
+                            </Tooltip>
+                          ) : (
+                            '–'
+                          )}
+                        </TableCell>
                       </TableRow>
                     );
                   })}
@@ -311,7 +437,25 @@ export default function StudyAnalytics({ height = undefined as number | undefine
           </>
         )}
       </Box>
-      {openRun && <RunDialog run={openRun} onClose={() => setOpenRun(undefined)} onError={handleError} />}
+      {openRun && <RunDialog run={openRun} onClose={() => setOpenRun(undefined)} onError={handleError} onNotesSaved={onNotesSaved} />}
+      <Dialog open={confirmDelete} onClose={deleting ? undefined : () => setConfirmDelete(false)}>
+        <DialogTitle>{t('Delete {{count}} runs?', { count: selectedRuns.length })}</DialogTitle>
+        <DialogContent>
+          <Typography>{t('This permanently deletes the selected runs with all their recorded actions, assistant transcripts and notes. It cannot be undone.')}</Typography>
+          <Typography variant='body2' color='text.secondary' sx={{ mt: 1 }}>
+            {Array.from(new Set(selectedRuns.map(r => r.email))).join(', ')}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDelete(false)} disabled={!!deleting} sx={{ textTransform: 'none' }}>
+            {t('Cancel')}
+          </Button>
+          <Button color='error' variant='contained' onClick={deleteSelected} disabled={!!deleting} sx={{ textTransform: 'none' }}>
+            {deleting || t('Delete')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <CodebookDialog open={codebookOpen} onClose={() => setCodebookOpen(false)} />
     </Box>
   );
 }
@@ -393,7 +537,113 @@ const describe = (e: StudyEvent): string => {
   }
 };
 
-function RunDialog({ run, onClose, onError }: { run: StudyRun; onClose: () => void; onError: (e: any) => string }) {
+function CodebookDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const t = useT();
+  return (
+    <Dialog open={open} onClose={onClose} maxWidth='md' fullWidth>
+      <DialogTitle>{t('Codebook')}</DialogTitle>
+      <DialogContent dividers>
+        <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
+          {t('What each figure and CSV column means and how it is measured.')}
+        </Typography>
+        {CODEBOOK_SECTIONS.map(section => (
+          <Box key={section} sx={{ mb: 2.5 }}>
+            <Typography variant='subtitle2' sx={{ fontWeight: 800, color: 'primary.dark', mb: 0.5 }}>
+              {section}
+            </Typography>
+            <Table size='small'>
+              <TableBody>
+                {CODEBOOK.filter(e => e.section === section).map(e => (
+                  <TableRow key={e.name}>
+                    <TableCell sx={{ width: '30%', verticalAlign: 'top', fontFamily: 'monospace', fontSize: 13 }}>{e.name}</TableCell>
+                    <TableCell sx={{ verticalAlign: 'top' }}>{e.definition}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        ))}
+      </DialogContent>
+      <DialogActions>
+        <Button startIcon={<Icons.Download />} onClick={() => downloadText('mindapps-study-codebook.csv', codebookCsv())} sx={{ textTransform: 'none' }}>
+          {t('Download codebook CSV')}
+        </Button>
+        <Button onClick={onClose} sx={{ textTransform: 'none' }}>
+          {t('Close')}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+function RunNotes({ run, onError, onSaved }: { run: StudyRun; onError: (e: any) => string; onSaved: (id: string, notes: string) => void }) {
+  const t = useT();
+  const [notes, setNotes] = React.useState(run.notes ?? '');
+  const [status, setStatus] = React.useState<{ saving: boolean; error: string; saved: boolean }>({ saving: false, error: '', saved: false });
+  const dirty = notes !== (run.notes ?? '');
+  const save = () => {
+    setStatus({ saving: true, error: '', saved: false });
+    saveRunNotes(run._id, notes)
+      .then(() => {
+        onSaved(run._id, notes);
+        setStatus({ saving: false, error: '', saved: true });
+      })
+      .catch(err => setStatus({ saving: false, error: onError(err), saved: false }));
+  };
+  return (
+    <Paper variant='outlined' sx={{ p: 1.5, mb: 2 }}>
+      <Typography variant='subtitle2' sx={{ fontWeight: 800 }}>
+        {t('Notes')}
+      </Typography>
+      <TextField
+        multiline
+        minRows={2}
+        maxRows={8}
+        fullWidth
+        size='small'
+        placeholder={t('Notes about this run (only the study team sees these)')}
+        value={notes}
+        onChange={e => {
+          setNotes(e.target.value.slice(0, 4000));
+          setStatus(s => ({ ...s, saved: false }));
+        }}
+        sx={{ mt: 1 }}
+      />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mt: 1 }}>
+        <Button size='small' variant='contained' disabled={!dirty || status.saving} onClick={save} sx={{ textTransform: 'none' }}>
+          {status.saving ? t('Saving…') : t('Save notes')}
+        </Button>
+        {status.saved && !dirty && (
+          <Typography variant='body2' color='success.main'>
+            {t('Saved')}
+          </Typography>
+        )}
+        {run.notesBy && !dirty && (
+          <Typography variant='caption' color='text.secondary'>
+            {run.notesBy} · {fmtDate(run.notesUpdated)}
+          </Typography>
+        )}
+      </Box>
+      {status.error && (
+        <Alert severity='error' sx={{ mt: 1 }}>
+          {status.error}
+        </Alert>
+      )}
+    </Paper>
+  );
+}
+
+function RunDialog({
+  run,
+  onClose,
+  onError,
+  onNotesSaved
+}: {
+  run: StudyRun;
+  onClose: () => void;
+  onError: (e: any) => string;
+  onNotesSaved: (id: string, notes: string) => void;
+}) {
   const t = useT();
   const [state, setState] = React.useState({ loading: true, error: '', events: [] as StudyEvent[] });
   const [showScroll, setShowScroll] = React.useState(true);
@@ -434,6 +684,7 @@ function RunDialog({ run, onClose, onError }: { run: StudyRun; onClose: () => vo
             )}
           </Paper>
         )}
+        <RunNotes run={run} onError={onError} onSaved={onNotesSaved} />
         {s && (
           <Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
             {t('Filters')}: {s.filterChecks} {t('checks')}, {s.filterUnchecks} {t('unchecks')}, {s.filterHovers} {t('hovers')} ({fmtDuration(s.filterHoverMs)}), {s.filterClears} {t('clears')},{' '}

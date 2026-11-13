@@ -198,4 +198,7 @@ const summarizeRun = (run, events) => {
   };
 };
 
-module.exports = { RUNS_TABLE, EVENTS_TABLE, EVENT_TYPES, MAX_EVENTS_PER_BATCH, sanitizeRecord, mergeRun, summarizeRun, median, cleanData };
+const MAX_NOTES = 4000; // admin notes on a run
+const MAX_DELETE = 50; // runs per delete request (the browser sends bigger selections in chunks, to stay under the 30 s API limit)
+
+module.exports = { RUNS_TABLE, EVENTS_TABLE, EVENT_TYPES, MAX_EVENTS_PER_BATCH, MAX_NOTES, MAX_DELETE, sanitizeRecord, mergeRun, summarizeRun, median, cleanData };

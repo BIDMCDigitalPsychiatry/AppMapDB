@@ -58,6 +58,9 @@ export interface StudyRun {
   lastEventAt?: number;
   answers?: { found?: 'yes' | 'partly' | 'no'; app?: string; ease?: number; suggestions?: string };
   summary?: StudyRunSummary;
+  notes?: string; // typed by admins on the dashboard
+  notesUpdated?: number;
+  notesBy?: string;
 }
 
 const post = async (study: Record<string, any>, opts: { keepalive?: boolean } = {}) => {
@@ -79,6 +82,19 @@ export const recordStudy = (data: { run: Record<string, any>; events: StudyEvent
 export const listStudyRuns = async (): Promise<StudyRun[]> => (await post({ op: 'list' })).runs ?? [];
 
 export const getRunEvents = async (runId: string): Promise<StudyEvent[]> => (await post({ op: 'events', runId })).events ?? [];
+
+export const saveRunNotes = async (runId: string, notes: string) => {
+  await post({ op: 'note', runId, notes });
+};
+
+// Deletes runs and all their events, a few runs per request (the API caps a
+// request at 50 runs and 30 seconds).
+export const deleteStudyRuns = async (runIds: string[], onProgress?: (done: number) => void) => {
+  for (let i = 0; i < runIds.length; i += 20) {
+    await post({ op: 'delete', runIds: runIds.slice(i, i + 20) });
+    onProgress?.(Math.min(runIds.length, i + 20));
+  }
+};
 
 export const exportStudyEvents = async (onProgress?: (n: number) => void): Promise<StudyEvent[]> => {
   const all: StudyEvent[] = [];

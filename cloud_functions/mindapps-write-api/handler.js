@@ -449,6 +449,10 @@ async function handleListRegisteredUsers(token) {
  *   list   - admins: every run (summaries included, events not).
  *   events - admins: one run's events, in order (the run timeline).
  *   export - admins: every event of every run, one page per request.
+ *   note   - admins: saves free-text notes on one run.
+ *   delete - admins: deletes runs and all their events. The run row is
+ *            replaced by a small "deleted" marker so a participant's browser
+ *            that is still sending events can't bring the run back.
  * ------------------------------------------------------------------------- */
 const queryRunEvents = async runId => {
   const rows = [];
@@ -480,9 +484,21 @@ const batchPut = async (TableName, items) => {
   }
 };
 
+const batchDelete = async (TableName, keys) => {
+  for (let i = 0; i < keys.length; i += 25) {
+    let requests = keys.slice(i, i + 25).map(Key => ({ DeleteRequest: { Key } }));
+    for (let attempt = 0; requests.length && attempt < 5; attempt++) {
+      const res = await doc.send(new BatchWriteCommand({ RequestItems: { [TableName]: requests } }));
+      requests = res.UnprocessedItems?.[TableName] || [];
+      if (requests.length) await new Promise(r => setTimeout(r, 100 * 2 ** attempt));
+    }
+    if (requests.length) throw new Error(`${requests.length} events not deleted after retries`);
+  }
+};
+
 async function handleStudy(token, payload) {
   const { op } = payload || {};
-  if (!['record', 'list', 'events', 'export'].includes(op)) return { type: 'bad_request', error: 'Unknown study operation' };
+  if (!['record', 'list', 'events', 'export', 'note', 'delete'].includes(op)) return { type: 'bad_request', error: 'Unknown study operation' };
 
   const caller = await verifyCaller(token);
   if (!caller) return { type: 'unauthorized', error: 'Sign in required' };
@@ -497,6 +513,7 @@ async function handleStudy(token, payload) {
     const { run, events } = result;
 
     const existing = (await doc.send(new GetCommand({ TableName: study.RUNS_TABLE, Key: { _id: run._id } }))).Item;
+    if (existing?.deleted) return { ok: true, stored: 0, status: 'deleted' }; // an admin deleted this run: drop late events
     if (existing && existing.email !== caller.email) return { type: 'forbidden', error: 'This run belongs to another account' };
 
     if (events.length) await batchPut(study.EVENTS_TABLE, events);
@@ -525,8 +542,46 @@ async function handleStudy(token, payload) {
       runs.push(...(page.Items || []));
       start = page.LastEvaluatedKey;
     } while (start);
-    runs.sort((a, b) => (b.started ?? 0) - (a.started ?? 0));
-    return { ok: true, runs };
+    const live = runs.filter(r => !r.deleted);
+    live.sort((a, b) => (b.started ?? 0) - (a.started ?? 0));
+    return { ok: true, runs: live };
+  }
+
+  if (op === 'note') {
+    const runId = String(payload.runId || '');
+    if (!runId) return { type: 'bad_request', error: 'runId is required' };
+    const notes = typeof payload.notes === 'string' ? payload.notes.slice(0, study.MAX_NOTES) : '';
+    try {
+      await doc.send(
+        new UpdateCommand({
+          TableName: study.RUNS_TABLE,
+          Key: { _id: runId },
+          UpdateExpression: 'SET notes = :n, notesUpdated = :t, notesBy = :b',
+          ConditionExpression: 'attribute_exists(#id) AND attribute_not_exists(deleted)',
+          ExpressionAttributeNames: { '#id': '_id' },
+          ExpressionAttributeValues: { ':n': notes, ':t': Date.now(), ':b': caller.email }
+        })
+      );
+    } catch (err) {
+      if (err?.name === 'ConditionalCheckFailedException') return { type: 'bad_request', error: 'Run not found' };
+      throw err;
+    }
+    return { ok: true };
+  }
+
+  if (op === 'delete') {
+    const runIds = Array.isArray(payload.runIds) ? [...new Set(payload.runIds.filter(id => typeof id === 'string' && id))] : [];
+    if (!runIds.length) return { type: 'bad_request', error: 'runIds is required' };
+    if (runIds.length > study.MAX_DELETE) return { type: 'bad_request', error: `At most ${study.MAX_DELETE} runs per request` };
+    let events = 0;
+    for (const runId of runIds) {
+      const keys = (await queryRunEvents(runId)).map(e => ({ runId: e.runId, seq: e.seq }));
+      await batchDelete(study.EVENTS_TABLE, keys);
+      events += keys.length;
+      await doc.send(new PutCommand({ TableName: study.RUNS_TABLE, Item: { _id: runId, deleted: true, deletedAt: Date.now(), deletedBy: caller.email } }));
+    }
+    console.log(JSON.stringify({ audit: 'STUDY_DELETE', email: caller.email, runs: runIds.length, events, ids: runIds }));
+    return { ok: true, deleted: runIds.length, events };
   }
 
   if (op === 'events') {
