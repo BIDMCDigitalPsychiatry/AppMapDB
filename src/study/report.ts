@@ -101,7 +101,30 @@ export const toCsv = (header: string[], rows: any[][]) => [header, ...rows].map(
 const iso = (t?: number) => (t ? new Date(t).toISOString() : '');
 const secs = (ms?: number) => (ms === undefined ? '' : (ms / 1000).toFixed(1));
 
-export const runsCsv = (runs: StudyRun[], now = Date.now()) =>
+// One trial's assistant conversation as a single block of text, one message
+// per line: "Participant: …" / "AI search assistant: …", with "[New chat]"
+// where the participant started over. Keyed by run id.
+export const transcriptsByRun = (events: StudyEvent[]): Map<string, string> => {
+  const kinds = new Set(['assistant_message', 'assistant_reply', 'assistant_new_chat']);
+  const lines = new Map<string, { seq: number; line: string }[]>();
+  for (const e of events) {
+    if (!kinds.has(e.type) || !e.runId) continue;
+    const d = e.data ?? {};
+    const line =
+      e.type === 'assistant_new_chat'
+        ? '[New chat]'
+        : e.type === 'assistant_message'
+        ? `Participant: ${d.text ?? ''}`
+        : `AI search assistant: ${d.text ?? `(no reply: ${d.type ?? 'error'})`}`;
+    lines.set(e.runId, [...(lines.get(e.runId) ?? []), { seq: e.seq, line }]);
+  }
+  const out = new Map<string, string>();
+  lines.forEach((ls, runId) => out.set(runId, ls.sort((a, b) => a.seq - b.seq).map(l => l.line).join('\n')));
+  return out;
+};
+
+// transcripts (from transcriptsByRun) fills the assistant_transcript column.
+export const runsCsv = (runs: StudyRun[], now = Date.now(), transcripts?: Map<string, string>) =>
   toCsv(
     [
       'run_id',
@@ -125,6 +148,7 @@ export const runsCsv = (runs: StudyRun[], now = Date.now()) =>
       'assistant_typing_s',
       'assistant_wait_s',
       'assistant_final_tags',
+      'assistant_transcript',
       'filter_checks',
       'filter_checks_by_assistant',
       'filter_unchecks',
@@ -165,6 +189,7 @@ export const runsCsv = (runs: StudyRun[], now = Date.now()) =>
         secs(s?.assistantTypingMs),
         secs(s?.assistantWaitMs),
         tags,
+        transcripts?.get(r._id) ?? '',
         s?.filterChecks,
         s?.filterChecksByAssistant,
         s?.filterUnchecks,
