@@ -560,13 +560,14 @@ export const Uses = UseQuestions.map(uq => uq.value as Use);
 // Legacy Uses value, kept in sync from the Canada country answer until we confirm no other organization still reads it
 export const LegacyCanadaUse: Use = 'Available in Canada';
 
-export type Country = 'Canada' | 'France' | 'UK' | 'Germany';
+export type Country = 'Canada' | 'France' | 'UK' | 'Germany' | 'Turkey';
 
 export const CountryQuestions = [
   { value: tx('Canada'), label: tx('Is the app available in Canada?'), tooltip: tx('Can someone in Canada download and use the app?') },
   { value: tx('France'), label: tx('Is the app available in France?'), tooltip: tx('Can someone in France download and use the app?') },
   { value: tx('UK'), label: tx('Is the app available in the UK?'), tooltip: tx('Can someone in the United Kingdom download and use the app?') },
-  { value: tx('Germany'), label: tx('Is the app available in Germany?'), tooltip: tx('Can someone in Germany download and use the app?') }
+  { value: tx('Germany'), label: tx('Is the app available in Germany?'), tooltip: tx('Can someone in Germany download and use the app?') },
+  { value: tx('Turkey'), label: tx('Is the app available in Turkey?'), tooltip: tx('Can someone in Turkey download and use the app?') }
 ];
 
 export const Countries = CountryQuestions.map(cq => cq.value as Country);

@@ -7,8 +7,8 @@
  *   npm run export-taxonomy
  *
  * Works by transpiling Application.tsx with the repo's own TypeScript
- * compiler and evaluating it with its two imports stubbed (they contribute
- * only types / one comparator).
+ * compiler and evaluating it with its imports stubbed (they contribute only types, one
+ * comparator and the pass-through tx() translation marker).
  */
 const fs = require('fs');
 const path = require('path');
@@ -33,7 +33,8 @@ function sortAscendingToLower(a = '', b = '') {
 const sandbox = {
   exports: {},
   module: { exports: {} },
-  require: id => (id.endsWith('helpers') ? { sortAscendingToLower } : {})
+  // i18n's tx() only marks strings for translation and returns them unchanged; stored values stay English
+  require: id => (id.endsWith('helpers') ? { sortAscendingToLower } : id.endsWith('i18n') ? { tx: s => s } : {})
 };
 sandbox.exports = sandbox.module.exports;
 vm.runInNewContext(js, sandbox, { filename: 'Application.tsx' });
@@ -47,7 +48,7 @@ const taxonomy = {
   Cost: m.Costs,
   DeveloperTypes: m.DeveloperTypes,
   Conditions: m.Conditions,
-  TreatmentApproaches: m.TreatmentApproaches,
+  TreatmentApproaches: m.TreatmentApproaches.filter(t => !m.StaffOnlyTreatmentApproaches.includes(t)), // staff-only study tags (MIND-PATH) stay out of the assistant
   Features: m.Features,
   Functionalities: m.Functionalities,
   Engagements: m.Engagements,
