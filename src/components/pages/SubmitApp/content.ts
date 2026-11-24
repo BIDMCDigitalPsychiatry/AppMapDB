@@ -461,7 +461,8 @@ export const COUNTRY_ITEMS = fromModel(CountryQuestions, {
   France: { label: tx('Is the app available in France?'), hint: tx('Someone in France can download and use it.') },
   UK: { label: tx('Is the app available in the UK?'), hint: tx('Someone in the United Kingdom can download and use it.') },
   Germany: { label: tx('Is the app available in Germany?'), hint: tx('Someone in Germany can download and use it.') },
-  Turkey: { label: tx('Is the app available in Turkey?'), hint: tx('Someone in Turkey can download and use it.') }
+  Turkey: { label: tx('Is the app available in Turkey?'), hint: tx('Someone in Turkey can download and use it.') },
+  Brazil: { label: tx('Is the app available in Brazil?'), hint: tx('Someone in Brazil can download and use it.') }
 });
 
 export const ITEMS_BY_FIELD: Record<AnswerField, HelpItem[]> = {

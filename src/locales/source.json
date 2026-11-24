@@ -1040,6 +1040,11 @@
       "src/components/pages/SubmitApp/content.ts"
     ]
   },
+  "Brazil": {
+    "files": [
+      "src/database/models/Application.tsx"
+    ]
+  },
   "browse": {
     "files": [
       "src/components/application/FilesDropzone.tsx"
@@ -1118,6 +1123,11 @@
     ]
   },
   "Can Opt Out of Data Collection": {
+    "files": [
+      "src/database/models/Application.tsx"
+    ]
+  },
+  "Can someone in Brazil download and use the app?": {
     "files": [
       "src/database/models/Application.tsx"
     ]
@@ -4439,6 +4449,12 @@
       "src/components/pages/FrameWorkQuestions/FrameworkQuestions.tsx"
     ]
   },
+  "Is the app available in Brazil?": {
+    "files": [
+      "src/components/pages/SubmitApp/content.ts",
+      "src/database/models/Application.tsx"
+    ]
+  },
   "Is the app available in Canada?": {
     "files": [
       "src/components/pages/SubmitApp/content.ts",
@@ -7046,6 +7062,11 @@
   "Some high school": {
     "files": [
       "src/components/pages/Survey/Survey.tsx"
+    ]
+  },
+  "Someone in Brazil can download and use it.": {
+    "files": [
+      "src/components/pages/SubmitApp/content.ts"
     ]
   },
   "Someone in Canada can download and use it.": {

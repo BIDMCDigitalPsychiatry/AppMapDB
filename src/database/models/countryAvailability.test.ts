@@ -58,10 +58,15 @@ describe('Country Availability filter', () => {
     expect(passesNormalModeFilters({ countries: ['UK'] }, { Countries: ['Canada', 'UK'] })).toBe(true);
     expect(passesNormalModeFilters({ countries: ['France'] }, { Countries: ['Canada', 'UK'] })).toBe(false);
     expect(passesNormalModeFilters({ countries: ['Turkey'] }, { Countries: ['Turkey'] })).toBe(true);
+    expect(passesNormalModeFilters({ countries: ['Brazil'] }, { Countries: ['Brazil'] })).toBe(true);
   });
 
   it('offers Turkey as a country', () => {
     expect(Countries).toContain('Turkey');
+  });
+
+  it('offers Brazil as a country', () => {
+    expect(Countries).toContain('Brazil');
   });
 
   it('hides the legacy Canada use from the visible Uses', () => {
